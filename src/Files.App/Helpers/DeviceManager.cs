@@ -35,17 +35,17 @@ namespace Files.App
 
 		private void Initialize()
 		{
-			WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
+			WqlEventQueryModel insertQuery = new WqlEventQueryModel("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
 			insertWatcher = new ManagementEventWatcher(insertQuery);
 			insertWatcher.EventArrived += new EventArrivedEventHandler(DeviceInsertedEvent);
 			insertWatcher.Start();
 
-			WqlEventQuery modifyQuery = new WqlEventQuery("SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' and TargetInstance.DriveType = 5");
+			WqlEventQueryModel modifyQuery = new WqlEventQueryModel("SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' and TargetInstance.DriveType = 5");
 			modifyWatcher = new ManagementEventWatcher(modifyQuery);
 			modifyWatcher.EventArrived += new EventArrivedEventHandler(DeviceModifiedEvent);
 			modifyWatcher.Start();
 
-			WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
+			WqlEventQueryModel removeQuery = new WqlEventQueryModel("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
 			removeWatcher = new ManagementEventWatcher(removeQuery);
 			removeWatcher.EventArrived += new EventArrivedEventHandler(DeviceRemovedEvent);
 			removeWatcher.Start();

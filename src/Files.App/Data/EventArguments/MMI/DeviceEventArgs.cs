@@ -1,14 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-
-namespace Files.App.Helpers.MMI
+namespace Files.App.Data.EventArguments
 {
 	public class DeviceEventArgs : EventArgs
 	{
-		public string DeviceName { get; }
-		public string DeviceId { get; }
+		public string DeviceName { get; private set; }
+
+		public string DeviceId { get; private set; }
 
 		public DeviceEventArgs(string deviceName, string deviceId)
 		{

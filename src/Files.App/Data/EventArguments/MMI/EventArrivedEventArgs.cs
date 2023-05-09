@@ -2,9 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Management.Infrastructure;
-using System;
 
-namespace Files.App.MMI
+namespace Files.App.Data.EventArguments
 {
 	/// <summary>
 	/// CimWatcher event args, which contains CimSubscriptionResult

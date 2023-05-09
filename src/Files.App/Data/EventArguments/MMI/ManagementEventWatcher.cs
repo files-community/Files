@@ -3,10 +3,8 @@
 
 using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
-using System;
-using System.Threading;
 
-namespace Files.App.MMI
+namespace Files.App.Data.EventArguments
 {
 	public delegate void EventArrivedEventHandler(object sender, EventArrivedEventArgs e);
 
@@ -14,7 +12,7 @@ namespace Files.App.MMI
 	/// A public class used to start/stop the subscription to specific indication source,
 	/// and listen to the incoming indications, event <see cref="EventArrived" />
 	/// will be raised for each cimindication.
-	/// Original Sourced from: https://codereview.stackexchange.com/questions/255055/trying-to-replace-managementeventwatcher-class-in-system-management-to-switch-to
+	/// Original Sourced from: <a href="https://codereview.stackexchange.com/questions/255055/trying-to-replace-managementeventwatcher-class-in-system-management-to-switch-to"/>
 	/// Adapted to newer versions of MMI
 	/// </summary>
 	public class ManagementEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
@@ -47,14 +45,12 @@ namespace Files.App.MMI
 		/// Initializes a new instance of the <see cref="ManagementEventWatcher" /> class.
 		/// </summary>
 		/// <param name="queryExpression"></param>
-		public ManagementEventWatcher(WqlEventQuery query)
+		public ManagementEventWatcher(WqlEventQueryModel query)
 		{
 			string queryExpression = query.QueryExpression;
 
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = DefaultQueryDialect;
@@ -71,9 +67,7 @@ namespace Files.App.MMI
 		public ManagementEventWatcher(string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -91,9 +85,7 @@ namespace Files.App.MMI
 		public ManagementEventWatcher(string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_nameSpace = nameSpace ?? DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -112,9 +104,7 @@ namespace Files.App.MMI
 		public ManagementEventWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
 		{
 			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
 				throw new ArgumentNullException(nameof(queryExpression));
-			}
 
 			_computerName = computerName;
 			_nameSpace = nameSpace ?? DefaultNameSpace;
@@ -161,14 +151,10 @@ namespace Files.App.MMI
 			lock (_myLock)
 			{
 				if (_isDisposed)
-				{
 					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
 
 				if (_cimWatcherStatus != CimWatcherStatus.Default && _cimWatcherStatus != CimWatcherStatus.Stopped)
-				{
 					return;
-				}
 
 				_subscription = _cimObservable.Subscribe(this);
 
@@ -181,14 +167,10 @@ namespace Files.App.MMI
 			lock (_myLock)
 			{
 				if (_isDisposed)
-				{
 					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
 
 				if (_cimWatcherStatus != CimWatcherStatus.Started)
-				{
 					return;
-				}
 
 				_subscription?.Dispose();
 
@@ -213,7 +195,7 @@ namespace Files.App.MMI
 		public void Dispose()
 		{
 			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-			Dispose(disposing: true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 	}

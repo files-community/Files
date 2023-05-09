@@ -20,7 +20,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public ColumnsViewModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
-		public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
+		public static LayoutPreferences DefaultLayoutPreferences => new();
 
 		public LayoutPreferences()
 		{
