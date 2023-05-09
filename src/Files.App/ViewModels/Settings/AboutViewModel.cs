@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
-		
+
 		public void CopyWindowsVersion()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
@@ -101,9 +101,9 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public Task SupportUs()
-        {
-            return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
-        }
+		{
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
+		}
 
 		public async Task LoadThirdPartyNotices()
 		{
