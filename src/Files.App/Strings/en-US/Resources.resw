@@ -3249,6 +3249,7 @@
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
     <value>Group items by year of date modified</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
   </data>
