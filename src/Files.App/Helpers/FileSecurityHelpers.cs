@@ -4,7 +4,6 @@
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Vanara.PInvoke;
-using static Vanara.PInvoke.AdvApi32;
 using SystemSecurity = System.Security.AccessControl;
 
 namespace Files.App.Helpers
@@ -21,7 +20,7 @@ namespace Files.App.Helpers
 		/// <returns></returns>
 		public static string GetOwner(string path)
 		{
-			GetNamedSecurityInfo(
+			AdvApi32.GetNamedSecurityInfo(
 				path,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
@@ -31,7 +30,7 @@ namespace Files.App.Helpers
 				out _,
 				out _);
 
-			var szSid = ConvertSidToStringSid(pSidOwner);
+			var szSid = AdvApi32.ConvertSidToStringSid(pSidOwner);
 
 			return szSid;
 		}
@@ -47,10 +46,10 @@ namespace Files.App.Helpers
 			SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
 
 			// Get PSID object from string sid
-			var pSid = ConvertStringSidToSid(sid);
+			var pSid = AdvApi32.ConvertStringSidToSid(sid);
 
 			// Change owner
-			var result = SetNamedSecurityInfo(path, SE_OBJECT_TYPE.SE_FILE_OBJECT, secInfo, pSid);
+			var result = AdvApi32.SetNamedSecurityInfo(path, AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT, secInfo, pSid);
 
 			pSid.Dispose();
 
@@ -76,9 +75,9 @@ namespace Files.App.Helpers
 			acl = new();
 
 			// Get DACL
-			var win32Error = GetNamedSecurityInfo(
+			var win32Error = AdvApi32.GetNamedSecurityInfo(
 				path,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
@@ -90,7 +89,7 @@ namespace Files.App.Helpers
 				return win32Error;
 
 			// Get ACL size info
-			bool bResult = GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			bool bResult = AdvApi32.GetAclInformation(pDacl, out AdvApi32.ACL_SIZE_INFORMATION aclSize);
 			if (!bResult)
 				return Kernel32.GetLastError();
 
@@ -98,18 +97,18 @@ namespace Files.App.Helpers
 			var szOwnerSid = GetOwner(path);
 			var principal = new Principal(szOwnerSid);
 
-			var isValidAcl = IsValidAcl(pDacl);
+			var isValidAcl = AdvApi32.IsValidAcl(pDacl);
 
 			List<AccessControlEntry> aces = new();
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
 			{
-				bResult = GetAce(pDacl, i, out var pAce);
+				bResult = AdvApi32.GetAce(pDacl, i, out var pAce);
 				if (!bResult)
 					return Kernel32.GetLastError();
 
-				var szSid = ConvertSidToStringSid(pAce.GetSid());
+				var szSid = AdvApi32.ConvertSidToStringSid(pAce.GetSid());
 
 				AccessControlEntryType type;
 				AccessControlEntryFlags inheritanceFlags = AccessControlEntryFlags.None;
@@ -175,9 +174,9 @@ namespace Files.App.Helpers
 		public static Win32Error AddAccessControlEntry(string szPath, string szSid)
 		{
 			// Get DACL for the specified object
-			var result = GetNamedSecurityInfo(
+			var result = AdvApi32.GetNamedSecurityInfo(
 				szPath,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
@@ -189,24 +188,24 @@ namespace Files.App.Helpers
 				return result;
 
 			// Initialize default trustee
-			var explicitAccess = new EXPLICIT_ACCESS
+			var explicitAccess = new AdvApi32.EXPLICIT_ACCESS
 			{
-				grfAccessMode = ACCESS_MODE.GRANT_ACCESS,
+				grfAccessMode = AdvApi32.ACCESS_MODE.GRANT_ACCESS,
 				grfAccessPermissions = ACCESS_MASK.GENERIC_READ | ACCESS_MASK.GENERIC_EXECUTE,
-				grfInheritance = INHERIT_FLAGS.NO_INHERITANCE,
-				Trustee = new TRUSTEE(new SafePSID(szSid)),
+				grfInheritance = AdvApi32.INHERIT_FLAGS.NO_INHERITANCE,
+				Trustee = new AdvApi32.TRUSTEE(new AdvApi32.SafePSID(szSid)),
 			};
 
 			// Add an new ACE and get a new ACL
-			result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
+			result = AdvApi32.SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
 
 			if (result.Failed)
 				return result;
 
 			// Set the new ACL
-			result = SetNamedSecurityInfo(
+			result = AdvApi32.SetNamedSecurityInfo(
 				szPath,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				ppDacl: pNewDACL);
 
@@ -225,9 +224,9 @@ namespace Files.App.Helpers
 		public static Win32Error RemoveAccessControlEntry(string szPath, uint dwAceIndex)
 		{
 			// Get DACL for the specified object
-			var result = GetNamedSecurityInfo(
+			var result = AdvApi32.GetNamedSecurityInfo(
 				szPath,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
@@ -239,15 +238,15 @@ namespace Files.App.Helpers
 				return result;
 
 			// Remove an ACE
-			bool bResult = DeleteAce(pDACL, dwAceIndex);
+			bool bResult = AdvApi32.DeleteAce(pDACL, dwAceIndex);
 
 			if (!bResult)
 				return Kernel32.GetLastError();
 
 			// Set the new ACL
-			result = SetNamedSecurityInfo(
+			result = AdvApi32.SetNamedSecurityInfo(
 				szPath,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				ppDacl: pDACL);
 

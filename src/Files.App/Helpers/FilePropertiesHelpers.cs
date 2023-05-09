@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System.IO;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 
@@ -28,7 +27,7 @@ namespace Files.App.Helpers
 		/// App logo location to use as window popup icon and title bar icon
 		/// </summary>
 		public static string LogoPath
-			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
+			=> SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 
 		/// <summary>
 		/// Get window handle (hWnd) of the given properties window instance

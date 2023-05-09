@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.MMI;
-using Files.App.MMI;
-using Files.Shared;
 using Microsoft.Management.Infrastructure;
-using System;
 
 namespace Files.App
 {
@@ -13,20 +9,22 @@ namespace Files.App
 	{
 		private static readonly Lazy<DeviceManager> lazy = new(() => new DeviceManager());
 
-		private ManagementEventWatcher? insertWatcher, removeWatcher, modifyWatcher;
+		private ManagementEventWatcher? insertWatcher;
+
+		private ManagementEventWatcher? removeWatcher;
+
+		private ManagementEventWatcher? modifyWatcher;
 
 		public event EventHandler<DeviceEventArgs>? DeviceAdded;
+
 		public event EventHandler<DeviceEventArgs>? DeviceRemoved;
+
 		public event EventHandler<DeviceEventArgs>? DeviceInserted;
+
 		public event EventHandler<DeviceEventArgs>? DeviceEjected;
 
 		public static DeviceManager Default
-		{
-			get
-			{
-				return lazy.Value;
-			}
-		}
+			=> lazy.Value;
 
 		private DeviceManager()
 		{
@@ -58,15 +56,13 @@ namespace Files.App
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"]?.Value;
 			var volumeName = (string)obj.CimInstanceProperties["VolumeName"]?.Value;
 			var eventType = volumeName is not null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
-			System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
+
+			Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
+
 			if (eventType == DeviceEvent.Inserted)
-			{
 				DeviceInserted?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
-			}
 			else
-			{
 				DeviceEjected?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
-			}
 		}
 
 		private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
@@ -74,7 +70,9 @@ namespace Files.App
 			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
-			System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
+
+			Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
+
 			DeviceRemoved?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
 		}
 
@@ -83,7 +81,9 @@ namespace Files.App
 			CimInstance obj = (CimInstance)e.NewEvent.Instance.CimInstanceProperties["TargetInstance"].Value;
 			var deviceName = (string)obj.CimInstanceProperties["Name"].Value;
 			var deviceId = (string)obj.CimInstanceProperties["DeviceID"].Value;
-			System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
+
+			Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
+
 			DeviceAdded?.Invoke(sender, new DeviceEventArgs(deviceName, deviceId));
 		}
 
@@ -92,6 +92,7 @@ namespace Files.App
 			insertWatcher?.Dispose();
 			removeWatcher?.Dispose();
 			modifyWatcher?.Dispose();
+
 			insertWatcher = null;
 			removeWatcher = null;
 			modifyWatcher = null;

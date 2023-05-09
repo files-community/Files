@@ -1,15 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
 
 namespace Files.App.Helpers
 {
@@ -18,11 +10,14 @@ namespace Files.App.Helpers
 	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
 	{
 		protected bool isBulkOperationStarted;
-		private readonly object syncRoot = new object();
-		private readonly List<T> collection = new List<T>();
+
+		private readonly object syncRoot = new();
+
+		private readonly List<T> collection = new();
 
 		// When 'GroupOption' is set to 'None' or when a folder is opened, 'GroupedCollection' is assigned 'null' by 'ItemGroupKeySelector'
 		public BulkConcurrentObservableCollection<GroupedCollection<T>>? GroupedCollection { get; private set; }
+
 		public bool IsSorted { get; set; }
 
 		public int Count

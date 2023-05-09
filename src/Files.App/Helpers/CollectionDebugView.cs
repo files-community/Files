@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace Files.App.Helpers
 {
 	internal sealed class CollectionDebugView<T>
@@ -23,6 +19,7 @@ namespace Files.App.Helpers
 			{
 				var items = new T[_collection.Count];
 				_collection.CopyTo(items, 0);
+
 				return items;
 			}
 		}

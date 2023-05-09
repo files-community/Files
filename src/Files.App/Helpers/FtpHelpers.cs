@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using FluentFTP;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
@@ -30,10 +28,12 @@ namespace Files.App.Helpers
 		{
 			if (!string.IsNullOrEmpty(path))
 			{
-				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
-					|| path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+				return
+					path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase) ||
+					path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
 			}
+
 			return false;
 		}
 
@@ -81,6 +81,7 @@ namespace Files.App.Helpers
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
 			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
@@ -88,6 +89,7 @@ namespace Files.App.Helpers
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
+
 			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
 		}
 	}

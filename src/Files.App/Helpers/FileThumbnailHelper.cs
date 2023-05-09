@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -31,21 +27,27 @@ namespace Files.App.Helpers
 		{
 			if (item.IsOfType(StorageItemTypes.File))
 			{
-				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
-					() => item.AsBaseStorageFile().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() =>
+					item.AsBaseStorageFile().GetThumbnailAsync(
+						thumbnailMode,
+						thumbnailSize,
+						ThumbnailOptions.ResizeThumbnail)
+					.AsTask());
+
 				if (thumbnail is not null)
-				{
 					return await thumbnail.ToByteArrayAsync();
-				}
 			}
 			else if (item.IsOfType(StorageItemTypes.Folder))
 			{
-				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(
-					() => item.AsBaseStorageFolder().GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask());
+				using var thumbnail = (StorageItemThumbnail)await FilesystemTasks.Wrap(() =>
+					item.AsBaseStorageFolder().GetThumbnailAsync(
+						thumbnailMode,
+						thumbnailSize,
+						ThumbnailOptions.ResizeThumbnail)
+					.AsTask());
+
 				if (thumbnail is not null)
-				{
 					return await thumbnail.ToByteArrayAsync();
-				}
 			}
 			return null;
 		}
@@ -59,11 +61,10 @@ namespace Files.App.Helpers
 				{
 					var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode);
 					if (iconData is not null)
-					{
 						return iconData;
-					}
 				}
 			}
+
 			return await LoadIconWithoutOverlayAsync(filePath, thumbnailSize, isFolder);
 		}
 	}

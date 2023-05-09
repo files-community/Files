@@ -3,18 +3,11 @@
 
 using Files.App.Shell;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Versioning;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
-	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector
 	{
 		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");

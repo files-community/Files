@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Security;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 using Microsoft.Extensions.Logging;
@@ -20,6 +19,7 @@ namespace Files.App.Helpers
 	public class FileOperationsHelpers
 	{
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
+
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 
 		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread

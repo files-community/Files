@@ -3,8 +3,6 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using System;
 
 namespace Files.App.Helpers
 {
@@ -25,20 +23,20 @@ namespace Files.App.Helpers
 			service.SetCompactSpacing(useCompactStyles);
 			service.SetAppThemeBackgroundColor(appThemeBackgroundColor.FromWindowsColor());
 
-			if (!String.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeAddressBarBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeAddressBarBackgroundColor = ""; // Migrate to new default
 
-			if (!String.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeSidebarBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeSidebarBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeSidebarBackgroundColor = ""; // Migrate to new default
 
-			if (!String.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
+			if (!string.IsNullOrWhiteSpace(appThemeFileAreaBackgroundColor) && appThemeAddressBarBackgroundColor != "#00000000")
 				service.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
 			else
-				appearance.AppThemeFileAreaBackgroundColor = ""; //migrate to new default
+				appearance.AppThemeFileAreaBackgroundColor = ""; // Migrate to new default
 
 			if (appThemeFontFamily != "Segoe UI Variable")
 				service.SetAppThemeFontFamily(appThemeFontFamily);

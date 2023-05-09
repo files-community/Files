@@ -1,33 +1,25 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Services.Settings;
 using IniParser.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Storage;
-using static Files.App.Constants.AdaptiveLayout;
-using IO = System.IO;
 
 namespace Files.App.Helpers
 {
-	public static class AdaptiveLayoutHelpers
+	internal static class AdaptiveLayoutHelpers
 	{
 		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
+		internal static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
 		{
-			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
+			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories ||
+				string.IsNullOrWhiteSpace(path) ||
+				folderSettings.IsLayoutModeFixed ||
+				!folderSettings.IsAdaptiveLayoutEnabled)
+			{
 				return;
-			if (string.IsNullOrWhiteSpace(path))
-				return;
-			if (folderSettings.IsLayoutModeFixed || !folderSettings.IsAdaptiveLayoutEnabled)
-				return;
+			}
 
 			var layout = GetAdaptiveLayout(path, filesAndFolders);
 			switch (layout)
@@ -52,7 +44,7 @@ namespace Files.App.Helpers
 
 		private static Layouts GetPathLayout(string path)
 		{
-			var iniPath = IO.Path.Combine(path, "desktop.ini");
+			var iniPath = SystemIO.Path.Combine(path, "desktop.ini");
 
 			var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
 			if (string.IsNullOrEmpty(iniContents))
@@ -97,15 +89,15 @@ namespace Files.App.Helpers
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
 			float miscPercentage = 100f - (folderPercentage + imagePercentage + mediaPercentage);
 
-			if (folderPercentage + miscPercentage > LargeThreshold)
+			if (folderPercentage + miscPercentage > Constants.AdaptiveLayout.LargeThreshold)
 				return Layouts.Detail;
-			if (imagePercentage > ExtraLargeThreshold)
+			if (imagePercentage > Constants.AdaptiveLayout.ExtraLargeThreshold)
 				return Layouts.Grid;
-			if (imagePercentage <= MediumThreshold)
+			if (imagePercentage <= Constants.AdaptiveLayout.MediumThreshold)
 				return Layouts.Detail;
-			if (100f - imagePercentage <= SmallThreshold)
+			if (100f - imagePercentage <= Constants.AdaptiveLayout.SmallThreshold)
 				return Layouts.Detail;
-			if (folderPercentage + miscPercentage <= ExtraSmallThreshold)
+			if (folderPercentage + miscPercentage <= Constants.AdaptiveLayout.ExtraSmallThreshold)
 				return Layouts.Detail;
 			return Layouts.Grid;
 
@@ -124,7 +116,9 @@ namespace Files.App.Helpers
 		private enum Layouts
 		{
 			None, // Don't decide. Another function to decide can be called afterwards if available.
+
 			Detail, // Apply the layout Detail.
+
 			Grid, // Apply the layout Grid.
 		}
 	}

@@ -1,19 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.System;
 
 namespace Files.App.Helpers
@@ -31,6 +23,7 @@ namespace Files.App.Helpers
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
 			});
+
 			return dialog;
 		}
 
@@ -44,6 +37,7 @@ namespace Files.App.Helpers
 				PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 
@@ -57,12 +51,14 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "No".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
 			});
+
 			return dialog;
 		}
 
 		public static DynamicDialog GetFor_RenameDialog()
 		{
 			DynamicDialog? dialog = null;
+
 			TextBox inputText = new()
 			{
 				PlaceholderText = "EnterAnItemName".GetLocalizedResource()
@@ -79,6 +75,7 @@ namespace Files.App.Helpers
 			{
 				Source = inputText
 			});
+
 			warning.SetBinding(TeachingTip.IsOpenProperty, new Binding()
 			{
 				Mode = BindingMode.OneWay,
@@ -91,16 +88,19 @@ namespace Files.App.Helpers
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
 				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
-				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
-														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-														: DynamicDialogButtons.Cancel;
+
+				dialog!.ViewModel.DynamicButtonsEnabled =
+					isInputValid
+						? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+						: DynamicDialogButtons.Cancel;
+
 				if (isInputValid)
 					dialog.ViewModel.AdditionalData = inputText.Text;
 			};
 
 			inputText.Loaded += (s, e) =>
 			{
-				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
+				// Dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
 				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
 			};
 
@@ -139,11 +139,13 @@ namespace Files.App.Helpers
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
-					string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+				SubtitleText = lockingProcess.IsEmpty()
+					? "FileInUseDialog/Text".GetLocalizedResource()
+					: string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
 				PrimaryButtonText = "OK",
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 

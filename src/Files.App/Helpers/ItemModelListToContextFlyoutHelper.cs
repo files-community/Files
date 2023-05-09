@@ -1,23 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls;
-using Files.App.ViewModels;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Files.App.Helpers.ContextFlyouts
 {
 	/// <summary>
-	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
+	/// This helper class is used to convert a list of <see cref="ContextMenuFlyoutItemViewModel"/> into a control that can be displayed to the user.
 	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
 	/// </summary>
 	public static class ItemModelListToContextFlyoutHelper
 	{
@@ -45,6 +37,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					flyout.Add(placeolder);
 				}
 			});
+
 			return flyout;
 		}
 
@@ -58,6 +51,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
 			var primary = new List<ICommandBarElement>();
 			primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
+
 			var secondary = new List<ICommandBarElement>();
 			secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
 
@@ -73,6 +67,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			var elements = new List<ICommandBarElement>();
 			items.ForEach(i => elements.Add(GetCommandBarItem(i)));
+
 			return elements;
 		}
 
@@ -94,6 +89,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Text = item.Text,
 					Tag = item.Tag,
 				};
+
 				item.Items.ForEach(i =>
 				{
 					flyoutSubItem.Items.Add(GetMenuItem(i));
@@ -104,6 +100,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
 				return flyoutSubItem;
 			}
+
 			return GetItem(item);
 		}
 
@@ -126,8 +123,10 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Debug.WriteLine(e);
 				}
+
 				return item;
 			}
+
 			MenuFlyoutItem flyoutItem;
 
 			if (i.ItemType is ItemType.Toggle)
@@ -140,10 +139,9 @@ namespace Files.App.Helpers.ContextFlyouts
 					CommandParameter = i.CommandParameter,
 					IsChecked = i.IsChecked,
 				};
+
 				if (!string.IsNullOrEmpty(i.Glyph))
-				{
 					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
-				}
 			}
 			else
 			{
@@ -196,6 +194,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
 		{
 			ICommandBarElement element;
+
 			FontIcon? icon = null;
 			if (!string.IsNullOrEmpty(item.Glyph))
 			{

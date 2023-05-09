@@ -1,25 +1,25 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
 	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
-	public static class FileUtils
+	internal static class FileUtils
 	{
 		[StructLayout(LayoutKind.Sequential)]
 		struct RM_UNIQUE_PROCESS
 		{
 			public int dwProcessId;
+
 			public System.Runtime.InteropServices.ComTypes.FILETIME ProcessStartTime;
 		}
 
 		const int RmRebootReasonNone = 0;
+
 		const int CCH_RM_MAX_APP_NAME = 255;
+
 		const int CCH_RM_MAX_SVC_NAME = 63;
 
 		enum RM_APP_TYPE
@@ -52,26 +52,31 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmRegisterResources(uint pSessionHandle,
-											  UInt32 nFiles,
-											  string[] rgsFilenames,
-											  UInt32 nApplications,
-											  [In] RM_UNIQUE_PROCESS[] rgApplications,
-											  UInt32 nServices,
-											  string[] rgsServiceNames);
+		static extern int RmRegisterResources(
+			uint pSessionHandle,
+			UInt32 nFiles,
+			string[] rgsFilenames,
+			UInt32 nApplications,
+			[In] RM_UNIQUE_PROCESS[] rgApplications,
+			UInt32 nServices,
+			string[] rgsServiceNames);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+		static extern int RmStartSession(
+			out uint pSessionHandle,
+			int dwSessionFlags,
+			string strSessionKey);
 
 		[DllImport("rstrtmgr.dll")]
 		static extern int RmEndSession(uint pSessionHandle);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmGetList(uint dwSessionHandle,
-									out uint pnProcInfoNeeded,
-									ref uint pnProcInfo,
-									[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
-									ref uint lpdwRebootReasons);
+		static extern int RmGetList(
+			uint dwSessionHandle,
+			out uint pnProcInfoNeeded,
+			ref uint pnProcInfo,
+			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+			ref uint lpdwRebootReasons);
 
 		/// <summary>
 		/// Find out what process(es) have a lock on the specified file.
@@ -81,7 +86,6 @@ namespace Files.App.Helpers
 		/// <remarks>See also:
 		/// http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx
 		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-		///
 		/// </remarks>
 		public static List<Process> WhoIsLocking(string[] resources)
 		{
@@ -101,9 +105,10 @@ namespace Files.App.Helpers
 
 				if (res != 0) throw new Exception("Could not register resource.");
 
-				//Note: there's a race condition here -- the first call to RmGetList() returns
-				//      the total number of process. However, when we call RmGetList() again to get
-				//      the actual processes this number may have increased.
+				//Note:
+				// there's a race condition here -- the first call to RmGetList() returns
+				// the total number of process. However, when we call RmGetList() again to get
+				// the actual processes this number may have increased.
 				res = RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
 
 				if (res == ERROR_MORE_DATA)
@@ -126,13 +131,15 @@ namespace Files.App.Helpers
 							{
 								processes.Add(Process.GetProcessById(processInfo[i].Process.dwProcessId));
 							}
-							// catch the error -- in case the process is no longer running
+							// Catch the error in case the process is no longer running
 							catch (ArgumentException) { }
 						}
 					}
-					else throw new Exception("Could not list processes locking resource.");
+					else
+						throw new Exception("Could not list processes locking resource.");
 				}
-				else if (res != 0) throw new Exception("Could not list processes locking resource. Failed to get size of result.");
+				else if (res != 0)
+					throw new Exception("Could not list processes locking resource. Failed to get size of result.");
 			}
 			finally
 			{

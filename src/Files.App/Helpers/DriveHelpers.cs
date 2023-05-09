@@ -1,17 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Microsoft.Management.Infrastructure;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -33,7 +23,9 @@ namespace Files.App.Helpers
 			string query = $"SELECT DeviceID FROM Win32_Volume WHERE DriveLetter = '{name}'";
 
 			using var cimSession = CimSession.Create(null);
-			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query)) // max 1 result because DriveLetter is unique.
+
+			// Max 1 result because DriveLetter is unique.
+			foreach (var item in cimSession.QueryInstances(@"root\cimv2", "WQL", query))
 				return (string?)item.CimInstanceProperties["DeviceID"]?.Value ?? string.Empty;
 
 			return string.Empty;
@@ -46,7 +38,7 @@ namespace Files.App.Helpers
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
-			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
+			if (matchingDrive is null || matchingDrive.Type != DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
@@ -54,32 +46,38 @@ namespace Files.App.Helpers
 				string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path),
 				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
 				"Close".GetLocalizedResource());
+
 			if (ejectButton)
 			{
 				var result = await EjectDeviceAsync(matchingDrive.Path);
 				await UIHelpers.ShowDeviceEjectResultAsync(result);
 			}
+
 			return true;
 		}
 
 		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
 		{
-			if (!Path.IsPathRooted(devicePath))
+			if (!SystemIO.Path.IsPathRooted(devicePath))
 				return null;
 
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var rootPath = Path.GetPathRoot(devicePath);
+			var rootPath = SystemIO.Path.GetPathRoot(devicePath);
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
+				StorageFolder matchingDrive = drivesViewModel.Drives
+					.Cast<DriveItem>()
+					.FirstOrDefault(x =>
+						PathNormalization.NormalizePath(x.Path) == PathNormalization.NormalizePath(rootPath))?.Root;
+
 				if (matchingDrive is null)
 				{
 					// Check on all removable drives
 					var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-					string normalizedRootPath = Helpers.PathNormalization.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
+					string normalizedRootPath = PathNormalization.NormalizePath(rootPath).Replace(@"\\?\", string.Empty, StringComparison.Ordinal);
+
 					foreach (var item in remDevices)
 					{
 						try
@@ -93,7 +91,7 @@ namespace Files.App.Helpers
 						}
 						catch (Exception)
 						{
-							// Ignore this..
+							// Ignore this
 						}
 					}
 				}
@@ -107,38 +105,43 @@ namespace Files.App.Helpers
 				!devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 			{
 				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
-				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath; // Remove share name
+
+				 // Remove share name
+				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath;
+
 				return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
 			}
+
 			// It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
 			return null;
 		}
 
-		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
+		public static DriveType GetDriveType(SystemIO.DriveInfo drive)
 		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
+			if (drive.DriveType is SystemIO.DriveType.Unknown)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
-					return Data.Items.DriveType.FloppyDisk;
+					return DriveType.FloppyDisk;
 			}
 
 			return drive.DriveType switch
 			{
-				System.IO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				System.IO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				System.IO.DriveType.Network => Data.Items.DriveType.Network,
-				System.IO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				System.IO.DriveType.Ram => Data.Items.DriveType.Ram,
-				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
-				_ => Data.Items.DriveType.Unknown,
+				SystemIO.DriveType.CDRom => DriveType.CDRom,
+				SystemIO.DriveType.Fixed => DriveType.Fixed,
+				SystemIO.DriveType.Network => DriveType.Network,
+				SystemIO.DriveType.NoRootDirectory => DriveType.NoRootDirectory,
+				SystemIO.DriveType.Ram => DriveType.Ram,
+				SystemIO.DriveType.Removable => DriveType.Removable,
+				_ => DriveType.Unknown,
 			};
 		}
 
 		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
-			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
-				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
-			);
+		{
+			return (StorageItemThumbnail)await FilesystemTasks.Wrap(()
+				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask());
+		}
 	}
 }

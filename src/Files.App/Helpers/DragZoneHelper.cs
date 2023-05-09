@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -19,7 +16,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="window"></param>
 		/// <returns>scale factor percent</returns>
-		public static double GetScaleAdjustment(Window window) => window.Content.XamlRoot.RasterizationScale;
+		public static double GetScaleAdjustment(Window window)
+			=> window.Content.XamlRoot.RasterizationScale;
 
 		/// <summary>
 		/// Calculate dragging-zones of title bar<br/>
@@ -41,17 +39,22 @@ namespace Files.App.Helpers
 				{
 					var x = draggingZonesX[i];
 					var y = draggingZonesY[i].ToArray();
+
 					var xSubtrahend = new Range(nonDraggingZone.X, nonDraggingZone.X + nonDraggingZone.Width);
 					var ySubtrahend = new Range(nonDraggingZone.Y, nonDraggingZone.Y + nonDraggingZone.Height);
+
 					var xResult = (x - xSubtrahend).ToArray();
 					if (xResult.Length is 1 && xResult[0] == x)
 						continue;
+
 					var yResult = (y - ySubtrahend).ToArray();
+
 					switch (xResult.Length)
 					{
 						case 0:
 							draggingZonesY[i] = yResult;
 							break;
+
 						case 1:
 							draggingZonesX.RemoveAt(i);
 							draggingZonesY.RemoveAt(i);
@@ -73,8 +76,10 @@ namespace Files.App.Helpers
 									x with { Lower = xResult[0].Lower }
 								});
 							}
+
 							++i;
 							break;
+
 						case 2:
 							draggingZonesX.RemoveAt(i);
 							draggingZonesY.RemoveAt(i);
@@ -85,6 +90,7 @@ namespace Files.App.Helpers
 								xSubtrahend,
 								x with { Lower = xResult[1].Lower }
 							});
+
 							++i;
 							++i;
 							break;
@@ -97,10 +103,12 @@ namespace Files.App.Helpers
 					.Select(rangeY => new RectInt32(rangeX.Lower, rangeY.Lower, rangeX.Distance, rangeY.Distance)))
 				.OrderBy(t => t.Y)
 				.ThenBy(t => t.X).ToList();
+
 			for (var i = 0; i < rects.Count - 1; ++i)
 			{
 				var now = rects[i];
 				var next = rects[i + 1];
+
 				if (now.Height == next.Height && now.X + now.Width == next.X)
 				{
 					rects.RemoveRange(i, 2);
@@ -126,10 +134,12 @@ namespace Files.App.Helpers
 			var scaleAdjustment = GetScaleAdjustment(window);
 			var windowWidth = (int)(appWindow.Size.Width / scaleAdjustment);
 			nonDraggingZones ??= Array.Empty<RectInt32>();
+
 #if DEBUG
 			// Subtract the toolbar area (center-top in window), only in DEBUG mode.
 			nonDraggingZones = nonDraggingZones.Concat(new RectInt32[] { new((windowWidth - DebugToolbarWidth) / 2, 0, DebugToolbarWidth, DebugToolbarHeight) });
 #endif
+
 			appWindow.TitleBar.SetDragRectangles(
 				GetDragZones(windowWidth, dragZoneHeight, dragZoneLeftIndent, nonDraggingZones)
 					.Select(rect => new RectInt32(
@@ -146,9 +156,11 @@ namespace Files.App.Helpers
 
 	file record Range(int Lower, int Upper)
 	{
-		public int Distance => Upper - Lower;
+		public int Distance
+			=> Upper - Lower;
 
-		private bool Intersects(Range other) => other.Lower <= Upper && other.Upper >= Lower;
+		private bool Intersects(Range other)
+			=> other.Lower <= Upper && other.Upper >= Lower;
 
 		public static IEnumerable<Range> operator -(Range minuend, Range subtrahend)
 		{
@@ -157,6 +169,7 @@ namespace Files.App.Helpers
 				yield return minuend;
 				yield break;
 			}
+
 			if (minuend.Lower < subtrahend.Lower)
 				yield return minuend with { Upper = subtrahend.Lower };
 			if (minuend.Upper > subtrahend.Upper)

@@ -15,20 +15,21 @@ namespace Files.App.Helpers
 		public static async Task<BitmapImage?> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
-			{
 				return null;
-			}
 
 			try
 			{
 				using var ms = new MemoryStream(data);
 				var image = new BitmapImage();
+
 				if (decodeSize > 0)
 				{
 					image.DecodePixelWidth = decodeSize;
 					image.DecodePixelHeight = decodeSize;
 				}
+
 				await image.SetSourceAsync(ms.AsRandomAccessStream());
+
 				return image;
 			}
 			catch (Exception)
@@ -49,22 +50,16 @@ namespace Files.App.Helpers
 		public static async Task Rotate(string filePath, BitmapRotation rotation)
 		{
 			if (string.IsNullOrEmpty(filePath))
-			{
 				return;
-			}
 
 			var file = await StorageHelpers.ToStorageItem<IStorageFile>(filePath);
 			if (file is null)
-			{
 				return;
-			}
 
 			var fileStreamRes = await FilesystemTasks.Wrap(() => file.OpenAsync(FileAccessMode.ReadWrite).AsTask());
 			using IRandomAccessStream fileStream = fileStreamRes.Result;
 			if (fileStream is null)
-			{
 				return;
-			}
 
 			BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
 			using var memStream = new InMemoryRandomAccessStream();
@@ -97,6 +92,7 @@ namespace Files.App.Helpers
 		public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
 		{
 			using IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
+
 			// Create an encoder with the desired format
 			BitmapEncoder encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
 
@@ -124,9 +120,7 @@ namespace Files.App.Helpers
 			}
 
 			if (encoder.IsThumbnailGenerated == false)
-			{
 				await encoder.FlushAsync();
-			}
 		}
 	}
 }
