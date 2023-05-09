@@ -3178,8 +3178,11 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Búsqueda de elementos no indexados</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Enfocar la barra de ruta</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -3207,5 +3210,17 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Ubicación:</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Haga clic en 'Permisos avanzados' para continuar.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Debe tener permisos de lectura para ver las propiedades de este elemento.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Para intentar tomar posesión del elemento, lo que incluye el permiso para ver sus propiedades, haga clic arriba en Cambiar.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>No se pueden mostrar los permisos.</value>
   </data>
 </root>
