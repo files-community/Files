@@ -468,13 +468,15 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => Action.IsExecutable;
 			public async void Execute(object? parameter) => await ExecuteAsync();
 
-			public async Task ExecuteAsync()
+			public Task ExecuteAsync()
 			{
 				if (IsExecutable)
 				{
-					Analytics.TrackEvent($"Triggered {Code.ToString()} action");
-					await Action.ExecuteAsync();
-				}
+                    Analytics.TrackEvent($"Triggered {Code} action");
+                    return Action.ExecuteAsync();
+                }
+
+                return Task.CompletedTask;
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();

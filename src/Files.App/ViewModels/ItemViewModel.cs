@@ -1441,15 +1441,15 @@ namespace Files.App.ViewModels
 			client.Port = FtpHelpers.GetFtpPort(path);
 			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
+			static Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 			{
 				try
 				{
-					return await client.AutoConnect();
+					return client.AutoConnect();
 				}
 				catch (FtpAuthenticationException)
 				{
-					return null;
+					return Task.FromResult<FtpProfile?>(null);
 				}
 
 				throw new InvalidOperationException();
@@ -1703,15 +1703,12 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
-				return;
+				return Task.CompletedTask;
 
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-
-			await Task.Run(async () =>
+			return Task.Run(async () =>
 			{
 				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,
@@ -1731,12 +1728,7 @@ namespace Files.App.ViewModels
 
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-			});
-
-			stopwatch.Stop();
-
-
-			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+			}, cancellationToken);
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
