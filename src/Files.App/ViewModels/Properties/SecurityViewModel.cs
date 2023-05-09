@@ -1,29 +1,42 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI;
 using Files.App.Filesystem.Security;
-using Files.App.Helpers;
 using Microsoft.UI.Xaml;
-using System.Linq;
-using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
 	public class SecurityViewModel : ObservableObject
 	{
-		public string Path { get; set; }
+		private readonly PropertiesPageNavigationParameter _navigationParameter;
 
-		private readonly Window Window;
+		private readonly Window _window;
 
-		private bool _IsFolder;
-		public bool IsFolder
-		{
-			get => _IsFolder;
-			set => SetProperty(ref _IsFolder, value);
-		}
+		private readonly string _path;
+
+		private readonly bool _isFolder;
+
+		public bool DisplayElements { get; private set; }
+
+		public string ErrorMessage { get; private set; }
+
+		public bool IsAddAccessControlEntryButtonEnabled =>
+			AccessControlList is not null &&
+			AccessControlList.IsValid;
+
+		public bool IsDeleteAccessControlEntryButtonEnabled =>
+			AccessControlList is not null &&
+			AccessControlList.IsValid &&
+			SelectedAccessControlEntry is not null &&
+			SelectedAccessControlEntry.IsInherited is false;
+
+		public string SelectedItemHeaderText =>
+			SelectedAccessControlEntry is null
+				? "Permissions".GetLocalizedResource()
+				: string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry?.Principal.DisplayName);
 
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
@@ -32,88 +45,108 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _AccessControlList, value);
 		}
 
-		private AccessControlEntry _SelectedAccessControlEntry;
-		public AccessControlEntry SelectedAccessControlEntry
+		private AccessControlEntry? _SelectedAccessControlEntry;
+		public AccessControlEntry? SelectedAccessControlEntry
 		{
 			get => _SelectedAccessControlEntry;
 			set
 			{
+				// Previous selection
 				if (_SelectedAccessControlEntry is not null)
 					_SelectedAccessControlEntry.IsSelected = false;
 
-				if (SetProperty(ref _SelectedAccessControlEntry, value))
+				if (value is not null && SetProperty(ref _SelectedAccessControlEntry, value))
 				{
 					value.IsSelected = true;
-					RemoveAccessControlEntryCommand?.NotifyCanExecuteChanged();
+
+					OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
 					OnPropertyChanged(nameof(SelectedItemHeaderText));
 				}
 			}
 		}
 
-		public string SelectedItemHeaderText
-			=> string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry.Principal.DisplayName);
+		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
+		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
 
-		public IRelayCommand AddAccessControlEntryCommand { get; set; }
-		public IRelayCommand RemoveAccessControlEntryCommand { get; set; }
-
-		public SecurityViewModel(ListedItem item, Window window)
+		public SecurityViewModel(PropertiesPageNavigationParameter parameter)
 		{
-			IsFolder = item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsShortcut;
-			Path = item.ItemPath;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			Window = window;
+			_navigationParameter = parameter;
+			_window = parameter.Window;
 
-			InitializeCommands();
+			switch (parameter.Parameter)
+			{
+				case ListedItem listedItem:
+					_path = listedItem.ItemPath;
+					_isFolder = listedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !listedItem.IsShortcut;
+					break;
+				case DriveItem driveItem:
+					_path = driveItem.Path;
+					_isFolder = true;
+					break;
+				default:
+					var defaultlistedItem = (ListedItem)parameter.Parameter;
+					_path = defaultlistedItem.ItemPath;
+					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
+					break;
+			};
+
+			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
+			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
+
+			if (!AccessControlList.IsValid)
+			{
+				DisplayElements = false;
+				ErrorMessage = error == Win32Error.ERROR_ACCESS_DENIED
+					? "SecurityRequireReadPermissions".GetLocalizedResource() + "\r\n" + "SecurityClickAdvancedPermissions".GetLocalizedResource()
+					: "SecurityUnableToDisplayPermissions".GetLocalizedResource();
+			}
+			else
+			{
+				DisplayElements = true;
+				ErrorMessage = string.Empty;
+			}
+
+			AddAccessControlEntryCommand = new AsyncRelayCommand(ExecuteAddAccessControlEntryCommand);
+			RemoveAccessControlEntryCommand = new AsyncRelayCommand(ExecuteRemoveAccessControlEntryCommand);
 		}
 
-		public SecurityViewModel(DriveItem item, Window window)
+		private async Task ExecuteAddAccessControlEntryCommand()
 		{
-			IsFolder = true;
-			Path = item.Path;
-			AccessControlList = FileSecurityHelpers.GetAccessControlList(Path, IsFolder);
-			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
-			Window = window;
-
-			InitializeCommands();
-		}
-
-		private void InitializeCommands()
-		{
-			AddAccessControlEntryCommand = new AsyncRelayCommand(AddAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid);
-			RemoveAccessControlEntryCommand = new RelayCommand(RemoveAccessControlEntry, () => AccessControlList is not null && AccessControlList.IsValid && SelectedAccessControlEntry is not null);
-		}
-
-		private async Task AddAccessControlEntry()
-		{
-			// Pick an user/group
-			var sid = await OpenObjectPicker();
+			// Pick an user or a group with Object Picker UI
+			var sid = await FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(_window).ToInt64());
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// Initialize
-			var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(IsFolder, sid);
-			AccessControlList.AccessControlEntries.Add(ace);
+			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			{
+				// Run Win32API
+				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
 
-			// Save
-			FileSecurityHelpers.SetAccessControlList(AccessControlList);
+				// Add a new ACE to the ACL
+				var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				AccessControlList.AccessControlEntries.Insert(0, ace);
+			});
 		}
 
-		private void RemoveAccessControlEntry()
+		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			// Remove
-			AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			{
+				// Get index of the ACE
+				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
-			// Save
-			FileSecurityHelpers.SetAccessControlList(AccessControlList);
+				// Run Win32API
+				var win32Result = FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+
+				// Remove the ACE
+				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);
+
+				if (AccessControlList.AccessControlEntries.Count == 0)
+					return;
+
+				// Re-select item
+				SelectedAccessControlEntry = AccessControlList.AccessControlEntries.First();
+			});
 		}
-
-		public bool SaveChangedAccessControlList()
-		{
-			return false;
-		}
-
-		private Task<string?> OpenObjectPicker()
-			=> FileOperationsHelpers.OpenObjectPickerAsync(FilePropertiesHelpers.GetWindowHandle(Window).ToInt64());
 	}
 }
