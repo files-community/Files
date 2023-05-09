@@ -394,6 +394,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -500,11 +501,20 @@ namespace Files.App.Views.LayoutModes
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
-		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			await GroupPreferenceUpdated();
+		}
+
+		private async void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
 		private async Task GroupPreferenceUpdated()
 		{
@@ -529,6 +539,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
@@ -668,13 +679,21 @@ namespace Files.App.Views.LayoutModes
 				.OfType<AppBarButton>()
 				.ForEach(button => button.Click += closeHandler);
 
-			secondaryElements
+			var menuFlyoutItems = secondaryElements
 				.OfType<AppBarButton>()
 				.Select(item => item.Flyout)
 				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items)
-				.OfType<MenuFlyoutItem>()
-				.ForEach(button => button.Click += closeHandler);
+				.SelectMany(menu => menu.Items);
+
+			addCloseHandler(menuFlyoutItems);
+
+			void addCloseHandler(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => addCloseHandler(menu.Items));
+			}
 		}
 
 		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)

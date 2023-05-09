@@ -137,9 +137,18 @@ namespace Files.App.Commands
 		GroupByOriginalFolder,
 		GroupByDateDeleted,
 		GroupByFolderPath,
+		GroupByDateModifiedYear,
+		GroupByDateModifiedMonth,
+		GroupByDateCreatedYear,
+		GroupByDateCreatedMonth,
+		GroupByDateDeletedYear,
+		GroupByDateDeletedMonth,
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
+		GroupByYear,
+		GroupByMonth,
+		ToggleGroupByDateUnit,
 
 		// Navigation
 		NewTab,
