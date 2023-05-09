@@ -42,18 +42,14 @@ namespace Files.App.Filesystem
 
 		#endregion Constructor
 
-		public async Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await CopyAsync(source.FromStorageItem(),
-													destination,
-													collision,
-													progress,
-													cancellationToken);
+			return CopyAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await CopyItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
+			return CopyItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -315,14 +311,14 @@ namespace Files.App.Filesystem
 			return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
 		}
 
-		public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
+		public Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return await DeleteAsync(source.FromStorageItem(), progress, permanently, cancellationToken);
+			return DeleteAsync(source.FromStorageItem(), progress, permanently, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
+		public Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return await DeleteItemsAsync(source.CreateList(), progress, permanently, cancellationToken);
+			return DeleteItemsAsync(source.CreateList(), progress, permanently, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItem> source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
@@ -427,14 +423,14 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await MoveAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
+			return MoveAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await MoveItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
+			return MoveItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -589,9 +585,9 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
+			return RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -671,14 +667,14 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, cancellationToken);
+			return RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RestoreItemsFromTrashAsync(source.CreateList(), destination.CreateList(), progress, cancellationToken);
+			return RestoreItemsFromTrashAsync(source.CreateList(), destination.CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItem> source, IList<string> destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)

@@ -240,7 +240,7 @@ namespace Files.App.Helpers
 
 		public static async Task DecompressArchiveToChildFolder(IShellPage associatedInstance)
 		{
-			if(associatedInstance == null)
+			if (associatedInstance == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
