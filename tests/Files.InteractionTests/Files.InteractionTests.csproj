@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Appium.WebDriver" Version="4.4.0" />
+        <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
         <PackageReference Include="Axe.Windows" Version="2.1.1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
         <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />

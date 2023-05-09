@@ -56,6 +56,8 @@ namespace Files.App.Contexts
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
+		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -144,6 +146,9 @@ namespace Files.App.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
+				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
+					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+					break;
 			}
 		}
 
@@ -185,6 +190,7 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(CanCreateItem));
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
+			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 		}
 
 		private void UpdatePageType()
