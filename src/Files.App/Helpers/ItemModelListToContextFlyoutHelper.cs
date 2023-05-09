@@ -98,6 +98,10 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					flyoutSubItem.Items.Add(GetMenuItem(i));
 				});
+
+				flyoutSubItem.IsEnabled = item.IsEnabled;
+				flyoutSubItem.Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible;
+
 				return flyoutSubItem;
 			}
 			return GetItem(item);
@@ -166,7 +170,9 @@ namespace Files.App.Helpers.ContextFlyouts
 
 			if (i.KeyboardAccelerator is not null)
 				flyoutItem.KeyboardAccelerators.Add(i.KeyboardAccelerator);
+
 			flyoutItem.IsEnabled = i.IsEnabled;
+			flyoutItem.Visibility = i.IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
 			if (i.KeyboardAcceleratorTextOverride is not null)
 				flyoutItem.KeyboardAcceleratorTextOverride = i.KeyboardAcceleratorTextOverride;
