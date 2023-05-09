@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using LibGit2Sharp;
-using System;
 using Files.App.Filesystem.StorageItems;
 
 namespace Files.App.Helpers
@@ -22,9 +21,16 @@ namespace Files.App.Helpers
 				)
 				return null;
 
-			return Repository.IsValid(path)
-				? path
-				: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+			try
+			{
+				return Repository.IsValid(path)
+					? path
+					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+			}
+			catch (LibGit2SharpException)
+			{
+				return null;
+			}
 		}
 	}
 }

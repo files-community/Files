@@ -57,6 +57,7 @@ namespace Files.App.Shell
 			try
 			{
 				var currentWindows = Win32API.GetDesktopWindows();
+
 				var pici = new Shell32.CMINVOKECOMMANDINFOEX
 				{
 					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
@@ -295,11 +296,11 @@ namespace Files.App.Shell
 			}
 		}
 
-		public async Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
+		public Task<bool> LoadSubMenu(List<Win32ContextMenuItem> subItems)
 		{
 			if (loadSubMenuActions.Remove(subItems, out var loadSubMenuAction))
 			{
-				return await owningThread.PostMethod<bool>(() =>
+				return owningThread.PostMethod<bool>(() =>
 				{
 					try
 					{
@@ -314,7 +315,7 @@ namespace Files.App.Shell
 			}
 			else
 			{
-				return false;
+				return Task.FromResult(false);
 			}
 		}
 

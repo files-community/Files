@@ -173,7 +173,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			}
 		}
 
-		private async Task RenameBundle()
+		private Task RenameBundle()
 		{
 			TextBox inputText = new TextBox()
 			{
@@ -242,7 +242,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
 
-			await dialog.TryShowAsync();
+			return dialog.ShowAsync();
 
 			bool CanAddBundleSetErrorMessage()
 			{
@@ -494,7 +494,9 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				itemAddedInternally = false;
 				NoBundleContentsTextLoad = false;
 				IsAddItemOptionEnabled = Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle;
+
 				await bundleItem.UpdateIcon();
+
 				return true;
 			}
 
@@ -503,7 +505,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 
 		public async Task<bool> AddBundleItems(IEnumerable<BundleItemViewModel> bundleItems)
 		{
-			List<Task<bool>> taskDelegates = new List<Task<bool>>();
+			var taskDelegates = new List<Task<bool>>();
 
 			foreach (var item in bundleItems)
 			{
