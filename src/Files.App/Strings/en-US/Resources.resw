@@ -3263,21 +3263,27 @@
     <value>Unable to display permissions.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Stash changes</value>
+    <value>Leave my changes on '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard changes</value>
+    <value>Discard my changes</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring changes</value>
+    <value>Bring my changes to '{0}'</value>
   </data>
-  <data name="UncommitedChanges" xml:space="preserve">
-    <value>There are uncommited changes on the local branch</value>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
-  <data name="UncommitedChangesMessage" xml:space="preserve">
-     <value>What do you want to do with them?</value>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Switch Branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches:</value>
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New branch</value>
   </data>
 </root>

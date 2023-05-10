@@ -217,7 +217,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_GitCheckoutConflicts()
+		public static DynamicDialog GetFor_GitCheckoutConflicts(string checkoutBranchName, string headBranchName)
 		{
 			DynamicDialog dialog = null!;
 
@@ -225,8 +225,8 @@ namespace Files.App.Helpers
 			{
 				ItemsSource = new string[]
 				{
-					"BringChanges".GetLocalizedResource(),
-					"StashChanges".GetLocalizedResource(),
+					string.Format("BringChanges".GetLocalizedResource(), checkoutBranchName),
+					string.Format("StashChanges".GetLocalizedResource(), headBranchName),
 					"DiscardChanges".GetLocalizedResource()
 				},
 				SelectionMode = ListViewSelectionMode.Single
@@ -240,10 +240,10 @@ namespace Files.App.Helpers
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = "UncommitedChanges".GetLocalizedResource(),
-				PrimaryButtonText = "OK".GetLocalizedResource(),
+				TitleText = "SwitchBranch".GetLocalizedResource(),
+				PrimaryButtonText = "Switch".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
-				SubtitleText = "UncommitedChangesMessage".GetLocalizedResource(),
+				SubtitleText = "UncommittedChanges".GetLocalizedResource(),
 				DisplayControl = new Grid()
 				{
 					MinWidth = 250d,

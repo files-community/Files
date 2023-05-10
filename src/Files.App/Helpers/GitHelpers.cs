@@ -60,7 +60,7 @@ namespace Files.App.Helpers
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
-				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts();
+				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
 				await dialog.ShowAsync();
 
 				var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;

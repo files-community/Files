@@ -48,10 +48,5 @@ namespace Files.App.UserControls
 		{
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ActiveBranchIndex;
 		}
-
-		private void StackPanel_LostFocus(object sender, RoutedEventArgs e)
-		{
-			((Popup)((FlyoutPresenter)((StackPanel)sender).Parent).Parent).IsOpen = false;
-		}
 	}
 }

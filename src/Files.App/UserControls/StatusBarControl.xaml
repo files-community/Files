@@ -62,26 +62,49 @@
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
 					<Flyout Opening="Flyout_Opening">
-						<Flyout.FlyoutPresenterStyle>
-							<Style TargetType="FlyoutPresenter">
-								<Setter Property="Padding" Value="8" />
-								<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
-							</Style>
-						</Flyout.FlyoutPresenterStyle>
-						<StackPanel
-							Width="200"
-							Height="200"
-							LostFocus="StackPanel_LostFocus"
-							Spacing="8">
-							<TextBlock
-								Margin="16,0,0,0"
-								FontWeight="Bold"
-								Text="{helpers:ResourceString Name=Branches}" />
+						<Grid
+							Width="300"
+							Height="340"
+							Margin="-16">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!--  Header  -->
+							<Grid
+								Grid.Row="0"
+								Padding="12"
+								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="0,0,0,1">
+								<!--  Title  -->
+								<TextBlock
+									VerticalAlignment="Center"
+									FontSize="14"
+									Text="{helpers:ResourceString Name=Branches}" />
+
+								<!--  New Branch Button  -->
+								<Button
+									x:Name="NewBranchButton"
+									Height="24"
+									Padding="8,0"
+									HorizontalAlignment="Right"
+									x:Load="False"
+									Content="{helpers:ResourceString Name=NewBranch}"
+									FontSize="12"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=NewBranch}" />
+							</Grid>
+
+							<!--  Branches List  -->
 							<ListView
+								Grid.Row="1"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
 								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
 								SelectionMode="Single" />
-						</StackPanel>
+						</Grid>
 					</Flyout>
 				</Button.Flyout>
 			</Button>
