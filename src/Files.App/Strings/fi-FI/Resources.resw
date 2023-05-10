@@ -3212,43 +3212,43 @@
     <value>Sijainti:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Ryhmittele kohteet kuukauden mukaan</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Ryhmittele kohteet vuoden mukaan</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Kuukausi</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Vaihda päivämäärän mukaan ryhmittelyä varten</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Vaihda ryhmittely-yksikköä</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Vuosi</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Ryhmittele kuukauden eikä vuoden mukaan</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Ryhmittele kohteet luontikuukauden mukaan</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Ryhmittele kohteet luontivuoden mukaan</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Ryhmittele kohteet poiston kuukauden mukaan</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Ryhmittele kohteet poistovuoden mukaan</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Ryhmittele kohteet muokkauskuukauden mukaan</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Ryhmittele kohteet muokkausvuoden mukaan</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Napsauta "Lisäkäyttöoikeudet" jatkaaksesi.</value>
