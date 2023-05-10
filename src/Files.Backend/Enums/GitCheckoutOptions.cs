@@ -2,9 +2,9 @@
 {
 	public enum GitCheckoutOptions
 	{
-		None,
 		BringChanges,
 		StashChanges,
-		DiscardChanges
+		DiscardChanges,
+		None
 	}
 }

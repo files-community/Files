@@ -1,19 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.System;
 
 namespace Files.App.Helpers
@@ -229,31 +221,20 @@ namespace Files.App.Helpers
 		{
 			DynamicDialog dialog = null!;
 
-			var bringChangesRadio = new RadioButton()
+			var optionsListView = new ListView()
 			{
-				Content = "BringChanges".GetLocalizedResource(),
-				IsChecked = true,
-			};
-			var stashChangesRadio = new RadioButton()
-			{
-				Content = "StashChanges".GetLocalizedResource(),
-			};
-			var discardChangesRadio = new RadioButton()
-			{
-				Content = "DiscardChanges".GetLocalizedResource(),
+				ItemsSource = new string[]
+				{
+					"BringChanges".GetLocalizedResource(),
+					"StashChanges".GetLocalizedResource(),
+					"DiscardChanges".GetLocalizedResource()
+				},
+				SelectionMode = ListViewSelectionMode.Single
 			};
 
-			bringChangesRadio.Checked += (button, args) =>
+			optionsListView.SelectionChanged += (listView, args) =>
 			{
-				dialog.ViewModel.AdditionalData = GitCheckoutOptions.BringChanges;
-			};
-			stashChangesRadio.Checked += (button, args) =>
-			{
-				dialog.ViewModel.AdditionalData = GitCheckoutOptions.StashChanges;
-			};
-			discardChangesRadio.Checked += (button, args) =>
-			{
-				dialog.ViewModel.AdditionalData = GitCheckoutOptions.DiscardChanges;
+				dialog.ViewModel.AdditionalData = (GitCheckoutOptions)optionsListView.SelectedIndex;
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -272,14 +253,12 @@ namespace Files.App.Helpers
 							Spacing = 10d,
 							Children =
 							{
-								bringChangesRadio,
-								stashChangesRadio,
-								discardChangesRadio
+								optionsListView
 							}
 						}
 					}
 				},
-				AdditionalData = GitCheckoutOptions.BringChanges,
+				AdditionalData = GitCheckoutOptions.None,
 				CloseButtonAction = (vm, e) =>
 				{
 					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;

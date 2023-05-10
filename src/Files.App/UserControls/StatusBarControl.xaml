@@ -62,12 +62,21 @@
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
 					<Flyout Opening="Flyout_Opening">
+						<Flyout.FlyoutPresenterStyle>
+							<Style TargetType="FlyoutPresenter">
+								<Setter Property="Padding" Value="8" />
+								<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+							</Style>
+						</Flyout.FlyoutPresenterStyle>
 						<StackPanel
 							Width="200"
 							Height="200"
 							LostFocus="StackPanel_LostFocus"
 							Spacing="8">
-							<TextBlock FontWeight="Bold" Text="{helpers:ResourceString Name=Branches}" />
+							<TextBlock
+								Margin="16,0,0,0"
+								FontWeight="Bold"
+								Text="{helpers:ResourceString Name=Branches}" />
 							<ListView
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
 								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
