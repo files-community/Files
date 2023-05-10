@@ -349,7 +349,7 @@
     <value>Fichier introuvable</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Le dossier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
+    <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
@@ -430,7 +430,7 @@
     <value>Suppression des fichiers</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Déplacer les fichiers vers la corbeille</value>
+    <value>Déplacement vers la Corbeille en cours</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
@@ -466,7 +466,7 @@
     <value>{0:#,##0} fichiers, {1:#,##0} dossiers</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} fichiers, {1:#,##0} dossiers de {2:#,##0} emplacements</value>
+    <value>{0:#,##0} fichiers, {1:#,##0} dossiers dans {2:#,##0} emplacements</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Exécuter en tant qu'autre utilisateur</value>
@@ -478,7 +478,7 @@
     <value>Différents types</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>Tous dans {0}</value>
+    <value>Tout dans {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espace utilisé :</value>
@@ -724,7 +724,7 @@
     <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date de prise de vue</value>
+    <value>Date de prise</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Marque d'appareil</value>
@@ -799,7 +799,7 @@
     <value>Date de sortie</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Nom de la série</value>
+    <value>Titre de la série</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Numéro de saison</value>
@@ -814,7 +814,7 @@
     <value>URL de promotion</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Style du fournisseur</value>
+    <value>Style Fournisseur</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Éditeur</value>
@@ -883,7 +883,7 @@
     <value>Fréquence d'images</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Vitesse d'encodage</value>
+    <value>Débit binaire</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compression</value>
@@ -1024,7 +1024,7 @@
     <value>Afficher l'option pour ouvrir les dossiers dans un nouveau volet</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>Nouveau panneau</value>
+    <value>Nouveau volet</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Ouvrir dans un nouveau volet</value>
@@ -3221,7 +3221,7 @@
     <value>Mois</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Activer/désactiver l'unité pour le regroupement par date</value>
+    <value>Activer/désactiver l'unité de regroupement par date</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
     <value>Activer/désactiver l'unité de regroupement</value>
