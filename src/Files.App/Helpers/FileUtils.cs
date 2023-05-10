@@ -5,7 +5,12 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
-	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
+	/// <summary>
+	/// Provides utility for windows storage objects
+	/// </summary>
+	/// <remarks>
+	/// <a href="https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209"/>
+	/// </remarks>
 	internal static class FileUtils
 	{
 		[StructLayout(LayoutKind.Sequential)]

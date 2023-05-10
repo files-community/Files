@@ -1,29 +1,38 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Helpers.LayoutPreferences
+namespace Files.App.Data.Models
 {
-	public class LayoutPreferences
+	public class LayoutPreferencesModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService { get; }
 
 		public SortOption DirectorySortOption;
+
 		public SortDirection DirectorySortDirection;
+
 		public bool SortDirectoriesAlongsideFiles;
+
 		public GroupOption DirectoryGroupOption;
+
 		public SortDirection DirectoryGroupDirection;
+
 		public GroupByDateUnit DirectoryGroupByDateUnit;
+
 		public FolderLayoutModes LayoutMode;
+
 		public int GridViewSize;
+
 		public bool IsAdaptiveLayoutOverridden;
 
 		public ColumnsViewModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
-		public static LayoutPreferences DefaultLayoutPreferences => new();
+		public static LayoutPreferencesModel DefaultLayoutPreferences => new();
 
-		public LayoutPreferences()
+		public LayoutPreferencesModel()
 		{
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
 			LayoutMode = defaultLayout is FolderLayoutModes.Adaptive ? FolderLayoutModes.DetailsView : defaultLayout;
@@ -65,9 +74,9 @@ namespace Files.App.Helpers.LayoutPreferences
 			if (obj == this)
 				return true;
 
-			if (obj is LayoutPreferences prefs)
+			if (obj is LayoutPreferencesModel prefs)
 			{
-				return (
+				return
 					prefs.LayoutMode == LayoutMode &&
 					prefs.GridViewSize == GridViewSize &&
 					prefs.DirectoryGroupOption == DirectoryGroupOption &&
@@ -77,24 +86,28 @@ namespace Files.App.Helpers.LayoutPreferences
 					prefs.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
 					prefs.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
 					prefs.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
-					prefs.ColumnsViewModel.Equals(ColumnsViewModel));
+					prefs.ColumnsViewModel.Equals(ColumnsViewModel);
 			}
+
 			return base.Equals(obj);
 		}
 
 		public override int GetHashCode()
 		{
-			var hashCode = LayoutMode.GetHashCode();
-			hashCode = (hashCode * 397) ^ GridViewSize.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupOption.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupDirection.GetHashCode();
-			hashCode = (hashCode * 397) ^ DirectoryGroupByDateUnit.GetHashCode();
-			hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
-			hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
-			hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();
-			return hashCode;
+			HashCode hash = new HashCode();
+
+			hash.Add(LayoutMode);
+			hash.Add(GridViewSize);
+			hash.Add(DirectoryGroupOption);
+			hash.Add(DirectorySortOption);
+			hash.Add(DirectorySortDirection);
+			hash.Add(DirectoryGroupDirection);
+			hash.Add(DirectoryGroupByDateUnit);
+			hash.Add(SortDirectoriesAlongsideFiles);
+			hash.Add(IsAdaptiveLayoutOverridden);
+			hash.Add(ColumnsViewModel);
+
+			return hash.ToHashCode();
 		}
 	}
 }

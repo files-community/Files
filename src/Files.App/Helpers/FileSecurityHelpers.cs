@@ -22,7 +22,7 @@ namespace Files.App.Helpers
 		{
 			AdvApi32.GetNamedSecurityInfo(
 				path,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				AdvApi32.SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
 				out var pSidOwner,
 				out _,

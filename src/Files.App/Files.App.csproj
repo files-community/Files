@@ -140,4 +140,7 @@
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Utils\" />
+    </ItemGroup>
 </Project>

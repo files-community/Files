@@ -1,13 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-
 namespace Files.App.Helpers
 {
 	internal class IntervalSampler
 	{
 		private DateTime recordPoint;
+
 		private TimeSpan sampleInterval;
 
 		public IntervalSampler(int millisecondsInterval)

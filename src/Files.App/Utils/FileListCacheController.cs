@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Files.App.Helpers.FileListCache
 {
-	internal class FileListCacheController : IFileListCache
+	internal class FileListCacheController
 	{
 		private static FileListCacheController instance;
 
@@ -28,11 +28,10 @@ namespace Files.App.Helpers.FileListCache
 		internal ValueTask SaveFileDisplayNameToCache(string path, string displayName)
 		{
 			if (displayName is null)
-			{
 				fileNamesCache.TryRemove(path, out _);
-			}
 
 			fileNamesCache[path] = displayName;
+
 			return ValueTask.CompletedTask;
 		}
 	}
