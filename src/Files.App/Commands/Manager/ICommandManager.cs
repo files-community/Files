@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Generic;
-
 namespace Files.App.Commands
 {
 	public interface ICommandManager : IEnumerable<IRichCommand>
@@ -122,9 +120,18 @@ namespace Files.App.Commands
 		IRichCommand GroupByOriginalFolder { get; }
 		IRichCommand GroupByDateDeleted { get; }
 		IRichCommand GroupByFolderPath { get; }
+		IRichCommand GroupByDateModifiedYear { get; }
+		IRichCommand GroupByDateModifiedMonth { get; }
+		IRichCommand GroupByDateCreatedYear { get; }
+		IRichCommand GroupByDateCreatedMonth { get; }
+		IRichCommand GroupByDateDeletedYear { get; }
+		IRichCommand GroupByDateDeletedMonth { get; }
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }
+		IRichCommand GroupByYear { get; }
+		IRichCommand GroupByMonth { get; }
+		IRichCommand ToggleGroupByDateUnit { get; }
 
 		IRichCommand NewTab { get; }
 		IRichCommand NavigateBack { get; }
