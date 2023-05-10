@@ -231,6 +231,7 @@ namespace Files.App.Helpers
 				},
 				SelectionMode = ListViewSelectionMode.Single
 			};
+			optionsListView.SelectedIndex = 0;
 
 			optionsListView.SelectionChanged += (listView, args) =>
 			{
@@ -258,7 +259,7 @@ namespace Files.App.Helpers
 						}
 					}
 				},
-				AdditionalData = GitCheckoutOptions.None,
+				AdditionalData = GitCheckoutOptions.BringChanges,
 				CloseButtonAction = (vm, e) =>
 				{
 					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
