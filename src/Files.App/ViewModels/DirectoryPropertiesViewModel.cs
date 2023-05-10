@@ -5,18 +5,49 @@ namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
-		private string directoryItemCount;
+		private int activeBranchIndex;
+
+		private string _DirectoryItemCount;
 		public string DirectoryItemCount
 		{
-			get => directoryItemCount;
-			set => SetProperty(ref directoryItemCount, value);
+			get => _DirectoryItemCount;
+			set => SetProperty(ref _DirectoryItemCount, value);
 		}
 
-		private string? gitBranchDisplayName;
+		private string? _GitBranchDisplayName;
 		public string? GitBranchDisplayName
 		{
-			get => gitBranchDisplayName;
-			set => SetProperty(ref gitBranchDisplayName, value);
+			get => _GitBranchDisplayName;
+			private set => SetProperty(ref _GitBranchDisplayName, value);
+		}
+
+		private int _SelectedBranchIndex;
+		public int SelectedBranchIndex
+		{
+			get => _SelectedBranchIndex;
+			set
+			{
+				if (SetProperty(ref _SelectedBranchIndex, value) && value != -1 && value != activeBranchIndex)
+					CheckoutRequested?.Invoke(this, BranchesNames[value]);
+			}
+		}
+
+		public ObservableCollection<string> BranchesNames { get; } = new();
+
+		public EventHandler<string>? CheckoutRequested;
+
+		public void UpdateGitInfo(bool isGitRepository, string activeBranch, string[] branches)
+		{
+			GitBranchDisplayName = isGitRepository
+				? string.Format("Branch".GetLocalizedResource(), activeBranch)
+				: null;
+
+			BranchesNames.Clear();
+			foreach (var name in branches)
+				BranchesNames.Add(name);
+
+			activeBranchIndex = BranchesNames.IndexOf(activeBranch);
+			SelectedBranchIndex = activeBranchIndex;
 		}
 	}
 }

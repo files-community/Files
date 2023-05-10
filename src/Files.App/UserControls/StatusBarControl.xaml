@@ -53,10 +53,23 @@
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
 			Spacing="8">
-			<TextBlock
+			<Button
 				x:Name="GitBranch"
 				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-				Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+				Background="Transparent"
+				BorderThickness="0"
+				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
+				<Button.Flyout>
+					<Flyout>
+						<ListView
+							Width="200"
+							Height="200"
+							ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
+							SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+							SelectionMode="Single" />
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 		</StackPanel>
 	</Grid>
 </UserControl>

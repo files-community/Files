@@ -75,10 +75,14 @@ namespace Files.App.Views.Shells
 			{
 				if (value != _ContentPage)
 				{
+					if (_ContentPage is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
+					_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
@@ -219,9 +223,10 @@ namespace Files.App.Views.Shells
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				InstanceViewModel.IsGitRepository, 
+				InstanceViewModel.GitBranchName, 
+				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -230,9 +235,15 @@ namespace Files.App.Views.Shells
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
 			InstanceViewModel.UpdateCurrentBranchName();
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				InstanceViewModel.IsGitRepository,
+				InstanceViewModel.GitBranchName,
+				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+		}
+
+		protected async void GitCheckout_Required(object? sender, string branchName)
+		{
+			await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName);
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)

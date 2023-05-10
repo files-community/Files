@@ -3223,4 +3223,19 @@
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Unable to display permissions.</value>
   </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Stash changes</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Discard changes</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring changes</value>
+  </data>
+  <data name="UncommitedChanges" xml:space="preserve">
+    <value>There are uncommited changes on the local branch</value>
+  </data>
+  <data name="UncommitedChangesMessage" xml:space="preserve">
+     <value>What do you want to do with them?</value>
+  </data>
 </root>

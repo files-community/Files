@@ -224,5 +224,70 @@ namespace Files.App.Helpers
 
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_GitCheckoutConflicts()
+		{
+			DynamicDialog dialog = null!;
+
+			var bringChangesRadio = new RadioButton()
+			{
+				Content = "BringChanges".GetLocalizedResource(),
+				IsChecked = true,
+			};
+			var stashChangesRadio = new RadioButton()
+			{
+				Content = "StashChanges".GetLocalizedResource(),
+			};
+			var discardChangesRadio = new RadioButton()
+			{
+				Content = "DiscardChanges".GetLocalizedResource(),
+			};
+
+			bringChangesRadio.Checked += (button, args) =>
+			{
+				dialog.ViewModel.AdditionalData = GitCheckoutOptions.BringChanges;
+			};
+			stashChangesRadio.Checked += (button, args) =>
+			{
+				dialog.ViewModel.AdditionalData = GitCheckoutOptions.StashChanges;
+			};
+			discardChangesRadio.Checked += (button, args) =>
+			{
+				dialog.ViewModel.AdditionalData = GitCheckoutOptions.DiscardChanges;
+			};
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "UncommitedChanges".GetLocalizedResource(),
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				SubtitleText = "UncommitedChangesMessage".GetLocalizedResource(),
+				DisplayControl = new Grid()
+				{
+					MinWidth = 250d,
+					Children =
+					{
+						new StackPanel()
+						{
+							Spacing = 10d,
+							Children =
+							{
+								bringChangesRadio,
+								stashChangesRadio,
+								discardChangesRadio
+							}
+						}
+					}
+				},
+				AdditionalData = GitCheckoutOptions.BringChanges,
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
+					vm.HideDialog();
+				}
+			});
+
+			return dialog;
+		}
 	}
 }
