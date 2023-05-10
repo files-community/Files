@@ -3,7 +3,6 @@
 
 using LibGit2Sharp;
 using Files.App.Filesystem.StorageItems;
-using Windows.Devices.Display.Core;
 
 namespace Files.App.Helpers
 {
@@ -57,6 +56,7 @@ namespace Files.App.Helpers
 				return;
 
 			var options = new CheckoutOptions();
+			var isBringingChanges = false;
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
@@ -69,18 +69,25 @@ namespace Files.App.Helpers
 				{
 					case GitCheckoutOptions.None:
 						return;
-					case GitCheckoutOptions.BringChanges:
-						break;
 					case GitCheckoutOptions.DiscardChanges:
 						options.CheckoutModifiers = CheckoutModifiers.Force;
 						break;
+					case GitCheckoutOptions.BringChanges:
 					case GitCheckoutOptions.StashChanges:
 						repository.Stashes.Add(repository.Config.BuildSignature(DateTimeOffset.Now));
+
+						isBringingChanges = resolveConflictOption is GitCheckoutOptions.BringChanges;
 						break;
 				}
 			}
 			
 			LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+			if (isBringingChanges)
+			{
+				var lastStashIndex = repository.Stashes.Count() - 1;
+				repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+			}
 		}
 	}
 }
