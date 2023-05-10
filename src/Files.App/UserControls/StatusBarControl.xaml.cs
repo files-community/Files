@@ -4,6 +4,7 @@
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls
 {
@@ -41,6 +42,16 @@ namespace Files.App.UserControls
 		public StatusBarControl()
 		{
 			InitializeComponent();
+		}
+
+		private void Flyout_Opening(object sender, object e)
+		{
+			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ActiveBranchIndex;
+		}
+
+		private void StackPanel_LostFocus(object sender, RoutedEventArgs e)
+		{
+			((Popup)((FlyoutPresenter)((StackPanel)sender).Parent).Parent).IsOpen = false;
 		}
 	}
 }

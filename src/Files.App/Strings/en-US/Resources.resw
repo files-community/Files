@@ -3238,4 +3238,7 @@
   <data name="UncommitedChangesMessage" xml:space="preserve">
      <value>What do you want to do with them?</value>
   </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches:</value>
+  </data>
 </root>

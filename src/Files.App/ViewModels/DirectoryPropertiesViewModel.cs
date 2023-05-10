@@ -5,7 +5,7 @@ namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
-		private int activeBranchIndex;
+		public int ActiveBranchIndex { get; private set; }
 
 		private string _DirectoryItemCount;
 		public string DirectoryItemCount
@@ -27,7 +27,7 @@ namespace Files.App.ViewModels
 			get => _SelectedBranchIndex;
 			set
 			{
-				if (SetProperty(ref _SelectedBranchIndex, value) && value != -1 && value != activeBranchIndex)
+				if (SetProperty(ref _SelectedBranchIndex, value) && value != -1 && value != ActiveBranchIndex)
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
 			}
 		}
@@ -46,8 +46,8 @@ namespace Files.App.ViewModels
 			foreach (var name in branches)
 				BranchesNames.Add(name);
 
-			activeBranchIndex = BranchesNames.IndexOf(activeBranch);
-			SelectedBranchIndex = activeBranchIndex;
+			ActiveBranchIndex = BranchesNames.IndexOf(activeBranch);
+			SelectedBranchIndex = ActiveBranchIndex;
 		}
 	}
 }

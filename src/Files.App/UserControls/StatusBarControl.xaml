@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="32"
 	d:DesignWidth="400"
@@ -60,13 +61,18 @@
 				BorderThickness="0"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
-					<Flyout>
-						<ListView
+					<Flyout Opening="Flyout_Opening">
+						<StackPanel
 							Width="200"
 							Height="200"
-							ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
-							SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
-							SelectionMode="Single" />
+							LostFocus="StackPanel_LostFocus"
+							Spacing="8">
+							<TextBlock FontWeight="Bold" Text="{helpers:ResourceString Name=Branches}" />
+							<ListView
+								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
+								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectionMode="Single" />
+						</StackPanel>
 					</Flyout>
 				</Button.Flyout>
 			</Button>
