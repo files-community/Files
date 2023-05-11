@@ -43,6 +43,7 @@ namespace Files.App.Helpers
 			return repository.Branches
 				.Where(b => !b.IsRemote)
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
+				.ThenByDescending(b => b.Tip.Committer.When)
 				.Select(b => b.FriendlyName)
 				.ToArray();
 		}

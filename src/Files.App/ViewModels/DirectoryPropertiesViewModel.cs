@@ -42,12 +42,15 @@ namespace Files.App.ViewModels
 				? string.Format("Branch".GetLocalizedResource(), activeBranch)
 				: null;
 
-			BranchesNames.Clear();
-			foreach (var name in branches)
-				BranchesNames.Add(name);
+			if (isGitRepository)
+			{
+				BranchesNames.Clear();
+				foreach (var name in branches)
+					BranchesNames.Add(name);
 
-			ActiveBranchIndex = BranchesNames.IndexOf(activeBranch);
-			SelectedBranchIndex = ActiveBranchIndex;
+				ActiveBranchIndex = BranchesNames.IndexOf(activeBranch);
+				SelectedBranchIndex = ActiveBranchIndex;
+			}
 		}
 	}
 }
