@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LibGit2Sharp;
 using Files.App.Filesystem.StorageItems;
+using LibGit2Sharp;
+using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Helpers
 {
@@ -58,6 +59,8 @@ namespace Files.App.Helpers
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
 
+			Analytics.TrackEvent($"Triggered git checkout");
+
 			if (repository.RetrieveStatus().IsDirty)
 			{
 				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
@@ -80,7 +83,7 @@ namespace Files.App.Helpers
 						break;
 				}
 			}
-			
+
 			LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
 
 			if (isBringingChanges)
