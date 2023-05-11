@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -43,9 +42,20 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void Flyout_Opening(object sender, object e)
+		private void BranchesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			BranchesFlyout.Hide();
+		}
+
+		private void BranchesFlyout_Opening(object sender, object e)
 		{
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ActiveBranchIndex;
+			BranchesList.SelectionChanged += BranchesList_SelectionChanged;
+		}
+
+		private void BranchesFlyout_Closing(Microsoft.UI.Xaml.Controls.Primitives.FlyoutBase sender, Microsoft.UI.Xaml.Controls.Primitives.FlyoutBaseClosingEventArgs args)
+		{
+			BranchesList.SelectionChanged -= BranchesList_SelectionChanged;
 		}
 	}
 }
