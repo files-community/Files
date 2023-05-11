@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra le checkbox quando si selezionano gli elementi</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Cerca fra gli elementi non indicizzati</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Apri la barra del percorso</value>
   </data>
@@ -3207,5 +3210,56 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Posizione:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per mese</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per anno</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mese</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Toggle unit for grouping by date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Toggle grouping unit</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Anno</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Raggruppa per mese anziché per anno</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per il mese della data di creazione</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per l'anno della data di creazione</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per il mese della data di eliminazione</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per l'anno della data di eliminazione</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per il mese della data di modifica</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Raggruppa gli elementi per l'anno della data di modifica</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Clicca su 'Autorizzazioni avanzate' per continuare.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>È necessario disporre dei permessi di lettura per visualizzare le proprietà di questo elemento.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Impossibile mostrare le autorizzazioni.</value>
   </data>
 </root>

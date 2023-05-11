@@ -272,8 +272,24 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool isDefaultGrouped
+		public bool IsDefaultGrouped
 			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
+
+		public bool GroupByMonth
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month;
+			set
+			{
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month))
+				{
+					UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = value ? GroupByDateUnit.Month : GroupByDateUnit.Year;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool IsGroupByDate
+			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption.IsGroupByDate();
 
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
@@ -329,8 +345,10 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
 
 					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
-					// Raise an event for the 'Group in descending order' toggle switch availability
-					OnPropertyChanged(nameof(isDefaultGrouped));
+
+					// Raise an event for the grouping option toggle switches availability
+					OnPropertyChanged(nameof(IsDefaultGrouped));
+					OnPropertyChanged(nameof(IsGroupByDate));
 				}
 			}
 		}
