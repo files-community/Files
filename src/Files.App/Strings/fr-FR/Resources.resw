@@ -349,7 +349,7 @@
     <value>Fichier introuvable</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Le dossier auquel vous tentez d'accéder peut avoir été déplacé ou supprimé.</value>
+    <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
@@ -430,7 +430,7 @@
     <value>Suppression des fichiers</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Déplacer les fichiers vers la corbeille</value>
+    <value>Déplacement vers la Corbeille en cours</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
@@ -466,7 +466,7 @@
     <value>{0:#,##0} fichiers, {1:#,##0} dossiers</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} fichiers, {1:#,##0} dossiers de {2:#,##0} emplacements</value>
+    <value>{0:#,##0} fichiers, {1:#,##0} dossiers dans {2:#,##0} emplacements</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Exécuter en tant qu'autre utilisateur</value>
@@ -478,7 +478,7 @@
     <value>Différents types</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>Tous dans {0}</value>
+    <value>Tout dans {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espace utilisé :</value>
@@ -553,10 +553,10 @@
     <value>Files a rencontré un problème auquel les développeurs ne s'attendaient pas.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Quelque chose s'est mal passé !</value>
+    <value>Une erreur s'est produite!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Rapporter le problème</value>
+    <value>Signaler ce problème</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>L'élément référencé est invalide ou inaccessible.{0} Message d'erreur : {0}{1}</value>
@@ -625,7 +625,7 @@
     <value>Créer un nouvel élément</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Choisissez le type d'élément ci-dessous</value>
+    <value>Choisissez le type du nouvel élément ci-dessous</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Fichier</value>
@@ -724,7 +724,7 @@
     <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date de prise de vue</value>
+    <value>Date de prise</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Marque d'appareil</value>
@@ -799,7 +799,7 @@
     <value>Date de sortie</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Nom de la série</value>
+    <value>Titre de la série</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
     <value>Numéro de saison</value>
@@ -814,7 +814,7 @@
     <value>URL de promotion</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Style du fournisseur</value>
+    <value>Style Fournisseur</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Éditeur</value>
@@ -883,7 +883,7 @@
     <value>Fréquence d'images</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Vitesse d'encodage</value>
+    <value>Débit binaire</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compression</value>
@@ -1024,7 +1024,7 @@
     <value>Afficher l'option pour ouvrir les dossiers dans un nouveau volet</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>Nouveau panneau</value>
+    <value>Nouveau volet</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Ouvrir dans un nouveau volet</value>
@@ -3211,16 +3211,55 @@
   <data name="Location" xml:space="preserve">
     <value>Emplacement :</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Grouper les éléments par mois</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Grouper les éléments par année</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Activer/désactiver l'unité de regroupement par date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Activer/désactiver l'unité de regroupement</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Regrouper par mois plutôt que par année</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Grouper les éléments par mois de création</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Grouper les éléments par année de création</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Grouper les éléments par mois de suppression</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Grouper les éléments par année de suppression</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Grouper les éléments par mois de modification</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Grouper les éléments par année de modification</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Cliquez sur "Autorisations avancées" pour continuer.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Vous devez avoir des autorisations de lecture pour afficher les propriétés de cet élément.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Pour essayer de prendre possession de l'élément, ce qui inclut l'autorisation de voir ses propriétés, cliquez sur Modifier ci-dessus.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Impossible d'afficher les autorisations.</value>
   </data>
 </root>
