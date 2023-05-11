@@ -3263,27 +3263,27 @@
     <value>Berechtigungen können nicht angezeigt werden.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Meine Änderungen an '{0}' belassen</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Meine Änderungen verwerfen</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Meine Änderungen zu '{0}' bringen</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Switch Branch</value>
+     <value>Branch wechseln</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Wechseln</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Neuer Branch</value>
   </data>
 </root>
