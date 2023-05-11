@@ -58,10 +58,10 @@
 				x:Name="GitBranch"
 				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 				Background="Transparent"
-				BorderThickness="0"
+				BorderThickness="0" AutomationProperties.Name="Test"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
-					<Flyout Opening="Flyout_Opening">
+					<Flyout Opening="Flyout_Opening" AutomationProperties.Name="aa">
 						<Grid
 							Width="300"
 							Height="340"
