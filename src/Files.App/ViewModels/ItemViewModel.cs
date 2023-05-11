@@ -1442,15 +1442,15 @@ namespace Files.App.ViewModels
 			client.Port = FtpHelpers.GetFtpPort(path);
 			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-			static Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
+			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 			{
 				try
 				{
-					return client.AutoConnect();
+					return await client.AutoConnect();
 				}
 				catch (FtpAuthenticationException)
 				{
-					return Task.FromResult<FtpProfile?>(null);
+					return null;
 				}
 
 				throw new InvalidOperationException();
