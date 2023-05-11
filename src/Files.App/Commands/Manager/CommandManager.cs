@@ -18,7 +18,10 @@ namespace Files.App.Commands
 		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
-		public IRichCommand this[HotKey hotKey] => hotKeys.TryGetValue(hotKey, out var command) ? command : None;
+		public IRichCommand this[HotKey hotKey]
+			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
+			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
+			: None;
 
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
