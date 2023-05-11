@@ -42,6 +42,7 @@ namespace Files.App.Helpers
 			using var repository = new Repository(path);
 			return repository.Branches
 				.Where(b => !b.IsRemote)
+				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.Select(b => b.FriendlyName)
 				.ToArray();
 		}
