@@ -249,14 +249,7 @@ namespace Files.App.Helpers
 					MinWidth = 250d,
 					Children =
 					{
-						new StackPanel()
-						{
-							Spacing = 10d,
-							Children =
-							{
-								optionsListView
-							}
-						}
+						optionsListView
 					}
 				},
 				AdditionalData = GitCheckoutOptions.BringChanges,
