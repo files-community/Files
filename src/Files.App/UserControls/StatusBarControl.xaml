@@ -102,9 +102,10 @@
 								Grid.Row="1"
 								Padding="4"
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="BranchesList_ItemClick"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
 								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
-								SelectionChanged="BranchesList_SelectionChanged"
 								SelectionMode="Single" />
 						</Grid>
 					</Flyout>

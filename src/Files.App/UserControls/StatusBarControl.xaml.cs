@@ -42,14 +42,14 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void BranchesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			BranchesFlyout.Hide();
-		}
-
 		private void BranchesFlyout_Opening(object sender, object e)
 		{
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ActiveBranchIndex;
+		}
+
+		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			BranchesFlyout.Hide();
 		}
 	}
 }
