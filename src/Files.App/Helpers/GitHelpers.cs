@@ -45,15 +45,15 @@ namespace Files.App.Helpers
 				.ToArray();
 		}
 
-		public static async Task Checkout(string? repositoryPath, string? branch)
+		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath) || !Repository.IsValid(repositoryPath))
-				return;
+				return false;
 
 			using var repository = new Repository(repositoryPath);
 			var checkoutBranch = repository.Branches[branch];
 			if (checkoutBranch is null)
-				return;
+				return false;
 
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
@@ -68,7 +68,7 @@ namespace Files.App.Helpers
 				switch (resolveConflictOption)
 				{
 					case GitCheckoutOptions.None:
-						return;
+						return false;
 					case GitCheckoutOptions.DiscardChanges:
 						options.CheckoutModifiers = CheckoutModifiers.Force;
 						break;
@@ -88,6 +88,7 @@ namespace Files.App.Helpers
 				var lastStashIndex = repository.Stashes.Count() - 1;
 				repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
 			}
+			return true;
 		}
 	}
 }

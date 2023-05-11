@@ -75,14 +75,15 @@ namespace Files.App.Views.Shells
 			{
 				if (value != _ContentPage)
 				{
-					//if (_ContentPage is not null)
-					//	_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+					if (_ContentPage is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
 
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
-					//_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
+					if (value is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
@@ -243,7 +244,8 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName);
+			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = _ContentPage.DirectoryPropertiesViewModel.ActiveBranchIndex;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
