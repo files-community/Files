@@ -3212,43 +3212,43 @@
     <value>Розташування:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Згрупувати елементи за місяцем</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Згрупувати елементи за роком</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Місяць</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Увімкнути або вимкнути групування за датою</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Увімкнути або вимкнути групування</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Рік</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Згрупувати за місяцем замість року</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Згрупувати елементи за місяцем дати створення</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Згрупувати елементи за роком дати створення</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Згрупувати елементи за місяцем дати видалення</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Згрупувати елементи за роком дати видалення</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Згрупувати елементи за місяцем дати змінення</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Згрупувати елементи за роком дати змінення</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Натисніть "Додаткові дозволи" для продовження.</value>
@@ -3261,5 +3261,29 @@
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Не вдалося показати дозволи.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Leave my changes on '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Discard my changes</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring my changes to '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Switch Branch</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New branch</value>
   </data>
 </root>
