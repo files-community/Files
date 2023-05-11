@@ -505,7 +505,7 @@
     <value>Pages :</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Système</value>
+    <value>Paramètres par défaut de Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Aucun résultat</value>
@@ -688,7 +688,7 @@
     <value>Date de modification</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Profondeur de couleur</value>
+    <value>Profondeur en bits</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
@@ -742,7 +742,7 @@
     <value>Ouverture</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Noms de personne</value>
+    <value>Noms de personnes</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Nombre de canaux</value>
@@ -1213,7 +1213,7 @@
     <value>Destination</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>Arguments :</value>
+    <value>Arguments</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
     <value>Ouvrir dans un nouveau panneau</value>
@@ -1393,7 +1393,7 @@
     <value>Date de modification</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Dossier original</value>
+    <value>Dossier d'origine</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Trier par</value>
@@ -1435,7 +1435,7 @@
     <value>La semaine dernière</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Plus tôt ce mois-ci</value>
+    <value>Plus tôt ce mois</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Le mois dernier</value>
@@ -1456,7 +1456,7 @@
     <value>{0} éléments</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Rouvrir l'onglet fermé</value>
+    <value>Restaurer l'onglet fermé</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Renommer</value>
@@ -1546,7 +1546,7 @@
     <value>La suppression de {0} éléments depuis {1} a échoué</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>La corbeille</value>
+    <value>la Corbeille</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Déplacement d'éléments</value>
@@ -1948,7 +1948,7 @@
     <value>Envoyer un rapport de bug</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Définir Files comme gestionnaire de fichiers par défaut</value>
+    <value>Définir Files comme explorateur de fichiers par défaut</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Utiliser Files comme sélecteur de fichiers</value>
@@ -2398,7 +2398,7 @@
     <value>Synchroniser la colonne de statuts</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Regrouper par</value>
+    <value>Grouper par</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Trier par</value>
@@ -2431,7 +2431,7 @@
     <value>Notes de version</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>La création d'un raccourci dans cet emplacement nécessite des droits d'administrateur</value>
+    <value>La création d'un raccourci à cet emplacement nécessite des droits d'administrateur</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Voulez-vous créer le raccourci sur le bureau à la place ?</value>
@@ -3261,5 +3261,29 @@
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Impossible d'afficher les autorisations.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Laisser mes modifications sur '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Annuler mes modifications</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Apporter mes modifications à '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Vous avez des modifications non validées sur cette branche. Que souhaitez-vous faire d'elles ?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Changer de branche</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Changer</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Nouvelle branche</value>
   </data>
 </root>
