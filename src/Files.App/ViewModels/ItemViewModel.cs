@@ -104,7 +104,7 @@ namespace Files.App.ViewModels
 
 		public string WorkingDirectory { get; private set; }
 
-		private StorageFolderWithPath currentStorageFolder;
+		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
@@ -1400,7 +1400,7 @@ namespace Files.App.ViewModels
 		{
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
-			CurrentFolder = new ListedItem(null)
+			CurrentFolder = new ListedItem(null!)
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
@@ -1569,22 +1569,22 @@ namespace Files.App.ViewModels
 			if (enumFromStorageFolder)
 			{
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
-				var currentFolder = library ?? new ListedItem(rootFolder.FolderRelativeId)
+				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = rootFolder.DisplayName,
+					ItemNameRaw = rootFolder?.DisplayName ?? string.Empty,
 					ItemDateModifiedReal = basicProps.DateModified,
-					ItemType = rootFolder.DisplayType,
+					ItemType = rootFolder?.DisplayType ?? string.Empty,
 					FileImage = null,
 					LoadFileIcon = false,
-					ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
+					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
 					FileSize = null,
 					FileSizeBytes = 0,
 				};
 
 				if (library is null)
-					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
+					currentFolder.ItemDateCreatedReal = rootFolder?.DateCreated ?? DateTimeOffset.Now;
 
 				CurrentFolder = currentFolder;
 				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
