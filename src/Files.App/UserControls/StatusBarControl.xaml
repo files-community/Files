@@ -61,10 +61,7 @@
 				BorderThickness="0"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
-					<Flyout
-						x:Name="BranchesFlyout"
-						Closing="BranchesFlyout_Closing"
-						Opening="BranchesFlyout_Opening">
+					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
 						<Grid
 							Width="300"
 							Height="340"
@@ -107,6 +104,7 @@
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
 								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectionChanged="BranchesList_SelectionChanged"
 								SelectionMode="Single" />
 						</Grid>
 					</Flyout>
