@@ -13,18 +13,17 @@ body:
       label: Steps To Reproduce
       description: Steps to reproduce the behavior.
       placeholder: |
-        1. Go to '....'
-        2. Click on '....'
-        3. Scroll down to '....'
+        1.
+        2.
+        3.
     validations:
       required: true
   - type: textarea
     attributes:
       label: Requirements
-      description: describe all the requirements to fix the issue (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
+      description: describe the expected behavior (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
       value: |
         - eg. Fix crash that occurs when...
-        - eg. Correct action happens when clicking...
     validations:
       required: true
   - type: input
@@ -46,10 +45,10 @@ body:
     attributes:
       label: Log file
       description: |
-        This issue will be closed if the apps log file is not attatched.
+        Please upload the log file as an attachment (DO NOT COPY AND PASTE THE CONTENTS INTO THIS FIELD)
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
-        - Upload the file as an attachment
+        - Drag and drop the file to upload as an attachment 
     validations:
       required: true
