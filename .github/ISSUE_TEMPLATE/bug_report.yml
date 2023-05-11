@@ -45,7 +45,7 @@ body:
     attributes:
       label: Log file
       description: |
-        Please upload the log file as an attachment (DO NOT COPY AND PASTE THE CONTENTS INTO THIS FIELD)
+        Please upload the log file as an attachment (DO NOT COPY OR PASTE THE CONTENTS INTO THIS FIELD)
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
         - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
