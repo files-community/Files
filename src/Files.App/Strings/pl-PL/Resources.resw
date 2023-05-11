@@ -478,7 +478,7 @@
     <value>Różne typy</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Wszystko w {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Zajęte miejsce:</value>
@@ -1591,10 +1591,10 @@
     <value>Wyświetlanie zawartości folderu</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modyfikuj</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Uprawnienia dla {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Odczyt i wykonywanie</value>
@@ -2602,7 +2602,7 @@
     <value>Przełącz kompaktową nakładkę</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Otwórz stronę pomocy w przeglądarce</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Przełącz pełny ekran</value>
@@ -2617,19 +2617,19 @@
     <value>Przełącz kompaktową nakładkę</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Przejdź do pola wyszukiwania</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Przełącz, czy pokazać ukryte elementy</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Przełącz, czy pokazywać rozszerzenia plików</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Przełącz, czy wyświetlić panel podglądu</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Przełącz, czy wyświetlić pasek boczny</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Kopiuj element(y) do schowka</value>
@@ -2641,52 +2641,52 @@
     <value>Wytnij element(y) do schowka</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Wklej element(y) ze schowka do bieżącego folderu</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Wklej element(y) ze schowka do wybranego folderu</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Usuń element(y)</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Utwórz nowy folder</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Utwórz nowy skrót do zaznaczonych elementów</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Utwórz nowy skrót do dowolnego elementu</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Opróżnij kosz</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Otwórz menu "Formatuj dysk" dla wybranego elementu</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Przywróć zaznaczone elementy z kosza</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Przywróć wszystkie elementy z kosza</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Otwórz element(y)</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Otwórz element(y) za pomocą wybranej aplikacji</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Otwórz folder nadrzędny dla wyszukanego elementu</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Odśwież zawartość strony</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Zmień nazwę zaznaczonego elementu</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Zaznacz wszystkie elementy</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>Invert item selection</value>
@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Show checkboxes when selecting items</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Search for unindexed items</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
@@ -3207,5 +3210,56 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Group items by month</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Group items by year</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Toggle unit for grouping by date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Toggle grouping unit</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Rok</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Group by month instead of year</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date created</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Group items by year of date created</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date deleted</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date modified</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Group items by year of date modified</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Kliknij 'Zaawansowane uprawnienia', aby kontynuować.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Musisz mieć uprawnienia odczytu, aby wyświetlić właściwości tego elementu.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Aby spróbować stać się właścicielem elementu, który zawiera uprawnienia do przeglądania jego właściwości, kliknij przycisk Zmień powyżej.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Nie można wyświetlić uprawnień.</value>
   </data>
 </root>

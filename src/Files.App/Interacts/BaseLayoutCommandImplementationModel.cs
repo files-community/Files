@@ -259,9 +259,9 @@ namespace Files.App.Interacts
 			deferral.Complete();
 		}
 
-		public async Task CreateFolderWithSelection(RoutedEventArgs e)
+		public Task CreateFolderWithSelection(RoutedEventArgs e)
 		{
-			await UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
+			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
 		#endregion Command Implementation

@@ -33,7 +33,7 @@ namespace Files.App.Helpers
 		/// </param>
 		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
 		{
-			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = title,
 				SubtitleText = message, // We can use subtitle here as our actual message and skip DisplayControl

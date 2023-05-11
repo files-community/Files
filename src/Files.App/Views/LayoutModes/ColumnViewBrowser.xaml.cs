@@ -3,17 +3,18 @@
 
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
-using Windows.System.Threading.Core;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
 namespace Files.App.Views.LayoutModes
 {
+	/// <summary>
+	/// Represents the browser page of Column View
+	/// </summary>
 	public sealed partial class ColumnViewBrowser : BaseLayout
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
