@@ -3262,4 +3262,28 @@
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Käyttöoikeuksia ei voi näyttää.</value>
   </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Jätä muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Hylkää tekemäni muutokset</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Tuo muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Vaihda haaraa</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Haarat</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Vaihda</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Uusi haara</value>
+  </data>
 </root>

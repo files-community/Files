@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="32"
 	d:DesignWidth="400"
@@ -53,10 +54,63 @@
 			VerticalAlignment="Center"
 			Orientation="Horizontal"
 			Spacing="8">
-			<TextBlock
+			<Button
 				x:Name="GitBranch"
 				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-				Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+				Background="Transparent"
+				BorderThickness="0"
+				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
+				<Button.Flyout>
+					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
+						<Grid
+							Width="300"
+							Height="340"
+							Margin="-16">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!--  Header  -->
+							<Grid
+								Grid.Row="0"
+								Padding="12"
+								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="0,0,0,1">
+								<!--  Title  -->
+								<TextBlock
+									VerticalAlignment="Center"
+									FontSize="14"
+									Text="{helpers:ResourceString Name=Branches}" />
+
+								<!--  New Branch Button  -->
+								<Button
+									x:Name="NewBranchButton"
+									Height="24"
+									Padding="8,0"
+									HorizontalAlignment="Right"
+									x:Load="False"
+									Content="{helpers:ResourceString Name=NewBranch}"
+									FontSize="12"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=NewBranch}" />
+							</Grid>
+
+							<!--  Branches List  -->
+							<ListView
+								x:Name="BranchesList"
+								Grid.Row="1"
+								Padding="4"
+								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								IsItemClickEnabled="True"
+								ItemClick="BranchesList_ItemClick"
+								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
+								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectionMode="Single" />
+						</Grid>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 		</StackPanel>
 	</Grid>
 </UserControl>
