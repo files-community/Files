@@ -6,9 +6,10 @@ using System.Runtime.InteropServices;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Provides utility for windows storage objects
+	/// Provides utility for windows storage objects.
 	/// </summary>
 	/// <remarks>
+	/// See also,
 	/// <a href="https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209"/>
 	/// </remarks>
 	internal static class FileUtils
@@ -59,11 +60,11 @@ namespace Files.App.Helpers
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
 		static extern int RmRegisterResources(
 			uint pSessionHandle,
-			UInt32 nFiles,
+			uint nFiles,
 			string[] rgsFilenames,
-			UInt32 nApplications,
+			uint nApplications,
 			[In] RM_UNIQUE_PROCESS[] rgApplications,
-			UInt32 nServices,
+			uint nServices,
 			string[] rgsServiceNames);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
