@@ -22,17 +22,33 @@ namespace Files.Shared.Extensions
 		/// <returns></returns>
 		public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => enumerable is null || !enumerable.Any();
 
-		public static TOut? Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TOut? defaultValue = default)
+		public static TOut? Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TOut? defaultValue = default) where TKey : notnull
 		{
 			if (dictionary is null || key is null)
 				return defaultValue;
 
-			if (!dictionary.ContainsKey(key))
+			if (dictionary is ConcurrentDictionary<TKey, TValue> cDict)
 			{
-				if (defaultValue is TValue value)
-					dictionary.Add(key, value);
+				if (!cDict.ContainsKey(key))
+				{
+					if (defaultValue is TValue value)
+						cDict.TryAdd(key, value);
 
-				return defaultValue;
+					return defaultValue;
+				}
+			}
+			else
+			{
+				lock (dictionary)
+				{
+					if (!dictionary.ContainsKey(key))
+					{
+						if (defaultValue is TValue value)
+							dictionary.Add(key, value);
+
+						return defaultValue;
+					}
+				}
 			}
 
 			if (dictionary[key] is TOut o)
@@ -46,22 +62,32 @@ namespace Files.Shared.Extensions
 			if (dictionary is null || key is null)
 				return defaultValueFunc();
 
-			if (!dictionary.ContainsKey(key))
+			if (dictionary is ConcurrentDictionary<TKey, Task<TValue?>> cDict)
 			{
-				var defaultValue = defaultValueFunc();
-				if (defaultValue is Task<TValue?> value)
+				if (!cDict.ContainsKey(key))
 				{
-					if (dictionary is ConcurrentDictionary<TKey, Task<TValue?>> cDict)
-					{
+					var defaultValue = defaultValueFunc();
+					if (defaultValue is Task<TValue?> value)
 						cDict.TryAdd(key, value);
-					}
-					else
+
+					return defaultValue;
+				}
+			}
+			else
+			{
+				lock (dictionary)
+				{
+					if (!dictionary.ContainsKey(key))
 					{
-						dictionary.Add(key, value);
+						var defaultValue = defaultValueFunc();
+						if (defaultValue is Task<TValue?> value)
+							dictionary.Add(key, value);
+
+						return defaultValue;
 					}
 				}
-				return defaultValue;
 			}
+
 			return dictionary[key];
 		}
 

@@ -115,7 +115,9 @@ namespace Files.App.DataModels
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 96u, ThumbnailMode.ListView);
 					locationItem.IconData = iconData;
-					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+
+					if (locationItem.IconData is not null)
+						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
 				if (locationItem.IconData is null)
