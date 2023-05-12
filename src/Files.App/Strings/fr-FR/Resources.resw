@@ -2620,7 +2620,7 @@
     <value>Accéder à la zone de recherche</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Activer/désactiver les éléments cachés</value>
+    <value>Activer/désactiver l'affichage des éléments cachés</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Afficher ou non les extensions de fichiers</value>
@@ -2653,7 +2653,7 @@
     <value>Créer un nouveau dossier</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Créer un nouveau raccourci vers le(s) élément(s) sélectionné</value>
+    <value>Créer le(s) nouveau(x) raccourci(s) vers le(s) élément(s) sélectionné(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Créer un nouveau raccourci sur n'importe quel élément</value>
@@ -3137,7 +3137,7 @@
     <value>Corbeille</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Non taggé</value>
+    <value>Sans étiquette</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
     <value>Revient à l'onglet précédent</value>
