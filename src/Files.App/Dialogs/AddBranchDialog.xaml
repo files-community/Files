@@ -42,6 +42,7 @@
 
 			<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=BasedOn}" />
 			<ComboBox
+				x:Name="BranchBox"
 				Grid.Column="1"
 				HorizontalAlignment="Stretch"
 				ItemsSource="{x:Bind ViewModel.Branches}"
