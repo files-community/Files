@@ -5,11 +5,11 @@ namespace Files.App.Helpers
 {
 	public class AsyncManualResetEvent
 	{
-		private volatile TaskCompletionSource<bool> m_tcs = new TaskCompletionSource<bool>();
+		private volatile TaskCompletionSource<bool> _taskCompletionSource = new();
 
 		public async Task WaitAsync(CancellationToken cancellationToken = default)
 		{
-			var tcs = m_tcs;
+			var tcs = _taskCompletionSource;
 			var cancelTcs = new TaskCompletionSource<bool>();
 
 			cancellationToken.Register(
@@ -18,15 +18,9 @@ namespace Files.App.Helpers
 			await await Task.WhenAny(tcs.Task, cancelTcs.Task);
 		}
 
-		private async Task<bool> Delay(int milliseconds)
-		{
-			await Task.Delay(milliseconds);
-			return false;
-		}
-
 		public async Task<bool> WaitAsync(int milliseconds, CancellationToken cancellationToken = default)
 		{
-			var tcs = m_tcs;
+			var tcs = _taskCompletionSource;
 			var cancelTcs = new TaskCompletionSource<bool>();
 
 			cancellationToken.Register(
@@ -37,7 +31,7 @@ namespace Files.App.Helpers
 
 		public void Set()
 		{
-			var tcs = m_tcs;
+			var tcs = _taskCompletionSource;
 			Task.Factory.StartNew(s => ((TaskCompletionSource<bool>)s!).TrySetResult(true),
 				tcs, CancellationToken.None, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
 			tcs.Task.Wait();
@@ -48,11 +42,17 @@ namespace Files.App.Helpers
 			var newTcs = new TaskCompletionSource<bool>();
 			while (true)
 			{
-				var tcs = m_tcs;
+				var tcs = _taskCompletionSource;
 				if (!tcs.Task.IsCompleted ||
-					Interlocked.CompareExchange(ref m_tcs, newTcs, tcs) == tcs)
+					Interlocked.CompareExchange(ref _taskCompletionSource, newTcs, tcs) == tcs)
 					return;
 			}
+		}
+
+		private static async Task<bool> Delay(int milliseconds)
+		{
+			await Task.Delay(milliseconds);
+			return false;
 		}
 	}
 }
