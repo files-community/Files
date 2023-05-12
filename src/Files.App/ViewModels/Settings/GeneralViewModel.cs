@@ -1,8 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
+using System.Globalization;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
@@ -14,7 +16,7 @@ namespace Files.App.ViewModels.Settings
 {
 	public class GeneralViewModel : ObservableObject, IDisposable
 	{
-		private IUserSettingsService UserSettingsService { get; }
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
 
@@ -74,10 +76,10 @@ namespace Files.App.ViewModels.Settings
 				{
 					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
 
-					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguageID)
+					if (ApplicationLanguages.PrimaryLanguageOverride != AppLanguages[value].LanguagID)
 						ShowRestartControl = true;
 
-					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguageID;
+					ApplicationLanguages.PrimaryLanguageOverride = AppLanguages[value].LanguagID;
 				}
 			}
 		}
@@ -86,8 +88,126 @@ namespace Files.App.ViewModels.Settings
 
 		public ObservableCollection<AppLanguageItem> AppLanguages { get; set; }
 
-		public int SelectedStartupSettingIndex
-			=> ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
+		public GeneralViewModel()
+		{
+			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
+			ChangePageCommand = new AsyncRelayCommand(ChangePage);
+			RemovePageCommand = new RelayCommand(RemovePage);
+			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+
+			AddSupportedAppLanguages();
+
+			AddDateTimeOptions();
+			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
+
+			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+			if (UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>(UserSettingsService.GeneralSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupViewModel(p)));
+			else
+				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
+
+			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
+
+			_ = InitStartupSettingsRecentFoldersFlyout();
+			_ = DetectOpenFilesAtStartup();
+		}
+
+		private void AddDateTimeOptions()
+		{
+			DateTimeOffset sampleDate1 = DateTime.Now.AddSeconds(-5);
+			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
+
+			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
+
+			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
+		}
+
+		private void AddSupportedAppLanguages()
+		{
+			var appLanguages = ApplicationLanguages.ManifestLanguages
+				.Append(string.Empty) // Add default language id
+				.Select(language => new AppLanguageItem(language))
+				.OrderBy(language => language.LanguagID is not "") // Default language on top
+				.ThenBy(language => language.LanguageName);
+			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
+
+			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
+			SelectedAppLanguageIndex = AppLanguages
+				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
+		}
+
+		private async Task InitStartupSettingsRecentFoldersFlyout()
+		{
+			// create Browse and Recent flyout items
+			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
+			{
+				Command = AddPageCommand,
+				CommandParameter = "Home",
+				Tooltip = "Home".GetLocalizedResource()
+			});
+			await PopulateRecentItems(recentsItem);
+
+			// Ensure recent folders aren't stale since we don't update them with a watcher
+			// Then update the items source again to actually include those items
+			await App.RecentItemsManager.UpdateRecentFoldersAsync();
+			await PopulateRecentItems(recentsItem);
+		}
+
+		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
+		{
+			try
+			{
+				var recentFolders = App.RecentItemsManager.RecentFolders;
+				var currentFolderMenus = menu.Items
+					.OfType<MenuFlyoutItemViewModel>()
+					.Where(m => m.Text != "Home".GetLocalizedResource())
+					.Select(m => m.Text)
+					.ToHashSet();
+
+				// Add separator if we need one and one wasn't added already
+				if (recentFolders.Any() && !currentFolderMenus.Any())
+					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
+
+				foreach (var folder in recentFolders)
+				{
+					if (currentFolderMenus.Contains(folder.Name))
+						continue;
+
+					menu.Items.Add(new MenuFlyoutItemViewModel(folder.Name)
+					{
+						Command = AddPageCommand,
+						CommandParameter = folder.RecentPath,
+						Tooltip = folder.RecentPath
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogInformation(ex, "Could not fetch recent items");
+			}
+
+			// Update items source
+			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>()
+			{
+				new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
+				menu,
+			}
+			.AsReadOnly();
+
+			return Task.CompletedTask;
+		}
+
+		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (PagesOnStartupList.Count > 0)
+				UserSettingsService.GeneralSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
+			else
+				UserSettingsService.GeneralSettingsService.TabsOnStartupList = null;
+		}
+
+		public int SelectedStartupSettingIndex => ContinueLastSessionOnStartUp ? 1 : OpenASpecificPageOnStartup ? 2 : 0;
 
 		public bool OpenNewTabPageOnStartup
 		{
@@ -131,7 +251,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public ObservableCollection<PageOnStartupItem> PagesOnStartupList { get; set; }
+		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
 
 		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
 		{
@@ -184,6 +304,57 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		private async Task ChangePage()
+		{
+			var folderPicker = InitializeWithWindow(new FolderPicker());
+			folderPicker.FileTypeFilter.Add("*");
+			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+			if (folder is not null)
+			{
+				if (SelectedPageIndex >= 0)
+					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupViewModel(folder.Path);
+			}
+		}
+
+		// WINUI3
+		private FolderPicker InitializeWithWindow(FolderPicker obj)
+		{
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+
+			return obj;
+		}
+
+		private void RemovePage()
+		{
+			int index = SelectedPageIndex;
+			if (index >= 0)
+			{
+				PagesOnStartupList.RemoveAt(index);
+
+				if (index > 0)
+					SelectedPageIndex = index - 1;
+				else if (PagesOnStartupList.Count > 0)
+					SelectedPageIndex = 0;
+			}
+		}
+
+		private async Task AddPage(string path = null)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				var folderPicker = InitializeWithWindow(new FolderPicker());
+				folderPicker.FileTypeFilter.Add("*");
+
+				var folder = await folderPicker.PickSingleFolderAsync();
+				if (folder is not null)
+					path = folder.Path;
+			}
+
+			if (path is not null && PagesOnStartupList is not null)
+				PagesOnStartupList.Add(new PageOnStartupViewModel(path));
+		}
+
 		public string DateFormatSample
 			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
@@ -214,6 +385,65 @@ namespace Files.App.ViewModels.Settings
 		{
 			get => canOpenInLogin;
 			set => SetProperty(ref canOpenInLogin, value);
+		}
+
+		public async Task OpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			bool state = stateMode switch
+			{
+				StartupTaskState.Enabled => true,
+				StartupTaskState.EnabledByPolicy => true,
+				StartupTaskState.DisabledByPolicy => false,
+				StartupTaskState.DisabledByUser => false,
+				_ => false,
+			};
+
+			if (state != OpenInLogin)
+			{
+				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+				if (OpenInLogin)
+					await startupTask.RequestEnableAsync();
+				else
+					startupTask.Disable();
+				await DetectOpenFilesAtStartup();
+			}
+		}
+
+		public async Task DetectOpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			switch (stateMode)
+			{
+				case StartupTaskState.Disabled:
+					CanOpenInLogin = true;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.Enabled:
+					CanOpenInLogin = true;
+					OpenInLogin = true;
+					break;
+				case StartupTaskState.DisabledByPolicy:
+					CanOpenInLogin = false;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.DisabledByUser:
+					CanOpenInLogin = false;
+					OpenInLogin = false;
+					break;
+				case StartupTaskState.EnabledByPolicy:
+					CanOpenInLogin = false;
+					OpenInLogin = true;
+					break;
+			}
+		}
+
+		public async Task<StartupTaskState> ReadState()
+		{
+			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+			return state.State;
 		}
 
 		public bool SearchUnindexedItems
@@ -341,237 +571,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public GeneralViewModel()
-		{
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-			AddSupportedAppLanguages();
-
-			AddDateTimeOptions();
-			SelectedDateTimeFormatIndex = (int)Enum.Parse(typeof(DateTimeFormats), DateTimeFormat.ToString());
-
-			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-			if (UserSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
-				PagesOnStartupList = new ObservableCollection<PageOnStartupItem>(UserSettingsService.GeneralSettingsService.TabsOnStartupList.Select((p) => new PageOnStartupItem(p)));
-			else
-				PagesOnStartupList = new ObservableCollection<PageOnStartupItem>();
-
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
-			ChangePageCommand = new AsyncRelayCommand(ChangePage);
-			RemovePageCommand = new RelayCommand(RemovePage);
-			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
-
-			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
-
-			_ = InitStartupSettingsRecentFoldersFlyout();
-			_ = DetectOpenFilesAtStartup();
-		}
-
-		private void AddDateTimeOptions()
-		{
-			DateTimeOffset sampleDate1 = DateTime.Now.AddSeconds(-5);
-			DateTimeOffset sampleDate2 = new DateTime(sampleDate1.Year - 5, 12, 31, 14, 30, 0);
-
-			var styles = new DateTimeFormats[] { DateTimeFormats.Application, DateTimeFormats.System, DateTimeFormats.Universal };
-
-			DateFormats = styles.Select(style => new DateTimeFormatItem(style, sampleDate1, sampleDate2)).ToList();
-		}
-
-		private void AddSupportedAppLanguages()
-		{
-			var appLanguages = ApplicationLanguages.ManifestLanguages
-				.Append(string.Empty) // Add default language id
-				.Select(language => new AppLanguageItem(language))
-				.OrderBy(language => language.LanguageID is not "") // Default language on top
-				.ThenBy(language => language.LanguageName);
-			AppLanguages = new ObservableCollection<AppLanguageItem>(appLanguages);
-
-			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
-			SelectedAppLanguageIndex = AppLanguages
-				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguageID == languageID) ?? AppLanguages.First());
-		}
-
-		private async Task InitStartupSettingsRecentFoldersFlyout()
-		{
-			// create Browse and Recent flyout items
-			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
-			{
-				Command = AddPageCommand,
-				CommandParameter = "Home",
-				Tooltip = "Home".GetLocalizedResource()
-			});
-			await PopulateRecentItems(recentsItem);
-
-			// Ensure recent folders aren't stale since we don't update them with a watcher
-			// Then update the items source again to actually include those items
-			await App.RecentItemsManager.UpdateRecentFoldersAsync();
-			await PopulateRecentItems(recentsItem);
-		}
-
-		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
-		{
-			try
-			{
-				var recentFolders = App.RecentItemsManager.RecentFolders;
-				var currentFolderMenus = menu.Items
-					.OfType<MenuFlyoutItemViewModel>()
-					.Where(m => m.Text != "Home".GetLocalizedResource())
-					.Select(m => m.Text)
-					.ToHashSet();
-
-				// Add separator if we need one and one wasn't added already
-				if (recentFolders.Any() && !currentFolderMenus.Any())
-					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-
-				foreach (var folder in recentFolders)
-				{
-					if (currentFolderMenus.Contains(folder.Name))
-						continue;
-
-					menu.Items.Add(new MenuFlyoutItemViewModel(folder.Name)
-					{
-						Command = AddPageCommand,
-						CommandParameter = folder.RecentPath,
-						Tooltip = folder.RecentPath
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Could not fetch recent items");
-			}
-
-			// Update items source
-			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>()
-			{
-				new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
-				menu,
-			}
-			.AsReadOnly();
-
-			return Task.CompletedTask;
-		}
-
-		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (PagesOnStartupList.Count > 0)
-				UserSettingsService.GeneralSettingsService.TabsOnStartupList = PagesOnStartupList.Select((p) => p.Path).ToList();
-			else
-				UserSettingsService.GeneralSettingsService.TabsOnStartupList = null;
-		}
-
-		public async Task OpenFilesAtStartup()
-		{
-			var stateMode = await ReadState();
-
-			bool state = stateMode switch
-			{
-				StartupTaskState.Enabled => true,
-				StartupTaskState.EnabledByPolicy => true,
-				StartupTaskState.DisabledByPolicy => false,
-				StartupTaskState.DisabledByUser => false,
-				_ => false,
-			};
-
-			if (state != OpenInLogin)
-			{
-				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-				if (OpenInLogin)
-					await startupTask.RequestEnableAsync();
-				else
-					startupTask.Disable();
-				await DetectOpenFilesAtStartup();
-			}
-		}
-
-		public async Task DetectOpenFilesAtStartup()
-		{
-			var stateMode = await ReadState();
-
-			switch (stateMode)
-			{
-				case StartupTaskState.Disabled:
-					CanOpenInLogin = true;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.Enabled:
-					CanOpenInLogin = true;
-					OpenInLogin = true;
-					break;
-				case StartupTaskState.DisabledByPolicy:
-					CanOpenInLogin = false;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.DisabledByUser:
-					CanOpenInLogin = false;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.EnabledByPolicy:
-					CanOpenInLogin = false;
-					OpenInLogin = true;
-					break;
-			}
-		}
-
-		public async Task<StartupTaskState> ReadState()
-		{
-			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-			return state.State;
-		}
-
-		private async Task ChangePage()
-		{
-			var folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
-			StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-			if (folder is not null)
-			{
-				if (SelectedPageIndex >= 0)
-					PagesOnStartupList[SelectedPageIndex] = new PageOnStartupItem(folder.Path);
-			}
-		}
-
-		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
-
-			return obj;
-		}
-
-		private void RemovePage()
-		{
-			int index = SelectedPageIndex;
-			if (index >= 0)
-			{
-				PagesOnStartupList.RemoveAt(index);
-
-				if (index > 0)
-					SelectedPageIndex = index - 1;
-				else if (PagesOnStartupList.Count > 0)
-					SelectedPageIndex = 0;
-			}
-		}
-
-		private async Task AddPage(string path = null)
-		{
-			if (string.IsNullOrWhiteSpace(path))
-			{
-				var folderPicker = InitializeWithWindow(new FolderPicker());
-				folderPicker.FileTypeFilter.Add("*");
-
-				var folder = await folderPicker.PickSingleFolderAsync();
-				if (folder is not null)
-					path = folder.Path;
-			}
-
-			if (path is not null && PagesOnStartupList is not null)
-				PagesOnStartupList.Add(new PageOnStartupItem(path));
-		}
-
 		public void Dispose()
 		{
 			if (!disposed)
@@ -585,6 +584,67 @@ namespace Files.App.ViewModels.Settings
 		~GeneralViewModel()
 		{
 			Dispose();
+		}
+	}
+
+	public class PageOnStartupViewModel
+	{
+		public string Text
+		{
+			get => ShellHelpers.GetShellNameFromPath(Path);
+		}
+
+		public string Path { get; }
+
+		internal PageOnStartupViewModel(string path)
+			=> Path = path;
+	}
+
+	public class AppLanguageItem
+	{
+		public string LanguagID { get; set; }
+
+		public string LanguageName { get; set; }
+
+		public AppLanguageItem(string languagID)
+		{
+			if (!string.IsNullOrEmpty(languagID))
+			{
+				var info = new CultureInfo(languagID);
+				LanguagID = info.Name;
+				LanguageName = info.NativeName;
+			}
+			else
+			{
+				LanguagID = string.Empty;
+				var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
+
+				LanguageName = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
+			}
+		}
+
+		public override string ToString()
+		{
+			return LanguageName;
+		}
+	}
+
+	public class DateTimeFormatItem
+	{
+		public string Label { get; }
+
+		public string Sample1 { get; }
+
+		public string Sample2 { get; }
+
+		public DateTimeFormatItem(DateTimeFormats style, DateTimeOffset sampleDate1, DateTimeOffset sampleDate2)
+		{
+			var factory = Ioc.Default.GetRequiredService<IDateTimeFormatterFactory>();
+			var formatter = factory.GetDateTimeFormatter(style);
+
+			Label = formatter.Name;
+			Sample1 = formatter.ToShortLabel(sampleDate1);
+			Sample2 = formatter.ToShortLabel(sampleDate2);
 		}
 	}
 }

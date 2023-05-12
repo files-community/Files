@@ -31,15 +31,6 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _ThirdPartyNotices, value);
 		}
 
-		public string Version
-			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
-
-		public string AppName
-			=> Package.Current.DisplayName;
-
-		public PackageVersion AppVersion
-			=> Package.Current.Id.Version;
-
 		public AboutViewModel()
 		{
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
@@ -119,5 +110,16 @@ namespace Files.App.ViewModels.Settings
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
 		}
+
+		public string Version
+		{
+			get
+			{
+				return string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			}
+		}
+
+		public string AppName => Package.Current.DisplayName;
+		public PackageVersion AppVersion => Package.Current.Id.Version;
 	}
 }

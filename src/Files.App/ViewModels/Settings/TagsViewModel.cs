@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand SaveNewTagCommand { get; }
 		public ICommand CancelNewTagCommand { get; }
 
-		public NewTagItem NewTag = new();
+		public NewTagViewModel NewTag = new();
 
 		public TagsViewModel()
 		{
@@ -100,6 +100,50 @@ namespace Files.App.ViewModels.Settings
 			isBulkOperation = false;
 
 			fileTagsSettingsService.DeleteTag(item.Tag.Uid);
+		}
+	}
+
+	public class NewTagViewModel : ObservableObject
+	{
+		private string name = string.Empty;
+		public string Name
+		{
+			get => name;
+			set
+			{
+				SetProperty(ref name, value);
+				{
+					OnPropertyChanged(nameof(CanCommit));
+					OnPropertyChanged(nameof(IsNameValid));
+				}
+			}
+		}
+
+		private string color = "#FFFFFFFF";
+		public string Color
+		{
+			get => color;
+			set => SetProperty(ref color, value);
+		}
+
+		private bool isNameValid = true;
+		public bool IsNameValid
+		{
+			get => isNameValid;
+			set
+			{
+				if (SetProperty(ref isNameValid, value))
+					OnPropertyChanged(nameof(CanCommit));
+			}
+		}
+
+		public bool CanCommit => !string.IsNullOrEmpty(name) && IsNameValid;
+
+		public void Reset()
+		{
+			Name = string.Empty;
+			IsNameValid = true;
+			Color = ColorHelpers.RandomColor();
 		}
 	}
 }

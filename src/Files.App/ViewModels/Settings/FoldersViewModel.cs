@@ -5,7 +5,7 @@ namespace Files.App.ViewModels.Settings
 {
 	public class FoldersViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; }
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		// FileTag combobox indexes (required to hide SyncStatus)
 		private readonly int FileTagSortingIndex = 5;
@@ -13,13 +13,13 @@ namespace Files.App.ViewModels.Settings
 
 		public FoldersViewModel()
 		{
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 			SelectedDefaultLayoutModeIndex = (int)DefaultLayoutMode;
 			SelectedDefaultSortingIndex = UserSettingsService.FoldersSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultSortOption;
 			SelectedDefaultGroupingIndex = UserSettingsService.FoldersSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
 		}
+
+		// Properties
 
 		private int selectedDefaultLayoutModeIndex;
 		public int SelectedDefaultLayoutModeIndex

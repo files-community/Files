@@ -18,11 +18,11 @@ namespace Files.App.ViewModels.Settings
 {
 	public class AdvancedViewModel : ObservableObject
 	{
-		private IUserSettingsService UserSettingsService { get; }
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private IBundlesSettingsService BundlesSettingsService { get; }
-		
-		private IFileTagsSettingsService FileTagsSettingsService { get; }
+		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
+
+		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
 		public ICommand SetAsOpenFileDialogCommand { get; }
@@ -30,26 +30,8 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
 
-		private bool _IsSetAsDefaultFileManager;
-		public bool IsSetAsDefaultFileManager
-		{
-			get => _IsSetAsDefaultFileManager;
-			set => SetProperty(ref _IsSetAsDefaultFileManager, value);
-		}
-
-		private bool _IsSetAsOpenFileDialog;
-		public bool IsSetAsOpenFileDialog
-		{
-			get => _IsSetAsOpenFileDialog;
-			set => SetProperty(ref _IsSetAsOpenFileDialog, value);
-		}
-
 		public AdvancedViewModel()
 		{
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			BundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-			FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
-
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
@@ -65,7 +47,9 @@ namespace Files.App.ViewModels.Settings
 			var settingsJsonPath = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
 
 			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
+			{
 				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
+			}
 		}
 
 		private async Task SetAsDefaultExplorer()
@@ -85,7 +69,6 @@ namespace Files.App.ViewModels.Settings
 				{
 					// Error copying files
 					await DetectResult();
-
 					return;
 				}
 			}
@@ -97,7 +80,6 @@ namespace Files.App.ViewModels.Settings
 				{
 					// Error copying files
 					await DetectResult();
-
 					return;
 				}
 			}
@@ -191,12 +173,12 @@ namespace Files.App.ViewModels.Settings
 					// Import bundles
 					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
 					string importBundles = await bundles.ReadTextAsync();
-					BundlesSettingsService.ImportSettings(importBundles);
+					bundlesSettingsService.ImportSettings(importBundles);
 
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
-					FileTagsSettingsService.ImportSettings(importTags);
+					fileTagsSettingsService.ImportSettings(importTags);
 					var fileTagsDB = await zipFolder.GetFileAsync(Path.GetFileName(FileTagsHelper.FileTagsDbPath));
 					string importTagsDB = await fileTagsDB.ReadTextAsync();
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
@@ -241,11 +223,11 @@ namespace Files.App.ViewModels.Settings
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export bundles
-					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)BundlesSettingsService.ExportSettings());
+					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)bundlesSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export file tags list and DB
-					var exportTags = UTF8Encoding.UTF8.GetBytes((string)FileTagsSettingsService.ExportSettings());
+					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportTags), Constants.LocalSettings.FileTagSettingsFileName, CreationCollisionOption.ReplaceExisting);
 					var tagDbInstance = FileTagsHelper.GetDbInstance();
 					byte[] exportTagsDB = UTF8Encoding.UTF8.GetBytes(tagDbInstance.Export());
@@ -263,7 +245,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private static bool DetectIsSetAsDefaultFileManager()
+		private bool DetectIsSetAsDefaultFileManager()
 		{
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
@@ -271,21 +253,35 @@ namespace Files.App.ViewModels.Settings
 			return !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
 		}
 
-		private static bool DetectIsSetAsOpenFileDialog()
+		private bool DetectIsSetAsOpenFileDialog()
 		{
 			using var subkey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Classes\CLSID\{DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7}");
 
 			return subkey?.GetValue(string.Empty) as string == "FilesOpenDialog class";
 		}
 
-		private static FileSavePicker InitializeWithWindow(FileSavePicker obj)
+		private bool isSetAsDefaultFileManager;
+		public bool IsSetAsDefaultFileManager
+		{
+			get => isSetAsDefaultFileManager;
+			set => SetProperty(ref isSetAsDefaultFileManager, value);
+		}
+
+		private bool isSetAsOpenFileDialog;
+		public bool IsSetAsOpenFileDialog
+		{
+			get => isSetAsOpenFileDialog;
+			set => SetProperty(ref isSetAsOpenFileDialog, value);
+		}
+
+		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 
 			return obj;
 		}
 
-		private static FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
+		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 
