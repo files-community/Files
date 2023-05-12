@@ -5,12 +5,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vmuc="using:Files.App.ViewModels.UserControls"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 	</UserControl.Resources>
@@ -53,7 +54,7 @@
 			</ListView.ItemContainerStyle>
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="vmuc:StatusBanner">
+				<DataTemplate x:DataType="dataitems:StatusBanner">
 					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
 						<InfoBar
 							Title="{x:Bind FullTitle, Mode=OneWay}"
@@ -136,5 +137,6 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
 	</Grid>
 </UserControl>
