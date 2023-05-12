@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -122,10 +121,10 @@ namespace Files.App.ViewModels.UserControls
 		public void AddRecentQueries()
 		{
 			ClearSuggestions();
-			oldQueries.ForEach(query => Suggestions.Add(query));
+			oldQueries.ForEach(Suggestions.Add);
 		}
 
-		public class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
+		private class SuggestionComparer : IEqualityComparer<SuggestionModel>, IComparer<SuggestionModel>
 		{
 			public int Compare(SuggestionModel x, SuggestionModel y)
 				=> y.ItemPath.CompareTo(x.ItemPath);

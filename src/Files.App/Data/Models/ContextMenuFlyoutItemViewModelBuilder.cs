@@ -46,7 +46,7 @@ namespace Files.App.Data.Models
 			if (isVisible is null && !isExecutable)
 				return none;
 
-			ItemType type = IsToggle ? ItemType.Toggle : ItemType.Item;
+			ContextMenuFlyoutItemType type = IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
 
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{

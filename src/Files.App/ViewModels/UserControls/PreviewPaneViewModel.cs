@@ -16,7 +16,9 @@ namespace Files.App.ViewModels.UserControls
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{
 		private readonly IUserSettingsService userSettingsService;
+
 		private readonly IPreviewPaneSettingsService previewSettingsService;
+
 		private CancellationTokenSource loadCancellationTokenSource;
 
 		private bool isEnabled;
@@ -26,6 +28,7 @@ namespace Files.App.ViewModels.UserControls
 			set
 			{
 				previewSettingsService.IsEnabled = value;
+
 				SetProperty(ref isEnabled, value);
 			}
 		}
@@ -73,6 +76,7 @@ namespace Files.App.ViewModels.UserControls
 			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
+
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
@@ -341,14 +345,5 @@ namespace Files.App.ViewModels.UserControls
 			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
-	}
-
-	public enum PreviewPaneStates
-	{
-		NoItemSelected,
-		NoPreviewAvailable,
-		NoPreviewOrDetailsAvailable,
-		PreviewAndDetailsAvailable,
-		LoadingPreview,
 	}
 }

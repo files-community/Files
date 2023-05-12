@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.UserControls;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -11,14 +8,15 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
-using static Files.App.Constants.Widgets;
 
 namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		private IPaneHolder paneHolder;
@@ -46,12 +44,15 @@ namespace Files.App.ViewModels.UserControls
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
+
 					UpdateTabControlMargin();
 				}
 			}
 		}
 
-		private readonly SectionType[] SectionOrder = new SectionType[] {
+		private readonly SectionType[] SectionOrder =
+			new SectionType[]
+			{
 				SectionType.Home,
 				SectionType.Favorites,
 				SectionType.Library,
@@ -60,7 +61,7 @@ namespace Files.App.ViewModels.UserControls
 				SectionType.Network,
 				SectionType.WSL,
 				SectionType.FileTag
-		};
+			};
 
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
@@ -110,6 +111,7 @@ namespace Files.App.ViewModels.UserControls
 					return;
 
 				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+
 				OnPropertyChanged();
 			}
 		}
@@ -613,7 +615,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private GridLength tabControlMargin;
-
 		public GridLength TabControlMargin
 		{
 			get => tabControlMargin;

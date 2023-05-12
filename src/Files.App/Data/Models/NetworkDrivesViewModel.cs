@@ -65,7 +65,10 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public void DisconnectNetworkDrive(ILocatableFolder drive) => networkDrivesService.DisconnectNetworkDrive(drive);
-		public Task OpenMapNetworkDriveDialogAsync() => networkDrivesService.OpenMapNetworkDriveDialogAsync();
+		public void DisconnectNetworkDrive(ILocatableFolder drive)
+			=> networkDrivesService.DisconnectNetworkDrive(drive);
+
+		public Task OpenMapNetworkDriveDialogAsync()
+			=> networkDrivesService.OpenMapNetworkDriveDialogAsync();
 	}
 }

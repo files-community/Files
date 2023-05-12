@@ -222,9 +222,8 @@ namespace Files.App.Data.Models
 			set
 			{
 				if (FilesAndFoldersCountVisibility == false)
-				{
 					FilesAndFoldersCountVisibility = true;
-				}
+
 				SetProperty(ref filesAndFoldersCountString, value);
 			}
 		}
