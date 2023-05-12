@@ -226,6 +226,7 @@ namespace Files.App.Views.Shells
 
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository, 
+				InstanceViewModel.GitRepositoryPath,
 				InstanceViewModel.GitBranchName, 
 				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
 
@@ -238,6 +239,7 @@ namespace Files.App.Views.Shells
 			InstanceViewModel.UpdateCurrentBranchName();
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
+				InstanceViewModel.GitRepositoryPath,
 				InstanceViewModel.GitBranchName,
 				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}

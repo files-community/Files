@@ -1,14 +1,18 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Windows.Input;
+
 namespace Files.App.ViewModels
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
+		private string? gitRepositoryPath;
+
 		public int ActiveBranchIndex { get; private set; }
 
-		private string _DirectoryItemCount;
-		public string DirectoryItemCount
+		private string? _DirectoryItemCount;
+		public string? DirectoryItemCount
 		{
 			get => _DirectoryItemCount;
 			set => SetProperty(ref _DirectoryItemCount, value);
@@ -36,11 +40,21 @@ namespace Files.App.ViewModels
 
 		public EventHandler<string>? CheckoutRequested;
 
-		public void UpdateGitInfo(bool isGitRepository, string activeBranch, string[] branches)
+		public ICommand NewBranchCommand { get; }
+
+		public DirectoryPropertiesViewModel()
+		{
+			NewBranchCommand = new AsyncRelayCommand(() 
+				=> GitHelpers.CreateNewBranch(gitRepositoryPath!, BranchesNames[ActiveBranchIndex]));
+		}
+
+		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, string activeBranch, string[] branches)
 		{
 			GitBranchDisplayName = isGitRepository
 				? string.Format("Branch".GetLocalizedResource(), activeBranch)
 				: null;
+
+			gitRepositoryPath = repositoryPath;
 
 			if (isGitRepository)
 			{

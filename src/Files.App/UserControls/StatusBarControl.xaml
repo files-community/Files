@@ -90,7 +90,7 @@
 									Height="24"
 									Padding="8,0"
 									HorizontalAlignment="Right"
-									x:Load="False"
+									Command="{x:Bind DirectoryPropertiesViewModel.NewBranchCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=NewBranch}"
 									FontSize="12"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=NewBranch}" />

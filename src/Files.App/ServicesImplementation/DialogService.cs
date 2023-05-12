@@ -36,7 +36,8 @@ namespace Files.App.ServicesImplementation
 				{ typeof(DecompressArchiveDialogViewModel), () => new DecompressArchiveDialog() },
 				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
-				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() }
+				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() },
+				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() }
 			};
 		}
 

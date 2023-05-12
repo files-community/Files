@@ -1,0 +1,51 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.AddBranchDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="AddBranch"
+	Title="{helpers:ResourceString Name=NewBranch}"
+	BorderThickness="0"
+	Closing="ContentDialog_Closing"
+	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DefaultButton="Primary"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsBranchValid, Mode=OneWay}"
+	PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+	PrimaryButtonText="{helpers:ResourceString Name=CreateBranch}"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<StackPanel MinWidth="300" Spacing="8">
+		<TextBox
+			x:Name="BranchNameBox"
+			PlaceholderText="{helpers:ResourceString Name=BranchNamePrompt}"
+			Text="{x:Bind ViewModel.NewBranchName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+			<TextBox.Resources>
+				<TeachingTip
+					x:Name="InvalidNameWarning"
+					Title="{helpers:ResourceString Name=InvalidBranchName}"
+					IsOpen="{x:Bind ViewModel.ShowWarningTip, Mode=OneWay}"
+					PreferredPlacement="Bottom"
+					Target="{x:Bind BranchNameBox}" />
+			</TextBox.Resources>
+		</TextBox>
+		<Grid ColumnSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=BasedOn}" />
+			<ComboBox
+				Grid.Column="1"
+				HorizontalAlignment="Stretch"
+				ItemsSource="{x:Bind ViewModel.Branches}"
+				SelectedItem="{x:Bind ViewModel.BasedOn, Mode=TwoWay}" />
+		</Grid>
+	</StackPanel>
+</ContentDialog>

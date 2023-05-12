@@ -2,13 +2,18 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.StorageItems;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
+using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
 {
 	public static class GitHelpers
 	{
+		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
+
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
 			if (root.EndsWith('\\'))
@@ -94,6 +99,39 @@ namespace Files.App.Helpers
 				repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
 			}
 			return true;
+		}
+
+		public static async Task CreateNewBranch(string repositoryPath, string activeBranch)
+		{
+			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
+			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+
+			var result = await dialog.TryShowAsync();
+
+			if (result != DialogResult.Primary)
+				return;
+
+			using var repository = new Repository(repositoryPath);
+
+			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
+				await Checkout(repositoryPath, viewModel.BasedOn))
+			{
+				repository.CreateBranch(viewModel.NewBranchName);
+			}
+		}
+
+		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
+		{
+			if (string.IsNullOrEmpty(branchName) || !Repository.IsValid(repositoryPath))
+				return false;
+
+			var nameValidator = new Regex(BRANCH_NAME_PATTERN);
+			if (!nameValidator.IsMatch(branchName))
+				return false;
+
+			using var repository = new Repository(repositoryPath);
+			return !repository.Branches.Any(branch =>
+				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 		}
 	}
 }
