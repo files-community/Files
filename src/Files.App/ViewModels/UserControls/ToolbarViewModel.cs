@@ -26,7 +26,7 @@ using static Files.App.UserControls.IAddressToolbar;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 using SearchBox = Files.App.UserControls.SearchBox;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{

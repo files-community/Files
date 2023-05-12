@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	/// <summary>
 	/// This class is intended to be used with ContextFlyoutItemHelper and ItemModelListToContextFlyoutHelper.

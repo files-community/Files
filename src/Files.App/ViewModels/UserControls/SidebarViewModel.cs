@@ -13,7 +13,7 @@ using System.Collections.Specialized;
 using System.IO;
 using static Files.App.Constants.Widgets;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{

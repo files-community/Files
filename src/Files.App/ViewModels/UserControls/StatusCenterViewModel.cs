@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
 	{

@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:models="using:Files.App.ViewModels"
+	xmlns:vmuc="using:Files.App.ViewModels.UserControls"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -53,7 +53,7 @@
 			</ListView.ItemContainerStyle>
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="models:StatusBanner">
+				<DataTemplate x:DataType="vmuc:StatusBanner">
 					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
 						<InfoBar
 							Title="{x:Bind FullTitle, Mode=OneWay}"

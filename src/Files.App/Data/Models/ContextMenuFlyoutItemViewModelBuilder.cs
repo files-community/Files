@@ -3,7 +3,7 @@
 
 using Files.App.Commands;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class ContextMenuFlyoutItemViewModelBuilder
 	{
