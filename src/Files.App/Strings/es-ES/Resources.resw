@@ -121,7 +121,7 @@
     <value>Nueva ventana</value>
   </data>
   <data name="CopyLocation" xml:space="preserve">
-    <value>Copiar ubicación</value>
+    <value>Copiar ruta</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
@@ -1903,7 +1903,7 @@
     <value>Mostrar solo vista previa</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Abrir ubicación del log</value>
+    <value>Abrir ubicación del registro</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Crear vínculo en {0}</value>
@@ -3178,8 +3178,11 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Búsqueda de elementos no indexados</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Enfocar la barra de ruta</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -3207,5 +3210,80 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Ubicación:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Alternar unidad para agrupar por fecha</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Cambiar unidad de agrupación</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Agrupar por mes en lugar de por año</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de creación</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de creación</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de modificación</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de modificación</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Haga clic en 'Permisos avanzados' para continuar.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Debe tener permisos de lectura para ver las propiedades de este elemento.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Para intentar tomar posesión del elemento, lo que incluye el permiso para ver sus propiedades, haga clic arriba en Cambiar.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>No se pueden mostrar los permisos.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Leave my changes on '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Discard my changes</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring my changes to '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Switch Branch</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New branch</value>
   </data>
 </root>

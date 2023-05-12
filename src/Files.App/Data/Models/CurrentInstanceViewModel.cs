@@ -182,8 +182,8 @@ namespace Files.App.Data.Models
 				if (IsGitRepository)
 				{
 					using var repository = new Repository(gitRepositoryPath);
-					return repository.Branches.First(branch =>
-						branch.IsCurrentRepositoryHead).FriendlyName;
+					return repository.Branches.FirstOrDefault(branch =>
+						branch.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 				}
 
 				return string.Empty;

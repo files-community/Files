@@ -1,16 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Commands;
-using Files.App.Data.EventArguments;
-using Files.App.Data.Models;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.Search;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views.LayoutModes;
-using Files.Backend.Enums;
 using Files.Backend.Services;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -24,12 +18,16 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Shared.Enums.SortDirection;
 
-namespace Files.App.Views
+namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
 		public static readonly DependencyProperty NavParamsProperty =
-			DependencyProperty.Register("NavParams", typeof(NavigationParams), typeof(ModernShellPage), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				"NavParams",
+				typeof(NavigationParams),
+				typeof(ModernShellPage),
+				new PropertyMetadata(null));
 
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
@@ -69,62 +67,68 @@ namespace Files.App.Views
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
-		protected BaseLayout contentPage;
+		protected BaseLayout _ContentPage;
 		public BaseLayout ContentPage
 		{
-			get => contentPage;
+			get => _ContentPage;
 			set
 			{
-				if (value != contentPage)
+				if (value != _ContentPage)
 				{
-					contentPage = value;
+					if (_ContentPage is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+
+					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
+					if (value is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
 
-		protected IPaneHolder paneHolder;
+		protected IPaneHolder _PaneHolder;
 		public IPaneHolder PaneHolder
 		{
-			get => paneHolder;
+			get => _PaneHolder;
 			set
 			{
-				if (value != paneHolder)
+				if (value != _PaneHolder)
 				{
-					paneHolder = value;
+					_PaneHolder = value;
 
 					NotifyPropertyChanged(nameof(PaneHolder));
 				}
 			}
 		}
 
-		protected TabItemArguments tabItemArguments;
+		protected TabItemArguments _TabItemArguments;
 		public TabItemArguments TabItemArguments
 		{
-			get => tabItemArguments;
+			get => _TabItemArguments;
 			set
 			{
-				if (tabItemArguments != value)
+				if (_TabItemArguments != value)
 				{
-					tabItemArguments = value;
+					_TabItemArguments = value;
+
 					ContentChanged?.Invoke(this, value);
 				}
 			}
 		}
 
-		protected bool isCurrentInstance = false;
+		protected bool _IsCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
-			get => isCurrentInstance;
+			get => _IsCurrentInstance;
 			set
 			{
-				if (isCurrentInstance != value)
+				if (_IsCurrentInstance != value)
 				{
-					isCurrentInstance = value;
+					_IsCurrentInstance = value;
 
-					if (isCurrentInstance)
+					if (value)
 						ContentPage?.ItemManipulationModel.FocusFileList();
 					else if (SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
@@ -141,7 +145,11 @@ namespace Files.App.Views
 		}
 
 		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
-		   DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
+		   DependencyProperty.Register(
+			nameof(CurrentInstanceBorderBrush),
+			typeof(SolidColorBrush),
+			typeof(ModernShellPage),
+			new PropertyMetadata(null));
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -216,9 +224,10 @@ namespace Files.App.Views
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				InstanceViewModel.IsGitRepository, 
+				InstanceViewModel.GitBranchName, 
+				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -227,9 +236,16 @@ namespace Files.App.Views
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
 			InstanceViewModel.UpdateCurrentBranchName();
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				InstanceViewModel.IsGitRepository,
+				InstanceViewModel.GitBranchName,
+				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+		}
+
+		protected async void GitCheckout_Required(object? sender, string branchName)
+		{
+			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = _ContentPage.DirectoryPropertiesViewModel.ActiveBranchIndex;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)

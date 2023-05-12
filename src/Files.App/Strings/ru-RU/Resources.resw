@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Отображать чекбоксы при выборе элементов</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Search for unindexed items</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
@@ -3207,5 +3210,80 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Group items by month</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Group items by year</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Toggle unit for grouping by date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Toggle grouping unit</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Group by month instead of year</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date created</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Group items by year of date created</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date deleted</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date modified</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Group items by year of date modified</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Click 'Advanced permissions' to continue.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>You must have Read permissions to view the properties of this item.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Unable to display permissions.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Leave my changes on '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Discard my changes</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring my changes to '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Switch Branch</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New branch</value>
   </data>
 </root>

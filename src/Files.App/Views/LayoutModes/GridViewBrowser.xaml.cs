@@ -18,6 +18,9 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
+	/// <summary>
+	/// Represents the browser page of Grid View
+	/// </summary>
 	public sealed partial class GridViewBrowser : StandardViewBase
 	{
 		private uint currentIconSize;

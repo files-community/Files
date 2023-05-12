@@ -57,34 +57,34 @@ namespace Files.App.ViewModels.Settings
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
 		}
 
-		private async Task OpenLogLocation()
+		private Task OpenLogLocation()
 		{
-			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
+			return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder).AsTask();
 		}
 
-		public async Task DoOpenDocumentation()
+		public Task DoOpenDocumentation()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.DocumentationUrl)).AsTask();
 		}
 
-		public async Task DoSubmitFeatureRequest()
+		public Task DoSubmitFeatureRequest()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl)).AsTask();
 		}
 
-		public async Task DoSubmitBugReport()
+		public Task DoSubmitBugReport()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl)).AsTask();
 		}
 
-		public async Task DoOpenGitHubRepo()
+		public Task DoOpenGitHubRepo()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.GitHubRepoUrl)).AsTask();
 		}
 
-		public async Task DoOpenPrivacyPolicy()
+		public Task DoOpenPrivacyPolicy()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl)).AsTask();
 		}
 
 		public void CopyAppVersion()
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
-		
+
 		public void CopyWindowsVersion()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
@@ -109,9 +109,9 @@ namespace Files.App.ViewModels.Settings
 			});
 		}
 
-		public async Task SupportUs()
+		public Task SupportUs()
 		{
-			await Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl));
+			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.SupportUsUrl)).AsTask();
 		}
 
 		public async Task LoadThirdPartyNotices()

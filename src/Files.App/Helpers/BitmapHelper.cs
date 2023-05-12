@@ -12,7 +12,7 @@ namespace Files.App.Helpers
 {
 	internal static class BitmapHelper
 	{
-		public static async Task<BitmapImage> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
+		public static async Task<BitmapImage?> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)
 			{

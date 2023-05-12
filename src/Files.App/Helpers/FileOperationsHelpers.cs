@@ -627,15 +627,6 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static AccessControlList GetFilePermissions(string filePath, bool isFolder)
-			=> FileSecurityHelpers.GetAccessControlList(filePath, isFolder);
-
-		public static bool SetFileOwner(string filePath, string ownerSid)
-			=> FileSecurityHelpers.SetOwner(filePath, ownerSid);
-
-		public static bool SetAccessRuleProtection(string filePath, bool isFolder, bool isProtected, bool preserveInheritance)
-			=> FileSecurityHelpers.SetAccessControlProtection(filePath, isFolder, isProtected, preserveInheritance);
-
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
 			return Win32API.StartSTATask(() =>
@@ -649,6 +640,7 @@ namespace Files.App.Helpers
 					MultiSelect = false,
 					ShowAdvancedView = true
 				};
+
 				picker.AttributesToFetch.Add("objectSid");
 
 				using (picker)
@@ -659,13 +651,9 @@ namespace Files.App.Helpers
 						{
 							var attribs = picker.SelectedObject.FetchedAttributes;
 							if (attribs.Any() && attribs[0] is byte[] objectSid)
-							{
 								return new SecurityIdentifier(objectSid, 0).Value;
-							}
 						}
-						catch
-						{
-						}
+						catch {}
 					}
 				}
 

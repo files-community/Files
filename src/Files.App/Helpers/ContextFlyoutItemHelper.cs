@@ -1,33 +1,20 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
+	/// Used to create lists of ContextMenuFlyoutItems that can be used by ItemModelListToContextFlyoutHelper to create context
 	/// menus and toolbars for the user.
 	/// <see cref="ContextMenuFlyoutItem"/>
-	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// <see cref="ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
 	/// </summary>
 	public static class ContextFlyoutItemHelper
 	{
@@ -115,13 +102,34 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					Items = new List<ContextMenuFlyoutItem>
 					{
-						new ContextMenuFlyoutItemBuilder(commands.LayoutDetails){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutTiles){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutGridSmall){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutGridMedium){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutGridLarge){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutColumns){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.LayoutAdaptive){IsToggle = true}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutDetails)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutTiles)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutGridSmall)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutGridMedium)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutGridLarge)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutColumns)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.LayoutAdaptive)
+						{
+							IsToggle = true
+						}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItem()
@@ -138,15 +146,42 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					Items = new List<ContextMenuFlyoutItem>
 					{
-						new ContextMenuFlyoutItemBuilder(commands.SortByName){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByDateModified){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByDateCreated){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByType){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortBySize){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortBySyncStatus){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByTag){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByOriginalFolder){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortByDateDeleted){IsToggle = true}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByName)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByDateModified)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByDateCreated)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByType)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortBySize)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortBySyncStatus)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByTag)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByOriginalFolder)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortByDateDeleted)
+						{
+							IsToggle = true
+						}.Build(),
 						new ContextMenuFlyoutItem
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -155,8 +190,14 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemBuilder(commands.SortAscending).Build(),
-						new ContextMenuFlyoutItemBuilder(commands.SortDescending).Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortAscending)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.SortDescending)
+						{
+							IsToggle = true
+						}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItem()
@@ -170,17 +211,93 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					Items = new List<ContextMenuFlyoutItem>
 					{
-						new ContextMenuFlyoutItemBuilder(commands.GroupByNone){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByName){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByDateModified){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByDateCreated){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByType){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupBySize){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupBySyncStatus){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByTag){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByOriginalFolder){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByDateDeleted){IsToggle = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupByFolderPath){IsToggle = true}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupByNone)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupByName)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItem()
+						{
+							Text = "DateModifiedLowerCase".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Items = new List<ContextMenuFlyoutItem>
+							{
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateModifiedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateModifiedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
+						new ContextMenuFlyoutItem()
+						{
+							Text = "DateCreated".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							ShowInSearchPage = true,
+							ShowInFtpPage = true,
+							ShowInZipPage = true,
+							Items = new List<ContextMenuFlyoutItem>
+							{
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateCreatedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateCreatedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
+						new ContextMenuFlyoutItemBuilder(commands.GroupByType)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupBySize)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupBySyncStatus)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupByTag)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupByOriginalFolder)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItem()
+						{
+							Text = "DateDeleted".GetLocalizedResource(),
+							ShowInRecycleBin = true,
+							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
+							Items = new List<ContextMenuFlyoutItem>
+							{
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateDeletedYear)
+								{
+									IsToggle = true
+								}.Build(),
+								new ContextMenuFlyoutItemBuilder(commands.GroupByDateDeletedMonth)
+								{
+									IsToggle = true
+								}.Build(),
+							},
+						},
+						new ContextMenuFlyoutItemBuilder(commands.GroupByFolderPath)
+						{
+							IsToggle = true
+						}.Build(),
 						new ContextMenuFlyoutItem
 						{
 							ItemType = ContextMenuFlyoutItemType.Separator,
@@ -189,8 +306,16 @@ namespace Files.App.Helpers
 							ShowInFtpPage = true,
 							ShowInZipPage = true,
 						},
-						new ContextMenuFlyoutItemBuilder(commands.GroupAscending){IsVisible = true}.Build(),
-						new ContextMenuFlyoutItemBuilder(commands.GroupDescending){IsVisible = true}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupAscending)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
+						new ContextMenuFlyoutItemBuilder(commands.GroupDescending)
+						{
+							IsToggle = true,
+							IsVisible = true
+						}.Build(),
 					},
 				},
 				new ContextMenuFlyoutItemBuilder(commands.RefreshItems)

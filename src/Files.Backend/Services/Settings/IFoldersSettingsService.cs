@@ -164,6 +164,11 @@ namespace Files.Backend.Services.Settings
 		SortDirection DefaultDirectoryGroupDirection { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the unit for grouping by date.
+		/// </summary>
+		GroupByDateUnit DefaultGroupByDateUnit { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating if directories should be sorted alongside files by.
 		/// </summary>
 		bool DefaultSortDirectoriesAlongsideFiles { get; set; }

@@ -28,10 +28,10 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	/// <summary>
-	/// The base class which every layout page must derive from
+	/// Represents the base class which every layout page must derive from
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
@@ -81,7 +81,6 @@ namespace Files.App
 		public string? OldItemName { get; set; } = null;
 
 		private bool isMiddleClickToScrollEnabled = true;
-
 		public bool IsMiddleClickToScrollEnabled
 		{
 			get => isMiddleClickToScrollEnabled;
@@ -103,7 +102,6 @@ namespace Files.App
 		{
 			IsSourceGrouped = true,
 		};
-
 		public CollectionViewSource CollectionViewSource
 		{
 			get => collectionViewSource;
@@ -191,7 +189,6 @@ namespace Files.App
 		}
 
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
-
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
@@ -397,6 +394,7 @@ namespace Files.App
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -503,11 +501,20 @@ namespace Files.App
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
-		private void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
-			=> GroupPreferenceUpdated();
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			await GroupPreferenceUpdated();
+		}
+
+		private async void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
+		{
+			await GroupPreferenceUpdated();
+		}
 
 		private async Task GroupPreferenceUpdated()
 		{
@@ -532,6 +539,7 @@ namespace Files.App
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
 			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
@@ -671,13 +679,21 @@ namespace Files.App
 				.OfType<AppBarButton>()
 				.ForEach(button => button.Click += closeHandler);
 
-			secondaryElements
+			var menuFlyoutItems = secondaryElements
 				.OfType<AppBarButton>()
 				.Select(item => item.Flyout)
 				.OfType<MenuFlyout>()
-				.SelectMany(menu => menu.Items)
-				.OfType<MenuFlyoutItem>()
-				.ForEach(button => button.Click += closeHandler);
+				.SelectMany(menu => menu.Items);
+
+			addCloseHandler(menuFlyoutItems);
+
+			void addCloseHandler(IEnumerable<MenuFlyoutItemBase> menuFlyoutItems)
+			{
+				menuFlyoutItems.OfType<MenuFlyoutItem>()
+					.ForEach(button => button.Click += closeHandler);
+				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
+					.ForEach(menu => addCloseHandler(menu.Items));
+			}
 		}
 
 		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)

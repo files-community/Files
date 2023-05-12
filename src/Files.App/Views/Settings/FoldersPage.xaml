@@ -141,6 +141,15 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Group by Month  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}"
+								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
+								IsOn="{x:Bind ViewModel.GroupByMonth, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Sort Folders Alongside Files  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}" HorizontalAlignment="Stretch">
 							<ToggleSwitch

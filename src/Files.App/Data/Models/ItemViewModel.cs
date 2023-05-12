@@ -98,7 +98,7 @@ namespace Files.App.Data.Models
 
 		public string? GitDirectory { get; private set; }
 
-		private StorageFolderWithPath currentStorageFolder;
+		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
@@ -527,6 +527,7 @@ namespace Files.App.Data.Models
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupOption):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
+				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
@@ -845,8 +846,8 @@ namespace Files.App.Data.Models
 
 		public void UpdateGroupOptions()
 		{
-			FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption);
-			var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption);
+			FilesAndFolders.ItemGroupKeySelector = GroupingHelper.GetItemGroupKeySelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit);
+			var groupInfoSelector = GroupingHelper.GetGroupInfoSelector(folderSettings.DirectoryGroupOption, folderSettings.DirectoryGroupByDateUnit);
 			FilesAndFolders.GetGroupHeaderInfo = groupInfoSelector.Item1;
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
@@ -1412,7 +1413,7 @@ namespace Files.App.Data.Models
 		{
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
-			CurrentFolder = new ListedItem(null)
+			CurrentFolder = new ListedItem(null!)
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
@@ -1581,22 +1582,22 @@ namespace Files.App.Data.Models
 			if (enumFromStorageFolder)
 			{
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
-				var currentFolder = library ?? new ListedItem(rootFolder.FolderRelativeId)
+				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = rootFolder.DisplayName,
+					ItemNameRaw = rootFolder?.DisplayName ?? string.Empty,
 					ItemDateModifiedReal = basicProps.DateModified,
-					ItemType = rootFolder.DisplayType,
+					ItemType = rootFolder?.DisplayType ?? string.Empty,
 					FileImage = null,
 					LoadFileIcon = false,
-					ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
+					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
 					FileSize = null,
 					FileSizeBytes = 0,
 				};
 
 				if (library is null)
-					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
+					currentFolder.ItemDateCreatedReal = rootFolder?.DateCreated ?? DateTimeOffset.Now;
 
 				CurrentFolder = currentFolder;
 				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
@@ -1703,15 +1704,12 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
-				return;
+				return Task.CompletedTask;
 
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-
-			await Task.Run(async () =>
+			return Task.Run(async () =>
 			{
 				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,
@@ -1731,12 +1729,7 @@ namespace Files.App.Data.Models
 
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
-			});
-
-			stopwatch.Stop();
-
-
-			Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+			}, cancellationToken);
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)

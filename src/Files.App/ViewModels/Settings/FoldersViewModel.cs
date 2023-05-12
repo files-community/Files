@@ -49,38 +49,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private int selectedDefaultSortingIndex;
-		public int SelectedDefaultSortingIndex
-		{
-			get => selectedDefaultSortingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultSortingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
-
-					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
-				}
-			}
-		}
-
-		private int selectedDefaultGroupingIndex;
-		public int SelectedDefaultGroupingIndex
-		{
-			get => selectedDefaultGroupingIndex;
-			set
-			{
-				if (SetProperty(ref selectedDefaultGroupingIndex, value))
-				{
-					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
-
-					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
-					// Raise an event for the 'Group in descending order' toggle switch availability
-					OnPropertyChanged(nameof(IsDefaultGrouped));
-				}
-			}
-		}
-
 		public bool SyncFolderPreferencesAcrossDirectories
 		{
 			get => UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories;
@@ -307,6 +275,22 @@ namespace Files.App.ViewModels.Settings
 		public bool IsDefaultGrouped
 			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption != GroupOption.None;
 
+		public bool GroupByMonth
+		{
+			get => UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month;
+			set
+			{
+				if (value != (UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit == GroupByDateUnit.Month))
+				{
+					UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = value ? GroupByDateUnit.Month : GroupByDateUnit.Year;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool IsGroupByDate
+			=> UserSettingsService.FoldersSettingsService.DefaultGroupOption.IsGroupByDate();
+
 		public bool ListAndSortDirectoriesAlongsideFiles
 		{
 			get => UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
@@ -331,6 +315,40 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
 
 					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int selectedDefaultSortingIndex;
+		public int SelectedDefaultSortingIndex
+		{
+			get => selectedDefaultSortingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultSortingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultSortingIndex));
+
+					UserSettingsService.FoldersSettingsService.DefaultSortOption = value == FileTagSortingIndex ? SortOption.FileTag : (SortOption)value;
+				}
+			}
+		}
+
+		private int selectedDefaultGroupingIndex;
+		public int SelectedDefaultGroupingIndex
+		{
+			get => selectedDefaultGroupingIndex;
+			set
+			{
+				if (SetProperty(ref selectedDefaultGroupingIndex, value))
+				{
+					OnPropertyChanged(nameof(SelectedDefaultGroupingIndex));
+
+					UserSettingsService.FoldersSettingsService.DefaultGroupOption = value == FileTagGroupingIndex ? GroupOption.FileTag : (GroupOption)value;
+
+					// Raise an event for the grouping option toggle switches availability
+					OnPropertyChanged(nameof(IsDefaultGrouped));
+					OnPropertyChanged(nameof(IsGroupByDate));
 				}
 			}
 		}

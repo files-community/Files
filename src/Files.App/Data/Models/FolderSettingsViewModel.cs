@@ -212,6 +212,8 @@ namespace Files.App.Data.Models
 
 		public event EventHandler<SortDirection>? GroupDirectionPreferenceUpdated;
 
+		public event EventHandler<GroupByDateUnit>? GroupByDateUnitPreferenceUpdated;
+
 		public event EventHandler<bool>? SortDirectoriesAlongsideFilesPreferenceUpdated;
 
 		public SortOption DirectorySortOption
@@ -262,6 +264,19 @@ namespace Files.App.Data.Models
 				{
 					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
 					GroupDirectionPreferenceUpdated?.Invoke(this, DirectoryGroupDirection);
+				}
+			}
+		}
+
+		public GroupByDateUnit DirectoryGroupByDateUnit
+		{
+			get => LayoutPreference.DirectoryGroupByDateUnit;
+			set
+			{
+				if (SetProperty(ref LayoutPreference.DirectoryGroupByDateUnit, value, nameof(DirectoryGroupByDateUnit)))
+				{
+					LayoutPreferencesUpdateRequired?.Invoke(this, new LayoutPreferenceEventArgs(LayoutPreference));
+					GroupByDateUnitPreferenceUpdated?.Invoke(this, DirectoryGroupByDateUnit);
 				}
 			}
 		}
@@ -339,6 +354,7 @@ namespace Files.App.Data.Models
 
 				userSettingsService.FoldersSettingsService.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
 				userSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection = prefs.DirectoryGroupDirection;
+				userSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = prefs.DirectoryGroupByDateUnit;
 				userSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 
 				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
@@ -395,7 +411,8 @@ namespace Files.App.Data.Models
 				// Default for downloads folder is to group by date created
 				return new LayoutPreferences() {
 					DirectoryGroupOption = GroupOption.DateCreated,
-					DirectoryGroupDirection = SortDirection.Descending
+					DirectoryGroupDirection = SortDirection.Descending,
+					DirectoryGroupByDateUnit = GroupByDateUnit.Year
 				};
 			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
@@ -438,6 +455,7 @@ namespace Files.App.Data.Models
 					OnPropertyChanged(nameof(DirectorySortOption));
 					OnPropertyChanged(nameof(DirectorySortDirection));
 					OnPropertyChanged(nameof(DirectoryGroupDirection));
+					OnPropertyChanged(nameof(DirectoryGroupByDateUnit));
 					OnPropertyChanged(nameof(SortDirectoriesAlongsideFiles));
 					OnPropertyChanged(nameof(ColumnsViewModel));
 				}

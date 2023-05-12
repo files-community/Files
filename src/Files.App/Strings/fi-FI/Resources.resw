@@ -3178,6 +3178,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Hae indeksoimattomia kohteita</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Kohdista polkupalkkiin</value>
   </data>
@@ -3207,5 +3210,80 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Sijainti:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet kuukauden mukaan</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet vuoden mukaan</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Kuukausi</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Vaihda päivämäärän mukaan ryhmittelyä varten</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Vaihda ryhmittely-yksikköä</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Vuosi</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Ryhmittele kuukauden eikä vuoden mukaan</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet luontikuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet luontivuoden mukaan</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet poiston kuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet poistovuoden mukaan</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet muokkauskuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet muokkausvuoden mukaan</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Napsauta "Lisäkäyttöoikeudet" jatkaaksesi.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Sinulla on oltava lukuoikeudet, jotta voit tarkastella tämän kohteen ominaisuuksia.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Jos haluat yrittää ottaa kohteen omistajuuden, joka sisältää oikeuden tarkastella sen ominaisuuksia, napsauta Muuta.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Käyttöoikeuksia ei voi näyttää.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Jätä muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Hylkää tekemäni muutokset</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Tuo muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Vaihda haaraa</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Haarat</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Vaihda</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Uusi haara</value>
   </data>
 </root>

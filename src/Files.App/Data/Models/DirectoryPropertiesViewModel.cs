@@ -5,6 +5,8 @@ namespace Files.App.Data.Models
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
+		public int ActiveBranchIndex { get; private set; }
+
 		private string _DirectoryItemCount;
 		public string DirectoryItemCount
 		{
@@ -16,7 +18,39 @@ namespace Files.App.Data.Models
 		public string? GitBranchDisplayName
 		{
 			get => _GitBranchDisplayName;
-			set => SetProperty(ref _GitBranchDisplayName, value);
+			private set => SetProperty(ref _GitBranchDisplayName, value);
+		}
+
+		private int _SelectedBranchIndex;
+		public int SelectedBranchIndex
+		{
+			get => _SelectedBranchIndex;
+			set
+			{
+				if (SetProperty(ref _SelectedBranchIndex, value) && value != -1 && value != ActiveBranchIndex)
+					CheckoutRequested?.Invoke(this, BranchesNames[value]);
+			}
+		}
+
+		public ObservableCollection<string> BranchesNames { get; } = new();
+
+		public EventHandler<string>? CheckoutRequested;
+
+		public void UpdateGitInfo(bool isGitRepository, string activeBranch, string[] branches)
+		{
+			GitBranchDisplayName = isGitRepository
+				? string.Format("Branch".GetLocalizedResource(), activeBranch)
+				: null;
+
+			if (isGitRepository)
+			{
+				BranchesNames.Clear();
+				foreach (var name in branches)
+					BranchesNames.Add(name);
+
+				ActiveBranchIndex = BranchesNames.IndexOf(activeBranch);
+				SelectedBranchIndex = ActiveBranchIndex;
+			}
 		}
 	}
 }
