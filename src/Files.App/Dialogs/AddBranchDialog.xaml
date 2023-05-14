@@ -20,23 +20,25 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<StackPanel MinWidth="300" Spacing="8">
-		<TextBox
-			x:Name="BranchNameBox"
-			PlaceholderText="{helpers:ResourceString Name=BranchNamePrompt}"
-			Text="{x:Bind ViewModel.NewBranchName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-			<TextBox.Resources>
-				<TeachingTip
-					x:Name="InvalidNameWarning"
-					Title="{helpers:ResourceString Name=InvalidBranchName}"
-					IsOpen="{x:Bind ViewModel.ShowWarningTip, Mode=OneWay}"
-					PreferredPlacement="Bottom"
-					Target="{x:Bind BranchNameBox}" />
-			</TextBox.Resources>
-		</TextBox>
+	<StackPanel MinWidth="300" Spacing="16">
+		<StackPanel Spacing="4">
+			<TextBlock Text="{helpers:ResourceString Name=BranchNamePrompt}" />
+			<TextBox x:Name="BranchNameBox" Text="{x:Bind ViewModel.NewBranchName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.Resources>
+					<TeachingTip
+						x:Name="InvalidNameWarning"
+						Title="{helpers:ResourceString Name=InvalidBranchName}"
+						IsOpen="{x:Bind ViewModel.ShowWarningTip, Mode=OneWay}"
+						PreferredPlacement="Bottom"
+						Target="{x:Bind BranchNameBox}" />
+				</TextBox.Resources>
+			</TextBox>
+		</StackPanel>
+
 		<Grid ColumnSpacing="12">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 
@@ -44,9 +46,12 @@
 			<ComboBox
 				x:Name="BranchBox"
 				Grid.Column="1"
+				Grid.ColumnSpan="2"
 				HorizontalAlignment="Stretch"
 				ItemsSource="{x:Bind ViewModel.Branches}"
 				SelectedItem="{x:Bind ViewModel.BasedOn, Mode=TwoWay}" />
 		</Grid>
+
+		<CheckBox Content="{helpers:ResourceString Name=SwitchToNewBranch}" IsChecked="{x:Bind ViewModel.Checkout, Mode=TwoWay}" />
 	</StackPanel>
 </ContentDialog>

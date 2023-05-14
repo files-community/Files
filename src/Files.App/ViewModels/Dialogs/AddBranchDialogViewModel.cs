@@ -36,6 +36,13 @@
 			set => SetProperty(ref _BasedOn, value);
 		}
 
+		private bool _Checkout = true;
+		public bool Checkout
+		{
+			get => _Checkout;
+			set => SetProperty(ref _Checkout, value);
+		}
+
 		public bool ShowWarningTip => !string.IsNullOrEmpty(_NewBranchName) && !_IsBranchValid;
 
 		public string[] Branches { get; init; }

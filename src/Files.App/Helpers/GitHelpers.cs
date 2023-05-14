@@ -117,6 +117,9 @@ namespace Files.App.Helpers
 				await Checkout(repositoryPath, viewModel.BasedOn))
 			{
 				repository.CreateBranch(viewModel.NewBranchName);
+
+				if (viewModel.Checkout)
+					await Checkout(repositoryPath, viewModel.NewBranchName);
 			}
 		}
 
