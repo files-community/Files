@@ -116,6 +116,8 @@ namespace Files.App.Helpers
 			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
 				await Checkout(repositoryPath, viewModel.BasedOn))
 			{
+				Analytics.TrackEvent($"Triggered git branch");
+
 				repository.CreateBranch(viewModel.NewBranchName);
 
 				if (viewModel.Checkout)
