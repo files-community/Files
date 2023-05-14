@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconNewFolder");
 
-		public bool IsExecutable => context.ShellPage is not null;
+		public bool IsExecutable => context.ShellPage is not null && context.HasSelection;
 
 		public CreateFolderWithSelectionAction()
 		{
@@ -30,8 +30,13 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.ShellPage))
-				OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.ShellPage):
+				case nameof(IContentPageContext.HasSelection):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
