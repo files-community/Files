@@ -54,8 +54,8 @@ namespace Files.SourceGenerator
 				var registration = GetRegistration(propertyName, type, typeSymbol, metadataCreation);
 				var staticFieldDeclaration = GetStaticFieldDeclaration(fieldName, registration)
 					.AddAttributeLists(GetAttributeForField(nameof(DependencyPropertyGenerator)));
-				var getter = GetGetter(fieldName, isNullable, type, typeSymbol);
-				var setter = GetSetter(fieldName, isSetterPrivate, typeSymbol);
+				var getter = GetGetter(fieldName, isNullable, type);
+				var setter = GetSetter(fieldName, isSetterPrivate);
 				var propertyDeclaration = GetPropertyDeclaration(propertyName, isNullable, type, getter, setter)
 					.AddAttributeLists(GetAttributeForMethod(nameof(DependencyPropertyGenerator)));
 
