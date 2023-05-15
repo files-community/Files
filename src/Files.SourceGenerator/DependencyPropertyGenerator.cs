@@ -6,71 +6,72 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Files.SourceGenerator.Utilities.Helper;
 
-namespace Files.SourceGenerator;
-
-[Generator]
-public class DependencyPropertyGenerator : TypeWithAttributeGenerator
+namespace Files.SourceGenerator
 {
-	internal override string AttributeName => "DependencyPropertyAttribute`1";
-
-	internal override string? TypeWithAttribute(INamedTypeSymbol typeSymbol, ImmutableArray<AttributeData> attributeList)
+	[Generator]
+	public class DependencyPropertyGenerator : TypeWithAttributeGenerator
 	{
-		var members = new List<MemberDeclarationSyntax>();
+		internal override string AttributeName => "DependencyPropertyAttribute`1";
 
-		foreach (var attribute in attributeList)
+		internal override string? TypeWithAttribute(INamedTypeSymbol typeSymbol, ImmutableArray<AttributeData> attributeList)
 		{
-			if (attribute.AttributeClass is not { TypeArguments: [var type, ..] })
-				return null;
+			var members = new List<MemberDeclarationSyntax>();
 
-			if (attribute.ConstructorArguments is not [{ Value: string propertyName }, { Value: string propertyChanged }, ..])
-				continue;
+			foreach (var attribute in attributeList)
+			{
+				if (attribute.AttributeClass is not { TypeArguments: [var type, ..] })
+					return null;
 
-			var isSetterPrivate = false;
-			var defaultValue = "global::Microsoft.UI.Xaml.DependencyProperty.UnsetValue";
-			var isNullable = false;
+				if (attribute.ConstructorArguments is not [{ Value: string propertyName }, { Value: string propertyChanged }, ..])
+					continue;
 
-			foreach (var namedArgument in attribute.NamedArguments)
-				if (namedArgument.Value.Value is { } value)
-					switch (namedArgument.Key)
-					{
-						case "IsSetterPrivate":
-							isSetterPrivate = (bool)value;
-							break;
-						case "DefaultValue":
-							defaultValue = (string)value;
-							break;
-						case "IsNullable":
-							isNullable = (bool)value;
-							break;
-					}
+				var isSetterPrivate = false;
+				var defaultValue = "global::Microsoft.UI.Xaml.DependencyProperty.UnsetValue";
+				var isNullable = false;
 
-			var fieldName = propertyName + "Property";
+				foreach (var namedArgument in attribute.NamedArguments)
+					if (namedArgument.Value.Value is { } value)
+						switch (namedArgument.Key)
+						{
+							case "IsSetterPrivate":
+								isSetterPrivate = (bool)value;
+								break;
+							case "DefaultValue":
+								defaultValue = (string)value;
+								break;
+							case "IsNullable":
+								isNullable = (bool)value;
+								break;
+						}
 
-			var defaultValueExpression = ParseExpression(defaultValue);
-			var metadataCreation = GetObjectCreationExpression(defaultValueExpression);
-			if (propertyChanged is not "")
-				metadataCreation = GetMetadataCreation(metadataCreation, propertyChanged);
+				var fieldName = propertyName + "Property";
 
-			var registration = GetRegistration(propertyName, type, typeSymbol, metadataCreation);
-			var staticFieldDeclaration = GetStaticFieldDeclaration(fieldName, registration)
-				.AddAttributeLists(GetAttributeForField(nameof(DependencyPropertyGenerator)));
-			var getter = GetGetter(fieldName, isNullable, type, typeSymbol);
-			var setter = GetSetter(fieldName, isSetterPrivate, typeSymbol);
-			var propertyDeclaration = GetPropertyDeclaration(propertyName, isNullable, type, getter, setter)
-				.AddAttributeLists(GetAttributeForMethod(nameof(DependencyPropertyGenerator)));
+				var defaultValueExpression = ParseExpression(defaultValue);
+				var metadataCreation = GetObjectCreationExpression(defaultValueExpression);
+				if (propertyChanged is not "")
+					metadataCreation = GetMetadataCreation(metadataCreation, propertyChanged);
 
-			members.Add(staticFieldDeclaration);
-			members.Add(propertyDeclaration);
+				var registration = GetRegistration(propertyName, type, typeSymbol, metadataCreation);
+				var staticFieldDeclaration = GetStaticFieldDeclaration(fieldName, registration)
+					.AddAttributeLists(GetAttributeForField(nameof(DependencyPropertyGenerator)));
+				var getter = GetGetter(fieldName, isNullable, type, typeSymbol);
+				var setter = GetSetter(fieldName, isSetterPrivate, typeSymbol);
+				var propertyDeclaration = GetPropertyDeclaration(propertyName, isNullable, type, getter, setter)
+					.AddAttributeLists(GetAttributeForMethod(nameof(DependencyPropertyGenerator)));
+
+				members.Add(staticFieldDeclaration);
+				members.Add(propertyDeclaration);
+			}
+
+			if (members.Count > 0)
+			{
+				var generatedClass = GetClassDeclaration(typeSymbol, members);
+				var generatedNamespace = GetFileScopedNamespaceDeclaration(typeSymbol, generatedClass);
+				var compilationUnit = GetCompilationUnit(generatedNamespace);
+				return SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
+			}
+
+			return null;
 		}
-
-		if (members.Count > 0)
-		{
-			var generatedClass = GetClassDeclaration(typeSymbol, members);
-			var generatedNamespace = GetFileScopedNamespaceDeclaration(typeSymbol, generatedClass);
-			var compilationUnit = GetCompilationUnit(generatedNamespace);
-			return SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
-		}
-
-		return null;
 	}
 }
