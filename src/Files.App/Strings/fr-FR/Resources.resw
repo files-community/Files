@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Il y a un nom de fichier en conflit.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Créer un dossier avec la sélection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -3285,5 +3285,8 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>Nouvelle branche</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
   </data>
 </root>
