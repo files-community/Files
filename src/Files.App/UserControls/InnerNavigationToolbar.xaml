@@ -269,14 +269,7 @@
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchive.Label}">
-								<MenuFlyoutItem.KeyboardAccelerators>
-									<KeyboardAccelerator
-										Key="E"
-										IsEnabled="False"
-										Modifiers="Control" />
-								</MenuFlyoutItem.KeyboardAccelerators>
-							</MenuFlyoutItem>
+								Text="{x:Bind Commands.DecompressArchive.Label}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"

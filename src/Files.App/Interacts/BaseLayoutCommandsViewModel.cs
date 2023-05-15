@@ -38,7 +38,6 @@ namespace Files.App.Interacts
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
-			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 		}
 
 		#endregion Command Initialization
@@ -62,8 +61,6 @@ namespace Files.App.Interacts
 		public ICommand DragOverCommand { get; private set; }
 
 		public ICommand DropCommand { get; private set; }
-
-		public ICommand CreateFolderWithSelection { get; private set; }
 
 		#endregion Commands
 
