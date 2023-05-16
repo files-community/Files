@@ -226,7 +226,7 @@ namespace Files.App.Views.Shells
 				InstanceViewModel.IsGitRepository, 
 				InstanceViewModel.GitRepositoryPath,
 				InstanceViewModel.GitBranchName, 
-				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -239,7 +239,7 @@ namespace Files.App.Views.Shells
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
 				InstanceViewModel.GitBranchName,
-				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)

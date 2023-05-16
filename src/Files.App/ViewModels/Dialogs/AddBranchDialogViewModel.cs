@@ -50,7 +50,7 @@
 		public AddBranchDialogViewModel(string repositoryPath, string activeBranch)
 		{
 			_repositoryPath = repositoryPath;
-			Branches = GitHelpers.GetLocalBranchesNames(repositoryPath);
+			Branches = GitHelpers.GetBranchesNames(repositoryPath);
 			BasedOn = activeBranch;
 		}
 	}

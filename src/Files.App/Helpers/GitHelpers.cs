@@ -13,6 +13,8 @@ namespace Files.App.Helpers
 	public static class GitHelpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
+		
+		private const int END_OF_ORIGIN_PREFIX = 7;
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
@@ -39,15 +41,16 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static string[] GetLocalBranchesNames(string? path)
+		public static string[] GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Array.Empty<string>();
 
 			using var repository = new Repository(path);
 			return repository.Branches
-				.Where(b => !b.IsRemote)
+				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
+				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip.Committer.When)
 				.Select(b => b.FriendlyName)
 				.ToArray();
@@ -91,7 +94,10 @@ namespace Files.App.Helpers
 				}
 			}
 
-			LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+			if (checkoutBranch.IsRemote)
+				CheckoutRemoteBranch(repository, checkoutBranch);
+			else
+				LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
 
 			if (isBringingChanges)
 			{
@@ -137,6 +143,20 @@ namespace Files.App.Helpers
 			using var repository = new Repository(repositoryPath);
 			return !repository.Branches.Any(branch =>
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+		}
+
+		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
+		{
+			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
+
+			var discriminator = 0;
+			while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+				uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+
+			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
+			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
+
+			LibGit2Sharp.Commands.Checkout(repository, newBranch);
 		}
 	}
 }
