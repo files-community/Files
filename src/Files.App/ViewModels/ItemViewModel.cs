@@ -69,8 +69,8 @@ namespace Files.App.ViewModels
 
 		private FolderSettingsViewModel folderSettings = null;
 
-		private ListedItem currentFolder;
-		public ListedItem CurrentFolder
+		private ListedItem? currentFolder;
+		public ListedItem? CurrentFolder
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
