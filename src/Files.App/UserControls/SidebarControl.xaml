@@ -99,7 +99,7 @@
 					Tag="{x:Bind Path}"
 					Visibility="{x:Bind ItemVisibility}">
 					<ToolTipService.ToolTip>
-						<ToolTip Placement="Bottom">
+						<ToolTip Placement="Right">
 							<StackPanel>
 								<!--  Displays the drive name, this is hidden when the extended details are shown  -->
 								<TextBlock
