@@ -61,7 +61,7 @@ namespace Files.App.Helpers
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
 
-			Analytics.TrackEvent($"Triggered git checkout");
+			Analytics.TrackEvent("Triggered git checkout");
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
