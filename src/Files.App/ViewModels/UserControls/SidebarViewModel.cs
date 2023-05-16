@@ -9,12 +9,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
 		private IPaneHolder paneHolder;
@@ -42,12 +44,15 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
+
 					UpdateTabControlMargin();
 				}
 			}
 		}
 
-		private readonly SectionType[] SectionOrder = new SectionType[] {
+		private readonly SectionType[] SectionOrder =
+			new SectionType[]
+			{
 				SectionType.Home,
 				SectionType.Favorites,
 				SectionType.Library,
@@ -56,7 +61,7 @@ namespace Files.App.ViewModels
 				SectionType.Network,
 				SectionType.WSL,
 				SectionType.FileTag
-		};
+			};
 
 		public bool IsSidebarCompactSize
 			=> SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
@@ -106,6 +111,7 @@ namespace Files.App.ViewModels
 					return;
 
 				UserSettingsService.AppearanceSettingsService.IsSidebarOpen = value;
+
 				OnPropertyChanged();
 			}
 		}
@@ -609,7 +615,6 @@ namespace Files.App.ViewModels
 		}
 
 		private GridLength tabControlMargin;
-
 		public GridLength TabControlMargin
 		{
 			get => tabControlMargin;

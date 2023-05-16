@@ -53,7 +53,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			var primaryModels = items.Where(i => i.IsPrimary).ToList();
 			var secondaryModels = items.Except(primaryModels).ToList();
 
-			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ItemType.Separator)
+			if (!secondaryModels.IsEmpty() && secondaryModels.Last().ItemType is ContextMenuFlyoutItemType.Separator)
 				secondaryModels.RemoveAt(secondaryModels.Count - 1);
 
 			var primary = new List<ICommandBarElement>();
@@ -80,7 +80,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			return item.ItemType switch
 			{
-				ItemType.Separator => new MenuFlyoutSeparator(),
+				ContextMenuFlyoutItemType.Separator => new MenuFlyoutSeparator(),
 				_ => GetMenuFlyoutItem(item),
 			};
 		}
@@ -130,7 +130,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			}
 			MenuFlyoutItem flyoutItem;
 
-			if (i.ItemType is ItemType.Toggle)
+			if (i.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{
 				flyoutItem = new ToggleMenuFlyoutItem()
 				{
@@ -184,7 +184,7 @@ namespace Files.App.Helpers.ContextFlyouts
 		{
 			return item.ItemType switch
 			{
-				ItemType.Separator => new AppBarSeparator()
+				ContextMenuFlyoutItemType.Separator => new AppBarSeparator()
 				{
 					Tag = item.Tag,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
@@ -233,7 +233,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					IsActive = true,
 				};
 
-			if (item.ItemType is ItemType.Toggle)
+			if (item.ItemType is ContextMenuFlyoutItemType.Toggle)
 			{
 				element = new AppBarToggleButton()
 				{
