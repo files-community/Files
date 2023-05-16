@@ -784,7 +784,7 @@
     <value>Durée</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Nombre de trames</value>
+    <value>Nombre d'images</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Type de protection</value>
@@ -979,7 +979,7 @@
     <value>Vérifiez le statut des opérations de fichier ici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centre d'état</value>
+    <value>Centre d'états</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Il y a un nom de fichier en conflit.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Créer un dossier avec la sélection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -1678,7 +1678,7 @@
     <value>Ce dossier et ses fichiers</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Ce dossier et ses sous-dossiers et fichiers</value>
+    <value>Ce dossier, ses sous-dossiers et fichiers</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Seulement les fichiers</value>
@@ -1885,16 +1885,16 @@
     <value>Fournissez votre identifiant :</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>Nom d'utilisateur</value>
+    <value>NomUtilisateur</value>
   </data>
   <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget des paquets</value>
+    <value>Widget Paquets</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget des disques</value>
+    <value>Widget Disques</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget des fichiers récents</value>
+    <value>Widget Fichiers Récents</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
@@ -1993,7 +1993,7 @@
     <value>Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Au démarrage</value>
+    <value>Paramètres de démarrage</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibilité</value>
@@ -2029,10 +2029,10 @@
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit couleurs (65536)</value>
+    <value>Couleurs 16 bits (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Couleurs (256)</value>
+    <value>Couleurs 8 bit (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Mode compatibilité</value>
@@ -2041,7 +2041,7 @@
     <value>Désactiver les optimisations plein écran</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Exécuter avec une résolution d'écran de 640 x 480 pixels</value>
+    <value>Exécuter avec une résolution de 640 x 480 pixels</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
     <value>Remplacer le comportement de mise à l'échelle PPP élevée</value>
@@ -2065,7 +2065,7 @@
     <value>Licences tierces</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos risques et périls.</value>
+    <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos propres risques.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Effacer tout</value>
@@ -2077,7 +2077,7 @@
     <value>Entrer le nom de la bibliothèque</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculer la taille des fichiers et dossiers</value>
+    <value>Calculer la taille des dossiers</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Fichiers récents</value>
@@ -2101,7 +2101,7 @@
     <value>Nettoyer le contenu du disque</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Nettoyer le disque</value>
+    <value>Nettoyage de disque</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
@@ -2368,10 +2368,10 @@
     <value>Aucun</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Taille de découpage</value>
+    <value>Taille de séparation</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Ne pas découper</value>
+    <value>Ne pas séparer</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2539,7 +2539,7 @@
     <value>Largeur</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Appliquer cette action à tous les éléments en conflit</value>
+    <value>Appliquer cette action pour tous les conflits</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>Ouvrir dans un terminal</value>
@@ -2620,7 +2620,7 @@
     <value>Accéder à la zone de recherche</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Activer/désactiver les éléments cachés</value>
+    <value>Activer/désactiver l'affichage des éléments cachés</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Afficher ou non les extensions de fichiers</value>
@@ -2653,10 +2653,10 @@
     <value>Créer un nouveau dossier</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Créer un nouveau raccourci vers le(s) élément(s) sélectionné</value>
+    <value>Créer le(s) nouveau(x) raccourci(s) vers le(s) élément(s) sélectionné(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Créer un nouveau raccourci sur n'importe quel élément</value>
+    <value>Créer un nouveau raccourci vers n'importe quel élément</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Vider la corbeille</value>
@@ -2692,7 +2692,7 @@
     <value>Inverser la sélection d'éléments</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Effacer la sélection d'éléments</value>
+    <value>Annuler la sélection</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Activer/désactiver la sélection d'éléments</value>
@@ -2713,7 +2713,7 @@
     <value>Supprimer le(s) dossier(s) des Favoris</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Définir l'image sélectionnée comme arrière-plan de bureau</value>
+    <value>Définir l'image sélectionnée comme fond d'écran</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
     <value>Définir les images sélectionnées comme diaporama de bureau</value>
@@ -2758,19 +2758,19 @@
     <value>Extraire les éléments de(s) archive(s) sélectionnée(s) vers un nouveau dossier</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Faire pivoter le(s) image(s) sélectionnée(s) vers la gauche</value>
+    <value>Faire pivoter l'(les) image(s) sélectionnée(s) vers la gauche</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Faire pivoter le(s) image(s) sélectionnée(s) vers la droite</value>
+    <value>Faire pivoter l'(les) image(s) sélectionnée(s) vers la droite</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Ouvrir la page des paramètres</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Ouvrir le dossier dans terminal</value>
+    <value>Ouvrir terminal à l'emplacement du dossier</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Ouvrir le dossier dans terminal en tant qu'administrateur</value>
+    <value>Ouvrir terminal à l'emplacement du dossier en tant qu'administrateur</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Réduire la taille des icônes en mode grille</value>
@@ -2818,7 +2818,7 @@
     <value>Trier les éléments par statut de synchronisation</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Trier les éléments par étiquettes</value>
+    <value>Trier les éléments par étiquette</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
     <value>Trier les éléments par dossier d'origine</value>
@@ -2884,10 +2884,10 @@
     <value>Ouvrir nouvel onglet</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Naviguer vers l'arrière dans l'historique de navigation</value>
+    <value>Naviguer en arrière dans l'historique de navigation</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Naviguer vers l'avant dans l'historique de navigation</value>
+    <value>Naviguer en avant dans l'historique de navigation</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Revenir au dossier précédent</value>
@@ -2923,7 +2923,7 @@
     <value>Revenir à l'onglet précédent</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Passe à l'onglet suivant</value>
+    <value>Passer à l'onglet suivant</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Fermer l'onglet actuel</value>
@@ -3137,7 +3137,7 @@
     <value>Corbeille</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Non taggé</value>
+    <value>Sans étiquette</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
     <value>Revient à l'onglet précédent</value>
@@ -3285,5 +3285,8 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>Nouvelle branche</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
   </data>
 </root>

@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>C'è un conflitto.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crea cartella dalla selezione</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -3285,5 +3285,8 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Crea una cartella con gli elementi attualmente selezionati</value>
   </data>
 </root>
