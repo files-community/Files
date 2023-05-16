@@ -1354,7 +1354,7 @@
     <value>Existe um nome de ficheiro em conflito.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Criar pasta com seleção</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nome:</value>
@@ -3287,6 +3287,6 @@
     <value>Novo ramo</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Criar uma pasta com os itens selecionados</value>
   </data>
 </root>
