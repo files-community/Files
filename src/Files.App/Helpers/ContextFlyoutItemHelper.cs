@@ -483,20 +483,11 @@ namespace Files.App.Helpers
 					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenProperties)
 				{
-					Text = "Properties".GetLocalizedResource(),
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
-					Command = commandsViewModel.ShowPropertiesCommand,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+					IsVisible = commands.OpenProperties.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinItemToFavorites)
 				{

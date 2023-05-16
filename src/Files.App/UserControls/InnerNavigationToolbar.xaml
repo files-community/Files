@@ -201,12 +201,13 @@
 					MinWidth="40"
 					AccessKey="O"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
-					Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Properties}"
+					Command="{x:Bind Commands.OpenProperties, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenProperties.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind Commands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
-					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->

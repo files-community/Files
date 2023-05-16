@@ -84,6 +84,7 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
@@ -231,6 +232,7 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
