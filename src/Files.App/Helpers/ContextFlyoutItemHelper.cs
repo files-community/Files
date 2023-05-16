@@ -460,16 +460,10 @@ namespace Files.App.Helpers
 				{
 					IsVisible = itemsSelected && selectedItems.Count == 1 && !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateFolderWithSelection)
 				{
-					Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconNewFolder",
-					},
-					Command = commandsViewModel.CreateFolderWithSelection,
-					ShowItem = itemsSelected,
-				},
+					IsVisible = itemsSelected
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateShortcut)
 				{
 					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)

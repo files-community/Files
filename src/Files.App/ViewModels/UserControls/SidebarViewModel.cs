@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.UserControls
 
 			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+			item ??= sidebarItems.Where(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
 			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
 
 			if (item is null && value == "Home")

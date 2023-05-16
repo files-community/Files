@@ -92,7 +92,7 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<RepositionThemeTransition />
+					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
