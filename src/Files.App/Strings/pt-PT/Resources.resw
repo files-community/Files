@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Existe um nome de ficheiro em conflito.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Criar pasta com seleção</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -3212,43 +3212,43 @@
     <value>Localização:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Agrupar itens por mês</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Agrupar itens por ano</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Mês</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Alternar unidade de agrupamento por data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Alternar unidade de agrupamento</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Ano</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Agrupar por mês em vez de ano</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Agrupar itens pelo mês de criação</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Agrupar itens pelo ano de criação</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Agrupar itens pelo mês de eliminação</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Agrupar itens pelo ano de eliminação</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Agrupar itens pelo mês de modificação</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Agrupar itens pelo ano de modificação</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Clique em 'Permissões Avançadas' para continuar.</value>
@@ -3263,27 +3263,30 @@
     <value>Não foi possível mostrar as permissões.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Deixar alterações em '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Rejeitar alterações</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Trazer alterações para '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Existem alterações por submeter neste ramo. O que pretende fazer?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Switch Branch</value>
+     <value>Trocar de ramo</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Ramos</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Trocar</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Novo ramo</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Criar uma pasta com os itens selecionados</value>
   </data>
 </root>

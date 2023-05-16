@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Es gibt einen Dateinamenkonflikt.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Ordner aus Auswahl erstellen</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Ordner mit Auswahl erstellen</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
@@ -3285,5 +3285,8 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>Neuer Branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
   </data>
 </root>

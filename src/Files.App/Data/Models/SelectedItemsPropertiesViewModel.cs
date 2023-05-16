@@ -4,7 +4,7 @@
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class SelectedItemsPropertiesViewModel : ObservableObject
 	{
@@ -222,9 +222,8 @@ namespace Files.App.ViewModels
 			set
 			{
 				if (FilesAndFoldersCountVisibility == false)
-				{
 					FilesAndFoldersCountVisibility = true;
-				}
+
 				SetProperty(ref filesAndFoldersCountString, value);
 			}
 		}
