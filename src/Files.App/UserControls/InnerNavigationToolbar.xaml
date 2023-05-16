@@ -207,7 +207,7 @@
 					Label="{x:Bind Commands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
 					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
+					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle, Mode=OneTime}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->
