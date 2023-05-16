@@ -39,6 +39,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleSelect { get; }
 		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
+		IRichCommand CreateFolderWithSelection { get; }
 		IRichCommand AddItem { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }

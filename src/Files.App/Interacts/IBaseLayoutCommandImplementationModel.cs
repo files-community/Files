@@ -28,7 +28,5 @@ namespace Files.App.Interacts
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
-
-		Task CreateFolderWithSelection(RoutedEventArgs e);
 	}
 }

@@ -40,10 +40,6 @@ namespace Files.App.Interacts
 
 		private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
-		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
-
-		private static IQuickAccessService QuickAccessService => Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 		#endregion Singleton
 
 		#region Private Members
@@ -257,11 +253,6 @@ namespace Files.App.Interacts
 			}
 
 			deferral.Complete();
-		}
-
-		public Task CreateFolderWithSelection(RoutedEventArgs e)
-		{
-			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
 		#endregion Command Implementation

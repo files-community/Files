@@ -34,6 +34,7 @@ namespace Files.App.Commands
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
+		CreateFolderWithSelection,
 		AddItem,
 		CreateShortcut,
 		CreateShortcutFromDialog,
