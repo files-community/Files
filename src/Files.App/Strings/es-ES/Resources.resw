@@ -289,10 +289,10 @@
     <value>Establecer nombre</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Tema Claro</value>
+    <value>Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Tema Oscuro</value>
+    <value>Oscuro</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
@@ -343,13 +343,13 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que el archivo al que intenta acceder haya sido movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Archivo no encontrado</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>La carpeta a la que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que la carpeta a la que intenta acceder haya sido movida o eliminada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Eliminó esta carpeta?</value>
@@ -3288,5 +3288,11 @@
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Crear una carpeta con el(los) elemento(s) actualmente seleccionado(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Abrir propiedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir ventana de propiedades</value>
   </data>
 </root>
