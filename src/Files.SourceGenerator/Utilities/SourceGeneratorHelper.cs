@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Files.SourceGenerator.Utilities
 {
-	internal static class Helper
+	internal static class SourceGeneratorHelper
 	{
 		internal const string AttributeNamespace = $"{nameof(Files)}.App.Attributes.";
 		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";

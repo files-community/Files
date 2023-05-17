@@ -1,10 +1,13 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using static Files.SourceGenerator.Utilities.Helper;
+using static Files.SourceGenerator.Utilities.SourceGeneratorHelper;
 
 namespace Files.SourceGenerator
 {

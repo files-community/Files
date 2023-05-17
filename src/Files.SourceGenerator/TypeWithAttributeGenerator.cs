@@ -1,7 +1,10 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using static Files.SourceGenerator.Utilities.Helper;
+using static Files.SourceGenerator.Utilities.SourceGeneratorHelper;
 
 namespace Files.SourceGenerator
 {
