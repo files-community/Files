@@ -1,29 +1,28 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.App.Data.Models
 {
-	public class NetworkDrivesViewModel : ObservableObject
+	public class NetworkDrivesModel : ObservableObject
 	{
+		private readonly INetworkDrivesService _networkDrivesService;
+
+		private ObservableCollection<ILocatableFolder> _Drives;
 		public ObservableCollection<ILocatableFolder> Drives
 		{
-			get => drives;
-			private set => SetProperty(ref drives, value);
+			get => _Drives;
+			private set => SetProperty(ref _Drives, value);
 		}
 
-		private ObservableCollection<ILocatableFolder> drives;
-		private readonly INetworkDrivesService networkDrivesService;
-
-		public NetworkDrivesViewModel(INetworkDrivesService networkDrivesService)
+		public NetworkDrivesModel(INetworkDrivesService networkDrivesService)
 		{
-			this.networkDrivesService = networkDrivesService;
-			drives = new ObservableCollection<ILocatableFolder>();
+			_networkDrivesService = networkDrivesService;
 
-			var networkItem = new DriveItem
+			_Drives = new();
+
+			var networkItem = new DriveItem()
 			{
 				DeviceID = "network-folder",
 				Text = "Network".GetLocalizedResource(),
@@ -31,7 +30,8 @@ namespace Files.App.Data.Models
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
 			};
-			networkItem.MenuOptions = new ContextMenuOptions
+
+			networkItem.MenuOptions = new()
 			{
 				IsLocationItem = true,
 				ShowShellItems = true,
@@ -39,9 +39,9 @@ namespace Files.App.Data.Models
 				ShowProperties = true
 			};
 
-			lock (drives)
+			lock (_Drives)
 			{
-				drives.Add(networkItem);
+				_Drives.Add(networkItem);
 			}
 		}
 
@@ -50,25 +50,26 @@ namespace Files.App.Data.Models
 			var unsortedDrives = new List<ILocatableFolder>();
 			Drives.Clear();
 
-			await foreach (ILocatableFolder item in networkDrivesService.GetDrivesAsync())
-			{
+			await foreach (ILocatableFolder item in _networkDrivesService.GetDrivesAsync())
 				unsortedDrives.Add(item);
-			}
 
-			var orderedDrives = unsortedDrives.Cast<DriveItem>()
+			var orderedDrives = unsortedDrives
+				.Cast<DriveItem>()
 				.OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				.ThenBy(o => o.Text);
 
 			foreach (ILocatableFolder item in orderedDrives)
-			{
 				Drives.AddIfNotPresent(item);
-			}
 		}
 
 		public void DisconnectNetworkDrive(ILocatableFolder drive)
-			=> networkDrivesService.DisconnectNetworkDrive(drive);
+		{
+			_networkDrivesService.DisconnectNetworkDrive(drive);
+		}
 
 		public Task OpenMapNetworkDriveDialogAsync()
-			=> networkDrivesService.OpenMapNetworkDriveDialogAsync();
+		{
+			return _networkDrivesService.OpenMapNetworkDriveDialogAsync();
+		}
 	}
 }

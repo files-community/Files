@@ -136,17 +136,17 @@ namespace Files.App.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(CurrentInstanceViewModel.IsPageTypeNotHome):
-				case nameof(CurrentInstanceViewModel.IsPageTypeRecycleBin):
-				case nameof(CurrentInstanceViewModel.IsPageTypeZipFolder):
-				case nameof(CurrentInstanceViewModel.IsPageTypeFtp):
-				case nameof(CurrentInstanceViewModel.IsPageTypeLibrary):
-				case nameof(CurrentInstanceViewModel.IsPageTypeCloudDrive):
-				case nameof(CurrentInstanceViewModel.IsPageTypeMtpDevice):
-				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
+				case nameof(CurrentInstanceModel.IsPageTypeNotHome):
+				case nameof(CurrentInstanceModel.IsPageTypeRecycleBin):
+				case nameof(CurrentInstanceModel.IsPageTypeZipFolder):
+				case nameof(CurrentInstanceModel.IsPageTypeFtp):
+				case nameof(CurrentInstanceModel.IsPageTypeLibrary):
+				case nameof(CurrentInstanceModel.IsPageTypeCloudDrive):
+				case nameof(CurrentInstanceModel.IsPageTypeMtpDevice):
+				case nameof(CurrentInstanceModel.IsPageTypeSearchResults):
 					UpdatePageType();
 					break;
-				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
+				case nameof(CurrentInstanceModel.ShowSearchUnindexedItemsMessage):
 					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
 			}

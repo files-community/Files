@@ -19,7 +19,7 @@ namespace Files.App.ViewModels
 
 		private readonly DrivesViewModel _drivesViewModel;
 
-		private readonly NetworkDrivesViewModel _networkDrivesViewModel;
+		private readonly NetworkDrivesModel _networkDrivesViewModel;
 
 		private readonly IResourcesService _resourcesService;
 
@@ -39,7 +39,7 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
-		public MainPageViewModel(IUserSettingsService userSettings, IAppearanceSettingsService appearanceSettings, IResourcesService resources, DrivesViewModel drivesViewModel, NetworkDrivesViewModel networkDrivesViewModel)
+		public MainPageViewModel(IUserSettingsService userSettings, IAppearanceSettingsService appearanceSettings, IResourcesService resources, DrivesViewModel drivesViewModel, NetworkDrivesModel networkDrivesViewModel)
 		{
 			_userSettingsService = userSettings;
 			_appearanceSettingsService = appearanceSettings;

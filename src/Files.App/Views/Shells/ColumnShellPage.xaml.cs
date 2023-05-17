@@ -38,7 +38,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		public ColumnShellPage() : base(new CurrentInstanceViewModel(FolderLayoutModes.ColumnView))
+		public ColumnShellPage() : base(new CurrentInstanceModel(FolderLayoutModes.ColumnView))
 		{
 			InitializeComponent();
 		}

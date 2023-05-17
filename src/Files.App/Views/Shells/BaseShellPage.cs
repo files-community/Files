@@ -51,7 +51,7 @@ namespace Files.App.Views.Shells
 
 		public Type CurrentPageType => ItemDisplay.SourcePageType;
 
-		public FolderSettingsViewModel FolderSettings => InstanceViewModel.FolderSettings;
+		public FolderSettingsService FolderSettings => InstanceViewModel.FolderSettings;
 
 		public AppModel AppModel => App.AppModel;
 
@@ -65,7 +65,7 @@ namespace Files.App.Views.Shells
 
 		public ItemViewModel FilesystemViewModel { get; protected set; }
 
-		public CurrentInstanceViewModel InstanceViewModel { get; }
+		public CurrentInstanceModel InstanceViewModel { get; }
 
 		protected BaseLayout _ContentPage;
 		public BaseLayout ContentPage
@@ -153,7 +153,7 @@ namespace Files.App.Views.Shells
 
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
+		public BaseShellPage(CurrentInstanceModel instanceViewModel)
 		{
 			InstanceViewModel = instanceViewModel;
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;

@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Properties
 		public List<ListedItem> List { get; }
 
 		public CombinedProperties(
-			SelectedItemsPropertiesViewModel viewModel,
+			SelectedItemsPropertiesModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
 			List<ListedItem> listedItems,

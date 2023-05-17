@@ -22,7 +22,7 @@ namespace Files.App.Helpers
 		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public static List<ContextMenuFlyoutItem> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItem> GetItemContextCommandsWithoutShellItems(CurrentInstanceModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
@@ -32,7 +32,7 @@ namespace Files.App.Helpers
 		public static Task<List<ContextMenuFlyoutItem>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
 			=> ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
 
-		public static List<ContextMenuFlyoutItem> Filter(List<ContextMenuFlyoutItem> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
+		public static List<ContextMenuFlyoutItem> Filter(List<ContextMenuFlyoutItem> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceModel currentInstanceViewModel, bool removeOverflowMenu = true)
 		{
 			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
 			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
@@ -60,7 +60,7 @@ namespace Files.App.Helpers
 			return items;
 		}
 
-		private static bool Check(ContextMenuFlyoutItem item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
+		private static bool Check(ContextMenuFlyoutItem item, CurrentInstanceModel currentInstanceViewModel, List<ListedItem> selectedItems)
 		{
 			return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin)
 				&& (item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults)
@@ -72,9 +72,9 @@ namespace Files.App.Helpers
 
 		public static List<ContextMenuFlyoutItem> GetBaseItemMenuItems(
 			BaseLayoutCommandsViewModel commandsViewModel,
-			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
+			SelectedItemsPropertiesModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
-			CurrentInstanceViewModel currentInstanceViewModel,
+			CurrentInstanceModel currentInstanceViewModel,
 			ItemViewModel itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
@@ -135,7 +135,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItem()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconSort",
 					},
@@ -355,7 +355,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItem()
 				{
 					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenWith"
 					},
@@ -376,7 +376,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewTab"
 					},
@@ -389,7 +389,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewWindow"
 					},
@@ -511,7 +511,7 @@ namespace Files.App.Helpers
 				{
 					Text = "Archive".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconZip",
 					},

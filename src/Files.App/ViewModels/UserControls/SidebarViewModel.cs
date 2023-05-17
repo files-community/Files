@@ -17,7 +17,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private readonly NetworkDrivesModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesModel>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder

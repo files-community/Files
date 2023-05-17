@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Files.Backend.Helpers;
 
 namespace Files.App.Data.Models
 {
-	public class SelectedItemsPropertiesViewModel : ObservableObject
+	public class SelectedItemsPropertiesModel : ObservableObject
 	{
 		private bool loadFolderGlyph;
 		public bool LoadFolderGlyph
@@ -79,7 +78,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool itemNameVisibility = false;
+		private bool itemNameVisibility;
 		public bool ItemNameVisibility
 		{
 			get => itemNameVisibility;
@@ -97,7 +96,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool itemTypeVisibility = false;
+		private bool itemTypeVisibility;
 		public bool ItemTypeVisibility
 		{
 			get => itemTypeVisibility;
@@ -115,7 +114,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool driveFileSystemVisibility = false;
+		private bool driveFileSystemVisibility;
 		public bool DriveFileSystemVisibility
 		{
 			get => driveFileSystemVisibility;
@@ -133,7 +132,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool itemLocationVisibility = false;
+		private bool itemLocationVisibility;
 		public bool ItemLocationVisibility
 		{
 			get => itemLocationVisibility;
@@ -147,29 +146,29 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSize, value);
 		}
 
-		private string uncompresseditemSize;
+		private string _UncompressedItemSize;
 		public string UncompressedItemSize
 		{
-			get => uncompresseditemSize;
+			get => _UncompressedItemSize;
 			set
 			{
-				IsUncompressedItemSizeVisibile = true;
-				SetProperty(ref uncompresseditemSize, value);
+				IsUncompressedItemSizeVisible = true;
+				SetProperty(ref _UncompressedItemSize, value);
 			}
 		}
 
-		private bool itemSizeVisibility = false;
+		private bool itemSizeVisibility;
 		public bool ItemSizeVisibility
 		{
 			get => itemSizeVisibility;
 			set => SetProperty(ref itemSizeVisibility, value);
 		}
 
-		private bool isUncompressedItemSizeVisibile = false;
-		public bool IsUncompressedItemSizeVisibile
+		private bool _IsUncompressedItemSizeVisible;
+		public bool IsUncompressedItemSizeVisible
 		{
-			get => isUncompressedItemSizeVisibile;
-			set => SetProperty(ref isUncompressedItemSizeVisibile, value);
+			get => _IsUncompressedItemSizeVisible;
+			set => SetProperty(ref _IsUncompressedItemSizeVisible, value);
 		}
 
 		private long itemSizeBytes;
@@ -179,14 +178,14 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSizeBytes, value);
 		}
 
-		private long uncompresseditemSizeBytes;
+		private long _UncompressedItemSizeBytes;
 		public long UncompressedItemSizeBytes
 		{
-			get => uncompresseditemSizeBytes;
-			set => SetProperty(ref uncompresseditemSizeBytes, value);
+			get => _UncompressedItemSizeBytes;
+			set => SetProperty(ref _UncompressedItemSizeBytes, value);
 		}
 
-		private bool itemSizeProgressVisibility = false;
+		private bool itemSizeProgressVisibility;
 		public bool ItemSizeProgressVisibility
 		{
 			get => itemSizeProgressVisibility;
@@ -228,7 +227,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public bool filesAndFoldersCountVisibility = false;
+		public bool filesAndFoldersCountVisibility;
 		public bool FilesAndFoldersCountVisibility
 		{
 			get => filesAndFoldersCountVisibility;
@@ -269,7 +268,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public bool driveUsedSpaceVisibility = false;
+		public bool driveUsedSpaceVisibility;
 		public bool DriveUsedSpaceVisibility
 		{
 			get => driveUsedSpaceVisibility;
@@ -310,7 +309,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public bool driveFreeSpaceVisibility = false;
+		public bool driveFreeSpaceVisibility;
 		public bool DriveFreeSpaceVisibility
 		{
 			get => driveFreeSpaceVisibility;
@@ -328,7 +327,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public bool itemCreatedTimestampVisibility = false;
+		public bool itemCreatedTimestampVisibility;
 		public bool ItemCreatedTimestampVisibility
 		{
 			get => itemCreatedTimestampVisibility;
@@ -346,7 +345,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool itemModifiedTimestampVisibility = false;
+		private bool itemModifiedTimestampVisibility;
 		public bool ItemModifiedTimestampVisibility
 		{
 			get => itemModifiedTimestampVisibility;
@@ -364,7 +363,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool itemAccessedTimestampVisibility = false;
+		private bool itemAccessedTimestampVisibility;
 		public bool ItemAccessedTimestampVisibility
 		{
 			get => itemAccessedTimestampVisibility;
@@ -412,16 +411,11 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public bool driveCapacityVisibility = false;
+		public bool driveCapacityVisibility;
 		public bool DriveCapacityVisibility
 		{
 			get => driveCapacityVisibility;
 			set => SetProperty(ref driveCapacityVisibility, value);
-		}
-
-		public double DrivePercentageValue
-		{
-			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
 		private bool itemAttributesVisibility = true;
@@ -452,30 +446,18 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isItemSelected, value);
 		}
 
-		public SelectedItemsPropertiesViewModel()
-		{
-		}
-
-		private bool isSelectedItemImage = false;
+		private bool isSelectedItemImage;
 		public bool IsSelectedItemImage
 		{
 			get => isSelectedItemImage;
 			set => SetProperty(ref isSelectedItemImage, value);
 		}
 
-		private bool isSelectedItemShortcut = false;
+		private bool isSelectedItemShortcut;
 		public bool IsSelectedItemShortcut
 		{
 			get => isSelectedItemShortcut;
 			set => SetProperty(ref isSelectedItemShortcut, value);
-		}
-
-		public void CheckAllFileExtensions(List<string> itemExtensions)
-		{
-			// Checks if all the item extensions are image extensions of some kind.
-			IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
-			// Checks if there is only one selected item and if it's a shortcut.
-			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
 
 		private string shortcutItemType;
@@ -506,7 +488,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref shortcutItemWorkingDir, value);
 		}
 
-		private bool shortcutItemWorkingDirVisibility = false;
+		private bool shortcutItemWorkingDirVisibility;
 		public bool ShortcutItemWorkingDirVisibility
 		{
 			get => shortcutItemWorkingDirVisibility;
@@ -523,7 +505,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool shortcutItemArgumentsVisibility = false;
+		private bool shortcutItemArgumentsVisibility;
 		public bool ShortcutItemArgumentsVisibility
 		{
 			get => shortcutItemArgumentsVisibility;
@@ -544,16 +526,6 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref shortcutItemOpenLinkCommand, value);
-			}
-		}
-
-		public bool ContainsFilesOrFolders { get; set; }
-
-		public Uri FolderIconSource
-		{
-			get
-			{
-				return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
 			}
 		}
 
@@ -612,6 +584,26 @@ namespace Files.App.Data.Models
 		{
 			get => runAsAdminEnabled;
 			set => SetProperty(ref runAsAdminEnabled, value);
+		}
+
+		public double DrivePercentageValue
+			=> DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
+
+		public Uri FolderIconSource
+			=> ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
+
+		public bool ContainsFilesOrFolders { get; set; }
+
+		public SelectedItemsPropertiesModel()
+		{
+		}
+
+		public void CheckAllFileExtensions(List<string> itemExtensions)
+		{
+			// Checks if all the item extensions are image extensions of some kind.
+			IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
+			// Checks if there is only one selected item and if it's a shortcut.
+			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
 	}
 }

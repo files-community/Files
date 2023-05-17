@@ -62,7 +62,7 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private NetworkDrivesModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesModel>();
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
@@ -167,7 +167,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewTab",
 					},
@@ -178,7 +178,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewWindow",
 					},
@@ -196,7 +196,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
 					},
@@ -207,7 +207,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconUnpinFromFavorites",
 					},
@@ -232,7 +232,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconProperties",
 					},

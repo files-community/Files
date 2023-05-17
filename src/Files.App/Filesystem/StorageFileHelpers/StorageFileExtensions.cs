@@ -292,7 +292,7 @@ namespace Files.App.Filesystem
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-				var networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+				var networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesModel>();
 
 				var drives = drivesViewModel.Drives.Concat(networkDrivesViewModel.Drives).Cast<DriveItem>().Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));

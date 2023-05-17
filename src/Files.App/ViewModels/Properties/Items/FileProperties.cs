@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Properties
 		public ListedItem Item { get; }
 
 		public FileProperties(
-			SelectedItemsPropertiesViewModel viewModel,
+			SelectedItemsPropertiesModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
 			ListedItem item,

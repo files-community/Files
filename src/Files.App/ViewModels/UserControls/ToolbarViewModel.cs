@@ -174,8 +174,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
 
-		private CurrentInstanceViewModel instanceViewModel;
-		public CurrentInstanceViewModel InstanceViewModel
+		private CurrentInstanceModel instanceViewModel;
+		public CurrentInstanceModel InstanceViewModel
 		{
 			get => instanceViewModel;
 			set => SetProperty(ref instanceViewModel, value);

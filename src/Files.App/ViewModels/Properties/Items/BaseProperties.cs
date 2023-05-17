@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Properties
 
 		public IShellPage AppInstance { get; set; } = null;
 
-		public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+		public SelectedItemsPropertiesModel ViewModel { get; set; }
 
 		public CancellationTokenSource TokenSource { get; set; }
 

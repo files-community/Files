@@ -3,11 +3,11 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Data.Models
+namespace Files.App.Data.Items
 {
-	public struct OpacityIconModel
+	public struct OpacityIconItem
 	{
-		public string OpacityIconStyle { get; set; }
+		public string OpacityIconStyle { get; init; }
 
 		public readonly OpacityIcon ToOpacityIcon()
 		{

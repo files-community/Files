@@ -14,9 +14,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class FileIcon : UserControl
 	{
-		private SelectedItemsPropertiesViewModel viewModel;
+		private SelectedItemsPropertiesModel viewModel;
 
-		public SelectedItemsPropertiesViewModel ViewModel
+		public SelectedItemsPropertiesModel ViewModel
 		{
 			get => viewModel;
 			set

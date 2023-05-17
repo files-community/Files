@@ -17,7 +17,7 @@ namespace Files.App.ViewModels.Properties
 
 		public BaseProperties BaseProperties { get; set; }
 
-		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
+		public SelectedItemsPropertiesModel ViewModel { get; set; } = new();
 
 		protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
 		{

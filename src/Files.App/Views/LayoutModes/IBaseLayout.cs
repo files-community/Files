@@ -21,9 +21,9 @@ namespace Files.App.Views.LayoutModes
 
 		PreviewPaneViewModel PreviewPaneViewModel { get; }
 
-		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+		public SelectedItemsPropertiesModel SelectedItemsPropertiesViewModel { get; }
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public DirectoryPropertiesModel DirectoryPropertiesViewModel { get; }
 
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
 

@@ -454,7 +454,7 @@ namespace Files.App.ViewModels.Settings
 		public void ResetLayoutPreferences()
 		{
 			// Is this proper practice?
-			var dbInstance = FolderSettingsViewModel.GetDbInstance();
+			var dbInstance = FolderSettingsService.GetDbInstance();
 
 			dbInstance.ResetAll();
 		}

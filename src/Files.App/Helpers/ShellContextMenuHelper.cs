@@ -316,7 +316,7 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.OpacityIcon = new OpacityIconModel()
+					openWithItem.OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};

@@ -231,7 +231,7 @@ namespace Files.App
 						.AddSingleton<SidebarViewModel>()
 						.AddSingleton<SettingsViewModel>()
 						.AddSingleton<DrivesViewModel>()
-						.AddSingleton<NetworkDrivesViewModel>()
+						.AddSingleton<NetworkDrivesModel>()
 						.AddSingleton<OngoingTasksViewModel>()
 						.AddSingleton<AppearanceViewModel>()
 				)

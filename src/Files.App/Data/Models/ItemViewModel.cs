@@ -1,23 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers.FileListCache;
-using Files.App.Shell;
-using Files.App.Storage.FtpStorage;
-using Files.App.UserControls;
-using Files.App.ViewModels.Previews;
-using Files.Backend.Services;
-using Files.Backend.Services.SizeProvider;
-using Files.Backend.ViewModels.Dialogs;
-using Files.Shared.Cloud;
-using Files.Shared.EventArguments;
-using Files.Shared.Services;
 using FluentFTP;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -33,10 +19,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.NativeDirectoryChangesHelper;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
-using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
-using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Data.Models
 {
@@ -67,7 +49,7 @@ namespace Files.App.Data.Models
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
-		private FolderSettingsViewModel folderSettings = null;
+		private FolderSettingsService folderSettings = null;
 
 		private ListedItem? currentFolder;
 		public ListedItem? CurrentFolder
@@ -379,7 +361,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
+		public ItemViewModel(FolderSettingsService folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
 			filesAndFolders = new List<ListedItem>();
@@ -1607,16 +1589,16 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
+				(IntPtr hFile, NativeFindStorageItemHelper.WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
 				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+					var findInfoLevel = NativeFindStorageItemHelper.FINDEX_INFO_LEVELS.FindExInfoBasic;
+					var additionalFlags = NativeFindStorageItemHelper.FIND_FIRST_EX_LARGE_FETCH;
 
-					IntPtr hFileTsk = FindFirstFileExFromApp(
+					IntPtr hFileTsk = NativeFindStorageItemHelper.FindFirstFileExFromApp(
 						path + "\\*.*",
 						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+						out NativeFindStorageItemHelper.WIN32_FIND_DATA findDataTsk,
+						NativeFindStorageItemHelper.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
 						IntPtr.Zero,
 						additionalFlags);
 
@@ -1629,17 +1611,17 @@ namespace Files.App.Data.Models
 
 				try
 				{
-					FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
+					NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
 					itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-					FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+					NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
 					itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 				}
 				catch (ArgumentException)
 				{
 				}
 
-				var isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+				var isHidden = (((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Hidden) == SystemIO.FileAttributes.Hidden);
 				var opacity = isHidden ? Constants.UI.DimItemOpacity : 1d;
 
 				var currentFolder = library ?? new ListedItem(null)
@@ -1860,13 +1842,13 @@ namespace Files.App.Data.Models
 			{
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
-				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE;
+				var notifyFilters = NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_DIR_NAME | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_FILE_NAME | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_LAST_WRITE | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_SIZE;
 
 				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+					notifyFilters |= NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
-				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				var overlapped = new NativeDirectoryChangesHelper.OVERLAPPED();
+				overlapped.hEvent = NativeDirectoryChangesHelper.CreateEvent(IntPtr.Zero, false, false, null);
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -1875,10 +1857,10 @@ namespace Files.App.Data.Models
 					{
 						fixed (byte* pBuff = buff)
 						{
-							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
+							ref var notifyInformation = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[0]);
 							if (x.Status != AsyncStatus.Canceled)
 							{
-								ReadDirectoryChangesW(hWatchDir, pBuff,
+								NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
 								4096, false,
 								notifyFilters, null,
 								ref overlapped, null);
@@ -1892,17 +1874,17 @@ namespace Files.App.Data.Models
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+							var rc = NativeDirectoryChangesHelper.WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
 							Debug.WriteLine("wait done: {0}", rand);
 
 							uint offset = 0;
-							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+							ref var notifyInfo = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[offset]);
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
 							do
 							{
-								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+								notifyInfo = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[offset]);
 								string? FileName = null;
 								unsafe
 								{
@@ -1930,7 +1912,7 @@ namespace Files.App.Data.Models
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
+				NativeDirectoryChangesHelper.CloseHandle(overlapped.hEvent);
 				operationQueue.Clear();
 
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
@@ -1951,8 +1933,8 @@ namespace Files.App.Data.Models
 					Debug.WriteLine("watcher canceled");
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
-				CloseHandle(hWatchDir);
+				NativeDirectoryChangesHelper.CancelIoEx(hWatchDir, IntPtr.Zero);
+				NativeDirectoryChangesHelper.CloseHandle(hWatchDir);
 			});
 		}
 
@@ -1977,13 +1959,13 @@ namespace Files.App.Data.Models
 			{
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
-				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
+				var notifyFilters = NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_DIR_NAME | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_FILE_NAME | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_LAST_WRITE | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_SIZE | NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_CREATION;
 
 				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+					notifyFilters |= NativeDirectoryChangesHelper.FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
-				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				var overlapped = new NativeDirectoryChangesHelper.OVERLAPPED();
+				overlapped.hEvent = NativeDirectoryChangesHelper.CreateEvent(IntPtr.Zero, false, false, null);
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -1992,11 +1974,11 @@ namespace Files.App.Data.Models
 					{
 						fixed (byte* pBuff = buff)
 						{
-							ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
+							ref var notifyInformation = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[0]);
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							ReadDirectoryChangesW(hWatchDir, pBuff,
+							NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
 								4096, true,
 								notifyFilters, null,
 								ref overlapped, null);
@@ -2004,16 +1986,16 @@ namespace Files.App.Data.Models
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+							var rc = NativeDirectoryChangesHelper.WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
 
 							uint offset = 0;
-							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+							ref var notifyInfo = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[offset]);
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
 							do
 							{
-								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+								notifyInfo = ref Unsafe.As<byte, NativeDirectoryChangesHelper.FILE_NOTIFY_INFORMATION>(ref buff[offset]);
 
 								uint action = notifyInfo.Action;
 
@@ -2028,7 +2010,7 @@ namespace Files.App.Data.Models
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
+				NativeDirectoryChangesHelper.CloseHandle(overlapped.hEvent);
 				gitChangesQueue.Clear();
 			});
 
@@ -2042,8 +2024,8 @@ namespace Files.App.Data.Models
 					gitWatcherAction = null;
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
-				CloseHandle(hWatchDir);
+				NativeDirectoryChangesHelper.CancelIoEx(hWatchDir, IntPtr.Zero);
+				NativeDirectoryChangesHelper.CloseHandle(hWatchDir);
 			});
 		}
 
@@ -2226,26 +2208,31 @@ namespace Files.App.Data.Models
 
 		private async Task<ListedItem?> AddFileOrFolderAsync(string fileOrFolderPath)
 		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-			var additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+			NativeFindStorageItemHelper.FINDEX_INFO_LEVELS findInfoLevel = NativeFindStorageItemHelper.FINDEX_INFO_LEVELS.FindExInfoBasic;
+			var additionalFlags = NativeFindStorageItemHelper.FIND_FIRST_EX_CASE_SENSITIVE;
 
-			IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-												  additionalFlags);
+			IntPtr hFile = NativeFindStorageItemHelper.FindFirstFileExFromApp(
+				fileOrFolderPath,
+				findInfoLevel,
+				out NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+				NativeFindStorageItemHelper.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
+
+			// If we cannot find the file (probably since it doesn't exist anymore), simply exit without adding it
 			if (hFile.ToInt64() == -1)
-			{
-				// If we cannot find the file (probably since it doesn't exist anymore) simply exit without adding it
 				return null;
-			}
 
-			FindClose(hFile);
+			NativeFindStorageItemHelper.FindClose(hFile);
 
-			var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
-			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+			var isSystem = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.System) == SystemIO.FileAttributes.System;
+			var isHidden = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Hidden) == SystemIO.FileAttributes.Hidden;
 			var startWithDot = findData.cFileName.StartsWith('.');
+
 			if ((isHidden &&
-			   (!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
-			   (isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
-			   (startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles))
+				(!UserSettingsService.FoldersSettingsService.ShowHiddenItems ||
+				(isSystem && !UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) ||
+				(startWithDot && !UserSettingsService.FoldersSettingsService.ShowDotFiles))
 			{
 				// Do not add to file list if hidden/system attribute is set and system/hidden file are not to be shown
 				return null;
@@ -2439,43 +2426,5 @@ namespace Files.App.Data.Models
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}
-	}
-
-	public class PageTypeUpdatedEventArgs
-	{
-		public bool IsTypeCloudDrive { get; set; }
-
-		public bool IsTypeRecycleBin { get; set; }
-	}
-
-	public class WorkingDirectoryModifiedEventArgs : EventArgs
-	{
-		public string? Path { get; set; }
-
-		public string? Name { get; set; }
-
-		public bool IsLibrary { get; set; }
-	}
-
-	public class ItemLoadStatusChangedEventArgs : EventArgs
-	{
-		public enum ItemLoadStatus
-		{
-			Starting,
-			InProgress,
-			Complete
-		}
-
-		public ItemLoadStatus Status { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? PreviousDirectory { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? Path { get; set; }
 	}
 }

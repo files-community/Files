@@ -41,12 +41,12 @@ namespace Files.App.Views.LayoutModes
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
-		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+		public SelectedItemsPropertiesModel SelectedItemsPropertiesViewModel { get; }
 
-		public FolderSettingsViewModel? FolderSettings
+		public FolderSettingsService? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
 
-		public CurrentInstanceViewModel? InstanceViewModel
+		public CurrentInstanceModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
 		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
@@ -54,7 +54,7 @@ namespace Files.App.Views.LayoutModes
 		public AppModel AppModel
 			=> App.AppModel;
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public DirectoryPropertiesModel DirectoryPropertiesViewModel { get; }
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -278,8 +278,8 @@ namespace Files.App.Views.LayoutModes
 			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
 			jumpTimer.Tick += JumpTimer_Tick;
 
-			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
-			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
+			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesModel();
+			DirectoryPropertiesViewModel = new DirectoryPropertiesModel();
 
 			dragOverTimer = DispatcherQueue.CreateTimer();
 			tapDebounceTimer = DispatcherQueue.CreateTimer();

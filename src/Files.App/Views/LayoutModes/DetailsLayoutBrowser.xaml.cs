@@ -38,7 +38,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
-		public ColumnsViewModel ColumnsViewModel { get; } = new();
+		public ColumnsModel ColumnsViewModel { get; } = new();
 
 		private double maxWidthForRenameTextbox;
 
@@ -538,7 +538,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// for scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnModel));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
 		}

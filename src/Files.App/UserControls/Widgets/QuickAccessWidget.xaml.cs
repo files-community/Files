@@ -170,7 +170,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewTab",
 					},
@@ -181,7 +181,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconOpenInNewWindow",
 					},
@@ -199,7 +199,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconPinToFavorites",
 					},
@@ -210,7 +210,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconUnpinFromFavorites",
 					},
@@ -221,7 +221,7 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItem()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					OpacityIcon = new OpacityIconItem()
 					{
 						OpacityIconStyle = "ColorIconProperties",
 					},

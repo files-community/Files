@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public class ColumnViewModel : ObservableObject
+	public class ColumnModel : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
 
@@ -139,7 +139,7 @@ namespace Files.App.Data.Models
 			if (obj == this)
 				return true;
 
-			if (obj is ColumnViewModel model)
+			if (obj is ColumnModel model)
 			{
 				return
 					model.UserCollapsed == UserCollapsed &&

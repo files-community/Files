@@ -57,7 +57,7 @@ namespace Files.App.Data.Models
 
 		public bool CollapseLabel { get; set; }
 
-		public OpacityIconModel OpacityIcon { get; set; }
+		public OpacityIconItem OpacityIcon { get; set; }
 
 		public bool ShowLoadingIndicator { get; set; }
 

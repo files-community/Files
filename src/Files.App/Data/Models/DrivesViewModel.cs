@@ -12,56 +12,61 @@ namespace Files.App.Data.Models
 {
 	public class DrivesViewModel : ObservableObject, IDisposable
 	{
-		public ObservableCollection<ILocatableFolder> Drives
-		{
-			get => drives;
-			private set => SetProperty(ref drives, value);
-		}
+		private readonly IRemovableDrivesService _removableDrivesService;
 
+		private readonly ISizeProvider _folderSizeProvider;
+
+		private readonly IStorageDeviceWatcher _watcher;
+
+		private readonly ILogger<App> _logger;
+
+		private bool showUserConsentOnInit;
 		public bool ShowUserConsentOnInit
 		{
 			get => showUserConsentOnInit;
 			set => SetProperty(ref showUserConsentOnInit, value);
 		}
 
-		private bool showUserConsentOnInit;
-		private ObservableCollection<ILocatableFolder> drives;
-		private readonly IRemovableDrivesService removableDrivesService;
-		private readonly ISizeProvider folderSizeProvider;
-		private readonly IStorageDeviceWatcher watcher;
-		private readonly ILogger<App> logger;
+		private ObservableCollection<ILocatableFolder> _drives;
+		public ObservableCollection<ILocatableFolder> Drives
+		{
+			get => _drives;
+			private set => SetProperty(ref _drives, value);
+		}
 
 		public DrivesViewModel(IRemovableDrivesService removableDrivesService, ISizeProvider folderSizeProvider, ILogger<App> logger)
 		{
-			this.removableDrivesService = removableDrivesService;
-			this.folderSizeProvider = folderSizeProvider;
-			this.logger = logger;
+			_removableDrivesService = removableDrivesService;
+			_folderSizeProvider = folderSizeProvider;
+			_logger = logger;
 
-			drives = new ObservableCollection<ILocatableFolder>();
+			_drives = new();
 
-			watcher = removableDrivesService.CreateWatcher();
-			watcher.DeviceAdded += Watcher_DeviceAdded;
-			watcher.DeviceRemoved += Watcher_DeviceRemoved;
-			watcher.DeviceModified += Watcher_DeviceModified;
-			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+			_watcher = removableDrivesService.CreateWatcher();
+			_watcher.DeviceAdded += Watcher_DeviceAdded;
+			_watcher.DeviceRemoved += Watcher_DeviceRemoved;
+			_watcher.DeviceModified += Watcher_DeviceModified;
+			_watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 		}
 
-		private async void Watcher_EnumerationCompleted(object? sender, System.EventArgs e)
+		private async void Watcher_EnumerationCompleted(object? sender, EventArgs e)
 		{
-			logger.LogDebug("Watcher_EnumerationCompleted");
-			await folderSizeProvider.CleanAsync();
+			_logger.LogDebug("Watcher_EnumerationCompleted");
+
+			await _folderSizeProvider.CleanAsync();
 		}
 
 		private async void Watcher_DeviceModified(object? sender, string e)
 		{
 			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
-				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
+				await _removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
 		}
 
 		private void Watcher_DeviceRemoved(object? sender, string e)
 		{
-			logger.LogInformation($"Drive removed: {e}");
+			_logger.LogInformation($"Drive removed: {e}");
+
 			lock (Drives)
 			{
 				var drive = Drives.FirstOrDefault(x => x.Id == e);
@@ -88,7 +93,7 @@ namespace Files.App.Data.Models
 				if (matchingDrive is not null)
 					Drives.Remove(matchingDrive);
 
-				logger.LogInformation($"Drive added: {e.Path}");
+				_logger.LogInformation($"Drive added: {e.Path}");
 				Drives.Add(e);
 			}
 
@@ -98,28 +103,27 @@ namespace Files.App.Data.Models
 		public async Task UpdateDrivesAsync()
 		{
 			Drives.Clear();
-			await foreach (ILocatableFolder item in removableDrivesService.GetDrivesAsync())
-			{
+
+			await foreach (ILocatableFolder item in _removableDrivesService.GetDrivesAsync())
 				Drives.AddIfNotPresent(item);
-			}
 
-			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
+			var osDrive = await _removableDrivesService.GetPrimaryDriveAsync();
 
-			// Show consent dialog if the OS drive could not be accessed
+			// Show consent dialog, if the OS drive could not be accessed
 			if (!Drives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
 				ShowUserConsentOnInit = true;
 
-			if (watcher.CanBeStarted)
-				watcher.Start();
+			if (_watcher.CanBeStarted)
+				_watcher.Start();
 		}
 
 		public void Dispose()
 		{
-			watcher.Stop();
-			watcher.DeviceAdded -= Watcher_DeviceAdded;
-			watcher.DeviceRemoved -= Watcher_DeviceRemoved;
-			watcher.DeviceModified -= Watcher_DeviceModified;
-			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
+			_watcher.Stop();
+			_watcher.DeviceAdded -= Watcher_DeviceAdded;
+			_watcher.DeviceRemoved -= Watcher_DeviceRemoved;
+			_watcher.DeviceModified -= Watcher_DeviceModified;
+			_watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 		}
 	}
 }

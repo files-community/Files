@@ -8,24 +8,24 @@ namespace Files.App.UserControls
 {
 	public sealed partial class StatusBarControl : UserControl
 	{
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
+		public DirectoryPropertiesModel DirectoryPropertiesViewModel
 		{
-			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
+			get => (DirectoryPropertiesModel)GetValue(DirectoryPropertiesViewModelProperty);
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
 		}
 
 		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
-		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+		public SelectedItemsPropertiesModel SelectedItemsPropertiesViewModel
 		{
-			get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);
+			get => (SelectedItemsPropertiesModel)GetValue(SelectedItemsPropertiesViewModelProperty);
 			set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
 		}
 
 		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesModel), typeof(StatusBarControl), new PropertyMetadata(null));
 
 		public bool ShowInfoText
 		{

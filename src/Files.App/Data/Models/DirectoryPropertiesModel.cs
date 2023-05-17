@@ -3,12 +3,10 @@
 
 namespace Files.App.Data.Models
 {
-	public class DirectoryPropertiesViewModel : ObservableObject
+	public class DirectoryPropertiesModel : ObservableObject
 	{
-		public int ActiveBranchIndex { get; private set; }
-
-		private string _DirectoryItemCount;
-		public string DirectoryItemCount
+		private string? _DirectoryItemCount;
+		public string? DirectoryItemCount
 		{
 			get => _DirectoryItemCount;
 			set => SetProperty(ref _DirectoryItemCount, value);
@@ -31,6 +29,8 @@ namespace Files.App.Data.Models
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
 			}
 		}
+
+		public int ActiveBranchIndex { get; private set; }
 
 		public ObservableCollection<string> BranchesNames { get; } = new();
 

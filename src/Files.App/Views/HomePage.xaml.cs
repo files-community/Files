@@ -17,7 +17,7 @@ namespace Files.App.Views
 
 		private IShellPage AppInstance = null;
 
-		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+		public FolderSettingsService FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
 
 		private QuickAccessWidget quickAccessWidget;
 		private DrivesWidget drivesWidget;

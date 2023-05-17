@@ -5,91 +5,91 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public class ColumnsViewModel : ObservableObject
+	public class ColumnsModel : ObservableObject
 	{
-		private ColumnViewModel iconColumn = new()
+		private ColumnModel iconColumn = new()
 		{
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizable = false,
 		};
 		[LiteDB.BsonIgnore]
-		public ColumnViewModel IconColumn
+		public ColumnModel IconColumn
 		{
 			get => iconColumn;
 			set => SetProperty(ref iconColumn, value);
 		}
 
-		private ColumnViewModel tagColumn = new();
-		public ColumnViewModel TagColumn
+		private ColumnModel tagColumn = new();
+		public ColumnModel TagColumn
 		{
 			get => tagColumn;
 			set => SetProperty(ref tagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new()
+		private ColumnModel nameColumn = new()
 		{
 			NormalMaxLength = 1000d
 		};
-		public ColumnViewModel NameColumn
+		public ColumnModel NameColumn
 		{
 			get => nameColumn;
 			set => SetProperty(ref nameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new()
+		private ColumnModel statusColumn = new()
 		{
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-		public ColumnViewModel StatusColumn
+		public ColumnModel StatusColumn
 		{
 			get => statusColumn;
 			set => SetProperty(ref statusColumn, value);
 		}
 
-		private ColumnViewModel dateModifiedColumn = new();
-		public ColumnViewModel DateModifiedColumn
+		private ColumnModel dateModifiedColumn = new();
+		public ColumnModel DateModifiedColumn
 		{
 			get => dateModifiedColumn;
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new()
+		private ColumnModel originalPathColumn = new()
 		{
 			NormalMaxLength = 500,
 		};
-		public ColumnViewModel OriginalPathColumn
+		public ColumnModel OriginalPathColumn
 		{
 			get => originalPathColumn;
 			set => SetProperty(ref originalPathColumn, value);
 		}
 
-		private ColumnViewModel itemTypeColumn = new();
-		public ColumnViewModel ItemTypeColumn
+		private ColumnModel itemTypeColumn = new();
+		public ColumnModel ItemTypeColumn
 		{
 			get => itemTypeColumn;
 			set => SetProperty(ref itemTypeColumn, value);
 		}
 
-		private ColumnViewModel dateDeletedColumn = new();
-		public ColumnViewModel DateDeletedColumn
+		private ColumnModel dateDeletedColumn = new();
+		public ColumnModel DateDeletedColumn
 		{
 			get => dateDeletedColumn;
 			set => SetProperty(ref dateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new()
+		private ColumnModel dateCreatedColumn = new()
 		{
 			UserCollapsed = true
 		};
-		public ColumnViewModel DateCreatedColumn
+		public ColumnModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
 			set => SetProperty(ref dateCreatedColumn, value);
 		}
 
-		private ColumnViewModel sizeColumn = new();
-		public ColumnViewModel SizeColumn
+		private ColumnModel sizeColumn = new();
+		public ColumnModel SizeColumn
 		{
 			get => sizeColumn;
 			set => SetProperty(ref sizeColumn, value);
@@ -142,7 +142,7 @@ namespace Files.App.Data.Models
 			if (obj == this)
 				return true;
 
-			if (obj is ColumnsViewModel model)
+			if (obj is ColumnsModel model)
 			{
 				return
 					model.DateCreatedColumn.Equals(DateCreatedColumn) &&

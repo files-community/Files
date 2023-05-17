@@ -5,24 +5,17 @@ using LibGit2Sharp;
 
 namespace Files.App.Data.Models
 {
-	public class CurrentInstanceViewModel : ObservableObject
+	/// <summary>
+	/// Represents a model for the current instance.
+	/// </summary>
+	/// <remarks>
+	/// TODO: In the future, we should consolidate these public variables into
+	/// a single enum property providing simplified customization of the
+	/// values being manipulated inside the setter blocks.
+	/// </remarks>
+	public class CurrentInstanceModel : ObservableObject
 	{
-		// TODO:
-		//  In the future, we should consolidate these public variables into
-		//  a single enum property providing simplified customization of the
-		//  values being manipulated inside the setter blocks
-
-		public FolderSettingsViewModel FolderSettings { get; }
-
-		public CurrentInstanceViewModel()
-		{
-			FolderSettings = new FolderSettingsViewModel();
-		}
-
-		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
-		{
-			FolderSettings = new FolderSettingsViewModel(rootLayoutMode);
-		}
+		public FolderSettingsService FolderSettings { get; }
 
 		private bool isPageTypeSearchResults = false;
 		public bool IsPageTypeSearchResults
@@ -31,6 +24,7 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref isPageTypeSearchResults, value);
+
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
@@ -58,11 +52,9 @@ namespace Files.App.Data.Models
 		}
 
 		public bool ShowSearchUnindexedItemsMessage
-		{
-			get => !SearchedUnindexedItems && IsPageTypeSearchResults;
-		}
+			=> !SearchedUnindexedItems && IsPageTypeSearchResults;
 
-		private bool isPageTypeNotHome = false;
+		private bool isPageTypeNotHome;
 		public bool IsPageTypeNotHome
 		{
 			get => isPageTypeNotHome;
@@ -74,91 +66,84 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private bool isPageTypeMtpDevice = false;
+		private bool isPageTypeMtpDevice;
 		public bool IsPageTypeMtpDevice
 		{
 			get => isPageTypeMtpDevice;
 			set
 			{
 				SetProperty(ref isPageTypeMtpDevice, value);
+
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 			}
 		}
 
-		private bool isPageTypeRecycleBin = false;
+		private bool isPageTypeRecycleBin;
 		public bool IsPageTypeRecycleBin
 		{
 			get => isPageTypeRecycleBin;
 			set
 			{
 				SetProperty(ref isPageTypeRecycleBin, value);
+
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
-		private bool isPageTypeFtp = false;
+		private bool isPageTypeFtp;
 		public bool IsPageTypeFtp
 		{
 			get => isPageTypeFtp;
 			set
 			{
 				SetProperty(ref isPageTypeFtp, value);
+
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
-		private bool isPageTypeCloudDrive = false;
+		private bool isPageTypeCloudDrive;
 		public bool IsPageTypeCloudDrive
 		{
 			get => isPageTypeCloudDrive;
-			set
-			{
-				SetProperty(ref isPageTypeCloudDrive, value);
-			}
+			set => SetProperty(ref isPageTypeCloudDrive, value);
 		}
 
-		private bool isPageTypeZipFolder = false;
+		private bool isPageTypeZipFolder;
 		public bool IsPageTypeZipFolder
 		{
 			get => isPageTypeZipFolder;
 			set
 			{
 				SetProperty(ref isPageTypeZipFolder, value);
+
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanTagFilesInPage));
 			}
 		}
 
-		private bool isPageTypeLibrary = false;
+		private bool isPageTypeLibrary;
 		public bool IsPageTypeLibrary
 		{
 			get => isPageTypeLibrary;
-			set
-			{
-				SetProperty(ref isPageTypeLibrary, value);
-			}
+			set => SetProperty(ref isPageTypeLibrary, value);
 		}
 
 		public bool CanCopyPathInPage
-		{
-			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
-		}
+			=> !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
 
 		public bool CanCreateFileInPage
-		{
-			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
-		}
+			=> !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
 
 		public bool CanTagFilesInPage
-		{
-			get => !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
-		}
+			=> !isPageTypeRecycleBin && !isPageTypeFtp && !isPageTypeZipFolder;
 
-		public bool IsGitRepository => !string.IsNullOrWhiteSpace(gitRepositoryPath);
+		public bool IsGitRepository
+			=> !string.IsNullOrWhiteSpace(gitRepositoryPath);
 
 		private string? gitRepositoryPath;
 		public string? GitRepositoryPath
@@ -187,6 +172,16 @@ namespace Files.App.Data.Models
 
 				return string.Empty;
 			}
+		}
+
+		public CurrentInstanceModel()
+		{
+			FolderSettings = new();
+		}
+
+		public CurrentInstanceModel(FolderLayoutModes rootLayoutMode)
+		{
+			FolderSettings = new(rootLayoutMode);
 		}
 
 		public void UpdateCurrentBranchName()

@@ -17,7 +17,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public int GridViewSize;
 		public bool IsAdaptiveLayoutOverridden;
 
-		public ColumnsViewModel ColumnsViewModel;
+		public ColumnsModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
 		public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
@@ -36,7 +36,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
-			ColumnsViewModel = new ColumnsViewModel();
+			ColumnsViewModel = new ColumnsModel();
 			ColumnsViewModel.DateCreatedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateCreatedColumn;
 			ColumnsViewModel.DateModifiedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateColumn;
 			ColumnsViewModel.ItemTypeColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowTypeColumn;

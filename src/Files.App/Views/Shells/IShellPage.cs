@@ -10,7 +10,7 @@ namespace Files.App.Views.Shells
 	{
 		ItemViewModel FilesystemViewModel { get; }
 
-		CurrentInstanceViewModel InstanceViewModel { get; }
+		CurrentInstanceModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 

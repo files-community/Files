@@ -53,7 +53,7 @@ namespace Files.App.Views.Shells
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
 
-		public ModernShellPage() : base(new CurrentInstanceViewModel())
+		public ModernShellPage() : base(new CurrentInstanceModel())
 		{
 			InitializeComponent();
 
@@ -83,7 +83,7 @@ namespace Files.App.Views.Shells
 			if (FilesystemViewModel is null)
 				return;
 
-			FolderSettingsViewModel.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
+			FolderSettingsService.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
 			if (e.IsAdaptiveLayoutUpdateRequired)
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders);
 		}
@@ -321,7 +321,7 @@ namespace Files.App.Views.Shells
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{
-					if (InstanceViewModel?.FolderSettings is FolderSettingsViewModel fsModel)
+					if (InstanceViewModel?.FolderSettings is FolderSettingsService fsModel)
 						fsModel.IsLayoutModeChanging = false;
 
 					return;

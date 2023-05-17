@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Properties
 
 		public LibraryItem Library { get; private set; }
 
-		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
+		public LibraryProperties(SelectedItemsPropertiesModel viewModel, CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher, LibraryItem item, IShellPage instance)
 		{
 			ViewModel = viewModel;
