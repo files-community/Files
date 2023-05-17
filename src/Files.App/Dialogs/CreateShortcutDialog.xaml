@@ -59,12 +59,14 @@
 						PreferredPlacement="Bottom" />
 				</TextBox.Resources>
 			</TextBox>
+
 			<Button
 				x:Name="SelectDestination"
 				Grid.Row="2"
 				Grid.Column="1"
 				Command="{x:Bind ViewModel.SelectDestinationCommand}"
 				Content="{helpers:ResourceString Name=Browse}" />
+
 		</Grid>
 	</Border>
 </ContentDialog>

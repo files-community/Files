@@ -1,19 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.Backend.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Dialogs
@@ -67,7 +59,8 @@ namespace Files.App.Dialogs
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
+		public new Task<ContentDialogResult> ShowAsync()
+			=> SetContentDialogRoot(this).ShowAsync().AsTask();
 
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
@@ -83,6 +76,7 @@ namespace Files.App.Dialogs
 			FileNameBox.SelectionStart = FileNameBox.Text.Length;
 			FileNameBox.Focus(FocusState.Programmatic);
 		}
+
 		private void ContentDialog_Closing(ContentDialog _, ContentDialogClosingEventArgs e)
 		{
 			InvalidNameWarning.IsOpen = false;
@@ -140,7 +134,8 @@ namespace Files.App.Dialogs
 				set => SetProperty(ref compressionLevel, value);
 			}
 
-			public bool CanSplit => FileFormat.Key is ArchiveFormats.SevenZip;
+			public bool CanSplit
+				=> FileFormat.Key is ArchiveFormats.SevenZip;
 
 			private SplittingSizeItem splittingSize;
 			public SplittingSizeItem SplittingSize
@@ -175,7 +170,8 @@ namespace Files.App.Dialogs
 			{
 				new(ArchiveFormats.Zip, ".zip"),
 				new(ArchiveFormats.SevenZip, ".7z"),
-			}.ToImmutableList();
+			}
+			.ToImmutableList();
 
 			public IImmutableList<CompressionLevelItem> CompressionLevels { get; } = new List<CompressionLevelItem>
 			{
@@ -185,7 +181,8 @@ namespace Files.App.Dialogs
 				new CompressionLevelItem(ArchiveCompressionLevels.Low, "CompressionLevelLow".GetLocalizedResource()),
 				new CompressionLevelItem(ArchiveCompressionLevels.Fast, "CompressionLevelFast".GetLocalizedResource()),
 				new CompressionLevelItem(ArchiveCompressionLevels.None, "CompressionLevelNone".GetLocalizedResource()),
-			}.ToImmutableList();
+			}
+			.ToImmutableList();
 
 			public IImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
 			{
@@ -200,7 +197,8 @@ namespace Files.App.Dialogs
 				new(ArchiveSplittingSizes.Mo5120, ToSizeText(5120)),
 				new(ArchiveSplittingSizes.Dvd8128, ToSizeText(8128), "DVD".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040), "Bluray".GetLocalizedResource()),
-			}.ToImmutableList();
+			}
+			.ToImmutableList();
 
 			public DialogViewModel()
 			{
@@ -209,7 +207,8 @@ namespace Files.App.Dialogs
 				splittingSize = SplittingSizes.First(size => size.Key is ArchiveSplittingSizes.None);
 			}
 
-			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
+			private static string ToSizeText(ulong megaBytes)
+				=> ByteSize.FromMebiBytes(megaBytes).ShortString;
 
 			public record FileFormatItem(ArchiveFormats Key, string Label);
 
@@ -219,6 +218,7 @@ namespace Files.App.Dialogs
 
 	internal record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
 	{
-		public string Separator => string.IsNullOrEmpty(Description) ? string.Empty : "-";
+		public string Separator
+			=> string.IsNullOrEmpty(Description) ? string.Empty : "-";
 	}
 }

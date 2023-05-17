@@ -35,10 +35,12 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+
 			<TextBlock
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Name}" />
+
 			<TextBox
 				x:Name="FileNameBox"
 				Grid.Column="1"
@@ -54,6 +56,7 @@
 						Target="{x:Bind FileNameBox}" />
 				</TextBox.Resources>
 			</TextBox>
+
 		</Grid>
 
 		<!--  Archive Options  -->
@@ -81,6 +84,7 @@
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Format}" />
+
 			<ComboBox
 				x:Name="FileFormatSelector"
 				Grid.Row="0"
@@ -97,6 +101,7 @@
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=CompressionLevel}" />
+
 			<ComboBox
 				x:Name="CompressionLevelSelector"
 				Grid.Row="1"
@@ -114,6 +119,7 @@
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=SplittingSize}" />
+
 			<ComboBox
 				x:Name="SplittingSizeSelector"
 				Grid.Row="2"
@@ -126,14 +132,17 @@
 				SelectedValuePath="Key">
 				<ComboBox.ItemTemplate>
 					<DataTemplate x:DataType="local:SplittingSizeItem">
+
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{x:Bind Label}" />
 							<TextBlock Text="{x:Bind Separator}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
 							<TextBlock Text="{x:Bind Description}" Visibility="{Binding IsDropDownOpen, ElementName=SplittingSizeSelector}" />
 						</StackPanel>
+
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
+
 		</Grid>
 
 		<!--  Encryption Options  -->
@@ -142,15 +151,18 @@
 			Header="{helpers:ResourceString Name=Encryption}"
 			IsExpanded="{x:Bind ViewModel.UseEncryption, Mode=TwoWay}">
 			<Expander.Content>
+
 				<Grid Width="400">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
+
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=Password}" />
+
 					<PasswordBox
 						x:Name="PasswordBox"
 						Grid.Column="1"
@@ -160,8 +172,11 @@
 						Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
 						PasswordRevealMode="Peek"
 						PlaceholderText="{helpers:ResourceString Name=Password}" />
+
 				</Grid>
+
 			</Expander.Content>
 		</Expander>
+
 	</StackPanel>
 </ContentDialog>

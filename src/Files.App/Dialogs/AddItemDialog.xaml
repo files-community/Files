@@ -13,6 +13,7 @@
 	Grid.RowSpan="4"
 	BorderThickness="0"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loaded="AddItemDialog_Loaded"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
@@ -23,14 +24,17 @@
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</ContentDialog.Resources>
 
-	<Grid RowSpacing="25">
+	<Grid RowSpacing="24">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Grid x:Name="SubtitleArea">
-			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
-		</Grid>
+
+		<TextBlock
+			x:Name="Description"
+			Grid.Row="0"
+			Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
+
 		<Grid
 			x:Name="SelectionListContent"
 			Grid.Row="1"
@@ -41,11 +45,15 @@
 				IsItemClickEnabled="True"
 				ItemClick="ListView_ItemClick"
 				ItemsSource="{x:Bind ViewModel.AddItemsList}">
+
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
 						<Grid Height="50">
+
 							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
 								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
+
 									<Viewbox
 										x:Name="IconRoot"
 										Width="24"
@@ -54,6 +62,7 @@
 										VerticalAlignment="Center">
 										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
 									</Viewbox>
+
 									<Image
 										Width="24"
 										Height="24"
@@ -62,16 +71,25 @@
 										VerticalAlignment="Center"
 										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
 										Stretch="Uniform" />
+
 								</Grid>
+
 								<StackPanel>
+
 									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
+
 									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
+
 								</StackPanel>
+
 							</StackPanel>
+
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
+
 			</ListView>
 		</Grid>
+
 	</Grid>
 </ContentDialog>
