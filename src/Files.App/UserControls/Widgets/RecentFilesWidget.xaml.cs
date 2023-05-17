@@ -140,11 +140,11 @@ namespace Files.App.UserControls.Widgets
 			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<ContextMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<ContextMenuFlyoutItem>()
 			{
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -153,32 +153,32 @@ namespace Files.App.UserControls.Widgets
 					},
 					Tag = "OpenWithPlaceholder",
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "RecentItemRemove/Text".GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
 					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -188,16 +188,16 @@ namespace Files.App.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItem()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = new List<ContextMenuFlyoutItem>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
-	public class ContextMenuFlyoutItemViewModel
+	public class ContextMenuFlyoutItem
 	{
 		public bool ShowItem { get; set; } = true;
 
@@ -29,7 +29,7 @@ namespace Files.App.Data.Models
 
 		public Func<Task> LoadSubMenuAction { get; set; }
 
-		public List<ContextMenuFlyoutItemViewModel> Items { get; set; }
+		public List<ContextMenuFlyoutItem> Items { get; set; }
 
 		public BitmapImage BitmapIcon { get; set; }
 

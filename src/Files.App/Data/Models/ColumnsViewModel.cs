@@ -10,9 +10,8 @@ namespace Files.App.Data.Models
 		private ColumnViewModel iconColumn = new()
 		{
 			UserLength = new GridLength(24, GridUnitType.Pixel),
-			IsResizeable = false,
+			IsResizable = false,
 		};
-
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
@@ -31,7 +30,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 1000d
 		};
-
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
@@ -43,7 +41,6 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
@@ -61,7 +58,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 500,
 		};
-
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
@@ -86,7 +82,6 @@ namespace Files.App.Data.Models
 		{
 			UserCollapsed = true
 		};
-
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
@@ -105,7 +100,8 @@ namespace Files.App.Data.Models
 			IconColumn.Length.Value +
 			TagColumn.Length.Value +
 			NameColumn.Length.Value +
-			DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value +
+			DateModifiedColumn.Length.Value +
+			OriginalPathColumn.Length.Value +
 			ItemTypeColumn.Length.Value +
 			DateDeletedColumn.Length.Value +
 			DateCreatedColumn.Length.Value +

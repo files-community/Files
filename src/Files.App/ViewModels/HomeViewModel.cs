@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	public class HomeViewModel : ObservableObject, IDisposable
+	internal class HomeViewModel : ObservableObject, IDisposable
 	{
 		private BundlesViewModel bundlesViewModel;
 
@@ -16,13 +16,13 @@ namespace Files.App.ViewModels
 
 		private IShellPage associatedInstance;
 
-		public event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
+		internal event EventHandler<RoutedEventArgs> YourHomeLoadedInvoked;
 
-		public ICommand YourHomeLoadedCommand { get; private set; }
+		internal ICommand YourHomeLoadedCommand { get; private set; }
 
-		public ICommand LoadBundlesCommand { get; private set; }
+		internal ICommand LoadBundlesCommand { get; private set; }
 
-		public HomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
+		internal HomeViewModel(WidgetsListControlViewModel widgetsViewModel, IShellPage associatedInstance)
 		{
 			this.widgetsViewModel = widgetsViewModel;
 			this.associatedInstance = associatedInstance;
@@ -32,17 +32,17 @@ namespace Files.App.ViewModels
 			LoadBundlesCommand = new AsyncRelayCommand<BundlesViewModel>(LoadBundles);
 		}
 
-		public void ChangeAppInstance(IShellPage associatedInstance)
+		internal void ChangeAppInstance(IShellPage associatedInstance)
 		{
 			this.associatedInstance = associatedInstance;
 		}
 
-		private void YourHomeLoaded(RoutedEventArgs e)
+		internal void YourHomeLoaded(RoutedEventArgs e)
 		{
 			YourHomeLoadedInvoked?.Invoke(this, e);
 		}
 
-		private async Task LoadBundles(BundlesViewModel viewModel)
+		internal async Task LoadBundles(BundlesViewModel viewModel)
 		{
 			bundlesViewModel = viewModel;
 

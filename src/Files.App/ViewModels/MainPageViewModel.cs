@@ -1,10 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
@@ -15,91 +13,67 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
-		private IUserSettingsService userSettingsService;
-		private IAppearanceSettingsService appearanceSettingsService;
-		private readonly DrivesViewModel drivesViewModel;
-		private readonly NetworkDrivesViewModel networkDrivesViewModel;
-		private IResourcesService resourcesService;
+		private readonly IUserSettingsService _userSettingsService;
+
+		private readonly IAppearanceSettingsService _appearanceSettingsService;
+
+		private readonly DrivesViewModel _drivesViewModel;
+
+		private readonly NetworkDrivesViewModel _networkDrivesViewModel;
+
+		private readonly IResourcesService _resourcesService;
 
 		public IMultitaskingControl? MultitaskingControl { get; set; }
 
-		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
+		public List<IMultitaskingControl> MultitaskingControls { get; }
 
-		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
+		public static ObservableCollection<TabItem> AppInstances { get; } = new();
 
-		private TabItem? selectedTabItem;
+		private TabItem? _SelectedTabItem;
 		public TabItem? SelectedTabItem
 		{
-			get => selectedTabItem;
-			set => SetProperty(ref selectedTabItem, value);
+			get => _SelectedTabItem;
+			set => SetProperty(ref _SelectedTabItem, value);
 		}
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; private set; }
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
-		public MainPageViewModel(
-			IUserSettingsService userSettings, 
-			IAppearanceSettingsService appearanceSettings,
-			IResourcesService resources,
-			DrivesViewModel drivesViewModel,
-			NetworkDrivesViewModel networkDrivesViewModel)
+		public MainPageViewModel(IUserSettingsService userSettings, IAppearanceSettingsService appearanceSettings, IResourcesService resources, DrivesViewModel drivesViewModel, NetworkDrivesViewModel networkDrivesViewModel)
 		{
-			userSettingsService = userSettings;
-			appearanceSettingsService = appearanceSettings;
-			this.drivesViewModel = drivesViewModel;
-			this.networkDrivesViewModel = networkDrivesViewModel;
-			resourcesService = resources;
-			// Create commands
+			_userSettingsService = userSettings;
+			_appearanceSettingsService = appearanceSettings;
+			_drivesViewModel = drivesViewModel;
+			_networkDrivesViewModel = networkDrivesViewModel;
+			_resourcesService = resources;
+
+			// Initialize
+			MultitaskingControls = new();
+
+			// Initialize commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
 			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
 		{
-			int indexToSelect = 0;
-			switch (e!.KeyboardAccelerator.Key)
+			int indexToSelect = e!.KeyboardAccelerator.Key switch
 			{
-				case VirtualKey.Number1:
-					indexToSelect = 0;
-					break;
-
-				case VirtualKey.Number2:
-					indexToSelect = 1;
-					break;
-
-				case VirtualKey.Number3:
-					indexToSelect = 2;
-					break;
-
-				case VirtualKey.Number4:
-					indexToSelect = 3;
-					break;
-
-				case VirtualKey.Number5:
-					indexToSelect = 4;
-					break;
-
-				case VirtualKey.Number6:
-					indexToSelect = 5;
-					break;
-
-				case VirtualKey.Number7:
-					indexToSelect = 6;
-					break;
-
-				case VirtualKey.Number8:
-					indexToSelect = 7;
-					break;
-
-				case VirtualKey.Number9:
-					// Select the last tab
-					indexToSelect = AppInstances.Count - 1;
-					break;
-			}
+				VirtualKey.Number1 => 0,
+				VirtualKey.Number2 => 1,
+				VirtualKey.Number3 => 2,
+				VirtualKey.Number4 => 3,
+				VirtualKey.Number5 => 4,
+				VirtualKey.Number6 => 5,
+				VirtualKey.Number7 => 6,
+				VirtualKey.Number8 => 7,
+				VirtualKey.Number9 => AppInstances.Count - 1, // Select the last tab
+			};
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
 				App.AppModel.TabStripSelectedIndex = indexToSelect;
+
 			e.Handled = true;
 		}
 
@@ -107,14 +81,17 @@ namespace Files.App.ViewModels
 		{
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
+
 			e!.Handled = true;
 		}
 
 		public async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
 		{
+			// Default page is HomePage
 			if (string.IsNullOrEmpty(path))
 				path = "Home";
-			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
+			// Support drives launched through jump list by stripping away the question mark at the end.
+			else if (path.EndsWith("\\?"))
 				path = path.Remove(path.Length - 1);
 
 			var tabItem = new TabItem()
@@ -124,14 +101,19 @@ namespace Files.App.ViewModels
 				Description = null,
 				ToolTipText = null
 			};
+
 			tabItem.Control.NavigationArguments = new TabItemArguments()
 			{
 				InitialPageType = type,
 				NavigationArg = path
 			};
+
 			tabItem.Control.ContentChanged += Control_ContentChanged;
+
 			await UpdateTabInfo(tabItem, path);
+
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
+
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
 		}
@@ -139,12 +121,14 @@ namespace Files.App.ViewModels
 		public async Task UpdateInstanceProperties(object navigationArg)
 		{
 			string windowTitle = string.Empty;
+
 			if (navigationArg is PaneNavigationArguments paneArgs)
 			{
 				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
 				{
 					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+
 					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 				}
 				else
@@ -167,12 +151,14 @@ namespace Files.App.ViewModels
 		public async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
+
 			if (navigationArg is PaneNavigationArguments paneArgs)
 			{
 				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
 				{
 					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+
 					tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 					tabItem.IconSource = leftTabInfo.tabIcon;
 				}
@@ -220,7 +206,7 @@ namespace Files.App.ViewModels
 			}
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
+				var libName = SystemIO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
@@ -234,8 +220,8 @@ namespace Files.App.ViewModels
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = _networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= _drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else
@@ -267,60 +253,67 @@ namespace Files.App.ViewModels
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
-			if (drivesViewModel.Drives.Count == 0)
-				await drivesViewModel.UpdateDrivesAsync();
+			if (_drivesViewModel.Drives.Count == 0)
+				await _drivesViewModel.UpdateDrivesAsync();
 
-			//Initialize the static theme helper to capture a reference to this window
-			//to handle theme changes without restarting the app
+			// Initialize the static theme helper to capture a reference to this window to handle theme changes without restarting the app
 			ThemeHelper.Initialize();
 
 			if (e.Parameter is null || (e.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
 			{
 				try
 				{
-					// add last session tabs to closed tabs stack if those tabs are not about to be opened
-					if (!userSettingsService.AppSettingsService.RestoreTabsOnStartup && !userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && userSettingsService.GeneralSettingsService.LastSessionTabList != null)
+					// Add last session tabs to closed tabs stack if those tabs are not about to be opened
+					if (!_userSettingsService.AppSettingsService.RestoreTabsOnStartup && !_userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && _userSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
-						var items = new TabItemArguments[userSettingsService.GeneralSettingsService.LastSessionTabList.Count];
+						var items = new TabItemArguments[_userSettingsService.GeneralSettingsService.LastSessionTabList.Count];
+
 						for (int i = 0; i < items.Length; i++)
-							items[i] = TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
+							items[i] = TabItemArguments.Deserialize(_userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
 						BaseMultitaskingControl.PushRecentTab(items);
 					}
 
-					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
+					if (_userSettingsService.AppSettingsService.RestoreTabsOnStartup)
 					{
-						userSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
-						if (userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+						_userSettingsService.AppSettingsService.RestoreTabsOnStartup = false;
+
+						if (_userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 						{
-							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+							foreach (string tabArgsString in _userSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+
 								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 							}
 
-							if (!userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
-								userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+							if (!_userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
+								_userSettingsService.GeneralSettingsService.LastSessionTabList = null;
 						}
 					}
-					else if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
-						userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+					else if (_userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
+						_userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 					{
-						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
+						foreach (string path in _userSettingsService.GeneralSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
-					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-						userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+					else if (_userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
+						_userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 					{
-						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+						foreach (string tabArgsString in _userSettingsService.GeneralSettingsService.LastSessionTabList)
 						{
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+
 							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
 
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+						var defaultArg = new TabItemArguments()
+						{
+							InitialPageType = typeof(PaneHolderPage),
+							NavigationArg = "Home"
+						};
 
-						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						_userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
 					{
@@ -336,24 +329,28 @@ namespace Files.App.ViewModels
 			{
 				try
 				{
-					if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
-							userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+					if (_userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
+						_userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 					{
-						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
+						foreach (string path in _userSettingsService.GeneralSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
-					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-						userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+					else if (_userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
+						_userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 					{
-						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+						foreach (string tabArgsString in _userSettingsService.GeneralSettingsService.LastSessionTabList)
 						{
 							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
 							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 						}
 
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+						var defaultArg = new TabItemArguments()
+						{
+							InitialPageType = typeof(PaneHolderPage),
+							NavigationArg = "Home"
+						};
 
-						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						_userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 				}
 				catch (Exception) { }
@@ -367,7 +364,7 @@ namespace Files.App.ViewModels
 			}
 
 			// Load the app theme resources
-			resourcesService.LoadAppResources(appearanceSettingsService);
+			_resourcesService.LoadAppResources(_appearanceSettingsService);
 		}
 
 		public Task AddNewTabAsync()

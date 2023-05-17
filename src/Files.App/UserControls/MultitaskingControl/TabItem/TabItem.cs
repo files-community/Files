@@ -1,14 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.App.Views;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace Files.App.UserControls.MultitaskingControl
@@ -17,61 +10,50 @@ namespace Files.App.UserControls.MultitaskingControl
 	{
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		private string header;
-
-		public string Header
+		private string? _Header;
+		public string? Header
 		{
-			get => header;
-			set => SetProperty(ref header, value);
+			get => _Header;
+			set => SetProperty(ref _Header, value);
 		}
 
-		private string description = null;
-
-		public string Description
+		private string? _Description = null;
+		public string? Description
 		{
-			get => description;
-			set => SetProperty(ref description, value);
+			get => _Description;
+			set => SetProperty(ref _Description, value);
 		}
 
-		private string toolTipText;
-
-		/// <summary>
-		/// The text that should be displayed in the tooltip when hovering the tab item.
-		/// </summary>
-		public string ToolTipText
+		private string? _ToolTipText;
+		public string? ToolTipText
 		{
-			get => toolTipText;
-			set => SetProperty(ref toolTipText, value);
+			get => _ToolTipText;
+			set => SetProperty(ref _ToolTipText, value);
 		}
 
-		private IconSource iconSource;
-
-		public IconSource IconSource
+		private IconSource? _IconSource;
+		public IconSource? IconSource
 		{
-			get => iconSource;
-			set => SetProperty(ref iconSource, value);
+			get => _IconSource;
+			set => SetProperty(ref _IconSource, value);
 		}
+
+		private bool _AllowStorageItemDrop;
+		public bool AllowStorageItemDrop
+		{
+			get => _AllowStorageItemDrop;
+			set => SetProperty(ref _AllowStorageItemDrop, value);
+		}
+
+		private TabItemArguments? _TabItemArguments;
+		public TabItemArguments? TabItemArguments
+			=> Control?.NavigationArguments ?? _TabItemArguments;
 
 		public TabItemControl Control { get; private set; }
 
-		private bool allowStorageItemDrop;
-
-		public bool AllowStorageItemDrop
-		{
-			get => allowStorageItemDrop;
-			set => SetProperty(ref allowStorageItemDrop, value);
-		}
-
-		private TabItemArguments tabItemArguments;
-
-		public TabItemArguments TabItemArguments
-		{
-			get => Control?.NavigationArguments ?? tabItemArguments;
-		}
-
 		public TabItem()
 		{
-			Control = new TabItemControl();
+			Control = new();
 		}
 
 		public void Unload()
@@ -81,25 +63,25 @@ namespace Files.App.UserControls.MultitaskingControl
 			Dispose();
 		}
 
-		#region IDisposable
-
 		public void Dispose()
 		{
 			Control?.Dispose();
 			Control = null;
 		}
-
-		#endregion IDisposable
 	}
 
 	public class TabItemArguments
 	{
-		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
+		private static readonly KnownTypesConverter TypesConverter = new();
 
 		public Type InitialPageType { get; set; }
+
 		public object NavigationArg { get; set; }
 
-		public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
+		public string Serialize()
+		{
+			return JsonSerializer.Serialize(this, TypesConverter.Options);
+		}
 
 		public static TabItemArguments Deserialize(string obj)
 		{

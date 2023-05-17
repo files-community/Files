@@ -32,11 +32,11 @@ namespace Files.App.Helpers
 	public static class ShellContextmenuHelper
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+		public static async Task<List<ContextMenuFlyoutItem>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
 
-			var menuItemsList = new List<ContextMenuFlyoutItemViewModel>();
+			var menuItemsList = new List<ContextMenuFlyoutItem>();
 
 			var filePaths = IsItemSelected
 				? selectedItems!.Select(x => x.ItemPath).ToArray()
@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItem> menuItemsListLocal,
 								ContextMenu contextMenu,
 								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
 								CancellationToken cancellationToken,
@@ -96,7 +96,7 @@ namespace Files.App.Helpers
 				var moreItem = menuItemsListLocal.Where(x => x.ID == "ItemOverflow").FirstOrDefault();
 				if (moreItem is null)
 				{
-					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
+					var menuLayoutSubItem = new ContextMenuFlyoutItem()
 					{
 						Text = "ShowMoreOptions".GetLocalizedResource(),
 						Glyph = "\xE712",
@@ -132,7 +132,7 @@ namespace Files.App.Helpers
 
 				if (menuFlyoutItem.Type is MenuItemType.MFT_SEPARATOR)
 				{
-					var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
+					var menuLayoutItem = new ContextMenuFlyoutItem()
 					{
 						ItemType = ContextMenuFlyoutItemType.Separator,
 						Tag = menuFlyoutItem
@@ -144,12 +144,12 @@ namespace Files.App.Helpers
 					if (string.Equals(menuFlyoutItem.Label, Win32API.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
-					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
+					var menuLayoutSubItem = new ContextMenuFlyoutItem()
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
 						BitmapIcon = image,
-						Items = new List<ContextMenuFlyoutItemViewModel>(),
+						Items = new List<ContextMenuFlyoutItem>(),
 					};
 
 					if (menuFlyoutItem.SubItems.Any())
@@ -169,7 +169,7 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new ContextMenuFlyoutItemViewModel
+					var menuLayoutItem = new ContextMenuFlyoutItem
 					{
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
@@ -224,7 +224,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel>? GetOpenWithItems(List<ContextMenuFlyoutItemViewModel> flyout)
+		public static List<ContextMenuFlyoutItem>? GetOpenWithItems(List<ContextMenuFlyoutItem> flyout)
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			if (item is not null)
@@ -232,7 +232,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel>? GetSendToItems(List<ContextMenuFlyoutItemViewModel> flyout)
+		public static List<ContextMenuFlyoutItem>? GetSendToItems(List<ContextMenuFlyoutItem> flyout)
 		{
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			if (item is not null)
@@ -320,7 +320,7 @@ namespace Files.App.Helpers
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
-					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItem>() { openWithItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
@@ -332,7 +332,7 @@ namespace Files.App.Helpers
 				{
 					await sendToItem.LoadSubMenuAction();
 
-					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItem>() { sendToItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
@@ -356,7 +356,7 @@ namespace Files.App.Helpers
 			catch { }
 		}
 
-		public static void AddItemsToMainMenu(IEnumerable<ICommandBarElement> mainMenu, ContextMenuFlyoutItemViewModel viewModel)
+		public static void AddItemsToMainMenu(IEnumerable<ICommandBarElement> mainMenu, ContextMenuFlyoutItem viewModel)
 		{
 			var appBarButton = mainMenu.FirstOrDefault(x => (x as AppBarButton)?.Tag == viewModel.Tag) as AppBarButton;
 
@@ -370,7 +370,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static void AddItemsToOverflowMenu(AppBarButton? overflowItem, ContextMenuFlyoutItemViewModel viewModel)
+		public static void AddItemsToOverflowMenu(AppBarButton? overflowItem, ContextMenuFlyoutItem viewModel)
 		{
 			if (overflowItem?.Flyout is MenuFlyout flyout)
 			{
