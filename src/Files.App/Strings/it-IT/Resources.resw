@@ -3263,13 +3263,13 @@
     <value>Impossibile mostrare le autorizzazioni.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Lascia le mie modifiche su '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Scarta le mie modifiche</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Porta le mie modifiche su {0}</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
@@ -3281,12 +3281,18 @@
     <value>Branches</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Cambia</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Nuovo Branch</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Crea una cartella con gli elementi attualmente selezionati</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open properties</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open properties window</value>
   </data>
 </root>
