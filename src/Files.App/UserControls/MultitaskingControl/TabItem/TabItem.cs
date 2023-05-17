@@ -59,7 +59,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		public void Unload()
 		{
 			Control.ContentChanged -= mainPageViewModel.Control_ContentChanged;
-			tabItemArguments = Control?.NavigationArguments;
+			_TabItemArguments = Control?.NavigationArguments;
 			Dispose();
 		}
 

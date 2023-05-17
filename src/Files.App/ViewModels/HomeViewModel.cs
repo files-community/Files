@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	internal class HomeViewModel : ObservableObject, IDisposable
+	public class HomeViewModel : ObservableObject, IDisposable
 	{
 		private BundlesViewModel bundlesViewModel;
 

@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Filesystem.StorageItems;
+using Files.Backend.Services.SizeProvider;
 using FluentFTP;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;

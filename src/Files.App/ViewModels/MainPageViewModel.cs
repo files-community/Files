@@ -3,7 +3,6 @@
 
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Backend.Services;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;

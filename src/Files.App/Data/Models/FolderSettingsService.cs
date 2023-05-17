@@ -563,7 +563,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public static void SetDefaultLayoutPreferences(ColumnsModel columns)
+		public void SetDefaultLayoutPreferences(ColumnsModel columns)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
