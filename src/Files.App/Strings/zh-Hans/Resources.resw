@@ -1354,7 +1354,7 @@
     <value>有一个冲突的文件名。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>用选中项创建文件夹</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>名称:</value>
@@ -3287,6 +3287,12 @@
     <value>新建分支</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>用当前选中的项创建文件夹</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open properties</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open properties window</value>
   </data>
 </root>
