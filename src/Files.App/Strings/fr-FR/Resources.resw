@@ -214,7 +214,7 @@
     <value>Arrière-plan</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Options avancées</value>
+    <value>Avancé</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuez là où vous vous êtes arrêté</value>
@@ -709,7 +709,7 @@
     <value>Espace de couleurs</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
-    <value>sRGB</value>
+    <value>sRVB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Non spécifié</value>
@@ -814,7 +814,7 @@
     <value>URL de promotion</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Style Fournisseur</value>
+    <value>Style du fournisseur</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Éditeur</value>
@@ -979,7 +979,7 @@
     <value>Vérifiez le statut des opérations de fichier ici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centre d'états</value>
+    <value>Centre de statuts</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
@@ -1129,7 +1129,7 @@
     <value>Volet d'aperçu du fichier sélectionné</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Retours</value>
+    <value>Commentaires</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponible en ligne</value>
@@ -1315,7 +1315,7 @@
     <value>Il y a {0} noms de fichiers en conflit et {1} élément(s) sortant(s).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nom(s) de fichier en conflit</value>
+    <value>Nom(s) de fichier(s) en conflit</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Il y a un nom de fichier en conflit et {0} élément(s) sortant(s).</value>
@@ -1561,7 +1561,7 @@
     <value>Le déplacement vers la corbeille a été annulé</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>annulé</value>
+    <value>annulation</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Effacer</value>
@@ -1729,7 +1729,7 @@
     <value>Prendre possession</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Dossier de visite</value>
+    <value>Visiter le dossier</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Écrire les attributs</value>
@@ -1894,7 +1894,7 @@
     <value>Widget Disques</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Fichiers Récents</value>
+    <value>Widget Fichiers récents</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
@@ -2254,13 +2254,13 @@
     <value>Colonne taille</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Colonne balise</value>
+    <value>Colonne étiquette</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Colonne type</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Colonnes des détails de mise en page</value>
+    <value>Mise en page des colonnes en vue Détails</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
@@ -2284,7 +2284,7 @@
     <value>Compression de l'archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Sélectionner les fichiers et dossiers lorsqu'ils sont juste survolés</value>
+    <value>Sélectionner les fichiers et dossiers lorsqu'ils sont survolés</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir restaurer tous les éléments de la corbeille ?</value>
@@ -2434,7 +2434,7 @@
     <value>La création d'un raccourci à cet emplacement nécessite des droits d'administrateur</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Voulez-vous créer le raccourci sur le bureau à la place ?</value>
+    <value>Souhaitez-vous plutôt créer le raccourci sur le bureau ?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>Le nom d'élément spécifié est invalide</value>
@@ -2551,7 +2551,7 @@
     <value>Sauvegarder</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Sélection Multiple</value>
+    <value>Sélection multiple</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
     <value>Réorganiser les éléments de la barre latérale</value>
@@ -2626,10 +2626,10 @@
     <value>Afficher ou non les extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Activer/désactiver le volet de prévisualisation</value>
+    <value>Afficher/Masquer le volet d'aperçu</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Activer/désactiver le panneau latéral</value>
+    <value>Afficher/Masquer le panneau latéral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
@@ -2662,7 +2662,7 @@
     <value>Vider la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Ouvrir le menu "Formater le disque" pour l'élément sélectionné</value>
+    <value>Ouvre le menu "Formatage de disque dur" pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restaurer le(s) élément(s) sélectionné(s) depuis la corbeille</value>
@@ -2683,13 +2683,13 @@
     <value>Actualiser le contenu de la page</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Renommer le fichier sélectionné</value>
+    <value>Renommer l'élément sélectionné</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Sélectionner tous les éléments</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Inverser la sélection d'éléments</value>
+    <value>Inverser la sélection</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
     <value>Annuler la sélection</value>
@@ -3288,5 +3288,11 @@
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Ouvrir les propriétés</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Ouvrir la fenêtre des propriétés</value>
   </data>
 </root>
