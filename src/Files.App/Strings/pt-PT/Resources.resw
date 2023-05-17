@@ -3289,4 +3289,10 @@
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Criar uma pasta com os itens selecionados</value>
   </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Mostrar propriedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir janela de propriedades</value>
+  </data>
 </root>
