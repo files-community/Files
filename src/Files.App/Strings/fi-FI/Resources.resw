@@ -3289,4 +3289,10 @@
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Luo kansio tällä hetkellä valituilla kohteilla</value>
   </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Avaa ominaisuudet</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Avaa ominaisuudet-ikkuna</value>
+  </data>
 </root>
