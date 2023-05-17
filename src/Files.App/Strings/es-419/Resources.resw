@@ -1354,7 +1354,7 @@
     <value>Hay un nombre de archivo en conflicto.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Crear carpeta con la selección</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nombre:</value>
@@ -3287,6 +3287,12 @@
     <value>Nueva rama</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Crear una carpeta con el(los) elemento(s) actualmente seleccionado(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Abrir propiedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir ventana de propiedades</value>
   </data>
 </root>
