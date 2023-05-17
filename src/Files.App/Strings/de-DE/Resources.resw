@@ -3289,4 +3289,10 @@
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
   </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Eigenschaften öffnen</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Eigenschaften-Fenster öffnen</value>
+  </data>
 </root>
