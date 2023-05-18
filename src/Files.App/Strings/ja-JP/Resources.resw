@@ -3290,9 +3290,9 @@
     <value>選択したアイテムでフォルダーを作成する</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>プロパティを開く</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>プロパティ ウィンドウを開く</value>
   </data>
 </root>
