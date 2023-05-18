@@ -74,15 +74,21 @@
 							<!--  Header  -->
 							<Grid
 								Grid.Row="0"
-								Padding="12"
+								Padding="8"
 								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="0,0,0,1">
-								<!--  Title  -->
-								<TextBlock
-									VerticalAlignment="Center"
-									FontSize="14"
-									Text="{helpers:ResourceString Name=Branches}" />
+
+								<!--  Locals and Remotes  -->
+								<RadioButtons
+									Grid.Row="1"
+									MaxColumns="2"
+									SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedOriginIndex, Mode=TwoWay}">
+
+									<RadioButton Content="{helpers:ResourceString Name=Locals}" />
+
+									<RadioButton Content="{helpers:ResourceString Name=Remotes}" />
+								</RadioButtons>
 
 								<!--  New Branch Button  -->
 								<Button

@@ -3310,4 +3310,10 @@
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open properties window</value>
   </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locals</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotes</value>
+  </data>
 </root>

@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
 {
-	public static class GitHelpers
+	internal static class GitHelpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
 		
@@ -41,10 +41,10 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static string[] GetBranchesNames(string? path)
+		public static BranchItem[] GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Array.Empty<string>();
+				return Array.Empty<BranchItem>();
 
 			using var repository = new Repository(path);
 			return repository.Branches
@@ -52,7 +52,7 @@ namespace Files.App.Helpers
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip.Committer.When)
-				.Select(b => b.FriendlyName)
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote))
 				.ToArray();
 		}
 

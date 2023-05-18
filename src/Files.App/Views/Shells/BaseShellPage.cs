@@ -224,8 +224,7 @@ namespace Files.App.Views.Shells
 
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository, 
-				InstanceViewModel.GitRepositoryPath,
-				InstanceViewModel.GitBranchName, 
+				InstanceViewModel.GitRepositoryPath, 
 				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
@@ -238,14 +237,16 @@ namespace Files.App.Views.Shells
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
-				InstanceViewModel.GitBranchName,
 				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
-				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = _ContentPage.DirectoryPropertiesViewModel.ActiveBranchIndex;
+			if (
+				!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName) &&
+				_ContentPage.DirectoryPropertiesViewModel.SelectedOriginIndex is DirectoryPropertiesViewModel.LOCAL_ORIGIN_INDEX
+				)
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
