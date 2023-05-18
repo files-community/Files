@@ -9,6 +9,8 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public class CreateArchiveDialogViewModel : ObservableObject
 	{
+		public bool CanCreate { get; set; }
+
 		public bool IsNameValid
 			=> FilesystemHelpers.IsValidForFilename(fileName);
 

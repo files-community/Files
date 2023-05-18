@@ -50,9 +50,9 @@ namespace Files.App.Actions
 				Directory = directory,
 				FileName = viewModel.FileName,
 				Password = viewModel.Password,
-				FileFormat = viewModel.FileFormat,
-				CompressionLevel = viewModel.CompressionLevel,
-				SplittingSize = viewModel.SplittingSize,
+				FileFormat = viewModel.FileFormat.Key,
+				CompressionLevel = viewModel.CompressionLevel.Key,
+				SplittingSize = viewModel.SplittingSize.Key,
 			};
 
 			await ArchiveHelpers.CompressArchiveAsync(creator);
