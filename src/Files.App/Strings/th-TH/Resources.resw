@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>มี 1 รายการที่มีชื่อซ้ำกัน</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>ส่งรายการที่เลือกไปโฟลเดอร์ใหม่</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Create folder with selection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>ชื่อ:</value>
@@ -3285,5 +3285,8 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Create a folder with the currently selected item(s)</value>
   </data>
 </root>

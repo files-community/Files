@@ -301,7 +301,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
 				},

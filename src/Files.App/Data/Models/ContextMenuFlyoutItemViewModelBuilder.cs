@@ -3,7 +3,7 @@
 
 using Files.App.Commands;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class ContextMenuFlyoutItemViewModelBuilder
 	{
@@ -46,7 +46,7 @@ namespace Files.App.ViewModels
 			if (isVisible is null && !isExecutable)
 				return none;
 
-			ItemType type = IsToggle ? ItemType.Toggle : ItemType.Item;
+			ContextMenuFlyoutItemType type = IsToggle ? ContextMenuFlyoutItemType.Toggle : ContextMenuFlyoutItemType.Item;
 
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{

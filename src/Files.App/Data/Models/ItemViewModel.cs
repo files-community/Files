@@ -38,7 +38,7 @@ using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
@@ -69,8 +69,8 @@ namespace Files.App.ViewModels
 
 		private FolderSettingsViewModel folderSettings = null;
 
-		private ListedItem currentFolder;
-		public ListedItem CurrentFolder
+		private ListedItem? currentFolder;
+		public ListedItem? CurrentFolder
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);

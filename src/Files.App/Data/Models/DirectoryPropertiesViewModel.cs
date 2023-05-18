@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
