@@ -10,6 +10,9 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for file system operation.
+	/// </summary>
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
 	{
 		public FileSystemDialogViewModel ViewModel
@@ -69,10 +72,10 @@ namespace Files.App.Dialogs
 		{
 			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
 
-			if (chkPermanentlyDelete is not null)
-				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
+			if (PermanentlyDeleteCheckBox is not null)
+				PermanentlyDeleteCheckBox.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
 
-			DetailsGrid.IsEnabled = true;
+			DetailsListView.IsEnabled = true;
 		}
 
 		private void RootDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
@@ -140,7 +143,7 @@ namespace Files.App.Dialogs
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
-				DescriptionText.Foreground = Application.Current.Resources["TextControlForeground"] as SolidColorBrush;
+				DescriptionTextBlock.Foreground = Application.Current.Resources["TextControlForeground"] as SolidColorBrush;
 
 			UpdateDialogLayout();
 		}

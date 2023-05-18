@@ -188,7 +188,7 @@
 
 			<!--  Description  -->
 			<TextBlock
-				x:Name="Description"
+				x:Name="DescriptionTextBlock"
 				Foreground="{ThemeResource SystemFillColorCautionBrush}"
 				Text="{x:Bind ViewModel.Description, Mode=OneWay}"
 				TextWrapping="WrapWholeWords" />

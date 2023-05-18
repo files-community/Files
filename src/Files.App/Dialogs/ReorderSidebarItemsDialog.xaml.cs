@@ -16,6 +16,9 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for sidebar item reorder.
+	/// </summary>
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
 		public ReorderSidebarItemsDialogViewModel ViewModel { get; set; }

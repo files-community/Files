@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for dynamic dialog provision.
+	/// </summary>
 	public sealed partial class DynamicDialog : ContentDialog, IDisposable
 	{
 		public DynamicDialogViewModel ViewModel { get; set; }

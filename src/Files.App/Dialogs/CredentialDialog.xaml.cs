@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for encrypted storage object decryption.
+	/// </summary>
 	public sealed partial class CredentialDialog : ContentDialog, IDialog<CredentialDialogViewModel>
 	{
 		public CredentialDialogViewModel ViewModel { get; set; }
@@ -24,6 +27,7 @@ namespace Files.App.Dialogs
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
+			// TODO: Do not manually invoke a command
 			ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(CredentialPasswordBox.Password)));
 		}
 	}

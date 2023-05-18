@@ -4,6 +4,9 @@
 using Files.App.Contexts;
 using Files.App.Dialogs;
 using Files.App.Filesystem.Archive;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
@@ -11,6 +14,10 @@ namespace Files.App.Actions
 	internal class CompressIntoArchiveAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+		private readonly CreateArchiveDialogViewModel viewModel = new();
 
 		public string Label => "CreateArchive".GetLocalizedResource();
 
@@ -30,24 +37,22 @@ namespace Files.App.Actions
 		{
 			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
 
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
-			var result = await dialog.TryShowAsync();
+			viewModel.FileName = fileName;
 
-			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
+			var result = await dialogService.ShowDialogAsync(viewModel);
+
+			if (!viewModel.CanCreate || result != DialogResult.Primary)
 				return;
 
 			IArchiveCreator creator = new ArchiveCreator
 			{
 				Sources = sources,
 				Directory = directory,
-				FileName = dialog.FileName,
-				Password = dialog.Password,
-				FileFormat = dialog.FileFormat,
-				CompressionLevel = dialog.CompressionLevel,
-				SplittingSize = dialog.SplittingSize,
+				FileName = viewModel.FileName,
+				Password = viewModel.Password,
+				FileFormat = viewModel.FileFormat,
+				CompressionLevel = viewModel.CompressionLevel,
+				SplittingSize = viewModel.SplittingSize,
 			};
 
 			await ArchiveHelpers.CompressArchiveAsync(creator);

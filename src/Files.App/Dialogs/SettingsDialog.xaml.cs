@@ -8,6 +8,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for the app settings.
+	/// </summary>
 	public sealed partial class SettingsDialog : ContentDialog, IDialog<SettingsDialogViewModel>
 	{
 		public SettingsDialogViewModel ViewModel { get; set; }

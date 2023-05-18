@@ -5,6 +5,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for storage object properties.
+	/// </summary>
 	public sealed partial class PropertiesDialog : ContentDialog
 	{
 		public PropertiesDialog()

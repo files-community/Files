@@ -1,13 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -25,8 +21,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			var dialog = dialogService.GetDialog(viewModel);
-			await dialog.TryShowAsync();
+			await dialogService.ShowDialogAsync(viewModel);
 		}
 	}
 }
