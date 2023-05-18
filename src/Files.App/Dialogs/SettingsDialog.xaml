@@ -14,6 +14,7 @@
 
 	<ContentDialog.Resources>
 		<ResourceDictionary>
+
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/NavigationViewItemButtonStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
@@ -22,11 +23,12 @@
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
 			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
 	<Grid
-		x:Name="ContainerGrid"
+		x:Name="RootGrid"
 		MaxHeight="790"
 		Background="{ThemeResource SolidBackgroundFillColorBase}">
 		<Grid.RowDefinitions>
@@ -34,16 +36,18 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<!--  Smokescreen for displaying a semi transparent background  -->
+		<!--  Smokescreen For Displaying A Semi-Transparent Background  -->
 		<Border
 			Grid.RowSpan="2"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Background="{ThemeResource App.Theme.BackgroundBrush}"
-			Opacity=".4" />
+			Opacity="0.4" />
 
-		<!--  Titlebar  -->
+		<!--  Title Bar  -->
 		<Grid Grid.Row="0" Padding="8,0">
+
+			<!--  Title  -->
 			<TextBlock
 				Padding="8,0,0,0"
 				HorizontalAlignment="Left"
@@ -51,6 +55,7 @@
 				FontWeight="SemiBold"
 				Text="{helpers:ResourceString Name=Settings}" />
 
+			<!--  Close Button  -->
 			<Button
 				x:Name="CloseSettingsDialogButton"
 				Width="36"
@@ -65,6 +70,7 @@
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
 				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
 			</Button>
+
 		</Grid>
 
 		<!--  Settings Navigation View  -->

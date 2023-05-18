@@ -2,15 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem;
 using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
@@ -22,9 +18,7 @@ namespace Files.App.Dialogs
 			set
 			{
 				if (value is not null)
-				{
 					value.PrimaryButtonEnabled = true;
-				}
 
 				DataContext = value;
 			}
@@ -146,7 +140,7 @@ namespace Files.App.Dialogs
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
-				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
+				DescriptionText.Foreground = Application.Current.Resources["TextControlForeground"] as SolidColorBrush;
 
 			UpdateDialogLayout();
 		}

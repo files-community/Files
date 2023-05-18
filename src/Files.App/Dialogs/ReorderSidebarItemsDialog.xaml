@@ -8,6 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="{helpers:ResourceString Name=ReorderSidebarItemsDialogText}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="True"
 	PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand}"
@@ -18,23 +19,25 @@
 	mc:Ignorable="d">
 
 	<Grid
-		x:Name="DestinationPathGrid"
+		x:Name="RootGrid"
 		ColumnSpacing="8"
 		RowSpacing="8">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
+		<!--  Sidebar Item List To Reorder  -->
 		<ListView
 			x:Name="SidebarNavView"
 			Grid.Row="1"
 			ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:LocationItem">
+
 					<Grid
 						AllowDrop="True"
 						AutomationProperties.AutomationId="{x:Bind Text}"
@@ -53,7 +56,11 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
+
+						<!--  Item Name  -->
 						<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
+
+						<!--  Reorder Indicator  -->
 						<FontIcon
 							Grid.Row="1"
 							HorizontalAlignment="Right"
@@ -61,9 +68,12 @@
 							Glyph="&#xE76F;"
 							PointerPressed="MoveItem"
 							Visibility="{x:Bind IsPinned}" />
+
 					</Grid>
+
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
 	</Grid>
 </ContentDialog>

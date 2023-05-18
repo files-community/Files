@@ -3,11 +3,8 @@
 
 using Files.App.Views.Settings;
 using Files.Backend.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
@@ -27,7 +24,9 @@ namespace Files.App.Dialogs
 		}
 
 		public new async Task<DialogResult> ShowAsync()
-			=> (DialogResult)await base.ShowAsync();
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
@@ -36,8 +35,8 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
-			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
+			RootGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
+			RootGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
 			MainSettingsNavigationView.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
 

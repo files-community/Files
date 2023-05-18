@@ -18,11 +18,7 @@ namespace Files.App.Dialogs
 {
 	public sealed partial class ReorderSidebarItemsDialog : ContentDialog, IDialog<ReorderSidebarItemsDialogViewModel>
 	{
-		public ReorderSidebarItemsDialogViewModel ViewModel
-		{
-			get => (ReorderSidebarItemsDialogViewModel)DataContext;
-			set => DataContext = value;
-		}
+		public ReorderSidebarItemsDialogViewModel ViewModel { get; set; }
 
 		public ReorderSidebarItemsDialog()
 		{
@@ -32,10 +28,10 @@ namespace Files.App.Dialogs
 		private async void MoveItem(object sender, PointerRoutedEventArgs e)
 		{
 			var properties = e.GetCurrentPoint(null).Properties;
-			var icon = sender as FontIcon;
 			if (!properties.IsLeftButtonPressed)
 				return;
 
+			var icon = sender as FontIcon;
 			var navItem = icon?.FindAscendant<Grid>();
 			if (navItem is not null)
 				await navItem.StartDragAsync(e.GetCurrentPoint(navItem));
@@ -46,22 +42,20 @@ namespace Files.App.Dialogs
 			if (sender is not Grid nav || nav.DataContext is not LocationItem)
 				return;
 
-			// Adding the original Location item dragged to the DragEvents data view
+			// Add the original Location item dragged to the DragEvents data view
 			e.Data.Properties.Add("sourceLocationItem", nav);
 			e.AllowedOperations = DataPackageOperation.Move;
 		}
 
-		
 		private void ListViewItem_DragOver(object sender, DragEventArgs e)
 		{
 			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
 				return;
+
 			var deferral = e.GetDeferral();
 			
-			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
-			{
+			if (e.DataView.Properties["sourceLocationItem"] is Grid { DataContext: LocationItem sourceLocationItem })
 				DragOver_SetCaptions(sourceLocationItem, locationItem, e);
-			}
 
 			deferral.Complete();
 		}
@@ -87,8 +81,13 @@ namespace Files.App.Dialogs
 			if (sender is not Grid navView || navView.DataContext is not LocationItem locationItem)
 				return;
 
-			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
-				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
+			if (e.DataView.Properties["sourceLocationItem"] is Grid { DataContext: LocationItem sourceLocationItem })
+			{
+				ViewModel.SidebarFavoriteItems.Move(
+					ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem),
+					ViewModel.SidebarFavoriteItems.IndexOf(locationItem)
+				);
+			}
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
