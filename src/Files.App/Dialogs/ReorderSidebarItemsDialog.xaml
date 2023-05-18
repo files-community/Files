@@ -18,14 +18,7 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Grid
-		x:Name="RootGrid"
-		ColumnSpacing="8"
-		RowSpacing="8">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
+	<Grid x:Name="RootGrid" RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>

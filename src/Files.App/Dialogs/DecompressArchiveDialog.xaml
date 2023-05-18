@@ -17,79 +17,87 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Grid x:Name="RootGrid" Width="400">
-		<StackPanel Orientation="Vertical" Spacing="8">
+	<Grid
+		x:Name="RootGrid"
+		Width="400"
+		RowSpacing="8">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-			<!--  Extract To Path  -->
-			<Grid
-				x:Name="ExtractPathGrid"
-				x:Load="{x:Bind ViewModel.ShowPathSelection}"
-				ColumnSpacing="8"
-				RowSpacing="8">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="400" />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
+		<!--  Extract To Path  -->
+		<Grid
+			x:Name="ExtractPathGrid"
+			Grid.Row="0"
+			x:Load="{x:Bind ViewModel.ShowPathSelection}"
+			ColumnSpacing="8"
+			RowSpacing="8">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="400" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-				<!--  Header  -->
-				<TextBlock
-					Grid.Row="0"
-					Grid.ColumnSpan="2"
-					Text="{helpers:ResourceString Name=ExtractToPath}" />
+			<!--  Header  -->
+			<TextBlock
+				Grid.Row="0"
+				Grid.ColumnSpan="2"
+				Text="{helpers:ResourceString Name=ExtractToPath}" />
 
-				<!--  Path Box  -->
-				<TextBox
-					x:Name="DestinationFolderPath"
-					Grid.Row="1"
-					Grid.Column="0"
-					HorizontalAlignment="Stretch"
-					IsReadOnly="True"
-					Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+			<!--  Path Box  -->
+			<TextBox
+				x:Name="DestinationFolderPath"
+				Grid.Row="1"
+				Grid.Column="0"
+				HorizontalAlignment="Stretch"
+				IsReadOnly="True"
+				Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
 
-				<!--  Browse Button  -->
-				<Button
-					x:Name="SelectDestination"
-					Grid.Row="1"
-					Grid.Column="1"
-					Command="{x:Bind ViewModel.SelectDestinationCommand}"
-					Content="{helpers:ResourceString Name=Browse}" />
+			<!--  Browse Button  -->
+			<Button
+				x:Name="SelectDestination"
+				Grid.Row="1"
+				Grid.Column="1"
+				Command="{x:Bind ViewModel.SelectDestinationCommand}"
+				Content="{helpers:ResourceString Name=Browse}" />
 
-			</Grid>
+		</Grid>
 
-			<!--  Password  -->
-			<StackPanel
-				x:Name="PasswordStackPanel"
-				x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
-				Spacing="8">
+		<!--  Password  -->
+		<StackPanel
+			x:Name="PasswordStackPanel"
+			Grid.Row="1"
+			x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
+			Spacing="8">
 
-				<!--  Header  -->
-				<TextBlock
-					x:Name="PasswordHeader"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					Text="{helpers:ResourceString Name=ArchivePassword}" />
+			<!--  Header  -->
+			<TextBlock
+				x:Name="PasswordHeader"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Text="{helpers:ResourceString Name=ArchivePassword}" />
 
-				<!--  PasswordBox  -->
-				<PasswordBox
-					x:Name="Password"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					PlaceholderText="{helpers:ResourceString Name=Password}" />
-
-			</StackPanel>
-
-			<!--  Open When Complete  -->
-			<CheckBox
-				x:Name="OpenWhenCompleteCheckBox"
-				Margin="0,8,0,0"
-				x:Load="{x:Bind ViewModel.ShowPathSelection}"
-				Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
-				IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+			<!--  PasswordBox  -->
+			<PasswordBox
+				x:Name="Password"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				PlaceholderText="{helpers:ResourceString Name=Password}" />
 
 		</StackPanel>
+
+		<!--  Open When Complete  -->
+		<CheckBox
+			x:Name="OpenWhenCompleteCheckBox"
+			Grid.Row="2"
+			Margin="0,8,0,0"
+			x:Load="{x:Bind ViewModel.ShowPathSelection}"
+			Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
+			IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+
 	</Grid>
 </ContentDialog>

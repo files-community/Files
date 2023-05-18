@@ -19,10 +19,19 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<StackPanel Width="440" Spacing="4">
+	<Grid
+		x:Name="RootGrid"
+		Width="440"
+		RowSpacing="4">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
 		<!--  Archive Name  -->
 		<Grid
+			Grid.Row="0"
 			Padding="12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -59,6 +68,7 @@
 
 		<!--  Archive Options  -->
 		<Grid
+			Grid.Row="1"
 			Padding="12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -145,6 +155,7 @@
 
 		<!--  Encryption Options  -->
 		<Expander
+			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			Header="{helpers:ResourceString Name=Encryption}"
 			IsExpanded="{x:Bind ViewModel.UseEncryption, Mode=TwoWay}">
@@ -178,5 +189,5 @@
 			</Expander.Content>
 		</Expander>
 
-	</StackPanel>
+	</Grid>
 </ContentDialog>

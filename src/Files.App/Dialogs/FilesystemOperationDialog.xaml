@@ -156,6 +156,7 @@
 	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="16">
 
+			<!--  Apply To All In Conflicting  -->
 			<Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -182,46 +183,54 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 
+			<!--  Description  -->
 			<TextBlock
-				x:Name="DescriptionText"
+				x:Name="Description"
 				Foreground="{ThemeResource SystemFillColorCautionBrush}"
 				Text="{x:Bind ViewModel.Description, Mode=OneWay}"
 				TextWrapping="WrapWholeWords" />
 
+			<!--  (Separator)  -->
 			<Border
-				x:Name="SeparatorLine"
+				x:Name="SeparationBorder"
 				Height="1"
 				HorizontalAlignment="Stretch"
 				Background="{ThemeResource SystemBaseLowColor}"
 				Opacity="0.8"
 				Visibility="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}" />
 
+			<!--  Do Permanent Delete  -->
 			<CheckBox
-				x:Name="chkPermanentlyDelete"
+				x:Name="PermanentlyDeleteCheckBox"
 				x:Load="{x:Bind ViewModel.FileSystemDialogMode.IsInDeleteMode, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=DeleteItemsDialogPermanentlyDeleteCheckBox/Content}"
 				IsChecked="{x:Bind ViewModel.DeletePermanently, Mode=TwoWay}"
 				IsEnabled="{x:Bind ViewModel.IsDeletePermanentlyEnabled, Mode=OneWay}" />
 
+			<!--  Details ListView  -->
 			<ListView
-				x:Name="DetailsGrid"
+				x:Name="DetailsListView"
 				MaxHeight="200"
 				IsItemClickEnabled="False"
-				ItemsSource="{x:Bind ViewModel.Items}"
+				ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 				SelectionMode="None">
 
+				<!--  Item Template Selector  -->
 				<ListView.ItemTemplateSelector>
 					<templateselector:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
 				</ListView.ItemTemplateSelector>
 
+				<!--  Item Layout  -->
 				<ListView.ItemsPanel>
 					<ItemsPanelTemplate>
 						<ItemsStackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
 					</ItemsPanelTemplate>
 				</ListView.ItemsPanel>
 
+				<!--  Item Style  -->
 				<ListView.ItemContainerStyle>
 					<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -229,6 +238,7 @@
 						<Setter Property="IsTabStop" Value="False" />
 					</Style>
 				</ListView.ItemContainerStyle>
+
 			</ListView>
 
 		</StackPanel>

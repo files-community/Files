@@ -19,7 +19,7 @@
 
 	<Grid
 		x:Name="RootGrid"
-		Width="400"
+		Width="440"
 		RowSpacing="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
