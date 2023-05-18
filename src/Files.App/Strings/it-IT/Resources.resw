@@ -3290,9 +3290,9 @@
     <value>Crea una cartella con gli elementi attualmente selezionati</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Apri le proprietà</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Apri la finestra delle proprietà</value>
   </data>
 </root>
