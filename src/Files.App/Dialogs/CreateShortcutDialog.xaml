@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="{helpers:ResourceString Name=NewShortcutDialogTitle}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
 	PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand}"
@@ -16,11 +17,24 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Border Width="400">
-		<Grid
-			x:Name="DestinationPathGrid"
-			ColumnSpacing="8"
-			RowSpacing="8">
+	<Grid
+		x:Name="RootGrid"
+		Width="400"
+		RowSpacing="8">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!--  Description  -->
+		<TextBlock
+			Grid.Row="0"
+			Margin="0,0,0,20"
+			Text="{helpers:ResourceString Name=NewShortcutDialogDescription}"
+			TextWrapping="Wrap" />
+
+		<!--  Path Box Form  -->
+		<Grid Grid.Row="1" ColumnSpacing="8">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition Width="Auto" />
@@ -28,25 +42,18 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<!--  Header  -->
 			<TextBlock
-				Grid.ColumnSpan="2"
-				Margin="0,0,0,20"
-				Text="{helpers:ResourceString Name=NewShortcutDialogDescription}"
-				TextWrapping="Wrap" />
-
-			<TextBlock
-				Grid.Row="1"
+				Grid.Row="0"
 				Grid.ColumnSpan="2"
 				Text="{helpers:ResourceString Name=NewShortcutDialogPrompt}" />
 
-			<!--  Path Box  -->
+			<!--  TextBox  -->
 			<TextBox
 				x:Name="DestinationItemPath"
-				Grid.Row="2"
+				Grid.Row="1"
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
 				PlaceholderText="C:\Users\"
@@ -60,13 +67,15 @@
 				</TextBox.Resources>
 			</TextBox>
 
+			<!--  Browse Button  -->
 			<Button
 				x:Name="SelectDestination"
-				Grid.Row="2"
+				Grid.Row="1"
 				Grid.Column="1"
 				Command="{x:Bind ViewModel.SelectDestinationCommand}"
 				Content="{helpers:ResourceString Name=Browse}" />
 
 		</Grid>
-	</Border>
+
+	</Grid>
 </ContentDialog>

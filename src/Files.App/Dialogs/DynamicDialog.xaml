@@ -12,6 +12,7 @@
 	CloseButtonClick="ContentDialog_CloseButtonClick"
 	CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	DefaultButton="Primary"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsPrimaryButtonEnabled, Mode=OneWay}"
 	IsSecondaryButtonEnabled="{x:Bind ViewModel.IsSecondaryButtonEnabled, Mode=OneWay}"
@@ -24,13 +25,13 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Grid RowSpacing="20">
+	<Grid x:Name="RootGrid" RowSpacing="20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--  Subtitle  -->
+		<!--  Description  -->
 		<TextBlock
 			x:Name="Subtitle"
 			Grid.Row="0"
@@ -40,7 +41,7 @@
 			Text="{x:Bind ViewModel.SubtitleText, Mode=OneWay}"
 			TextWrapping="WrapWholeWords" />
 
-		<!--  The dynamic content control  -->
+		<!--  The Dynamic Content Control  -->
 		<ContentControl
 			x:Name="DisplayControl"
 			Grid.Row="1"
@@ -51,11 +52,11 @@
 			x:Load="{x:Bind ViewModel.DisplayControlLoad, Mode=OneWay}"
 			Content="{x:Bind ViewModel.DisplayControl, Mode=OneWay}">
 			<i:Interaction.Behaviors>
-				<!--  No need to specify CommandParameter - `e` is passed by default  -->
 				<icore:EventTriggerBehavior EventName="Loaded">
 					<icore:InvokeCommandAction Command="{x:Bind ViewModel.DisplayControlOnLoadedCommand, Mode=OneWay}" />
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ContentControl>
+
 	</Grid>
 </ContentDialog>

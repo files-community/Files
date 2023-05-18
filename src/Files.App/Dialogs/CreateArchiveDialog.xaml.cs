@@ -10,10 +10,12 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for archive creation.
+	/// </summary>
 	public sealed partial class CreateArchiveDialog : ContentDialog
 	{
-		private bool canCreate = false;
-		public bool CanCreate => canCreate;
+		public bool CanCreate;
 
 		public string FileName
 		{
@@ -84,7 +86,7 @@ namespace Files.App.Dialogs
 			ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
 
 			if (e.Result is ContentDialogResult.Primary)
-				canCreate = true;
+				CanCreate = true;
 		}
 
 		private void PasswordBox_Loading(FrameworkElement _, object e)
@@ -137,8 +139,8 @@ namespace Files.App.Dialogs
 			public bool CanSplit
 				=> FileFormat.Key is ArchiveFormats.SevenZip;
 
-			private SplittingSizeItem splittingSize;
-			public SplittingSizeItem SplittingSize
+			private SevenZipSplittingSizeItem splittingSize;
+			public SevenZipSplittingSizeItem SplittingSize
 			{
 				get => splittingSize;
 				set => SetProperty(ref splittingSize, value);
@@ -184,7 +186,7 @@ namespace Files.App.Dialogs
 			}
 			.ToImmutableList();
 
-			public IImmutableList<SplittingSizeItem> SplittingSizes { get; } = new List<SplittingSizeItem>
+			public IImmutableList<SevenZipSplittingSizeItem> SplittingSizes { get; } = new List<SevenZipSplittingSizeItem>
 			{
 				new(ArchiveSplittingSizes.None, "Do not split".GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo10, ToSizeText(10)),
@@ -216,9 +218,4 @@ namespace Files.App.Dialogs
 		}
 	}
 
-	internal record SplittingSizeItem(ArchiveSplittingSizes Key, string Label, string Description = "")
-	{
-		public string Separator
-			=> string.IsNullOrEmpty(Description) ? string.Empty : "-";
-	}
 }

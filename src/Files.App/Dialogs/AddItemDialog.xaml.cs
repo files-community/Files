@@ -9,6 +9,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Dialogs
 {
+	/// <summary>
+	/// Represents an <see cref="ContentDialog"/> UI for storage item addition.
+	/// </summary>
 	public sealed partial class AddItemDialog : ContentDialog, IDialog<AddItemDialogViewModel>
 	{
 		private readonly IAddItemService _addItemService;
@@ -24,20 +27,23 @@ namespace Files.App.Dialogs
 		}
 
 		public new async Task<DialogResult> ShowAsync()
-			=> (DialogResult)await base.ShowAsync();
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
 			var itemTypes = await _addItemService.GetNewEntriesAsync();
 			await ViewModel.AddItemsToList(itemTypes);
 
-			// Focus on the list view so users can use keyboard navigation
+			// Focus on the ListView so that the users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);
 		}
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			ViewModel.ResultType = ((AddItemDialogListItemViewModel)e.ClickedItem)?.ItemResult ?? throw new ArgumentNullException();
+			ViewModel.ResultType = ((AddItemDialogListItemViewModel)e.ClickedItem)?.ItemResult
+				?? throw new ArgumentNullException("ItemResult", $"{nameof(AddItemDialog)}.{nameof(ListView_ItemClick)}.e.ClickedItem was null.");
 
 			Hide();
 		}

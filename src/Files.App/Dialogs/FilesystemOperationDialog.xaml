@@ -7,9 +7,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ts="using:Files.App.TemplateSelectors"
-	xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:templateselector="using:Files.App.TemplateSelectors"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"
 	Closing="RootDialog_Closing"
@@ -25,22 +25,20 @@
 	mc:Ignorable="d">
 
 	<ContentDialog.Resources>
+
 		<x:Double x:Key="ContentDialogMaxWidth">800</x:Double>
 
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 		<converters:GenericEnumConverter x:Key="GenericEnumConverter" />
 		<converters:ConflictResolveOptionToIndexConverter x:Key="ConflictResolveOptionToIndexConverter" />
 		<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
-		<tvc:BoolNegationConverter x:Key="BoolNegationConverter" />
+		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 		<DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="48" />
-					<!--  Content  -->
 					<ColumnDefinition Width="*" />
-					<!--  Options  -->
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
@@ -118,15 +116,14 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 		</DataTemplate>
 
 		<DataTemplate x:Key="DefaultItemDataTemplate" x:DataType="vm:FileSystemDialogDefaultItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="Auto" />
-					<!--  Content  -->
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
@@ -150,12 +147,15 @@
 						Text="{x:Bind SourcePath}"
 						ToolTipService.ToolTip="{x:Bind SourcePath}" />
 				</StackPanel>
+
 			</Grid>
 		</DataTemplate>
+
 	</ContentDialog.Resources>
 
-	<Grid x:Name="ContainerGrid">
+	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="16">
+
 			<Grid x:Name="ApplyToAll" x:Load="{x:Bind ViewModel.FileSystemDialogMode.ConflictsExist}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -213,7 +213,7 @@
 				SelectionMode="None">
 
 				<ListView.ItemTemplateSelector>
-					<ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
+					<templateselector:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
 				</ListView.ItemTemplateSelector>
 
 				<ListView.ItemsPanel>
@@ -230,6 +230,7 @@
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>
+
 		</StackPanel>
 	</Grid>
 </ContentDialog>

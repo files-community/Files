@@ -24,72 +24,70 @@
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</ContentDialog.Resources>
 
-	<Grid RowSpacing="24">
+	<Grid x:Name="RootGrid" RowSpacing="24">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<TextBlock
-			x:Name="Description"
-			Grid.Row="0"
-			Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
+		<!--  Description  -->
+		<TextBlock Grid.Row="0" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
 
-		<Grid
-			x:Name="SelectionListContent"
+		<!--  Items ListView  -->
+		<ListView
+			x:Name="AddItemsListView"
 			Grid.Row="1"
-			HorizontalAlignment="Stretch">
-			<ListView
-				x:Name="AddItemsListView"
-				Width="400"
-				IsItemClickEnabled="True"
-				ItemClick="ListView_ItemClick"
-				ItemsSource="{x:Bind ViewModel.AddItemsList}">
+			Width="400"
+			IsItemClickEnabled="True"
+			ItemClick="ListView_ItemClick"
+			ItemsSource="{x:Bind ViewModel.AddItemsList}">
 
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
-						<Grid Height="50">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
+					<Grid Height="50">
 
-							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+						<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
-								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
+							<!--  Thumbnail  -->
+							<Grid Margin="0,0,10,0" VerticalAlignment="Center">
 
-									<Viewbox
-										x:Name="IconRoot"
-										Width="24"
-										Height="24"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Center">
-										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
-									</Viewbox>
+								<!--  Item Icon  -->
+								<Viewbox
+									Width="24"
+									Height="24"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center">
+									<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
+								</Viewbox>
 
-									<Image
-										Width="24"
-										Height="24"
-										Margin="0"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Center"
-										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
-										Stretch="Uniform" />
+								<!--  Item Image  -->
+								<Image
+									Width="24"
+									Height="24"
+									Margin="0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
+									Stretch="Uniform" />
 
-								</Grid>
+							</Grid>
 
-								<StackPanel>
+							<!--  Content  -->
+							<StackPanel>
 
-									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
+								<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
 
-									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
-
-								</StackPanel>
+								<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
 
 							</StackPanel>
 
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
+						</StackPanel>
 
-			</ListView>
-		</Grid>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+
+		</ListView>
 
 	</Grid>
 </ContentDialog>

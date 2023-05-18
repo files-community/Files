@@ -4,12 +4,10 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="{helpers:ResourceString Name=CreateArchive}"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	CloseButtonText="{helpers:ResourceString Name=Cancel}"
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -131,7 +129,7 @@
 				SelectedItem="{x:Bind ViewModel.SplittingSize, Mode=TwoWay}"
 				SelectedValuePath="Key">
 				<ComboBox.ItemTemplate>
-					<DataTemplate x:DataType="local:SplittingSizeItem">
+					<DataTemplate x:DataType="dataitems:SevenZipSplittingSizeItem">
 
 						<StackPanel Orientation="Horizontal" Spacing="4">
 							<TextBlock Text="{x:Bind Label}" />
@@ -158,11 +156,13 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
+					<!--  Header  -->
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=Password}" />
 
+					<!--  Password Entering  -->
 					<PasswordBox
 						x:Name="PasswordBox"
 						Grid.Column="1"
