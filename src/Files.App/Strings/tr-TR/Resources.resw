@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Yeni pencere</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Konumu kopyala</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
