@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>新視窗</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>複製位置</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
