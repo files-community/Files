@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Bagong window</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Kopyahin ang lokasyon</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Mag-browse</value>
