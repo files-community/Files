@@ -2954,7 +2954,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3275,7 @@
     <value>Ви маєте не закомічені зміни на даній гілці. Що б ви хотіли зробити з ними?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Змінити гілку</value>
+    <value>Змінити гілку</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Гілки</value>
