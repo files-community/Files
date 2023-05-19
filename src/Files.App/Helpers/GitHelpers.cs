@@ -13,7 +13,7 @@ namespace Files.App.Helpers
 	internal static class GitHelpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
-		
+
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
 		public static string? GetGitRepositoryPath(string? path, string root)
@@ -87,24 +87,35 @@ namespace Files.App.Helpers
 						break;
 					case GitCheckoutOptions.BringChanges:
 					case GitCheckoutOptions.StashChanges:
-						repository.Stashes.Add(repository.Config.BuildSignature(DateTimeOffset.Now));
+						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+						if (signature is null)
+							return false;
+
+						repository.Stashes.Add(signature);
 
 						isBringingChanges = resolveConflictOption is GitCheckoutOptions.BringChanges;
 						break;
 				}
 			}
 
-			if (checkoutBranch.IsRemote)
-				CheckoutRemoteBranch(repository, checkoutBranch);
-			else
-				LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-			if (isBringingChanges)
+			try
 			{
-				var lastStashIndex = repository.Stashes.Count() - 1;
-				repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+				if (checkoutBranch.IsRemote)
+					CheckoutRemoteBranch(repository, checkoutBranch);
+				else
+					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+				if (isBringingChanges)
+				{
+					var lastStashIndex = repository.Stashes.Count() - 1;
+					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+				}
+				return true;
 			}
-			return true;
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 
 		public static async Task CreateNewBranch(string repositoryPath, string activeBranch)
