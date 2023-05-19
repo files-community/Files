@@ -121,7 +121,7 @@
     <value>新しいウィンドウ</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>パスのコピー</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ブラウズ</value>
@@ -3275,7 +3275,7 @@
     <value>このブランチにはコミットされていない変更があります。どうしますか?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>ブランチを切り替え</value>
+    <value>ブランチを切り替え</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>ブランチ</value>
