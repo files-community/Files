@@ -268,6 +268,8 @@ namespace Files.App.UserControls.Widgets
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
+						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+							continue;
 
 						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
@@ -284,6 +286,8 @@ namespace Files.App.UserControls.Widgets
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+							continue;
 						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
