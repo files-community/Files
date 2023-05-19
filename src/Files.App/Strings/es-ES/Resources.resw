@@ -121,7 +121,7 @@
     <value>Nueva ventana</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Copiar ruta</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
@@ -217,7 +217,7 @@
     <value>Avanzado</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continuar donde lo dejó</value>
+    <value>Continuar donde se dejó</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Abrir una nueva pestaña</value>
@@ -2954,7 +2954,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Retroceso</value>
+    <value>Entrar</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3275,7 @@
     <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Cambiar rama</value>
+    <value>Cambiar rama</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Ramas</value>
