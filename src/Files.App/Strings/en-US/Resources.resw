@@ -3286,17 +3286,17 @@
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
   </data>
-  <data name="BranchNamePrompt" xml:space="preserve">
-    <value>Enter branch name:</value>
-  </data>
   <data name="InvalidBranchName" xml:space="preserve">
     <value>Invalid branch name</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
     <value>Create branch</value>
   </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Create Branch</value>
+  </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on:</value>
+    <value>Based on</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
     <value>Switch to new branch</value>
