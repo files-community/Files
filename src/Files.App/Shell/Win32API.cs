@@ -15,7 +15,6 @@ using Windows.System;
 
 namespace Files.App.Shell
 {
-	[SupportedOSPlatform("Windows10.0.10240")]
 	internal class Win32API
 	{
 		public static Task StartSTATask(Func<Task> func)
@@ -250,7 +249,7 @@ namespace Files.App.Shell
 				if (!onlyGetOverlay)
 				{
 					using var shellItem = SafetyExtensions.IgnoreExceptions(()
-						=> ShellFolderExtensions.GetShellItemFromPathOrPidl(path));
+						=> ShellFolderExtensions.GetShellItemFromPathOrPIDL(path));
 
 					if (shellItem is not null && shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
 					{
@@ -277,7 +276,7 @@ namespace Files.App.Shell
 					// Cannot access file, use file attributes
 					var useFileAttibutes = !onlyGetOverlay && iconData is null;
 
-					var ret = ShellFolderExtensions.GetStringAsPidl(path, out var pidl) ?
+					var ret = ShellFolderExtensions.GetStringAsPIDL(path, out var pidl) ?
 						Shell32.SHGetFileInfo(pidl, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_PIDL | flags) :
 						Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags | (useFileAttibutes ? Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES : 0));
 					if (ret == IntPtr.Zero)

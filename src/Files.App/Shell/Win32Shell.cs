@@ -10,15 +10,15 @@ namespace Files.App.Shell
 {
 	public class Win32Shell
 	{
-		private static ShellFolder controlPanel;
+		private static ShellFolder _controlPanel;
 
-		private static ShellFolder controlPanelCategoryView;
+		private static ShellFolder _controlPanelCategoryView;
 
 		static Win32Shell()
 		{
-			controlPanel = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
+			_controlPanel = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
 
-			controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+			_controlPanelCategoryView = new ShellFolder("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
 		}
 
 		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, string action, int from, int count, params string[] properties)
@@ -35,11 +35,11 @@ namespace Files.App.Shell
 
 				try
 				{
-					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPidl(path) as ShellFolder;
+					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
 
 					if (shellFolder is null ||
-						(controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
-						controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
+						(_controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
+						_controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
 						!shellFolder.Any())
 					{
 						// Return null to force open unsupported items in explorer

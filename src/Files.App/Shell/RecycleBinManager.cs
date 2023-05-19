@@ -8,17 +8,19 @@ namespace Files.App.Shell
 	public sealed class RecycleBinManager
 	{
 		private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());
+
 		private IList<SystemIO.FileSystemWatcher>? binWatchers;
 
 		public event SystemIO.FileSystemEventHandler? RecycleBinItemCreated;
+
 		public event SystemIO.FileSystemEventHandler? RecycleBinItemDeleted;
+
 		public event SystemIO.FileSystemEventHandler? RecycleBinItemRenamed;
+
 		public event SystemIO.FileSystemEventHandler? RecycleBinRefreshRequested;
 
 		public static RecycleBinManager Default
-		{
-			get => lazy.Value;
-		}
+			=> lazy.Value;
 
 		private RecycleBinManager()
 		{
@@ -33,9 +35,10 @@ namespace Files.App.Shell
 
 		private void StartRecycleBinWatcher()
 		{
-			// Create filesystem watcher to monitor recycle bin folder(s)
-			// SHChangeNotifyRegister only works if recycle bin is open in explorer :(
+			// NOTE: SHChangeNotifyRegister only works if recycle bin is open in explorer
+			// Create file system watcher to monitor recycle bin folder(s)
 			binWatchers = new List<SystemIO.FileSystemWatcher>();
+
 			var sid = WindowsIdentity.GetCurrent().User.ToString();
 
 			foreach (var drive in SystemIO.DriveInfo.GetDrives())
@@ -62,7 +65,8 @@ namespace Files.App.Shell
 
 		private void RecycleBinWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
+			Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
+
 			if (e.Name.StartsWith("$I", StringComparison.Ordinal))
 			{
 				// Recycle bin also stores a file starting with $I for each item
@@ -91,9 +95,7 @@ namespace Files.App.Shell
 			if (binWatchers is not null)
 			{
 				foreach (var watcher in binWatchers)
-				{
 					watcher.Dispose();
-				}
 			}
 		}
 
