@@ -50,6 +50,7 @@
 								Grid.Row="1"
 								Height="2"
 								Margin="16,0,16,0"
+								Background="Transparent"
 								CornerRadius="2" />
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
