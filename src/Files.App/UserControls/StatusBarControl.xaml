@@ -142,7 +142,7 @@
 				x:Name="GitBranch"
 				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 				Background="Transparent"
-				BorderThickness="0"
+				BorderBrush="Transparent"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
 				<Button.Flyout>
 					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
