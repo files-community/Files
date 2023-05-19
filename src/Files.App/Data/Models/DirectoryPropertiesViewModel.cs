@@ -10,11 +10,11 @@ namespace Files.App.Data.Models
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
 
-		private string? gitRepositoryPath;
+		private string? _gitRepositoryPath;
 
-		private readonly ObservableCollection<string> localBranches = new();
+		private readonly ObservableCollection<string> _localBranches = new();
 
-		private readonly ObservableCollection<string> remoteBranches = new();
+		private readonly ObservableCollection<string> _remoteBranches = new();
 
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
@@ -63,8 +63,8 @@ namespace Files.App.Data.Models
 		}
 
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
-			? localBranches 
-			: remoteBranches;
+			? _localBranches 
+			: _remoteBranches;
 
 		public EventHandler<string>? CheckoutRequested;
 
@@ -73,7 +73,7 @@ namespace Files.App.Data.Models
 		public DirectoryPropertiesViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(() 
-				=> GitHelpers.CreateNewBranch(gitRepositoryPath!, localBranches[ACTIVE_BRANCH_INDEX]));
+				=> GitHelpers.CreateNewBranch(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
@@ -82,19 +82,19 @@ namespace Files.App.Data.Models
 				? string.Format("Branch".GetLocalizedResource(), branches[ACTIVE_BRANCH_INDEX].Name)
 				: null;
 
-			gitRepositoryPath = repositoryPath;
+			_gitRepositoryPath = repositoryPath;
 
 			if (isGitRepository)
 			{
-				localBranches.Clear();
-				remoteBranches.Clear();
+				_localBranches.Clear();
+				_remoteBranches.Clear();
 
 				foreach (var branch in branches)
 				{
 					if (branch.IsRemote)
-						remoteBranches.Add(branch.Name);
+						_remoteBranches.Add(branch.Name);
 					else
-						localBranches.Add(branch.Name);
+						_localBranches.Add(branch.Name);
 				}
 
 				SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
