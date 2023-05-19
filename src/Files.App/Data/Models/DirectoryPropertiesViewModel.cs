@@ -10,8 +10,6 @@ namespace Files.App.Data.Models
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
 
-		public const int LOCAL_ORIGIN_INDEX = 0;
-
 		private string? gitRepositoryPath;
 
 		private readonly ObservableCollection<string> localBranches = new();
@@ -40,31 +38,31 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _SelectedBranchIndex, value) && 
 					value != -1 && 
-					(value != ACTIVE_BRANCH_INDEX || _SelectedOriginIndex is not 0))
+					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals))
 				{
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
-					SelectedOriginIndex = LOCAL_ORIGIN_INDEX;
+					ShowLocals = true;
 				}
 			}
 		}
 
-		private int _SelectedOriginIndex = 0;
-		public int SelectedOriginIndex
+		private bool _ShowLocals = true;
+		public bool ShowLocals
 		{
-			get => _SelectedOriginIndex;
+			get => _ShowLocals;
 			set
 			{
-				if (SetProperty(ref _SelectedOriginIndex, value))
+				if (SetProperty(ref _ShowLocals, value))
 				{
 					OnPropertyChanged(nameof(BranchesNames));
 
-					if (value is 0)
+					if (value)
 						SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
 				}
 			}
 		}
 
-		public ObservableCollection<string> BranchesNames => _SelectedOriginIndex is 0 
+		public ObservableCollection<string> BranchesNames => _ShowLocals 
 			? localBranches 
 			: remoteBranches;
 

@@ -80,15 +80,10 @@
 								BorderThickness="0,0,0,1">
 
 								<!--  Locals and Remotes  -->
-								<RadioButtons
-									Grid.Row="1"
-									MaxColumns="2"
-									SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedOriginIndex, Mode=TwoWay}">
-
-									<RadioButton Content="{helpers:ResourceString Name=Locals}" />
-
+								<StackPanel Grid.Row="1" Orientation="Horizontal">
+									<RadioButton Content="{helpers:ResourceString Name=Locals}" IsChecked="{x:Bind DirectoryPropertiesViewModel.ShowLocals, Mode=TwoWay}" />
 									<RadioButton Content="{helpers:ResourceString Name=Remotes}" />
-								</RadioButtons>
+								</StackPanel>
 
 								<!--  New Branch Button  -->
 								<Button

@@ -44,7 +44,7 @@ namespace Files.App.UserControls
 
 		private void BranchesFlyout_Opening(object sender, object e)
 		{
-			DirectoryPropertiesViewModel.SelectedOriginIndex = DirectoryPropertiesViewModel.LOCAL_ORIGIN_INDEX;
+			DirectoryPropertiesViewModel.ShowLocals = true;
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
 

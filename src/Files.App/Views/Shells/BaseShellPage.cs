@@ -242,11 +242,11 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			if (
-				!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName) &&
-				_ContentPage.DirectoryPropertiesViewModel.SelectedOriginIndex is DirectoryPropertiesViewModel.LOCAL_ORIGIN_INDEX
-				)
+			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
+			{
+				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
 				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			}
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
