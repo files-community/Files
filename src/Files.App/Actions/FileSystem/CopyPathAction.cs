@@ -16,7 +16,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CopyAsPath".GetLocalizedResource();
+		public string Label { get; } = "CopyPath".GetLocalizedResource();
 
 		public string Description => "CopyPathDescription".GetLocalizedResource();
 

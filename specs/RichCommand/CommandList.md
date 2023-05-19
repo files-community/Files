@@ -19,7 +19,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
 |                    | ToggleSidebar                       | Toggle the sidebar                        | Toggle whether to show sidebar                           | Ctrl+B              |
 | File System        | CopyItem                            | Copy                                      | Copy item(s) to clipboard                                | Ctrl+C              |
-|                    | CopyPath                            | Copy as path                              | Copy path of item to clipboard                           | Ctrl+Shift+C        |
+|                    | CopyPath                            | Copy path                                 | Copy path of item to clipboard                           | Ctrl+Shift+C        |
 |                    | CutItem                             | Cut                                       | Cut item(s) to clipboard                                 | Ctrl+X              |
 |                    | PasteItem                           | Paste                                     | Paste item(s) from clipboard to current folder           | Ctrl+V              |
 |                    | PasteItemToSelection                | Paste                                     | Paste item(s) from clipboard to selected folder          | Ctrl+Shift+V        |
