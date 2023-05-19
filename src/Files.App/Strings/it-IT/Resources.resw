@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nuova finestra</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Copia percorso</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Esplora</value>
