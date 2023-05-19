@@ -121,7 +121,7 @@
     <value>Nouvelle fenêtre</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Copier le chemin</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
@@ -2954,7 +2954,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Entrée</value>
+    <value>Entrer</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3149,7 +3149,7 @@
     <value>Ferme l'onglet actuel</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Modifier le chemin d'accès</value>
+    <value>Modifier le chemin</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branche : {0}</value>
@@ -3182,7 +3182,7 @@
     <value>Recherchez des éléments non indexés</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Mettre en évidence la barre de chemin d'accès</value>
+    <value>Mettre en évidence la barre de chemin</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Créer un nouvel élément</value>
@@ -3275,7 +3275,7 @@
     <value>Vous avez des modifications non validées sur cette branche. Que souhaitez-vous faire d'elles ?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Changer de branche</value>
+    <value>Changer de branche</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
