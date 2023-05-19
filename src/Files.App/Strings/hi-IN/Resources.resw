@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>नई विंडो</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>स्थान की प्रतिलिपि बनाएँ</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ब्राउज़</value>
