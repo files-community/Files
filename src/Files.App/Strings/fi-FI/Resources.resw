@@ -3275,7 +3275,7 @@
     <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Vaihda haaraa</value>
+    <value>Vaihda haaraa</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Haarat</value>
