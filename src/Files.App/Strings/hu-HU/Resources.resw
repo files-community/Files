@@ -3275,7 +3275,7 @@
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Switch Branch</value>
+    <value>Switch Branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
