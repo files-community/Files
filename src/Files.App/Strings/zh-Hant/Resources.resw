@@ -3283,8 +3283,8 @@
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
   </data>
-  <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+  <data name="CrateBranch" xml:space="preserve">
+    <value>Create branch</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Create a folder with the currently selected item(s)</value>
