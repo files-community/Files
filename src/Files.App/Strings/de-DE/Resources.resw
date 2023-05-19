@@ -121,7 +121,7 @@
     <value>Neues Fenster</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Pfad kopieren</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Durchsuchen</value>
@@ -2954,7 +2954,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Eingabe</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3275,7 @@
     <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Branch wechseln</value>
+    <value>Branch wechseln</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
