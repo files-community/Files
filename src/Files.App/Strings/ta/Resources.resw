@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>புதிய சாளரம்</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>இருப்பிடத்தை நகலெடு</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>உலாவு</value>
