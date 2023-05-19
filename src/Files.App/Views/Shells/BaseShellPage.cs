@@ -29,6 +29,8 @@ namespace Files.App.Views.Shells
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
 
+		private bool isCheckingOutBranch = false;
+
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
@@ -233,6 +235,9 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
+			if (isCheckingOutBranch)
+				return;
+
 			InstanceViewModel.UpdateCurrentBranchName();
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
@@ -242,11 +247,13 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
+			isCheckingOutBranch = true;
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
 				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
 				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 			}
+			isCheckingOutBranch = false;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
