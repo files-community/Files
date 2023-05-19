@@ -121,7 +121,7 @@
     <value>打开新窗口</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>复制路径</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
@@ -2966,7 +2966,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>退格</value>
+    <value>Backspace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
@@ -3275,7 +3275,7 @@
     <value>你在此分支上有未提交的更改。如何处理这些更改？</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>切换分支</value>
+    <value>切换分支</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>分支</value>
@@ -3290,9 +3290,9 @@
     <value>用当前选中的项创建文件夹</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>查看属性</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>打开属性窗口</value>
   </data>
 </root>
