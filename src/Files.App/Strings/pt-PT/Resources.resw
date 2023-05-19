@@ -121,7 +121,7 @@
     <value>Nova janela</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Copiar caminho</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Explorar</value>
@@ -2954,7 +2954,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3275,7 @@
     <value>Existem alterações por submeter neste ramo. O que pretende fazer?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Trocar de ramo</value>
+    <value>Trocar de ramo</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Ramos</value>
