@@ -3,6 +3,9 @@
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Represents an abstraction for Disposable
+	/// </summary>
 	public abstract class Disposable : IDisposable
 	{
 		public void Dispose()

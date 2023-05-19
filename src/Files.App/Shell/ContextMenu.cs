@@ -19,11 +19,14 @@ namespace Files.App.Shell
 		
 		private User32.SafeHMENU _hMenu;
 		
-		private ThreadWithMessageQueue _owningThread;
+		private readonly ThreadWithMessageQueue _owningThread;
 
-		Func<string, bool>? _itemFilter;
+		private readonly Func<string, bool>? _itemFilter;
 
-		private Dictionary<List<Win32ContextMenuItem>, Action> _loadSubMenuActions;
+		private readonly Dictionary<List<Win32ContextMenuItem>, Action> _loadSubMenuActions;
+
+		// To detect redundant calls
+		private bool disposedValue = false;
 
 		public List<string> ItemsPath { get; }
 
@@ -340,9 +343,6 @@ namespace Files.App.Shell
 				commandString?.Dispose();
 			}
 		}
-
-		// To detect redundant calls
-		private bool disposedValue = false;
 
 		protected virtual void Dispose(bool disposing)
 		{

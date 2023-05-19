@@ -5,6 +5,9 @@ using System.Security.Principal;
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Provides a utility to handle Windows Recycle Bin.
+	/// </summary>
 	public sealed class RecycleBinManager
 	{
 		private static readonly Lazy<RecycleBinManager> lazy = new(() => new RecycleBinManager());

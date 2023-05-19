@@ -9,7 +9,7 @@ using Vanara.Windows.Shell;
 namespace Files.App.Shell
 {
 	/// <summary>
-	/// Represents an item for shell library encapsulation.
+	/// Represents an encapsulated item for shell library.
 	/// </summary>
 	public class ShellLibraryEx : ShellFolder
 	{

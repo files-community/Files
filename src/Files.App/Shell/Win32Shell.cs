@@ -8,11 +8,14 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Provides a utility to manage shell folders.
+	/// </summary>
 	public class Win32Shell
 	{
-		private static ShellFolder _controlPanel;
+		private readonly static ShellFolder _controlPanel;
 
-		private static ShellFolder _controlPanelCategoryView;
+		private readonly static ShellFolder _controlPanelCategoryView;
 
 		static Win32Shell()
 		{
