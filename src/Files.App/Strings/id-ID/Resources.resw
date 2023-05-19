@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Jendela baru</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Salin lokasi</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
