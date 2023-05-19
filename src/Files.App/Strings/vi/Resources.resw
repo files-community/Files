@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Cửa sổ mới</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Sao chép đường dẫn</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
