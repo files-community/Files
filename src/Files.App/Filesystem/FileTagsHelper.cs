@@ -98,7 +98,8 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath)
+			=> NativeFileOperationsHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

@@ -22,13 +22,19 @@ namespace Files.App.Filesystem.StorageItems
 	public sealed class ZipStorageFile : BaseStorageFile
 	{
 		private readonly string containerPath;
+
 		private readonly BaseStorageFile backingFile;
 
 		public override string Path { get; }
+
 		public override string Name { get; }
+
 		public override string DisplayName => Name;
+
 		public override string ContentType => "application/octet-stream";
+
 		public override string FileType => IO.Path.GetExtension(Name);
+
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override string DisplayType
@@ -45,9 +51,11 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override DateTimeOffset DateCreated { get; }
+
 		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Normal | Windows.Storage.FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
+
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
 		public ZipStorageFile(string path, string containerPath)
@@ -56,10 +64,13 @@ namespace Files.App.Filesystem.StorageItems
 			Path = path;
 			this.containerPath = containerPath;
 		}
+
 		public ZipStorageFile(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
 			=> this.backingFile = backingFile;
+
 		public ZipStorageFile(string path, string containerPath, ArchiveFileInfo entry) : this(path, containerPath)
 			=> DateCreated = entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
+
 		public ZipStorageFile(string path, string containerPath, ArchiveFileInfo entry, BaseStorageFile backingFile) : this(path, containerPath, entry)
 			=> this.backingFile = backingFile;
 
@@ -89,9 +100,11 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
+
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
+
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
@@ -137,6 +150,7 @@ namespace Files.App.Filesystem.StorageItems
 				throw new NotSupportedException("Can't open zip file as RW");
 			});
 		}
+
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
 
@@ -218,13 +232,16 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
 			=> throw new NotSupportedException();
+
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options)
 			=> throw new NotSupportedException();
 
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
 			=> CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -261,6 +278,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 			});
 		}
+
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -287,14 +305,18 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
 			=> throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 			=> throw new NotSupportedException();
+
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
 			=> throw new NotSupportedException();
 
 		public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
+
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -340,6 +362,7 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
+
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -388,8 +411,10 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 

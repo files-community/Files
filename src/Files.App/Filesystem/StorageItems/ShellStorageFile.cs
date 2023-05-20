@@ -2,10 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Shell;
-using Files.Shared;
-using System;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -45,10 +42,15 @@ namespace Files.App.Filesystem.StorageItems
 	public class ShellStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
+
 		public override string Name { get; }
+
 		public override string DisplayName => Name;
+
 		public override string ContentType => "application/octet-stream";
+
 		public override string FileType => IO.Path.GetExtension(Name);
+
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override string DisplayType { get; }
@@ -58,6 +60,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override FileAttributes Attributes => FileAttributes.Normal | FileAttributes.ReadOnly;
 
 		private IStorageItemExtraProperties properties;
+
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
 		public ShellStorageFile(ShellFileItem item)
@@ -103,17 +106,23 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
+
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
+
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync() => GetBasicProperties().AsAsyncOperation();
 
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncAction DeleteAsync() => throw new NotSupportedException();
+
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => throw new NotSupportedException();
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
@@ -128,6 +137,7 @@ namespace Files.App.Filesystem.StorageItems
 				return await zipFile.GetThumbnailAsync(mode);
 			});
 		}
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -140,6 +150,7 @@ namespace Files.App.Filesystem.StorageItems
 				return await zipFile.GetThumbnailAsync(mode, requestedSize);
 			});
 		}
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -154,19 +165,27 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode) => throw new NotSupportedException();
+
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => throw new NotSupportedException();
+
 		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync() => throw new NotSupportedException();
+
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync() => throw new NotSupportedException();
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
+
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => throw new NotSupportedException();
 
 		public override IAsyncAction RenameAsync(string desiredName) => throw new NotSupportedException();
+
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => throw new NotSupportedException();
 
 		private Task<BaseBasicProperties> GetBasicProperties()

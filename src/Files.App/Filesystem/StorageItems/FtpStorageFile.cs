@@ -16,11 +16,17 @@ namespace Files.App.Filesystem.StorageItems
 	public sealed class FtpStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
+
 		public override string Name { get; }
+
 		public override string DisplayName => Name;
+
 		public override string ContentType => "application/octet-stream";
+
 		public override string FileType => IO.Path.GetExtension(Name);
+
 		public string FtpPath { get; }
+
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override string DisplayType
@@ -28,17 +34,20 @@ namespace Files.App.Filesystem.StorageItems
 			get
 			{
 				var itemType = "File".GetLocalizedResource();
+
 				if (Name.Contains('.', StringComparison.Ordinal))
-				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
-				}
+
 				return itemType;
 			}
 		}
 
 		public override DateTimeOffset DateCreated { get; }
+
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
-		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
+
+		public override IStorageItemExtraProperties Properties
+			=> new BaseBasicStorageItemExtraProperties(this);
 
 		public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -47,6 +56,7 @@ namespace Files.App.Filesystem.StorageItems
 			FtpPath = FtpHelpers.GetFtpPath(path);
 			DateCreated = dateCreated;
 		}
+
 		public FtpStorageFile(string folder, FtpListItem ftpItem)
 		{
 			Path = PathNormalization.Combine(folder, ftpItem.Name);
@@ -54,6 +64,7 @@ namespace Files.App.Filesystem.StorageItems
 			FtpPath = FtpHelpers.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
 		}
+
 		public FtpStorageFile(IStorageItemWithPath item)
 		{
 			Path = item.Path;
@@ -70,6 +81,7 @@ namespace Files.App.Filesystem.StorageItems
 			=> StorageFile.CreateStreamedFileAsync(Name, FtpDataStreamingHandler, null);
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
+
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
 		public override IAsyncOperation<BaseStorageFolder> GetParentAsync() => throw new NotSupportedException();
@@ -113,6 +125,7 @@ namespace Files.App.Filesystem.StorageItems
 				};
 			});
 		}
+
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
 		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
@@ -130,6 +143,7 @@ namespace Files.App.Filesystem.StorageItems
 				return new StreamWithContentType(nsStream);
 			});
 		}
+
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
 			return AsyncInfo.Run<IInputStream>(async (cancellationToken) =>
@@ -146,12 +160,15 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
+
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync(StorageOpenOptions options) => throw new NotSupportedException();
 
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder)
 			=> CopyAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
 			=> CopyAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
+
 		public override IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -179,27 +196,32 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
+
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
 
 		public override IAsyncAction RenameAsync(string desiredName)
 			=> RenameAsync(desiredName, NameCollisionOption.FailIfExists);
+
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
 				using var ftpClient = GetFtpClient();
+
 				if (!await ftpClient.EnsureConnectedAsync())
-				{
 					return;
-				}
 
 				string destination = $"{PathNormalization.GetParentDir(FtpPath)}/{desiredName}";
 				var remoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
+
 				bool isSuccessful = await ftpClient.MoveFile(FtpPath, destination, remoteExists, cancellationToken);
+
 				if (!isSuccessful && option is NameCollisionOption.GenerateUniqueName)
 				{
 					// TODO: handle name generation
@@ -212,18 +234,20 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
 				using var ftpClient = GetFtpClient();
+
 				if (await ftpClient.EnsureConnectedAsync())
-				{
 					await ftpClient.DeleteFile(FtpPath, cancellationToken);
-				}
 			});
 		}
+
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 

@@ -1,29 +1,30 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-
 namespace Files.App.Filesystem.FilesystemHistory
 {
 	public class StorageHistoryWrapper : IDisposable
 	{
-		private int index = -1;
+		private int _index = -1;
 
-		private List<IStorageHistory> histories = new();
+		private List<IStorageHistory> _histories = new();
 
-		public bool CanRedo() => index + 1 < histories.Count;
-		public bool CanUndo() => index >= 0 && histories.Count > 0;
+		public bool CanRedo()
+			=> _index + 1 < _histories.Count;
 
-		public IStorageHistory GetCurrentHistory() => histories[index];
+		public bool CanUndo()
+			=> _index >= 0 && _histories.Count > 0;
+
+		public IStorageHistory GetCurrentHistory()
+			=> _histories[_index];
 
 		public void AddHistory(IStorageHistory history)
 		{
 			if (history is not null)
 			{
-				++index;
-				histories.Insert(index, history);
-				histories.RemoveRange(index + 1, histories.Count - index - 1);
+				++_index;
+				_histories.Insert(_index, history);
+				_histories.RemoveRange(_index + 1, _histories.Count - _index - 1);
 			}
 		}
 
@@ -31,24 +32,33 @@ namespace Files.App.Filesystem.FilesystemHistory
 		{
 			if (history is not null)
 			{
-				histories.RemoveRange(index + 1, histories.Count - index - 1);
+				_histories.RemoveRange(_index + 1, _histories.Count - _index - 1);
+
 				if (decreaseIndex)
-				{
-					--index;
-				}
-				histories.Remove(history);
+					--_index;
+
+				_histories.Remove(history);
 			}
 		}
 
 		public void ModifyCurrentHistory(IStorageHistory newHistory)
-			=> histories[index].Modify(newHistory);
+		{
+			_histories[_index].Modify(newHistory);
+		}
 
-		public void DecreaseIndex() => --index;
-		public void IncreaseIndex() => ++index;
+		public void DecreaseIndex()
+		{
+			--_index;
+		}
+
+		public void IncreaseIndex()
+		{
+			++_index;
+		}
 
 		public void Dispose()
 		{
-			histories = null;
+			_histories = null;
 		}
 	}
 }

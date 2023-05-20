@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 
@@ -14,7 +11,9 @@ namespace Files.App.Filesystem.StorageItems
 	public class InputStreamWithDisposeCallback : IInputStream
 	{
 		private Stream stream;
+
 		private IInputStream iStream;
+
 		public Action DisposeCallback { get; set; }
 
 		public InputStreamWithDisposeCallback(Stream stream)
@@ -39,9 +38,13 @@ namespace Files.App.Filesystem.StorageItems
 	public class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
 	{
 		private Stream stream;
+
 		private IOutputStream oStream;
+
 		private IRandomAccessStream imrac;
+
 		private ulong byteSize;
+
 		private bool isWritten;
 
 		public Action DisposeCallback { get; set; }

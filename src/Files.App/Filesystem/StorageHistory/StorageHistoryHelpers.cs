@@ -1,35 +1,35 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Files.App.Filesystem.FilesystemHistory
 {
+	/// <summary>
+	/// Provides static helper for storage history.
+	/// </summary>
 	public class StorageHistoryHelpers : IDisposable
 	{
-		private IStorageHistoryOperations operations;
+		private IStorageHistoryOperations _operations;
 
-		private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+		private readonly SemaphoreSlim _semaphore = new(1, 1);
 
 		public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
-			=> operations = storageHistoryOperations;
+			=> _operations = storageHistoryOperations;
 
 		public async Task<ReturnResult> TryUndo()
 		{
 			if (App.HistoryWrapper.CanUndo())
 			{
-				if (!await semaphore.WaitAsync(0))
-				{
+				if (!await _semaphore.WaitAsync(0))
+
 					return ReturnResult.InProgress;
-				}
+
 				bool keepHistory = false;
+
 				try
 				{
-					ReturnResult result = await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
+					ReturnResult result = await _operations.Undo(App.HistoryWrapper.GetCurrentHistory());
 					keepHistory = result is ReturnResult.Cancelled;
+
 					return result;
 				}
 				finally
@@ -37,7 +37,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 					if (!keepHistory)
 						App.HistoryWrapper.DecreaseIndex();
 
-					semaphore.Release();
+					_semaphore.Release();
 				}
 			}
 
@@ -48,18 +48,18 @@ namespace Files.App.Filesystem.FilesystemHistory
 		{
 			if (App.HistoryWrapper.CanRedo())
 			{
-				if (!await semaphore.WaitAsync(0))
-				{
+				if (!await _semaphore.WaitAsync(0))
 					return ReturnResult.InProgress;
-				}
+
 				try
 				{
 					App.HistoryWrapper.IncreaseIndex();
-					return await operations.Redo(App.HistoryWrapper.GetCurrentHistory());
+
+					return await _operations.Redo(App.HistoryWrapper.GetCurrentHistory());
 				}
 				finally
 				{
-					semaphore.Release();
+					_semaphore.Release();
 				}
 			}
 
@@ -68,8 +68,8 @@ namespace Files.App.Filesystem.FilesystemHistory
 
 		public void Dispose()
 		{
-			operations?.Dispose();
-			operations = null;
+			_operations?.Dispose();
+			_operations = null;
 		}
 	}
 }

@@ -1,13 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
 using Files.App.Helpers.MMI;
 using Files.Backend.Models;
 using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
-using System;
 using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
@@ -17,14 +14,15 @@ namespace Files.App.Filesystem
 {
 	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
+		private DeviceWatcher watcher;
+
+		public bool CanBeStarted
+			=> watcher.Status is DeviceWatcherStatus.Created or DeviceWatcherStatus.Stopped or DeviceWatcherStatus.Aborted;
+
 		public event EventHandler<ILocatableFolder> DeviceAdded;
 		public event EventHandler<string> DeviceRemoved;
 		public event EventHandler EnumerationCompleted;
 		public event EventHandler<string> DeviceModified;
-
-		private DeviceWatcher watcher;
-
-		public bool CanBeStarted => watcher.Status is DeviceWatcherStatus.Created or DeviceWatcherStatus.Stopped or DeviceWatcherStatus.Aborted;
 
 		public WindowsStorageDeviceWatcher()
 		{

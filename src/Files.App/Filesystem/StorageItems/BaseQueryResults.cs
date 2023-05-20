@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
@@ -15,6 +12,7 @@ namespace Files.App.Filesystem.StorageItems
 	public class BaseStorageItemQueryResult
 	{
 		public BaseStorageFolder Folder { get; }
+
 		public QueryOptions Options { get; }
 
 		public BaseStorageItemQueryResult(BaseStorageFolder folder, QueryOptions options)
@@ -38,6 +36,7 @@ namespace Files.App.Filesystem.StorageItems
 			{
 				var items = await Folder.GetItemsAsync();
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
+
 				if (!string.IsNullOrEmpty(query))
 				{
 					var spaceSplit = Regex.Split(query, "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
@@ -47,9 +46,7 @@ namespace Files.App.Filesystem.StorageItems
 						if (colonSplit.Length == 2)
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
-							{
 								items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
-							}
 						}
 						else
 						{
@@ -57,11 +54,15 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
+
 				return items.ToList();
 			});
 		}
 
-		public virtual StorageItemQueryResult ToStorageItemQueryResult() => null;
+		public virtual StorageItemQueryResult ToStorageItemQueryResult()
+		{
+			return null;
+		}
 	}
 
 	public class BaseStorageFileQueryResult

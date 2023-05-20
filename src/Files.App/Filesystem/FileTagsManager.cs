@@ -1,21 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Items;
-using Files.Backend.Services.Settings;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem
 {
 	public class FileTagsManager
 	{
 		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;

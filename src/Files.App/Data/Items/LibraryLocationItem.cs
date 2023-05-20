@@ -1,13 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.Shared;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-
-namespace Files.App.Filesystem
+namespace Files.App.Data.Items
 {
 	public class LibraryLocationItem : LocationItem
 	{

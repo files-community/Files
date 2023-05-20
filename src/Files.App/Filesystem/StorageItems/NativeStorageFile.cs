@@ -1,15 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using System;
-using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -25,13 +20,19 @@ namespace Files.App.Filesystem.StorageItems
 	public class NativeStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
+
 		public override string Name { get; }
+
 		public override string DisplayName => Name;
+
 		public override string ContentType => "application/octet-stream";
+
 		public override string FileType => IO.Path.GetExtension(Name);
+
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
+
 		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
 		public override string DisplayType
@@ -48,7 +49,9 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override DateTimeOffset DateCreated { get; }
+
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
+
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
 		public NativeStorageFile(string path, string name, DateTimeOffset dateCreated)
@@ -168,6 +171,7 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
+
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.File;
 
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)

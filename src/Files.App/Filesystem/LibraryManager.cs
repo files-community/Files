@@ -1,22 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
 using Files.App.Dialogs;
-using Files.App.Extensions;
 using Files.App.Shell;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.System;
