@@ -1,11 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage.FileProperties;
@@ -24,6 +20,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public virtual IAsyncAction SavePropertiesAsync()
 			=> Task.CompletedTask.AsAsyncAction();
+
 		public virtual IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
 			=> Task.CompletedTask.AsAsyncAction();
 	}

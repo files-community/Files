@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Generic;
 using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
@@ -10,8 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public interface IBaseStorageFolder : IStorageItem2, IStorageFolder, IStorageFolder2
-		, IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFolderQueryOperations
+	public interface IBaseStorageFolder : IStorageItem2, IStorageFolder, IStorageFolder2, IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFolderQueryOperations
 	{
 		new IStorageItemExtraProperties Properties { get; }
 
@@ -41,12 +39,5 @@ namespace Files.App.Filesystem.StorageItems
 		new BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions);
 		new BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions);
 		new BaseStorageFolderQueryResult CreateFolderQueryWithOptions(QueryOptions queryOptions);
-	}
-
-	public interface ICreateFileWithStream
-	{
-		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName);
-
-		IAsyncOperation<BaseStorageFile> CreateFileAsync(Stream contents, string desiredName, CreationCollisionOption options);
 	}
 }

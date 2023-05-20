@@ -1,11 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -15,12 +11,12 @@ namespace Files.App.Filesystem.StorageItems
 {
 	public abstract class BaseStorageFolder : IBaseStorageFolder
 	{
+		public StorageProvider Provider => null;
+
 		public abstract string Path { get; }
 		public abstract string Name { get; }
 		public abstract string DisplayName { get; }
 		public abstract string DisplayType { get; }
-
-		public StorageProvider Provider => null;
 
 		public abstract DateTimeOffset DateCreated { get; }
 		public abstract FileAttributes Attributes { get; }
@@ -60,20 +56,17 @@ namespace Files.App.Filesystem.StorageItems
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync();
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolder.GetFilesAsync()
 			=> AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-				=> await Task.WhenAll((await GetFilesAsync()).Select(x => x.ToStorageFileAsync().AsTask()))
-			);
+				=> await Task.WhenAll((await GetFilesAsync()).Select(x => x.ToStorageFileAsync().AsTask())));
 
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query);
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolderQueryOperations.GetFilesAsync(CommonFileQuery query)
 			=> AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-				=> await Task.WhenAll((await GetFilesAsync(query)).Select(x => x.ToStorageFileAsync().AsTask()))
-			);
+				=> await Task.WhenAll((await GetFilesAsync(query)).Select(x => x.ToStorageFileAsync().AsTask())));
 
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFile>> GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve);
 		IAsyncOperation<IReadOnlyList<StorageFile>> IStorageFolderQueryOperations.GetFilesAsync(CommonFileQuery query, uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<StorageFile>>(async (cancellationToken)
-				=> await Task.WhenAll((await GetFilesAsync(query, startIndex, maxItemsToRetrieve)).Select(x => x.ToStorageFileAsync().AsTask()))
-			);
+				=> await Task.WhenAll((await GetFilesAsync(query, startIndex, maxItemsToRetrieve)).Select(x => x.ToStorageFileAsync().AsTask())));
 
 		public abstract IAsyncOperation<BaseStorageFolder> GetFolderAsync(string name);
 		IAsyncOperation<StorageFolder> IStorageFolder.GetFolderAsync(string name)
@@ -81,20 +74,17 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFolder> GetFolderFromPathAsync(string path)
 			=> AsyncInfo.Run(async (cancellationToken)
-				=> await ZipStorageFolder.FromPathAsync(path) ?? await FtpStorageFolder.FromPathAsync(path) ?? await ShellStorageFolder.FromPathAsync(path) ?? await SystemStorageFolder.FromPathAsync(path)
-			);
+				=> await ZipStorageFolder.FromPathAsync(path) ?? await FtpStorageFolder.FromPathAsync(path) ?? await ShellStorageFolder.FromPathAsync(path) ?? await SystemStorageFolder.FromPathAsync(path));
 
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync();
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolder.GetFoldersAsync()
 			=> AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken)
-				=> await Task.WhenAll((await GetFoldersAsync()).Select(x => x.ToStorageFolderAsync().AsTask()))
-			);
+				=> await Task.WhenAll((await GetFoldersAsync()).Select(x => x.ToStorageFolderAsync().AsTask())));
 
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query);
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolderQueryOperations.GetFoldersAsync(CommonFolderQuery query)
 			=> AsyncInfo.Run<IReadOnlyList<StorageFolder>>(async (cancellationToken)
-				=> await Task.WhenAll((await GetFoldersAsync(query)).Select(x => x.ToStorageFolderAsync().AsTask()))
-			);
+				=> await Task.WhenAll((await GetFoldersAsync(query)).Select(x => x.ToStorageFolderAsync().AsTask())));
 
 		public abstract IAsyncOperation<IReadOnlyList<BaseStorageFolder>> GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve);
 		IAsyncOperation<IReadOnlyList<StorageFolder>> IStorageFolderQueryOperations.GetFoldersAsync(CommonFolderQuery query, uint startIndex, uint maxItemsToRetrieve)

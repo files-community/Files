@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -15,15 +13,15 @@ namespace Files.App.Filesystem.StorageItems
 {
 	public abstract class BaseStorageFile : IBaseStorageFile
 	{
+		public bool IsAvailable => true;
+		public StorageProvider Provider => null;
+
 		public abstract string Path { get; }
 		public abstract string Name { get; }
 		public abstract string DisplayName { get; }
 		public abstract string ContentType { get; }
 		public abstract string FileType { get; }
 		public abstract string DisplayType { get; }
-
-		public bool IsAvailable => true;
-		public StorageProvider Provider => null;
 
 		public abstract DateTimeOffset DateCreated { get; }
 		public abstract Windows.Storage.FileAttributes Attributes { get; }
@@ -87,15 +85,19 @@ namespace Files.App.Filesystem.StorageItems
 
 		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
+
 		public IAsyncOperation<StorageItemThumbnail> GetScaledImageAsThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Task.FromResult<StorageItemThumbnail>(null).AsAsyncOperation();
 
 		public static IAsyncOperation<BaseStorageFile> GetFileFromPathAsync(string path)
-			=> AsyncInfo.Run(async (cancellationToken)
-				=> await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await NativeStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
-			);
+		{
+			return AsyncInfo.Run(async (cancellationToken)
+					=> await ZipStorageFile.FromPathAsync(path) ?? await FtpStorageFile.FromPathAsync(path) ?? await ShellStorageFile.FromPathAsync(path) ?? await NativeStorageFile.FromPathAsync(path) ?? await SystemStorageFile.FromPathAsync(path)
+				);
+		}
 
 		public async Task<string> ReadTextAsync(int maxLength = -1)
 		{
@@ -123,6 +125,7 @@ namespace Files.App.Filesystem.StorageItems
 			await dataWriter.StoreAsync();
 			await stream.FlushAsync();
 		}
+
 		public async Task WriteBytesAsync(byte[] dataBytes)
 		{
 			using var stream = await OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.AllowOnlyReaders);

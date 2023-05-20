@@ -2,21 +2,21 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Cloud;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.Cloud
 {
+	/// <summary>
+	/// Provides an utility for cloud detection
+	/// </summary>
 	public class CloudDetector : ICloudDetector
 	{
 		public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
 		{
 			var tasks = new List<Task<IEnumerable<ICloudProvider>>>();
+
 			foreach (var detector in EnumerateDetectors())
-			{
 				tasks.Add(detector.DetectCloudProvidersAsync());
-			}
+
 			await Task.WhenAll(tasks);
 
 			return tasks

@@ -7,8 +7,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public interface IBaseStorageFile : IStorageItem2, IStorageFile, IStorageFile2
-		, IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFilePropertiesWithAvailability
+	public interface IBaseStorageFile : IStorageItem2, IStorageFile, IStorageFile2, IStorageItemProperties2, IStorageItemPropertiesWithProvider, IStorageFilePropertiesWithAvailability
 	{
 		new IStorageItemExtraProperties Properties { get; }
 
