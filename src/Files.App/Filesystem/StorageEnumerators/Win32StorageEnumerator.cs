@@ -1,47 +1,34 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
 using Files.Backend.Extensions;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
-using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
+	/// <summary>
+	/// Provides static helper for Win32 storage enumeration.
+	/// </summary>
 	public static class Win32StorageEnumerator
 	{
-		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
+		private static readonly ISizeProvider _folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
-		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
-		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+		private static readonly string _folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
-		public static async Task<List<ListedItem>> ListEntries(
-			string path,
-			IntPtr hFile,
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			CancellationToken cancellationToken,
-			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+		private static readonly IFileListCache _fileListCache = FileListCacheController.GetInstance();
+
+		public static async Task<List<ListedItem>> ListEntries(string path, IntPtr hFile, NativeFindStorageItemHelper.WIN32_FIND_DATA findData, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
+
 			var count = 0;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -49,15 +36,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 			do
 			{
-				var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
-				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+				var isSystem = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.System) == SystemIO.FileAttributes.System;
+				var isHidden = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Hidden) == SystemIO.FileAttributes.Hidden;
 				var startWithDot = findData.cFileName.StartsWith('.');
 				if ((!isHidden ||
-				   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
-				   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
-				   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
+					(userSettingsService.FoldersSettingsService.ShowHiddenItems &&
+					(!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+					(!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
 				{
-					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+					if (((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Directory) != SystemIO.FileAttributes.Directory)
 					{
 						var file = await GetFile(findData, path, cancellationToken);
 						if (file is not null)
@@ -67,22 +54,20 @@ namespace Files.App.Filesystem.StorageEnumerators
 								if (!string.IsNullOrEmpty(file.FileExtension))
 								{
 									var lowercaseExtension = file.FileExtension.ToLowerInvariant();
+
 									if (defaultIconPairs.ContainsKey(lowercaseExtension))
-									{
 										file.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
-									}
 								}
 							}
+
 							tempList.Add(file);
 							++count;
 
 							if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-							{
 								tempList.AddRange(EnumAdsForPath(file.ItemPath, file));
-							}
 						}
 					}
-					else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+					else if (((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Directory) == SystemIO.FileAttributes.Directory)
 					{
 						if (findData.cFileName != "." && findData.cFileName != "..")
 						{
@@ -94,62 +79,63 @@ namespace Files.App.Filesystem.StorageEnumerators
 									// Set folder icon (found by empty extension string)
 									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
 								}
+
 								tempList.Add(folder);
 								++count;
 
 								if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-								{
 									tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
-								}
 
 								if (CalculateFolderSizes)
 								{
-									if (folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
+									if (_folderSizeProvider.TryGetSize(folder.ItemPath, out var size))
 									{
 										folder.FileSizeBytes = (long)size;
 										folder.FileSize = size.ToSizeString();
 									}
-									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+
+									_ = _folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
 								}
 							}
 						}
 					}
 				}
+
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
-				{
 					break;
-				}
 
 				if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
-					// clear the temporary list every time we do an intermediate action
+
+					// Clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
-			} while (FindNextFile(hFile, out findData));
+			} while (NativeFindStorageItemHelper.FindNextFile(hFile, out findData));
 
-			FindClose(hFile);
+			NativeFindStorageItemHelper.FindClose(hFile);
 			return tempList;
 		}
 
 		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
 		{
 			foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
-			{
 				yield return GetAlternateStream(ads, main);
-			}
 		}
 
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
 			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
+
 			if (ads.Name.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(ads.Name);
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
-			string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
+
+			// Remove ":" and ":$DATA"
+			string adsName = ads.Name.Substring(1, ads.Name.Length - 7);
 
 			return new AlternateStreamItem()
 			{
@@ -170,25 +156,20 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			string pathRoot,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> GetFolder(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			DateTime itemModifiedDate;
 			DateTime itemCreatedDate;
+
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
+				NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
+				NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -196,19 +177,19 @@ namespace Files.App.Filesystem.StorageEnumerators
 				// Invalid date means invalid findData, do not add to list
 				return null;
 			}
+
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
-			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+			string itemName = await _fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
+
 			if (string.IsNullOrEmpty(itemName))
-			{
 				itemName = findData.cFileName;
-			}
-			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+
+			bool isHidden = (((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Hidden) == SystemIO.FileAttributes.Hidden);
+
 			double opacity = 1;
 
 			if (isHidden)
-			{
 				opacity = Constants.UI.DimItemOpacity;
-			}
 
 			return new ListedItem(null)
 			{
@@ -216,7 +197,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				ItemNameRaw = itemName,
 				ItemDateModifiedReal = itemModifiedDate,
 				ItemDateCreatedReal = itemCreatedDate,
-				ItemType = folderTypeTextLocalized,
+				ItemType = _folderTypeTextLocalized,
 				FileImage = null,
 				IsHiddenItem = isHidden,
 				Opacity = opacity,
@@ -227,11 +208,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFile(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			string pathRoot,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> GetFile(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
 		{
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 			var itemName = findData.cFileName;
@@ -239,13 +216,13 @@ namespace Files.App.Filesystem.StorageEnumerators
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
+				NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
+				NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
+				NativeFindStorageItemHelper.FileTimeToSystemTime(ref findData.ftLastAccessTime, out NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -269,15 +246,13 @@ namespace Files.App.Filesystem.StorageEnumerators
 			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
-			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+			bool isHidden = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.Hidden) == SystemIO.FileAttributes.Hidden;
 			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
 
 			// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
-			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
+			bool isReparsePoint = ((SystemIO.FileAttributes)findData.dwFileAttributes & SystemIO.FileAttributes.ReparsePoint) == SystemIO.FileAttributes.ReparsePoint;
 			bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
 
 			if (isSymlink)
@@ -307,11 +282,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
 				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+
 				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
-				{
 					return null;
-				}
+
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
@@ -387,7 +362,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
-			return null;
 		}
 	}
 }

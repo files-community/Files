@@ -1,36 +1,21 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
 	public static class UniversalStorageEnumerator
 	{
-		public static async Task<List<ListedItem>> ListEntries(
-			BaseStorageFolder rootFolder,
-			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken,
-			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+		public static async Task<List<ListedItem>> ListEntries(BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
+
 			uint count = 0;
 			var firstRound = true;
 
@@ -43,7 +28,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 				if (intermediateAction is null)
 				{
-					// without intermediate action increase batches significantly
+					// Without intermediate action increase batches significantly
 					maxItemsToRetrieve = 1000;
 				}
 				else if (firstRound)
@@ -127,43 +112,44 @@ namespace Files.App.Filesystem.StorageEnumerators
 					tempList.Clear();
 				}
 			}
+
 			return tempList;
 		}
 
 		private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
 		{
 			var tempList = new List<IStorageItem>();
-			for (var i = startFrom; i < startFrom + itemsToIterate; i++)
+
+			for (var index = startFrom; index < startFrom + itemsToIterate; index++)
 			{
 				IStorageItem item;
 				try
 				{
-					var results = await rootFolder.GetItemsAsync(i, 1);
+					var results = await rootFolder.GetItemsAsync(index, 1);
 					item = results?.FirstOrDefault();
+
 					if (item is null)
-					{
 						break;
-					}
 				}
 				catch (NotImplementedException)
 				{
 					break;
 				}
-				catch (Exception ex) when (
-					ex is UnauthorizedAccessException
-					|| ex is FileNotFoundException
-					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+				catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
 				{
 					continue;
 				}
+
 				tempList.Add(item);
 			}
+
 			return tempList;
 		}
 
 		public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
+
 			if (!cancellationToken.IsCancellationRequested)
 			{
 				if (folder is ShortcutStorageFolder linkFolder)
@@ -227,16 +213,14 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
+
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(
-			BaseStorageFile file,
-			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> AddFileAsync(BaseStorageFile file, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
+
 			// Display name does not include extension
 			var itemName = file.Name;
 			var itemModifiedDate = basicProperties.DateModified;
@@ -249,11 +233,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 			var itemThumbnailImgVis = false;
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
-			// TODO: is this needed to be handled here?
+			// TODO: Is this needed to be handled here?
 			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
 			{
 				return new LibraryItem(library)
@@ -331,7 +313,6 @@ namespace Files.App.Filesystem.StorageEnumerators
 					};
 				}
 			}
-			return null;
 		}
 	}
 }
