@@ -1,15 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
-using Files.App.UserControls;
-using Files.App.Views;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Shared.EventArguments;
@@ -22,17 +18,17 @@ using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
-using static Files.App.UserControls.IAddressToolbar;
-using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
-using SearchBox = Files.App.UserControls.SearchBox;
 
-namespace Files.App.ViewModels
+namespace Files.App.ViewModels.UserControls
 {
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -53,11 +49,11 @@ namespace Files.App.ViewModels
 
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 
-		public event ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
+		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 
 		public event EventHandler? EditModeEnabled;
 
-		public event ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
+		public event IAddressToolbar.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
 
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 
@@ -67,7 +63,7 @@ namespace Files.App.ViewModels
 
 		public event EventHandler? RefreshWidgetsRequested;
 
-		public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
+		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
 		private bool isUpdating;
 		public bool IsUpdating
@@ -176,7 +172,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
+		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -271,8 +267,8 @@ namespace Files.App.ViewModels
 				return;
 			}
 
+			// Reset dragged over pathbox item
 			if (pathBoxItem.Path == dragOverPath)
-				// Reset dragged over pathbox item
 				dragOverPath = null;
 		}
 
@@ -341,7 +337,8 @@ namespace Files.App.ViewModels
 							});
 							dragOverPath = null;
 						}
-					}, TimeSpan.FromMilliseconds(1000), false);
+					},
+					TimeSpan.FromMilliseconds(1000), false);
 				}
 			}
 
@@ -349,6 +346,7 @@ namespace Files.App.ViewModels
 			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView) || string.IsNullOrEmpty(pathBoxItem.Path))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
+
 				return;
 			}
 
@@ -358,17 +356,19 @@ namespace Files.App.ViewModels
 			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any(storageItem =>
-				!string.IsNullOrEmpty(storageItem?.Path) &&
-				storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal).
-				Trim(Path.DirectorySeparatorChar).
-				Contains(Path.DirectorySeparatorChar)))
+					!string.IsNullOrEmpty(storageItem?.Path) &&
+					storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal)
+						.Trim(Path.DirectorySeparatorChar)
+						.Contains(Path.DirectorySeparatorChar)))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 			}
 
 			// Copy be default when dragging from zip
-			else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
-				|| ZipStorageFolder.IsZipPath(pathBoxItem.Path))
+			else if (storageItems.Any(x =>
+					x.Item is ZipStorageFile ||
+					x.Item is ZipStorageFolder) ||
+					ZipStorageFolder.IsZipPath(pathBoxItem.Path))
 			{
 				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
 				e.AcceptedOperation = DataPackageOperation.Copy;
@@ -435,6 +435,7 @@ namespace Files.App.ViewModels
 			var pathSeparatorIcon = sender as FontIcon;
 			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
 				return;
+
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
 			{
 				Item = (PathBoxItem)pathSeparatorIcon.DataContext,
@@ -483,6 +484,7 @@ namespace Files.App.ViewModels
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
+
 				return;
 			}
 
@@ -529,6 +531,7 @@ namespace Files.App.ViewModels
 				IsSearchBoxVisible = false;
 
 				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+
 				if (page is StandardViewBase svb && svb.IsLoaded)
 					page.ItemManipulationModel.FocusFileList();
 				else
@@ -562,8 +565,6 @@ namespace Files.App.ViewModels
 
 		public ICommand? Share { get; set; }
 
-		public ICommand PropertiesCommand { get; set; }
-
 		public ICommand? UpdateCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
@@ -595,9 +596,8 @@ namespace Files.App.ViewModels
 			var boldFontWeight = new FontWeight { Weight = 800 };
 			var normalFontWeight = new FontWeight { Weight = 400 };
 
-			var workingPath = PathComponents
-					[PathComponents.Count - 1].
-					Path?.TrimEnd(Path.DirectorySeparatorChar);
+			var workingPath =
+				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
 
 			foreach (var childFolder in childFolders)
 			{
@@ -793,6 +793,7 @@ namespace Files.App.ViewModels
 								NavigationBarSuggestions.Add(suggestions[si]);
 							}
 						}
+
 						while (NavigationBarSuggestions.Count > suggestions.Count)
 							NavigationBarSuggestions.RemoveAt(NavigationBarSuggestions.Count - 1);
 					}
@@ -836,7 +837,6 @@ namespace Files.App.ViewModels
 				if (SetProperty(ref selectedItems, value))
 				{
 					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanViewProperties));
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(ExtractToText));
 					OnPropertyChanged(nameof(IsArchiveOpened));
@@ -854,7 +854,6 @@ namespace Files.App.ViewModels
 
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanViewProperties => true;
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
 		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;

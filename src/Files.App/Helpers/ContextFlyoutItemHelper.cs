@@ -45,8 +45,8 @@ namespace Files.App.Helpers
 					var overflowItems = items.Where(x => x.ShowOnShift).ToList();
 
 					// Adds a separator between items already there and the new ones
-					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ItemType.Separator)
-						overflow.Items.Add(new ContextMenuFlyoutItemViewModel { ItemType = ItemType.Separator });
+					if (overflow.Items.Count != 0 && overflowItems.Count > 0 && overflow.Items.Last().ItemType != ContextMenuFlyoutItemType.Separator)
+						overflow.Items.Add(new ContextMenuFlyoutItemViewModel { ItemType = ContextMenuFlyoutItemType.Separator });
 
 					items = items.Except(overflowItems).ToList();
 					overflow.Items.AddRange(overflowItems);
@@ -184,7 +184,7 @@ namespace Files.App.Helpers
 						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
-							ItemType = ItemType.Separator,
+							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -300,7 +300,7 @@ namespace Files.App.Helpers
 						}.Build(),
 						new ContextMenuFlyoutItemViewModel
 						{
-							ItemType = ItemType.Separator,
+							ItemType = ContextMenuFlyoutItemType.Separator,
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -324,7 +324,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
@@ -437,7 +437,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.RunAsAnotherUser).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowInSearchPage = true,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
@@ -460,16 +460,10 @@ namespace Files.App.Helpers
 				{
 					IsVisible = itemsSelected && selectedItems.Count == 1 && !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateFolderWithSelection)
 				{
-					Text = "BaseLayoutItemContextFlyoutCreateFolderWithSelection/Text".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconNewFolder",
-					},
-					Command = commandsViewModel.CreateFolderWithSelection,
-					ShowItem = itemsSelected,
-				},
+					IsVisible = itemsSelected
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateShortcut)
 				{
 					IsVisible = itemsSelected && (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
@@ -489,20 +483,11 @@ namespace Files.App.Helpers
 					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenProperties)
 				{
-					Text = "Properties".GetLocalizedResource(),
 					IsPrimary = true,
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconProperties",
-					},
-					Command = commandsViewModel.ShowPropertiesCommand,
-					ShowInRecycleBin = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+					IsVisible = commands.OpenProperties.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.PinItemToFavorites)
 				{
@@ -547,7 +532,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModel
 						{
 							ShowItem = canDecompress && canCompress,
-							ItemType = ItemType.Separator,
+							ItemType = ContextMenuFlyoutItemType.Separator,
 						},
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
 						{
@@ -590,7 +575,7 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					ShowInSearchPage = true,
 				},
@@ -626,7 +611,7 @@ namespace Files.App.Helpers
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateShortcutFromDialog).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 				}
 			};
 

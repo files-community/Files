@@ -1018,16 +1018,16 @@
     <value>移除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>在分割畫面中開啟索引標籤</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>顯示在新畫面開啟資料夾選項</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新增畫面</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>在新增畫面中開啟</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>資料夾</value>
@@ -1102,7 +1102,7 @@
     <value>您想要的名稱</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>開啟/關閉預覽畫面（Ctrl + P）</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
@@ -1111,7 +1111,7 @@
     <value>檔案名稱</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>從「快速存取」中移除</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>網路磁碟機</value>
@@ -1339,7 +1339,7 @@
     <value>沒有找到您想找的嗎？</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>搜尋未被索引的檔案。</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
     <value>覆蓋</value>
@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>有一個同名檔案已存在。</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>新增資料夾並將選取項目丟入</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Create folder with selection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>名稱：</value>
@@ -1435,7 +1435,7 @@
     <value>上週</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>本月早些時候</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>上個月</value>
@@ -1447,7 +1447,7 @@
     <value>去年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>年 {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 個項目</value>
@@ -1654,7 +1654,7 @@
     <value>套用至</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>主要</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>檔案</value>
@@ -1936,13 +1936,13 @@
     <value>大小</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>實驗性功能</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>說明與支援</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>提交功能請求</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>提交錯誤報告</value>
@@ -2368,10 +2368,10 @@
     <value>無</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>分割大小</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>不分割</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2443,7 +2443,7 @@
     <value>設定</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>於空白處按二下返回上一個資料夾</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>檢視更多</value>
@@ -2452,28 +2452,28 @@
     <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles will be retiring in a future update 📎</value>
+    <value>Bundles在未來更新將會停用📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>顯示編輯標籤選單</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>顯示在新索引標籤開啟資料夾選項</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>顯示在新視窗開啟資料夾選項</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>快速存取</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>輸入您連線至: {0} 的憑證</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>輸入網路憑證</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>記住我的憑證</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
     <value>網路資料夾錯誤</value>
@@ -2488,7 +2488,7 @@
     <value>總是</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>僅限永久刪除</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>永不</value>
@@ -2539,7 +2539,7 @@
     <value>寬度</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>套用至所有衝突的項目</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>使用終端機開啟</value>
@@ -2560,22 +2560,22 @@
     <value>哈希值</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>在計算時發生錯誤</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>演算法</value>
   </data>
   <data name="HashValue" xml:space="preserve">
     <value>哈希值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>選擇要顯示的哈希值</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>計算中…</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>固定項目</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>減少大小</value>
@@ -2584,25 +2584,25 @@
     <value>增加大小</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>切換排序方向</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>無效名稱</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>名稱不能為空或以句號作為開頭或結尾</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>影片</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>啟動快速查看</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>切換緊湊檢視</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>在瀏覽器中開啟幫助頁面</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>切換全螢幕</value>
@@ -2614,61 +2614,61 @@
     <value>返回完整檢視</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>切換緊湊檢視</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>前往搜尋</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>切換是否顯示隱藏項目</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>切換是否顯示檔案副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>遷換是否顯示預覽畫面</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>切換是否顯示側邊攔</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>將項目複製到剪貼簿</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>複製項目路徑到剪貼簿</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>剪下項目到剪貼簿</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>從剪貼簿貼上項目到目前資料夾</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>從剪貼簿貼上項目到所選資料夾</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>刪除檔案</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>新增資料夾</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>建立捷徑到所選項目</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>建立捷徑至任何項目</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>清理資源回收筒</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>開啟 "格式化磁碟" 選項於選擇項目</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>從資源回收桶還原選擇項目</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>從資源回收桶還原所有項目</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>開啟項目</value>
@@ -2872,16 +2872,16 @@
     <value>Group items by folder path</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>遞增排列分類</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>遞減排列分類</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>切換分類排序方向</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>開啟新索引標籤</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -3211,6 +3211,45 @@
   <data name="Location" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Group items by month</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Group items by year</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Toggle unit for grouping by date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Toggle grouping unit</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年份</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Group by month instead of year</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date created</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Group items by year of date created</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date deleted</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Group items by year of date deleted</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Group items by month of date modified</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Group items by year of date modified</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
   </data>
@@ -3222,5 +3261,32 @@
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Unable to display permissions.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Leave my changes on '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Discard my changes</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring my changes to '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Switch Branch</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>New branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Create a folder with the currently selected item(s)</value>
   </data>
 </root>

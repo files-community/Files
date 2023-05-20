@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Existe um nome de ficheiro em conflito.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Criar pasta com seleção</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -3211,16 +3211,82 @@
   <data name="Location" xml:space="preserve">
     <value>Localização:</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Agrupar itens por mês</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Agrupar itens por ano</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mês</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Alternar unidade de agrupamento por data</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Alternar unidade de agrupamento</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Agrupar por mês em vez de ano</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Agrupar itens pelo mês de criação</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Agrupar itens pelo ano de criação</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Agrupar itens pelo mês de eliminação</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Agrupar itens pelo ano de eliminação</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Agrupar itens pelo mês de modificação</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Agrupar itens pelo ano de modificação</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Clique em 'Permissões Avançadas' para continuar.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Tem que possuir pemissões de leitura para ver as propriedades deste item.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Para tentar obter a titularidade do item, que inclui as permissões para ver as suas propriedades, clique Alterar.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Não foi possível mostrar as permissões.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Deixar alterações em '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Rejeitar alterações</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Trazer alterações para '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Existem alterações por submeter neste ramo. O que pretende fazer?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Trocar de ramo</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Ramos</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Trocar</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Novo ramo</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Criar uma pasta com os itens selecionados</value>
   </data>
 </root>

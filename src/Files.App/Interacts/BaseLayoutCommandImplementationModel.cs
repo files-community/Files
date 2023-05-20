@@ -40,10 +40,6 @@ namespace Files.App.Interacts
 
 		private IBaseLayout SlimContentPage => associatedInstance?.SlimContentPage;
 
-		private IFilesystemHelpers FilesystemHelpers => associatedInstance?.FilesystemHelpers;
-
-		private static IQuickAccessService QuickAccessService => Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 		#endregion Singleton
 
 		#region Private Members
@@ -76,28 +72,6 @@ namespace Files.App.Interacts
 		#endregion IDisposable
 
 		#region Command Implementation
-
-		public virtual void ShowProperties(RoutedEventArgs e)
-		{
-			if (SlimContentPage.ItemContextMenuFlyout.IsOpen)
-				SlimContentPage.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
-			else if (SlimContentPage.BaseContextMenuFlyout.IsOpen)
-				SlimContentPage.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
-			else
-				FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
-
-		private void OpenPropertiesFromItemContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
-
-		private void OpenPropertiesFromBaseContextMenuFlyout(object sender, object e)
-		{
-			SlimContentPage.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			FilePropertiesHelpers.OpenPropertiesWindow(associatedInstance);
-		}
 
 		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
@@ -257,11 +231,6 @@ namespace Files.App.Interacts
 			}
 
 			deferral.Complete();
-		}
-
-		public Task CreateFolderWithSelection(RoutedEventArgs e)
-		{
-			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(associatedInstance);
 		}
 
 		#endregion Command Implementation

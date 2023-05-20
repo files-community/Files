@@ -119,7 +119,7 @@ namespace Files.App.Helpers
 					break;
 
 				// Avoid duplicate separators
-				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ItemType.Separator))
+				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ContextMenuFlyoutItemType.Separator))
 					continue;
 
 				BitmapImage? image = null;
@@ -134,7 +134,7 @@ namespace Files.App.Helpers
 				{
 					var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
 					{
-						ItemType = ItemType.Separator,
+						ItemType = ContextMenuFlyoutItemType.Separator,
 						Tag = menuFlyoutItem
 					};
 					menuItemsListLocal.Insert(0, menuLayoutItem);

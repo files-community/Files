@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>1 個の競合するファイル名があります</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>選択したファイルでフォルダーを作成</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -3211,16 +3211,82 @@
   <data name="Location" xml:space="preserve">
     <value>場所:</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>アイテムを月でグループ化する</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>アイテムを年でグループ化する</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>日付でグループ化する場合の単位を切り替える</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>グループ化単位の切り替え</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>年のかわりに月でグループ化する</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>アイテムを作成日時の月でグループ化する</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>アイテムを作成日時の年でグループ化する</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>アイテムを削除した日時の月でグループ化する</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>アイテムを削除した日時の年でグループ化する</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>アイテムを変更日の月でグループ化する</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>アイテムを変更日の年でグループ化する</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>「高度な権限」をクリックして続行してください。</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>このファイルのプロパティを表示するには、読み取り権限が必要です。</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>プロパティを表示する権限があるファイルの所有権を取得するには、上記の [変更] をクリックします。</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>権限を表示できません。</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>変更を {0} に残す</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>変更を破棄する</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>変更を {0} に持ち込む</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>このブランチにはコミットされていない変更があります。どうしますか?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>ブランチを切り替え</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>ブランチ</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>切り替え</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>新しいブランチ</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>選択したアイテムでフォルダーを作成する</value>
   </data>
 </root>

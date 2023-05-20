@@ -5,7 +5,7 @@ using Files.App.Data.Items;
 using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class NetworkDrivesViewModel : ObservableObject
 	{
@@ -65,7 +65,10 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public void DisconnectNetworkDrive(ILocatableFolder drive) => networkDrivesService.DisconnectNetworkDrive(drive);
-		public Task OpenMapNetworkDriveDialogAsync() => networkDrivesService.OpenMapNetworkDriveDialogAsync();
+		public void DisconnectNetworkDrive(ILocatableFolder drive)
+			=> networkDrivesService.DisconnectNetworkDrive(drive);
+
+		public Task OpenMapNetworkDriveDialogAsync()
+			=> networkDrivesService.OpenMapNetworkDriveDialogAsync();
 	}
 }

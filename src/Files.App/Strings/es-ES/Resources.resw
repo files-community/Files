@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Hay un nombre de archivo en conflicto.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crear carpeta con la selección</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -1903,7 +1903,7 @@
     <value>Mostrar solo vista previa</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Abrir ubicación del log</value>
+    <value>Abrir ubicación del registro</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Crear vínculo en {0}</value>
@@ -3211,6 +3211,45 @@
   <data name="Location" xml:space="preserve">
     <value>Ubicación:</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Alternar unidad para agrupar por fecha</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Cambiar unidad de agrupación</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Agrupar por mes en lugar de por año</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de creación</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de creación</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de modificación</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de modificación</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Haga clic en 'Permisos avanzados' para continuar.</value>
   </data>
@@ -3222,5 +3261,32 @@
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>No se pueden mostrar los permisos.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Dejar mis cambios en '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Descartar mis cambios</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Traer mis cambios a '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Cambiar rama</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Ramas</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Nueva rama</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Crear una carpeta con el(los) elemento(s) actualmente seleccionado(s)</value>
   </data>
 </root>

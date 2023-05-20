@@ -38,7 +38,7 @@ using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public sealed class ItemViewModel : ObservableObject, IDisposable
 	{
@@ -69,8 +69,8 @@ namespace Files.App.ViewModels
 
 		private FolderSettingsViewModel folderSettings = null;
 
-		private ListedItem currentFolder;
-		public ListedItem CurrentFolder
+		private ListedItem? currentFolder;
+		public ListedItem? CurrentFolder
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
@@ -98,7 +98,7 @@ namespace Files.App.ViewModels
 
 		public string? GitDirectory { get; private set; }
 
-		private StorageFolderWithPath currentStorageFolder;
+		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
 
 		public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
@@ -1413,7 +1413,7 @@ namespace Files.App.ViewModels
 		{
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
-			CurrentFolder = new ListedItem(null)
+			CurrentFolder = new ListedItem(null!)
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemPropertiesInitialized = true,
@@ -1442,15 +1442,15 @@ namespace Files.App.ViewModels
 			client.Port = FtpHelpers.GetFtpPort(path);
 			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
 
-			static Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
+			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 			{
 				try
 				{
-					return client.AutoConnect();
+					return await client.AutoConnect();
 				}
 				catch (FtpAuthenticationException)
 				{
-					return Task.FromResult<FtpProfile?>(null);
+					return null;
 				}
 
 				throw new InvalidOperationException();
@@ -1582,22 +1582,22 @@ namespace Files.App.ViewModels
 			if (enumFromStorageFolder)
 			{
 				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
-				var currentFolder = library ?? new ListedItem(rootFolder.FolderRelativeId)
+				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = rootFolder.DisplayName,
+					ItemNameRaw = rootFolder?.DisplayName ?? string.Empty,
 					ItemDateModifiedReal = basicProps.DateModified,
-					ItemType = rootFolder.DisplayType,
+					ItemType = rootFolder?.DisplayType ?? string.Empty,
 					FileImage = null,
 					LoadFileIcon = false,
-					ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
+					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
 					FileSize = null,
 					FileSizeBytes = 0,
 				};
 
 				if (library is null)
-					currentFolder.ItemDateCreatedReal = rootFolder.DateCreated;
+					currentFolder.ItemDateCreatedReal = rootFolder?.DateCreated ?? DateTimeOffset.Now;
 
 				CurrentFolder = currentFolder;
 				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);

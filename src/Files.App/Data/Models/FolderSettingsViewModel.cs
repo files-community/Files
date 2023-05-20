@@ -2,17 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.LayoutPreferences;
-using Files.App.Views.LayoutModes;
 using System.Text.Json;
 using Windows.Storage;
-using IO = System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class FolderSettingsViewModel : ObservableObject
 	{
 		public static string LayoutSettingsDbPath
-			=> IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
+			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
 		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
 

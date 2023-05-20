@@ -8,7 +8,7 @@ using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
-namespace Files.App.ViewModels
+namespace Files.App.Data.Models
 {
 	public class DrivesViewModel : ObservableObject, IDisposable
 	{
@@ -56,9 +56,7 @@ namespace Files.App.ViewModels
 		{
 			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
-			{
 				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
-			}
 		}
 
 		private void Watcher_DeviceRemoved(object? sender, string e)
@@ -68,9 +66,7 @@ namespace Files.App.ViewModels
 			{
 				var drive = Drives.FirstOrDefault(x => x.Id == e);
 				if (drive is not null)
-				{
 					Drives.Remove(drive);
-				}
 			}
 
 			// Update the collection on the ui-thread.
@@ -82,16 +78,15 @@ namespace Files.App.ViewModels
 			lock (Drives)
 			{
 				// If drive already in list, remove it first.
-				var matchingDrive = Drives.FirstOrDefault(x => x.Id == e.Id ||
+				var matchingDrive = Drives.FirstOrDefault(x =>
+					x.Id == e.Id ||
 					string.IsNullOrEmpty(e.Path)
 						? x.Path.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
 						: Path.GetFullPath(x.Path) == Path.GetFullPath(e.Path)
 				);
 
 				if (matchingDrive is not null)
-				{
 					Drives.Remove(matchingDrive);
-				}
 
 				logger.LogInformation($"Drive added: {e.Path}");
 				Drives.Add(e);
@@ -110,17 +105,12 @@ namespace Files.App.ViewModels
 
 			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
 
+			// Show consent dialog if the OS drive could not be accessed
 			if (!Drives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
-			{
-				// Show consent dialog if the OS drive
-				// could not be accessed
 				ShowUserConsentOnInit = true;
-			}
 
 			if (watcher.CanBeStarted)
-			{
 				watcher.Start();
-			}
 		}
 
 		public void Dispose()

@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Існує одне конфліктуюче ім'я файлу.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Створити папку з виділеного</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Create folder with selection</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Ім’я</value>
@@ -3211,6 +3211,45 @@
   <data name="Location" xml:space="preserve">
     <value>Розташування:</value>
   </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Згрупувати елементи за місяцем</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Згрупувати елементи за роком</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Місяць</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Увімкнути або вимкнути групування за датою</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Увімкнути або вимкнути групування</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Рік</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Згрупувати за місяцем замість року</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Згрупувати елементи за місяцем дати створення</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Згрупувати елементи за роком дати створення</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Згрупувати елементи за місяцем дати видалення</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Згрупувати елементи за роком дати видалення</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Згрупувати елементи за місяцем дати змінення</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Згрупувати елементи за роком дати змінення</value>
+  </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Натисніть "Додаткові дозволи" для продовження.</value>
   </data>
@@ -3218,9 +3257,36 @@
     <value>Ви повинні мати дозвіл на читання для перегляду властивостей цього елемента.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>Щоб підтвердити право власності на об'єкт, що включає в себе дозвіл на перегляд його властивостей, натисніть кнопку "Змінити" вище.</value>
+    <value>Щоб підтвердити право власності на об'єкт, що містить в собі дозвіл на перегляд його властивостей, натисніть кнопку "Змінити" вище.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Не вдалося відобразити дозволи.</value>
+    <value>Не вдалося показати дозволи.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Залишити зміни на '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Відхилити зміни</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Застосувати зміни до '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Ви маєте не закомічені зміни на даній гілці. Що б ви хотіли зробити з ними?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Змінити гілку</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Гілки</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Змінити</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Нова гілка</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Create a folder with the currently selected item(s)</value>
   </data>
 </root>
