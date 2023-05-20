@@ -27,7 +27,7 @@ namespace Files.App.Filesystem
 
 		public StorageFolderWithPath(BaseStorageFolder folder, string path)
 		{
-			return (Item, Path) = (folder, path);
+			(Item, Path) = (folder, path);
 		}
 	}
 }

@@ -6,6 +6,7 @@
 	xmlns:behaviors="using:Files.App.Behaviors"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:filesystem="using:Files.App.Filesystem"
 	xmlns:filetags="using:Files.Backend.ViewModels.FileTags"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -526,7 +527,7 @@
 					</ListView.Header>
 
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
+						<DataTemplate x:DataType="dataitems:ListedItem">
 							<UserControl>
 								<StackPanel
 									HorizontalAlignment="Stretch"

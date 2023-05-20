@@ -6,6 +6,7 @@
 	xmlns:cloud="using:Files.App.Filesystem.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:filesystem="using:Files.App.Filesystem"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.LayoutModes"
@@ -184,7 +185,7 @@
 					</ListView.ItemContainerTransitions>
 
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
+						<DataTemplate x:DataType="dataitems:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
 								Height="30"

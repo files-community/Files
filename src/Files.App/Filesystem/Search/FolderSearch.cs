@@ -12,7 +12,7 @@ using Windows.Storage.Search;
 namespace Files.App.Filesystem.Search
 {
 	/// <summary>
-	///  Provides support for storage folder search.
+	///  Provides an utility for storage folder search.
 	/// </summary>
 	public class FolderSearch
 	{
