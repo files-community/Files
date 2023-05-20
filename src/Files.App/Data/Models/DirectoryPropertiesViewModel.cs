@@ -41,7 +41,6 @@ namespace Files.App.Data.Models
 					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals))
 				{
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
-					ShowLocals = true;
 				}
 			}
 		}
@@ -83,6 +82,7 @@ namespace Files.App.Data.Models
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
+			ShowLocals = true;
 
 			if (isGitRepository)
 			{
