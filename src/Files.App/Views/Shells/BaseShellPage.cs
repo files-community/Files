@@ -224,10 +224,13 @@ namespace Files.App.Views.Shells
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
-				InstanceViewModel.IsGitRepository, 
-				InstanceViewModel.GitRepositoryPath, 
-				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			if (!_isCheckingOutBranch)
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -252,6 +255,13 @@ namespace Files.App.Views.Shells
 			{
 				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
 				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			}
+			else
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
 			_isCheckingOutBranch = false;
 		}
