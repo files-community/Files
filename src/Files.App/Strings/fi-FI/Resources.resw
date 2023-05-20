@@ -121,7 +121,7 @@
     <value>Uusi ikkuna</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopioi polku</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Selaa</value>
