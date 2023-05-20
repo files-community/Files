@@ -25,7 +25,7 @@ namespace Files.App.Shell
 		/// Initializes a new instance of the <see cref="ShellLibrary"/>Ex class.
 		/// </summary>
 		/// <param name="knownFolderId">The known folder identifier.</param>
-		/// <param name="readOnly">if set to <c>true</c> [read only].</param>
+		/// <param name="readOnly">If set to <c>true</c> [read only].</param>
 		public ShellLibraryEx(Shell32.KNOWNFOLDERID knownFolderId, bool readOnly = false)
 		{
 			_lib = new Shell32.IShellLibrary();
@@ -39,7 +39,7 @@ namespace Files.App.Shell
 		/// </summary>
 		/// <param name="libraryName">Name of the library.</param>
 		/// <param name="kf">The known folder identifier.</param>
-		/// <param name="overwrite">if set to <c>true</c> [overwrite].</param>
+		/// <param name="overwrite">If set to <c>true</c> [overwrite].</param>
 		public ShellLibraryEx(string libraryName, Shell32.KNOWNFOLDERID kf = Shell32.KNOWNFOLDERID.FOLDERID_Libraries, bool overwrite = false)
 		{
 			_lib = new Shell32.IShellLibrary();
@@ -54,7 +54,7 @@ namespace Files.App.Shell
 		/// </summary>
 		/// <param name="libraryName">Name of the library.</param>
 		/// <param name="parent">The parent.</param>
-		/// <param name="overwrite">if set to <c>true</c> [overwrite].</param>
+		/// <param name="overwrite">If set to <c>true</c> [overwrite].</param>
 		public ShellLibraryEx(string libraryName, ShellFolder parent, bool overwrite = false)
 		{
 			_lib = new Shell32.IShellLibrary();
@@ -67,14 +67,14 @@ namespace Files.App.Shell
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShellLibrary"/> class.
 		/// </summary>
-		/// <param name="iItem">The i item.</param>
-		/// <param name="readOnly">if set to <c>true</c> [read only].</param>
-		public ShellLibraryEx(Shell32.IShellItem iItem, bool readOnly = false)
+		/// <param name="libraryItem">The library item.</param>
+		/// <param name="readOnly">If set to <c>true</c> [read only].</param>
+		public ShellLibraryEx(Shell32.IShellItem libraryItem, bool readOnly = false)
 		{
 			_lib = new Shell32.IShellLibrary();
-			_lib.LoadLibraryFromItem(iItem, readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
+			_lib.LoadLibraryFromItem(libraryItem, readOnly ? STGM.STGM_READ : STGM.STGM_READWRITE);
 
-			Init(iItem);
+			Init(libraryItem);
 		}
 
 		/// <summary>
@@ -113,7 +113,11 @@ namespace Files.App.Shell
 		/// <summary>
 		/// Gets the name relative to the parent for the item.
 		/// </summary>
-		public override string Name { get => _name; protected set => _name = value; }
+		public override string Name
+		{
+			get => _name;
+			protected set => _name = value;
+		}
 
 		/// <summary>
 		/// Gets or sets a value indicating whether to pin the library to the navigation pane.
@@ -155,6 +159,9 @@ namespace Files.App.Shell
 			set => _lib.SetFolderType(value);
 		}
 
+		/// <summary>
+		/// Reload library folders.
+		/// </summary>
 		public void Reload()
 		{
 			_folders = GetFilteredFolders();
@@ -164,7 +171,9 @@ namespace Files.App.Shell
 		/// Commits library updates.
 		/// </summary>
 		public void Commit()
-			=> _lib.Commit();
+		{
+			_lib.Commit();
+		}
 
 		/// <summary>
 		/// Gets the set of child folders that are contained in the library.
@@ -172,7 +181,9 @@ namespace Files.App.Shell
 		/// <param name="filter">A value that determines the folders to get.</param>
 		/// <returns>A <see cref="ShellItemArray"/> containing the child folders.</returns>
 		public ShellLibraryFolders GetFilteredFolders(LibraryFolderFilter filter = LibraryFolderFilter.AllItems)
-			=> new(_lib, _lib.GetFolders<Shell32.IShellItemArray>((Shell32.LIBRARYFOLDERFILTER)filter));
+		{
+			return new(_lib, _lib.GetFolders<Shell32.IShellItemArray>((Shell32.LIBRARYFOLDERFILTER)filter));
+		}
 
 		/// <summary>
 		/// Resolves the target location of a library folder, even if the folder has been moved or renamed.
@@ -184,7 +195,9 @@ namespace Files.App.Shell
 		/// </param>
 		/// <returns>The resulting target location.</returns>
 		public ShellItem ResolveFolder(ShellItem item, TimeSpan timeout)
-			=> Open(_lib.ResolveFolder<Shell32.IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
+		{
+			return Open(_lib.ResolveFolder<Shell32.IShellItem>(item.IShellItem, Convert.ToUInt32(timeout.TotalMilliseconds)));
+		}
 
 		/// <summary>
 		/// Shows the library management dialog box, which enables users to manage the library folders and default save location.
@@ -200,7 +213,7 @@ namespace Files.App.Shell
 		/// the value of this parameter to NULL.
 		/// </param>
 		/// <param name="allowUnindexableLocations">
-		/// if set to <c>true</c> do not display a warning dialog to the user in collisions that concern network locations that cannot be indexed.
+		/// If set to <c>true</c> do not display a warning dialog to the user in collisions that concern network locations that cannot be indexed.
 		/// </param>
 		public void ShowLibraryManagementDialog(IWin32Window parentWindow = null, string title = null, string instruction = null, bool allowUnindexableLocations = false)
 		{
@@ -224,80 +237,6 @@ namespace Files.App.Shell
 
 			base.Dispose();
 			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// Folders of a <see cref="ShellLibrary"/>.
-		/// </summary>
-		/// <seealso cref="ShellItemArray"/>
-		/// <seealso cref="ICollection{ShellItem}"/>
-		public class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
-		{
-			private Shell32.IShellLibrary lib;
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="ShellLibraryFolders"/> class.
-			/// </summary>
-			/// <param name="lib">The library.</param>
-			/// <param name="shellItemArray">The shell item array.</param>
-			internal ShellLibraryFolders(Shell32.IShellLibrary lib, Shell32.IShellItemArray shellItemArray) : base(shellItemArray)
-				=> this.lib = lib;
-
-			/// <summary>
-			/// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-			/// </summary>
-			bool ICollection<ShellItem>.IsReadOnly
-				=> false;
-
-			/// <summary>
-			/// Adds the specified location.
-			/// </summary>
-			/// <param name="location">The location.</param>
-			/// <exception cref="ArgumentNullException">location</exception>
-			public void Add(ShellItem location)
-			{
-				if (location is null) throw new ArgumentNullException(nameof(location));
-				lib.AddFolder(location.IShellItem);
-			}
-
-			/// <summary>
-			/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-			/// </summary>
-			public override void Dispose()
-			{
-				lib = null;
-				base.Dispose();
-				GC.SuppressFinalize(this);
-			}
-
-			/// <summary>
-			/// Removes the specified location.
-			/// </summary>
-			/// <param name="location">The location.</param>
-			/// <returns><c>true</c> on success.</returns>
-			/// <exception cref="ArgumentNullException">location</exception>
-			public bool Remove(ShellItem location)
-			{
-				if (location is null)
-					throw new ArgumentNullException(nameof(location));
-
-				try
-				{
-					lib.RemoveFolder(location.IShellItem);
-					return true;
-				}
-				catch
-				{
-					return false;
-				}
-			}
-
-			/// <summary>
-			/// Removes all items from the <see cref="ICollection{ShellItem}"/>.
-			/// </summary>
-			/// <exception cref="NotImplementedException"></exception>
-			void ICollection<ShellItem>.Clear()
-				=> throw new NotImplementedException();
 		}
 	}
 }
