@@ -14,52 +14,16 @@ namespace Files.App.Filesystem.Archive
 	{
 		/// <summary>
 		/// Represents the total number of items to be processed.
-		/// <br/>
-		/// It is used to calculate a weighted progress with this formula:
-		/// <br/>
-		/// Progress = [OldProgress + (ProgressDelta / ItemsAmount)]
 		/// </summary>
+		/// <remarks>
+		/// It is used to calculate a weighted progress with this formula:
+		/// <code>Progress = [OldProgress + (ProgressDelta / ItemsAmount)]</code>
+		/// </remarks>
 		private int _itemsAmount = 1;
 
 		private int _processedItems = 0;
 
 		private FileSystemProgress _fileSystemProgress;
-
-		/// <inheritdoc/>
-		public string ArchivePath { get; set; } = string.Empty;
-
-		/// <inheritdoc/>
-		public string Directory { get; init; } = string.Empty;
-
-		/// <inheritdoc/>
-		public string FileName { get; init; } = string.Empty;
-
-		/// <inheritdoc/>
-		public string Password { get; init; } = string.Empty;
-
-		/// <inheritdoc/>
-		public IEnumerable<string> Sources { get; init; }
-
-		/// <inheritdoc/>
-		public ArchiveFormats FileFormat { get; init; }
-
-		/// <inheritdoc/>
-		public ArchiveCompressionLevels CompressionLevel { get; init; }
-
-		/// <inheritdoc/>
-		public ArchiveSplittingSizes SplittingSize { get; init; }
-
-		private IProgress<FileSystemProgress> _Progress;
-		public IProgress<FileSystemProgress> Progress
-		{
-			get => _Progress;
-			set
-			{
-				_Progress = value;
-				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
-				_fileSystemProgress.Report(0);
-			}
-		}
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -106,17 +70,53 @@ namespace Files.App.Filesystem.Archive
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
+		private IProgress<FileSystemProgress> _Progress;
+		public IProgress<FileSystemProgress> Progress
+		{
+			get => _Progress;
+			set
+			{
+				_Progress = value;
+				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+				_fileSystemProgress.Report(0);
+			}
+		}
+
+		/// <inheritdoc/>
+		public string ArchivePath { get; set; }
+
+		/// <inheritdoc/>
+		public string Directory { get; init; }
+
+		/// <inheritdoc/>
+		public string FileName { get; init; }
+
+		/// <inheritdoc/>
+		public string Password { get; init; }
+
+		/// <inheritdoc/>
+		public IEnumerable<string> Sources { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveFormats FileFormat { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveCompressionLevels CompressionLevel { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveSplittingSizes SplittingSize { get; init; }
+
 		public ArchiveCreator()
 		{
 			// Initialize
+			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+			_Progress = new Progress<FileSystemProgress>();
 			ArchivePath = string.Empty;
 			Sources = Enumerable.Empty<string>();
 			FileFormat = ArchiveFormats.Zip;
 			CompressionLevel = ArchiveCompressionLevels.Normal;
 			SplittingSize = ArchiveSplittingSizes.None;
-			_Progress = new Progress<FileSystemProgress>();
 
-			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
 			_fileSystemProgress.Report(0);
 		}
 
@@ -183,7 +183,7 @@ namespace Files.App.Filesystem.Archive
 			if (++_processedItems == _itemsAmount)
 			{
 				_fileSystemProgress.Percentage = null;
-				_fileSystemProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+				_fileSystemProgress.ReportStatus(FileSystemStatusCode.Success);
 			}
 			else
 			{

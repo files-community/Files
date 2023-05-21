@@ -6,7 +6,7 @@ using Files.Shared.Cloud;
 namespace Files.App.Filesystem.Cloud
 {
 	/// <summary>
-	/// Provides an utility for cloud detection
+	/// Provides an utility for cloud detection.
 	/// </summary>
 	public class CloudDetector : ICloudDetector
 	{

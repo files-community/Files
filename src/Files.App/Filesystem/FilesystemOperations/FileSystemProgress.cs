@@ -12,21 +12,31 @@ namespace Files.App.Filesystem
 
 		private readonly IntervalSampler _sampler;
 
-		private FileSystemStatusCode? _status;
-
 		private bool _criticalReport;
 
-		private bool _enumerationCompleted;
-
+		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
 		{
-			get => _status;
+			get => _Status;
 			set
 			{
-				if (_status != value)
+				if (_Status != value)
 					_criticalReport = true;
 
-				_status = value;
+				_Status = value;
+			}
+		}
+
+		private bool _EnumerationCompleted;
+		public bool EnumerationCompleted
+		{
+			get => _EnumerationCompleted;
+			set
+			{
+				if (_EnumerationCompleted != value)
+					_criticalReport = true;
+
+				_EnumerationCompleted = value;
 			}
 		}
 
@@ -43,18 +53,6 @@ namespace Files.App.Filesystem
 		public DateTimeOffset StartTime { get; }
 
 		public DateTimeOffset CompletedTime { get; private set; }
-
-		public bool EnumerationCompleted
-		{
-			get => _enumerationCompleted;
-			set
-			{
-				if (_enumerationCompleted != value)
-					_criticalReport = true;
-
-				_enumerationCompleted = value;
-			}
-		}
 
 		// Only used when detailed count isn't available.
 		public int? Percentage { get; set; }
@@ -80,12 +78,12 @@ namespace Files.App.Filesystem
 				ProcessedSize == TotalSize &&
 				TotalSize is not 0) ||
 				percentage is 100) &&
-				_status is FileSystemStatusCode.InProgress or null)
+				_Status is FileSystemStatusCode.InProgress or null)
 			{
-				_status = FileSystemStatusCode.Success;
+				_Status = FileSystemStatusCode.Success;
 			}
 
-			if (_status is FileSystemStatusCode.Success)
+			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
 
 			if (_progress is not null && (_criticalReport || _sampler.CheckNow()))

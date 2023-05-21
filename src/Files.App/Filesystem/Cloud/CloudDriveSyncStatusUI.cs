@@ -20,7 +20,9 @@ namespace Files.App.Filesystem.Cloud
 		}
 
 		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus)
-			=> SyncStatus = syncStatus;
+		{
+			SyncStatus = syncStatus;
+		}
 
 		private CloudDriveSyncStatusUI(string glyph, CloudDriveSyncStatus syncStatus, string SyncStatusStringKey)
 		{

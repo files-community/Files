@@ -11,17 +11,25 @@ namespace Files.App.Filesystem.StorageItems
 	public class BaseStorageItemExtraProperties : IStorageItemExtraProperties
 	{
 		public virtual IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
-			=> AsyncInfo.Run((cancellationToken) =>
-			{
-				var props = new Dictionary<string, object>();
-				propertiesToRetrieve.ForEach(x => props[x] = null);
-				return Task.FromResult<IDictionary<string, object>>(props);
-			});
+		{
+			return
+				AsyncInfo.Run((cancellationToken) =>
+				{
+					var props = new Dictionary<string, object>();
+					propertiesToRetrieve.ForEach(x => props[x] = null);
+
+					return Task.FromResult<IDictionary<string, object>>(props);
+				});
+		}
 
 		public virtual IAsyncAction SavePropertiesAsync()
-			=> Task.CompletedTask.AsAsyncAction();
+		{
+			return Task.CompletedTask.AsAsyncAction();
+		}
 
 		public virtual IAsyncAction SavePropertiesAsync([HasVariant] IEnumerable<KeyValuePair<string, object>> propertiesToSave)
-			=> Task.CompletedTask.AsAsyncAction();
+		{
+			return Task.CompletedTask.AsAsyncAction();
+		}
 	}
 }

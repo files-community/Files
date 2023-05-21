@@ -32,6 +32,7 @@ namespace Files.App.Filesystem.StorageItems
 				props["System.ItemPathDisplay"] = _item?.Path;
 				props["System.DateCreated"] = basicProps?.ItemDate;
 				props["System.DateModified"] = basicProps?.DateModified;
+
 				return props;
 			});
 		}

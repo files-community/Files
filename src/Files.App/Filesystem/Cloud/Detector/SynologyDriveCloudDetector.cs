@@ -17,7 +17,7 @@ namespace Files.App.Filesystem.Cloud
 		{
 			// Synology Drive stores its information on some files, but we only need sys.sqlite, which is placed on % LocalAppData %\SynologyDrive\data\db
 			// In this database we need "connection_table" and "session_table" tables:
-			// connection_table has the ids of each connection in the field "id", and the type of connection in the field "conn_type"(1 for sync tasks and 2 for backups)
+			// connection_table has the ids of each connection in the field "id", and the type of connection in the field "conn_type" (1 for sync tasks and 2 for backups)
 			// Also it has "host_name" field where it's placed the name of each server.
 			// session_table has the next fields:
 			// "conn_id", which has the id that we check on connection_table to see if it's a sync or backup task
@@ -60,6 +60,7 @@ namespace Files.App.Filesystem.Cloud
 				if (connections[reader["conn_id"]?.ToString()].ConnectionType is "1")
 				{
 					string? path = reader["sync_folder"]?.ToString();
+
 					if (string.IsNullOrWhiteSpace(path))
 						continue;
 

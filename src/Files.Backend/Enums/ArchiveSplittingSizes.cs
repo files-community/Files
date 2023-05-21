@@ -3,6 +3,9 @@
 
 namespace Files.Backend.Enums
 {
+	/// <summary>
+	/// Defines constants that specify 7zip archive splitting size.
+	/// </summary>
 	public enum ArchiveSplittingSizes
 	{
 		/// <summary>

@@ -14,10 +14,13 @@ namespace Files.App.Filesystem.StorageItems
 		IAsyncOperation<StorageFile> ToStorageFileAsync();
 
 		new IAsyncOperation<BaseStorageFolder> GetParentAsync();
+
 		new IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync();
 
 		new IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder);
+
 		new IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+
 		new IAsyncOperation<BaseStorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option);
 	}
 }
