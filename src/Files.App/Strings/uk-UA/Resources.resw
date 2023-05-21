@@ -121,7 +121,7 @@
     <value>Створити вікно</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Скопіювати шлях</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Вибрати</value>
@@ -1354,7 +1354,7 @@
     <value>Існує одне конфліктуюче ім'я файлу.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Створити папку з виділеного</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Ім’я</value>
@@ -3263,19 +3263,19 @@
     <value>Не вдалося показати дозволи.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Залишити зміни на '{0}'</value>
+    <value>Залишити мої зміни на '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Відхилити зміни</value>
+    <value>Відхилити мої зміни</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Застосувати зміни до '{0}'</value>
+    <value>Застосувати мої зміни до '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Ви маєте не закомічені зміни на даній гілці. Що б ви хотіли зробити з ними?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Змінити гілку</value>
+    <value>Змінити Гілку</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Гілки</value>
@@ -3286,13 +3286,34 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Нова гілка</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Некоректна назва гілки</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Створити гілку</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Створити Гілку</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>На основі</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Перейти на нову гілку</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Створити теку з поточним вибраним елементом(ами)</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Відкрити властивості</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Відкрити вікно властивостей</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Локальні</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Віддалені</value>
   </data>
 </root>
