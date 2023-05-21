@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Translation issue
     url: https://crowdin.com/project/files-app
-    about: Please help translation on Crowdin.
+    about: Help improve translations on Crowdin.
