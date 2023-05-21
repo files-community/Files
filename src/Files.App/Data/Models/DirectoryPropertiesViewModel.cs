@@ -1,14 +1,23 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Windows.Input;
+
 namespace Files.App.Data.Models
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
-		public int ActiveBranchIndex { get; private set; }
+		// The first branch will always be the active one.
+		public const int ACTIVE_BRANCH_INDEX = 0;
 
-		private string _DirectoryItemCount;
-		public string DirectoryItemCount
+		private string? _gitRepositoryPath;
+
+		private readonly ObservableCollection<string> _localBranches = new();
+
+		private readonly ObservableCollection<string> _remoteBranches = new();
+
+		private string? _DirectoryItemCount;
+		public string? DirectoryItemCount
 		{
 			get => _DirectoryItemCount;
 			set => SetProperty(ref _DirectoryItemCount, value);
@@ -27,29 +36,68 @@ namespace Files.App.Data.Models
 			get => _SelectedBranchIndex;
 			set
 			{
-				if (SetProperty(ref _SelectedBranchIndex, value) && value != -1 && value != ActiveBranchIndex)
+				if (SetProperty(ref _SelectedBranchIndex, value) && 
+					value != -1 && 
+					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals))
+				{
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
+				}
 			}
 		}
 
-		public ObservableCollection<string> BranchesNames { get; } = new();
+		private bool _ShowLocals = true;
+		public bool ShowLocals
+		{
+			get => _ShowLocals;
+			set
+			{
+				if (SetProperty(ref _ShowLocals, value))
+				{
+					OnPropertyChanged(nameof(BranchesNames));
+
+					if (value)
+						SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
+				}
+			}
+		}
+
+		public ObservableCollection<string> BranchesNames => _ShowLocals 
+			? _localBranches 
+			: _remoteBranches;
 
 		public EventHandler<string>? CheckoutRequested;
 
-		public void UpdateGitInfo(bool isGitRepository, string activeBranch, string[] branches)
+		public ICommand NewBranchCommand { get; }
+
+		public DirectoryPropertiesViewModel()
 		{
-			GitBranchDisplayName = isGitRepository
-				? string.Format("Branch".GetLocalizedResource(), activeBranch)
+			NewBranchCommand = new AsyncRelayCommand(() 
+				=> GitHelpers.CreateNewBranch(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
+		}
+
+		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
+		{
+			GitBranchDisplayName = isGitRepository && branches.Any()
+				? string.Format("Branch".GetLocalizedResource(), branches[ACTIVE_BRANCH_INDEX].Name)
 				: null;
+
+			_gitRepositoryPath = repositoryPath;
+			ShowLocals = true;
 
 			if (isGitRepository)
 			{
-				BranchesNames.Clear();
-				foreach (var name in branches)
-					BranchesNames.Add(name);
+				_localBranches.Clear();
+				_remoteBranches.Clear();
 
-				ActiveBranchIndex = BranchesNames.IndexOf(activeBranch);
-				SelectedBranchIndex = ActiveBranchIndex;
+				foreach (var branch in branches)
+				{
+					if (branch.IsRemote)
+						_remoteBranches.Add(branch.Name);
+					else
+						_localBranches.Add(branch.Name);
+				}
+
+				SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
 			}
 		}
 	}

@@ -12,12 +12,12 @@ namespace Files.App.Filesystem.Cloud
 		public async Task<IEnumerable<ICloudProvider>> DetectCloudProvidersAsync()
 		{
 			var providers = new List<ICloudProvider>();
+
 			try
 			{
 				await foreach (var provider in GetProviders())
-				{
 					providers.Add(provider);
-				}
+
 				return providers;
 			}
 			catch

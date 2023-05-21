@@ -1,0 +1,102 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.AddBranchDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="AddBranch"
+	Title="{helpers:ResourceString Name=CreateNewBranch}"
+	Closing="ContentDialog_Closing"
+	CornerRadius="{StaticResource OverlayCornerRadius}"
+	DefaultButton="Primary"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsBranchValid, Mode=OneWay}"
+	PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+	PrimaryButtonText="{helpers:ResourceString Name=Create}"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<StackPanel Width="440" Spacing="4">
+		<!--  Branch Name  -->
+		<Grid
+			Padding="12"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBlock
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=Name}" />
+			<TextBox
+				x:Name="BranchNameBox"
+				Grid.Column="1"
+				Width="260"
+				PlaceholderText="{helpers:ResourceString Name=EnterName}"
+				Text="{x:Bind ViewModel.NewBranchName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				<TextBox.Resources>
+					<TeachingTip
+						x:Name="InvalidNameWarning"
+						Title="{helpers:ResourceString Name=InvalidBranchName}"
+						IsOpen="{x:Bind ViewModel.ShowWarningTip, Mode=OneWay}"
+						PreferredPlacement="Bottom"
+						Target="{x:Bind BranchNameBox}" />
+				</TextBox.Resources>
+			</TextBox>
+		</Grid>
+
+		<!--  Branch Options  -->
+		<Grid
+			Padding="12"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4"
+			RowSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!--  Based On  -->
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=BasedOn}" />
+			<ComboBox
+				x:Name="BranchBox"
+				Grid.Row="0"
+				Grid.Column="1"
+				Width="160"
+				ItemsSource="{x:Bind ViewModel.Branches}"
+				SelectedItem="{x:Bind ViewModel.BasedOn, Mode=TwoWay}" />
+
+			<!--  Switch To Branch  -->
+			<TextBlock
+				Grid.Row="1"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=SwitchToNewBranch}" />
+			<ToggleSwitch
+				Grid.Row="1"
+				Grid.Column="1"
+				MinWidth="0"
+				HorizontalAlignment="Right"
+				IsOn="{x:Bind ViewModel.Checkout, Mode=TwoWay}" />
+		</Grid>
+	</StackPanel>
+</ContentDialog>
