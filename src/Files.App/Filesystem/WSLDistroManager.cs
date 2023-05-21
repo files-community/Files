@@ -3,23 +3,23 @@
 
 using System.Collections.Specialized;
 using Windows.Storage;
-using static Files.App.Constants;
 
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Provides handler for WSL Distributions.
+	/// </summary>
 	public class WSLDistroManager
 	{
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<WslDistroItem> distros = new();
+		private readonly List<WslDistroItem> _Distros = new();
 		public IReadOnlyList<WslDistroItem> Distros
 		{
 			get
 			{
-				lock (distros)
-				{
-					return distros.ToList().AsReadOnly();
-				}
+				lock (_Distros)
+					return _Distros.ToList().AsReadOnly();
 			}
 		}
 
@@ -40,20 +40,20 @@ namespace Files.App.Filesystem
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
 					};
 
-					lock (distros)
+					lock (_Distros)
 					{
-						if (distros.Any(x => x.Path == folder.Path))
-						{
+						if (_Distros.Any(x => x.Path == folder.Path))
 							continue;
-						}
-						distros.Add(distro);
+
+						_Distros.Add(distro);
 					}
+
 					DataChanged?.Invoke(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, distro));
 				}
 			}
 			catch (Exception)
 			{
-				// WSL Not Supported/Enabled
+				// WSL is not supported or enabled
 			}
 		}
 
@@ -68,22 +68,18 @@ namespace Files.App.Filesystem
 		private static Uri GetLogoUri(string displayName)
 		{
 			if (Contains(displayName, "ubuntu"))
-			{
-				return new Uri(WslIconsPaths.UbuntuIcon);
-			}
+				return new Uri(Constants.WslIconsPaths.UbuntuIcon);
+
 			if (Contains(displayName, "kali"))
-			{
-				return new Uri(WslIconsPaths.KaliIcon);
-			}
+				return new Uri(Constants.WslIconsPaths.KaliIcon);
+
 			if (Contains(displayName, "debian"))
-			{
-				return new Uri(WslIconsPaths.DebianIcon);
-			}
+				return new Uri(Constants.WslIconsPaths.DebianIcon);
+
 			if (Contains(displayName, "opensuse"))
-			{
-				return new Uri(WslIconsPaths.OpenSuse);
-			}
-			return Contains(displayName, "alpine") ? new Uri(WslIconsPaths.Alpine) : new Uri(WslIconsPaths.GenericIcon);
+				return new Uri(Constants.WslIconsPaths.OpenSuse);
+
+			return Contains(displayName, "alpine") ? new Uri(Constants.WslIconsPaths.Alpine) : new Uri(Constants.WslIconsPaths.GenericIcon);
 
 			static bool Contains(string displayName, string distroName)
 				=> displayName.Contains(distroName, StringComparison.OrdinalIgnoreCase);

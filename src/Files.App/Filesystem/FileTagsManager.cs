@@ -8,33 +8,36 @@ namespace Files.App.Filesystem
 {
 	public class FileTagsManager
 	{
-		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+		private readonly ILogger _logger;
 
-		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
+		private readonly IFileTagsSettingsService _fileTagsSettingsService;
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<FileTagItem> fileTags = new();
+		private readonly List<FileTagItem> _FileTags = new();
 		public IReadOnlyList<FileTagItem> FileTags
 		{
 			get
 			{
-				lock (fileTags)
-				{
-					return fileTags.ToList().AsReadOnly();
-				}
+				lock (_FileTags)
+					return _FileTags.ToList().AsReadOnly();
 			}
 		}
 
 		public FileTagsManager()
 		{
-			fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
+			// Dependency Injection
+			_logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+			_fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
+
+			_fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
 		}
 
 		private async void TagsUpdated(object? _, EventArgs e)
 		{
-			lock (fileTags)
-				fileTags.Clear();
+			lock (_FileTags)
+				_FileTags.Clear();
+
 			DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			await UpdateFileTagsAsync();
@@ -44,9 +47,9 @@ namespace Files.App.Filesystem
 		{
 			try
 			{
-				foreach (var tag in fileTagsSettingsService.FileTagList)
+				foreach (var tag in _fileTagsSettingsService.FileTagList)
 				{
-					var tagItem = new FileTagItem
+					var tagItem = new FileTagItem()
 					{
 						Text = tag.Name,
 						Path = $"tag:{tag.Name}",
@@ -54,20 +57,20 @@ namespace Files.App.Filesystem
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
 					};
 
-					lock (fileTags)
+					lock (_FileTags)
 					{
-						if (fileTags.Any(x => x.Path == $"tag:{tag.Name}"))
-						{
+						if (_FileTags.Any(x => x.Path == $"tag:{tag.Name}"))
 							continue;
-						}
-						fileTags.Add(tagItem);
+
+						_FileTags.Add(tagItem);
 					}
+
 					DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
 				}
 			}
 			catch (Exception ex)
 			{
-				logger.LogWarning(ex, "Error loading tags section.");
+				_logger.LogWarning(ex, "Error loading tags section.");
 			}
 
 			return Task.CompletedTask;

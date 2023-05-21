@@ -6,48 +6,51 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using IO = System.IO;
 
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Provides static helper for Files Tags.
+	/// </summary>
 	public static class FileTagsHelper
 	{
-		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		public static string FileTagsDbPath
+			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
 		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
 
-		public static FileTagsDb GetDbInstance() => dbInstance.Value;
+		public static FileTagsDb GetDbInstance()
+		{
+			return dbInstance.Value;
+		}
 
 		public static string[] ReadFileTag(string filePath)
 		{
 			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
+
 			return tagString?.Split(',');
 		}
 
 		public static void WriteFileTag(string filePath, string[] tag)
 		{
 			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
-			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			if (isReadOnly) // Unset read-only attribute (#7534)
-			{
-				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			}
+			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, SystemIO.FileAttributes.ReadOnly);
+
+			// Unset read-only attribute (#7534)
+			if (isReadOnly)
+				NativeFileOperationsHelper.UnsetFileAttribute(filePath, SystemIO.FileAttributes.ReadOnly);
+
 			if (tag is null || !tag.Any())
-			{
 				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
-			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
-			{
 				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
-			}
-			if (isReadOnly) // Restore read-only attribute (#7534)
-			{
-				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			}
+
+			// Restore read-only attribute (#7534)
+			if (isReadOnly)
+				NativeFileOperationsHelper.SetFileAttribute(filePath, SystemIO.FileAttributes.ReadOnly);
+
 			if (isDateOk)
-			{
 				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
-			}
 		}
 
 		public static void UpdateTagsDb()
@@ -60,6 +63,7 @@ namespace Files.App.Filesystem
 				{
 					// Frn is valid, update file path
 					var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
+
 					if (tag is not null && tag.Any())
 					{
 						dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", "", StringComparison.Ordinal));
@@ -75,12 +79,14 @@ namespace Files.App.Filesystem
 					var tag = ReadFileTag(file.FilePath);
 					if (tag is not null && tag.Any())
 					{
-						if (!SafetyExtensions.IgnoreExceptions(() =>
-						{
-							var frn = GetFileFRN(file.FilePath);
-							dbInstance.UpdateTag(file.FilePath, frn, null);
-							dbInstance.SetTags(file.FilePath, frn, tag);
-						}, App.Logger))
+						if (!SafetyExtensions.IgnoreExceptions(
+							() =>
+							{
+								var frn = GetFileFRN(file.FilePath);
+								dbInstance.UpdateTag(file.FilePath, frn, null);
+								dbInstance.SetTags(file.FilePath, frn, tag);
+							},
+							App.Logger))
 						{
 							dbInstance.SetTags(file.FilePath, null, null);
 						}
@@ -94,7 +100,9 @@ namespace Files.App.Filesystem
 		}
 
 		public static ulong? GetFileFRN(string filePath)
-			=> NativeFileOperationsHelper.GetFileFRN(filePath);
+		{
+			return NativeFileOperationsHelper.GetFileFRN(filePath);
+		}
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{
@@ -108,6 +116,7 @@ namespace Files.App.Filesystem
 			static async Task<ulong?> GetFileFRN(IStorageItemExtraProperties properties)
 			{
 				var extra = await properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+
 				return (ulong?)extra["System.FileFRN"];
 			}
 		}

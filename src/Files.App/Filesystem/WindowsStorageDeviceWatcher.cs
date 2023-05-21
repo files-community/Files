@@ -12,24 +12,33 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Provides watcher for Windows Storage Device.
+	/// </summary>
 	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
-		private DeviceWatcher watcher;
+		private readonly DeviceWatcher _watcher;
 
 		public bool CanBeStarted
-			=> watcher.Status is DeviceWatcherStatus.Created or DeviceWatcherStatus.Stopped or DeviceWatcherStatus.Aborted;
+			=> _watcher.Status is DeviceWatcherStatus.Created or DeviceWatcherStatus.Stopped or DeviceWatcherStatus.Aborted;
 
 		public event EventHandler<ILocatableFolder> DeviceAdded;
+
 		public event EventHandler<string> DeviceRemoved;
+
 		public event EventHandler EnumerationCompleted;
+
 		public event EventHandler<string> DeviceModified;
 
 		public WindowsStorageDeviceWatcher()
 		{
-			watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-			watcher.Added += Watcher_Added;
-			watcher.Removed += Watcher_Removed;
-			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+			// Initialize
+			_watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+
+			// Start interaction
+			_watcher.Added += Watcher_Added;
+			_watcher.Removed += Watcher_Removed;
+			_watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 
 			SetupWin32Watcher();
 		}
@@ -55,11 +64,14 @@ namespace Files.App.Filesystem
 		private async void Win32_OnDeviceAdded(object? sender, DeviceEventArgs e)
 		{
 			var driveAdded = new DriveInfo(e.DeviceId);
+
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
 			if (!rootAdded)
 			{
-				App.Logger.LogWarning($"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId},"
-					+ " failed at the StorageFolder initialization step. This device will be ignored.");
+				App.Logger.LogWarning(
+					$"{rootAdded.ErrorCode}: Attempting to add the device, {e.DeviceId}," +
+					" failed at the StorageFolder initialization step. This device will be ignored.");
+
 				return;
 			}
 			
@@ -83,22 +95,26 @@ namespace Files.App.Filesystem
 		{
 			string deviceId = args.Id;
 			StorageFolder root;
+
 			try
 			{
 				root = StorageDevice.FromId(deviceId);
 			}
 			catch (Exception ex) when (ex is ArgumentException or UnauthorizedAccessException)
 			{
-				App.Logger.LogWarning($"{ex.GetType()}: Attempting to add the device, {args.Name},"
-					+ $" failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");
+				App.Logger.LogWarning(
+					$"{ex.GetType()}: Attempting to add the device, {args.Name}," +
+					$" failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");
+
 				return;
 			}
 
-            Data.Items.DriveType type;
+			Data.Items.DriveType type;
 			try
 			{
 				// Check if this drive is associated with a drive letter
 				var driveAdded = new DriveInfo(root.Path);
+
 				type = DriveHelpers.GetDriveType(driveAdded);
 			}
 			catch (ArgumentException)
@@ -113,20 +129,18 @@ namespace Files.App.Filesystem
 
 		public void Start()
 		{
-			watcher.Start();
+			_watcher.Start();
 		}
 
 		public void Stop()
 		{
-			if (watcher.Status is DeviceWatcherStatus.Started or DeviceWatcherStatus.EnumerationCompleted)
-			{
-				watcher.Stop();
-			}
+			if (_watcher.Status is DeviceWatcherStatus.Started or DeviceWatcherStatus.EnumerationCompleted)
+				_watcher.Stop();
 
-			watcher.Added -= Watcher_Added;
-			watcher.Removed -= Watcher_Removed;
-			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
-
+			// Stop interaction
+			_watcher.Added -= Watcher_Added;
+			_watcher.Removed -= Watcher_Removed;
+			_watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 			DeviceManager.Default.DeviceAdded -= Win32_OnDeviceAdded;
 			DeviceManager.Default.DeviceRemoved -= Win32_OnDeviceRemoved;
 			DeviceManager.Default.DeviceInserted -= Win32_OnDeviceEjectedOrInserted;

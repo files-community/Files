@@ -8,20 +8,26 @@ using System.IO;
 
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Provides handler for Quick Access.
+	/// </summary>
 	public sealed class QuickAccessManager
 	{
+		private readonly IQuickAccessService _quickAccessService;
+
 		public FileSystemWatcher? PinnedItemsWatcher;
 
 		public event FileSystemEventHandler? PinnedItemsModified;
 		
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
-
 		public SidebarPinnedModel Model;
+
 		public QuickAccessManager()
 		{
+			_quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 			Model = new();
+
 			Initialize();
 		}	
 		
@@ -39,14 +45,16 @@ namespace Files.App.Filesystem
 		}
 
 		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
-			=> PinnedItemsModified?.Invoke(this, e);
+		{
+			return PinnedItemsModified?.Invoke(this, e);
+		}
 
 		public async Task InitializeAsync()
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
 			if (!Model.FavoriteItems.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-				await QuickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
+				await _quickAccessService.PinToSidebar(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();
 		}
