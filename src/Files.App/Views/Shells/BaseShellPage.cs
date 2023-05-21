@@ -29,6 +29,8 @@ namespace Files.App.Views.Shells
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
 
+		private bool _isCheckingOutBranch = false;
+
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
@@ -222,10 +224,13 @@ namespace Files.App.Views.Shells
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
-				InstanceViewModel.IsGitRepository, 
-				InstanceViewModel.GitBranchName, 
-				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+			if (!_isCheckingOutBranch)
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -233,17 +238,32 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
+			if (_isCheckingOutBranch)
+				return;
+
 			InstanceViewModel.UpdateCurrentBranchName();
 			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
-				InstanceViewModel.GitBranchName,
-				GitHelpers.GetLocalBranchesNames(InstanceViewModel.GitRepositoryPath));
+				InstanceViewModel.GitRepositoryPath,
+				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
+			_isCheckingOutBranch = true;
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
-				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = _ContentPage.DirectoryPropertiesViewModel.ActiveBranchIndex;
+			{
+				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			}
+			else
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			}
+			_isCheckingOutBranch = false;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)

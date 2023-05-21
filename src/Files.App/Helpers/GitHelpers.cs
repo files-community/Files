@@ -2,13 +2,20 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.StorageItems;
+using Files.App.ViewModels.Dialogs;
+using Files.Backend.Services;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
+using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
 {
-	public static class GitHelpers
+	internal static class GitHelpers
 	{
+		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
+
+		private const int END_OF_ORIGIN_PREFIX = 7;
+
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
 			if (root.EndsWith('\\'))
@@ -34,17 +41,18 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static string[] GetLocalBranchesNames(string? path)
+		public static BranchItem[] GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Array.Empty<string>();
+				return Array.Empty<BranchItem>();
 
 			using var repository = new Repository(path);
 			return repository.Branches
-				.Where(b => !b.IsRemote)
+				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
+				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip.Committer.When)
-				.Select(b => b.FriendlyName)
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote))
 				.ToArray();
 		}
 
@@ -79,21 +87,87 @@ namespace Files.App.Helpers
 						break;
 					case GitCheckoutOptions.BringChanges:
 					case GitCheckoutOptions.StashChanges:
-						repository.Stashes.Add(repository.Config.BuildSignature(DateTimeOffset.Now));
+						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+						if (signature is null)
+							return false;
+
+						repository.Stashes.Add(signature);
 
 						isBringingChanges = resolveConflictOption is GitCheckoutOptions.BringChanges;
 						break;
 				}
 			}
 
-			LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-			if (isBringingChanges)
+			try
 			{
-				var lastStashIndex = repository.Stashes.Count() - 1;
-				repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+				if (checkoutBranch.IsRemote)
+					CheckoutRemoteBranch(repository, checkoutBranch);
+				else
+					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+				if (isBringingChanges)
+				{
+					var lastStashIndex = repository.Stashes.Count() - 1;
+					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+				}
+				return true;
 			}
-			return true;
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+		public static async Task CreateNewBranch(string repositoryPath, string activeBranch)
+		{
+			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
+			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+
+			var result = await dialog.TryShowAsync();
+
+			if (result != DialogResult.Primary)
+				return;
+
+			using var repository = new Repository(repositoryPath);
+
+			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
+				await Checkout(repositoryPath, viewModel.BasedOn))
+			{
+				Analytics.TrackEvent($"Triggered git branch");
+
+				repository.CreateBranch(viewModel.NewBranchName);
+
+				if (viewModel.Checkout)
+					await Checkout(repositoryPath, viewModel.NewBranchName);
+			}
+		}
+
+		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
+		{
+			if (string.IsNullOrEmpty(branchName) || !Repository.IsValid(repositoryPath))
+				return false;
+
+			var nameValidator = new Regex(BRANCH_NAME_PATTERN);
+			if (!nameValidator.IsMatch(branchName))
+				return false;
+
+			using var repository = new Repository(repositoryPath);
+			return !repository.Branches.Any(branch =>
+				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+		}
+
+		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
+		{
+			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
+
+			var discriminator = 0;
+			while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+				uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+
+			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
+			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
+
+			LibGit2Sharp.Commands.Checkout(repository, newBranch);
 		}
 	}
 }
