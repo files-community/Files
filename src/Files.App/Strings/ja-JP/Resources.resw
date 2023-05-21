@@ -3286,6 +3286,21 @@
   <data name="NewBranch" xml:space="preserve">
     <value>新しいブランチ</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>無効なブランチ名</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>ブランチを作成</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>ブランチを作成</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>ベース:</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>新しいブランチに切り替える</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>選択したアイテムでフォルダーを作成する</value>
   </data>
@@ -3294,5 +3309,11 @@
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>プロパティ ウィンドウを開く</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>ローカル</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>リモート</value>
   </data>
 </root>
