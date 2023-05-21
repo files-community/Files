@@ -120,7 +120,7 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
-		public virtual StorageFileQueryResult ToStorageFileQueryResult()
+		public virtual StorageFileQueryResult? ToStorageFileQueryResult()
 		{
 			return null;
 		}
@@ -178,7 +178,7 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
-		public virtual StorageFolderQueryResult ToStorageFolderQueryResult()
+		public virtual StorageFolderQueryResult? ToStorageFolderQueryResult()
 		{
 			return null;
 		}

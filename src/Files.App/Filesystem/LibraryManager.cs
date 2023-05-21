@@ -474,7 +474,7 @@ namespace Files.App.Filesystem
 
 		private void OnLibraryRenamed(object sender, RenamedEventArgs e)
 		{
-			return OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
+			OnLibraryChanged(e.ChangeType, e.OldFullPath, e.FullPath);
 		}
 
 		public static bool IsLibraryPath(string path)
@@ -484,7 +484,7 @@ namespace Files.App.Filesystem
 
 		public void Dispose()
 		{
-			return _librariesWatcher?.Dispose();
+			_librariesWatcher?.Dispose();
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace Files.App.Filesystem
 
 		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			return PinnedItemsModified?.Invoke(this, e);
+			PinnedItemsModified?.Invoke(this, e);
 		}
 
 		public async Task InitializeAsync()

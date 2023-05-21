@@ -39,7 +39,7 @@ namespace Files.App.Filesystem
 
 		public FilesystemResult(T result, FileSystemStatusCode errorCode) : base(errorCode)
 		{
-			return Result = result;
+			Result = result;
 		}
 
 		public static implicit operator T(FilesystemResult<T> res)
