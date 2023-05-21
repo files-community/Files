@@ -24,12 +24,18 @@ namespace Files.App.Filesystem.FilesystemHistory
 		}
 
 		public void Modify(IStorageHistory newHistory)
-			=> (OperationType, Source, Destination) = (newHistory.OperationType, newHistory.Source, newHistory.Destination);
+		{
+			(OperationType, Source, Destination) = (newHistory.OperationType, newHistory.Source, newHistory.Destination);
+		}
 
 		public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
-			=> (OperationType, Source, Destination) = (operationType, source.CreateList(), destination.CreateList());
+		{
+			(OperationType, Source, Destination) = (operationType, source.CreateList(), destination.CreateList());
+		}
 
 		public void Modify(FileOperationType operationType, IList<IStorageItemWithPath> source, IList<IStorageItemWithPath> destination)
-			=> (OperationType, Source, Destination) = (operationType, source, destination);
+		{
+			(OperationType, Source, Destination) = (operationType, source, destination);
+		}
 	}
 }

@@ -26,6 +26,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = (await GetItemsAsync()).Skip((int)startIndex).Take((int)Math.Min(maxNumberOfItems, int.MaxValue));
+
 				return items.ToList();
 			});
 		}
@@ -46,7 +47,9 @@ namespace Files.App.Filesystem.StorageItems
 						if (colonSplit.Length == 2)
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
+							{
 								items = items.Where(x => Regex.IsMatch(x.Name, colonSplit[1].Replace("\"", "", StringComparison.Ordinal).Replace("*", "(.*?)", StringComparison.Ordinal), RegexOptions.IgnoreCase)).ToList();
+							}
 						}
 						else
 						{
@@ -59,7 +62,7 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
-		public virtual StorageItemQueryResult ToStorageItemQueryResult()
+		public virtual StorageItemQueryResult? ToStorageItemQueryResult()
 		{
 			return null;
 		}
@@ -81,6 +84,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
 			{
 				var items = (await GetFilesAsync()).Skip((int)startIndex).Take((int)Math.Min(maxNumberOfItems, int.MaxValue));
+
 				return items.ToList();
 			});
 		}
@@ -90,6 +94,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
 			{
 				var items = await Folder.GetFilesAsync();
+
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
@@ -110,11 +115,15 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
+
 				return items.ToList();
 			});
 		}
 
-		public virtual StorageFileQueryResult ToStorageFileQueryResult() => null;
+		public virtual StorageFileQueryResult ToStorageFileQueryResult()
+		{
+			return null;
+		}
 	}
 
 	public class BaseStorageFolderQueryResult
@@ -133,6 +142,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
 			{
 				var items = (await GetFoldersAsync()).Skip((int)startIndex).Take((int)Math.Min(maxNumberOfItems, int.MaxValue));
+
 				return items.ToList();
 			});
 		}
@@ -142,6 +152,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
 			{
 				var items = await Folder.GetFoldersAsync();
+
 				var query = string.Join(' ', Options.ApplicationSearchFilter, Options.UserSearchFilter).Trim();
 				if (!string.IsNullOrEmpty(query))
 				{
@@ -162,11 +173,15 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
+
 				return items.ToList();
 			});
 		}
 
-		public virtual StorageFolderQueryResult ToStorageFolderQueryResult() => null;
+		public virtual StorageFolderQueryResult ToStorageFolderQueryResult()
+		{
+			return null;
+		}
 	}
 
 	public class SystemStorageItemQueryResult : BaseStorageItemQueryResult
@@ -183,6 +198,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = await StorageItemQueryResult.GetItemsAsync(startIndex, maxNumberOfItems);
+
 				return items.Select(x => x is StorageFolder ? (IStorageItem)new SystemStorageFolder(x as StorageFolder) : new SystemStorageFile(x as StorageFile)).ToList();
 			});
 		}
@@ -192,11 +208,15 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
 			{
 				var items = await StorageItemQueryResult.GetItemsAsync();
+
 				return items.Select(x => x is StorageFolder ? (IStorageItem)new SystemStorageFolder(x as StorageFolder) : new SystemStorageFile(x as StorageFile)).ToList();
 			});
 		}
 
-		public override StorageItemQueryResult ToStorageItemQueryResult() => StorageItemQueryResult;
+		public override StorageItemQueryResult ToStorageItemQueryResult()
+		{
+			return StorageItemQueryResult;
+		}
 	}
 
 	public class SystemStorageFileQueryResult : BaseStorageFileQueryResult
@@ -213,6 +233,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
 			{
 				var items = await StorageFileQueryResult.GetFilesAsync(startIndex, maxNumberOfItems);
+
 				return items.Select(x => new SystemStorageFile(x)).ToList();
 			});
 		}
@@ -222,11 +243,15 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFile>>(async (cancellationToken) =>
 			{
 				var items = await StorageFileQueryResult.GetFilesAsync();
+
 				return items.Select(x => new SystemStorageFile(x)).ToList();
 			});
 		}
 
-		public override StorageFileQueryResult ToStorageFileQueryResult() => StorageFileQueryResult;
+		public override StorageFileQueryResult ToStorageFileQueryResult()
+		{
+			return StorageFileQueryResult;
+		}
 	}
 
 	public class SystemStorageFolderQueryResult : BaseStorageFolderQueryResult
@@ -243,6 +268,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
 			{
 				var items = await StorageFolderQueryResult.GetFoldersAsync(startIndex, maxNumberOfItems);
+
 				return items.Select(x => new SystemStorageFolder(x)).ToList();
 			});
 		}
@@ -252,10 +278,14 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<IReadOnlyList<BaseStorageFolder>>(async (cancellationToken) =>
 			{
 				var items = await StorageFolderQueryResult.GetFoldersAsync();
+
 				return items.Select(x => new SystemStorageFolder(x)).ToList();
 			});
 		}
 
-		public override StorageFolderQueryResult ToStorageFolderQueryResult() => StorageFolderQueryResult;
+		public override StorageFolderQueryResult ToStorageFolderQueryResult()
+		{
+			return StorageFolderQueryResult;
+		}
 	}
 }

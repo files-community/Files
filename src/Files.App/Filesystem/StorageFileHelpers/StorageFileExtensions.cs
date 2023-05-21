@@ -72,10 +72,14 @@ namespace Files.App.Filesystem
 		}
 
 		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
-			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+		{
+			return storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+		}
 
 		public static bool AreItemsInSameDrive(this IEnumerable<IStorageItemWithPath> storageItems, string destinationPath)
-			=> storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+		{
+			return storageItems.Select(x => x.Path).AreItemsInSameDrive(destinationPath);
+		}
 
 		public static bool AreItemsAlreadyInFolder(this IEnumerable<string> itemsPath, string destinationPath)
 		{
@@ -213,11 +217,22 @@ namespace Files.App.Filesystem
 		}
 
 		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-			=> (await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
-				.Select(x => new StorageFileWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+		{
+			return
+				(await parentFolder.Item.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems))
+					.Select(x =>
+						new StorageFileWithPath(
+							x,
+							string.IsNullOrEmpty(x.Path)
+								? PathNormalization.Combine(parentFolder.Path, x.Name)
+								: x.Path))
+					.ToList();
+		}
 
 		public async static Task<BaseStorageFolder> DangerousGetFolderFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
-			=> (await DangerousGetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
+		{
+			return (await DangerousGetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Item;
+		}
 
 		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
 		{
@@ -273,8 +288,16 @@ namespace Files.App.Filesystem
 		}
 
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
-			=> (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
-				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+		{
+			return (await parentFolder.Item.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems))
+				.Select(x =>
+					new StorageFolderWithPath(
+						x,
+						string.IsNullOrEmpty(x.Path)
+							? PathNormalization.Combine(parentFolder.Path, x.Name)
+							: x.Path))
+				.ToList();
+		}
 
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
 		{
@@ -288,8 +311,15 @@ namespace Files.App.Filesystem
 
 			BaseStorageFolderQueryResult queryResult = parentFolder.Item.CreateFolderQueryWithOptions(queryOptions);
 
-			return (await queryResult.GetFoldersAsync(0, maxNumberOfItems))
-				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
+			return
+				(await queryResult.GetFoldersAsync(0, maxNumberOfItems))
+					.Select(x =>
+						new StorageFolderWithPath(
+							x,
+							string.IsNullOrEmpty(x.Path)
+								? PathNormalization.Combine(parentFolder.Path, x.Name)
+								: x.Path))
+					.ToList();
 		}
 
 		private static PathBoxItem GetPathItem(string component, string path)

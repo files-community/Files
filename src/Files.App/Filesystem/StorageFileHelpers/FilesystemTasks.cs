@@ -30,6 +30,7 @@ namespace Files.App.Filesystem
 			try
 			{
 				await wrapped();
+
 				return new FilesystemResult(FileSystemStatusCode.Success);
 			}
 			catch (Exception ex)
@@ -54,9 +55,8 @@ namespace Files.App.Filesystem
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				func(res.Result);
-			}
+
 			return res;
 		}
 
@@ -64,9 +64,8 @@ namespace Files.App.Filesystem
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				return await Wrap(() => func(res.Result));
-			}
+
 			return res;
 		}
 
@@ -74,15 +73,17 @@ namespace Files.App.Filesystem
 		{
 			var res = await wrapped;
 			if (res)
-			{
 				return await Wrap(() => func(res.Result));
-			}
+
 			return new FilesystemResult<V>(default, res.ErrorCode);
 		}
 
 		private static FileSystemStatusCode ToStatusCode(Type T)
-			=> T == typeof(StorageFolderWithPath) || typeof(IStorageFolder).IsAssignableFrom(T)
-				? FileSystemStatusCode.NotAFolder
-				: FileSystemStatusCode.NotAFile;
+		{
+			return
+				T == typeof(StorageFolderWithPath) || typeof(IStorageFolder).IsAssignableFrom(T)
+					? FileSystemStatusCode.NotAFolder
+					: FileSystemStatusCode.NotAFile;
+		}
 	}
 }

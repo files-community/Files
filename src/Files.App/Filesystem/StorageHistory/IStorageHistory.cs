@@ -4,7 +4,7 @@
 namespace Files.App.Filesystem.FilesystemHistory
 {
 	/// <summary>
-	/// Represents an interface for storage history
+	/// Represents an interface for storage history.
 	/// </summary>
 	public interface IStorageHistory
 	{

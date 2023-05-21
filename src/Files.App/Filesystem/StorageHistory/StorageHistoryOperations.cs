@@ -16,6 +16,7 @@ namespace Files.App.Filesystem.FilesystemHistory
 
 		public StorageHistoryOperations(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
+			// Initialize
 			_cancellationToken = cancellationToken;
 			_helpers = associatedInstance.FilesystemHelpers;
 			_operations = new ShellFilesystemOperations(associatedInstance);
@@ -121,7 +122,10 @@ namespace Files.App.Filesystem.FilesystemHistory
 			ReturnResult returnStatus = ReturnResult.InProgress;
 			Progress<FileSystemProgress> progress = new();
 
-			progress.ProgressChanged += (s, e) => { returnStatus = e.Status!.Value.ToStatus(); };
+			progress.ProgressChanged += (s, e) =>
+			{
+				returnStatus = e.Status!.Value.ToStatus();
+			};
 
 			switch (history.OperationType)
 			{
@@ -137,7 +141,9 @@ namespace Files.App.Filesystem.FilesystemHistory
 					{
 						await _operations.CreateShortcutItemsAsync(
 							history.Source,
-							await history.Destination.Select(item => item.Path).ToListAsync(), progress, _cancellationToken);
+							await history.Destination.Select(item => item.Path).ToListAsync(),
+							progress,
+							_cancellationToken);
 					}
 					break;
 				case FileOperationType.Rename:
@@ -197,14 +203,14 @@ namespace Files.App.Filesystem.FilesystemHistory
 			return returnStatus;
 		}
 
-		private bool IsHistoryNull(IStorageHistory history)
+		private static bool IsHistoryNull(IStorageHistory history)
 		{
 			// history.Destination is null with CreateNew
 
 			return IsHistoryNull(history.Source) || (history.Destination is not null && IsHistoryNull(history.Destination));
 		}
 
-		private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source)
+		private static bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source)
 		{
 			return !source.All(HasPath);
 		}

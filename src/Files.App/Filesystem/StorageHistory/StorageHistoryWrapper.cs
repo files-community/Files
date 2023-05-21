@@ -10,19 +10,26 @@ namespace Files.App.Filesystem.FilesystemHistory
 		private List<IStorageHistory> _histories = new();
 
 		public bool CanRedo()
-			=> _index + 1 < _histories.Count;
+		{
+			return _index + 1 < _histories.Count;
+		}
 
 		public bool CanUndo()
-			=> _index >= 0 && _histories.Count > 0;
+		{
+			return _index >= 0 && _histories.Count > 0;
+		}
 
 		public IStorageHistory GetCurrentHistory()
-			=> _histories[_index];
+		{
+			return _histories[_index];
+		}
 
 		public void AddHistory(IStorageHistory history)
 		{
 			if (history is not null)
 			{
 				++_index;
+
 				_histories.Insert(_index, history);
 				_histories.RemoveRange(_index + 1, _histories.Count - _index - 1);
 			}

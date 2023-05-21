@@ -10,10 +10,12 @@ namespace Files.App.Filesystem.FilesystemHistory
 	{
 		private IStorageHistoryOperations _operations;
 
-		private readonly SemaphoreSlim _semaphore = new(1, 1);
+		private readonly static SemaphoreSlim _semaphore = new(1, 1);
 
 		public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
-			=> _operations = storageHistoryOperations;
+		{
+			_operations = storageHistoryOperations;
+		}
 
 		public async Task<ReturnResult> TryUndo()
 		{
