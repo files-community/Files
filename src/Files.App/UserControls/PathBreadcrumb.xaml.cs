@@ -1,18 +1,27 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Files.App.Attributes;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.App.UserControls
 {
-	[DependencyProperty<ToolbarViewModel>("ViewModel")]
 	public sealed partial class PathBreadcrumb : UserControl
 	{
+		public ToolbarViewModel ViewModel
+		{
+			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			set => SetValue(ViewModelProperty, value);
+		}
+
+		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty ViewModelProperty =
+			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(PathBreadcrumb), new PropertyMetadata(null));
+
 		public PathBreadcrumb()
 		{
 			InitializeComponent();
