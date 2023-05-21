@@ -430,7 +430,7 @@
     <value>Suppression des fichiers</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Déplacement vers la Corbeille en cours</value>
+    <value>Déplacement des fichiers vers la corbeille en cours</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
@@ -505,7 +505,7 @@
     <value>Pages :</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Paramètres par défaut de Windows</value>
+    <value>Par défaut de Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Aucun résultat</value>
@@ -553,7 +553,7 @@
     <value>Files a rencontré un problème auquel les développeurs ne s'attendaient pas.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Une erreur s'est produite!</value>
+    <value>Une erreur s'est produite !</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Signaler ce problème</value>
@@ -1165,7 +1165,7 @@
     <value>Disque Cloud</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Lecteur de disque fixe</value>
+    <value>Disque local</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>Lecteur de disquette</value>
@@ -1546,7 +1546,7 @@
     <value>La suppression de {0} éléments depuis {1} a échoué</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>la Corbeille</value>
+    <value>la corbeille</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Déplacement d'éléments</value>
@@ -2260,7 +2260,7 @@
     <value>Colonne type</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Mise en page des colonnes en vue Détails</value>
+    <value>Colonnes dans la mise en page des détails</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
@@ -2443,7 +2443,7 @@
     <value>Paramètres</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double-cliquer sur un espace vide pour remonter un dossier</value>
+    <value>Double-cliquer sur un espace vide pour remonter d'un niveau de dossier</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Voir plus</value>
@@ -2662,7 +2662,7 @@
     <value>Vider la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Ouvre le menu "Formatage de disque dur" pour l'élément sélectionné</value>
+    <value>Ouvre le menu "Formater le disque dur" pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restaurer le(s) élément(s) sélectionné(s) depuis la corbeille</value>
@@ -3182,7 +3182,7 @@
     <value>Recherchez des éléments non indexés</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Mettre en évidence la barre de chemin</value>
+    <value>Se placer sur la barre de chemin</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Créer un nouvel élément</value>
@@ -3286,6 +3286,21 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Nouvelle branche</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nom de branche invalide</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Créer une branche</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Créer une branche</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basé sur</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Passer à une nouvelle branche</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
   </data>
@@ -3294,5 +3309,11 @@
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Ouvrir la fenêtre des propriétés</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locaux</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Distants</value>
   </data>
 </root>
