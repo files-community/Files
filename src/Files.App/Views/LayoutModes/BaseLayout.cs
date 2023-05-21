@@ -575,6 +575,8 @@ namespace Files.App.Views.LayoutModes
 
 			try
 			{
+				ItemManipulationModel.ClearSelection();
+
 				// Reset menu max height
 				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
 					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
