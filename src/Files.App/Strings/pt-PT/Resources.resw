@@ -3286,6 +3286,21 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Novo ramo</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nome de 'branch' inválido</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Criar 'branch'</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Criar 'branch'</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Baseado em</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Ir para o novo 'branch'</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Criar uma pasta com os itens selecionados</value>
   </data>
@@ -3294,5 +3309,11 @@
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Abrir janela de propriedades</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locais</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotos</value>
   </data>
 </root>
