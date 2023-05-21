@@ -336,10 +336,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					// Already sorted
 					if (!section.ChildItems.Any(x => x.Path == drive.Path))
-					{
 						section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
-						await drive.LoadThumbnailAsync(true);
-					}
 				}
 				else
 				{
@@ -350,11 +347,10 @@ namespace Files.App.ViewModels.UserControls
 					{
 						paths.AddSorted(drivePath);
 						int position = paths.IndexOf(drivePath);
-
 						section.ChildItems.Insert(position, drive);
-						await drive.LoadThumbnailAsync(true);
 					}
 				}
+				await drive.LoadThumbnailAsync(true);
 			}
 			else
 			{
