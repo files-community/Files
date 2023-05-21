@@ -129,8 +129,13 @@
 							Width="24"
 							Height="24"
 							Margin="4"
-							Background="{ThemeResource App.Theme.BackgroundBrush}"
-							CornerRadius="4" />
+							Background="Gray"
+							CornerRadius="4">
+							<Grid>
+								<PathIcon Data="M0 6 L0 0 L6 0 L6 6 L12 6 L12 0 L18 0 L18 6 L12 6 L12 12 L18 12 L18 6 L24 6 L24 12 L18 12 L18 18 L24 18 L24 24 L6 24 L6 18 L0 18 L0 12 L6 12 L6 18 L12 18 L12 24 L18 24 L18 18 L12 18 L12 12 L6 12 L6 6 Z" Foreground="LightGray" />
+								<Rectangle Fill="{ThemeResource App.Theme.BackgroundBrush}" />
+							</Grid>
+						</Border>
 						<FontIcon
 							Margin="8,4,10,4"
 							FontSize="12"
