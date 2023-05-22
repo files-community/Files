@@ -25,7 +25,7 @@
 			Spacing="4">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
-					<RepositionThemeTransition />
+					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
@@ -136,8 +136,17 @@
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
-								IsEnabled="{x:Bind ViewModel.isDefaultGrouped, Mode=OneWay}"
+								IsEnabled="{x:Bind ViewModel.IsDefaultGrouped, Mode=OneWay}"
 								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Group by Month  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}"
+								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
+								IsOn="{x:Bind ViewModel.GroupByMonth, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 

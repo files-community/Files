@@ -1,59 +1,39 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Provides group of shell file system operation for given page instance.
+	/// </summary>
 	public class ShellFilesystemOperations : IFilesystemOperations
 	{
-		#region Private Members
+		private IShellPage _associatedInstance;
 
-		private IShellPage associatedInstance;
-
-		private FilesystemOperations filesystemOperations;
-
-		#endregion Private Members
-
-		#region Constructor
+		private FilesystemOperations _filesystemOperations;
 
 		public ShellFilesystemOperations(IShellPage associatedInstance)
 		{
-			this.associatedInstance = associatedInstance;
-			filesystemOperations = new FilesystemOperations(associatedInstance);
+			_associatedInstance = associatedInstance;
+			_filesystemOperations = new FilesystemOperations(associatedInstance);
 		}
 
-		#endregion Constructor
-
-		public async Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await CopyAsync(source.FromStorageItem(),
-													destination,
-													collision,
-													progress,
-													cancellationToken);
+			return CopyAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await CopyItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
+			return CopyItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> CopyItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -65,8 +45,8 @@ namespace Files.App.Filesystem
 		{
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
-				// Fallback to builtin file operations
-				return await filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
+				// Fallback to built-in file operations
+				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
@@ -77,6 +57,7 @@ namespace Files.App.Filesystem
 			var collisionsNoSkip = collisions.Where(c => c != FileNameConflictResolveOptionType.Skip);
 
 			var operationID = Guid.NewGuid().ToString();
+
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
 			var sourceReplace = sourceNoSkip.Zip(collisionsNoSkip, (src, coll) => new { src, coll }).Where(item => item.coll == FileNameConflictResolveOptionType.ReplaceExisting).Select(item => item.src);
@@ -86,6 +67,7 @@ namespace Files.App.Filesystem
 
 			var result = (FilesystemResult)true;
 			var copyResult = new ShellOperationResult();
+
 			if (sourceRename.Any())
 			{
 				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
@@ -94,6 +76,7 @@ namespace Files.App.Filesystem
 
 				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 			}
+
 			if (sourceReplace.Any())
 			{
 				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
@@ -113,32 +96,36 @@ namespace Files.App.Filesystem
 				{
 					var sourceMatch = await copiedSources.Select(x => sourceRename
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
-					return new StorageHistory(FileOperationType.Copy,
+
+					return new StorageHistory(
+						FileOperationType.Copy,
 						sourceMatch,
 						await copiedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
 							.Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
 				}
-				return null; // Cannot undo overwrite operation
+
+				// Cannot undo overwrite operation
+				return null;
 			}
 			else
 			{
 				if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-					{
 						return await CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
-					}
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
 					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
 					var lockingProcess = WhoIsLocking(filePath);
+
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
 					{
 						case DialogResult.Primary:
 							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
 							return await CopyItemsAsync(
 								await sourceMatch.Select(x => x.src).ToListAsync(),
 								await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -147,11 +134,12 @@ namespace Files.App.Filesystem
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
 				{
-					// Retry with StorageFile API
+					// Retry with the StorageFile API
 					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
 					var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 					var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
-					return await filesystemOperations.CopyItemsAsync(
+
+					return await _filesystemOperations.CopyItemsAsync(
 						await sourceMatch.Select(x => x.src).ToListAsync(),
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, cancellationToken);
@@ -168,11 +156,13 @@ namespace Files.App.Filesystem
 				{
 					var failedSources = copyResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.PropertyLoss);
 					var filePath = failedSources.Select(x => x.Source);
+
 					switch (await GetFileListDialog(filePath, "FilePropertiesCannotBeCopied".GetLocalizedResource(), "CopyFileWithoutProperties".GetLocalizedResource(), "OK".GetLocalizedResource(), "Cancel".GetLocalizedResource()))
 					{
 						case DialogResult.Primary:
 							var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 							var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
 							return await CopyItemsAsync(
 								await sourceMatch.Select(x => x.src).ToListAsync(),
 								await sourceMatch.Select(x => x.dest).ToListAsync(),
@@ -181,18 +171,22 @@ namespace Files.App.Filesystem
 								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
 					}
 				}
-				else if (copyResult.Items.All(x => x.HResult == -1)) // ADS
+				// ADS
+				else if (copyResult.Items.All(x => x.HResult == -1))
 				{
-					// Retry with StorageFile API
+					// Retry with the StorageFile API
 					var failedSources = copyResult.Items.Where(x => !x.Succeeded);
 					var copyZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 					var sourceMatch = await failedSources.Select(x => copyZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
-					return await filesystemOperations.CopyItemsAsync(
+
+					return await _filesystemOperations.CopyItemsAsync(
 						await sourceMatch.Select(x => x.src).ToListAsync(),
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, cancellationToken);
 				}
+
 				fsProgress.ReportStatus(CopyEngineResult.Convert(copyResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+
 				return null;
 			}
 		}
@@ -201,12 +195,13 @@ namespace Files.App.Filesystem
 		{
 			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
 			{
-				// Fallback to builtin file operations
-				return await filesystemOperations.CreateAsync(source, progress, cancellationToken);
+				// Fallback to built-in file operations
+				return await _filesystemOperations.CreateAsync(source, progress, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, 1);
 			fsProgress.Report();
+
 			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());
 
@@ -217,10 +212,11 @@ namespace Files.App.Filesystem
 						var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
 						if (newEntryInfo?.Command is not null)
 						{
-							var args = CommandLine.CommandLineParser.SplitArguments(newEntryInfo.Command);
+							var args = CommandLineParser.SplitArguments(newEntryInfo.Command);
 							if (args.Any())
 							{
-								if (await LaunchHelper.LaunchAppAsync(args[0].Replace("\"", "", StringComparison.Ordinal),
+								if (await LaunchHelper.LaunchAppAsync(
+										args[0].Replace("\"", "", StringComparison.Ordinal),
 										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
 										PathNormalization.GetParentDir(source.Path)))
 								{
@@ -229,12 +225,16 @@ namespace Files.App.Filesystem
 							}
 						}
 						else
+						{
 							(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data);
+						}
+
 						break;
 					}
 				case FilesystemItemType.Directory:
 					{
 						(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder");
+
 						break;
 					}
 			}
@@ -248,13 +248,16 @@ namespace Files.App.Filesystem
 			if (result)
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Success);
+
 				var createdSources = createResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
 				if (createdSources.Any())
 				{
 					var item = StorageHelpers.FromPathAndType(createdSources.Single().Destination, source.ItemType);
 					var storageItem = await item.ToStorageItem();
+
 					return (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), storageItem);
 				}
+
 				return (null, null);
 			}
 			else
@@ -262,14 +265,12 @@ namespace Files.App.Filesystem
 				if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-					{
 						return await CreateAsync(source, progress, cancellationToken);
-					}
 				}
 				else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
 				{
-					// Retry with StorageFile API
-					return await filesystemOperations.CreateAsync(source, progress, cancellationToken);
+					// Retry with the StorageFile API
+					return await _filesystemOperations.CreateAsync(source, progress, cancellationToken);
 				}
 				else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
@@ -279,7 +280,9 @@ namespace Files.App.Filesystem
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
 				}
+
 				fsProgress.ReportStatus(CopyEngineResult.Convert(createResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+
 				return (null, null);
 			}
 		}
@@ -315,14 +318,14 @@ namespace Files.App.Filesystem
 			return new StorageHistory(FileOperationType.CreateLink, createdSources, createdDestination);
 		}
 
-		public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
+		public Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return await DeleteAsync(source.FromStorageItem(), progress, permanently, cancellationToken);
+			return DeleteAsync(source.FromStorageItem(), progress, permanently, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
+		public Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			return await DeleteItemsAsync(source.CreateList(), progress, permanently, cancellationToken);
+			return DeleteItemsAsync(source.CreateList(), progress, permanently, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> DeleteItemsAsync(IList<IStorageItem> source, IProgress<FileSystemProgress> progress, bool permanently, CancellationToken cancellationToken)
@@ -335,13 +338,13 @@ namespace Files.App.Filesystem
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x.Path)))
 			{
 				// Fallback to built-in file operations
-				return await filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
+				return await _filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
-			var deleleFilePaths = source.Select(s => s.Path).Distinct();
+			var deleteFilePaths = source.Select(s => s.Path).Distinct();
 			var deleteFromRecycleBin = source.Any() && RecycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
 
 			permanently |= deleteFromRecycleBin;
@@ -349,13 +352,13 @@ namespace Files.App.Filesystem
 			if (deleteFromRecycleBin)
 			{
 				// Recycle bin also stores a file starting with $I for each item
-				deleleFilePaths = deleleFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I", StringComparison.Ordinal)))).Distinct();
+				deleteFilePaths = deleteFilePaths.Concat(source.Select(x => Path.Combine(Path.GetDirectoryName(x.Path), Path.GetFileName(x.Path).Replace("$R", "$I", StringComparison.Ordinal)))).Distinct();
 			}
 
 			var operationID = Guid.NewGuid().ToString();
 			using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleleFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
+			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleteFilePaths.ToArray(), permanently, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
 
 			var result = (FilesystemResult)success;
 			var deleteResult = new ShellOperationResult();
@@ -369,7 +372,7 @@ namespace Files.App.Filesystem
 
 				foreach (var item in deleteResult.Items)
 				{
-					await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
+					await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
 				}
 
 				var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
@@ -378,7 +381,8 @@ namespace Files.App.Filesystem
 					var sourceMatch = await recycledSources.Select(x => source.DistinctBy(x => x.Path)
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
 
-					return new StorageHistory(FileOperationType.Recycle,
+					return new StorageHistory(
+						FileOperationType.Recycle,
 						sourceMatch,
 						await recycledSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
 							.Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
@@ -419,22 +423,23 @@ namespace Files.App.Filesystem
 					var failedSources = deleteResult.Items.Where(x => !x.Succeeded);
 					var sourceMatch = await failedSources.Select(x => source.DistinctBy(x => x.Path).SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
 
-					return await filesystemOperations.DeleteItemsAsync(sourceMatch, progress, permanently, cancellationToken);
+					return await _filesystemOperations.DeleteItemsAsync(sourceMatch, progress, permanently, cancellationToken);
 				}
+
 				fsProgress.ReportStatus(CopyEngineResult.Convert(deleteResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
 
 				return null;
 			}
 		}
 
-		public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await MoveAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
+			return MoveAsync(source.FromStorageItem(), destination, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await MoveItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
+			return MoveItemsAsync(source.CreateList(), destination.CreateList(), collision.ConvertBack().CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> MoveItemsAsync(IList<IStorageItem> source, IList<string> destination, IList<FileNameConflictResolveOptionType> collisions, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -446,8 +451,8 @@ namespace Files.App.Filesystem
 		{
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
-				// Fallback to builtin file operations
-				return await filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
+				// Fallback to built-in file operations
+				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
@@ -474,6 +479,7 @@ namespace Files.App.Filesystem
 				result &= (FilesystemResult)status;
 				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
 			}
+
 			if (sourceReplace.Any())
 			{
 				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, NativeWinApiHelper.CoreWindowHandle.ToInt64(), progress, operationID);
@@ -500,7 +506,8 @@ namespace Files.App.Filesystem
 							.Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
 				}
 
-				return null; // Cannot undo overwrite operation
+				// Cannot undo overwrite operation
+				return null;
 			}
 			else
 			{
@@ -537,12 +544,12 @@ namespace Files.App.Filesystem
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
 				{
-					// Retry with StorageFile API
+					// Retry with the StorageFile API
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
 					var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 					var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
 
-					return await filesystemOperations.MoveItemsAsync(
+					return await _filesystemOperations.MoveItemsAsync(
 						await sourceMatch.Select(x => x.src).ToListAsync(),
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, cancellationToken);
@@ -574,12 +581,12 @@ namespace Files.App.Filesystem
 				}
 				else if (moveResult.Items.All(x => x.HResult == -1)) // ADS
 				{
-					// Retry with StorageFile API
+					// Retry with the StorageFile API
 					var failedSources = moveResult.Items.Where(x => !x.Succeeded);
 					var moveZip = sourceNoSkip.Zip(destinationNoSkip, (src, dest) => new { src, dest }).Zip(collisionsNoSkip, (z1, coll) => new { z1.src, z1.dest, coll });
 					var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
 
-					return await filesystemOperations.MoveItemsAsync(
+					return await _filesystemOperations.MoveItemsAsync(
 						await sourceMatch.Select(x => x.src).ToListAsync(),
 						await sourceMatch.Select(x => x.dest).ToListAsync(),
 						await sourceMatch.Select(x => x.coll).ToListAsync(), progress, cancellationToken);
@@ -589,17 +596,17 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
+			return RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
 			if (string.IsNullOrWhiteSpace(source.Path) || source.Path.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(source.Path) || ZipStorageFolder.IsZipPath(source.Path, false))
 			{
-				// Fallback to builtin file operations
-				return await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
+				// Fallback to built-in file operations
+				return await _filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
@@ -625,7 +632,8 @@ namespace Files.App.Filesystem
 						StorageHelpers.FromPathAndType(renamedSources.Single().Destination, source.ItemType));
 				}
 
-				return null; // Cannot undo overwrite operation
+				// Cannot undo overwrite operation
+				return null;
 			}
 			else
 			{
@@ -648,8 +656,8 @@ namespace Files.App.Filesystem
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
 				{
-					// Retry with StorageFile API
-					return await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
+					// Retry with the StorageFile API
+					return await _filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NotFound))
 				{
@@ -659,10 +667,11 @@ namespace Files.App.Filesystem
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
 				}
-				else if (renameResult.Items.All(x => x.HResult == -1)) // ADS
+				// ADS
+				else if (renameResult.Items.All(x => x.HResult == -1))
 				{
 					// Retry with StorageFile API
-					return await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
+					return await _filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
 				}
 
 				fsProgress.ReportStatus(CopyEngineResult.Convert(renameResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
@@ -671,14 +680,14 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, cancellationToken);
+			return RestoreFromTrashAsync(source.FromStorageItem(), destination, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
+		public Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
 		{
-			return await RestoreItemsFromTrashAsync(source.CreateList(), destination.CreateList(), progress, cancellationToken);
+			return RestoreItemsFromTrashAsync(source.CreateList(), destination.CreateList(), progress, cancellationToken);
 		}
 
 		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItem> source, IList<string> destination, IProgress<FileSystemProgress> progress, CancellationToken cancellationToken)
@@ -690,8 +699,8 @@ namespace Files.App.Filesystem
 		{
 			if (source.Any(x => string.IsNullOrWhiteSpace(x.Path) || x.Path.StartsWith(@"\\?\", StringComparison.Ordinal)) || destination.Any(x => string.IsNullOrWhiteSpace(x) || x.StartsWith(@"\\?\", StringComparison.Ordinal) || FtpHelpers.IsFtpPath(x) || ZipStorageFolder.IsZipPath(x, false)))
 			{
-				// Fallback to builtin file operations
-				return await filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
+				// Fallback to built-in file operations
+				return await _filesystemOperations.RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
 			}
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
@@ -710,11 +719,13 @@ namespace Files.App.Filesystem
 			if (result)
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Success);
+
 				var movedSources = moveResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
 				if (movedSources.Any())
 				{
 					var sourceMatch = await movedSources.Select(x => source
 						.SingleOrDefault(s => s.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
 					// Recycle bin also stores a file starting with $I for each item
 					await DeleteItemsAsync(await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
 						.Select(src => StorageHelpers.FromPathAndType(
@@ -726,27 +737,28 @@ namespace Files.App.Filesystem
 						await movedSources.Zip(sourceMatch, (rSrc, oSrc) => new { rSrc, oSrc })
 							.Select(item => StorageHelpers.FromPathAndType(item.rSrc.Destination, item.oSrc.ItemType)).ToListAsync());
 				}
-				return null; // Cannot undo overwrite operation
+				// Cannot undo overwrite operation
+				return null;
 			}
 			else
 			{
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-					{
 						return await RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
-					}
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
 					var filePath = failedSources.Select(x => x.HResult == CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC ? x.Source : x.Destination);
 					var lockingProcess = WhoIsLocking(filePath);
+
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
 					{
 						case DialogResult.Primary:
 							var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
 							var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
+
 							return await RestoreItemsFromTrashAsync(
 								await sourceMatch.Select(x => x.src).ToListAsync(),
 								await sourceMatch.Select(x => x.dest).ToListAsync(), progress, cancellationToken);
@@ -758,7 +770,8 @@ namespace Files.App.Filesystem
 					var failedSources = moveResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong);
 					var moveZip = source.Zip(destination, (src, dest) => new { src, dest });
 					var sourceMatch = await failedSources.Select(x => moveZip.SingleOrDefault(s => s.src.Path.Equals(x.Source, StringComparison.OrdinalIgnoreCase))).Where(x => x is not null).ToListAsync();
-					return await filesystemOperations.RestoreItemsFromTrashAsync(
+
+					return await _filesystemOperations.RestoreItemsFromTrashAsync(
 						await sourceMatch.Select(x => x.src).ToListAsync(),
 						await sourceMatch.Select(x => x.dest).ToListAsync(), progress, cancellationToken);
 				}
@@ -770,25 +783,31 @@ namespace Files.App.Filesystem
 				{
 					await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalizedResource(), "ItemAlreadyExistsDialogContent".GetLocalizedResource());
 				}
+
 				fsProgress.ReportStatus(CopyEngineResult.Convert(moveResult.Items.FirstOrDefault(x => !x.Succeeded)?.HResult));
+
 				return null;
 			}
 		}
 
 		private void CancelOperation(object operationID)
-			=> FileOperationsHelpers.TryCancelOperation((string)operationID);
+		{
+			FileOperationsHelpers.TryCancelOperation((string)operationID);
+		}
 
 		private async Task<bool> RequestAdminOperation()
 		{
-			// TODO:
+			// TODO: Implement this method
 			return false;
 		}
 
 		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess = null)
 		{
 			var titleText = "FileInUseDialog/Title".GetLocalizedResource();
-			var subtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
-				string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
+			var subtitleText = lockingProcess.IsEmpty()
+				? "FileInUseDialog/Text".GetLocalizedResource()
+				: string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})")));
+
 			return GetFileListDialog(source, titleText, subtitleText, "Retry".GetLocalizedResource(), "Cancel".GetLocalizedResource());
 		}
 
@@ -801,9 +820,13 @@ namespace Files.App.Filesystem
 				if (RecycleBinHelpers.IsPathUnderRecycleBin(src))
 				{
 					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
-					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+
+					// Might still be null because we're deserializing the list from Json
+					if (!binItems.IsEmpty())
 					{
-						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src); // Get original file name
+						// Get original file name
+						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src);
+
 						incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src, DisplayName = matchingItem?.FileName });
 					}
 				}
@@ -822,18 +845,16 @@ namespace Files.App.Filesystem
 		}
 
 		private IEnumerable<Win32Process> WhoIsLocking(IEnumerable<string> filesToCheck)
-			=> FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray());
-
-		#region IDisposable
+		{
+			return FileOperationsHelpers.CheckFileInUse(filesToCheck.ToArray());
+		}
 
 		public void Dispose()
 		{
-			filesystemOperations?.Dispose();
+			_filesystemOperations?.Dispose();
 
-			filesystemOperations = null;
-			associatedInstance = null;
+			_filesystemOperations = null;
+			_associatedInstance = null;
 		}
-
-		#endregion IDisposable
 	}
 }

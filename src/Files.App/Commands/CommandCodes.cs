@@ -14,6 +14,7 @@ namespace Files.App.Commands
 		ExitCompactOverlay,
 		ToggleCompactOverlay,
 		Search,
+		SearchUnindexedItems,
 		EditPath,
 		Redo,
 		Undo,
@@ -33,6 +34,7 @@ namespace Files.App.Commands
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
+		CreateFolderWithSelection,
 		AddItem,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -94,6 +96,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenProperties,
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
@@ -136,9 +139,18 @@ namespace Files.App.Commands
 		GroupByOriginalFolder,
 		GroupByDateDeleted,
 		GroupByFolderPath,
+		GroupByDateModifiedYear,
+		GroupByDateModifiedMonth,
+		GroupByDateCreatedYear,
+		GroupByDateCreatedMonth,
+		GroupByDateDeletedYear,
+		GroupByDateDeletedMonth,
 		GroupAscending,
 		GroupDescending,
 		ToggleGroupDirection,
+		GroupByYear,
+		GroupByMonth,
+		ToggleGroupByDateUnit,
 
 		// Navigation
 		NewTab,

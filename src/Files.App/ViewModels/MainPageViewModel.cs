@@ -40,7 +40,7 @@ namespace Files.App.ViewModels
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
 		public MainPageViewModel(
-			IUserSettingsService userSettings, 
+			IUserSettingsService userSettings,
 			IAppearanceSettingsService appearanceSettings,
 			IResourcesService resources,
 			DrivesViewModel drivesViewModel,
@@ -200,23 +200,23 @@ namespace Files.App.ViewModels
 				tabLocationHeader = "Home".GetLocalizedResource();
 				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
-			else if (currentPath.Equals(CommonPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "Desktop".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "Downloads".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "RecycleBin".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "ThisPC".GetLocalizedResource();
 			}
-			else if (currentPath.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
 			}
@@ -274,9 +274,6 @@ namespace Files.App.ViewModels
 		{
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
-
-			if (drivesViewModel.Drives.Count == 0)
-				await drivesViewModel.UpdateDrivesAsync();
 
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
@@ -376,6 +373,10 @@ namespace Files.App.ViewModels
 
 			// Load the app theme resources
 			resourcesService.LoadAppResources(appearanceSettingsService);
+
+			await Task.WhenAll(
+				drivesViewModel.UpdateDrivesAsync(),
+				networkDrivesViewModel.UpdateDrivesAsync());
 		}
 
 		public Task AddNewTabAsync()

@@ -130,8 +130,8 @@ namespace Files.App.Helpers
 			CancellationTokenSource extractCancellation = new();
 
 			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
-				archive.Name.Length >= 30 ? archive.Name + "\n" : archive.Name,
 				"ExtractingArchiveText".GetLocalizedResource(),
+				archive.Path,
 				0,
 				ReturnResult.InProgress,
 				FileOperationType.Extract,
@@ -240,7 +240,7 @@ namespace Files.App.Helpers
 
 		public static async Task DecompressArchiveToChildFolder(IShellPage associatedInstance)
 		{
-			if(associatedInstance == null)
+			if (associatedInstance == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)

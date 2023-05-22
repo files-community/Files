@@ -8,10 +8,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:filesystem="using:Files.App.Filesystem"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App"
+	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:valueconverters="using:Files.App.ValueConverters"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -19,7 +18,7 @@
 
 	<local:StandardViewBase.Resources>
 
-		<valueconverters:StringToBrushConverter x:Key="StringToBrushConverter" />
+		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		<wctconverters:BoolToVisibilityConverter
 			x:Key="NegatedBoolToVisibilityConverter"
@@ -33,7 +32,7 @@
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
 			NotEmptyValue="Visible" />
-		<converters:BoolToSelectionMode x:Key="BoolToSelectionModeConverter" />
+		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<Style TargetType="ListViewHeaderItem">
 			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

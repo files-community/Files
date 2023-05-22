@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Unterschiedliche Typen</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Alle in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Es gibt einen Dateinamenkonflikt.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Ordner aus Auswahl erstellen</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Ordner mit Auswahl erstellen</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
@@ -3149,7 +3149,7 @@
     <value>Schließt den aktuellen Tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Pfad bearbeiten</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
@@ -3178,11 +3178,14 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Auswahlkästchen beim Auswählen von Elementen anzeigen</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Nach nicht indizierten Elementen suchen</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Pfadleiste fokussieren</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Neues Element erstellen</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Keine Gruppen oder Benutzer haben die Berechtigung, auf dieses Objekt zuzugreifen. Jedoch kann der Besitzer des Objekts Berechtigungen erteilen.</value>
@@ -3204,5 +3207,86 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Letzte Dateioperation wiederherstellen</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ort:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Elemente nach Monat gruppieren</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Elemente nach Jahr gruppieren</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Monat</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Einheit für Datumsgruppierung umschalten</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Gruppierungseinheit umschalten</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Jahr</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Nach Monat statt nach Jahr gruppieren</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Elemente nach Monat des Erstellungsdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Elemente nach Jahr des Erstellungsdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Elemente nach Monat des Löschdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Elemente nach Jahr des Löschdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Elemente nach Monat des Änderungsdatums gruppieren</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Elemente nach Jahr des Änderungsdatums gruppieren</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Auf 'Erweiterte Berechtigungen' klicken, um fortzufahren.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Du brauchst Leseberechtigungen, um die Eigenschaften dieses Elements anzuzeigen.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Um zu versuchen, Besitz über das Element zu übernehmen, was die Berechtigung des Anzeigens der Eigenschaften enthält, klicke oben auf "Ändern".</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Berechtigungen können nicht angezeigt werden.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Meine Änderungen an '{0}' belassen</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Meine Änderungen verwerfen</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Meine Änderungen zu '{0}' bringen</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+     <value>Branch wechseln</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Wechseln</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Neuer Branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
   </data>
 </root>

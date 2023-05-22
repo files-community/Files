@@ -131,7 +131,7 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private async void RecentFilesWidget_RecentFileInvoked(object sender, PathNavigationEventArgs e)
 		{
 			try
 			{
@@ -159,7 +159,7 @@ namespace Files.App.Views
 			catch (ArgumentException) { }
 		}
 
-		private void WidgetOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
+		private void WidgetOpenLocationInvoked(object sender, PathNavigationEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
 			{
@@ -227,6 +227,7 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
 			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
+			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -237,6 +238,8 @@ namespace Files.App.Views
 
 			// Set path of working directory empty
 			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+
+			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
 
 			// Clear the path UI and replace with Favorites
 			AppInstance.ToolbarViewModel.PathComponents.Clear();

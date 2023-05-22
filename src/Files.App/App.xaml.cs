@@ -14,11 +14,13 @@ using Files.App.ServicesImplementation;
 using Files.App.ServicesImplementation.DateTimeFormatter;
 using Files.App.ServicesImplementation.Settings;
 using Files.App.Shell;
+using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
+using Files.Backend.Enums;
 using Files.Backend.Services;
 using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
@@ -72,6 +74,7 @@ namespace Files.App
 
 		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
 		public static string LogoPath;
+		public static AppEnvironment AppEnv;
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -82,8 +85,8 @@ namespace Files.App
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
 			InitializeComponent();
-			LogoPath = Package.Current.DisplayName == "Files - Dev" ? Constants.AssetPaths.DevLogo
-					: (Package.Current.DisplayName == "Files (Preview)" ? Constants.AssetPaths.PreviewLogo : Constants.AssetPaths.StableLogo);
+
+			(AppEnv, LogoPath) = EnvHelpers.GetAppEnvironmentAndLogo();
 		}
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
@@ -172,6 +175,7 @@ namespace Files.App
 			// Initialize MainWindow here
 			EnsureWindowIsInitialized();
 			host = Host.CreateDefaultBuilder()
+				.UseEnvironment(AppEnv.ToString())
 				.ConfigureLogging(builder => 
 					builder
 					.AddProvider(new FileLoggerProvider(logPath))
@@ -206,6 +210,7 @@ namespace Files.App
 #else
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
+						.AddSingleton<IFtpStorageService, FtpStorageService>()
 						.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
 						.AddSingleton<IUpdateService, SideloadUpdateService>()

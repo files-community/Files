@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemName = Item.Name;
 				ViewModel.OriginalItemName = Item.Name;
 				ViewModel.ItemType = Item.ItemType;
-				ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+				ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
 				ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
@@ -114,7 +114,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				GetFolderSize(storageFolder.Path, TokenSource.Token);
 			}
-			else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				var recycleBinQuery = Win32Shell.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)

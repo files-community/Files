@@ -12,8 +12,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
 using Microsoft.UI.Xaml.Media.Animation;
-using Files.App.Data.Items;
-using Files.App.Data.Parameters;
 
 namespace Files.App.ViewModels.Properties
 {

@@ -61,6 +61,9 @@ namespace Files.App.Helpers
 			{
 				// Instance's current folder
 				var folder = associatedInstance.FilesystemViewModel.CurrentFolder;
+				if (folder is null)
+					return;
+
 				item = folder;
 
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -128,7 +131,7 @@ namespace Files.App.Helpers
 			appWindow.Show();
 
 			// WINUI3: Move window to cursor position
-			UWPToWinAppSDKUpgradeHelpers.InteropHelpers.GetCursorPos(out var pointerPosition);
+			InteropHelpers.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{

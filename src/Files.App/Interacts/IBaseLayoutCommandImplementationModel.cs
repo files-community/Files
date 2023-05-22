@@ -11,8 +11,6 @@ namespace Files.App.Interacts
 {
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
-		void ShowProperties(RoutedEventArgs e);
-
 		Task OpenDirectoryInNewTab(RoutedEventArgs e);
 
 		void OpenDirectoryInNewPane(RoutedEventArgs e);
@@ -28,9 +26,5 @@ namespace Files.App.Interacts
 		Task DragOver(DragEventArgs e);
 
 		Task Drop(DragEventArgs e);
-
-		void SearchUnindexedItems(RoutedEventArgs e);
-
-		Task CreateFolderWithSelection(RoutedEventArgs e);
 	}
 }

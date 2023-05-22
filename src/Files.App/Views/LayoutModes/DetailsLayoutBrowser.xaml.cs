@@ -13,16 +13,17 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-
 using SortDirection = Files.Shared.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
+	/// <summary>
+	/// Represents the browser page of Details View
+	/// </summary>
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
 		private const int TAG_TEXT_BLOCK = 1;

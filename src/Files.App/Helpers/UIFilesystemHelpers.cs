@@ -1,28 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Interacts;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Enums;
 using Files.Backend.Extensions;
 using Files.Backend.Services;
-using Files.Shared;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -35,19 +22,19 @@ namespace Files.App.Helpers
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
-			DataPackage dataPackage = new DataPackage()
+			var dataPackage = new DataPackage()
 			{
 				RequestedOperation = DataPackageOperation.Move
 			};
-			ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
+			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
 				// First, reset DataGrid Rows that may be in "cut" command mode
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
-				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -144,16 +131,18 @@ namespace Files.App.Helpers
 
 		public static async Task CopyItem(IShellPage associatedInstance)
 		{
-			DataPackage dataPackage = new DataPackage()
+			var dataPackage = new DataPackage()
 			{
 				RequestedOperation = DataPackageOperation.Copy
 			};
-			ConcurrentBag<IStorageItem> items = new ConcurrentBag<IStorageItem>();
+			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
 			{
-				var itemsCount = associatedInstance.SlimContentPage.SelectedItems.Count;
-				PostedStatusBanner banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
+
+				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -271,8 +260,7 @@ namespace Files.App.Helpers
 
 			FilesystemItemType itemType = (item.PrimaryItemAttribute == StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File;
 
-			ReturnResult renamed = ReturnResult.InProgress;
-			renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
+			ReturnResult renamed = await associatedInstance.FilesystemHelpers.RenameAsync(StorageHelpers.FromPathAndType(item.ItemPath, itemType), newName, NameCollisionOption.FailIfExists, true, showExtensionDialog);
 
 			if (renamed == ReturnResult.Success)
 			{
@@ -283,14 +271,14 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
 		}
 
-		public static async Task<IStorageItem> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry itemInfo, IShellPage associatedInstance)
+		public static async Task<IStorageItem?> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
-			string currentPath = null;
+			string? currentPath = null;
 
 			if (associatedInstance.SlimContentPage is not null)
 			{
@@ -304,7 +292,7 @@ namespace Files.App.Helpers
 			}
 
 			// Skip rename dialog when ShellNewEntry has a Command (e.g. ".accdb", ".gdoc")
-			string userInput = null;
+			string? userInput = null;
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
 				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
@@ -409,7 +397,7 @@ namespace Files.App.Helpers
 			if (!result)
 				return false;
 
-			var shortcutPath = Path.Combine(CommonPaths.DesktopPath, shortcutName);
+			var shortcutPath = Path.Combine(Constants.UserEnvironmentPaths.DesktopPath, shortcutName);
 
 			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath);
 		}

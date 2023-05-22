@@ -160,6 +160,8 @@ namespace Common
 		public IEnumerable<TaggedFile> GetAllUnderPath(string folderPath)
 		{
 			var col = db.GetCollection<TaggedFile>(TaggedFiles);
+			if (string.IsNullOrEmpty(folderPath))
+				return col.FindAll();
 			return col.Find(x => x.FilePath.StartsWith(folderPath, StringComparison.OrdinalIgnoreCase));
 		}
 

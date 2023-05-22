@@ -1,22 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Actions;
-using Files.Backend.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Commands
 {
@@ -28,7 +18,10 @@ namespace Files.App.Commands
 		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
-		public IRichCommand this[HotKey hotKey] => hotKeys.TryGetValue(hotKey, out var command) ? command : None;
+		public IRichCommand this[HotKey hotKey]
+			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
+			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
+			: None;
 
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
@@ -37,6 +30,7 @@ namespace Files.App.Commands
 		public IRichCommand ExitCompactOverlay => commands[CommandCodes.ExitCompactOverlay];
 		public IRichCommand ToggleCompactOverlay => commands[CommandCodes.ToggleCompactOverlay];
 		public IRichCommand Search => commands[CommandCodes.Search];
+		public IRichCommand SearchUnindexedItems => commands[CommandCodes.SearchUnindexedItems];
 		public IRichCommand EditPath => commands[CommandCodes.EditPath];
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
@@ -57,6 +51,7 @@ namespace Files.App.Commands
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
+		public IRichCommand CreateFolderWithSelection => commands[CommandCodes.CreateFolderWithSelection];
 		public IRichCommand AddItem => commands[CommandCodes.AddItem];
 		public IRichCommand PinToStart => commands[CommandCodes.PinToStart];
 		public IRichCommand UnpinFromStart => commands[CommandCodes.UnpinFromStart];
@@ -89,6 +84,7 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
@@ -125,9 +121,18 @@ namespace Files.App.Commands
 		public IRichCommand GroupByOriginalFolder => commands[CommandCodes.GroupByOriginalFolder];
 		public IRichCommand GroupByDateDeleted => commands[CommandCodes.GroupByDateDeleted];
 		public IRichCommand GroupByFolderPath => commands[CommandCodes.GroupByFolderPath];
+		public IRichCommand GroupByDateModifiedYear => commands[CommandCodes.GroupByDateModifiedYear];
+		public IRichCommand GroupByDateModifiedMonth => commands[CommandCodes.GroupByDateModifiedMonth];
+		public IRichCommand GroupByDateCreatedYear => commands[CommandCodes.GroupByDateCreatedYear];
+		public IRichCommand GroupByDateCreatedMonth => commands[CommandCodes.GroupByDateCreatedMonth];
+		public IRichCommand GroupByDateDeletedYear => commands[CommandCodes.GroupByDateDeletedYear];
+		public IRichCommand GroupByDateDeletedMonth => commands[CommandCodes.GroupByDateDeletedMonth];
 		public IRichCommand GroupAscending => commands[CommandCodes.GroupAscending];
 		public IRichCommand GroupDescending => commands[CommandCodes.GroupDescending];
 		public IRichCommand ToggleGroupDirection => commands[CommandCodes.ToggleGroupDirection];
+		public IRichCommand GroupByYear => commands[CommandCodes.GroupByYear];
+		public IRichCommand GroupByMonth => commands[CommandCodes.GroupByMonth];
+		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
@@ -173,6 +178,7 @@ namespace Files.App.Commands
 			[CommandCodes.ExitCompactOverlay] = new ExitCompactOverlayAction(),
 			[CommandCodes.ToggleCompactOverlay] = new ToggleCompactOverlayAction(),
 			[CommandCodes.Search] = new SearchAction(),
+			[CommandCodes.SearchUnindexedItems] = new SearchUnindexedItemsAction(),
 			[CommandCodes.EditPath] = new EditPathAction(),
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
@@ -193,6 +199,7 @@ namespace Files.App.Commands
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
+			[CommandCodes.CreateFolderWithSelection] = new CreateFolderWithSelectionAction(),
 			[CommandCodes.AddItem] = new AddItemAction(),
 			[CommandCodes.PinToStart] = new PinToStartAction(),
 			[CommandCodes.UnpinFromStart] = new UnpinFromStartAction(),
@@ -225,6 +232,7 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
@@ -261,9 +269,18 @@ namespace Files.App.Commands
 			[CommandCodes.GroupByOriginalFolder] = new GroupByOriginalFolderAction(),
 			[CommandCodes.GroupByDateDeleted] = new GroupByDateDeletedAction(),
 			[CommandCodes.GroupByFolderPath] = new GroupByFolderPathAction(),
+			[CommandCodes.GroupByDateModifiedYear] = new GroupByDateModifiedYearAction(),
+			[CommandCodes.GroupByDateModifiedMonth] = new GroupByDateModifiedMonthAction(),
+			[CommandCodes.GroupByDateCreatedYear] = new GroupByDateCreatedYearAction(),
+			[CommandCodes.GroupByDateCreatedMonth] = new GroupByDateCreatedMonthAction(),
+			[CommandCodes.GroupByDateDeletedYear] = new GroupByDateDeletedYearAction(),
+			[CommandCodes.GroupByDateDeletedMonth] = new GroupByDateDeletedMonthAction(),
 			[CommandCodes.GroupAscending] = new GroupAscendingAction(),
 			[CommandCodes.GroupDescending] = new GroupDescendingAction(),
 			[CommandCodes.ToggleGroupDirection] = new ToggleGroupDirectionAction(),
+			[CommandCodes.GroupByYear] = new GroupByYearAction(),
+			[CommandCodes.GroupByMonth] = new GroupByMonthAction(),
+			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
@@ -466,13 +483,15 @@ namespace Files.App.Commands
 			public bool CanExecute(object? parameter) => Action.IsExecutable;
 			public async void Execute(object? parameter) => await ExecuteAsync();
 
-			public async Task ExecuteAsync()
+			public Task ExecuteAsync()
 			{
 				if (IsExecutable)
 				{
-					Analytics.TrackEvent($"Triggered {Action.Label} action");
-					await Action.ExecuteAsync();
-				}
+                    Analytics.TrackEvent($"Triggered {Code} action");
+                    return Action.ExecuteAsync();
+                }
+
+                return Task.CompletedTask;
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();

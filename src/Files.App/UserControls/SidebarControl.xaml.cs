@@ -9,7 +9,6 @@ using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ServicesImplementation;
 using Files.App.Shell;
@@ -30,7 +29,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using UWPToWinAppSDKUpgradeHelpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
@@ -303,7 +301,7 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					ItemType = ItemType.Separator,
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
 				},
@@ -588,7 +586,7 @@ namespace Files.App.UserControls
 				{
 					string captionText;
 					DataPackageOperation operationType;
-					if (locationItem.Path.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
 						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Move;

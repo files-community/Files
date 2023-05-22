@@ -1,13 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.Shared.Enums;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
-using System.Linq;
 using Windows.Storage;
 
 namespace Files.App.Helpers
@@ -16,25 +10,25 @@ namespace Files.App.Helpers
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-		public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option)
+		public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
 				GroupOption.Name => x => new string(x.Name.Take(1).ToArray()).ToUpperInvariant(),
 				GroupOption.Size => x => x.PrimaryItemAttribute != StorageItemTypes.Folder || x.IsArchive ? GetGroupSizeKey(x.FileSizeBytes) : x.FileSizeDisplay,
-				GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal).Text,
-				GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal).Text,
+				GroupOption.DateCreated => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateCreatedReal, unit).Text,
+				GroupOption.DateModified => x => dateTimeFormatter.ToTimeSpanLabel(x.ItemDateModifiedReal, unit).Text,
 				GroupOption.FileType => x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsShortcut ? x.ItemType : x.FileExtension?.ToLowerInvariant() ?? " ",
 				GroupOption.SyncStatus => x => x.SyncStatusString,
 				GroupOption.FileTag => x => x.FileTags?.FirstOrDefault() ?? "Untagged",
 				GroupOption.OriginalFolder => x => (x as RecycleBinItem)?.ItemOriginalFolder,
-				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now).Text,
+				GroupOption.DateDeleted => x => dateTimeFormatter.ToTimeSpanLabel((x as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit).Text,
 				GroupOption.FolderPath => x => PathNormalization.GetParentDir(x.ItemPath.TrimPath()),
 				_ => null,
 			};
 		}
 
-		public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option)
+		public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
@@ -74,14 +68,14 @@ namespace Files.App.Helpers
 				}, null),
 				GroupOption.DateCreated => (x =>
 				{
-					var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateCreatedReal);
+					var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateCreatedReal, unit);
 					x.Model.Subtext = vals.Text;
 					x.Model.Icon = vals.Glyph;
 					x.Model.SortIndexOverride = vals.Index;
 				}, null),
 				GroupOption.DateModified => (x =>
 					{
-						var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal);
+						var vals = dateTimeFormatter.ToTimeSpanLabel(x.First().ItemDateModifiedReal, unit);
 						x.Model.Subtext = vals.Text;
 						x.Model.Icon = vals.Glyph;
 						x.Model.SortIndexOverride = vals.Index;
@@ -105,7 +99,7 @@ namespace Files.App.Helpers
 
 				GroupOption.DateDeleted => (x =>
 					{
-						var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now);
+						var vals = dateTimeFormatter.ToTimeSpanLabel((x.First() as RecycleBinItem)?.ItemDateDeletedReal ?? DateTimeOffset.Now, unit);
 						x.Model.Subtext = vals?.Text;
 						x.Model.Icon = vals?.Glyph;
 						x.Model.SortIndexOverride = vals?.Index ?? 0;

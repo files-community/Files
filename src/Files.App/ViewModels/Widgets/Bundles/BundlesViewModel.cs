@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.EventArguments.Bundles;
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
@@ -110,7 +109,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			}
 		}
 
-		private async Task OpenAddBundleDialog()
+		private Task OpenAddBundleDialog()
 		{
 			TextBox inputText = new TextBox()
 			{
@@ -176,7 +175,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
-			await dialog.TryShowAsync();
+
+			return dialog.TryShowAsync();
 		}
 
 		private void AddBundle(string name)

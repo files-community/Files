@@ -67,14 +67,9 @@ namespace Files.App.Helpers
 		public static string GetFtpAuthority(string path)
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
-			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
-
-			if (hostIndex == -1)
-				hostIndex = path.Length;
-
-
-			return path.Substring(schemaIndex, hostIndex - schemaIndex);
+			if (Uri.TryCreate(path, UriKind.Absolute, out var uri))
+				return uri.Authority;
+			return string.Empty;
 		}
 
 		public static string GetFtpPath(string path)

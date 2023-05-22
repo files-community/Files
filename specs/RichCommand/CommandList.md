@@ -10,6 +10,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | ExitCompactOverlay                  | Exit compact overlay                      | Exit compact overlay                                     | Ctrl+Alt+Down       |
 |                    | ToggleCompactOverlay                | Toggle compact overlay                    | Toggle compact overlay                                   | F12                 |
 |                    | Search                              | Search                                    | Go to search box                                         | Ctrl+F, F3          |
+|                    | SearchUnindexedItems                | Search unindexed items                    | Search for unindexed items                               |                     |
 |                    | Redo                                | Redo                                      | Redo the last file operation                             | Ctrl+Y              |
 |                    | Undo                                | Undo                                      | Undo the last file operation                             | Ctrl+Z              |
 |                    | EditPath                            | Edit path                                 | Focus path bar                                           | Ctrl+L, Alt+D       |
@@ -18,13 +19,14 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | TogglePreviewPane                   | Toggle the preview pane                   | Toggle whether to show preview pane                      | Ctrl+P              |
 |                    | ToggleSidebar                       | Toggle the sidebar                        | Toggle whether to show sidebar                           | Ctrl+B              |
 | File System        | CopyItem                            | Copy                                      | Copy item(s) to clipboard                                | Ctrl+C              |
-|                    | CopyPath                            | Copy location                             | Copy path of item to clipboard                           | Ctrl+Shift+C        |
+|                    | CopyPath                            | Copy path                                 | Copy path of item to clipboard                           | Ctrl+Shift+C        |
 |                    | CutItem                             | Cut                                       | Cut item(s) to clipboard                                 | Ctrl+X              |
 |                    | PasteItem                           | Paste                                     | Paste item(s) from clipboard to current folder           | Ctrl+V              |
 |                    | PasteItemToSelection                | Paste                                     | Paste item(s) from clipboard to selected folder          | Ctrl+Shift+V        |
 |                    | DeleteItem                          | Delete                                    | Delete item(s)                                           | Delete, Ctrl+D      |
 |                    | DeletemeItemPermanently             | Delete permanently                        | Delete item(s) permanently                               | Shift+Delete        |
 |                    | CreateFolder                        | Folder                                    | Create new folder                                        |                     |
+|                    | CreateFolderWithSelection           | Create folder with selection              | Create a folder with the currently selected item(s)      |                     |
 |                    | AddItem                             | New                                       | Create new item                                          | Ctrl+Shift+N        |
 |                    | CreateShortcut                      | Create shortcut                           | Create new shortcut(s) to selected item(s)               |                     |
 |                    | CreateShortcutFromDialog            | Shortcut                                  | Create new shortcut to any item                          |                     |
@@ -65,7 +67,8 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | DecompressArchiveToChildFolder      | Extract to _NewFolderName_                | Extract items from selected archive(s) to new folder     |                     |
 | Image Manipulation | RotateLeft                          | Rotate left                               | Rotate selected image(s) to the left                     |                     |
 |                    | RotateRight                         | Rotate right                              | Rotate selected image(s) to the right                    |                     |
-| Open               | OpenSettings                        | Settings                                  | Open settings page                                       | Ctrl+,              |
+| Open               | OpenProperties                      | Open properties                           | Open properties window                                   | Alt+Enter           |
+|                    | OpenSettings                        | Settings                                  | Open settings page                                       | Ctrl+,              |
 |                    | OpenTerminal                        | Open in terminal                          | Open folder in terminal                                  | Ctrl+\`             |
 |                    | OpenTerminalAsAdmin                 | Open in terminal as administrator         | Open folder in terminal as administrator                 | Ctrl+Shift+\`       |
 | Layout             | LayoutDecreaseSize                  | Decrease size                             | Decrease icon size in grid view                          | Ctrl+-              |
@@ -101,9 +104,18 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GroupByOriginalFolder               | Original folder                           | Group items by original folder                           |                     |
 |                    | GroupByDateDeleted                  | Date deleted                              | Group items by date deleted                              |                     |
 |                    | GroupByFolderPath                   | Folder path                               | Group items by folder path                               |                     |
+|                    | GroupByDateModifiedYear             | Year                                      | Group items by year of date modified                     |                     |
+|                    | GroupByDateModifiedMonth            | Month                                     | Group items by month of date modified                    |                     |
+|                    | GroupByDateCreatedYear              | Year                                      | Group items by year of date created                      |                     |
+|                    | GroupByDateCreatedMonth             | Month                                     | Group items by month of date created                     |                     |
+|                    | GroupByDateDeletedYear              | Year                                      | Group items by year of date deleted                      |                     |
+|                    | GroupByDateDeletedMonth             | Month                                     | Group items by month of date deleted                     |                     |
 |                    | GroupAscending                      | Ascending                                 | Sort groups in ascending order                           |                     |
 |                    | GroupDescending                     | Descending                                | Sort groups in descending order                          |                     |
 |                    | ToggleGroupDirection                | Toggle sort direction                     | Toggle group sort direction                              |                     |
+|                    | GroupByYear                         | Year                                      | Group items by year                                      |                     |
+|                    | GroupByMonth                        | Month                                     | Group items by month                                     |                     |
+|                    | ToggleGroupByDateUnit               | Toggle grouping unit                      | Toggle unit for grouping by date                         |                     |
 | Navigation         | NewTab                              | New tab                                   | Open new tab                                             | Ctrl+T              |
 |                    | NavigateBack                        | Back                                      | Navigate backward in navigation history                  | Alt+Left, Backspace |
 |                    | NavigateForward                     | Forward                                   | Navigate forward in navigation history                   | Alt+Right           |

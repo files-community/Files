@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Commands;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.UserControls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App
+namespace Files.App.Views.LayoutModes
 {
 	public abstract class StandardViewBase : BaseLayout
 	{
@@ -26,6 +26,8 @@ namespace Files.App
 		protected override ItemsControl ItemsControl => ListViewBase;
 
 		protected abstract SemanticZoom RootZoom { get; }
+
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		public StandardViewBase() : base()
 		{

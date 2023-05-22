@@ -75,15 +75,15 @@ namespace Files.App.Data.Models
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
-			if (string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				locationItem = LocationItem.Create<RecycleBinLocationItem>();
 			else
 			{
 				locationItem = LocationItem.Create<LocationItem>();
 
-				if (path.Equals(CommonPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "ThisPC".GetLocalizedResource();
-				else if (path.Equals(CommonPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+				else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "Network".GetLocalizedResource();
 			}
 
@@ -95,7 +95,7 @@ namespace Files.App.Data.Models
 				ShowProperties = true,
 				ShowUnpinItem = true,
 				ShowShellItems = true,
-				ShowEmptyRecycleBin = string.Equals(path, CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
+				ShowEmptyRecycleBin = string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
 			};
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
@@ -107,7 +107,9 @@ namespace Files.App.Data.Models
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 96u, ThumbnailMode.ListView);
 					locationItem.IconData = iconData;
-					locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+
+					if (locationItem.IconData is not null)
+						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
 				if (locationItem.IconData is null)
