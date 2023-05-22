@@ -2260,7 +2260,7 @@
     <value>Typspalte</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detail-Layoutspalten</value>
+    <value>Detail-Layout-Spalten</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
@@ -3287,19 +3287,19 @@
     <value>Neuer Branch</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Ungültiger Branch-Name</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Branch erstellen</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Branch erstellen</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Basierend auf</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Zu neuem Zweig wechseln</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
@@ -3311,9 +3311,9 @@
     <value>Eigenschaften-Fenster öffnen</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Lokale</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Remote</value>
   </data>
 </root>
