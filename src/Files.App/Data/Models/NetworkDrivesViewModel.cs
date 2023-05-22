@@ -48,17 +48,17 @@ namespace Files.App.Data.Models
 		public async Task UpdateDrivesAsync()
 		{
 			var unsortedDrives = new List<ILocatableFolder>();
-			Drives.Clear();
-
+			unsortedDrives.Add(drives.Single(x => x is DriveItem o && o.DeviceID == "network-folder"));
 			await foreach (ILocatableFolder item in networkDrivesService.GetDrivesAsync())
 			{
 				unsortedDrives.Add(item);
 			}
 
 			var orderedDrives = unsortedDrives.Cast<DriveItem>()
-				.OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				.OrderByDescending(o => o.DeviceID == "network-folder")
 				.ThenBy(o => o.Text);
 
+			Drives.Clear();
 			foreach (ILocatableFolder item in orderedDrives)
 			{
 				Drives.AddIfNotPresent(item);
