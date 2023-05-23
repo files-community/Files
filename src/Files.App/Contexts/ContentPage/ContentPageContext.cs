@@ -58,6 +58,8 @@ namespace Files.App.Contexts
 
 		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
+		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
@@ -149,6 +151,9 @@ namespace Files.App.Contexts
 				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
 					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
+				case nameof(CurrentInstanceViewModel.IsGitRepository):
+					OnPropertyChanged(nameof(IsGitRepository));
+					break;
 			}
 		}
 
@@ -191,6 +196,7 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+			OnPropertyChanged(nameof(IsGitRepository));
 		}
 
 		private void UpdatePageType()

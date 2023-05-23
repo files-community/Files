@@ -1,11 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-
 namespace Files.App.Contexts
 {
 	public interface IContentPageContext : INotifyPropertyChanged
@@ -36,5 +31,7 @@ namespace Files.App.Contexts
 		bool IsMultiPaneActive { get; }
 
 		bool ShowSearchUnindexedItemsMessage { get; }
+
+		bool IsGitRepository { get; }
 	}
 }

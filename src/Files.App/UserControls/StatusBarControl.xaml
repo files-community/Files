@@ -134,13 +134,26 @@
 		</StackPanel>
 
 		<StackPanel
+			x:Name="GitActionsPanel"
 			Grid.Column="1"
 			VerticalAlignment="Center"
+			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 			Orientation="Horizontal"
 			Spacing="8">
+
+			<Button
+				x:Name="GitPullButton"
+				VerticalAlignment="Center"
+				Background="Transparent"
+				BorderThickness="0"
+				Command="{x:Bind Commands.GitPull}"
+				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
+				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+			</Button>
+
 			<Button
 				x:Name="GitBranch"
-				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
