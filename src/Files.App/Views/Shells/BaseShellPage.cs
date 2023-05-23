@@ -29,8 +29,6 @@ namespace Files.App.Views.Shells
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
 
-		private bool _isCheckingOutBranch = false;
-
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
@@ -68,6 +66,20 @@ namespace Files.App.Views.Shells
 		public ItemViewModel FilesystemViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
+
+		private bool _IsExecutingGitAction;
+		public bool IsExecutingGitAction
+		{
+			get => _IsExecutingGitAction;
+			set
+			{
+				if (_IsExecutingGitAction != value)
+				{
+					_IsExecutingGitAction = value;
+					NotifyPropertyChanged(nameof(IsExecutingGitAction));
+				}
+			}
+		}
 
 		protected BaseLayout _ContentPage;
 		public BaseLayout ContentPage
@@ -224,7 +236,7 @@ namespace Files.App.Views.Shells
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			if (!_isCheckingOutBranch)
+			if (!_IsExecutingGitAction)
 			{
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
@@ -238,7 +250,7 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
-			if (_isCheckingOutBranch)
+			if (_IsExecutingGitAction)
 				return;
 
 			InstanceViewModel.UpdateCurrentBranchName();
@@ -250,7 +262,7 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			_isCheckingOutBranch = true;
+			IsExecutingGitAction = true;
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
 				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
@@ -263,7 +275,7 @@ namespace Files.App.Views.Shells
 					InstanceViewModel.GitRepositoryPath,
 					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
-			_isCheckingOutBranch = false;
+			IsExecutingGitAction = false;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)

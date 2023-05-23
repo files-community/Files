@@ -6,6 +6,7 @@ using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
@@ -52,7 +53,7 @@ namespace Files.App.Helpers
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip.Committer.When)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote))
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();
 		}
 

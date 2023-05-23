@@ -1,5 +1,4 @@
-﻿using Files.App.Commands;
-using Files.App.Contexts;
+﻿using Files.App.Contexts;
 using LibGit2Sharp;
 
 namespace Files.App.Actions
@@ -15,7 +14,7 @@ namespace Files.App.Actions
 		public string Description { get; } = "GitFetchDescription".GetLocalizedResource();
 
 		public bool IsExecutable 
-			=> context.IsGitRepository;
+			=> context.CanExecuteGitAction;
 
 		public GitFetchAction()
 		{
@@ -32,6 +31,8 @@ namespace Files.App.Actions
 
 			var remote = repository.Network.Remotes["origin"];
 
+			// TODO: Toggle IShellPage.IsExecutingGitAction
+
 			LibGit2Sharp.Commands.Fetch(
 				repository, 
 				remote.Url, 
@@ -44,7 +45,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.IsGitRepository))
+			if (e.PropertyName is nameof(IContentPageContext.CanExecuteGitAction))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}

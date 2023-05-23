@@ -1,17 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
-using Files.App.Views.LayoutModes;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
 
 namespace Files.App.Contexts
 {
@@ -58,7 +49,7 @@ namespace Files.App.Contexts
 
 		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
-		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
+		public bool CanExecuteGitAction => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository && !ShellPage.IsExecutingGitAction;
 
 		public ContentPageContext()
 		{
@@ -117,6 +108,9 @@ namespace Files.App.Contexts
 				case nameof(ShellPage.PaneHolder):
 					OnPropertyChanged(nameof(IsMultiPaneEnabled));
 					OnPropertyChanged(nameof(IsMultiPaneActive));
+					break;
+				case nameof(ShellPage.IsExecutingGitAction):
+					OnPropertyChanged(nameof(CanExecuteGitAction));
 					break;
 			}
 		}

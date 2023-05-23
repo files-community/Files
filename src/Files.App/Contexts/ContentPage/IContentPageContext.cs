@@ -32,6 +32,6 @@ namespace Files.App.Contexts
 
 		bool ShowSearchUnindexedItemsMessage { get; }
 
-		bool IsGitRepository { get; }
+		bool CanExecuteGitAction { get; }
 	}
 }

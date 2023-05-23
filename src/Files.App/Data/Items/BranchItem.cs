@@ -3,5 +3,5 @@
 
 namespace Files.App.Data.Items
 {
-	public record BranchItem(string Name, bool IsRemote);
+	public record BranchItem(string Name, bool IsRemote, int? AheadBy, int? BehindBy);
 }

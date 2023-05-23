@@ -17,7 +17,7 @@ namespace Files.App.Actions
 		public RichGlyph Glyph { get; } = new("\uE74B");
 
 		public bool IsExecutable
-			=> context.IsGitRepository;
+			=> context.CanExecuteGitAction;
 
 		public GitPullAction()
 		{
@@ -35,6 +35,8 @@ namespace Files.App.Actions
 			if (signature is null)
 				return Task.CompletedTask;
 
+			// TODO: Toggle IShellPage.IsExecutingGitAction
+
 			LibGit2Sharp.Commands.Pull(
 				repository,
 				signature,
@@ -45,7 +47,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.IsGitRepository))
+			if (e.PropertyName is nameof(IContentPageContext.CanExecuteGitAction))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}

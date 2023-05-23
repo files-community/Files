@@ -61,6 +61,13 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private int _BehindBy;
+		public int BehindBy
+		{
+			get => _BehindBy;
+			set => SetProperty(ref _BehindBy, value);
+		}
+
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
@@ -83,6 +90,10 @@ namespace Files.App.Data.Models
 
 			_gitRepositoryPath = repositoryPath;
 			ShowLocals = true;
+
+			BehindBy = branches.Any() 
+				? branches[0].BehindBy ?? 0
+				: 0;
 
 			if (isGitRepository)
 			{

@@ -141,6 +141,7 @@
 			Orientation="Horizontal"
 			Spacing="8">
 
+			<!--  Pull Button  -->
 			<Button
 				x:Name="GitPullButton"
 				VerticalAlignment="Center"
@@ -149,7 +150,17 @@
 				Command="{x:Bind Commands.GitPull}"
 				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
 				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+				<StackPanel Orientation="Horizontal" Spacing="4">
+					<FontIcon
+						HorizontalAlignment="Center"
+						FontSize="12"
+						Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+
+					<InfoBadge
+						HorizontalAlignment="Right"
+						VerticalAlignment="Top"
+						Value="{x:Bind DirectoryPropertiesViewModel.BehindBy, Mode=OneWay}" />
+				</StackPanel>
 			</Button>
 
 			<Button
