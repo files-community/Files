@@ -123,7 +123,7 @@
 		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 		BorderThickness="0,0,0,1">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="80" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" MinHeight="100" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
@@ -131,6 +131,7 @@
 		<!--  Panes  -->
 		<StackPanel
 			Grid.Row="0"
+			Padding="12"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
