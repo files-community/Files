@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No items found</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Show preview only</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open log location</value>
   </data>
@@ -3330,5 +3327,8 @@
   </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Run git pull</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
 </root>
