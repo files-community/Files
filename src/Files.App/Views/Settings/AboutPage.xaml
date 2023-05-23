@@ -163,7 +163,7 @@
 					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
-			
+
 			<!--  Third Party Licenses  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
