@@ -3316,4 +3316,7 @@
   <data name="Remotes" xml:space="preserve">
     <value>Remotes</value>
   </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Translate on Crowdin</value>
+  </data>
 </root>
