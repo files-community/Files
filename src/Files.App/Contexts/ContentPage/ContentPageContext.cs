@@ -146,7 +146,7 @@ namespace Files.App.Contexts
 					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
-					OnPropertyChanged(nameof(IsGitRepository));
+					OnPropertyChanged(nameof(CanExecuteGitAction));
 					break;
 			}
 		}
@@ -190,7 +190,7 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
-			OnPropertyChanged(nameof(IsGitRepository));
+			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}
 
 		private void UpdatePageType()

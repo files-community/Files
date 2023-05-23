@@ -1,6 +1,7 @@
 ﻿using Files.App.Commands;
 using Files.App.Contexts;
 using LibGit2Sharp;
+using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Actions
 {
@@ -30,6 +31,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
+			// Analytics.TrackEvent("Triggered git pull");
+
 			using var repository = new Repository(context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 			if (signature is null)

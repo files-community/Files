@@ -1,5 +1,6 @@
 ﻿using Files.App.Contexts;
 using LibGit2Sharp;
+using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Actions
 {
@@ -27,6 +28,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
+			// Analytics.TrackEvent("Triggered git fetch");
+
 			using var repository = new Repository(context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 
 			var remote = repository.Network.Remotes["origin"];
