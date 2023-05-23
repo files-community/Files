@@ -3,6 +3,7 @@
 	x:Class="Files.App.UserControls.PreviewPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -24,6 +25,95 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+
+				<ResourceDictionary>
+					<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+					<Style x:Key="Local.RadioButtonStyle" TargetType="RadioButton">
+						<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+						<Setter Property="BorderBrush" Value="{ThemeResource RadioButtonBorderBrush}" />
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="HorizontalContentAlignment" Value="Left" />
+						<Setter Property="VerticalContentAlignment" Value="Top" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+						<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+						<Setter Property="MinWidth" Value="0" />
+						<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="RadioButton">
+									<Grid x:Name="RootGrid" Margin="0">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="4" />
+										</Grid.RowDefinitions>
+										<ContentPresenter
+											x:Name="ContentPresenter"
+											Grid.Row="0"
+											Padding="12,4,12,4"
+											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+											AutomationProperties.AccessibilityView="Raw"
+											Content="{TemplateBinding Content}"
+											ContentTemplate="{TemplateBinding ContentTemplate}"
+											ContentTransitions="{TemplateBinding ContentTransitions}"
+											Foreground="{TemplateBinding Foreground}"
+											TextWrapping="Wrap" />
+										<Border
+											x:Name="SelectionPill"
+											Grid.Row="1"
+											Height="2"
+											Margin="16,0,16,0"
+											Background="Transparent"
+											CornerRadius="2" />
+										<VisualStateManager.VisualStateGroups>
+											<VisualStateGroup x:Name="CommonStates">
+												<VisualState x:Name="Normal" />
+												<VisualState x:Name="PointerOver">
+													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+													</Storyboard>
+												</VisualState>
+												<VisualState x:Name="Pressed">
+													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+													</Storyboard>
+												</VisualState>
+												<VisualState x:Name="Disabled">
+													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorDisabledBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+													</Storyboard>
+												</VisualState>
+											</VisualStateGroup>
+											<VisualStateGroup x:Name="CheckStates">
+												<VisualState x:Name="Checked">
+													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionPill" Storyboard.TargetProperty="Background">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}" />
+														</ObjectAnimationUsingKeyFrames>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+													</Storyboard>
+												</VisualState>
+												<VisualState x:Name="Unchecked" />
+												<VisualState x:Name="Indeterminate" />
+											</VisualStateGroup>
+										</VisualStateManager.VisualStateGroups>
+									</Grid>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+
+				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -33,22 +123,36 @@
 		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 		BorderThickness="0,0,0,1">
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" MinHeight="100" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
 
+		<!--  Panes  -->
+		<StackPanel
+			Grid.Row="0"
+			Padding="12"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			Orientation="Horizontal">
+			<!--  Details  -->
+			<RadioButton
+				Content="{helpers:ResourceString Name=Details}"
+				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+				Style="{StaticResource Local.RadioButtonStyle}" />
+			<!--  Preview  -->
+			<RadioButton Content="{helpers:ResourceString Name=Preview}" Style="{StaticResource Local.RadioButtonStyle}" />
+		</StackPanel>
+
 		<Grid
 			x:Name="RootPreviewGrid"
+			Grid.Row="1"
 			Margin="8"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFilePreview/AutomationProperties/Name}">
 			<Grid.ContextFlyout>
 				<MenuFlyout>
-					<ToggleMenuFlyoutItem
-						Command="{x:Bind ViewModel.ShowPreviewOnlyInvoked, Mode=OneWay}"
-						IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
-						Text="{helpers:ResourceString Name=PreviewPaneShowPreviewOnly/Text}" />
 					<MenuFlyoutItem
 						HorizontalAlignment="Stretch"
 						Tapped="MenuFlyoutItem_Tapped"
@@ -81,7 +185,7 @@
 
 		<ScrollViewer
 			x:Name="RootPropertiesScrollViewer"
-			Grid.Row="1"
+			Grid.Row="2"
 			AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}"
 			Visibility="Visible">
 			<StackPanel Orientation="Vertical">
