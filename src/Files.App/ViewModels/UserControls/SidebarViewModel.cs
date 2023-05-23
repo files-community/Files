@@ -332,16 +332,28 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else if (elem is DriveItem drive)
 			{
-				string drivePath = drive.Path;
-				IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
-
-				if (!paths.Contains(drivePath))
+				if (section.Section is SectionType.Network or SectionType.CloudDrives)
 				{
-					paths.AddSorted(drivePath);
-					int position = paths.IndexOf(drivePath);
+					// Already sorted
+					if (!section.ChildItems.Any(x => x.Path == drive.Path))
+					{
+						section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), drive);
+						await drive.LoadThumbnailAsync(true);
+					}
+				}
+				else
+				{
+					string drivePath = drive.Path;
+					IList<string> paths = section.ChildItems.Select(item => item.Path).ToList();
 
-					section.ChildItems.Insert(position, drive);
-					await drive.LoadThumbnailAsync(true);
+					if (!paths.Contains(drivePath))
+					{
+						paths.AddSorted(drivePath);
+						int position = paths.IndexOf(drivePath);
+
+						section.ChildItems.Insert(position, drive);
+						await drive.LoadThumbnailAsync(true);
+					}
 				}
 			}
 			else

@@ -98,9 +98,9 @@ namespace Files.App.Filesystem
 
 					foreach (var libFile in libFiles)
 					{
-						using var shellItem = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
+						using var shellItem = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(libFile), true);
 
-						if (shellItem is ShellLibrary2 library)
+						if (shellItem is ShellLibraryEx library)
 							libraryItems.Add(ShellFolderExtensions.GetShellLibraryItem(library, libFile));
 					}
 
@@ -162,7 +162,7 @@ namespace Files.App.Filesystem
 			{
 				try
 				{
-					using var library = new ShellLibrary2(name, Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
+					using var library = new ShellLibraryEx(name, Shell32.KNOWNFOLDERID.FOLDERID_Libraries, false);
 
 					library.Folders.Add(ShellItem.Open(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))); // Add default folder so it's not empty
 
@@ -214,7 +214,7 @@ namespace Files.App.Filesystem
 				try
 				{
 					bool updated = false;
-					using var library = new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(libraryPath), false);
+					using var library = new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(libraryPath), false);
 
 					if (folders is not null)
 					{
@@ -419,7 +419,7 @@ namespace Files.App.Filesystem
 
 			if (!changeType.HasFlag(WatcherChangeTypes.Deleted))
 			{
-				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibrary2(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
+				var library = SafetyExtensions.IgnoreExceptions(() => new ShellLibraryEx(Shell32.ShellUtil.GetShellItemForPath(newPath), true));
 
 				if (library is null)
 				{

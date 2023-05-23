@@ -95,7 +95,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			try
 			{
-				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPidl(path);
+				using var shellItem = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path);
 				return ShellFolderExtensions.GetShellFileItem(shellItem);
 			}
 			catch
