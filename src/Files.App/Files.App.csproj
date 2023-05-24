@@ -78,6 +78,7 @@
         <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="Resources\TabViewStyleOverrides.xaml" />
       <None Remove="UserControls\OpacityIcon.xaml" />
     </ItemGroup>
     <ItemGroup>
@@ -95,7 +96,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230502000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230518007-experimental1" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -137,6 +138,11 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Resources\TabViewStyleOverrides.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="UserControls\OpacityIcon.xaml">
