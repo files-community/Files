@@ -17,14 +17,38 @@ namespace Files.App.ServicesImplementation
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
 		private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
 
-		public async Task OpenPreviewPopup(string path, bool switchPreview = false)
+		public async Task TogglePreviewPopup(string path)
 		{
 			bool isQuickLookAvailable = await DetectAvailability();
 			if (!isQuickLookAvailable)
 				return;
 
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-			string message = switchPreview ? pipeMessageSwitch : pipeMessageToggle;
+			string message = pipeMessageToggle;
+
+			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
+			try
+			{
+				await client.ConnectAsync(TIMEOUT);
+
+				await using var writer = new StreamWriter(client);
+				await writer.WriteLineAsync($"{message}|{path}");
+				await writer.FlushAsync();
+			}
+			catch (TimeoutException)
+			{
+				client.Close();
+			}
+		}
+		
+		public async Task SwitchPreview(string path)
+		{
+			bool isQuickLookAvailable = await DetectAvailability();
+			if (!isQuickLookAvailable)
+				return;
+
+			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+			string message = pipeMessageSwitch;
 
 			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 			try

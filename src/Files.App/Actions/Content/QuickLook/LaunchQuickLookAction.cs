@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await previewPopupService.OpenPreviewPopup(context.SelectedItem!.ItemPath);
+			await previewPopupService.TogglePreviewPopup(context.SelectedItem!.ItemPath);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 		private async Task SwitchQuickLookPreview()
 		{
 			if (IsExecutable)
-				await previewPopupService.OpenPreviewPopup(context.SelectedItem!.ItemPath, true);
+				await previewPopupService.SwitchPreview(context.SelectedItem!.ItemPath);
 		}
 	}
 }
