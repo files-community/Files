@@ -45,6 +45,7 @@ namespace Files.App.Data.Items
 
 		private string message;
 		public string Message {
+			// A workaround to avoid overlapping the progress bar (#12362)
 			get => isProgressing ? message + "\n" : message;
 			private set => SetProperty(ref message, value);
 		}
