@@ -22,12 +22,7 @@ namespace Files.App.ServicesImplementation
 			bool isQuickLookAvailable = await DetectAvailability();
 
 			if (!isQuickLookAvailable)
-			{
-				if (!switchPreview)
-					App.Logger.LogInformation("QuickLook not detected");
-
 				return;
-			}
 
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 			string message = switchPreview ? pipeMessageSwitch : pipeMessageToggle;
