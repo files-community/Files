@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Afficher seulement l'aperçu</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Ouvrir l'emplacement des fichiers journaux</value>
   </data>
@@ -3315,5 +3312,11 @@
   </data>
   <data name="Remotes" xml:space="preserve">
     <value>Distants</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Traduire sur Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Prévisualisation</value>
   </data>
 </root>
