@@ -2,7 +2,8 @@
 <Application
 	x:Class="Files.App.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:primitives="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:primitives="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
 	<Application.Resources>
 		<ResourceDictionary>
@@ -77,8 +78,8 @@
 				</LinearGradientBrush.GradientStops>
 			</LinearGradientBrush>
 
-			
-			<!-- 
+
+			<!--
 				Below styles are taken from WinUI, we need to override the following three due to reference issues.
 				Ideally we would have only changed the ScrollViewer style however due to StaticResource references, the framework does not pick up our style for this.
 			-->
@@ -117,7 +118,52 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="primitives:TabViewListView">
-							<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+							<Border
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}">
+								<ScrollViewer
+									x:Name="ScrollViewer"
+									Grid.Column="1"
+									AutomationProperties.AccessibilityView="Raw"
+									BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+									HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+									HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+									IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+									IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+									IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+									IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+									IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+									Style="{StaticResource TabScrollViewerStyle}"
+									TabNavigation="{TemplateBinding TabNavigation}"
+									VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+									VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+									ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+									<ItemsPresenter x:Name="TabsItemsPresenter" Padding="{TemplateBinding Padding}">
+										<ItemsPresenter.Header>
+											<Grid Width="4">
+												<Border
+													x:Name="LeftBottomBorderLine"
+													Width="4"
+													Height="1"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Bottom"
+													Background="{ThemeResource TabViewBorderBrush}" />
+											</Grid>
+										</ItemsPresenter.Header>
+										<ItemsPresenter.Footer>
+											<Grid Width="4">
+												<Border
+													x:Name="RightBottomBorderLine"
+													Width="4"
+													Height="1"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Bottom"
+													Background="{ThemeResource TabViewBorderBrush}" />
+											</Grid>
+										</ItemsPresenter.Footer>
+									</ItemsPresenter>
+								</ScrollViewer>
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
@@ -153,20 +199,6 @@
 									</VisualStateGroup>
 
 								</VisualStateManager.VisualStateGroups>
-								<ScrollViewer x:Name="ScrollViewer" Grid.Column="1" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Style="{StaticResource TabScrollViewerStyle}">
-									<ItemsPresenter x:Name="TabsItemsPresenter" Padding="{TemplateBinding Padding}">
-										<ItemsPresenter.Header>
-											<Grid Width="4">
-												<Border x:Name="LeftBottomBorderLine" Background="{ThemeResource TabViewBorderBrush}" Width="4" Height="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-											</Grid>
-										</ItemsPresenter.Header>
-										<ItemsPresenter.Footer>
-											<Grid Width="4">
-												<Border x:Name="RightBottomBorderLine" Background="{ThemeResource TabViewBorderBrush}" Width="4" Height="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
-											</Grid>
-										</ItemsPresenter.Footer>
-									</ItemsPresenter>
-								</ScrollViewer>
 							</Border>
 
 						</ControlTemplate>
@@ -178,7 +210,83 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="ScrollViewer">
-							<Border x:Name="Root" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+							<Border
+								x:Name="Root"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}">
+								<Grid>
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" MinWidth="2" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Border
+										x:Name="LeftBottomBorderLine"
+										Height="1"
+										VerticalAlignment="Bottom"
+										Background="{ThemeResource TabViewBorderBrush}" />
+									<!--  Below is the only modification compared to the WinUI 3 styles  -->
+									<Border
+										x:Name="MiddleBottomBorderLine"
+										Grid.Column="1"
+										Height="1"
+										VerticalAlignment="Bottom"
+										Background="Transparent" />
+									<Border
+										x:Name="RightBottomBorderLine"
+										Grid.Column="2"
+										Height="1"
+										VerticalAlignment="Bottom"
+										Background="{ThemeResource TabViewBorderBrush}" />
+									<Border
+										x:Name="ScrollDecreaseButtonContainer"
+										Padding="{ThemeResource TabViewItemLeftScrollButtonContainerPadding}"
+										VerticalAlignment="Bottom"
+										Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+										<RepeatButton
+											x:Name="ScrollDecreaseButton"
+											AutomationProperties.AccessibilityView="Raw"
+											Delay="50"
+											HighContrastAdjustment="None"
+											Interval="100"
+											IsTabStop="False"
+											Style="{StaticResource TabViewScrollButtonStyle}">
+											<FontIcon
+												FontFamily="{ThemeResource SymbolThemeFontFamily}"
+												FontSize="{ThemeResource TabViewItemScrollButonFontSize}"
+												Glyph="&#xEDD9;"
+												MirroredWhenRightToLeft="True" />
+										</RepeatButton>
+									</Border>
+									<ScrollContentPresenter
+										x:Name="ScrollContentPresenter"
+										Grid.Column="1"
+										Padding="1,0,0,0"
+										TabFocusNavigation="Once" />
+									<Border
+										x:Name="ScrollIncreaseButtonContainer"
+										Grid.Column="2"
+										Padding="{ThemeResource TabViewItemRightScrollButtonContainerPadding}"
+										VerticalAlignment="Bottom"
+										Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+										<RepeatButton
+											x:Name="ScrollIncreaseButton"
+											AutomationProperties.AccessibilityView="Raw"
+											Delay="50"
+											HighContrastAdjustment="None"
+											Interval="100"
+											IsTabStop="False"
+											Style="{StaticResource TabViewScrollButtonStyle}">
+											<FontIcon
+												FontFamily="{ThemeResource SymbolThemeFontFamily}"
+												FontSize="{ThemeResource TabViewItemScrollButonFontSize}"
+												Glyph="&#xEDDA;"
+												MirroredWhenRightToLeft="True" />
+										</RepeatButton>
+									</Border>
+
+								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
@@ -195,31 +303,6 @@
 									</VisualStateGroup>
 
 								</VisualStateManager.VisualStateGroups>
-
-								<Grid>
-
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" MinWidth="2" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Border x:Name="LeftBottomBorderLine" Background="{ThemeResource TabViewBorderBrush}" Height="1" VerticalAlignment="Bottom" />
-									<!-- Below is the only modification compared to the WinUI 3 styles -->
-									<Border x:Name="MiddleBottomBorderLine" Background="Transparent" Height="1" Grid.Column="1" VerticalAlignment="Bottom" />
-									<Border x:Name="RightBottomBorderLine" Background="{ThemeResource TabViewBorderBrush}" Height="1" Grid.Column="2" VerticalAlignment="Bottom" />
-									<Border x:Name="ScrollDecreaseButtonContainer" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Padding="{ThemeResource TabViewItemLeftScrollButtonContainerPadding}" VerticalAlignment="Bottom">
-										<RepeatButton x:Name="ScrollDecreaseButton" AutomationProperties.AccessibilityView="Raw" IsTabStop="False" Delay="50" Interval="100" HighContrastAdjustment="None" Style="{StaticResource TabViewScrollButtonStyle}">
-											<FontIcon Glyph="&#xEDD9;" MirroredWhenRightToLeft="True" FontSize="{ThemeResource TabViewItemScrollButonFontSize}" FontFamily="{ThemeResource SymbolThemeFontFamily}" />
-										</RepeatButton>
-									</Border>
-									<ScrollContentPresenter x:Name="ScrollContentPresenter" Grid.Column="1" Padding="1,0,0,0" TabFocusNavigation="Once" />
-									<Border x:Name="ScrollIncreaseButtonContainer" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Grid.Column="2" Padding="{ThemeResource TabViewItemRightScrollButtonContainerPadding}" VerticalAlignment="Bottom">
-										<RepeatButton x:Name="ScrollIncreaseButton" AutomationProperties.AccessibilityView="Raw" IsTabStop="False" Delay="50" Interval="100" HighContrastAdjustment="None" Style="{StaticResource TabViewScrollButtonStyle}">
-											<FontIcon Glyph="&#xEDDA;" MirroredWhenRightToLeft="True" FontSize="{ThemeResource TabViewItemScrollButonFontSize}" FontFamily="{ThemeResource SymbolThemeFontFamily}" />
-										</RepeatButton>
-									</Border>
-
-								</Grid>
 							</Border>
 
 						</ControlTemplate>
@@ -242,8 +325,22 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="RepeatButton">
-							<ContentPresenter x:Name="ContentPresenter" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" BackgroundSizing="{TemplateBinding BackgroundSizing}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" CornerRadius="{TemplateBinding CornerRadius}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" FontWeight="{TemplateBinding FontWeight}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw">
-
+							<ContentPresenter
+								x:Name="ContentPresenter"
+								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								AutomationProperties.AccessibilityView="Raw"
+								Background="{TemplateBinding Background}"
+								BackgroundSizing="{TemplateBinding BackgroundSizing}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Content="{TemplateBinding Content}"
+								ContentTemplate="{TemplateBinding ContentTemplate}"
+								ContentTransitions="{TemplateBinding ContentTransitions}"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								FontFamily="{TemplateBinding FontFamily}"
+								FontSize="{TemplateBinding FontSize}"
+								FontWeight="{TemplateBinding FontWeight}">
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup x:Name="CommonStates">
 										<VisualState x:Name="Normal" />
