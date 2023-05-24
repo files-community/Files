@@ -1,19 +1,16 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.Threading.Tasks;
+using Files.Backend.Services;
 
 namespace Files.App.Actions
 {
 	internal class LaunchQuickLookAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IPreviewPopupService previewPopupService;
 
 		public HotKey HotKey { get; } = new(Keys.Space);
 
@@ -27,12 +24,13 @@ namespace Files.App.Actions
 
 		public LaunchQuickLookAction()
 		{
+			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath);
+			await previewPopupService.OpenPreviewPopup(context.SelectedItem!.ItemPath);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -49,7 +47,7 @@ namespace Files.App.Actions
 		private async Task SwitchQuickLookPreview()
 		{
 			if (IsExecutable)
-				await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath, true);
+				await previewPopupService.OpenPreviewPopup(context.SelectedItem!.ItemPath, true);
 		}
 	}
 }
