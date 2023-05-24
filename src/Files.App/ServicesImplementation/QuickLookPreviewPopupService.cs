@@ -20,7 +20,6 @@ namespace Files.App.ServicesImplementation
 		public async Task OpenPreviewPopup(string path, bool switchPreview = false)
 		{
 			bool isQuickLookAvailable = await DetectAvailability();
-
 			if (!isQuickLookAvailable)
 				return;
 
