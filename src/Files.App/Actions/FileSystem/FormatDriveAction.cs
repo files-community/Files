@@ -21,7 +21,9 @@ namespace Files.App.Actions
 		public string Label { get; } = "FormatDriveText".GetLocalizedResource();
 
 		public string Description { get; } = "FormatDriveDescription".GetLocalizedResource();
-		public bool IsExecutable => context.HasItem && (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+		public bool IsExecutable => context.HasItem 
+		                         && !context.HasSelection
+		                         && (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
