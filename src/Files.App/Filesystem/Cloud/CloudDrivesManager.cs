@@ -12,7 +12,7 @@ namespace Files.App.Filesystem.Cloud
 	{
 		private readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-		private readonly ICloudDetector _detector = Ioc.Default.GetService<ICloudDetector>();
+		private readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
@@ -30,7 +30,7 @@ namespace Files.App.Filesystem.Cloud
 
 		public async Task UpdateDrivesAsync()
 		{
-			var providers = await _detector?.DetectCloudProvidersAsync();
+			var providers = await _detector.DetectCloudProvidersAsync();
 			if (providers is null)
 				return;
 

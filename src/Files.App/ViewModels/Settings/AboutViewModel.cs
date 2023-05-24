@@ -23,6 +23,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand SubmitBugReportCommand { get; }
 		public ICommand OpenGitHubRepoCommand { get; }
 		public ICommand OpenPrivacyPolicyCommand { get; }
+		public ICommand OpenCrowdinCommand { get; }
 
 		private string _ThirdPartyNotices;
 		public string ThirdPartyNotices
@@ -36,16 +37,13 @@ namespace Files.App.ViewModels.Settings
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
 			SupportUsCommand = new AsyncRelayCommand(SupportUs);
-
 			OpenDocumentationCommand = new AsyncRelayCommand(DoOpenDocumentation);
 			SubmitFeatureRequestCommand = new AsyncRelayCommand(DoSubmitFeatureRequest);
 			SubmitBugReportCommand = new AsyncRelayCommand(DoSubmitBugReport);
-
 			OpenGitHubRepoCommand = new AsyncRelayCommand(DoOpenGitHubRepo);
-
 			OpenPrivacyPolicyCommand = new AsyncRelayCommand(DoOpenPrivacyPolicy);
-
 			OpenLogLocationCommand = new AsyncRelayCommand(OpenLogLocation);
+			OpenCrowdinCommand = new AsyncRelayCommand(DoOpenCrowdin);
 		}
 
 		private Task OpenLogLocation()
@@ -76,6 +74,12 @@ namespace Files.App.ViewModels.Settings
 		public Task DoOpenPrivacyPolicy()
 		{
 			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.PrivacyPolicyUrl)).AsTask();
+		}
+		
+
+		public Task DoOpenCrowdin()
+		{
+			return Launcher.LaunchUriAsync(new Uri("https://crowdin.com/project/files-app")).AsTask();
 		}
 
 		public void CopyAppVersion()

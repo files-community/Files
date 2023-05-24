@@ -58,6 +58,8 @@ namespace Files.App.Helpers
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
+			Analytics.TrackEvent("Triggered git checkout");
+
 			if (string.IsNullOrWhiteSpace(repositoryPath) || !Repository.IsValid(repositoryPath))
 				return false;
 
@@ -68,8 +70,6 @@ namespace Files.App.Helpers
 
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
-
-			Analytics.TrackEvent("Triggered git checkout");
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
@@ -120,6 +120,8 @@ namespace Files.App.Helpers
 
 		public static async Task CreateNewBranch(string repositoryPath, string activeBranch)
 		{
+			Analytics.TrackEvent("Triggered create git branch");
+
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
 
@@ -133,8 +135,6 @@ namespace Files.App.Helpers
 			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
 				await Checkout(repositoryPath, viewModel.BasedOn))
 			{
-				Analytics.TrackEvent($"Triggered git branch");
-
 				repository.CreateBranch(viewModel.NewBranchName);
 
 				if (viewModel.Checkout)

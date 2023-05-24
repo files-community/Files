@@ -148,6 +148,22 @@
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=OpenSource}" />
 
+			<!--  Translate  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=ImproveTranslation}"
+				HorizontalAlignment="Stretch"
+				ButtonCommand="{x:Bind ViewModel.OpenCrowdinCommand}"
+				IsClickable="True">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xF2B7;" />
+				</local:SettingsBlockControl.Icon>
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+			</local:SettingsBlockControl>
+
 			<!--  Third Party Licenses  -->
 			<local:SettingsBlockControl
 				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"

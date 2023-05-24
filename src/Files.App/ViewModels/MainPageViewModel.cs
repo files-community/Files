@@ -38,7 +38,7 @@ namespace Files.App.ViewModels
 		public IAsyncRelayCommand OpenNewWindowAcceleratorCommand { get; private set; }
 
 		public MainPageViewModel(
-			IUserSettingsService userSettings, 
+			IUserSettingsService userSettings,
 			IAppearanceSettingsService appearanceSettings,
 			IResourcesService resources,
 			DrivesViewModel drivesViewModel,
@@ -267,9 +267,6 @@ namespace Files.App.ViewModels
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
 
-			if (drivesViewModel.Drives.Count == 0)
-				await drivesViewModel.UpdateDrivesAsync();
-
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
 			ThemeHelper.Initialize();
@@ -368,6 +365,10 @@ namespace Files.App.ViewModels
 
 			// Load the app theme resources
 			resourcesService.LoadAppResources(appearanceSettingsService);
+
+			await Task.WhenAll(
+				drivesViewModel.UpdateDrivesAsync(),
+				networkDrivesViewModel.UpdateDrivesAsync());
 		}
 
 		public Task AddNewTabAsync()
