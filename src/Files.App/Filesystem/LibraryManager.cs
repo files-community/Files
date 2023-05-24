@@ -193,7 +193,7 @@ namespace Files.App.Filesystem
 		}
 
 		/// <summary>
-		/// Update library details.
+		/// Updates library details.
 		/// </summary>
 		/// <param name="libraryFilePath">Library file path</param>
 		/// <param name="defaultSaveFolder">Update the default save folder or null to keep current</param>

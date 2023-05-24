@@ -109,7 +109,7 @@ namespace Files.App.Filesystem.Search
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in _drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
 					await AddItemsAsync(drive.Path, results, token);
 			}
 		}

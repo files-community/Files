@@ -42,7 +42,8 @@ namespace Files.App.Filesystem
 				IDictionary<string, object> extraProperties =
 					await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
 
-				return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is BitLocker protected and locked
+				// Drive is BitLocker protected and locked
+				return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6;
 			}
 
 			return false;

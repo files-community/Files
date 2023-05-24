@@ -145,7 +145,7 @@ namespace Files.App.Filesystem
 				_connectDialogStruct.lpConnRes = IntPtr.Zero;
 
 				if (ret == unchecked((uint)-1))
-				return false;
+					return false;
 
 				ret.ThrowIfFailed();
 
@@ -176,7 +176,7 @@ namespace Files.App.Filesystem
 				lpRemoteName = path
 			};
 
-			// if creds are saved, this will return NO_ERROR
+			// If creds are saved, this will return NO_ERROR
 			Win32Error connectionError = Mpr.WNetAddConnection3(HWND.NULL, nr, null, null, 0); 
 
 			if (connectionError == Win32Error.ERROR_LOGON_FAILURE)
