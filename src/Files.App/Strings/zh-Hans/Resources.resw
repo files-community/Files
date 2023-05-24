@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>没有与搜索条件匹配的项</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>只显示预览</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>打开日志文件夹</value>
   </data>
@@ -3287,19 +3284,19 @@
     <value>新建分支</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>分支名称无效</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>创建分支</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>创建分支</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>基于</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>切换到新分支</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>用当前选中的项创建文件夹</value>
@@ -3311,9 +3308,15 @@
     <value>打开属性窗口</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>本地</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>远程</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>在 Crowdin 上翻译此应用</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>预览</value>
   </data>
 </root>
