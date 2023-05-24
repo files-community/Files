@@ -16,5 +16,11 @@ namespace Files.Backend.Services
 		/// <param name="switchPreview"></param>
 		/// <returns></returns>
 		Task OpenPreviewPopup(string path, bool switchPreview = false);
+
+		/// <summary>
+		/// Detect if the provider is available
+		/// </summary>
+		/// <returns></returns>
+		Task<bool> DetectAvailability();
 	}
 }

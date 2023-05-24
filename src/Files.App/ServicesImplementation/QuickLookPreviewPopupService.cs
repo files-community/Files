@@ -19,7 +19,7 @@ namespace Files.App.ServicesImplementation
 
 		public async Task OpenPreviewPopup(string path, bool switchPreview = false)
 		{
-			bool isQuickLookAvailable = await DetectQuickLookAvailability();
+			bool isQuickLookAvailable = await DetectAvailability();
 
 			if (!isQuickLookAvailable)
 			{
@@ -47,9 +47,9 @@ namespace Files.App.ServicesImplementation
 			}
 		}
 
-		private static async Task<bool> DetectQuickLookAvailability()
+		public async Task<bool> DetectAvailability()
 		{
-			static async Task<int> QuickLookServerAvailable()
+			async Task<int> QuickLookServerAvailable()
 			{
 				await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 				try
