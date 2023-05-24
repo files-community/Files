@@ -23,22 +23,7 @@ namespace Files.App.ServicesImplementation
 			if (!isQuickLookAvailable)
 				return;
 
-			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-			string message = pipeMessageToggle;
-
-			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
-			try
-			{
-				await client.ConnectAsync(TIMEOUT);
-
-				await using var writer = new StreamWriter(client);
-				await writer.WriteLineAsync($"{message}|{path}");
-				await writer.FlushAsync();
-			}
-			catch (TimeoutException)
-			{
-				client.Close();
-			}
+			await DoPreview(path, pipeMessageToggle);
 		}
 		
 		public async Task SwitchPreview(string path)
@@ -47,8 +32,12 @@ namespace Files.App.ServicesImplementation
 			if (!isQuickLookAvailable)
 				return;
 
+			await DoPreview(path, pipeMessageSwitch);
+		}
+
+		private async Task DoPreview(string path, string message)
+		{
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
-			string message = pipeMessageSwitch;
 
 			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 			try
