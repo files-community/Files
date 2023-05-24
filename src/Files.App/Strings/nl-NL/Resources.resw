@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Geen items gevonden</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Toon alleen voorbeeld</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open logboek locatie</value>
   </data>
@@ -3315,5 +3312,11 @@
   </data>
   <data name="Remotes" xml:space="preserve">
     <value>Remotes</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Vertaal op Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Voorbeeld</value>
   </data>
 </root>
