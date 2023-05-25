@@ -217,6 +217,7 @@ namespace Files.App
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
 #endif
+						.AddSingleton<IPreviewPopupService, QuickLookPreviewPopupService>()
 						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
