@@ -18,11 +18,11 @@ namespace Files.App.Filesystem.Search
 	{
 		private const uint DEFAULT_STEP_SIZE = 500;
 
+		private readonly IFileTagsSettingsService _fileTagsSettingsService;
+
 		private readonly IUserSettingsService _userSettingsService;
 
 		private readonly DrivesViewModel _drivesViewModel;
-
-		private readonly IFileTagsSettingsService _fileTagsSettingsService;
 
 		public string? Query { get; set; }
 
@@ -186,10 +186,12 @@ namespace Files.App.Filesystem.Search
 		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			var tags = AQSQuery.Substring("tag:".Length)?
-				.Split(',')
-				.Where(t => !string.IsNullOrWhiteSpace(t))
-				.SelectMany(_fileTagsSettingsService.GetTagsByName, (_, t) => t.Uid).ToHashSet();
+			var tags =
+				AQSQuery
+					.Substring("tag:".Length)?
+					.Split(',')
+					.Where(t => !string.IsNullOrWhiteSpace(t))
+					.SelectMany(_fileTagsSettingsService.GetTagsByName, (_, t) => t.Uid).ToHashSet();
 
 			if (tags?.Any() != true)
 				return;
