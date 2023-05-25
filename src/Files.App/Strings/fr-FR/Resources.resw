@@ -688,7 +688,7 @@
     <value>Date de modification</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Profondeur en bits</value>
+    <value>Profondeur de couleur</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
