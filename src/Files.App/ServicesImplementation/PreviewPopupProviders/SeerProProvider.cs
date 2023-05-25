@@ -8,10 +8,9 @@ using System.IO.Pipes;
 using System.Security.Principal;
 using Vanara.PInvoke;
 
-namespace Files.App.ServicesImplementation
+namespace Files.App.ServicesImplementation.PreviewPopupProviders
 {
-	/// <inheritdoc cref="IPreviewPopupService"/>
-	internal sealed class SeerProPreviewPopupService : ObservableObject, IPreviewPopupService
+	public class SeerProProvider : IPreviewPopupProvider
 	{
 		private const int TIMEOUT = 500;
 
@@ -21,7 +20,7 @@ namespace Files.App.ServicesImplementation
 			if (!isSeerProAvailable)
 				return;
 		}
-		
+
 		public async Task SwitchPreview(string path)
 		{
 			bool isSeerProAvailable = await DetectAvailability();

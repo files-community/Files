@@ -10,23 +10,9 @@ namespace Files.Backend.Services
 	public interface IPreviewPopupService : INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Toggle preview popup
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		Task TogglePreviewPopup(string path);
-		
-		/// <summary>
-		/// Switch preview
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		Task SwitchPreview(string path);
-
-		/// <summary>
-		/// Detect if the provider is available
+		/// Get Preview Popup provider
 		/// </summary>
 		/// <returns></returns>
-		Task<bool> DetectAvailability();
+		Task<IPreviewPopupProvider> GetProviderAsync();
 	}
 }

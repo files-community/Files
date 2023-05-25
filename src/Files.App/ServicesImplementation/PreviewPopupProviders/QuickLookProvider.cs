@@ -7,10 +7,9 @@ using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
 
-namespace Files.App.ServicesImplementation
+namespace Files.App.ServicesImplementation.PreviewPopupProviders
 {
-	/// <inheritdoc cref="IPreviewPopupService"/>
-	internal sealed class QuickLookPreviewPopupService : ObservableObject, IPreviewPopupService
+	public class QuickLookProvider : IPreviewPopupProvider
 	{
 		private const int TIMEOUT = 500;
 		private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
@@ -25,7 +24,7 @@ namespace Files.App.ServicesImplementation
 
 			await DoPreview(path, pipeMessageToggle);
 		}
-		
+
 		public async Task SwitchPreview(string path)
 		{
 			bool isQuickLookAvailable = await DetectAvailability();
