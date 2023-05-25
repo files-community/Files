@@ -121,7 +121,7 @@
     <value>Nowe okno</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopiuj ścieżkę</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Przeglądaj</value>
@@ -1354,7 +1354,7 @@
     <value>Jest jedna konfliktująca nazwa plików.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Utwórz folder z zaznaczeniem</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nazwa:</value>
@@ -2686,19 +2686,19 @@
     <value>Zaznacz wszystkie elementy</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Odwróć znaczenie</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Wyczyść zaznaczenie</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Przełącz wybór zaznaczenia</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Udostępnij wybrane pliki innym</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Przypnij element(y) do menu Start</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Unpin item(s) from the Start Menu</value>
@@ -2731,16 +2731,16 @@
     <value>Run selected application as another user</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Uruchom wybrany skrypt PowerShell</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Uruchom QuickLook z wybranym elementem</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Utwórz archiwum z wybranymi elementami</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Utwórz archiwum 7z z wybranymi elementami</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
     <value>Create zip archive instantly with selected item(s)</value>
@@ -2764,7 +2764,7 @@
     <value>Open settings page</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Otwórz folder w terminalu</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
     <value>Open folder in terminal as administrator</value>
@@ -2773,7 +2773,7 @@
     <value>Decrease icon size in grid view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Zwiększ rozmiar ikon w widoku siatki</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
@@ -2797,16 +2797,16 @@
     <value>Switch views adaptively</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Sortuj po nazwie</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Sortuj po dacie modyfikacji</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Sortuj po dacie utworzenia</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Sortuj po rozmiarze</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
     <value>Sort items by type</value>
@@ -2821,7 +2821,7 @@
     <value>Sort items by original folder</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Sortuj po dacie usunięcia</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
     <value>Sort items in ascending order</value>
@@ -2839,7 +2839,7 @@
     <value>List items without grouping</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Grupuj po nazwie</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
     <value>Group items by date modified</value>
@@ -2878,7 +2878,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Otwórz nową kartę</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -2914,7 +2914,7 @@
     <value>Close tabs other than selected tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Przywróć ostatnio zamkniętą kartę</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Move to the previous tab</value>
@@ -2923,7 +2923,7 @@
     <value>Move to the next tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Zamknij bieżącą kartę</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Open new pane</value>
@@ -3128,10 +3128,10 @@
     <value>Show warning when changing file extensions</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>Ten komputer</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Kosz</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
@@ -3146,16 +3146,16 @@
     <value>Closes current tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Edytuj ścieżkę</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Przywróć</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Cofnij</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Invalid location</value>
@@ -3215,7 +3215,7 @@
     <value>Group items by year</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Miesiąc</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
@@ -3272,19 +3272,19 @@
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Zmień gałąź</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Gałęzie</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Przełącz</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Nowa gałąź</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Niepoprawna nazwa gałęzi</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
     <value>Create branch</value>
