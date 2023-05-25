@@ -5,10 +5,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
 using LibGit2Sharp;
-using LibGit2Sharp.Handlers;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
