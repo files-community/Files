@@ -19,7 +19,10 @@ namespace Files.App.Helpers
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-		private static readonly FetchOptions _fetchOptions = new();
+		private static readonly FetchOptions _fetchOptions = new()
+		{
+			Prune = true
+		};
 
 		private static readonly PullOptions _pullOptions = new();
 
@@ -200,15 +203,21 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
-			using var repository = new Repository(repositoryPath);
-			var remote = repository.Network.Remotes["upstream"];
-
 			IsExecutingGitAction = true;
+			using var repository = new Repository(repositoryPath);
+
 
 			try
 			{
-				repository.Network.Fetch(remote.Name, remote.FetchRefSpecs.Select(rs => rs.Specification));
-
+				foreach (var remote in repository.Network.Remotes)
+				{
+					LibGit2Sharp.Commands.Fetch(
+						repository,
+						remote.Name,
+						remote.FetchRefSpecs.Select(rs => rs.Specification),
+						_fetchOptions,
+						"git fetch updated a ref");
+				}
 			}
 			catch (Exception ex)
 			{
