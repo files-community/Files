@@ -5,8 +5,10 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 using Microsoft.AppCenter.Analytics;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
@@ -16,6 +18,30 @@ namespace Files.App.Helpers
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
+
+		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
+		private static readonly FetchOptions _fetchOptions = new();
+
+		private static readonly PullOptions _pullOptions = new();
+
+		private static bool _IsExecutingGitAction;
+		public static bool IsExecutingGitAction
+		{
+			get => _IsExecutingGitAction;
+			private set
+			{
+				if (_IsExecutingGitAction != value)
+				{
+					_IsExecutingGitAction = value;
+					IsExecutingGitActionChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsExecutingGitAction)));
+				}
+			}
+		}
+
+		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
+
+		public static event EventHandler? GitFetchCompleted;
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
@@ -36,8 +62,9 @@ namespace Files.App.Helpers
 					? path
 					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
-			catch (LibGit2SharpException)
+			catch (LibGit2SharpException ex)
 			{
+				_logger.LogWarning(ex.Message);
 				return null;
 			}
 		}
@@ -71,6 +98,8 @@ namespace Files.App.Helpers
 
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
+
+			IsExecutingGitAction = true;
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
@@ -113,9 +142,14 @@ namespace Files.App.Helpers
 				}
 				return true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				_logger.LogWarning(ex.Message);
 				return false;
+			}
+			finally
+			{
+				IsExecutingGitAction = false;
 			}
 		}
 
@@ -133,6 +167,8 @@ namespace Files.App.Helpers
 
 			using var repository = new Repository(repositoryPath);
 
+			IsExecutingGitAction = true;
+
 			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
 				await Checkout(repositoryPath, viewModel.BasedOn))
 			{
@@ -141,6 +177,8 @@ namespace Files.App.Helpers
 				if (viewModel.Checkout)
 					await Checkout(repositoryPath, viewModel.NewBranchName);
 			}
+
+			IsExecutingGitAction = false;
 		}
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
@@ -155,6 +193,64 @@ namespace Files.App.Helpers
 			using var repository = new Repository(repositoryPath);
 			return !repository.Branches.Any(branch =>
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+		}
+
+		public static void FetchOrigin(string? repositoryPath)
+		{
+			Analytics.TrackEvent("Triggered git fetch");
+
+			if (string.IsNullOrWhiteSpace(repositoryPath))
+				return;
+
+			using var repository = new Repository(repositoryPath);
+			var remote = repository.Network.Remotes["upstream"];
+
+			IsExecutingGitAction = true;
+
+			try
+			{
+				repository.Network.Fetch(remote.Name, remote.FetchRefSpecs.Select(rs => rs.Specification));
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+			}
+
+			App.Window.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+			});
+		}
+
+		public static void PullOrigin(string? repositoryPath)
+		{
+			Analytics.TrackEvent("Triggered git pull");
+
+			if (string.IsNullOrWhiteSpace(repositoryPath))
+				return;
+
+			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+			if (signature is null)
+				return;
+
+			IsExecutingGitAction = true;
+
+			try
+			{
+				LibGit2Sharp.Commands.Pull(
+					repository,
+					signature,
+					_pullOptions);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+			}
+
+			IsExecutingGitAction = false;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

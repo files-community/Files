@@ -1,47 +1,28 @@
 ﻿using Files.App.Contexts;
-using LibGit2Sharp;
-using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Actions
 {
 	internal class GitFetchAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-
-		private readonly FetchOptions options;
+		private readonly IContentPageContext _context;
 
 		public string Label { get; } = "GitFetch".GetLocalizedResource();
 
 		public string Description { get; } = "GitFetchDescription".GetLocalizedResource();
 
-		public bool IsExecutable 
-			=> context.CanExecuteGitAction;
+		public bool IsExecutable
+			=> _context.CanExecuteGitAction;
 
 		public GitFetchAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			options = new FetchOptions();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			
+			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			// Analytics.TrackEvent("Triggered git fetch");
-
-			using var repository = new Repository(context.ShellPage!.InstanceViewModel.GitRepositoryPath);
-
-			var remote = repository.Network.Remotes["origin"];
-
-			// TODO: Toggle IShellPage.IsExecutingGitAction
-
-			LibGit2Sharp.Commands.Fetch(
-				repository, 
-				remote.Url, 
-				remote.FetchRefSpecs.Select(rs => rs.Specification), 
-				options, 
-				"Refs updated");
+			GitHelpers.FetchOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 
 			return Task.CompletedTask;
 		}

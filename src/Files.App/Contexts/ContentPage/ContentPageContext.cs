@@ -49,13 +49,20 @@ namespace Files.App.Contexts
 
 		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
-		public bool CanExecuteGitAction => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository && !ShellPage.IsExecutingGitAction;
+		public bool CanExecuteGitAction => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository && !GitHelpers.IsExecutingGitAction;
 
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
 			context.Changed += Context_Changed;
+			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
+
 			Update();
+		}
+
+		private void GitHelpers_IsExecutingGitActionChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)
@@ -108,9 +115,6 @@ namespace Files.App.Contexts
 				case nameof(ShellPage.PaneHolder):
 					OnPropertyChanged(nameof(IsMultiPaneEnabled));
 					OnPropertyChanged(nameof(IsMultiPaneActive));
-					break;
-				case nameof(ShellPage.IsExecutingGitAction):
-					OnPropertyChanged(nameof(CanExecuteGitAction));
 					break;
 			}
 		}

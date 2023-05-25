@@ -1,15 +1,11 @@
 ﻿using Files.App.Commands;
 using Files.App.Contexts;
-using LibGit2Sharp;
-using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Actions
 {
 	internal class GitPullAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
-
-		private readonly PullOptions options;
+		private readonly IContentPageContext _context;
 
 		public string Label { get; } = "GitPull".GetLocalizedResource();
 
@@ -18,32 +14,18 @@ namespace Files.App.Actions
 		public RichGlyph Glyph { get; } = new("\uE74B");
 
 		public bool IsExecutable
-			=> context.CanExecuteGitAction;
+			=> _context.CanExecuteGitAction;
 
 		public GitPullAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			options = new PullOptions();
-
-			context.PropertyChanged += Context_PropertyChanged;
+			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			// Analytics.TrackEvent("Triggered git pull");
-
-			using var repository = new Repository(context.ShellPage!.InstanceViewModel.GitRepositoryPath);
-			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
-			if (signature is null)
-				return Task.CompletedTask;
-
-			// TODO: Toggle IShellPage.IsExecutingGitAction
-
-			LibGit2Sharp.Commands.Pull(
-				repository,
-				signature,
-				options);
+			GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 
 			return Task.CompletedTask;
 		}

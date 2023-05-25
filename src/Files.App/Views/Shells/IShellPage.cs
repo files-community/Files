@@ -26,8 +26,6 @@ namespace Files.App.Views.Shells
 
 		bool CanNavigateForward { get; }
 
-		bool IsExecutingGitAction { get; }
-
 		Task Refresh_Click();
 
 		void Back_Click();
