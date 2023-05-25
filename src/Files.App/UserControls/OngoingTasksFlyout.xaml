@@ -67,7 +67,7 @@
 
 							<ProgressBar
 								x:Name="ProgressBar"
-								Margin="0,0,12,12"
+								Margin="0,-24,12,12"
 								IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
 								Visibility="{x:Bind IsProgressing, Mode=OneWay}"
 								Value="{x:Bind Progress, Mode=OneWay}" />
