@@ -1,28 +1,30 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.Cloud
 {
+	/// <summary>
+	/// Provides an utility for Google Drive Cloud detection.
+	/// </summary>
 	public class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
+
 			await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db")).AsTask()
 				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting).AsTask());
+
 			// The wal file may not exist but that's ok
 			await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, @"Google\DriveFS\root_preference_sqlite.db-wal")).AsTask()
 				.AndThen(c => c.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db-wal", NameCollisionOption.ReplaceExisting).AsTask()));
+
 			var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
 
 			// Build the connection and sql command
@@ -62,18 +64,19 @@ namespace Files.App.Filesystem.Cloud
 				};
 			}
 
-			reader = cmdMedia.ExecuteReader(); // Google virtual drive
+			// Google virtual drive
+			reader = cmdMedia.ExecuteReader();
+
 			while (reader.Read())
 			{
 				string? path = reader["last_mount_point"]?.ToString();
 				if (string.IsNullOrWhiteSpace(path))
-				{
 					continue;
-				}
 
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
 				string iconPath = Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles"), "Google", "Drive File Stream", "drive_fs.ico");
+
 				StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)

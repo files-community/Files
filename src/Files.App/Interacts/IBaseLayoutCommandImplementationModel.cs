@@ -11,8 +11,6 @@ namespace Files.App.Interacts
 {
 	public interface IBaseLayoutCommandImplementationModel : IDisposable
 	{
-		void ShowProperties(RoutedEventArgs e);
-
 		Task OpenDirectoryInNewTab(RoutedEventArgs e);
 
 		void OpenDirectoryInNewPane(RoutedEventArgs e);

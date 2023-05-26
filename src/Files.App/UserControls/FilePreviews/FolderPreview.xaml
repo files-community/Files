@@ -14,7 +14,7 @@
 		HorizontalAlignment="Center"
 		VerticalAlignment="Center"
 		CornerRadius="{StaticResource ControlCornerRadius}">
-		<Viewbox StretchDirection="DownOnly">
+		<Viewbox StretchDirection="Both">
 			<Image Source="{x:Bind Model.Thumbnail}" />
 		</Viewbox>
 	</Border>

@@ -120,7 +120,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Neues Fenster</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
+  <data name="CopyPath" xml:space="preserve">
     <value>Pfad kopieren</value>
   </data>
   <data name="Browse" xml:space="preserve">
@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Es gibt einen Dateinamenkonflikt.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Ordner aus Auswahl erstellen</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Ordner mit Auswahl erstellen</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Keine Objekte gefunden</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Nur Vorschau anzeigen</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Ordner mit Protokolldateien öffnen</value>
   </data>
@@ -2260,7 +2257,7 @@
     <value>Typspalte</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detail-Layoutspalten</value>
+    <value>Detail-Layout-Spalten</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Eingabe</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3272,7 @@
     <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Branch wechseln</value>
+    <value>Branch wechseln</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3285,5 +3282,41 @@
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>Neuer Branch</value>
+  </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Ungültiger Branch-Name</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Branch erstellen</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Branch erstellen</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basierend auf</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Zu neuem Zweig wechseln</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Eigenschaften öffnen</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Eigenschaften-Fenster öffnen</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Lokale</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Auf Crowdin übersetzen</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Vorschau</value>
   </data>
 </root>

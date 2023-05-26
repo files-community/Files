@@ -2,11 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Concurrent;
-using System.Runtime.Versioning;
 
 namespace Files.App.Shell
 {
-	[SupportedOSPlatform("Windows")]
 	public class ThreadWithMessageQueue : Disposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;

@@ -7,9 +7,12 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Provides static extension for shell folders.
+	/// </summary>
 	public static class ShellFolderExtensions
 	{
-		public static ShellLibraryItem GetShellLibraryItem(ShellLibrary2 library, string filePath)
+		public static ShellLibraryItem GetShellLibraryItem(ShellLibraryEx library, string filePath)
 		{
 			var libraryItem = new ShellLibraryItem
 			{
@@ -33,6 +36,7 @@ namespace Files.App.Shell
 		private static T TryGetProperty<T>(this ShellItemPropertyStore sip, Ole32.PROPERTYKEY key)
 		{
 			T value = default;
+
 			SafetyExtensions.IgnoreExceptions(() => sip.TryGetValue<T>(key, out value));
 
 			return value;
@@ -43,8 +47,9 @@ namespace Files.App.Shell
 			if (folderItem is null)
 				return null;
 
+			// NOTE: Do not use folderItem's Attributes property, throws unimplemented for some shell folders
+
 			// Zip archives are also shell folders, check for STREAM attribute
-			// Do not use folderItem's Attributes property, throws unimplemented for some shell folders
 
 			bool isFolder = folderItem.IsFolder && folderItem.IShellItem?.GetAttributes(Shell32.SFGAO.SFGAO_STREAM) is 0;
 			var parsingPath = folderItem.GetDisplayName(ShellItemDisplayString.DesktopAbsoluteParsing);
@@ -105,7 +110,7 @@ namespace Files.App.Shell
 			string fileSize = fileSizeBytes is not null ? folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
 			var fileType = folderItem.Properties.TryGetProperty<string>(Ole32.PROPERTYKEY.System.ItemTypeText);
 
-			return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
+			return new(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, createdDate, fileSize, fileSizeBytes ?? 0, fileType, folderItem.PIDL.GetBytes());
 		}
 
 		public static ShellLinkItem GetShellLinkItem(ShellLink linkItem)
@@ -117,12 +122,14 @@ namespace Files.App.Shell
 			if (baseItem is null)
 				return null;
 
-			var link = new ShellLinkItem(baseItem);
-			link.IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder;
-			link.RunAsAdmin = linkItem.RunAsAdministrator;
-			link.Arguments = linkItem.Arguments;
-			link.WorkingDirectory = linkItem.WorkingDirectory;
-			link.TargetPath = linkItem.TargetPath;
+			var link = new ShellLinkItem(baseItem)
+			{
+				IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder,
+				RunAsAdmin = linkItem.RunAsAdministrator,
+				Arguments = linkItem.Arguments,
+				WorkingDirectory = linkItem.WorkingDirectory,
+				TargetPath = linkItem.TargetPath
+			};
 
 			return link;
 		}
@@ -135,30 +142,30 @@ namespace Files.App.Shell
 			return item.IsFileSystem ? item.FileSystemPath : item.ParsingName;
 		}
 
-		public static bool GetStringAsPidl(string pathOrPidl, out Shell32.PIDL pidl)
+		public static bool GetStringAsPIDL(string pathOrPIDL, out Shell32.PIDL pPIDL)
 		{
-			if (pathOrPidl.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
+			if (pathOrPIDL.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 			{
-				pidl = pathOrPidl.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
+				pPIDL = pathOrPIDL.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
 					// Avoid confusion with path separator
 					.Replace("_", "/")
 					.Split('\\', StringSplitOptions.RemoveEmptyEntries)
 					.Select(pathSegment => new Shell32.PIDL(Convert.FromBase64String(pathSegment)))
-					.Aggregate((x, y) => Shell32.PIDL.Combine(x, y));
+					.Aggregate(Shell32.PIDL.Combine);
 
 				return true;
 			}
 			else
 			{
-				pidl = Shell32.PIDL.Null;
+				pPIDL = Shell32.PIDL.Null;
 
 				return false;
 			}
 		}
 
-		public static ShellItem GetShellItemFromPathOrPidl(string pathOrPidl)
+		public static ShellItem GetShellItemFromPathOrPIDL(string pathOrPIDL)
 		{
-			return GetStringAsPidl(pathOrPidl, out var pidl) ? ShellItem.Open(pidl) : ShellItem.Open(pathOrPidl);
+			return GetStringAsPIDL(pathOrPIDL, out var pPIDL) ? ShellItem.Open(pPIDL) : ShellItem.Open(pathOrPIDL);
 		}
 	}
 }
