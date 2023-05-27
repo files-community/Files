@@ -23,7 +23,7 @@ jobs:
         platform: [x64]
     env:
       SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_NAME: '**/*.wapproj'
+      PACKAGE_PROJECT_NAME: 'src/Files.App (Package)/Files.Package.wapproj'
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       DEFAULT_DIR: ${{ github.workspace }}
