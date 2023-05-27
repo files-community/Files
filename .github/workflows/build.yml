@@ -65,13 +65,10 @@ jobs:
         /p:AppxPackageSigningEnabled=$env:APPX_PACKAGE_SIGNING_ENABLED `
         /p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         /p:AppxPackageDir=$env:ARTIFACTS_DIR `
-        /p:PackageCertificateKeyFile=$env:PACKAGE_CERTIFICATE_KEYFILE `
-        /p:PackageCertificatePassword=$env:PACKAGE_CERTIFICATE_PASSWORD `
-        /p:AppCenterSecret=$env:APP_CENTER_SECRET
       env:
         PLATFORM: ${{ matrix.platform }}
         UAP_APPX_PACKAGE_BUILD_MODE: SideloadOnly
         APPX_BUNDLE: Always
         APPX_PACKAGE_SIGNING_ENABLED: true
-        APPX_BUNDLE_PLATFORMS: ${{ matrix.appxBundlePlatforms }}
+        APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
         ARTIFACTS_DIR: ${{ github.workspace }}\Artifacts
