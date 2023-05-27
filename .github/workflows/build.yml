@@ -15,12 +15,13 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
+
   build:
     runs-on: windows-latest
     strategy:
       matrix:
-        configuration: [Debug, Release]
-        platform: [x64]
+        configuration: [Debug, Preview, Release, Stable, Store]
+        platform: [arm64, x64, x86]
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_NAME: 'src/Files.App (Package)/Files.Package.wapproj'
@@ -73,3 +74,10 @@ jobs:
         APPX_PACKAGE_SIGNING_ENABLED: false
         APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
         ARTIFACTS_DIR: ${{ github.workspace }}\Artifacts
+
+    - name: Upload build artifacts
+      id: upload_artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Build artifacts
+        path: Artifacts/
