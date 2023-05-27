@@ -29,7 +29,7 @@ jobs:
       DEFAULT_DIR: ${{ github.workspace }}
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
   
     - name: Setup MSBuild
       id: setup_msbuild
@@ -40,7 +40,7 @@ jobs:
       uses: NuGet/setup-nuget@v1.1.1
 
     - name: Setup .NET SDK 7
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.0.x'
   
