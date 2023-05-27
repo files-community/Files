@@ -53,10 +53,8 @@ jobs:
       run: |
         msbuild
         $env:SOLUTION_NAME
-        /t:Restore
-        /p:Configuration=$env:CONFIGURATION
-        /p:Platform=$env:PLATFORM
-        /p:PublishReadyToRun=true
+        /t:restore
+        /p:Configuration=$env:CONFIGURATION;Platform=$env:PLATFORM;PublishReadyToRun=true
         nuget restore $env:SOLUTION_NAME
 
     - name: Build and generate bundles
