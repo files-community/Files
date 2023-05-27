@@ -57,6 +57,7 @@ jobs:
         /p:Configuration=$env:CONFIGURATION
         /p:Platform=$env:PLATFORM
         /p:PublishReadyToRun=true
+        nuget restore $env:SOLUTION_NAME
 
     - name: Build and generate bundles
       id: build_app
