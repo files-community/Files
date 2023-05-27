@@ -58,8 +58,7 @@ jobs:
       id: build_app
       shell: pwsh
       run: |
-        msbuild
-        $env:PACKAGE_PROJECT_NAME
+        msbuild $env:PACKAGE_PROJECT_NAME
         /t:build;_GenerateAppxPackage
         /p:Platform=$env:PLATFORM
         /p:Configuration=$env:CONFIGURATION
