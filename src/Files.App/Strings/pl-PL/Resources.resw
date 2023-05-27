@@ -2704,10 +2704,10 @@
     <value>Unpin item(s) from the Start Menu</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Przypnij folder(y) do Ulubionych</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Odepnij folder(y) z Ulubionych</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as desktop background</value>
@@ -2719,7 +2719,7 @@
     <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Zainstaluj wybrane czcionki</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
