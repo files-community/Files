@@ -1,4 +1,4 @@
-name: Files Public CI/CD
+name: Files build pipeline
 
 on:
   push:
