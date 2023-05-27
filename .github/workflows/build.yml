@@ -43,16 +43,16 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
-
-    - name: Add MSBuild to the environment
-      uses: microsoft/setup-msbuild@v1.0.2
   
     - name: Restore the projects
-      id: restore_application
+      id: restore_project
       shell: pwsh
-      run: |
-        msbuild $env:SOLUTION_NAME /t:restore /p:PublishReadyToRun=true
-        nuget restore $env:SOLUTION_NAME
+      run: 'msbuild $env:SOLUTION_NAME /t:restore /p:Configuration="$env:CONFIGURATION" /p:Platform="$env:PLATFORM" /p:PublishReadyToRun=true'
+
+    - name: Restore NuGet
+      id: restore_nuget
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_NAME'
 
     - name: Build and generate bundles
       id: build_app
