@@ -14,32 +14,13 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-env:
-  DOTNET_VERSION: '7.0.x'
-
 jobs:
-  setup:
+  build:
+    runs-on: windows-latest
     strategy:
       matrix:
-        arch: ['x64']
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Set up .NET SDK ${{ env.DOTNET_VERSION }}
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: Add MSBuild path to the environment
-      uses: microsoft/setup-msbuild@v1.0.2
-
-  build:
-    needs: setup
-    runs-on: windows-latest
-    strategy:
-      matrix: 
+        configuration: [Debug, Release]
+        platform: [x64]
     env:
       SOLUTION_NAME: Files.sln
       CONFIGURATION: ${{ matrix.configuration }}
@@ -56,10 +37,10 @@ jobs:
       id: setup-nuget
       uses: NuGet/setup-nuget@v1.1.1
 
-    - name: Setup .NET ${{ env.DOTNET_VERSION }}
+    - name: Setup .NET SDK 7
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+        dotnet-version: '7.0.x'
 
     - name: Add MSBuild to the environment
       uses: microsoft/setup-msbuild@v1.0.2
@@ -76,6 +57,7 @@ jobs:
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
+        /t:build;_GenerateAppxPackage
         /p:Platform=$env:PLATFORM `
         /p:Configuration=$env:CONFIGURATION `
         /p:UapAppxPackageBuildMode=$env:UAP_APPX_PACKAGE_BUILD_MODE `
@@ -87,12 +69,9 @@ jobs:
         /p:PackageCertificatePassword=$env:PACKAGE_CERTIFICATE_PASSWORD `
         /p:AppCenterSecret=$env:APP_CENTER_SECRET
       env:
-        PLATFORM: x64
-        UAP_APPX_PACKAGE_BUILD_MODE: StoreUpload
+        PLATFORM: ${{ matrix.platform }}
+        UAP_APPX_PACKAGE_BUILD_MODE: SideloadOnly
         APPX_BUNDLE: Always
-        APPX_PACKAGE_SIGNING_ENABLED: ${{ matrix.newVersion != '' }}
+        APPX_PACKAGE_SIGNING_ENABLED: true
         APPX_BUNDLE_PLATFORMS: ${{ matrix.appxBundlePlatforms }}
         ARTIFACTS_DIR: ${{ github.workspace }}\Artifacts
-        PACKAGE_CERTIFICATE_KEYFILE: ${{ github.workspace }}\cert.pfx
-        PACKAGE_CERTIFICATE_PASSWORD: ${{ secrets.PACKAGE_CERTIFICATE_PWD }}
-        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
