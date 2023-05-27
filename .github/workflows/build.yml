@@ -44,20 +44,15 @@ jobs:
       with:
         dotnet-version: '7.0.x'
   
+    - name: Restore Files
+      id: restore_project
+      shell: pwsh
+      run: 'msbuild $env:SOLUTION_NAME -t:Restore -p:Configuration="$env:CONFIGURATION";Platform="$env:PLATFORM";PublishReadyToRun=true'
+
     - name: Restore NuGet
       id: restore_nuget
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
-
-    - name: Restore Files
-      id: restore_project
-      shell: pwsh
-      run: |
-        msbuild $env:SOLUTION_NAME
-        -t:Restore
-        -p:Configuration="$env:CONFIGURATION"
-        -p:Platform="$env:PLATFORM"
-        -p:PublishReadyToRun=true
 
     - name: Build Files
       id: build_app
