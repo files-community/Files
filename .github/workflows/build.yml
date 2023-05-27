@@ -58,14 +58,14 @@ jobs:
       id: build_app
       shell: pwsh
       run: |
-        msbuild $env:PACKAGE_PROJECT_NAME
-        -t:Build
-        -p:Platform=$env:PLATFORM
-        -p:Configuration=$env:CONFIGURATION
-        -p:UapAppxPackageBuildMode=$env:UAP_APPX_PACKAGE_BUILD_MODE
-        -p:AppxBundle=$env:APPX_BUNDLE
-        -p:AppxPackageSigningEnabled=$env:APPX_PACKAGE_SIGNING_ENABLED
-        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS
+        msbuild $env:PACKAGE_PROJECT_NAME `
+        -t:Build `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:UapAppxPackageBuildMode=$env:UAP_APPX_PACKAGE_BUILD_MODE `
+        -p:AppxBundle=$env:APPX_BUNDLE `
+        -p:AppxPackageSigningEnabled=$env:APPX_PACKAGE_SIGNING_ENABLED `
+        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir=$env:ARTIFACTS_DIR
       env:
         UAP_APPX_PACKAGE_BUILD_MODE: CI
