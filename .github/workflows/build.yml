@@ -47,7 +47,7 @@ jobs:
     - name: Restore Files
       id: restore_project
       shell: pwsh
-      run: 'msbuild $env:SOLUTION_NAME -t:Restore -p:Configuration="$env:CONFIGURATION";Platform="$env:PLATFORM";PublishReadyToRun=true'
+      run: 'msbuild $env:SOLUTION_NAME -t:Restore -p:Configuration="$env:CONFIGURATION" -p:Platform="$env:PLATFORM" -p:PublishReadyToRun=true'
 
     - name: Restore NuGet
       id: restore_nuget
