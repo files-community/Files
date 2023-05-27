@@ -1,4 +1,4 @@
-name: Notepads CI/CD Pipeline
+name: Files Public CI/CD
 
 on:
   push:
