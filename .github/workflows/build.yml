@@ -1,0 +1,98 @@
+name: Notepads CI/CD Pipeline
+
+on:
+  push:
+    branches-ignore:
+    - 'dependabot**'
+    tags-ignore:
+    - '**'
+  pull_request:
+    paths-ignore:
+    - '**.md'
+    - '.github/**'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  DOTNET_VERSION: '7.0.x'
+
+jobs:
+  setup:
+    strategy:
+      matrix:
+        arch: ['x64']
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up .NET SDK ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Add MSBuild path to the environment
+      uses: microsoft/setup-msbuild@v1.0.2
+
+  build:
+    needs: setup
+    runs-on: windows-latest
+    strategy:
+      matrix: 
+    env:
+      SOLUTION_NAME: Files.sln
+      CONFIGURATION: ${{ matrix.configuration }}
+      DEFAULT_DIR: ${{ github.workspace }}
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+  
+    - name: Setup MSBuild
+      id: setup_msbuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      id: setup-nuget
+      uses: NuGet/setup-nuget@v1.1.1
+
+    - name: Setup .NET ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Add MSBuild to the environment
+      uses: microsoft/setup-msbuild@v1.0.2
+  
+    - name: Restore the projects
+      id: restore_application
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_NAME /t:Restore
+        nuget restore $env:SOLUTION_NAME
+
+    - name: Build and generate bundles
+      id: build_app
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_NAME `
+        /p:Platform=$env:PLATFORM `
+        /p:Configuration=$env:CONFIGURATION `
+        /p:UapAppxPackageBuildMode=$env:UAP_APPX_PACKAGE_BUILD_MODE `
+        /p:AppxBundle=$env:APPX_BUNDLE `
+        /p:AppxPackageSigningEnabled=$env:APPX_PACKAGE_SIGNING_ENABLED `
+        /p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+        /p:AppxPackageDir=$env:ARTIFACTS_DIR `
+        /p:PackageCertificateKeyFile=$env:PACKAGE_CERTIFICATE_KEYFILE `
+        /p:PackageCertificatePassword=$env:PACKAGE_CERTIFICATE_PASSWORD `
+        /p:AppCenterSecret=$env:APP_CENTER_SECRET
+      env:
+        PLATFORM: x64
+        UAP_APPX_PACKAGE_BUILD_MODE: StoreUpload
+        APPX_BUNDLE: Always
+        APPX_PACKAGE_SIGNING_ENABLED: ${{ matrix.newVersion != '' }}
+        APPX_BUNDLE_PLATFORMS: ${{ matrix.appxBundlePlatforms }}
+        ARTIFACTS_DIR: ${{ github.workspace }}\Artifacts
+        PACKAGE_CERTIFICATE_KEYFILE: ${{ github.workspace }}\cert.pfx
+        PACKAGE_CERTIFICATE_PASSWORD: ${{ secrets.PACKAGE_CERTIFICATE_PWD }}
+        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
