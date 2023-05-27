@@ -1,4 +1,4 @@
-name: Files build pipeline
+name: Files Build Pipeline
 
 on:
   push:
