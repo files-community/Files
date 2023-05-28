@@ -43,12 +43,12 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
-					var _ = SwitchQuickLookPreview();
+					var _ = SwitchPopupPreview();
 					break;
 			}
 		}
 
-		private async Task SwitchQuickLookPreview()
+		private async Task SwitchPopupPreview()
 		{
 			if (IsExecutable)
 			{
