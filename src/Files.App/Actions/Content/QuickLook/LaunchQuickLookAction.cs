@@ -31,6 +31,9 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			var provider = await previewPopupService.GetProviderAsync();
+			if (provider is null)
+				return;
+
 			await provider.TogglePreviewPopup(context.SelectedItem!.ItemPath);
 		}
 
@@ -50,6 +53,9 @@ namespace Files.App.Actions
 			if (IsExecutable)
 			{
 				var provider = await previewPopupService.GetProviderAsync();
+				if (provider is null)
+					return;
+
 				await provider.SwitchPreview(context.SelectedItem!.ItemPath);
 			}
 		}
