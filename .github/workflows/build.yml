@@ -102,7 +102,7 @@ jobs:
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_NAME: 'src/Files.App (Package)/Files.Package.wapproj'
-      PROJECT_RESTORE_PLATFORM: "x64"
+      PROJECT_RESTORE_PLATFORM: ${{ matrix.platform }}
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       DEFAULT_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
