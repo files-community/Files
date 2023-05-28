@@ -9,9 +9,12 @@ namespace Files.App.ServicesImplementation
 	/// <inheritdoc cref="IPreviewPopupService"/>
 	internal sealed class PreviewPopupService : ObservableObject, IPreviewPopupService
 	{
-		public Task<IPreviewPopupProvider> GetProviderAsync()
+		public async Task<IPreviewPopupProvider?> GetProviderAsync()
 		{
-			return Task.FromResult<IPreviewPopupProvider>(QuickLookProvider.Instance);
+			if (await QuickLookProvider.Instance.DetectAvailability())
+				return await Task.FromResult<IPreviewPopupProvider>(QuickLookProvider.Instance);
+			else
+				return null;
 		}
 	}
 }

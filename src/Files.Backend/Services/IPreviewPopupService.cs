@@ -13,6 +13,6 @@ namespace Files.Backend.Services
 		/// Get Preview Popup provider
 		/// </summary>
 		/// <returns></returns>
-		Task<IPreviewPopupProvider> GetProviderAsync();
+		Task<IPreviewPopupProvider?> GetProviderAsync();
 	}
 }
