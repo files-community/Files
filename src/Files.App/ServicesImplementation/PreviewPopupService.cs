@@ -11,7 +11,7 @@ namespace Files.App.ServicesImplementation
 	{
 		public Task<IPreviewPopupProvider> GetProviderAsync()
 		{
-			return QuickLookProvider.Instance;
+			return Task.FromResult<IPreviewPopupProvider>(QuickLookProvider.Instance);
 		}
 	}
 }
