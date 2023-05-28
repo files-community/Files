@@ -20,19 +20,11 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 
 		public async Task TogglePreviewPopup(string path)
 		{
-			bool isQuickLookAvailable = await DetectAvailability();
-			if (!isQuickLookAvailable)
-				return;
-
 			await DoPreview(path, pipeMessageToggle);
 		}
 
 		public async Task SwitchPreview(string path)
 		{
-			bool isQuickLookAvailable = await DetectAvailability();
-			if (!isQuickLookAvailable)
-				return;
-
 			await DoPreview(path, pipeMessageSwitch);
 		}
 
