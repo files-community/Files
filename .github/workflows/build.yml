@@ -55,19 +55,19 @@ jobs:
           # Preview configuration
           $PreviewConfiguration = @( [ordered]@{
               configuration= "Preview"
-              platform = "x86"
+              platform = "x64"
             }
           )
           # Stable configuration
           $StableConfiguration = @( [ordered]@{
               configuration= "Stable"
-              platform = "x86"
+              platform = "x64"
             }
           )
           # Store configuration
           $StoreConfiguration = @( [ordered]@{
               configuration= "Store"
-              platform = "x86"
+              platform = "x64"
             }
           )
           # Manually triggered the Actions
@@ -102,14 +102,14 @@ jobs:
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_NAME: 'src/Files.App (Package)/Files.Package.wapproj'
-      PROJECT_RESTORE_PLATFORM: ${{ matrix.platform }}
+      PROJECT_RESTORE_PLATFORM: "x64"
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       DEFAULT_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-  
+
     - name: Setup MSBuild
       id: setup_msbuild
       uses: microsoft/setup-msbuild@v1
@@ -122,7 +122,7 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.0.x'
-  
+
     - name: Restore Files
       id: restore_project
       shell: pwsh
@@ -143,7 +143,7 @@ jobs:
       run: |
         $SIGNING_CERT_BASE64_STR = $env:SIGNING_CERT_BASE64_STR
         $SIGNING_CERT_OUTPUT_FILE = "$env:DEFAULT_DIR\cert.pfx"
-        
+
         $SIGNING_CERT_BASE64_BYTE = [Convert]::FromBase64String($SIGNING_CERT_BASE64_STR)
         [IO.File]::WriteAllBytes($SIGNING_CERT_OUTPUT_FILE, $SIGNING_CERT_BASE64_BYTE)
       env:
