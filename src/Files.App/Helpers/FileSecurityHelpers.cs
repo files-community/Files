@@ -3,15 +3,9 @@
 
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
-using FilesSecurity = Files.App.Filesystem.Security;
+using SystemSecurity = System.Security.AccessControl;
 
 namespace Files.App.Helpers
 {
@@ -20,6 +14,34 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class FileSecurityHelpers
 	{
+		/// <summary>
+		/// Get the owner of the object specified by the path.
+		/// </summary>
+		/// <param name="path">The file full path</param>
+		/// <returns></returns>
+		public static string GetOwner(string path)
+		{
+			GetNamedSecurityInfo(
+				path,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
+				out var pSidOwner,
+				out _,
+				out _,
+				out _,
+				out _);
+
+			var szSid = ConvertSidToStringSid(pSidOwner);
+
+			return szSid;
+		}
+
+		/// <summary>
+		/// Set the owner of the object specified by the path.
+		/// </summary>
+		/// <param name="path">The file full path</param>
+		/// <param name="sid">The owner security identifier (SID)</param>
+		/// <returns></returns>
 		public static bool SetOwner(string path, string sid)
 		{
 			SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
@@ -43,73 +65,18 @@ namespace Files.App.Helpers
 			return true;
 		}
 
-		public static string GetOwner(string path)
+		/// <summary>
+		/// Get information about an access control list (ACL).
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="isFolder"></param>
+		/// <returns>If the function succeeds, an instance of AccessControlList; otherwise, null. To get extended error information, call GetLastError.</returns>
+		public static Win32Error GetAccessControlList(string path, bool isFolder, out AccessControlList acl)
 		{
-			GetNamedSecurityInfo(
-				path,
-				SE_OBJECT_TYPE.SE_FILE_OBJECT,
-				SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
-				out var pSidOwner,
-				out _,
-				out _,
-				out _,
-				out _);
+			acl = new();
 
-			var szSid = ConvertSidToStringSid(pSidOwner);
-
-			return szSid;
-		}
-
-		public static bool GetAccessControlProtection(string path, bool isFolder)
-		{
-			FileSystemSecurity fileSystemSecurity;
-
-			if (isFolder && Directory.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(path));
-				return fileSystemSecurity.AreAccessRulesProtected;
-			}
-			else if (File.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
-				return fileSystemSecurity.AreAccessRulesProtected;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public static bool SetAccessControlProtection(string path, bool isFolder, bool isProtected, bool preserveInheritance)
-		{
-			FileSystemSecurity fileSystemSecurity;
-
-			if (isFolder && Directory.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new DirectoryInfo(path));
-				fileSystemSecurity.SetAccessRuleProtection(isProtected, preserveInheritance);
-				FileSystemAclExtensions.SetAccessControl(new DirectoryInfo(path), (DirectorySecurity)fileSystemSecurity);
-
-				return true;
-			}
-			else if (File.Exists(path))
-			{
-				fileSystemSecurity = FileSystemAclExtensions.GetAccessControl(new FileInfo(path));
-				fileSystemSecurity.SetAccessRuleProtection(isProtected, preserveInheritance);
-				FileSystemAclExtensions.SetAccessControl(new FileInfo(path), (FileSecurity)fileSystemSecurity);
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		public static AccessControlList GetAccessControlList(string path, bool isFolder)
-		{
 			// Get DACL
-			GetNamedSecurityInfo(
+			var win32Error = GetNamedSecurityInfo(
 				path,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
@@ -119,107 +86,175 @@ namespace Files.App.Helpers
 				out _,
 				out _);
 
+			if (win32Error.Failed || pDacl == PACL.NULL)
+				return win32Error;
+
 			// Get ACL size info
-			GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			bool bResult = GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			if (!bResult)
+				return Kernel32.GetLastError();
 
 			// Get owner
 			var szOwnerSid = GetOwner(path);
+			var principal = new Principal(szOwnerSid);
 
-			// Initialize
-			var acl = new AccessControlList()
-			{
-				Owner = Principal.FromSid(szOwnerSid),
-				IsProtected = GetAccessControlProtection(path, isFolder),
-				IsValid = true,
-				AccessControlEntries = new(),
-				Path = path,
-				IsFolder = isFolder
-			};
+			var isValidAcl = IsValidAcl(pDacl);
+
+			List<AccessControlEntry> aces = new();
 
 			// Get ACEs
 			for (uint i = 0; i < aclSize.AceCount; i++)
 			{
-				GetAce(pDacl, i, out var pAce);
+				bResult = GetAce(pDacl, i, out var pAce);
+				if (!bResult)
+					return Kernel32.GetLastError();
 
 				var szSid = ConvertSidToStringSid(pAce.GetSid());
 
-				var header = pAce.GetHeader();
-
-				FilesSecurity.AccessControlType type;
-				FilesSecurity.InheritanceFlags inheritanceFlags = FilesSecurity.InheritanceFlags.None;
-				FilesSecurity.PropagationFlags propagationFlags = FilesSecurity.PropagationFlags.None;
+				AccessControlEntryType type;
+				AccessControlEntryFlags inheritanceFlags = AccessControlEntryFlags.None;
 				AccessMaskFlags accessMaskFlags = (AccessMaskFlags)pAce.GetMask();
 
+				var header = pAce.GetHeader();
 				type = header.AceType switch
 				{
-					AceType.AccessAllowed => FilesSecurity.AccessControlType.Allow,
-					_ => FilesSecurity.AccessControlType.Deny
+					SystemSecurity.AceType.AccessAllowed => AccessControlEntryType.Allow,
+					_ => AccessControlEntryType.Deny
 				};
 
-				bool isInherited = header.AceFlags.HasFlag(AceFlags.InheritanceFlags);
+				bool isInherited = header.AceFlags.HasFlag(SystemSecurity.AceFlags.InheritanceFlags);
 
-				if (header.AceFlags.HasFlag(AceFlags.ContainerInherit))
-					inheritanceFlags |= FilesSecurity.InheritanceFlags.ContainerInherit;
-				if (header.AceFlags.HasFlag(AceFlags.ObjectInherit))
-					inheritanceFlags |= FilesSecurity.InheritanceFlags.ObjectInherit;
-				if (header.AceFlags.HasFlag(AceFlags.NoPropagateInherit))
-					propagationFlags |= FilesSecurity.PropagationFlags.NoPropagateInherit;
-				if (header.AceFlags.HasFlag(AceFlags.InheritOnly))
-					propagationFlags |= FilesSecurity.PropagationFlags.InheritOnly;
+				if (header.AceFlags.HasFlag(SystemSecurity.AceFlags.ContainerInherit))
+					inheritanceFlags |= AccessControlEntryFlags.ContainerInherit;
+				if (header.AceFlags.HasFlag(SystemSecurity.AceFlags.ObjectInherit))
+					inheritanceFlags |= AccessControlEntryFlags.ObjectInherit;
+				if (header.AceFlags.HasFlag(SystemSecurity.AceFlags.NoPropagateInherit))
+					inheritanceFlags |= AccessControlEntryFlags.NoPropagateInherit;
+				if (header.AceFlags.HasFlag(SystemSecurity.AceFlags.InheritOnly))
+					inheritanceFlags |= AccessControlEntryFlags.InheritOnly;
 
 				// Initialize an ACE
-				acl.AccessControlEntries.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags, propagationFlags));
+				aces.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
 			}
 
-			return acl;
+			// Initialize with proper data
+			acl = new AccessControlList(path, isFolder, principal, isValidAcl);
+
+			// Set access control entries
+			foreach (var ace in aces)
+				acl.AccessControlEntries.Add(ace);
+
+			return Kernel32.GetLastError();
 		}
 
-		public static bool SetAccessControlList(AccessControlList acl)
-		{
-			return false;
-		}
-
+		/// <summary>
+		/// Get access control list (ACL) initialized with default data.
+		/// </summary>
+		/// <param name="isFolder"></param>
+		/// <param name="ownerSid"></param>
+		/// <returns>If the function succeeds, an instance of AccessControlList; otherwise, null.</returns>
 		public static AccessControlEntry InitializeDefaultAccessControlEntry(bool isFolder, string ownerSid)
 		{
 			return new(
 				isFolder,
 				ownerSid,
-				FilesSecurity.AccessControlType.Allow,
-				FilesSecurity.AccessMaskFlags.ReadAndExecute,
+				AccessControlEntryType.Allow,
+				AccessMaskFlags.ReadAndExecute,
 				false,
 				isFolder
-					? FilesSecurity.InheritanceFlags.ContainerInherit | FilesSecurity.InheritanceFlags.ObjectInherit
-					: FilesSecurity.InheritanceFlags.None,
-				FilesSecurity.PropagationFlags.None);
+					? AccessControlEntryFlags.ContainerInherit | AccessControlEntryFlags.ObjectInherit
+					: AccessControlEntryFlags.None);
 		}
 
-		public static bool AddAccessControlEntry(string path, AccessControlEntry entry)
+		/// <summary>
+		/// Add an default Access Control Entry (ACE) to the specified object's DACL
+		/// </summary>
+		/// <param name="path">The object's path to add an new ACE to its DACL</param>
+		/// <param name="sid">Principal's SID</param>
+		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
+		public static Win32Error AddAccessControlEntry(string szPath, string szSid)
 		{
-			// Get DACL
-			GetNamedSecurityInfo(
-				path,
+			// Get DACL for the specified object
+			var result = GetNamedSecurityInfo(
+				szPath,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				out var pDacl,
+				out var pDACL,
 				out _,
 				out _);
 
-			// Get ACL size info
-			GetAclInformation(pDacl, out ACL_SIZE_INFORMATION aclSize);
+			if (result.Failed)
+				return result;
 
-			uint revision = GetAclInformation(pDacl, out ACL_REVISION_INFORMATION aclRevision) ? aclRevision.AclRevision : 0U;
-
-			// Get ACEs
-			for (uint i = 0; i < aclSize.AceCount; i++)
+			// Initialize default trustee
+			var explicitAccess = new EXPLICIT_ACCESS
 			{
-				//GetAce(pDacl, i, out var pAce);
+				grfAccessMode = ACCESS_MODE.GRANT_ACCESS,
+				grfAccessPermissions = ACCESS_MASK.GENERIC_READ | ACCESS_MASK.GENERIC_EXECUTE,
+				grfInheritance = INHERIT_FLAGS.NO_INHERITANCE,
+				Trustee = new TRUSTEE(new SafePSID(szSid)),
+			};
 
-				//AddAce(pDacl, revision, 0, (IntPtr)pAce, ((PACL)pDacl).Length() - (uint)Marshal.SizeOf(typeof(ACL)));
-			}
+			// Add an new ACE and get a new ACL
+			result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
 
-			return false;
+			if (result.Failed)
+				return result;
+
+			// Set the new ACL
+			result = SetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				ppDacl: pNewDACL);
+
+			if (result.Failed)
+				return result;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Add an Access Control Entry (ACE) from the specified object's DACL
+		/// </summary>
+		/// <param name="szPath">The object's path to remove an ACE from its DACL</param>
+		/// <param name="dwAceIndex"></param>
+		/// <returns></returns>
+		public static Win32Error RemoveAccessControlEntry(string szPath, uint dwAceIndex)
+		{
+			// Get DACL for the specified object
+			var result = GetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				out _,
+				out _,
+				out var pDACL,
+				out _,
+				out _);
+
+			if (result.Failed)
+				return result;
+
+			// Remove an ACE
+			bool bResult = DeleteAce(pDACL, dwAceIndex);
+
+			if (!bResult)
+				return Kernel32.GetLastError();
+
+			// Set the new ACL
+			result = SetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				ppDacl: pDACL);
+
+			if (result.Failed)
+				return result;
+
+			return result;
 		}
 	}
 }

@@ -114,7 +114,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				GetFolderSize(storageFolder.Path, TokenSource.Token);
 			}
-			else if (Item.ItemPath.Equals(CommonPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				var recycleBinQuery = Win32Shell.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)

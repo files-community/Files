@@ -101,14 +101,16 @@ namespace Files.App.ViewModels.Settings
 			await DetectResult();
 		}
 
-		private async Task DetectResult()
+		private Task DetectResult()
 		{
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			if (!IsSetAsDefaultFileManager)
 			{
 				IsSetAsOpenFileDialog = false;
-				await SetAsOpenFileDialog();
+				return SetAsOpenFileDialog();
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private async Task SetAsOpenFileDialog()

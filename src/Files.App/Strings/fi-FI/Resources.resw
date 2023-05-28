@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Uusi ikkuna</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Kopioi sijainti</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Kopioi polku</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Selaa</value>
@@ -477,7 +477,7 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Eri tyypit</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>Kaikki kohteessa {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Yksi ristiriitainen tiedostonimi.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Luo kansio valinnalla</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -1898,9 +1898,6 @@
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Kohteita ei löytynyt</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Näytä vain esikatselu</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Avaa lokin sijainti</value>
@@ -3178,6 +3175,9 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Näytä valintaruudut kohteita valittaessa</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Hae indeksoimattomia kohteita</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Kohdista polkupalkkiin</value>
   </data>
@@ -3204,5 +3204,119 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Tee viimeisin tiedostotoiminto uudestaan</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Sijainti:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet kuukauden mukaan</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet vuoden mukaan</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Kuukausi</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Vaihda päivämäärän mukaan ryhmittelyä varten</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Vaihda ryhmittely-yksikköä</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Vuosi</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Ryhmittele kuukauden eikä vuoden mukaan</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet luontikuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet luontivuoden mukaan</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet poiston kuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet poistovuoden mukaan</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet muokkauskuukauden mukaan</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Ryhmittele kohteet muokkausvuoden mukaan</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Napsauta "Lisäkäyttöoikeudet" jatkaaksesi.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Sinulla on oltava lukuoikeudet, jotta voit tarkastella tämän kohteen ominaisuuksia.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Jos haluat yrittää ottaa kohteen omistajuuden, joka sisältää oikeuden tarkastella sen ominaisuuksia, napsauta Muuta.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>Käyttöoikeuksia ei voi näyttää.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Jätä muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Hylkää tekemäni muutokset</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Tuo muutokseni kohteeseen '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+    <value>Vaihda haaraa</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Haarat</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Vaihda</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Uusi haara</value>
+  </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Virheellinen haaran nimi</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Luo haara</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Luo haara</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Perustuu</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Siirry uuteen haaraan</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Luo kansio tällä hetkellä valituilla kohteilla</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Avaa ominaisuudet</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Avaa ominaisuudet-ikkuna</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Paikalliset</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Etäpalvelimet</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Käännä Crowdinissa</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
 </root>

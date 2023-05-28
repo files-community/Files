@@ -276,16 +276,16 @@ namespace Files.App.Filesystem
 		private static PathBoxItem GetPathItem(string component, string path)
 		{
 			var title = string.Empty;
-			if (component.StartsWith(CommonPaths.RecycleBinPath, StringComparison.Ordinal))
+			if (component.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				// Handle the recycle bin: use the localized folder name
 				title = "RecycleBin".GetLocalizedResource();
 			}
-			else if (component.StartsWith(CommonPaths.MyComputerPath, StringComparison.Ordinal))
+			else if (component.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.Ordinal))
 			{
 				title = "ThisPC".GetLocalizedResource();
 			}
-			else if (component.StartsWith(CommonPaths.NetworkFolderPath, StringComparison.Ordinal))
+			else if (component.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.Ordinal))
 			{
 				title = "SidebarNetworkDrives".GetLocalizedResource();
 			}
@@ -316,15 +316,15 @@ namespace Files.App.Filesystem
 		private static string GetPathWithoutEnvironmentVariable(string path)
 		{
 			if (path.StartsWith("~\\", StringComparison.Ordinal))
-				path = $"{CommonPaths.HomePath}{path.Remove(0, 1)}";
+				path = $"{Constants.UserEnvironmentPaths.HomePath}{path.Remove(0, 1)}";
 
-			path = path.Replace("%temp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+			path = path.Replace("%temp%", Constants.UserEnvironmentPaths.TempPath, StringComparison.OrdinalIgnoreCase);
 
-			path = path.Replace("%tmp%", CommonPaths.TempPath, StringComparison.OrdinalIgnoreCase);
+			path = path.Replace("%tmp%", Constants.UserEnvironmentPaths.TempPath, StringComparison.OrdinalIgnoreCase);
 
-			path = path.Replace("%localappdata%", CommonPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+			path = path.Replace("%localappdata%", Constants.UserEnvironmentPaths.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
 
-			path = path.Replace("%homepath%", CommonPaths.HomePath, StringComparison.OrdinalIgnoreCase);
+			path = path.Replace("%homepath%", Constants.UserEnvironmentPaths.HomePath, StringComparison.OrdinalIgnoreCase);
 
 			return Environment.ExpandEnvironmentVariables(path);
 		}

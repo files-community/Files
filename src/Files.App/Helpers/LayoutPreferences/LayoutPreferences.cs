@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
-
 namespace Files.App.Helpers.LayoutPreferences
 {
 	public class LayoutPreferences
@@ -17,6 +12,7 @@ namespace Files.App.Helpers.LayoutPreferences
 		public bool SortDirectoriesAlongsideFiles;
 		public GroupOption DirectoryGroupOption;
 		public SortDirection DirectoryGroupDirection;
+		public GroupByDateUnit DirectoryGroupByDateUnit;
 		public FolderLayoutModes LayoutMode;
 		public int GridViewSize;
 		public bool IsAdaptiveLayoutOverridden;
@@ -36,6 +32,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			DirectoryGroupOption = UserSettingsService.FoldersSettingsService.DefaultGroupOption;
 			DirectorySortDirection = UserSettingsService.FoldersSettingsService.DefaultDirectorySortDirection;
 			DirectoryGroupDirection = UserSettingsService.FoldersSettingsService.DefaultDirectoryGroupDirection;
+			DirectoryGroupByDateUnit = UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit;
 			SortDirectoriesAlongsideFiles = UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles;
 			IsAdaptiveLayoutOverridden = defaultLayout is not FolderLayoutModes.Adaptive;
 
@@ -77,6 +74,7 @@ namespace Files.App.Helpers.LayoutPreferences
 					prefs.DirectorySortOption == DirectorySortOption &&
 					prefs.DirectorySortDirection == DirectorySortDirection &&
 					prefs.DirectoryGroupDirection == DirectoryGroupDirection &&
+					prefs.DirectoryGroupByDateUnit == DirectoryGroupByDateUnit &&
 					prefs.SortDirectoriesAlongsideFiles == SortDirectoriesAlongsideFiles &&
 					prefs.IsAdaptiveLayoutOverridden == IsAdaptiveLayoutOverridden &&
 					prefs.ColumnsViewModel.Equals(ColumnsViewModel));
@@ -92,6 +90,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			hashCode = (hashCode * 397) ^ DirectorySortOption.GetHashCode();
 			hashCode = (hashCode * 397) ^ DirectorySortDirection.GetHashCode();
 			hashCode = (hashCode * 397) ^ DirectoryGroupDirection.GetHashCode();
+			hashCode = (hashCode * 397) ^ DirectoryGroupByDateUnit.GetHashCode();
 			hashCode = (hashCode * 397) ^ SortDirectoriesAlongsideFiles.GetHashCode();
 			hashCode = (hashCode * 397) ^ IsAdaptiveLayoutOverridden.GetHashCode();
 			hashCode = (hashCode * 397) ^ ColumnsViewModel.GetHashCode();

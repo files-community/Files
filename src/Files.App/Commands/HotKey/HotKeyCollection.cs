@@ -23,7 +23,7 @@ namespace Files.App.Commands
 		public int Length => hotKeys.Length;
 
 		public string Code => string.Join(',', hotKeys.Select(hotKey => hotKey.Code));
-		public string Label => string.Join(',', hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Code));
+		public string Label => string.Join(',', hotKeys.Where(hotKey => hotKey.IsVisible).Select(hotKey => hotKey.Label));
 
 		public HotKeyCollection() => hotKeys = ImmutableArray<HotKey>.Empty;
 		public HotKeyCollection(params HotKey[] hotKeys) => this.hotKeys = Clean(hotKeys);

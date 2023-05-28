@@ -6,14 +6,15 @@
 	xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:views="using:Files.App.Views"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
-		<DataTemplate x:Name="CurrentItem" x:DataType="views:PathBoxItem">
+		<DataTemplate x:Name="CurrentItem" x:DataType="dataitem:PathBoxItem">
 			<StackPanel
 				x:Name="ListViewItemContentGrid"
 				AllowDrop="True"
@@ -50,7 +51,7 @@
 				<FontIcon FontSize="12" Glyph="&#xE76C;" />
 			</StackPanel>
 		</DataTemplate>
-		<DataTemplate x:Name="ParentItems" x:DataType="views:PathBoxItem">
+		<DataTemplate x:Name="ParentItems" x:DataType="dataitem:PathBoxItem">
 			<StackPanel
 				x:Name="ListViewItemContentGrid"
 				VerticalAlignment="Center"
@@ -129,6 +130,7 @@
 			</StackPanel>
 		</DataTemplate>
 	</UserControl.Resources>
+
 	<ListView
 		x:Name="PathViewInteract"
 		Padding="6,0,12,0"
@@ -145,6 +147,7 @@
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"
 		ScrollViewer.VerticalScrollMode="Disabled"
 		SelectionMode="None">
+
 		<ListView.ItemsPanel>
 			<ItemsPanelTemplate>
 				<ItemsStackPanel
@@ -153,6 +156,7 @@
 					Orientation="Horizontal" />
 			</ItemsPanelTemplate>
 		</ListView.ItemsPanel>
+
 		<ListView.ItemContainerStyle>
 			<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 				<Setter Property="MinWidth" Value="1" />
@@ -162,11 +166,14 @@
 				<Setter Property="Margin" Value="-4,0" />
 			</Style>
 		</ListView.ItemContainerStyle>
+
 		<ListView.ItemContainerTransitions>
 			<TransitionCollection />
 		</ListView.ItemContainerTransitions>
+
 		<ListView.ItemTemplateSelector>
 			<helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
 		</ListView.ItemTemplateSelector>
+
 	</ListView>
 </UserControl>

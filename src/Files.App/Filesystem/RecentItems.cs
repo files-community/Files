@@ -122,7 +122,7 @@ namespace Files.App.Filesystem
 		{
 			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
-			var linkFilePaths = Directory.EnumerateFiles(CommonPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
+			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
 			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
 			{

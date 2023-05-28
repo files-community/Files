@@ -111,9 +111,16 @@ namespace Files.App.Filesystem.Search
 
 		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
 		{
-			foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
-				await AddItemsAsync(drive.Path, results, token);
+				await SearchTagsAsync("", results, token); // Search tags everywhere, not only local drives
+			}
+			else
+			{
+				foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				{
+					await AddItemsAsync(drive.Path, results, token);
+				}
 			}
 		}
 

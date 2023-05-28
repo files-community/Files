@@ -29,7 +29,6 @@ namespace Files.App.Interacts
 
 		private void InitializeCommands()
 		{
-			ShowPropertiesCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.ShowProperties);
 			OpenDirectoryInNewTabCommand = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewTab);
 			OpenDirectoryInNewPaneCommand = new RelayCommand<RoutedEventArgs>(CommandsModel.OpenDirectoryInNewPane);
 			OpenInNewWindowItemCommand = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.OpenInNewWindowItem);
@@ -38,15 +37,11 @@ namespace Files.App.Interacts
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(CommandsModel.PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(CommandsModel.Drop);
-			SearchUnindexedItems = new RelayCommand<RoutedEventArgs>(CommandsModel.SearchUnindexedItems);
-			CreateFolderWithSelection = new AsyncRelayCommand<RoutedEventArgs>(CommandsModel.CreateFolderWithSelection);
 		}
 
 		#endregion Command Initialization
 
 		#region Commands
-
-		public ICommand ShowPropertiesCommand { get; private set; }
 
 		public ICommand OpenDirectoryInNewTabCommand { get; private set; }
 
@@ -63,10 +58,6 @@ namespace Files.App.Interacts
 		public ICommand DragOverCommand { get; private set; }
 
 		public ICommand DropCommand { get; private set; }
-
-		public ICommand SearchUnindexedItems { get; private set; }
-
-		public ICommand CreateFolderWithSelection { get; private set; }
 
 		#endregion Commands
 

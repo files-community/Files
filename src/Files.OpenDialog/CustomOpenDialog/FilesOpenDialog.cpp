@@ -4,6 +4,7 @@
 // Abstract:
 //  Implementation of CFilesOpenDialog.
 
+#include "pch.h"
 #include <shlobj.h>
 #include <iostream>
 #include <fstream>
@@ -11,7 +12,6 @@
 #include <locale>
 #include <codecvt>
 #include "FilesOpenDialog.h"
-#include "pch.h"
 
 //#define SYSTEMDIALOG
 

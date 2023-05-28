@@ -11,7 +11,7 @@
 	mc:Ignorable="d">
 
 	<MenuFlyoutItem.Style>
-		<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="local:MenuFlyoutItemWithImage">
+		<Style TargetType="local:MenuFlyoutItemWithImage">
 			<Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}" />
 			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
 			<Setter Property="Template">

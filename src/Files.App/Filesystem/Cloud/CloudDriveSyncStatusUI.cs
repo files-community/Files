@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.Extensions;
 using Files.Shared.Cloud;
 
 namespace Files.App.Filesystem.Cloud
@@ -12,11 +10,20 @@ namespace Files.App.Filesystem.Cloud
 		public string Glyph { get; }
 
 		public CloudDriveSyncStatus SyncStatus { get; }
+
 		public bool LoadSyncStatus { get; }
+
 		public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
 
-		public CloudDriveSyncStatusUI() { }
-		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus) => SyncStatus = syncStatus;
+		public CloudDriveSyncStatusUI()
+		{
+		}
+
+		private CloudDriveSyncStatusUI(CloudDriveSyncStatus syncStatus)
+		{
+			SyncStatus = syncStatus;
+		}
+
 		private CloudDriveSyncStatusUI(string glyph, CloudDriveSyncStatus syncStatus, string SyncStatusStringKey)
 		{
 			SyncStatus = syncStatus;

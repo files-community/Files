@@ -16,15 +16,15 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CopyLocation".GetLocalizedResource();
+		public string Label { get; } = "CopyPath".GetLocalizedResource();
 
 		public string Description => "CopyPathDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyLocation");
+		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
 		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
@@ -41,6 +41,8 @@ namespace Files.App.Actions
 				Clipboard.SetContent(data);
 				Clipboard.Flush();
 			}
+
+			return Task.CompletedTask;
 		}
 	}
 }

@@ -34,9 +34,9 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			await ArchiveHelpers.DecompressArchive(context.ShellPage);
+			return ArchiveHelpers.DecompressArchive(context.ShellPage);
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

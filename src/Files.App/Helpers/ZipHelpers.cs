@@ -18,7 +18,7 @@ namespace Files.App.Helpers
 	{
 		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
 		{
-			return await Filesystem.FilesystemTasks.Wrap(async () =>
+			return await FilesystemTasks.Wrap(async () =>
 			{
 				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
 				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
@@ -39,7 +39,7 @@ namespace Files.App.Helpers
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
 			if (zipFile is null)
 				return;
-			//zipFile.IsStreamOwner = true;
+
 			var directoryEntries = new List<ArchiveFileInfo>();
 			var fileEntries = new List<ArchiveFileInfo>();
 			foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
@@ -91,6 +91,7 @@ namespace Files.App.Helpers
 			byte[] buffer = new byte[4096];
 			int entriesAmount = fileEntries.Count;
 			int entriesFinished = 0;
+			var minimumTime = new DateTime(1);
 
 			FileSystemProgress fsProgress = new(progress, true, Shared.Enums.FileSystemStatusCode.InProgress, entriesAmount);
 			fsProgress.Report();
@@ -119,10 +120,10 @@ namespace Files.App.Helpers
 						return; // TODO: handle error
 					}
 				}
-				
+
 				_ = new FileInfo(filePath)
 				{
-					CreationTime = entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
+					CreationTime = entry.CreationTime > minimumTime && entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
 					LastWriteTime = entry.LastWriteTime,
 				};
 

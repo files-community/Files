@@ -1,0 +1,82 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<local:BaseShellPage
+	x:Class="Files.App.Views.Shells.ModernShellPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.Views.Shells"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wct="using:CommunityToolkit.WinUI.UI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	x:Name="RootPage"
+	KeyboardAcceleratorPlacementMode="Hidden"
+	Loaded="Page_Loaded"
+	mc:Ignorable="d">
+
+	<local:BaseShellPage.Resources>
+		<ResourceDictionary>
+			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
+	</local:BaseShellPage.Resources>
+
+	<local:BaseShellPage.KeyboardAccelerators>
+		<KeyboardAccelerator
+			Key="V"
+			Invoked="KeyboardAccelerator_Invoked"
+			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+			Modifiers="Control" />
+	</local:BaseShellPage.KeyboardAccelerators>
+
+	<Grid HorizontalAlignment="Stretch" wct:UIElementExtensions.ClipToBounds="True">
+
+		<Border
+			x:Name="BackIcon"
+			Width="48"
+			Height="48"
+			Margin="-1,0,0,0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Center"
+			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
+			Background="{ThemeResource AccentFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource AccentControlElevationBorderBrush}"
+			BorderThickness="1"
+			Canvas.ZIndex="64"
+			CornerRadius="24">
+			<FontIcon
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+				Glyph="&#xE72B;" />
+		</Border>
+
+		<Border
+			x:Name="ForwardIcon"
+			Width="48"
+			Height="48"
+			Margin="1,0,0,0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Center"
+			wct:VisualExtensions.NormalizedCenterPoint="0.5,0.5"
+			Background="{ThemeResource AccentFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource AccentControlElevationBorderBrush}"
+			BorderThickness="1"
+			Canvas.ZIndex="64"
+			CornerRadius="24">
+			<SymbolIcon
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+				Symbol="Forward" />
+		</Border>
+
+		<Frame
+			x:Name="ItemDisplayFrame"
+			HorizontalAlignment="Stretch"
+			x:FieldModifier="public"
+			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
+			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
+			Navigated="ItemDisplayFrame_Navigated" />
+
+	</Grid>
+</local:BaseShellPage>

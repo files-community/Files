@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nueva ventana</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Copiar ubicación</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copiar ruta</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
@@ -217,7 +217,7 @@
     <value>Avanzado</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continuar donde lo dejó</value>
+    <value>Continuar donde se dejó</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Abrir una nueva pestaña</value>
@@ -289,10 +289,10 @@
     <value>Establecer nombre</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Tema Claro</value>
+    <value>Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Tema Oscuro</value>
+    <value>Oscuro</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
@@ -343,13 +343,13 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que el archivo al que intenta acceder haya sido movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Archivo no encontrado</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>La carpeta a la que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que la carpeta a la que intenta acceder haya sido movida o eliminada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Eliminó esta carpeta?</value>
@@ -477,8 +477,8 @@
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Diferentes tipos</value>
   </data>
-  <data name="PropertiesCombinedItemPath" xml:space="preserve">
-    <value>Todos en {0}</value>
+  <data name="PropertiesCombinedItemLocation" xml:space="preserve">
+    <value>Todo(s) en {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espacio usado:</value>
@@ -1353,7 +1353,7 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Hay un nombre de archivo en conflicto.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
+  <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crear carpeta con la selección</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
@@ -1899,11 +1899,8 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Ningún elemento encontrado</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Mostrar solo vista previa</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Abrir ubicación del log</value>
+    <value>Abrir ubicación del registro</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Crear vínculo en {0}</value>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Retroceso</value>
+    <value>Entrar</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3149,7 +3146,7 @@
     <value>Cierra la pestaña actual</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Editar ruta</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Rama: {0}</value>
@@ -3178,11 +3175,14 @@
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostrar casillas de verificación al seleccionar elementos</value>
   </data>
+  <data name="SearchUnindexedItemsDescription" xml:space="preserve">
+    <value>Búsqueda de elementos no indexados</value>
+  </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Enfocar la barra de ruta</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Crear nuevo elemento</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Ningún grupo o usuario tiene permiso para acceder a este objeto. Sin embargo, el propietario de este objeto puede asignar permisos.</value>
@@ -3204,5 +3204,119 @@
   </data>
   <data name="RedoDescription" xml:space="preserve">
     <value>Rehacer la última operación del archivo</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Ubicación:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Alternar unidad para agrupar por fecha</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Cambiar unidad de agrupación</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Agrupar por mes en lugar de por año</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de creación</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de creación</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de eliminación</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Agrupar elementos por mes de fecha de modificación</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Agrupar elementos por año de fecha de modificación</value>
+  </data>
+  <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
+    <value>Haga clic en 'Permisos avanzados' para continuar.</value>
+  </data>
+  <data name="SecurityRequireReadPermissions" xml:space="preserve">
+    <value>Debe tener permisos de lectura para ver las propiedades de este elemento.</value>
+  </data>
+  <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
+    <value>Para intentar tomar posesión del elemento, lo que incluye el permiso para ver sus propiedades, haga clic arriba en Cambiar.</value>
+  </data>
+  <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
+    <value>No se pueden mostrar los permisos.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Dejar mis cambios en '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Descartar mis cambios</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Traer mis cambios a '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+    <value>Cambiar rama</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Ramas</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Nueva rama</value>
+  </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nombre de rama no válido</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Crear rama</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Crear Rama</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basado en</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Cambiar a nueva rama</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Crear una carpeta con el(los) elemento(s) actualmente seleccionado(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Abrir propiedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir ventana de propiedades</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locales</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotas</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Traducir en Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Vista previa</value>
   </data>
 </root>

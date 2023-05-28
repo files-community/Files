@@ -28,9 +28,9 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			await UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage!);
+			return UIFilesystemHelpers.CreateShortcutFromDialogAsync(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

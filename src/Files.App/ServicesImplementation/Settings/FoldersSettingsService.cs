@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Serialization;
-using Files.Backend.Services.Settings;
-using Files.Shared.Enums;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
 
@@ -232,6 +230,12 @@ namespace Files.App.ServicesImplementation.Settings
 		public SortDirection DefaultDirectoryGroupDirection
 		{
 			get => (SortDirection)Get((long)SortDirection.Ascending);
+			set => Set((long)value);
+		}
+
+		public GroupByDateUnit DefaultGroupByDateUnit
+		{
+			get => (GroupByDateUnit)Get((long)GroupByDateUnit.Year);
 			set => Set((long)value);
 		}
 

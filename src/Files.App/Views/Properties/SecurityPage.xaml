@@ -24,6 +24,10 @@
 				x:Key="EmptyCollectionToBoolConverter"
 				EmptyValue="True"
 				NotEmptyValue="False" />
+			<wctconverters:EmptyCollectionToObjectConverter
+				x:Key="EmptyCollectionToBoolNegationConverter"
+				EmptyValue="False"
+				NotEmptyValue="True" />
 
 		</ResourceDictionary>
 	</Page.Resources>
@@ -35,12 +39,30 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
+			<!--  No Read Access Control InfoBar  -->
+			<InfoBar
+				x:Name="UnableToDisplayInformationInfoBar"
+				Grid.Row="0"
+				x:Load="{x:Bind SecurityViewModel.DisplayElements, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				IsClosable="False"
+				IsOpen="True"
+				Message="{x:Bind SecurityViewModel.ErrorMessage, Mode=OneWay}"
+				Severity="Informational">
+				<Button
+					x:Name="OpenSecurityAdvancedPageFromInfoBarButton"
+					Margin="0,0,12,12"
+					HorizontalAlignment="Right"
+					Click="OpenSecurityAdvancedPageButton_Click"
+					Content="Advanced permissions" />
+			</InfoBar>
+
 			<!--  Access Control Entries  -->
 			<Grid
 				x:Name="PrincipalListGrid"
 				Grid.Row="0"
-				x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Mode=OneWay}"
-				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				CornerRadius="4">
@@ -72,7 +94,8 @@
 							Padding="8"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand}">
+							Command="{x:Bind SecurityViewModel.AddAccessControlEntryCommand, Mode=OneWay}"
+							IsEnabled="{x:Bind SecurityViewModel.IsAddAccessControlEntryButtonEnabled, Mode=OneWay}">
 							<FontIcon FontSize="16" Glyph="&#xE710;" />
 						</Button>
 
@@ -80,7 +103,8 @@
 							Padding="8"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand}">
+							Command="{x:Bind SecurityViewModel.RemoveAccessControlEntryCommand, Mode=OneWay}"
+							IsEnabled="{x:Bind SecurityViewModel.IsDeleteAccessControlEntryButtonEnabled, Mode=OneWay}">
 							<FontIcon FontSize="16" Glyph="&#xE738;" />
 						</Button>
 
@@ -95,11 +119,14 @@
 					Background="{ThemeResource DividerStrokeColorDefault}" />
 
 				<!--  Access Control Entries List  -->
-				<ScrollViewer Grid.Row="2" MaxHeight="160">
+				<ScrollViewer
+					x:Name="AccessControlListScrollViewer"
+					Grid.Row="2"
+					MaxHeight="160"
+					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolNegationConverter}, Mode=OneWay}">
 					<ListView
 						x:Name="AccessControlListListView"
 						Margin="0,4"
-						x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Mode=OneWay}"
 						ItemsSource="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Mode=OneWay}"
 						ScrollViewer.VerticalScrollBarVisibility="Disabled"
 						ScrollViewer.VerticalScrollMode="Disabled"
@@ -133,9 +160,9 @@
 									<TextBlock
 										Grid.Column="1"
 										Style="{StaticResource BodyTextBlockStyle}"
-										ToolTipService.ToolTip="{x:Bind Principal.FullNameOrSid}">
+										ToolTipService.ToolTip="{x:Bind Principal.FullNameHumanized}">
 										<Run Text="{x:Bind Principal.DisplayName}" />
-										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanized}" />
+										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes}" />
 									</TextBlock>
 
 								</Grid>
@@ -148,17 +175,21 @@
 				<!--  No Access Control Entries Message  -->
 				<TextBlock
 					x:Name="NoAccessControlEntriesTextBlock"
-					Margin="12,8,12,8"
+					Grid.Row="2"
+					Margin="16,16,16,16"
 					x:Load="{x:Bind SecurityViewModel.AccessControlList.AccessControlEntries, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}"
-					Text="{helpers:ResourceString Name=SecurityNoAccessControlEntriesText}" />
+					Text="{helpers:ResourceString Name=SecurityNoAccessControlEntriesText}"
+					TextWrapping="Wrap" />
 
 			</Grid>
 
 			<!--  Permissions of Selected ACE  -->
 			<Grid
+				x:Name="PermissionsForSelectedAccessControlEntryGrid"
 				Grid.Row="1"
 				Padding="12"
-				Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+				x:Load="{x:Bind SecurityViewModel.DisplayElements, Mode=OneWay}"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				CornerRadius="4"
@@ -214,7 +245,6 @@
 					Grid.Row="2"
 					Padding="8"
 					HorizontalAlignment="Stretch"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Mode=OneWay}"
 					ColumnSpacing="8">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -342,7 +372,7 @@
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"
 						Text="{helpers:ResourceString Name=SecurityListDirectoryLabel/Text}"
-						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+						Visibility="{x:Bind SecurityViewModel.AccessControlList.IsFolder, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="4"
@@ -353,7 +383,7 @@
 						VerticalAlignment="Center"
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedListDirectoryAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.AllowedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+						Visibility="{x:Bind SecurityViewModel.AccessControlList.IsFolder, Mode=OneWay}" />
 
 					<CheckBox
 						Grid.Row="4"
@@ -364,7 +394,7 @@
 						VerticalAlignment="Center"
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedListDirectoryAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedListDirectoryAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Visibility="{x:Bind SecurityViewModel.IsFolder, Mode=OneWay}" />
+						Visibility="{x:Bind SecurityViewModel.AccessControlList.IsFolder, Mode=OneWay}" />
 
 					<!--  Read  -->
 					<TextBlock
@@ -422,16 +452,6 @@
 						IsChecked="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedWriteAccess, Mode=TwoWay}"
 						IsEnabled="{x:Bind SecurityViewModel.SelectedAccessControlEntry.DeniedInheritedWriteAccess, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 				</Grid>
-
-				<!--  Cannot Read Permissions  -->
-				<TextBlock
-					x:Name="CannotReadPermissionsTextBlock"
-					Grid.Row="2"
-					Margin="4"
-					HorizontalAlignment="Left"
-					x:Load="{x:Bind SecurityViewModel.AccessControlList.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					Text="{helpers:ResourceString Name=SecurityCannotReadProperties/Text}"
-					TextWrapping="WrapWholeWords" />
 
 			</Grid>
 

@@ -960,7 +960,7 @@
 				</Setter>
 			</Style>
 
-			<Style x:Key="ColorIconCopyLocation" TargetType="local:OpacityIcon">
+			<Style x:Key="ColorIconCopyPath" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>

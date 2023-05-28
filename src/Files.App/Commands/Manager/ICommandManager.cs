@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Generic;
-
 namespace Files.App.Commands
 {
 	public interface ICommandManager : IEnumerable<IRichCommand>
@@ -18,6 +16,7 @@ namespace Files.App.Commands
 		IRichCommand ExitCompactOverlay { get; }
 		IRichCommand ToggleCompactOverlay { get; }
 		IRichCommand Search { get; }
+		IRichCommand SearchUnindexedItems { get; }
 		IRichCommand EditPath { get; }
 		IRichCommand Redo { get; }
 		IRichCommand Undo { get; }
@@ -40,6 +39,7 @@ namespace Files.App.Commands
 		IRichCommand ToggleSelect { get; }
 		IRichCommand ShareItem { get; }
 		IRichCommand CreateFolder { get; }
+		IRichCommand CreateFolderWithSelection { get; }
 		IRichCommand AddItem { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
@@ -82,6 +82,7 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenProperties { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
@@ -121,9 +122,18 @@ namespace Files.App.Commands
 		IRichCommand GroupByOriginalFolder { get; }
 		IRichCommand GroupByDateDeleted { get; }
 		IRichCommand GroupByFolderPath { get; }
+		IRichCommand GroupByDateModifiedYear { get; }
+		IRichCommand GroupByDateModifiedMonth { get; }
+		IRichCommand GroupByDateCreatedYear { get; }
+		IRichCommand GroupByDateCreatedMonth { get; }
+		IRichCommand GroupByDateDeletedYear { get; }
+		IRichCommand GroupByDateDeletedMonth { get; }
 		IRichCommand GroupAscending { get; }
 		IRichCommand GroupDescending { get; }
 		IRichCommand ToggleGroupDirection { get; }
+		IRichCommand GroupByYear { get; }
+		IRichCommand GroupByMonth { get; }
+		IRichCommand ToggleGroupByDateUnit { get; }
 
 		IRichCommand NewTab { get; }
 		IRichCommand NavigateBack { get; }

@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Services.DateTimeFormatter;
-using System;
 
 namespace Files.App.ServicesImplementation.DateTimeFormatter
 {
@@ -31,8 +28,8 @@ namespace Files.App.ServicesImplementation.DateTimeFormatter
 		public string ToLongLabel(DateTimeOffset offset)
 			=> formatter.ToLongLabel(offset);
 
-		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset)
-			=> formatter.ToTimeSpanLabel(offset);
+		public ITimeSpanLabel ToTimeSpanLabel(DateTimeOffset offset, GroupByDateUnit unit)
+			=> formatter.ToTimeSpanLabel(offset, unit);
 
 		private void Update()
 		{

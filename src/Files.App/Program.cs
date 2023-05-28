@@ -1,19 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.CommandLine;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using Files.Shared.Extensions;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using static Files.App.Helpers.InteropHelpers;
@@ -49,7 +42,7 @@ namespace Files.App
 						switch (command.Type)
 						{
 							case ParsedCommandType.ExplorerShellCommand:
-								if (!CommonPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
+								if (!Constants.UserEnvironmentPaths.ShellPlaces.ContainsKey(command.Payload.ToUpperInvariant()))
 								{
 									OpenShellCommandInExplorer(command.Payload, proc.Id);
 

@@ -21,10 +21,10 @@ namespace Files.App.Helpers
 {
 	public static class DriveHelpers
 	{
-		public static async Task<bool> EjectDeviceAsync(string path)
+		public static Task<bool> EjectDeviceAsync(string path)
 		{
 			var removableDevice = new RemovableDevice(path);
-			return await removableDevice.EjectAsync();
+			return removableDevice.EjectAsync();
 		}
 
 		public static string GetVolumeId(string driveName)

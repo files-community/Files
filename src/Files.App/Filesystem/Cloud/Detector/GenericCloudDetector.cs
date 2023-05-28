@@ -1,12 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
 using Files.Shared.Cloud;
-using System.Collections.Generic;
 
 namespace Files.App.Filesystem.Cloud
 {
+	/// <summary>
+	/// Provides an utility for generic cloud detection.
+	/// </summary>
 	public class GenericCloudDetector : AbstractCloudDetector
 	{
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()

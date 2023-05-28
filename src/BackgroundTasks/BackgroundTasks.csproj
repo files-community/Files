@@ -5,7 +5,7 @@
         <DefaultLanguage>en-US</DefaultLanguage>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <IsTrimmable>true</IsTrimmable>
-        <Configurations>Debug;Release;Sideload;Stable;Preview;Store</Configurations>
+        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;ARM64</Platforms>
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     </PropertyGroup>

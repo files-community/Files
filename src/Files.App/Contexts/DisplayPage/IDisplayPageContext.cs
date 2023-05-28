@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using System.ComponentModel;
-
 namespace Files.App.Contexts
 {
 	public interface IDisplayPageContext : INotifyPropertyChanging, INotifyPropertyChanged
@@ -16,6 +13,7 @@ namespace Files.App.Contexts
 
 		GroupOption GroupOption { get; set; }
 		SortDirection GroupDirection { get; set; }
+		GroupByDateUnit GroupByDateUnit { get; set; }
 
 		bool SortDirectoriesAlongsideFiles { get; set; }
 

@@ -109,7 +109,7 @@ namespace Files.App.ViewModels.Widgets.Bundles
 			}
 		}
 
-		private async Task OpenAddBundleDialog()
+		private Task OpenAddBundleDialog()
 		{
 			TextBox inputText = new TextBox()
 			{
@@ -175,7 +175,8 @@ namespace Files.App.ViewModels.Widgets.Bundles
 				},
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 			});
-			await dialog.TryShowAsync();
+
+			return dialog.TryShowAsync();
 		}
 
 		private void AddBundle(string name)

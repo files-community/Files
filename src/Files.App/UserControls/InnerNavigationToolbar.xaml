@@ -201,12 +201,13 @@
 					MinWidth="40"
 					AccessKey="O"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
-					Command="{x:Bind ViewModel.PropertiesCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(ViewModel.CanViewProperties, ViewModel.InstanceViewModel.IsPageTypeNotHome), Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Properties}"
+					Command="{x:Bind Commands.OpenProperties, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
+					KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenProperties.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind Commands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Properties}">
-					<local:OpacityIcon Style="{StaticResource ColorIconProperties}" />
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle, Mode=OneTime}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->
@@ -269,14 +270,7 @@
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchive.Label}">
-								<MenuFlyoutItem.KeyboardAccelerators>
-									<KeyboardAccelerator
-										Key="E"
-										IsEnabled="False"
-										Modifiers="Control" />
-								</MenuFlyoutItem.KeyboardAccelerators>
-							</MenuFlyoutItem>
+								Text="{x:Bind Commands.DecompressArchive.Label}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -527,8 +521,14 @@
 							Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByNone.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByName.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModified.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModified.Label}" />
-							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreated.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreated.Label}" />
+							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateModified.Label}">
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedYear.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateModifiedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}" />
+							</MenuFlyoutSubItem>
+							<MenuFlyoutSubItem Text="{x:Bind Commands.GroupByDateCreated.Label}">
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedYear.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateCreatedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}" />
+							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupBySize.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupBySize.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByType.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByType.Label}" />
 							<ToggleMenuFlyoutItem
@@ -540,10 +540,10 @@
 								IsChecked="{x:Bind Commands.GroupByOriginalFolder.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
-							<ToggleMenuFlyoutItem
-								IsChecked="{x:Bind Commands.GroupByDateDeleted.IsOn, Mode=TwoWay}"
-								IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByDateDeleted.Label}" />
+							<MenuFlyoutSubItem IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}" Text="{x:Bind Commands.GroupByDateDeleted.Label}">
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
+								<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
+							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"

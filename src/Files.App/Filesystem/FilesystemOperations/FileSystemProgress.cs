@@ -1,100 +1,102 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
-using Files.Shared.Enums;
-using System;
-
 namespace Files.App.Filesystem
 {
+	/// <summary>
+	/// Represents a model for file system operation progress.
+	/// </summary>
 	public class FileSystemProgress
 	{
-		private readonly IProgress<FileSystemProgress>? progress;
-		private readonly IntervalSampler sampler;
-		private FileSystemStatusCode? status;
-		private bool criticalReport;
-		private bool enumerationCompleted;
+		private readonly IProgress<FileSystemProgress>? _progress;
 
+		private readonly IntervalSampler _sampler;
+
+		private bool _criticalReport;
+
+		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
 		{
-			get => status;
+			get => _Status;
 			set
 			{
-				if (status != value)
-				{
-					criticalReport = true;
-				}
-				status = value;
+				if (_Status != value)
+					_criticalReport = true;
+
+				_Status = value;
 			}
 		}
-		public string? FileName { get; set; }
-		public long TotalSize { get; set; }
-		public long ProcessedSize { get; set; }
-		public long ItemsCount { get; set; }
-		public long ProcessedItemsCount { get; set; }
-		public DateTimeOffset StartTime { get; }
-		public DateTimeOffset CompletedTime { get; private set; }
+
+		private bool _EnumerationCompleted;
 		public bool EnumerationCompleted
 		{
-			get => enumerationCompleted;
+			get => _EnumerationCompleted;
 			set
 			{
-				if (enumerationCompleted != value)
-				{
-					criticalReport = true;
-				}
-				enumerationCompleted = value;
+				if (_EnumerationCompleted != value)
+					_criticalReport = true;
+
+				_EnumerationCompleted = value;
 			}
 		}
-		/// <summary>
-		/// Only used when detailed count isn't available.
-		/// </summary>
+
+		public string? FileName { get; set; }
+
+		public long TotalSize { get; set; }
+
+		public long ProcessedSize { get; set; }
+
+		public long ItemsCount { get; set; }
+
+		public long ProcessedItemsCount { get; set; }
+
+		public DateTimeOffset StartTime { get; }
+
+		public DateTimeOffset CompletedTime { get; private set; }
+
+		// Only used when detailed count isn't available.
 		public int? Percentage { get; set; }
 
-		public FileSystemProgress(
-			IProgress<FileSystemProgress>? progress,
-			bool enumerationCompleted = false,
-			FileSystemStatusCode? status = null,
-			long itemsCount = 0,
-			long totalSize = 0,
-			int samplerInterval = 100)
+		public FileSystemProgress(IProgress<FileSystemProgress>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
 		{
-			StartTime = DateTimeOffset.Now;
-			this.progress = progress;
-			sampler = new(samplerInterval);
+			// Initialize
+			_progress = progress;
+			_sampler = new(samplerInterval);
 			EnumerationCompleted = enumerationCompleted;
 			Status = status;
 			ItemsCount = itemsCount;
 			TotalSize = totalSize;
+			StartTime = DateTimeOffset.Now;
 		}
 
 		public void Report(int? percentage = null)
 		{
 			Percentage = percentage;
-			if ((
-				(EnumerationCompleted &&
+
+			if (((EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
 				TotalSize is not 0) ||
 				percentage is 100) &&
-				status is FileSystemStatusCode.InProgress or null)
+				_Status is FileSystemStatusCode.InProgress or null)
 			{
-				status = FileSystemStatusCode.Success;
+				_Status = FileSystemStatusCode.Success;
 			}
 
-			if (status is FileSystemStatusCode.Success)
+			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
 
-			if (progress is not null && (criticalReport || sampler.CheckNow()))
+			if (_progress is not null && (_criticalReport || _sampler.CheckNow()))
 			{
-				progress.Report(this);
-				criticalReport = false;
+				_progress.Report(this);
+				_criticalReport = false;
 			}
 		}
 
 		public void ReportStatus(FileSystemStatusCode status)
 		{
 			Status = status;
+
 			Report();
 		}
 	}

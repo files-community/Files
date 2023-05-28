@@ -1,47 +1,53 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-
-using System.Collections.ObjectModel;
 
 namespace Files.App.Filesystem.Security
 {
 	/// <summary>
-	/// Represents an ACL.
+	/// Represents an access control list (ACL).
 	/// </summary>
-	public class AccessControlList
+	public class AccessControlList : ObservableObject
 	{
 		/// <summary>
-		/// File owner information
+		/// Object path.
 		/// </summary>
-		public Principal Owner { get; set; }
+		public string Path { get; private set; }
 
 		/// <summary>
-		/// Whether the DACL is protected
+		/// Whether the path indicates folder or not.
 		/// </summary>
-		public bool IsProtected { get; set; }
+		public bool IsFolder { get; private set; }
 
 		/// <summary>
-		/// Whether the DACL is valid one
+		/// The owner in the security descriptor (SD).
+		/// NULL if the security descriptor has no owner SID.
 		/// </summary>
-		public bool IsValid { get; set; }
+		public Principal Owner { get; private set; }
 
 		/// <summary>
-		/// File path which have this access control list
+		/// Validates an access control list (ACL).
 		/// </summary>
-		public string Path { get; set; }
+		public bool IsValid { get; private set; }
 
 		/// <summary>
-		/// Whether the path indicates folder or not
+		/// Access control entry (ACE) list
 		/// </summary>
-		public bool IsFolder { get; set; }
+		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; private set; }
 
-		/// <summary>
-		/// ACE list
-		/// </summary>
-		public ObservableCollection<AccessControlEntry> AccessControlEntries { get; set; }
+		public AccessControlList(string path, bool isFolder, Principal owner, bool isValid)
+		{
+			Path = path;
+			IsFolder = isFolder;
+			Owner = owner;
+			IsValid = isValid;
+			AccessControlEntries = new();
+		}
 
 		public AccessControlList()
 		{
+			Path = string.Empty;
+			Owner = new(string.Empty);
+			AccessControlEntries = new();
 		}
 	}
 }
