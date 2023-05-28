@@ -2665,7 +2665,7 @@
     <value>Restore selected item(s) from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Tüm öğeleri geri dönüşüm kutusundan geri yükleyin</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>Open item(s)</value>
@@ -2707,13 +2707,13 @@
     <value>Pin folder(s) to Favorites</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Klasörleri favoriler sabitlemesinden kaldırın</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Seçilen resmi masaüstü arka planı olarak ayarla</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Seçilen resimleri masaüstü slayt gösterisi olarak ayarla</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as lockscreen background</value>
