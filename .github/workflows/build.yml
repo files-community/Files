@@ -55,19 +55,19 @@ jobs:
           # Preview configuration
           $PreviewConfiguration = @( [ordered]@{
               configuration= "Preview"
-              platform = "x64"
+              platform = "x86"
             }
           )
           # Stable configuration
           $StableConfiguration = @( [ordered]@{
               configuration= "Stable"
-              platform = "x64"
+              platform = "x86"
             }
           )
           # Store configuration
           $StoreConfiguration = @( [ordered]@{
               configuration= "Store"
-              platform = "x64"
+              platform = "x86"
             }
           )
           # Manually triggered the Actions
