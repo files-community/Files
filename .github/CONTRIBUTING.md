@@ -43,7 +43,7 @@ let us know if your pull request needs to be merged as separate commits.
 
 ## Running interaction tests (optional)
 First, you will need to install WinAppDriver. You can download the latest version from [here](https://github.com/microsoft/WinAppDriver/releases).
-After installing WinAppDriver, you will need to run the Files.Package at least once to have the debug version be registered on your machine.
+After installing WinAppDriver, you will need to run the Files.App.Package at least once to have the debug version be registered on your machine.
 Once you have the debug version registered, you can run the tests from the test explorer in Visual Studio.
 
 ## Review Process

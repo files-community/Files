@@ -39,7 +39,7 @@ This will create a local copy of the repository.
 
 ### 3. Build the project
 
-To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.Package` packaging project in solution explorer and select ‘Set as Startup item’.
+To build Files for development, open the `Files.sln` item in Visual Studio. Right-click on the `Files.App.Package` packaging project in solution explorer and select ‘Set as Startup item’.
 
 In the top pane, select the items which correspond to your desired build mode and the processor architecture of your device like below:
 ![image](https://user-images.githubusercontent.com/39923744/148721296-2bd132d0-4a4d-4555-8f58-16b00b18ade3.png)
