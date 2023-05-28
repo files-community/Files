@@ -18,21 +18,12 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 
 		public async Task TogglePreviewPopup(string path)
 		{
-			bool isSeerProAvailable = await DetectAvailability();
-			if (!isSeerProAvailable)
-				return;
+			// TODO
 		}
 
 		public async Task SwitchPreview(string path)
 		{
-			bool isSeerProAvailable = await DetectAvailability();
-			if (!isSeerProAvailable)
-				return;
-		}
-
-		private async Task DoPreview()
-		{
-
+			// TODO
 		}
 
 		public async Task<bool> DetectAvailability()
