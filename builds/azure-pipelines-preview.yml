@@ -24,12 +24,12 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest'
+        [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest'
         $xmlDoc.Package.Identity.Name="FilesPreview"
         $xmlDoc.Package.Identity.Publisher="Files"
         $xmlDoc.Package.Properties.DisplayName="Files - Preview"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
+        $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest')
       failOnStderr: true
       
  # This replaces references to the dev icon with the preview icon 
