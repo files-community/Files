@@ -30,7 +30,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FilesLauncher", "src\Files.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App", "src\Files.App\Files.App.csproj", "{6F431D82-A5FF-4833-B5E4-702E1E523126}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.Package\Files.Package.wapproj", "{8F60FD8E-1921-47D6-97B0-D26D7B3A4999}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.App (Package)\Files.Package.wapproj", "{8F60FD8E-1921-47D6-97B0-D26D7B3A4999}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.SourceGenerator", "src\Files.SourceGenerator\Files.SourceGenerator.csproj", "{6FA07816-DE0A-4D49-84E8-38E953A33C87}"
 EndProject

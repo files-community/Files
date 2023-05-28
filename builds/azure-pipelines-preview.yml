@@ -24,7 +24,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.Package\Package.appxmanifest'
+        [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest'
         $xmlDoc.Package.Identity.Name="FilesPreview"
         $xmlDoc.Package.Identity.Publisher="Files"
         $xmlDoc.Package.Properties.DisplayName="Files - Preview"
