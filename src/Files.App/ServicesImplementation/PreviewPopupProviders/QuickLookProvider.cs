@@ -11,6 +11,8 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 {
 	public class QuickLookProvider : IPreviewPopupProvider
 	{
+		public static QuickLookProvider Instance { get; } = new();
+
 		private const int TIMEOUT = 500;
 		private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";

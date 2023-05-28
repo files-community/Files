@@ -12,6 +12,8 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 {
 	public class SeerProProvider : IPreviewPopupProvider
 	{
+		public static SeerProProvider Instance { get; } = new();
+
 		private const int TIMEOUT = 500;
 
 		public async Task TogglePreviewPopup(string path)
