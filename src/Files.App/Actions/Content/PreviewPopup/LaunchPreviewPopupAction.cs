@@ -7,7 +7,7 @@ using Files.Backend.Services;
 
 namespace Files.App.Actions
 {
-	internal class LaunchQuickLookAction : ObservableObject, IAction
+	internal class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IPreviewPopupService previewPopupService;
@@ -18,11 +18,11 @@ namespace Files.App.Actions
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
-		public string Label => "LaunchQuickLook".GetLocalizedResource();
+		public string Label => "LaunchPreviewPopup".GetLocalizedResource();
 
-		public string Description => "LaunchQuickLookDescription".GetLocalizedResource();
+		public string Description => "LaunchPreviewPopupDescription".GetLocalizedResource();
 
-		public LaunchQuickLookAction()
+		public LaunchPreviewPopupAction()
 		{
 			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
 			context.PropertyChanged += Context_PropertyChanged;
