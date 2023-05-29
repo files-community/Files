@@ -2,23 +2,30 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Backend.Services;
-using Microsoft.Extensions.Logging;
-using System.IO;
-using System.IO.Pipes;
-using System.Security.Principal;
+using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
 namespace Files.App.ServicesImplementation.PreviewPopupProviders
 {
+	public struct COPYDATASTRUCT
+	{
+		public IntPtr dwData;
+		public int cbData;
+		public IntPtr lpData;
+	}
+
 	public class SeerProProvider : IPreviewPopupProvider
 	{
 		public static SeerProProvider Instance { get; } = new();
 
-		private const int TIMEOUT = 500;
-
 		public async Task TogglePreviewPopup(string path)
 		{
-			// TODO
+			HWND Window = User32.FindWindow("SeerWindowClass", null);
+			COPYDATASTRUCT data = new COPYDATASTRUCT();
+			data.dwData = 5000;
+			data.cbData = (path.Length + 1) * 2;
+			data.lpData = Marshal.StringToHGlobalUni(path);
+			User32.SendMessage(Window, (uint)User32.WindowMessage.WM_COPYDATA, 0, ref data);
 		}
 
 		public async Task SwitchPreview(string path)
