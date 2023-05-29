@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Wideo</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Uruchom QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Launch preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Przełącz kompaktową nakładkę</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Uruchom wybrany skrypt PowerShell</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Uruchom QuickLook z wybranym elementem</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Launch preview in popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Utwórz archiwum z wybranymi elementami</value>
