@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>影片</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>啟動快速查看</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Launch preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>切換緊湊檢視</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>執行PowerShell腳本</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Launch preview in popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
