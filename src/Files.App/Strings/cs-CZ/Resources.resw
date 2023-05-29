@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Videa</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Spustit QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Launch preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Přepnout kompaktní překrytí</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Spustit vybraný skript PowerShell</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Spustit QuickLook s vybranou položkou</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Launch preview in popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Vytvořit archiv s vybranými položkami</value>
