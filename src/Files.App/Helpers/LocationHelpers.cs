@@ -15,16 +15,19 @@ namespace Files.App.Helpers
 			if (!Lat.HasValue || !Lon.HasValue)
 				return null;
 
-			try
+			if (string.IsNullOrEmpty(MapService.ServiceToken))
 			{
-				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
-				var lines = await FileIO.ReadTextAsync(file);
-				using var obj = JsonDocument.Parse(lines);
-				MapService.ServiceToken = obj.RootElement.GetProperty("key").GetString();
-			}
-			catch (Exception)
-			{
-				return null;
+				try
+				{
+					StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
+					var lines = await FileIO.ReadTextAsync(file);
+					using var obj = JsonDocument.Parse(lines);
+					MapService.ServiceToken = obj.RootElement.GetProperty("key").GetString();
+				}
+				catch (Exception)
+				{
+					return null;
+				}
 			}
 
 			BasicGeoposition location = new BasicGeoposition();
