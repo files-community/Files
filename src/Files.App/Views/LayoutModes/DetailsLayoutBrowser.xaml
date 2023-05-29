@@ -233,6 +233,7 @@
 						</TransitionCollection>
 					</ListView.ItemContainerTransitions>
 
+					<!--  Details View Item List Header  -->
 					<ListView.Header>
 						<Grid
 							x:Name="HeaderGrid"
@@ -242,6 +243,8 @@
 							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
+
+							<!--  Header Grid Menu Flyout  -->
 							<Grid.ContextFlyout>
 								<MenuFlyout>
 									<MenuFlyoutItem Click="SizeAllColumnsToFit_Click" Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
@@ -290,6 +293,8 @@
 									<MenuFlyoutItem Click="SetDetailsColumnsAsDefault_Click" Text="{helpers:ResourceString Name=SetAsDefault}" />
 								</MenuFlyout>
 							</Grid.ContextFlyout>
+
+							<!--  Header Column Definitions  -->
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition
 									x:Name="Column2"
@@ -341,6 +346,7 @@
 								<ColumnDefinition Width="0" />
 							</Grid.ColumnDefinitions>
 
+							<!--  Item Name  -->
 							<uc:DataGridHeader
 								x:Name="NameHeader"
 								Grid.Column="2"
@@ -349,6 +355,7 @@
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=Name}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="3"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
@@ -360,6 +367,7 @@
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
+							<!--  Tags That Item Is Labeled  -->
 							<uc:DataGridHeader
 								x:Name="TagHeader"
 								Grid.Column="4"
@@ -368,6 +376,7 @@
 								Header="{helpers:ResourceString Name=Tag}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="5"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
@@ -380,6 +389,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
 								Grid.Column="6"
@@ -388,6 +398,7 @@
 								Header="{helpers:ResourceString Name=OriginalPath}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="7"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
@@ -400,6 +411,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
 								Grid.Column="8"
@@ -408,6 +420,7 @@
 								Header="{helpers:ResourceString Name=DateDeleted}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="9"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
@@ -420,6 +433,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
 								Grid.Column="10"
@@ -428,6 +442,7 @@
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="11"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
@@ -440,6 +455,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
 								Grid.Column="12"
@@ -448,6 +464,7 @@
 								Header="{helpers:ResourceString Name=DateCreated}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="13"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
@@ -460,6 +477,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
 								Grid.Column="14"
@@ -468,6 +486,7 @@
 								Header="{helpers:ResourceString Name=Type}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="15"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
@@ -480,6 +499,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
 								Grid.Column="16"
@@ -488,6 +508,7 @@
 								Header="{helpers:ResourceString Name=Size}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="17"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
@@ -500,6 +521,7 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
 								Grid.Column="18"
@@ -510,6 +532,7 @@
 								Header="{helpers:ResourceString Name=syncStatusColumn/Header}"
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
+							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="19"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
