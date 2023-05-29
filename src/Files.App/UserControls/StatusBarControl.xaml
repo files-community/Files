@@ -159,7 +159,7 @@
 					<InfoBadge
 						HorizontalAlignment="Right"
 						VerticalAlignment="Top"
-						Value="{x:Bind DirectoryPropertiesViewModel.BehindBy, Mode=OneWay}" />
+						Value="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
 				</StackPanel>
 			</Button>
 

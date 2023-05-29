@@ -61,11 +61,11 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private int _BehindBy;
-		public int BehindBy
+		private string _PullInfo = "0";
+		public string PullInfo
 		{
-			get => _BehindBy;
-			set => SetProperty(ref _BehindBy, value);
+			get => _PullInfo;
+			set => SetProperty(ref _PullInfo, value);
 		}
 
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
@@ -91,9 +91,9 @@ namespace Files.App.Data.Models
 			_gitRepositoryPath = repositoryPath;
 			ShowLocals = true;
 
-			BehindBy = branches.Any() 
-				? branches[0].BehindBy ?? 0
-				: 0;
+			PullInfo = branches.Any() 
+				? branches[0].BehindBy.ToString() ?? "0"
+				: "0";
 
 			if (isGitRepository)
 			{

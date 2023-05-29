@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
@@ -206,7 +207,6 @@ namespace Files.App.Helpers
 			IsExecutingGitAction = true;
 			using var repository = new Repository(repositoryPath);
 
-
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -231,7 +231,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static void PullOrigin(string? repositoryPath)
+		public static async void PullOrigin(string? repositoryPath)
 		{
 			Analytics.TrackEvent("Triggered git pull");
 
@@ -255,6 +255,16 @@ namespace Files.App.Helpers
 			catch (Exception ex)
 			{
 				_logger.LogWarning(ex.Message);
+
+				var viewModel = new DynamicDialogViewModel()
+				{
+					TitleText = "GitError".GetLocalizedResource(),
+					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
+					CloseButtonText = "Close".GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Cancel
+				};
+				var dialog = new DynamicDialog(viewModel);
+				await dialog.TryShowAsync();
 			}
 
 			IsExecutingGitAction = false;
