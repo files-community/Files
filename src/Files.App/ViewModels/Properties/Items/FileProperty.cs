@@ -58,11 +58,20 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (!IsReadOnly && !(Value is null && string.IsNullOrEmpty(value)))
 				{
-					var convertBackValue = ConvertBack(value);
-					if (Value != convertBackValue)
+					if (!string.IsNullOrEmpty(PlaceholderText) && string.IsNullOrEmpty(value))
 					{
-						Value = convertBackValue;
-						Modified = true;
+						// Cancel modifying metadata
+						Value = null;
+						Modified = false;
+					}
+					else
+					{
+						var convertBackValue = ConvertBack(value);
+						if (Value != convertBackValue)
+						{
+							Value = convertBackValue;
+							Modified = true;
+						}
 					}
 				}
 			}
