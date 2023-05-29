@@ -3319,4 +3319,7 @@
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(multiple values)</value>
+  </data>
 </root>

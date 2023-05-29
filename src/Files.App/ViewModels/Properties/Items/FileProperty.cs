@@ -1,16 +1,11 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+// Copyright(c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Converters;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -61,13 +56,19 @@ namespace Files.App.ViewModels.Properties
 			get => ConvertToString();
 			set
 			{
-				if (!IsReadOnly)
+				if (!IsReadOnly && !(Value is null && string.IsNullOrEmpty(value)))
 				{
-					Value = ConvertBack(value);
-					Modified = true;
+					var convertBackValue = ConvertBack(value);
+					if (Value != convertBackValue)
+					{
+						Value = convertBackValue;
+						Modified = true;
+					}
 				}
 			}
 		}
+
+		public string PlaceholderText { get; set; }
 
 		/// <summary>
 		/// This function is run on the value of the property before displaying it.
