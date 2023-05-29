@@ -85,7 +85,7 @@
 				Grid.ColumnSpan="2"
 				Height="1"
 				Margin="-12,0"
-				Background="{ThemeResource DividerColorStrokeDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<!--  Path List  -->
 			<ListView
