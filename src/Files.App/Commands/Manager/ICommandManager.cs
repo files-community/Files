@@ -70,7 +70,7 @@ namespace Files.App.Commands
 		IRichCommand RunAsAnotherUser { get; }
 		IRichCommand RunWithPowershell { get; }
 
-		IRichCommand LaunchQuickLook { get; }
+		IRichCommand LaunchPreviewPopup { get; }
 
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
