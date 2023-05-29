@@ -199,8 +199,6 @@ namespace Files.App.Helpers
 
 		public static void FetchOrigin(string? repositoryPath)
 		{
-			Analytics.TrackEvent("Triggered git fetch");
-
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
@@ -233,8 +231,6 @@ namespace Files.App.Helpers
 
 		public static async void PullOrigin(string? repositoryPath)
 		{
-			Analytics.TrackEvent("Triggered git pull");
-
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
