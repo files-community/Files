@@ -30,7 +30,7 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 
 		public async Task SwitchPreview(string path)
 		{
-			//todo
+			// TODO
 		}
 
 		public async Task<bool> DetectAvailability()
