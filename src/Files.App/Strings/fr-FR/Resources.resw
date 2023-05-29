@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nouvelle fenêtre</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Copier l'emplacement</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copier le chemin</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
@@ -214,7 +214,7 @@
     <value>Arrière-plan</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Options avancées</value>
+    <value>Avancé</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuez là où vous vous êtes arrêté</value>
@@ -430,7 +430,7 @@
     <value>Suppression des fichiers</value>
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Déplacement vers la Corbeille en cours</value>
+    <value>Déplacement des fichiers vers la corbeille en cours</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
@@ -505,7 +505,7 @@
     <value>Pages :</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Paramètres par défaut de Windows</value>
+    <value>Par défaut de Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Aucun résultat</value>
@@ -553,7 +553,7 @@
     <value>Files a rencontré un problème auquel les développeurs ne s'attendaient pas.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Une erreur s'est produite!</value>
+    <value>Une erreur s'est produite !</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Signaler ce problème</value>
@@ -709,7 +709,7 @@
     <value>Espace de couleurs</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
-    <value>sRGB</value>
+    <value>sRVB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Non spécifié</value>
@@ -814,7 +814,7 @@
     <value>URL de promotion</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Style Fournisseur</value>
+    <value>Style du fournisseur</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Éditeur</value>
@@ -979,7 +979,7 @@
     <value>Vérifiez le statut des opérations de fichier ici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centre d'états</value>
+    <value>Centre de statuts</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Résultats de la recherche dans {1} pour {0}</value>
@@ -1129,7 +1129,7 @@
     <value>Volet d'aperçu du fichier sélectionné</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Retours</value>
+    <value>Commentaires</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Disponible en ligne</value>
@@ -1165,7 +1165,7 @@
     <value>Disque Cloud</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Lecteur de disque fixe</value>
+    <value>Disque local</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>Lecteur de disquette</value>
@@ -1315,7 +1315,7 @@
     <value>Il y a {0} noms de fichiers en conflit et {1} élément(s) sortant(s).</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nom(s) de fichier en conflit</value>
+    <value>Nom(s) de fichier(s) en conflit</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
     <value>Il y a un nom de fichier en conflit et {0} élément(s) sortant(s).</value>
@@ -1546,7 +1546,7 @@
     <value>La suppression de {0} éléments depuis {1} a échoué</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>la Corbeille</value>
+    <value>la corbeille</value>
   </data>
   <data name="MoveInProgress" xml:space="preserve">
     <value>Déplacement d'éléments</value>
@@ -1561,7 +1561,7 @@
     <value>Le déplacement vers la corbeille a été annulé</value>
   </data>
   <data name="canceling" xml:space="preserve">
-    <value>annulé</value>
+    <value>annulation</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Effacer</value>
@@ -1729,7 +1729,7 @@
     <value>Prendre possession</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Dossier de visite</value>
+    <value>Visiter le dossier</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Écrire les attributs</value>
@@ -1894,13 +1894,10 @@
     <value>Widget Disques</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Fichiers Récents</value>
+    <value>Widget Fichiers récents</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Aucun élément trouvé</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Afficher seulement l'aperçu</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Ouvrir l'emplacement des fichiers journaux</value>
@@ -2254,13 +2251,13 @@
     <value>Colonne taille</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Colonne balise</value>
+    <value>Colonne étiquette</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Colonne type</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Colonnes des détails de mise en page</value>
+    <value>Colonnes dans la mise en page des détails</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
@@ -2284,7 +2281,7 @@
     <value>Compression de l'archive</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Sélectionner les fichiers et dossiers lorsqu'ils sont juste survolés</value>
+    <value>Sélectionner les fichiers et dossiers lorsqu'ils sont survolés</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Êtes-vous sûr de vouloir restaurer tous les éléments de la corbeille ?</value>
@@ -2434,7 +2431,7 @@
     <value>La création d'un raccourci à cet emplacement nécessite des droits d'administrateur</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Voulez-vous créer le raccourci sur le bureau à la place ?</value>
+    <value>Souhaitez-vous plutôt créer le raccourci sur le bureau ?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>Le nom d'élément spécifié est invalide</value>
@@ -2443,7 +2440,7 @@
     <value>Paramètres</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double-cliquer sur un espace vide pour remonter un dossier</value>
+    <value>Double-cliquer sur un espace vide pour remonter d'un niveau de dossier</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Voir plus</value>
@@ -2551,7 +2548,7 @@
     <value>Sauvegarder</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Sélection Multiple</value>
+    <value>Sélection multiple</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
     <value>Réorganiser les éléments de la barre latérale</value>
@@ -2626,10 +2623,10 @@
     <value>Afficher ou non les extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Activer/désactiver le volet de prévisualisation</value>
+    <value>Afficher/Masquer le volet d'aperçu</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Activer/désactiver le panneau latéral</value>
+    <value>Afficher/Masquer le panneau latéral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
@@ -2662,7 +2659,7 @@
     <value>Vider la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Ouvrir le menu "Formater le disque" pour l'élément sélectionné</value>
+    <value>Ouvre le menu "Formater le disque dur" pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restaurer le(s) élément(s) sélectionné(s) depuis la corbeille</value>
@@ -2683,13 +2680,13 @@
     <value>Actualiser le contenu de la page</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Renommer le fichier sélectionné</value>
+    <value>Renommer l'élément sélectionné</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Sélectionner tous les éléments</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Inverser la sélection d'éléments</value>
+    <value>Inverser la sélection</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
     <value>Annuler la sélection</value>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Entrée</value>
+    <value>Entrer</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3149,7 +3146,7 @@
     <value>Ferme l'onglet actuel</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Modifier le chemin d'accès</value>
+    <value>Modifier le chemin</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branche : {0}</value>
@@ -3182,7 +3179,7 @@
     <value>Recherchez des éléments non indexés</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Mettre en évidence la barre de chemin d'accès</value>
+    <value>Se placer sur la barre de chemin</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Créer un nouvel élément</value>
@@ -3275,7 +3272,7 @@
     <value>Vous avez des modifications non validées sur cette branche. Que souhaitez-vous faire d'elles ?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Changer de branche</value>
+    <value>Changer de branche</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3286,7 +3283,40 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Nouvelle branche</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nom de branche invalide</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Créer une branche</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Créer une branche</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basé sur</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Passer à une nouvelle branche</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Créer un dossier avec le(s) élément(s) sélectionné(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Ouvrir les propriétés</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Ouvrir la fenêtre des propriétés</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locaux</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Distants</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Traduire sur Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Prévisualisation</value>
   </data>
 </root>

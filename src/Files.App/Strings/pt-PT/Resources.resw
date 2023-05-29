@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nova janela</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Copiar localização</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copiar caminho</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Explorar</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nenhum item encontrado</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Mostrar apenas pré-visualização</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir localização dos registos</value>
   </data>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3272,7 @@
     <value>Existem alterações por submeter neste ramo. O que pretende fazer?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Trocar de ramo</value>
+    <value>Trocar de ramo</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Ramos</value>
@@ -3286,7 +3283,40 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Novo ramo</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nome de 'branch' inválido</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Criar 'branch'</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Criar 'branch'</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Baseado em</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Ir para o novo 'branch'</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Criar uma pasta com os itens selecionados</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Mostrar propriedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir janela de propriedades</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locais</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotos</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Traduzir no Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Pré-visualização</value>
   </data>
 </root>

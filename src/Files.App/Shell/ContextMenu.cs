@@ -128,7 +128,7 @@ namespace Files.App.Shell
 
 					return GetContextMenuForFiles(shellItems.ToArray(), flags, owningThread, itemFilter);
 				}
-				catch (Exception ex) when (ex is ArgumentException or FileNotFoundException)
+				catch
 				{
 					// Return empty context menu
 					return null;
