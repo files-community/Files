@@ -35,10 +35,10 @@ namespace Files.App.ViewModels.Properties
 			// Storage objects (multi-selected)
 			else if (np.Parameter is List<ListedItem> items)
 			{
-				// Files only
+				// Selection only contains files
 				if (items.All(item => item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive))
 					BaseProperties = new CombinedFileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
-				// Contains folders
+				// Selection includes folders
 				else
 					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
 			}
