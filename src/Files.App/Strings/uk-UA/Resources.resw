@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Відео</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Запустити QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Запустити спливне вікно попереднього перегляду</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Увімкнути компактний оверлей</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Виконати вибраний скрипт PowerShell</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Запустити QuickLook з виділеним елементом</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Запустити попередній перегляд у спливному вікні</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Створити архів з вибраним елементом(ами)</value>
@@ -3314,9 +3314,9 @@
     <value>Віддалені</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Перекласти на Crowdin</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Попередній перегляд</value>
   </data>
 </root>
