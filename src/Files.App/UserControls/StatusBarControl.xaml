@@ -138,15 +138,14 @@
 			Grid.Column="1"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-			Orientation="Horizontal"
-			Spacing="8">
+			Orientation="Horizontal">
 
 			<!--  Pull Button  -->
 			<Button
 				x:Name="GitPullButton"
 				VerticalAlignment="Center"
 				Background="Transparent"
-				BorderThickness="0"
+				BorderBrush="Transparent"
 				Command="{x:Bind Commands.GitPull}"
 				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
 				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
