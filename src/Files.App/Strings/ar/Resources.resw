@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>مقاطع الفيديو</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>تشغيل QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Launch preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>تبديل التراكب المدمج</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>تشغيل سكريبت PowerShell المحدد</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>تشغيل QuickLook مع العنصر المحدد</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Launch preview in popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>إنشاء أرشيف مع العناصر المحددة</value>
