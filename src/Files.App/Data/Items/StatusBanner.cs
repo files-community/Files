@@ -22,11 +22,14 @@ namespace Files.App.Data.Items
 		}
 
 		private bool isProgressing = false;
-
 		public bool IsProgressing
 		{
 			get => isProgressing;
-			set => SetProperty(ref isProgressing, value);
+			set
+			{
+				if (SetProperty(ref isProgressing, value))
+					OnPropertyChanged(nameof(Message));
+			}
 		}
 
 		public string Title { get; private set; }
@@ -40,7 +43,12 @@ namespace Files.App.Data.Items
 
 		public FileOperationType Operation { get; private set; }
 
-		public string Message { get; private set; }
+		private string message;
+		public string Message {
+			// A workaround to avoid overlapping the progress bar (#12362)
+			get => isProgressing ? message + "\n" : message;
+			private set => SetProperty(ref message, value);
+		}
 
 		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
 

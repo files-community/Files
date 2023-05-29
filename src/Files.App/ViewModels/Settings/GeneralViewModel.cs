@@ -9,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
@@ -26,6 +27,8 @@ namespace Files.App.ViewModels.Settings
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
+		public RelayCommand RestartCommand { get; }
+		public RelayCommand CancelRestartCommand { get; }
 
 		private bool showRestartControl;
 		public bool ShowRestartControl
@@ -94,6 +97,8 @@ namespace Files.App.ViewModels.Settings
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
+			RestartCommand = new RelayCommand(DoRestart);
+			CancelRestartCommand = new RelayCommand(DoCancelRestart);
 
 			AddSupportedAppLanguages();
 
@@ -111,6 +116,19 @@ namespace Files.App.ViewModels.Settings
 
 			_ = InitStartupSettingsRecentFoldersFlyout();
 			_ = DetectOpenFilesAtStartup();
+		}
+
+		private async void DoRestart()
+		{
+			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
+			App.SaveSessionTabs(); // Saves the open tabs
+			await Launcher.LaunchUriAsync(new Uri("files-uwp:")); // Launches a new instance of Files
+			Process.GetCurrentProcess().Kill(); // Closes the current instance
+		}
+
+		private void DoCancelRestart()
+		{
+			ShowRestartControl = false;
 		}
 
 		private void AddDateTimeOptions()

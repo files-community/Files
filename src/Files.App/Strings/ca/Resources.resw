@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nova finestra</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Copia la ubicació</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Busca</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No s'ha trobat cap element.</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Show preview only</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open log location</value>
   </data>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3272,7 @@
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Switch Branch</value>
+    <value>Switch Branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3286,7 +3283,40 @@
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Invalid branch name</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Create branch</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Create Branch</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Based on</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Switch to new branch</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Create a folder with the currently selected item(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open properties</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open properties window</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locals</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotes</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Translate on Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
 </root>

@@ -13,7 +13,7 @@
 		HorizontalAlignment="Center"
 		VerticalAlignment="Center"
 		CornerRadius="{StaticResource ControlCornerRadius}">
-		<Viewbox StretchDirection="DownOnly">
+		<Viewbox StretchDirection="Both">
 			<Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}" />
 		</Viewbox>
 	</Border>

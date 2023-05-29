@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Uusi ikkuna</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Kopioi sijainti</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Kopioi polku</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Selaa</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Kohteita ei löytynyt</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Näytä vain esikatselu</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Avaa lokin sijainti</value>
   </data>
@@ -3275,7 +3272,7 @@
     <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Vaihda haaraa</value>
+    <value>Vaihda haaraa</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Haarat</value>
@@ -3286,7 +3283,40 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Uusi haara</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Virheellinen haaran nimi</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Luo haara</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Luo haara</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Perustuu</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Siirry uuteen haaraan</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Luo kansio tällä hetkellä valituilla kohteilla</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Avaa ominaisuudet</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Avaa ominaisuudet-ikkuna</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Paikalliset</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Etäpalvelimet</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Käännä Crowdinissa</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
   </data>
 </root>
