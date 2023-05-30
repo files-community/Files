@@ -121,7 +121,7 @@
     <value>Yeni pencere</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Yolu kopyala</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
@@ -2569,22 +2569,22 @@
     <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Hesaplanıyor...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Boyutu küçült</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Boyutu büyüt</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Geçersiz isim</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
     <value>Name must not be empty or start or end with a period.</value>
@@ -2632,7 +2632,7 @@
     <value>Copy item(s) to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Dosya yolunu panoya kopyala</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut item(s) to clipboard</value>
@@ -2683,7 +2683,7 @@
     <value>Rename selected item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Tüm ögeleri seç</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>Invert item selection</value>
@@ -2761,7 +2761,7 @@
     <value>Rotate selected image(s) to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Ayarlar sayfasını aç</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
     <value>Open folder in terminal</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Translate on Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Run git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Run git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git Error</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull failed due to a timeout error</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(multiple values)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
