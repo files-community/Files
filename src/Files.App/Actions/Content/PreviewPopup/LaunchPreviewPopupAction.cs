@@ -1,19 +1,16 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.Threading.Tasks;
+using Files.Backend.Services;
 
 namespace Files.App.Actions
 {
-	internal class LaunchQuickLookAction : ObservableObject, IAction
+	internal class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IPreviewPopupService previewPopupService;
 
 		public HotKey HotKey { get; } = new(Keys.Space);
 
@@ -21,18 +18,23 @@ namespace Files.App.Actions
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
 
-		public string Label => "LaunchQuickLook".GetLocalizedResource();
+		public string Label => "LaunchPreviewPopup".GetLocalizedResource();
 
-		public string Description => "LaunchQuickLookDescription".GetLocalizedResource();
+		public string Description => "LaunchPreviewPopupDescription".GetLocalizedResource();
 
-		public LaunchQuickLookAction()
+		public LaunchPreviewPopupAction()
 		{
+			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
 		{
-			await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath);
+			var provider = await previewPopupService.GetProviderAsync();
+			if (provider is null)
+				return;
+
+			await provider.TogglePreviewPopup(context.SelectedItem!.ItemPath);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -41,15 +43,21 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.SelectedItems):
 					OnPropertyChanged(nameof(IsExecutable));
-					var _ = SwitchQuickLookPreview();
+					var _ = SwitchPopupPreview();
 					break;
 			}
 		}
 
-		private async Task SwitchQuickLookPreview()
+		private async Task SwitchPopupPreview()
 		{
 			if (IsExecutable)
-				await QuickLookHelpers.ToggleQuickLook(context.SelectedItem!.ItemPath, true);
+			{
+				var provider = await previewPopupService.GetProviderAsync();
+				if (provider is null)
+					return;
+
+				await provider.SwitchPreview(context.SelectedItem!.ItemPath);
+			}
 		}
 	}
 }

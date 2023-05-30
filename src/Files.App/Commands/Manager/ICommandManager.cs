@@ -70,7 +70,7 @@ namespace Files.App.Commands
 		IRichCommand RunAsAnotherUser { get; }
 		IRichCommand RunWithPowershell { get; }
 
-		IRichCommand LaunchQuickLook { get; }
+		IRichCommand LaunchPreviewPopup { get; }
 
 		IRichCommand CompressIntoArchive { get; }
 		IRichCommand CompressIntoSevenZip { get; }
@@ -156,5 +156,8 @@ namespace Files.App.Commands
 		IRichCommand ClosePane { get; }
     
 		IRichCommand PlayAll { get; }
+
+		IRichCommand GitFetch { get; }
+		IRichCommand GitPull { get; }
 	}
 }

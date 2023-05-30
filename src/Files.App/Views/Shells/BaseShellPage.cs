@@ -22,14 +22,16 @@ namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		private Task _gitFetch = Task.CompletedTask;
+
+		private CancellationTokenSource _gitFetchToken = new CancellationTokenSource();
+
 		public static readonly DependencyProperty NavParamsProperty =
 			DependencyProperty.Register(
 				"NavParams",
 				typeof(NavigationParams),
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
-
-		private bool _isCheckingOutBranch = false;
 
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
@@ -194,6 +196,8 @@ namespace Files.App.Views.Shells
 			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
+
+			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -213,7 +217,7 @@ namespace Files.App.Views.Shells
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
-		protected void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+		protected async void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
 			if (ContentPage is null)
 				return;
@@ -222,9 +226,24 @@ namespace Files.App.Views.Shells
 				? "ItemCount/Text".GetLocalizedResource()
 				: "ItemsCount/Text".GetLocalizedResource();
 
-			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
+			{
+				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+				if (!_gitFetch.IsCompleted)
+				{
+					_gitFetchToken.Cancel();
+					await _gitFetch;
+					_gitFetchToken.TryReset();
+				}
+				if (InstanceViewModel.IsGitRepository && !GitHelpers.IsExecutingGitAction)
+				{
+					_gitFetch = Task.Run(
+						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath),
+						_gitFetchToken.Token);
+				}
+			}
 
-			if (!_isCheckingOutBranch)
+			if (!GitHelpers.IsExecutingGitAction)
 			{
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
@@ -238,7 +257,7 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
-			if (_isCheckingOutBranch)
+			if (GitHelpers.IsExecutingGitAction)
 				return;
 
 			InstanceViewModel.UpdateCurrentBranchName();
@@ -250,7 +269,6 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			_isCheckingOutBranch = true;
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
 				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
@@ -263,7 +281,6 @@ namespace Files.App.Views.Shells
 					InstanceViewModel.GitRepositoryPath,
 					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
-			_isCheckingOutBranch = false;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -741,6 +758,8 @@ namespace Files.App.Views.Shells
 
 			if (ItemDisplay.Content is IDisposable disposableContent)
 				disposableContent?.Dispose();
+
+			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
 		}
 	}
 }

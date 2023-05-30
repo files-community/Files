@@ -120,7 +120,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nueva ventana</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
+  <data name="CopyPath" xml:space="preserve">
     <value>Copiar ruta</value>
   </data>
   <data name="Browse" xml:space="preserve">
@@ -217,7 +217,7 @@
     <value>Avanzado</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continuar donde lo dejó</value>
+    <value>Continuar donde se dejó</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Abrir una nueva pestaña</value>
@@ -289,10 +289,10 @@
     <value>Establecer nombre</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Tema Claro</value>
+    <value>Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Tema Oscuro</value>
+    <value>Oscuro</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
@@ -343,13 +343,13 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que el archivo al que intenta acceder haya sido movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Archivo no encontrado</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>La carpeta a la que está intentando acceder puede haber sido movido o eliminado.</value>
+    <value>Es posible que la carpeta a la que intenta acceder haya sido movida o eliminada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Eliminó esta carpeta?</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Ningún elemento encontrado</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Mostrar solo vista previa</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Abrir ubicación del registro</value>
   </data>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Retroceso</value>
+    <value>Entrar</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3275,7 +3272,7 @@
     <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Cambiar rama</value>
+    <value>Cambiar rama</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Ramas</value>
@@ -3286,7 +3283,40 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Nueva rama</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Nombre de rama no válido</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Crear rama</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Crear Rama</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basado en</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Cambiar a nueva rama</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Crear una carpeta con el(los) elemento(s) actualmente seleccionado(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Abrir propiedades</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Abrir ventana de propiedades</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locales</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotas</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Traducir en Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Vista previa</value>
   </data>
 </root>

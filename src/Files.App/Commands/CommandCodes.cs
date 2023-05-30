@@ -80,8 +80,8 @@ namespace Files.App.Commands
 		RunAsAnotherUser,
 		RunWithPowershell,
 
-		// QuickLook
-		LaunchQuickLook,
+		// Preview Popup
+		LaunchPreviewPopup,
 
 		// Archives
 		CompressIntoArchive,
@@ -176,5 +176,9 @@ namespace Files.App.Commands
 
 		// Play
 		PlayAll,
+
+		// Git
+		GitFetch,
+		GitPull,
 	}
 }
