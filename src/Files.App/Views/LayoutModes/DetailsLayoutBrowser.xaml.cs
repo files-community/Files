@@ -804,5 +804,10 @@ namespace Files.App.Views.LayoutModes
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
+
+		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
+		{
+			ToolTipService.SetToolTip(sender, sender.IsTextTrimmed ? sender.Text : null);
+		}
 	}
 }
