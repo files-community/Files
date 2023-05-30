@@ -78,6 +78,7 @@
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
 												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
 
