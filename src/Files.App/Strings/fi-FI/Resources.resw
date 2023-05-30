@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Käännä Crowdinissa</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Hae</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Vedä</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Suorita git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Suorita git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Esikatselu</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git-virhe</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull epäonnistui aikakatkaisuvirheen vuoksi</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(useita arvoja)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
