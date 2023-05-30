@@ -715,11 +715,13 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+
 										<!--  TODO: Remove This Test Line  -->
 										<TextBlock
 											Foreground="LightGreen"
 											Text="A"
 											TextTrimming="CharacterEllipsis" />
+
 									</Grid>
 
 									<!--  Tags That Item Is Labeled  -->
