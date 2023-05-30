@@ -487,6 +487,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);

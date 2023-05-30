@@ -20,6 +20,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref iconColumn, value);
 		}
 
+		private ColumnViewModel _GitStatusColumn = new() { UserLength = new GridLength(80, GridUnitType.Pixel) };
+		public ColumnViewModel GitStatusColumn
+		{
+			get => _GitStatusColumn;
+			set => SetProperty(ref _GitStatusColumn, value);
+		}
+
 		private ColumnViewModel tagColumn = new();
 		public ColumnViewModel TagColumn
 		{

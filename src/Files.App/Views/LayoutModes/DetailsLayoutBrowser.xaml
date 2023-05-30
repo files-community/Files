@@ -301,7 +301,15 @@
 									Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition x:Name="Column3" Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}" />
+								<ColumnDefinition
+									x:Name="Column3"
+									Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition
+									x:Name="GitStatusColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitStatusColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitStatusColumn.MaxLength, Mode=OneWay}" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition
 									x:Name="Column4"
@@ -367,10 +375,31 @@
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
+							<!--  Item Git Status  -->
+							<uc:DataGridHeader
+								x:Name="GitStatusHeader"
+								Grid.Column="4"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="GitStatus"
+								Header="{helpers:ResourceString Name=GitStatus}"
+								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="5"
+								AutomationProperties.Name="GitStatusColumnHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
 							<!--  Tags That Item Is Labeled  -->
 							<uc:DataGridHeader
 								x:Name="TagHeader"
-								Grid.Column="4"
+								Grid.Column="6"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
@@ -378,7 +407,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="5"
+								Grid.Column="7"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -392,7 +421,7 @@
 							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="6"
+								Grid.Column="8"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalPath"
 								Header="{helpers:ResourceString Name=OriginalPath}"
@@ -400,7 +429,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="7"
+								Grid.Column="9"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -414,7 +443,7 @@
 							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="8"
+								Grid.Column="10"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
@@ -422,7 +451,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="9"
+								Grid.Column="11"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -436,7 +465,7 @@
 							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="10"
+								Grid.Column="12"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
@@ -444,7 +473,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="11"
+								Grid.Column="13"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -458,7 +487,7 @@
 							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="12"
+								Grid.Column="14"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
@@ -466,7 +495,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="13"
+								Grid.Column="15"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -480,7 +509,7 @@
 							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="14"
+								Grid.Column="16"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
@@ -488,7 +517,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="15"
+								Grid.Column="17"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -502,7 +531,7 @@
 							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="16"
+								Grid.Column="18"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
@@ -510,7 +539,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="17"
+								Grid.Column="19"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -524,7 +553,7 @@
 							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="18"
+								Grid.Column="20"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -534,7 +563,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="19"
+								Grid.Column="21"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -557,6 +586,7 @@
 									IsRightTapEnabled="True"
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal">
+									<!--  Item Icon  -->
 									<Grid
 										Width="24"
 										HorizontalAlignment="Left"
@@ -644,6 +674,7 @@
 											Unchecked="ItemSelected_Unchecked" />
 									</Grid>
 
+									<!--  Item Name  -->
 									<Grid
 										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,0,0"
@@ -654,12 +685,14 @@
 											<ColumnDefinition Width="*" />
 											<ColumnDefinition Width="Auto" />
 										</Grid.ColumnDefinitions>
+
 										<TextBlock
 											x:Name="ItemName"
 											VerticalAlignment="Center"
 											Opacity="{x:Bind Opacity, Mode=OneWay}"
 											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
+
 										<TextBox
 											x:Name="ItemNameTextBox"
 											MaxWidth="{Binding MaxWidthForRenameTextbox, ElementName=PageRoot, Mode=OneWay}"
@@ -671,8 +704,25 @@
 												<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 											</TextBox.Resources>
 										</TextBox>
+
 									</Grid>
 
+									<!--  Item Git Status  -->
+									<Grid
+										x:Name="ItemGitStatusGrid"
+										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,12,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										<!--  TODO: Remove This Test Line  -->
+										<TextBlock
+											Foreground="LightGreen"
+											Text="A"
+											TextTrimming="CharacterEllipsis" />
+									</Grid>
+
+									<!--  Tags That Item Is Labeled  -->
 									<Grid
 										x:Name="ItemTagGrid"
 										Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -736,6 +786,7 @@
 										</ItemsRepeater>
 									</Grid>
 
+									<!--  Item Original Path  -->
 									<TextBlock
 										x:Name="ItemOriginalPath"
 										Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -747,6 +798,7 @@
 										Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Deleted Date  -->
 									<TextBlock
 										x:Name="ItemDateDeleted"
 										Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -758,6 +810,7 @@
 										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Modified Date  -->
 									<TextBlock
 										x:Name="ItemDateModified"
 										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -768,6 +821,7 @@
 										Text="{x:Bind ItemDateModified, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Created Date  -->
 									<TextBlock
 										x:Name="ItemDateCreated"
 										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -778,6 +832,7 @@
 										Text="{x:Bind ItemDateCreated, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Type  -->
 									<TextBlock
 										x:Name="ItemType"
 										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -788,6 +843,7 @@
 										Text="{x:Bind ItemType, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Size  -->
 									<TextBlock
 										x:Name="ItemSize"
 										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -798,6 +854,7 @@
 										Text="{x:Bind FileSize, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Item Sync Status Badge  -->
 									<FontIcon
 										x:Name="ItemStatus"
 										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
@@ -809,6 +866,7 @@
 										Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
+									<!--  Visual Status Managing  -->
 									<VisualStateManager.VisualStateGroups>
 										<VisualStateGroup x:Name="CheckboxVisibilityStates">
 											<VisualState x:Name="HideCheckbox" />

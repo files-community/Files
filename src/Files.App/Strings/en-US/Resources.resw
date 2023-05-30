@@ -3319,4 +3319,7 @@
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
 </root>
