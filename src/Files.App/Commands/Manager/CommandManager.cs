@@ -154,6 +154,8 @@ namespace Files.App.Commands
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
+		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
+		public IRichCommand GitPull => commands[CommandCodes.GitPull];
 
 		public CommandManager()
 		{
@@ -302,6 +304,8 @@ namespace Files.App.Commands
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
+			[CommandCodes.GitFetch] = new GitFetchAction(),
+			[CommandCodes.GitPull] = new GitPullAction(),
 		};
 
 		private void UpdateHotKeys()
