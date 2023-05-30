@@ -27,6 +27,8 @@ namespace Files.App.Helpers
 
 		private static readonly PullOptions _pullOptions = new();
 
+		private static Dictionary<string, ChangeKind> _unmergedStatusCacheList = new();
+
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
 		{
@@ -278,6 +280,13 @@ namespace Files.App.Helpers
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
+		}
+
+		private static void EnumerateUnmergedFilesStatus(Repository repository)
+		{
+			// Cache list
+			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+				_unmergedStatusCacheList.Add(c.Path, c.Status);
 		}
 	}
 }
