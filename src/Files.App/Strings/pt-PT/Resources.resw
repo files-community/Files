@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traduzir no Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Executar 'git fetch'</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Executar 'git pull'</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Pré-visualização</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>A ação 'git pull' falhou devido a um erro 'timeout'</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(vários valores)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
