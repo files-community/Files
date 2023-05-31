@@ -156,7 +156,7 @@ namespace Files.App.Helpers
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (sender is WinUIEx.WindowEx window)
+			if (!App.isMainWindowClosed && sender is WinUIEx.WindowEx window)
 			{
 				args.Handled = true;
 
@@ -168,11 +168,11 @@ namespace Files.App.Helpers
 
 		public static void DestroyCachedWindows()
 		{
-			WindowCache.ForEach(window =>
+			while (WindowCache.TryTake(out var window))
 			{
 				window.Closed -= PropertiesWindow_Closed;
 				window.Close();
-			});
+			}
 		}
 	}
 }
