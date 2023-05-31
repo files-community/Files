@@ -127,10 +127,16 @@
 			<RowDefinition Height="2*" MinHeight="100" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" MinWidth="100" />
+			<ColumnDefinition x:Name="PropertiesColumn" Width="3*" />
+		</Grid.ColumnDefinitions>
 
 		<!--  Panes  -->
 		<StackPanel
 			Grid.Row="0"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
 			Padding="12"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
@@ -147,6 +153,8 @@
 		<Grid
 			x:Name="RootPreviewGrid"
 			Grid.Row="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
 			Margin="8"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
@@ -186,6 +194,8 @@
 		<ScrollViewer
 			x:Name="RootPropertiesScrollViewer"
 			Grid.Row="2"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
 			AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}"
 			Visibility="Visible">
 			<StackPanel Orientation="Vertical">
@@ -300,6 +310,11 @@
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Visible" />
+						<Setter Target="PropertiesRow.Height" Value="3*" />
+						<Setter Target="PropertiesColumn.Width" Value="3*" />
+					</VisualState.Setters>
 				</VisualState>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -308,6 +323,31 @@
 					<VisualState.Setters>
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="PropertiesRow.Height" Value="0" />
+						<Setter Target="PropertiesColumn.Width" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
+			<!--  Orientations  -->
+			<VisualStateGroup x:Name="Orientation">
+				<VisualState x:Name="Vertical">
+					<VisualState.Setters>
+						<Setter Target="RootPreviewGrid.(Grid.Column)" Value="0" />
+						<Setter Target="RootPropertiesScrollViewer.Column" Value="0" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.RowSpan)" Value="1" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="RootPreviewGrid.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="RootPreviewGrid.(Grid.RowSpan)" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Horizontal">
+					<VisualState.Setters>
+						<Setter Target="RootPropertiesScrollViewer.(Grid.Column)" Value="1" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.RowSpan)" Value="2" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.ColumnSpan)" Value="1" />
+						<Setter Target="RootPreviewGrid.(Grid.ColumnSpan)" Value="1" />
+						<Setter Target="RootPreviewGrid.(Grid.RowSpan)" Value="2" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.Row)" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
