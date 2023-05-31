@@ -4,6 +4,7 @@
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
@@ -11,6 +12,7 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.UI.Core;
 using WinUIEx;
 using IO = System.IO;
 
@@ -257,6 +259,21 @@ namespace Files.App
 						App.OutputPath = command.Payload;
 						break;
 				}
+			}
+		}
+
+		private void MainWindow_Closed(object sender, WindowEventArgs args)
+		{
+			AppWindow.Hide();
+			args.Handled = true;
+			Program.Pool = new(0, 1, "Files-Instance");
+			Thread.Yield();
+			if (Program.Pool.WaitOne())
+			{
+				Program.Pool.Dispose();
+				AppWindow.Show();
+				Activate();
+				EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 			}
 		}
 	}
