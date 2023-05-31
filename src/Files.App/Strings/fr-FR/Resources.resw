@@ -1375,7 +1375,7 @@
     <value>Chemin d'origine</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Colonne type d'élément</value>
+    <value>Type</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
     <value>Date de modification</value>
@@ -3320,7 +3320,7 @@
     <value>Récupérer</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Trier</value>
+    <value>Tirer</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Exécuter git fetch</value>
@@ -3335,7 +3335,7 @@
     <value>Erreur Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull a échoué en raison d'une erreur de délai d'attente</value>
+    <value>git pull a échoué en raison d'une erreur de délai</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(plusieurs valeurs)</value>
