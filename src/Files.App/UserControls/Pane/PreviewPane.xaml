@@ -163,10 +163,10 @@
 				<MenuFlyout>
 					<MenuFlyoutItem
 						HorizontalAlignment="Stretch"
+						IsEnabled="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
 						Tapped="MenuFlyoutItem_Tapped"
 						Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/Text}"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}"
-						IsEnabled="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}" />
+						ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}" />
 				</MenuFlyout>
 			</Grid.ContextFlyout>
 			<Grid.RowDefinitions>
