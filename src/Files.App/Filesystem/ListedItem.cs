@@ -650,7 +650,7 @@ namespace Files.App.Filesystem
 			init;
 		}
 
-		public Brush UnmergedGitStatusLabelForeground { get; init; } = new SolidColorBrush(Colors.LightGreen);
+		//public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 
 		public DateTimeOffset GitLastCommitDate { get; init; }
 
