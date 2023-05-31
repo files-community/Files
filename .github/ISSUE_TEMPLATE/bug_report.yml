@@ -37,7 +37,7 @@ body:
   - type: input
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      description: Which version of Windows are you using? The version number can be found by going to Files' Settings > About
       placeholder: e.g. Windows 11 21H2 22000.000
     validations:
       required: true
