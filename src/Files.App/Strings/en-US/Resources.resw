@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Type:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -3336,9 +3336,6 @@
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
-  </data>
-  <data name="ItemType" xml:space="preserve">
-    <value>Type:</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
