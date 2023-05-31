@@ -147,7 +147,10 @@
 				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 			<!--  Preview  -->
-			<RadioButton Content="{helpers:ResourceString Name=Preview}" Style="{StaticResource Local.RadioButtonStyle}" />
+			<RadioButton
+				Content="{helpers:ResourceString Name=Preview}"
+				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
+				Style="{StaticResource Local.RadioButtonStyle}" />
 		</StackPanel>
 
 		<Grid
