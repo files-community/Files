@@ -2761,7 +2761,7 @@
     <value>Rotate selected image(s) to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>開啟設定頁面</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
     <value>Open folder in terminal</value>
@@ -3329,7 +3329,7 @@
     <value>Run git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>預覽</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
