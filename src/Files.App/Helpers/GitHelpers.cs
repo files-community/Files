@@ -288,9 +288,27 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static void GetGitInformationForItem(Repository repository)
+		public static bool GetGitInformationForItem(Repository repository, string path, out ChangeKind changeKind, out DateTimeOffset lastCommitDate, out string lastCommitMessage, out string LastCommitAuthor, out string LastCommitSha)
 		{
 			// TODO: Add code here
+			var commit = repository.Commits.QueryBy(path).Take(1).First().Commit;
+
+			changeKind = ChangeKind.Unmodified;
+			lastCommitDate = commit.Author.When;
+			lastCommitMessage = commit.MessageShort;
+			LastCommitAuthor = commit.Author.Name;
+			LastCommitSha = commit.Sha;
+
+			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+			{
+				if (c.Path.StartsWith(path))
+				{
+					changeKind = c.Status;
+					break;
+				}
+			}
+
+			return true;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

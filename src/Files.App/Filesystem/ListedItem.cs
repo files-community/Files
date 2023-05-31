@@ -642,13 +642,7 @@ namespace Files.App.Filesystem
 
 	public class GitItem : ListedItem
 	{
-		// TODO: Change this
-		private string? _UnmergedGitStatusLabel;
-		public string? UnmergedGitStatusLabel
-		{
-			get;
-			init;
-		}
+		public string? UnmergedGitStatusLabel { get; init; }
 
 		//public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 

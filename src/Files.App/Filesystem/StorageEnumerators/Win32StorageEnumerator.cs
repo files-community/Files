@@ -193,7 +193,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			if (isHidden)
 				opacity = Constants.UI.DimItemOpacity;
 
-			if (GitHelpers.IsRepositoryEx(itemPath, out _))
+			if (GitHelpers.IsRepositoryEx(itemPath, out var repo) && GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
 			{
 				return new GitItem()
 				{
@@ -211,11 +211,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 					FileSizeBytes = 0,
 
 					// Git
-					UnmergedGitStatusLabel = "M",
-					GitLastCommitDate = new(DateTime.Now),
-					GitLastCommitMessage = "Fix: Fixed an issue where the item name was not showed.",
-					GitLastCommitAuthor = "0x5bfa",
-					GitLastCommitSha = "8b9626c",
+					UnmergedGitStatusLabel = changeKind == LibGit2Sharp.ChangeKind.Modified ? "M" : "",
+					GitLastCommitDate = lastCommitDate,
+					GitLastCommitMessage = lastCommitMessage,
+					GitLastCommitAuthor = lastCommitAuthor,
+					GitLastCommitSha = lastCommitSha,
 				};
 			}
 			else
@@ -376,7 +376,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				};
 			}
 			// File type is Git item
-			else if (GitHelpers.IsRepositoryEx(itemPath, out _))
+			else if (GitHelpers.IsRepositoryEx(itemPath, out var repo) && GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
 			{
 				return new GitItem()
 				{
@@ -396,11 +396,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 					FileSizeBytes = itemSizeBytes,
 
 					// Git
-					UnmergedGitStatusLabel = "M",
-					GitLastCommitDate = new(DateTime.Now),
-					GitLastCommitMessage = "Fix: Fixed an issue where the item name was not showed.",
-					GitLastCommitAuthor = "0x5bfa",
-					GitLastCommitSha = "8b9626c",
+					UnmergedGitStatusLabel = changeKind == LibGit2Sharp.ChangeKind.Modified ? "M" : "",
+					GitLastCommitDate = lastCommitDate,
+					GitLastCommitMessage = lastCommitMessage,
+					GitLastCommitAuthor = lastCommitAuthor,
+					GitLastCommitSha = lastCommitSha,
 				};
 			}
 			// File type is something else
