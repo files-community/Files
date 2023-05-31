@@ -1361,7 +1361,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Názov:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Typ:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
