@@ -61,7 +61,6 @@ namespace Files.App
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-		public static bool isMainWindowClosed { get; private set; } = false;
 		public static AppModel AppModel { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
@@ -332,7 +331,7 @@ namespace Files.App
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
-			isMainWindowClosed = true;
+			AppModel.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();

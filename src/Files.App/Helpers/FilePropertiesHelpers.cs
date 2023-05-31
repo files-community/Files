@@ -156,7 +156,7 @@ namespace Files.App.Helpers
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.isMainWindowClosed && sender is WinUIEx.WindowEx window)
+			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
 			{
 				args.Handled = true;
 
