@@ -988,8 +988,8 @@
 										<VisualState x:Name="Normal" />
 										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
-												<Setter Target="Path2.Fill" Value="Transparent" />
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
