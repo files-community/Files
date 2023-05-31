@@ -270,15 +270,27 @@ namespace Files.App.Helpers
 			IsExecutingGitAction = false;
 		}
 
-		public static bool IsRepositoryEx(string path)
+		public static bool IsRepositoryEx(string path, out Repository? repository)
 		{
+			repository = null;
 			var rootPath = SystemIO.Path.GetPathRoot(path);
 
 			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			return Repository.IsValid(repositoryRootPath);
+			if (Repository.IsValid(repositoryRootPath))
+			{
+				repository = new(repositoryRootPath);
+				return true;
+			}
+
+			return false;
+		}
+
+		public static void GetGitInformationForItem(Repository repository)
+		{
+			// TODO: Add code here
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
