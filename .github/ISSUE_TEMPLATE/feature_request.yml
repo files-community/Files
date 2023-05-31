@@ -28,14 +28,14 @@ body:
     id: files-version
     attributes:
       label: Files Version
-      description: Which version of Files are you currently using?
+      description: Which version of Files are you currently using? The version number can be found by going to Files' Settings > About
       placeholder: 'Version: 2.0.36.0'
     validations:
       required: true
   - type: input
     attributes:
       label: Windows Version
-      description: Which version of Windows are you currently using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
+      description: Which version of Windows are you currently using? The version number can be found by going to Files' Settings > About
       placeholder: e.g. Windows 11 21H2 22000.194
     validations:
       required: true
