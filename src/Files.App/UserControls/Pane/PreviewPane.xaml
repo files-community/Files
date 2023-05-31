@@ -166,7 +166,7 @@
 						Tapped="MenuFlyoutItem_Tapped"
 						Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/Text}"
 						ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}"
-						Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}" />
+						IsEnabled="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}" />
 				</MenuFlyout>
 			</Grid.ContextFlyout>
 			<Grid.RowDefinitions>
