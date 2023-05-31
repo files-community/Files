@@ -193,7 +193,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			if (isHidden)
 				opacity = Constants.UI.DimItemOpacity;
 
-			if (GitHelpers.IsRepositoryEx(itemPath, _))
+			if (GitHelpers.IsRepositoryEx(itemPath, out _))
 			{
 				return new GitItem()
 				{
@@ -376,7 +376,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				};
 			}
 			// File type is Git item
-			else if (GitHelpers.IsRepositoryEx(itemPath, _))
+			else if (GitHelpers.IsRepositoryEx(itemPath, out _))
 			{
 				return new GitItem()
 				{
