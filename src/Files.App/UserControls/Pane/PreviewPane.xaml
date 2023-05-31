@@ -149,7 +149,7 @@
 			<!--  Preview  -->
 			<RadioButton
 				Content="{helpers:ResourceString Name=Preview}"
-				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay"
+				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 		</StackPanel>
 
