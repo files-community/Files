@@ -1102,7 +1102,7 @@
     <value>Nuevo nombre</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Alternar el panel de vista previa</value>
+    <value>Mostrar/Ocultar panel de vista previa</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
