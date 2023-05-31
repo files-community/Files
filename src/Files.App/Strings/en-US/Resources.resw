@@ -3337,6 +3337,9 @@
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
   </data>
+  <data name="ItemType" xml:space="preserve">
+    <value>Type:</value>
+  </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
