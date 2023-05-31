@@ -5,8 +5,10 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
+using System.Collections.Concurrent;
 using System.IO;
 using Windows.ApplicationModel;
 using Windows.Graphics;
@@ -37,6 +39,8 @@ namespace Files.App.Helpers
 		/// <returns></returns>
 		public static nint GetWindowHandle(Window w)
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
+
+		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = new();
 
 		/// <summary>
 		/// Open properties window
@@ -97,17 +101,21 @@ namespace Files.App.Helpers
 				RequestedTheme = ThemeHelper.RootTheme
 			};
 
-			var propertiesWindow = new WinUIEx.WindowEx
+			WinUIEx.WindowEx propertiesWindow;
+			if (!WindowCache.TryTake(out propertiesWindow!))
 			{
-				IsMinimizable = false,
-				IsMaximizable = false,
-				MinWidth = 460,
-				MinHeight = 550,
-				Width = 800,
-				Height = 550,
-				Content = frame,
-				Backdrop = new WinUIEx.MicaSystemBackdrop(),
-			};
+				propertiesWindow = new();
+				propertiesWindow.Closed += PropertiesWindow_Closed;
+			}
+
+			propertiesWindow.IsMinimizable = false;
+			propertiesWindow.IsMaximizable = false;
+			propertiesWindow.MinWidth = 460;
+			propertiesWindow.MinHeight = 550;
+			propertiesWindow.Width = 800;
+			propertiesWindow.Height = 550;
+			propertiesWindow.Content = frame;
+			propertiesWindow.SystemBackdrop = new MicaBackdrop();
 
 			var appWindow = propertiesWindow.AppWindow;
 			appWindow.Title = "Properties".GetLocalizedResource();
@@ -128,8 +136,6 @@ namespace Files.App.Helpers
 				},
 				new SuppressNavigationTransitionInfo());
 
-			appWindow.Show();
-
 			// WINUI3: Move window to cursor position
 			InteropHelpers.GetCursorPos(out var pointerPosition);
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
@@ -142,6 +148,31 @@ namespace Files.App.Helpers
 			};
 
 			appWindow.Move(appWindowPos);
+
+			appWindow.Show();
+		}
+
+		// Destruction of Window objects seems to cause access violation. (#12057)
+		// So instead of destroying the Window object, cache it and reuse it as a workaround.
+		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
+		{
+			args.Handled = true;
+
+			if (sender is WinUIEx.WindowEx window)
+			{
+				window.AppWindow.Hide();
+				window.Content = null;
+				WindowCache.Add(window);
+			}
+		}
+
+		public static void DestroyCachedWindows()
+		{
+			WindowCache.ForEach(window =>
+			{
+				window.Closed -= PropertiesWindow_Closed;
+				window.Close();
+			});
 		}
 	}
 }

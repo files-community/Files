@@ -329,6 +329,9 @@ namespace Files.App
 			},
 			Logger);
 
+			// Destroy cached properties windows
+			FilePropertiesHelpers.DestroyCachedWindows();
+
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
 		}
