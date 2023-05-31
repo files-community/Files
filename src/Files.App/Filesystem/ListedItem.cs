@@ -1,27 +1,18 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
-using Files.Shared.Extensions;
 using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -427,16 +418,27 @@ namespace Files.App.Filesystem
 		}
 
 		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
+
 		public bool IsRecycleBinItem => this is RecycleBinItem;
+
 		public bool IsShortcut => this is ShortcutItem;
+
 		public bool IsLibrary => this is LibraryItem;
+
 		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
+
 		public bool IsFtpItem => this is FtpItem;
+
 		public bool IsArchive => this is ZipItem;
+
 		public bool IsAlternateStream => this is AlternateStreamItem;
+
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
+
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
+
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
+
 		public bool IsElevated => CheckElevationRights();
 
 		private BaseStorageFile itemFile;
@@ -448,6 +450,9 @@ namespace Files.App.Filesystem
 
 		// This is a hack used because x:Bind casting did not work properly
 		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+
+		public GitItem AsGitItem
+			=> this as GitItem;
 
 		public string Key { get; set; }
 
@@ -633,5 +638,27 @@ namespace Files.App.Filesystem
 				return $"{MainStreamName}:{ItemNameRaw}";
 			}
 		}
+	}
+
+	public class GitItem : ListedItem
+	{
+		// TODO: Change this
+		private string? _UnmergedGitStatusLabel;
+		public string? UnmergedGitStatusLabel
+		{
+			get;
+			init;
+		}
+
+		public Brush UnmergedGitStatusLabelForeground { get; init; } = new SolidColorBrush(Colors.LightGreen);
+
+		public DateTimeOffset GitLastCommitDate { get; init; }
+
+		public string? GitLastCommitMessage { get; init; }
+
+		public string? GitLastCommitAuthor { get; init; }
+
+		public string? GitLastCommitSha { get; init; }
+
 	}
 }

@@ -199,22 +199,23 @@ namespace Files.App.Views.LayoutModes
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			// This code updates which columns are hidden and which ones are shwn
-			if (!e.IsTypeRecycleBin)
-			{
-				ColumnsViewModel.DateDeletedColumn.Hide();
-				ColumnsViewModel.OriginalPathColumn.Hide();
-			}
-			else
+			// Show original path and date deleted columns in Recycle Bin
+			if (e.IsTypeRecycleBin)
 			{
 				ColumnsViewModel.OriginalPathColumn.Show();
 				ColumnsViewModel.DateDeletedColumn.Show();
 			}
-
-			if (!e.IsTypeCloudDrive)
-				ColumnsViewModel.StatusColumn.Hide();
 			else
+			{
+				ColumnsViewModel.OriginalPathColumn.Hide();
+				ColumnsViewModel.DateDeletedColumn.Hide();
+			}
+
+			// Show cloud drive item status column
+			if (e.IsTypeCloudDrive)
 				ColumnsViewModel.StatusColumn.Show();
+			else
+				ColumnsViewModel.StatusColumn.Hide();
 
 			UpdateSortIndicator();
 		}
@@ -487,7 +488,14 @@ namespace Files.App.Views.LayoutModes
 		{
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+
+			// Git
 			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitAuthorColumn.UserLength = new GridLength(GitLastCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
+
 			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);

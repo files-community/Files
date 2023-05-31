@@ -1,21 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
 using Files.Backend.Extensions;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
@@ -23,22 +15,18 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
+	/// <summary>
+	/// Provides a helper for storage item enumeration in Win32.
+	/// </summary>
 	public static class Win32StorageEnumerator
 	{
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
+
 		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-		public static async Task<List<ListedItem>> ListEntries(
-			string path,
-			IntPtr hFile,
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			CancellationToken cancellationToken,
-			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+		public static async Task<List<ListedItem>> ListEntries(string path, IntPtr hFile, Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -170,108 +158,126 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			string pathRoot,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> GetFolder(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			DateTime itemModifiedDate;
 			DateTime itemCreatedDate;
+
+			// Convert FileTime To SystemTime (Universal Time To Local Time)
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
 			{
-				// Invalid date means invalid findData, do not add to list
+				// Invalid WIN32_FIND_DATA data
 				return null;
 			}
+
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
+
 			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
-			{
 				itemName = findData.cFileName;
-			}
-			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+
 			double opacity = 1;
 
+			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			if (isHidden)
-			{
 				opacity = Constants.UI.DimItemOpacity;
-			}
 
-			return new ListedItem(null)
+			if (GitHelpers.IsRepositoryEx(itemPath))
 			{
-				PrimaryItemAttribute = StorageItemTypes.Folder,
-				ItemNameRaw = itemName,
-				ItemDateModifiedReal = itemModifiedDate,
-				ItemDateCreatedReal = itemCreatedDate,
-				ItemType = folderTypeTextLocalized,
-				FileImage = null,
-				IsHiddenItem = isHidden,
-				Opacity = opacity,
-				LoadFileIcon = false,
-				ItemPath = itemPath,
-				FileSize = null,
-				FileSizeBytes = 0,
-			};
+				return new GitItem()
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = folderTypeTextLocalized,
+					FileImage = null,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					LoadFileIcon = false,
+					ItemPath = itemPath,
+					FileSize = null,
+					FileSizeBytes = 0,
+
+					// Git
+					UnmergedGitStatusLabel = "M",
+					GitLastCommitDate = new(DateTime.Now),
+					GitLastCommitMessage = "Fix: Fixed an issue where the item name was not showed.",
+					GitLastCommitAuthor = "0x5bfa",
+					GitLastCommitSha = "8b9626c",
+				};
+			}
+			else
+			{
+				return new ListedItem(null)
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = folderTypeTextLocalized,
+					FileImage = null,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					LoadFileIcon = false,
+					ItemPath = itemPath,
+					FileSize = null,
+					FileSizeBytes = 0,
+				};
+			}
 		}
 
-		public static async Task<ListedItem> GetFile(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
-			string pathRoot,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> GetFile(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
 		{
-			var itemPath = Path.Combine(pathRoot, findData.cFileName);
-			var itemName = findData.cFileName;
+			if (cancellationToken.IsCancellationRequested)
+				return null;
 
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
+
+			// Convert FileTime To SystemTime (Universal Time To Local Time)
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Backend.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
+				FileTimeToSystemTime(ref findData.ftLastAccessTime, out NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)
 			{
-				// Invalid date means invalid findData, do not add to list
+				// Invalid WIN32_FIND_DATA data
 				return null;
 			}
 
+			var itemName = findData.cFileName;
+			var itemPath = Path.Combine(pathRoot, findData.cFileName);
+			string itemFileExtension = Path.GetExtension(itemPath);
+			string itemType = "File".GetLocalizedResource();
+
+			// Get item size
 			long itemSizeBytes = findData.GetSize();
 			var itemSize = itemSizeBytes.ToSizeString();
-			string itemType = "File".GetLocalizedResource();
-			string itemFileExtension = null;
 
-			if (findData.cFileName.Contains('.'))
-			{
-				itemFileExtension = Path.GetExtension(itemPath);
-				itemType = itemFileExtension.Trim('.') + " " + itemType;
-			}
+			// Get more specific file type from extension
+			if (string.IsNullOrEmpty(itemFileExtension))
+				itemType = $"{itemFileExtension.Trim('.')} {itemType}";
 
 			bool itemThumbnailImgVis = false;
 			bool itemEmptyImgVis = true;
-
-			if (cancellationToken.IsCancellationRequested)
-			{
-				return null;
-			}
 
 			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
@@ -280,6 +286,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
 			bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
 
+			// File type is Symlink
 			if (isSymlink)
 			{
 				var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
@@ -304,14 +311,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsSymLink = true
 				};
 			}
+			// File type is Shortcut
 			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
 				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+
 				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
-				{
 					return null;
-				}
+
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
@@ -336,6 +344,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					IsUrl = isUrl,
 				};
 			}
+			// File type is Library
 			else if (App.LibraryManager.TryGetLibrary(itemPath, out LibraryLocationItem library))
 			{
 				return new LibraryItem(library)
@@ -345,50 +354,76 @@ namespace Files.App.Filesystem.StorageEnumerators
 					ItemDateCreatedReal = itemCreatedDate,
 				};
 			}
+			// File type is Zip
+			else if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+			{
+				return new ZipItem(null)
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
+					FileExtension = itemFileExtension,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateAccessedReal = itemLastAccessDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = itemSizeBytes
+				};
+			}
+			// File type is Git item
+			else if (GitHelpers.IsRepositoryEx(itemPath))
+			{
+				return new GitItem()
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateAccessedReal = itemLastAccessDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = itemSizeBytes,
+
+					// Git
+					UnmergedGitStatusLabel = "M",
+					GitLastCommitDate = new(DateTime.Now),
+					GitLastCommitMessage = "Fix: Fixed an issue where the item name was not showed.",
+					GitLastCommitAuthor = "0x5bfa",
+					GitLastCommitSha = "8b9626c",
+				};
+			}
+			// File type is something else
 			else
 			{
-				if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+				return new ListedItem(null)
 				{
-					return new ZipItem(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
-						FileExtension = itemFileExtension,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateAccessedReal = itemLastAccessDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes
-					};
-				}
-				else
-				{
-					return new ListedItem(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateAccessedReal = itemLastAccessDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes
-					};
-				}
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateAccessedReal = itemLastAccessDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = itemSizeBytes,
+				};
 			}
-			return null;
 		}
 	}
 }

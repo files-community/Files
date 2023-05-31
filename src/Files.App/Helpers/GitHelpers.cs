@@ -52,23 +52,25 @@ namespace Files.App.Helpers
 			if (root.EndsWith('\\'))
 				root = root.Substring(0, root.Length - 1);
 
-			if (
-				string.IsNullOrWhiteSpace(path) ||
+			if (string.IsNullOrWhiteSpace(path) ||
 				path.Equals(root, StringComparison.OrdinalIgnoreCase) ||
 				path.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
-				ShellStorageFolder.IsShellPath(path)
-				)
+				ShellStorageFolder.IsShellPath(path))
+			{
 				return null;
+			}
 
 			try
 			{
-				return Repository.IsValid(path)
-					? path
-					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+				return
+					Repository.IsValid(path)
+						? path
+						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
 			catch (LibGit2SharpException ex)
 			{
 				_logger.LogWarning(ex.Message);
+
 				return null;
 			}
 		}
@@ -268,6 +270,17 @@ namespace Files.App.Helpers
 			IsExecutingGitAction = false;
 		}
 
+		public static bool IsRepositoryEx(string path)
+		{
+			var rootPath = SystemIO.Path.GetPathRoot(path);
+
+			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
+			if (string.IsNullOrEmpty(repositoryRootPath))
+				return false;
+
+			return Repository.IsValid(repositoryRootPath);
+		}
+
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
@@ -280,13 +293,6 @@ namespace Files.App.Helpers
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
-		}
-
-		private static void EnumerateUnmergedFilesStatus(Repository repository)
-		{
-			// Cache list
-			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
-				_unmergedStatusCacheList.Add(c.Path, c.Status);
 		}
 	}
 }

@@ -27,6 +27,34 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _GitStatusColumn, value);
 		}
 
+		private ColumnViewModel _GitLastCommitDateColumn = new() { UserLength = new GridLength(64, GridUnitType.Pixel) };
+		public ColumnViewModel GitLastCommitDateColumn
+		{
+			get => _GitLastCommitDateColumn;
+			set => SetProperty(ref _GitLastCommitDateColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitMessageColumn = new() { UserLength = new GridLength(172, GridUnitType.Pixel) };
+		public ColumnViewModel GitLastCommitMessageColumn
+		{
+			get => _GitLastCommitMessageColumn;
+			set => SetProperty(ref _GitLastCommitMessageColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitAuthorColumn = new() { UserLength = new GridLength(172, GridUnitType.Pixel) };
+		public ColumnViewModel GitLastCommitAuthorColumn
+		{
+			get => _GitLastCommitAuthorColumn;
+			set => SetProperty(ref _GitLastCommitAuthorColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitShaColumn = new() { UserLength = new GridLength(172, GridUnitType.Pixel) };
+		public ColumnViewModel GitLastCommitShaColumn
+		{
+			get => _GitLastCommitShaColumn;
+			set => SetProperty(ref _GitLastCommitShaColumn, value);
+		}
+
 		private ColumnViewModel tagColumn = new();
 		public ColumnViewModel TagColumn
 		{

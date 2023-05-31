@@ -296,62 +296,144 @@
 
 							<!--  Header Column Definitions  -->
 							<Grid.ColumnDefinitions>
+
+								<!--  Item Icon  -->
 								<ColumnDefinition
 									x:Name="Column2"
 									Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Name  -->
 								<ColumnDefinition
 									x:Name="Column3"
 									Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Git Status  -->
 								<ColumnDefinition
 									x:Name="GitStatusColumnDefinition"
 									Width="{x:Bind ColumnsViewModel.GitStatusColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.GitStatusColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Git Last Commit Date  -->
+								<ColumnDefinition
+									x:Name="GitLastCommitDateColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Git Last Commit Message  -->
+								<ColumnDefinition
+									x:Name="GitLastCommitMessageColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Git Last Commit Author  -->
+								<ColumnDefinition
+									x:Name="GitLastCommitAuthorColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Git Last Commit SHA  -->
+								<ColumnDefinition
+									x:Name="GitLastCommitShaColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Tags  -->
 								<ColumnDefinition
 									x:Name="Column4"
 									Width="{x:Bind ColumnsViewModel.TagColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.TagColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Original Path  -->
 								<ColumnDefinition
 									x:Name="Column5"
 									Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Date Deleted  -->
 								<ColumnDefinition
 									x:Name="Column6"
 									Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Date Modified  -->
 								<ColumnDefinition
 									x:Name="Column7"
 									Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Date Created  -->
 								<ColumnDefinition
 									x:Name="Column8"
 									Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Type  -->
 								<ColumnDefinition
 									x:Name="Column9"
 									Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Size  -->
 								<ColumnDefinition
 									x:Name="Column10"
 									Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Sync Status  -->
 								<ColumnDefinition
 									x:Name="Column11"
 									Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
+
 								<ColumnDefinition Width="0" />
+
 							</Grid.ColumnDefinitions>
 
 							<!--  Item Name  -->
@@ -396,10 +478,94 @@
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
-							<!--  Tags That Item Is Labeled  -->
+							<!--  Item Last Commit Date  -->
+							<uc:DataGridHeader
+								x:Name="GitLastCommitDateHeader"
+								Grid.Column="6"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="ItemLastCommitDate"
+								Header="{helpers:ResourceString Name=GitLastCommitDate}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="7"
+								AutomationProperties.Name="GitLastCommitDateHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
+							<!--  Item Last Commit Message  -->
+							<uc:DataGridHeader
+								x:Name="GitLastCommitMessageHeader"
+								Grid.Column="8"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="ItemLastCommitMessage"
+								Header="{helpers:ResourceString Name=GitLastCommitMessage}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="9"
+								AutomationProperties.Name="GitLastCommitMessageHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
+							<!--  Item Last Commit Author  -->
+							<uc:DataGridHeader
+								x:Name="GitLastCommitAuthorHeader"
+								Grid.Column="10"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="ItemLastCommitAuthor"
+								Header="{helpers:ResourceString Name=GitLastCommitAuthor}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="11"
+								AutomationProperties.Name="GitLastCommitAuthorHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
+							<!--  Item Last Commit SHA  -->
+							<uc:DataGridHeader
+								x:Name="GitLastCommitShaHeader"
+								Grid.Column="12"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="ItemLastCommitSha"
+								Header="{helpers:ResourceString Name=GitLastCommitSha}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="13"
+								AutomationProperties.Name="GitLastCommitShaHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}" />
+
+							<!--  Item Tags  -->
 							<uc:DataGridHeader
 								x:Name="TagHeader"
-								Grid.Column="6"
+								Grid.Column="14"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
@@ -407,7 +573,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="7"
+								Grid.Column="15"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -421,7 +587,7 @@
 							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="8"
+								Grid.Column="16"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalPath"
 								Header="{helpers:ResourceString Name=OriginalPath}"
@@ -429,7 +595,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="9"
+								Grid.Column="17"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -443,7 +609,7 @@
 							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="10"
+								Grid.Column="18"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
@@ -451,7 +617,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="11"
+								Grid.Column="19"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -465,7 +631,7 @@
 							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="12"
+								Grid.Column="20"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
@@ -473,7 +639,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="13"
+								Grid.Column="21"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -487,7 +653,7 @@
 							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="14"
+								Grid.Column="22"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
@@ -495,7 +661,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="15"
+								Grid.Column="23"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -509,7 +675,7 @@
 							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="16"
+								Grid.Column="24"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
@@ -517,7 +683,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="17"
+								Grid.Column="25"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -531,7 +697,7 @@
 							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="18"
+								Grid.Column="26"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
@@ -539,7 +705,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="19"
+								Grid.Column="27"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -553,7 +719,7 @@
 							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="20"
+								Grid.Column="28"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -563,7 +729,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="21"
+								Grid.Column="29"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -586,11 +752,13 @@
 									IsRightTapEnabled="True"
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal">
-									<!--  Item Icon  -->
+									<!--  Item Thumbnail  -->
 									<Grid
 										Width="24"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Stretch">
+
+										<!--  Thumbnail  -->
 										<Grid
 											x:Name="IconBox"
 											Width="20"
@@ -662,6 +830,8 @@
 												Source="{x:Bind ShieldIcon, Mode=OneWay}"
 												Stretch="Uniform" />
 										</Grid>
+
+										<!--  Selection Check Box  -->
 										<CheckBox
 											x:Name="SelectionCheckbox"
 											Width="20"
@@ -672,12 +842,13 @@
 											DoubleTapped="SelectionCheckbox_DoubleTapped"
 											Opacity="0"
 											Unchecked="ItemSelected_Unchecked" />
+
 									</Grid>
 
 									<!--  Item Name  -->
 									<Grid
 										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="16,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										Canvas.ZIndex="6">
@@ -708,21 +879,61 @@
 									</Grid>
 
 									<!--  Item Git Status  -->
-									<Grid
-										x:Name="ItemGitStatusGrid"
+									<TextBlock
+										x:Name="ItemGitStatusTextBlock"
 										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,12,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										Foreground="{x:Bind AsGitItem.UnmergedGitStatusLabelForeground, Mode=OneWay}"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
+										TextTrimming="CharacterEllipsis"
+										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-										<!--  TODO: Remove This Test Line  -->
-										<TextBlock
-											Foreground="LightGreen"
-											Text="A"
-											TextTrimming="CharacterEllipsis" />
+									<!--  Item Git Last Commit Date  -->
+									<TextBlock
+										x:Name="ItemGitLastCommitDateTextBlock"
+										Width="{Binding ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsGitItem.GitLastCommitDate, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.GitLastCommitDateColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-									</Grid>
+									<!--  Item Git Last Commit Message  -->
+									<TextBlock
+										x:Name="ItemGitLastCommitMessageTextBlock"
+										Width="{Binding ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsGitItem.GitLastCommitMessage, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.GitLastCommitMessageColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+
+									<!--  Item Git Last Commit Author  -->
+									<TextBlock
+										x:Name="ItemGitLastCommitAuthorTextBlock"
+										Width="{Binding ColumnsViewModel.GitLastCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+
+									<!--  Item Git Last Commit SHA  -->
+									<TextBlock
+										x:Name="ItemGitLastCommitShaTextBlock"
+										Width="{Binding ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="12,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.GitLastCommitShaColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Tags That Item Is Labeled  -->
 									<Grid

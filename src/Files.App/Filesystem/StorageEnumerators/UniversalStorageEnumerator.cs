@@ -1,33 +1,20 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
+	/// <summary>
+	/// Provides a helper for storage item enumeration in Universal Windows Platform.
+	/// </summary>
 	public static class UniversalStorageEnumerator
 	{
-		public static async Task<List<ListedItem>> ListEntries(
-			BaseStorageFolder rootFolder,
-			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken,
-			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+		public static async Task<List<ListedItem>> ListEntries(BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -230,11 +217,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(
-			BaseStorageFile file,
-			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken
-		)
+		public static async Task<ListedItem> AddFileAsync(BaseStorageFile file, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
 			// Display name does not include extension

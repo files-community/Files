@@ -3344,4 +3344,16 @@
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
+  <data name="GitLastCommitAuthor" xml:space="preserve">
+    <value>Last commit author</value>
+  </data>
+  <data name="GitLastCommitDate" xml:space="preserve">
+    <value>Date last committed</value>
+  </data>
+  <data name="GitLastCommitMessage" xml:space="preserve">
+    <value>Last commit message</value>
+  </data>
+  <data name="GitLastCommitSha" xml:space="preserve">
+    <value>Last commit SHA</value>
+  </data>
 </root>
