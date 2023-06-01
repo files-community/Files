@@ -259,7 +259,12 @@ namespace Files.App.Views.LayoutModes
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null || IsRenamingItem)
+			if
+			(
+				ParentShellPageInstance is null ||
+				IsRenamingItem ||
+				SelectedItems?.Count > 1
+			)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
