@@ -193,7 +193,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 			if (isHidden)
 				opacity = Constants.UI.DimItemOpacity;
 
-			if (GitHelpers.IsRepositoryEx(itemPath, out var repo) && GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
+			if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
+				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\') &&
+				GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
 			{
 				return new GitItem()
 				{
@@ -376,7 +378,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 				};
 			}
 			// File type is Git item
-			else if (GitHelpers.IsRepositoryEx(itemPath, out var repo) && GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
+			else if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
+				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\') &&
+				GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
 			{
 				return new GitItem()
 				{

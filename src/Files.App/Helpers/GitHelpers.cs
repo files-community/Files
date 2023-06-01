@@ -288,10 +288,22 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static bool GetGitInformationForItem(Repository repository, string path, out ChangeKind changeKind, out DateTimeOffset lastCommitDate, out string lastCommitMessage, out string LastCommitAuthor, out string LastCommitSha)
+		public static bool GetGitInformationForItem(Repository repository, string path, out ChangeKind changeKind, out DateTimeOffset lastCommitDate, out string? lastCommitMessage, out string? LastCommitAuthor, out string? LastCommitSha)
 		{
-			// TODO: Add code here
-			var commit = repository.Commits.QueryBy(path).Take(1).First().Commit;
+			changeKind = ChangeKind.Unmodified;
+			lastCommitDate = new(DateTime.UnixEpoch);
+			lastCommitMessage = null;
+			LastCommitAuthor = null;
+			LastCommitSha = null;
+
+			var rootRepoPath = repository.Info.WorkingDirectory;
+			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
+
+			var commits = repository.Commits.QueryBy(relativePath);
+			if (!commits.Any())
+				return false;
+
+			var commit = commits.First().Commit;
 
 			changeKind = ChangeKind.Unmodified;
 			lastCommitDate = commit.Author.When;
