@@ -244,7 +244,12 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
-			if (IsRenamingItem || !(e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.Right))
+			if
+			(
+				IsRenamingItem ||
+				!(e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.Right) ||
+				SelectedItems?.Count > 1
+			)
 				return;
 
 			// Open selected directory
