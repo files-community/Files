@@ -886,7 +886,7 @@
 				LabelPosition="Collapsed"
 				ToolTipService.ToolTip="{x:Bind Commands.TogglePreviewPane.LabelWithHotKey, Mode=OneWay}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-				<local:OpacityIcon Style="{x:Bind Commands.TogglePreviewPane.OpacityStyle}" />
+				<local:OpacityIcon IsSelected="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=OneWay}" Style="{x:Bind Commands.TogglePreviewPane.OpacityStyle}" />
 			</AppBarToggleButton>
 
 			<!--  3 Dots Commands  -->
