@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
 
-		public override bool IsExecutable => context.CanCreateItem && !context.HasSelection && UIHelpers.CanShowDialog;
+		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{
