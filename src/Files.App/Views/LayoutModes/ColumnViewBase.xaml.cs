@@ -223,7 +223,7 @@ namespace Files.App.Views.LayoutModes
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
-			if (SelectedItems?.Count > 1)
+			if (SelectedItems?.Count > 1 || SelectedItem?.PrimaryItemAttribute is not StorageItemTypes.Folder)
 			{
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
