@@ -78,9 +78,10 @@ namespace Files.App.Helpers
 
 			using var repository = new Repository(path);
 			return repository.Branches
-				.Where(b => !b.IsRemote || b.RemoteName == "origin")
-				.OrderByDescending(b => b.IsCurrentRepositoryHead)
-				.ThenBy(b => b.IsRemote)
+				.OrderByDescending(b => b.IsCurrentRepositoryHead) // current first
+				.ThenBy(b => b.IsRemote) // then local
+				.ThenByDescending(b => b.IsRemote && b.RemoteName == "origin") // then remote origin
+				.ThenBy(b => b.RemoteName) // then remote
 				.ThenByDescending(b => b.Tip.Committer.When)
 				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();

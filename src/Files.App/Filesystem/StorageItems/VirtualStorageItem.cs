@@ -1,15 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
-using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Filesystem.StorageItems
 {
@@ -41,49 +37,6 @@ namespace Files.App.Filesystem.StorageItems
 				DateCreated = item.ItemDateCreatedReal,
 				Attributes = item.IsArchive || item.PrimaryItemAttribute == StorageItemTypes.File ? Windows.Storage.FileAttributes.Normal : Windows.Storage.FileAttributes.Directory
 			};
-		}
-
-		public static VirtualStorageItem FromPath(string path)
-		{
-			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-			IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-			if (hFile.ToInt64() != -1)
-			{
-				// https://learn.microsoft.com/openspecs/windows_protocols/ms-fscc/c8e77b37-3909-4fe6-a4ea-2b9d423b1ee4
-				bool isReparsePoint = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.ReparsePoint) == System.IO.FileAttributes.ReparsePoint;
-				bool isSymlink = isReparsePoint && findData.dwReserved0 == NativeFileOperationsHelper.IO_REPARSE_TAG_SYMLINK;
-				bool isHidden = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden;
-				bool isDirectory = ((System.IO.FileAttributes)findData.dwFileAttributes & System.IO.FileAttributes.Directory) == System.IO.FileAttributes.Directory;
-
-				if (!(isHidden && isSymlink))
-				{
-					DateTime itemCreatedDate;
-
-					try
-					{
-						FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
-						itemCreatedDate = systemCreatedDateOutput.ToDateTime();
-					}
-					catch (ArgumentException)
-					{
-						// Invalid date means invalid findData, do not add to list
-						return null;
-					}
-
-					return new VirtualStorageItem()
-					{
-						Name = findData.cFileName,
-						Path = path,
-						DateCreated = itemCreatedDate,
-						Attributes = isDirectory ? Windows.Storage.FileAttributes.Directory : Windows.Storage.FileAttributes.Normal
-					};
-				}
-
-				FindClose(hFile);
-			}
-
-			return null;
 		}
 
 		private async void StreamedFileWriter(StreamedFileDataRequest request)

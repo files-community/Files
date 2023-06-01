@@ -54,8 +54,6 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
 
-		public FtpStorageFolder CloneWithPath(string path) => new(new StorageFolderWithPath(null, path));
-
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
 		public override bool IsOfType(StorageItemTypes type) => type is StorageItemTypes.Folder;
 
