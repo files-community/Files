@@ -299,8 +299,8 @@ namespace Files.App.Helpers
 			var rootRepoPath = repository.Info.WorkingDirectory;
 			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
 
-			var commits = repository.Commits.QueryBy(relativePath);
-			if (!commits.Any())
+			var commits = repository.Commits.QueryBy(relativePath).ToList();
+			if (commits.Count == 0)
 				return false;
 
 			var commit = commits.First().Commit;
