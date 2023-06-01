@@ -16,8 +16,7 @@ internal class InstallCertificateAction : ObservableObject, IAction
 
 	public RichGlyph Glyph { get; } = new("\uEB95");
 	
-	public bool IsExecutable => context.SelectedItems.Count == 1 &&
-	                            context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
+	public bool IsExecutable =>context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
 	                            context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
 
 	public InstallCertificateAction()
