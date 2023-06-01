@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Description => "TogglePreviewPaneDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
+		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconLeftPane");
 		public HotKey HotKey { get; } = new(Keys.P, KeyModifiers.Ctrl);
 
 		public bool IsOn => viewModel.IsEnabled;
