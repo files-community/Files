@@ -302,16 +302,22 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			if (offset != 0)
 				throw new NotSupportedException();
-			nint newPos = 0;
-			iStream.Read(buffer, count, newPos);
-			return (int)newPos;
+			unsafe
+			{
+				int newPos = 0;
+				iStream.Read(buffer, count, new IntPtr(&newPos));
+				return (int)newPos;
+			}
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
 		{
-			nint newPos = 0;
-			iStream.Seek(0, (int)origin, newPos);
-			return newPos;
+			unsafe
+			{
+				long newPos = 0;
+				iStream.Seek(0, (int)origin, new IntPtr(&newPos));
+				return newPos;
+			}
 		}
 
 		public override void SetLength(long value)
