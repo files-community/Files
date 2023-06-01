@@ -69,6 +69,7 @@ namespace Files.App.Commands
 		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
+		public IRichCommand InstallCertificate => commands[CommandCodes.InstallCertificate];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand RunWithPowershell => commands[CommandCodes.RunWithPowershell];
@@ -219,6 +220,7 @@ namespace Files.App.Commands
 			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
+			[CommandCodes.InstallCertificate] = new InstallCertificateAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.RunWithPowershell] = new RunWithPowershellAction(),
