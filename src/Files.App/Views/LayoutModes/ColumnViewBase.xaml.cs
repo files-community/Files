@@ -222,6 +222,13 @@ namespace Files.App.Views.LayoutModes
 				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
+
+			if (SelectedItems?.Count > 1)
+			{
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+				ClearOpenedFolderSelectionIndicator();
+			}
 		}
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
