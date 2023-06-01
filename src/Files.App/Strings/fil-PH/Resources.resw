@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Pangalan:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Uri:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">

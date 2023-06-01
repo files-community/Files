@@ -813,5 +813,11 @@ namespace Files.App.Views.LayoutModes
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
+
+// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
+		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
+		{
+			ToolTipService.SetToolTip(sender, sender.IsTextTrimmed ? sender.Text : null);
+		}
 	}
 }

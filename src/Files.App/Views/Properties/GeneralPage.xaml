@@ -105,7 +105,7 @@
 					x:Load="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}"
 					FontWeight="SemiBold"
 					Style="{StaticResource PropertyName}"
-					Text="{helpers:ResourceString Name=Type}" />
+					Text="{helpers:ResourceString Name=ItemType}" />
 
 				<TextBlock
 					x:Name="itemTypeValue"

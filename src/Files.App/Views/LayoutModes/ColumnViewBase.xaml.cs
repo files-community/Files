@@ -237,6 +237,9 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
+			if (IsRenamingItem || !(e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.Right))
+				return;
+
 			// Open selected directory
 			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
