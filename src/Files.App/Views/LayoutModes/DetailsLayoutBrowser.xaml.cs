@@ -3,9 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
-using Files.App.Data.EventArguments;
 using Files.App.Helpers.XamlHelpers;
-using Files.App.UserControls;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -118,6 +116,11 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
 				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
 				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
+				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
+				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
+				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
+				ColumnsViewModel.GitLastCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitLastCommitAuthorColumn;
+				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
 			currentIconSize = FolderSettings.GetIconSize();

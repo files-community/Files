@@ -225,15 +225,16 @@
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
-					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
+					<!--  ListView Item Transitions  -->
 					<ListView.ItemContainerTransitions>
 						<TransitionCollection>
 							<AddDeleteThemeTransition />
 						</TransitionCollection>
 					</ListView.ItemContainerTransitions>
 
-					<!--  Details View Item List Header  -->
+					<!--  ListView Header  -->
 					<ListView.Header>
 						<Grid
 							x:Name="HeaderGrid"
@@ -244,53 +245,132 @@
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
 
-							<!--  Header Grid Menu Flyout  -->
+							<!--  Header Grid MenuFlyout  -->
 							<Grid.ContextFlyout>
 								<MenuFlyout>
-									<MenuFlyoutItem Click="SizeAllColumnsToFit_Click" Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
+
+									<!--  All Columns To Fit  -->
+									<MenuFlyoutItem
+										x:Name="AllColumnsToFitMenuflyoutItem"
+										Click="SizeAllColumnsToFit_Click"
+										Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
+
+									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
+
+									<!--  Git Unmerged File Kind  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitUnmergedFileKindColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitStatus}"
+										Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Git Last Commit Date  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitLastDateCommitColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitLastCommitDate}"
+										Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Git Last Commit Message  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitLastCommitMessageColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitLastCommitMessage}"
+										Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Git Last Commit Author  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitLastCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitLastCommitAuthor}"
+										Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Git Last Commit SHA  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitLastCommitShaColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitLastCommitSha}"
+										Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  File Tag  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemFileTagColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=Tag}"
 										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemOriginalPathColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
 										Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Date Deleted  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemDateDeletedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
 										Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Date Modified  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemDateModifiedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
 										Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Date Created  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemDateCreatedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
 										Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Type  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemTypeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
 										Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Item Size  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowItemSizeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
 										Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  Cloud Sync Status  -->
 									<ToggleMenuFlyoutItem
+										x:Name="ShowCloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
 										Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
-									<MenuFlyoutItem Click="SetDetailsColumnsAsDefault_Click" Text="{helpers:ResourceString Name=SetAsDefault}" />
+
+									<!--  Set Current Columns As Default  -->
+									<MenuFlyoutItem
+										x:Name="SetCurrentColumnsAsDefaultMenuFlyoutItem"
+										Click="SetDetailsColumnsAsDefault_Click"
+										Text="{helpers:ResourceString Name=SetAsDefault}" />
+
 								</MenuFlyout>
 							</Grid.ContextFlyout>
 
@@ -457,7 +537,7 @@
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}" />
 
-							<!--  Item Git Status  -->
+							<!--  Item Unmerged File Change Kind  -->
 							<uc:DataGridHeader
 								x:Name="GitStatusHeader"
 								Grid.Column="4"
@@ -748,6 +828,7 @@
 						</Grid>
 					</ListView.Header>
 
+					<!--  Item Template  -->
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="filesystem:ListedItem">
 							<UserControl>
@@ -1108,10 +1189,12 @@
 						</DataTemplate>
 					</ListView.ItemTemplate>
 
+					<!--  ListView Sticky Header  -->
 					<i:Interaction.Behaviors>
 						<behaviors:StickyHeaderBehavior />
 					</i:Interaction.Behaviors>
 
+					<!--  ListView Control Styles  -->
 					<ListView.Resources>
 						<ResourceDictionary>
 							<Style TargetType="ListView">
@@ -1199,6 +1282,7 @@
 						</ResourceDictionary>
 					</ListView.Resources>
 
+					<!--  ListView Grouping Styles  -->
 					<ListView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
@@ -1243,6 +1327,7 @@
 						</GroupStyle>
 					</ListView.GroupStyle>
 
+					<!--  ListView Control Property Customizing  -->
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1251,6 +1336,7 @@
 						</Style>
 					</ListView.ItemContainerStyle>
 
+					<!--  ListView Item Displaying Style  -->
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
 							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
