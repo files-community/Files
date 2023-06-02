@@ -153,7 +153,8 @@ namespace Files.App.Views.LayoutModes
 			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{
 				IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
-				IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin
+				IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin,
+				IsTypeGitRepository = InstanceViewModel.IsGitRepository
 			});
 
 			RootGrid_SizeChanged(null, null);
@@ -219,6 +220,24 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.StatusColumn.Show();
 			else
 				ColumnsViewModel.StatusColumn.Hide();
+
+			// Show git columns in git repository
+			if (e.IsTypeGitRepository)
+			{
+				ColumnsViewModel.GitLastCommitAuthorColumn.Show();
+				ColumnsViewModel.GitLastCommitDateColumn.Show();
+				ColumnsViewModel.GitLastCommitMessageColumn.Show();
+				ColumnsViewModel.GitLastCommitShaColumn.Show();
+				ColumnsViewModel.GitStatusColumn.Show();
+			}
+			else
+			{
+				ColumnsViewModel.GitLastCommitAuthorColumn.Hide();
+				ColumnsViewModel.GitLastCommitDateColumn.Hide();
+				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
+				ColumnsViewModel.GitLastCommitShaColumn.Hide();
+				ColumnsViewModel.GitStatusColumn.Hide();
+			}
 
 			UpdateSortIndicator();
 		}
@@ -565,13 +584,18 @@ namespace Files.App.Views.LayoutModes
 			{
 				1 => 40, // Check all items columns
 				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.UnmergedGitStatusLabel?.Length ?? 0).Max(), // git
+				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
+				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
+				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
+				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
+				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
+				9 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+				10 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+				11 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+				12 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+				13 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+				14 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
 				_ => 20 // cloud status column
 			};
 
@@ -587,13 +611,18 @@ namespace Files.App.Views.LayoutModes
 				var column = columnToResize switch
 				{
 					2 => ColumnsViewModel.NameColumn,
-					3 => ColumnsViewModel.TagColumn,
-					4 => ColumnsViewModel.OriginalPathColumn,
-					5 => ColumnsViewModel.DateDeletedColumn,
-					6 => ColumnsViewModel.DateModifiedColumn,
-					7 => ColumnsViewModel.DateCreatedColumn,
-					8 => ColumnsViewModel.ItemTypeColumn,
-					9 => ColumnsViewModel.SizeColumn,
+					3 => ColumnsViewModel.GitStatusColumn,
+					4 => ColumnsViewModel.GitLastCommitDateColumn,
+					5 => ColumnsViewModel.GitLastCommitMessageColumn,
+					6 => ColumnsViewModel.GitLastCommitAuthorColumn,
+					7 => ColumnsViewModel.GitLastCommitShaColumn,
+					8 => ColumnsViewModel.TagColumn,
+					9 => ColumnsViewModel.OriginalPathColumn,
+					10 => ColumnsViewModel.DateDeletedColumn,
+					11 => ColumnsViewModel.DateModifiedColumn,
+					12 => ColumnsViewModel.DateCreatedColumn,
+					13 => ColumnsViewModel.ItemTypeColumn,
+					14 => ColumnsViewModel.SizeColumn,
 					_ => ColumnsViewModel.StatusColumn
 				};
 
@@ -611,10 +640,10 @@ namespace Files.App.Views.LayoutModes
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			if (columnIndex == 10)
+			if (columnIndex == 15) // sync status
 				return maxItemLength;
 
-			if (columnIndex == 3)
+			if (columnIndex == 8) // file tag
 				return MeasureTagColumnEstimate(columnIndex);
 
 			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
@@ -679,14 +708,19 @@ namespace Files.App.Views.LayoutModes
 			int columnIndexFromName = element.Name switch
 			{
 				"ItemName" => 2,
-				"ItemTagGrid" => 3,
-				"ItemOriginalPath" => 4,
-				"ItemDateDeleted" => 5,
-				"ItemDateModified" => 6,
-				"ItemDateCreated" => 7,
-				"ItemType" => 8,
-				"ItemSize" => 9,
-				"ItemStatus" => 10,
+				"ItemGitStatusTextBlock" => 3,
+				"ItemGitLastCommitDateTextBlock" => 4,
+				"ItemGitLastCommitMessageTextBlock" => 5,
+				"ItemGitLastCommitAuthorTextBlock" => 6,
+				"ItemGitLastCommitShaTextBlock" => 7,
+				"ItemTagGrid" => 8,
+				"ItemOriginalPath" => 9,
+				"ItemDateDeleted" => 10,
+				"ItemDateModified" => 11,
+				"ItemDateCreated" => 12,
+				"ItemType" => 13,
+				"ItemSize" => 14,
+				"ItemStatus" => 15,
 				_ => -1,
 			};
 
@@ -818,7 +852,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
+		// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
 		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
 		{
 			ToolTipService.SetToolTip(sender, sender.IsTextTrimmed ? sender.Text : null);
