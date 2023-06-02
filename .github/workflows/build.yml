@@ -70,16 +70,16 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never `
 
-    - name: Build Test project
+    - name: Build tests
       shell: pwsh
       run: 'dotnet build tests/Files.InteractionTests/Files.InteractionTests.csproj'
 
-    - name: Test Files
+    - name: Run tests
       uses: microsoft/vstest-action@v1.0.0
       with:
         testAssembly: |
-          **/*Files.InteractionTests.dll
+          **\*Files.InteractionTests.dll
           !**\*TestAdapter.dll
           !**\obj\**
-        searchFolder: ${{  env.DEFAULT_DIR  }}
+        searchFolder: '$env:DEFAULT_DIR\tests\'
         runInParallel: true
