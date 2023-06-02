@@ -546,10 +546,11 @@ namespace Files.App.Views.LayoutModes
 
 		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
 		{
+			// If there aren't items, do not make columns fit
 			if (!FileList.Items.Any())
 				return;
 
-			// for scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
+			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
 			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
