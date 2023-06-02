@@ -205,26 +205,9 @@ namespace Files.App.Views.Shells
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
+		protected async void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
 		{
 			InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
-		}
-
-		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
-		{
-			// Set focus since selection might occur before the UI finishes updating
-			ContentPage.ItemManipulationModel.FocusFileList();
-			ContentPage.ItemManipulationModel.SetSelectedItems(e);
-		}
-
-		protected async void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
-		{
-			if (ContentPage is null)
-				return;
-
-			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
-				? "ItemCount/Text".GetLocalizedResource()
-				: "ItemsCount/Text".GetLocalizedResource();
 
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
@@ -250,6 +233,23 @@ namespace Files.App.Views.Shells
 					InstanceViewModel.GitRepositoryPath,
 					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
+		}
+
+		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+		{
+			// Set focus since selection might occur before the UI finishes updating
+			ContentPage.ItemManipulationModel.FocusFileList();
+			ContentPage.ItemManipulationModel.SetSelectedItems(e);
+		}
+
+		protected void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+		{
+			if (ContentPage is null)
+				return;
+
+			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
+				? "ItemCount/Text".GetLocalizedResource()
+				: "ItemsCount/Text".GetLocalizedResource();
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();

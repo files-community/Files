@@ -476,7 +476,8 @@
 								ManipulationDelta="GridSplitter_ManipulationDelta"
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
-								Style="{StaticResource HeaderGridSplitterStyle}" />
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Date  -->
 							<uc:DataGridHeader
@@ -497,7 +498,8 @@
 								ManipulationDelta="GridSplitter_ManipulationDelta"
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
-								Style="{StaticResource HeaderGridSplitterStyle}" />
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Message  -->
 							<uc:DataGridHeader
@@ -518,7 +520,8 @@
 								ManipulationDelta="GridSplitter_ManipulationDelta"
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
-								Style="{StaticResource HeaderGridSplitterStyle}" />
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Author  -->
 							<uc:DataGridHeader
@@ -539,7 +542,8 @@
 								ManipulationDelta="GridSplitter_ManipulationDelta"
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
-								Style="{StaticResource HeaderGridSplitterStyle}" />
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit SHA  -->
 							<uc:DataGridHeader
@@ -560,7 +564,8 @@
 								ManipulationDelta="GridSplitter_ManipulationDelta"
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
-								Style="{StaticResource HeaderGridSplitterStyle}" />
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Tags  -->
 							<uc:DataGridHeader

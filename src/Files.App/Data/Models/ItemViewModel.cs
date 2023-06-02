@@ -140,20 +140,6 @@ namespace Files.App.Data.Models
 
 			WorkingDirectory = value;
 
-			string? pathRoot;
-			if (FtpHelpers.IsFtpPath(WorkingDirectory))
-			{
-				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
-				pathRoot = rootIndex is -1
-					? WorkingDirectory
-					: WorkingDirectory.Substring(0, rootIndex);
-			}
-			else
-			{
-				pathRoot = Path.GetPathRoot(WorkingDirectory);
-			}
-
-			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -1198,16 +1184,20 @@ namespace Files.App.Data.Models
 							GitHelpers.IsRepositoryEx(item.ItemPath, out var repo) &&
 							repo is not null)
 						{
-							GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
-							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							cts.Token.ThrowIfCancellationRequested();
+							await SafetyExtensions.IgnoreExceptions(() =>
 							{
-								item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized;
-								item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-								item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-								item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-								item.AsGitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha;
-							},
-							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+								{
+									item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized;
+									item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+									item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+									item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									item.AsGitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha;
+								},
+								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+							});
 						}
 					}
 				}, cts.Token);
@@ -1358,6 +1348,9 @@ namespace Files.App.Data.Models
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
+			// Reset Git repository info
+			GitDirectory = null;
+
 			if (FtpHelpers.IsFtpPath(path))
 			{
 				// Recycle bin and network are enumerated by the fulltrust process
@@ -1379,8 +1372,15 @@ namespace Files.App.Data.Models
 					case 0:
 						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+						GitDirectory = GetGitDirectory();
+						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+						{
+							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
+							IsTypeGitRepository = GitDirectory is not null
+						});
 						WatchForDirectoryChanges(path, syncStatus);
+						if (GitDirectory is not null)
+							WatchForGitChanges();
 						break;
 
 					// Enumerated with StorageFolder
@@ -1412,6 +1412,24 @@ namespace Files.App.Data.Models
 
 			stopwatch.Stop();
 			Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+		}
+
+		private string? GetGitDirectory()
+		{
+			string? pathRoot;
+			if (FtpHelpers.IsFtpPath(WorkingDirectory))
+			{
+				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
+				pathRoot = rootIndex is -1
+					? WorkingDirectory
+					: WorkingDirectory.Substring(0, rootIndex);
+			}
+			else
+			{
+				pathRoot = Path.GetPathRoot(WorkingDirectory);
+			}
+
+			return pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 		}
 
 		public void CloseWatcher()
@@ -1952,9 +1970,6 @@ namespace Files.App.Data.Models
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
 			});
 
-			if (GitDirectory is not null)
-				WatchForGitChanges(hasSyncStatus);
-
 			watcherCTS.Token.Register(() =>
 			{
 				if (aWatcherAction is not null)
@@ -1972,7 +1987,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private void WatchForGitChanges(bool hasSyncStatus)
+		private void WatchForGitChanges()
 		{
 			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
 				GitDirectory!,
@@ -1994,9 +2009,6 @@ namespace Files.App.Data.Models
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
-
-				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
 				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
@@ -2462,6 +2474,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeCloudDrive { get; set; }
 
 		public bool IsTypeRecycleBin { get; set; }
+
+		public bool IsTypeGitRepository { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs
