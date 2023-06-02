@@ -3351,7 +3351,7 @@
     <value>Date last committed</value>
   </data>
   <data name="GitLastCommitMessage" xml:space="preserve">
-    <value>Last commit message</value>
+    <value>Commit message</value>
   </data>
   <data name="GitLastCommitSha" xml:space="preserve">
     <value>Last commit SHA</value>
