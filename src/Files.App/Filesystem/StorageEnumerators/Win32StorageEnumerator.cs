@@ -33,7 +33,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null)
+			Dictionary<string, BitmapImage> defaultIconPairs = null
+		)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -171,7 +172,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
-			CancellationToken cancellationToken)
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -248,7 +250,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
-			CancellationToken cancellationToken)
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;

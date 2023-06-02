@@ -9,9 +9,6 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
-	/// <summary>
-	/// Provides static helper for storage item enumeration in Universal Windows Platform.
-	/// </summary>
 	public static class UniversalStorageEnumerator
 	{
 		public static async Task<List<ListedItem>> ListEntries(
@@ -20,7 +17,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null)
+			Dictionary<string, BitmapImage> defaultIconPairs = null
+		)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -154,10 +152,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return tempList;
 		}
 
-		public static async Task<ListedItem> AddFolderAsync(
-			BaseStorageFolder folder,
-			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken)
+		public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
 			if (!cancellationToken.IsCancellationRequested)
@@ -229,7 +224,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 		public static async Task<ListedItem> AddFileAsync(
 			BaseStorageFile file,
 			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken)
+			CancellationToken cancellationToken
+		)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
 			// Display name does not include extension
