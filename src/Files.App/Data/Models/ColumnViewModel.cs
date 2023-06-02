@@ -19,7 +19,7 @@ namespace Files.App.Data.Models
 		[LiteDB.BsonIgnore]
 		public double MaxLength
 		{
-			get => UserCollapsed ? 0 : NormalMaxLength;
+			get => UserCollapsed || IsHidden ? 0 : NormalMaxLength;
 		}
 
 		private double normalMaxLength = 800;
@@ -44,11 +44,11 @@ namespace Files.App.Data.Models
 
 		[LiteDB.BsonIgnore]
 		public double MinLength
-			=> UserCollapsed ? 0 : NormalMinLength;
+			=> UserCollapsed || IsHidden ? 0 : NormalMinLength;
 
 		[LiteDB.BsonIgnore]
 		public Visibility Visibility
-			=> UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
+			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
 		private bool userCollapsed;
 		public bool UserCollapsed
@@ -64,7 +64,7 @@ namespace Files.App.Data.Models
 		[LiteDB.BsonIgnore]
 		public GridLength Length
 		{
-			get => UserCollapsed ? new GridLength(0) : UserLength;
+			get => UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
 		}
 
 		private const int gridSplitterWidth = 12;
@@ -72,7 +72,7 @@ namespace Files.App.Data.Models
 		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter
 		{
-			get => UserCollapsed
+			get => UserCollapsed || IsHidden
 				? new(0)
 				: new(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
 		}
@@ -104,17 +104,13 @@ namespace Files.App.Data.Models
 
 		public void Hide()
 		{
-			UserCollapsed = true;
 			IsHidden = true;
-
 			UpdateVisibility();
 		}
 
 		public void Show()
 		{
-			UserCollapsed = false;
 			IsHidden = false;
-
 			UpdateVisibility();
 		}
 
