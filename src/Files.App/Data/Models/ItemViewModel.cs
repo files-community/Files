@@ -852,7 +852,7 @@ namespace Files.App.Data.Models
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new ();
+		public Dictionary<string, BitmapImage> DefaultIcons = new();
 
 		private uint currentDefaultIconSize = 0;
 
@@ -1192,6 +1192,22 @@ namespace Files.App.Data.Models
 									gp.Model.ImageSource = groupImage;
 									gp.InitializeExtendedGroupHeaderInfoAsync();
 								}));
+						}
+
+						if (item.IsGitItem &&
+							GitHelpers.IsRepositoryEx(item.ItemPath, out var repo) &&
+							repo is not null)
+						{
+							GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+							await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized;
+								item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+								item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+								item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+								item.AsGitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha;
+							},
+							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						}
 					}
 				}, cts.Token);
@@ -2255,9 +2271,9 @@ namespace Files.App.Data.Models
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 
 			await AddFileOrFolderAsync(listedItem);
 

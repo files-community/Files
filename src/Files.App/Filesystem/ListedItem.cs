@@ -436,6 +436,8 @@ namespace Files.App.Filesystem
 
 		public bool IsAlternateStream => this is AlternateStreamItem;
 
+		public bool IsGitItem => this is GitItem;
+
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
@@ -454,8 +456,7 @@ namespace Files.App.Filesystem
 		// This is a hack used because x:Bind casting did not work properly
 		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
-		public GitItem AsGitItem
-			=> this as GitItem;
+		public GitItem AsGitItem => this as GitItem;
 
 		public string Key { get; set; }
 
@@ -645,7 +646,12 @@ namespace Files.App.Filesystem
 
 	public class GitItem : ListedItem
 	{
-		public string? UnmergedGitStatusLabel { get; init; }
+		private string? _UnmergedGitStatusLabel;
+		public string? UnmergedGitStatusLabel
+		{
+			get => _UnmergedGitStatusLabel;
+			set => SetProperty(ref _UnmergedGitStatusLabel, value);
+		}
 
 		public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 
@@ -653,20 +659,39 @@ namespace Files.App.Filesystem
 		public DateTimeOffset? GitLastCommitDate
 		{
 			get => _GitLastCommitDate;
-			init
+			set
 			{
-				_GitLastCommitDate = value;
+				SetProperty(ref _GitLastCommitDate, value);
 				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
 			}
 		}
 
-		public string? GitLastCommitDateHumanized { get; private set; }
+		private string? _GitLastCommitDateHumanized;
+		public string? GitLastCommitDateHumanized
+		{
+			get => _GitLastCommitDateHumanized;
+			set => SetProperty(ref _GitLastCommitDateHumanized, value);
+		}
 
-		public string? GitLastCommitMessage { get; init; }
+		private string? _GitLastCommitMessage;
+		public string? GitLastCommitMessage
+		{
+			get => _GitLastCommitMessage;
+			set => SetProperty(ref _GitLastCommitMessage, value);
+		}
 
-		public string? GitLastCommitAuthor { get; init; }
+		private string? _GitLastCommitAuthor;
+		public string? GitLastCommitAuthor
+		{
+			get => _GitLastCommitAuthor;
+			set => SetProperty(ref _GitLastCommitAuthor, value);
+		}
 
-		public string? GitLastCommitSha { get; init; }
-
+		private string? _GitLastCommitSha;
+		public string? GitLastCommitSha
+		{
+			get => _GitLastCommitSha;
+			set => SetProperty(ref _GitLastCommitSha, value);
+		}
 	}
 }

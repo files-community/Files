@@ -286,7 +286,7 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static GitItemModel? GetGitInformationForItem(Repository repository, string path)
+		public static GitItemModel GetGitInformationForItem(Repository repository, string path)
 		{
 			var rootRepoPath = repository.Info.WorkingDirectory;
 			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
