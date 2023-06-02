@@ -23,7 +23,6 @@ namespace Files.App.Data.Models
 		}
 
 		private double normalMaxLength = 800;
-
 		public double NormalMaxLength
 		{
 			get => normalMaxLength;
@@ -44,13 +43,14 @@ namespace Files.App.Data.Models
 		}
 
 		[LiteDB.BsonIgnore]
-		public double MinLength => UserCollapsed ? 0 : NormalMinLength;
+		public double MinLength
+			=> UserCollapsed ? 0 : NormalMinLength;
 
 		[LiteDB.BsonIgnore]
-		public Visibility Visibility => UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
+		public Visibility Visibility
+			=> UserCollapsed ? Visibility.Collapsed : Visibility.Visible;
 
 		private bool userCollapsed;
-
 		public bool UserCollapsed
 		{
 			get => userCollapsed;

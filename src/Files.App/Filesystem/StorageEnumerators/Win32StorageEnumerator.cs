@@ -16,7 +16,7 @@ using FileAttributes = System.IO.FileAttributes;
 namespace Files.App.Filesystem.StorageEnumerators
 {
 	/// <summary>
-	/// Provides a helper for storage item enumeration in Win32.
+	/// Provides static helper for storage item enumeration in Win32.
 	/// </summary>
 	public static class Win32StorageEnumerator
 	{
@@ -29,12 +29,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+			Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -169,11 +168,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
-			CancellationToken cancellationToken
-		)
+			CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -247,11 +245,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 		}
 
 		public static async Task<ListedItem> GetFile(
-			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
-			CancellationToken cancellationToken
-		)
+			CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
