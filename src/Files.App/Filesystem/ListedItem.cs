@@ -19,9 +19,6 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-	/// <summary>
-	/// Represents an item for storage enumeration pages' listing control source.
-	/// </summary>
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
