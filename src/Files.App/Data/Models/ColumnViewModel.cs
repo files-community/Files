@@ -23,6 +23,7 @@ namespace Files.App.Data.Models
 		}
 
 		private double normalMaxLength = 800;
+
 		public double NormalMaxLength
 		{
 			get => normalMaxLength;
@@ -51,6 +52,7 @@ namespace Files.App.Data.Models
 			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
 		private bool userCollapsed;
+
 		public bool UserCollapsed
 		{
 			get => userCollapsed;

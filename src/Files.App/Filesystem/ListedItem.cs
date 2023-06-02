@@ -19,9 +19,6 @@ using Windows.Storage;
 
 namespace Files.App.Filesystem
 {
-	/// <summary>
-	/// Represents an item for storage enumeration pages' listing control source.
-	/// </summary>
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -421,29 +418,17 @@ namespace Files.App.Filesystem
 		}
 
 		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
-
 		public bool IsRecycleBinItem => this is RecycleBinItem;
-
 		public bool IsShortcut => this is ShortcutItem;
-
 		public bool IsLibrary => this is LibraryItem;
-
 		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
-
 		public bool IsFtpItem => this is FtpItem;
-
 		public bool IsArchive => this is ZipItem;
-
 		public bool IsAlternateStream => this is AlternateStreamItem;
-
 		public bool IsGitItem => this is GitItem;
-
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
-
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
-
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
-
 		public bool IsElevated => CheckElevationRights();
 
 		private BaseStorageFile itemFile;
