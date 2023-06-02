@@ -62,8 +62,8 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Build Files (Debug)
-      id: build_app_with_debug
+    - name: Build Files
+      id: build_app
       shell: pwsh
       run: |
         msbuild $env:PACKAGE_PROJECT_NAME `
@@ -71,3 +71,14 @@ jobs:
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never `
+
+    - name: Build Test project
+      shell: pwsh
+      run: 'dotnet build tests/Files.InteractionTests/Files.InteractionTests.csproj'
+
+    - name: Test Files
+      uses: microsoft-approved-actions/vstest@master
+      with:
+        testAssembly: '**/Files.InteractionTests.dll'
+        searchFolder: ${{  env.DEFAULT_DIR  }}
+        runInParallel: true
