@@ -38,39 +38,21 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				return new BaseBasicProperties();
-			});
+			return Task.FromResult(new BaseBasicProperties()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
 		{
-			return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
-			{
-				return null;
-			});
+			return Task.FromResult<IStorageItem>(null).AsAsyncOperation();
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				try
-				{
-					return await GetItemAsync(name);
-				}
-				catch
-				{
-					return null;
-				}
-			});
+			return Task.FromResult<IStorageItem>(null).AsAsyncOperation();
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
-			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
-			{
-				return new List<IStorageItem>().AsReadOnly();
-			});
+			return Task.FromResult<IReadOnlyList<IStorageItem>>(new List<IStorageItem>().AsReadOnly())
+				.AsAsyncOperation();
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)

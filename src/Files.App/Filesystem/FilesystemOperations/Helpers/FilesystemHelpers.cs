@@ -736,7 +736,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
-			var usePInvoke = false;
+			var hasVirtualItems = false;
 
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
@@ -747,7 +747,7 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
 				{
-					usePInvoke = true;
+					hasVirtualItems = true;
 				}
 				catch (Exception ex)
 				{
@@ -757,7 +757,7 @@ namespace Files.App.Filesystem
 			}
 
 			// workaround for pasting folders from remote desktop (#12318)
-			if (usePInvoke && packageView.Contains("FileContents"))
+			if (hasVirtualItems && packageView.Contains("FileContents"))
 			{
 				var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
 				for (var ii = 0; ii < descriptor.cItems; ii++)

@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using FluentFTP;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -34,15 +33,15 @@ namespace Files.App.Filesystem.StorageItems
 			}
 		}
 
-		public Stream Contents { get; init; }
+		private Stream Contents { get; init; }
 
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public VirtualStorageFile(ComStreamWrapper streamContent, string cFileName)
+		public VirtualStorageFile(Stream contents, string cFileName)
 		{
-			Contents = streamContent;
+			Contents = contents;
 			Name = cFileName;
 			Path = "";
 		}
@@ -88,28 +87,20 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode)
 		{
-			return AsyncInfo.Run<IRandomAccessStream>(async (cancellationToken) =>
-			{
-				return Contents?.AsRandomAccessStream();
-			});
+			return Task.FromResult(Contents.AsRandomAccessStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
 		public override IAsyncOperation<IRandomAccessStreamWithContentType> OpenReadAsync()
 		{
-			return AsyncInfo.Run<IRandomAccessStreamWithContentType>(async (cancellationToken) =>
-			{
-				return Contents is null ? null : new StreamWithContentType(Contents.AsRandomAccessStream());
-			});
+			return Task.FromResult<IRandomAccessStreamWithContentType>(new StreamWithContentType(Contents.AsRandomAccessStream()))
+				.AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
-			return AsyncInfo.Run<IInputStream>(async (cancellationToken) =>
-			{
-				return Contents?.AsInputStream();
-			});
+			return Task.FromResult(Contents.AsInputStream()).AsAsyncOperation();
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
@@ -156,12 +147,7 @@ namespace Files.App.Filesystem.StorageItems
 			=> RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
-		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				throw new NotImplementedException();
-			});
-		}
+			=> throw new NotSupportedException();
 
 		public override IAsyncAction DeleteAsync() => throw new NotSupportedException();
 
