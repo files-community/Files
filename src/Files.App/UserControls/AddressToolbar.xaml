@@ -227,7 +227,10 @@
 						</Grid>
 					</Button.Content>
 					<Button.Flyout>
-						<Flyout contract8Present:ShouldConstrainToRootBounds="False" AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}">
+						<Flyout
+							contract8Present:ShouldConstrainToRootBounds="False"
+							AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+							Placement="Bottom">
 							<uc:OngoingTasksFlyout
 								x:Name="OngoingTasksControl"
 								Width="400"

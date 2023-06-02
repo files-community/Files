@@ -489,7 +489,7 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && App.Window.Bounds.Height > 360;
 				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
 				return isEnabled;

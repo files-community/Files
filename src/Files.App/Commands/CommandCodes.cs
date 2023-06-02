@@ -176,5 +176,9 @@ namespace Files.App.Commands
 
 		// Play
 		PlayAll,
+
+		// Git
+		GitFetch,
+		GitPull,
 	}
 }

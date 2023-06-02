@@ -156,5 +156,8 @@ namespace Files.App.Commands
 		IRichCommand ClosePane { get; }
     
 		IRichCommand PlayAll { get; }
+
+		IRichCommand GitFetch { get; }
+		IRichCommand GitPull { get; }
 	}
 }

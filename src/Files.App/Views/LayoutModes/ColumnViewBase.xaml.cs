@@ -222,6 +222,13 @@ namespace Files.App.Views.LayoutModes
 				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
+
+			if (SelectedItems?.Count > 1 || SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File)
+			{
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+				ClearOpenedFolderSelectionIndicator();
+			}
 		}
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -237,6 +244,14 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
+			if
+			(
+				IsRenamingItem ||
+				!(e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.Right) ||
+				SelectedItems?.Count > 1
+			)
+				return;
+
 			// Open selected directory
 			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
@@ -244,7 +259,12 @@ namespace Files.App.Views.LayoutModes
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null || IsRenamingItem)
+			if
+			(
+				ParentShellPageInstance is null ||
+				IsRenamingItem ||
+				SelectedItems?.Count > 1
+			)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);

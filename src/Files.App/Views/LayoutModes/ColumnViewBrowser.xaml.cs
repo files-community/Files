@@ -184,7 +184,7 @@ namespace Files.App.Views.LayoutModes
 			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
 		}
 
-		private void DismissOtherBlades(int index)
+		public void DismissOtherBlades(int index)
 		{
 			if (index >= 0)
 			{

@@ -42,11 +42,13 @@ namespace Files.App.UserControls
 			{
 				Position = PreviewPanePositions.Right;
 				(MinWidth, MinHeight) = (150, 0);
+				VisualStateManager.GoToState(this, "Vertical", true);
 			}
 			else
 			{
 				Position = PreviewPanePositions.Bottom;
 				(MinWidth, MinHeight) = (0, 140);
+				VisualStateManager.GoToState(this, "Horizontal", true);
 			}
 		}
 
