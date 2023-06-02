@@ -26,7 +26,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-		public static async Task<List<ListedItem>> ListEntries(string path, IntPtr hFile, Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
+		public static async Task<List<ListedItem>> ListEntries(
+			string path,
+			IntPtr hFile,
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			CancellationToken cancellationToken,
+			int countLimit,
+			Func<List<ListedItem>, Task> intermediateAction,
+			Dictionary<string, BitmapImage> defaultIconPairs = null
+		)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -158,7 +166,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
+		public static async Task<ListedItem> GetFolder(
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			string pathRoot,
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -197,12 +209,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				repo is not null &&
 				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
 			{
-				GitItemModel? gitItemModel = new();
-
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
-				});
+				GitItemModel? gitItemModel = await Task.Run(() => GitHelpers.GetGitInformationForItem(repo, itemPath));
 
 				if (gitItemModel is not null)
 				{
@@ -223,10 +230,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 						// Git
 						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
-						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
-						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
-						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
-						GitLastCommitSha = gitItemModel.LastCommit.Sha,
+						GitLastCommitDate = gitItemModel.LastCommit?.Author.When,
+						GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort,
+						GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name,
+						GitLastCommitSha = gitItemModel.LastCommit?.Sha,
 					};
 				}
 				else
@@ -268,7 +275,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 		}
 
-		public static async Task<ListedItem> GetFile(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
+		public static async Task<ListedItem> GetFile(
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			string pathRoot,
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -303,7 +314,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			var itemSize = itemSizeBytes.ToSizeString();
 
 			// Get more specific file type from extension
-			if (string.IsNullOrEmpty(itemFileExtension))
+			if (!string.IsNullOrEmpty(itemFileExtension))
 				itemType = $"{itemFileExtension.Trim('.')} {itemType}";
 
 			bool itemThumbnailImgVis = false;
@@ -410,12 +421,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				repo is not null &&
 				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
 			{
-				GitItemModel? gitItemModel = new();
-
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
-				});
+				GitItemModel? gitItemModel = await Task.Run(() => GitHelpers.GetGitInformationForItem(repo, itemPath));
 
 				if (gitItemModel is not null)
 				{
@@ -438,10 +444,10 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 						// Git
 						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
-						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
-						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
-						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
-						GitLastCommitSha = gitItemModel.LastCommit.Sha,
+						GitLastCommitDate = gitItemModel.LastCommit?.Author.When,
+						GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort,
+						GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name,
+						GitLastCommitSha = gitItemModel.LastCommit?.Sha,
 					};
 				}
 				else

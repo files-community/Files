@@ -649,14 +649,14 @@ namespace Files.App.Filesystem
 
 		public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 
-		private DateTimeOffset _GitLastCommitDate;
-		public DateTimeOffset GitLastCommitDate
+		private DateTimeOffset? _GitLastCommitDate;
+		public DateTimeOffset? GitLastCommitDate
 		{
 			get => _GitLastCommitDate;
 			init
 			{
 				_GitLastCommitDate = value;
-				GitLastCommitDateHumanized = dateTimeFormatter.ToShortLabel(value);
+				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
 			}
 		}
 
