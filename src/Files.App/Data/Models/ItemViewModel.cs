@@ -140,6 +140,20 @@ namespace Files.App.Data.Models
 
 			WorkingDirectory = value;
 
+			string? pathRoot;
+			if (FtpHelpers.IsFtpPath(WorkingDirectory))
+			{
+				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
+				pathRoot = rootIndex is -1
+					? WorkingDirectory
+					: WorkingDirectory.Substring(0, rootIndex);
+			}
+			else
+			{
+				pathRoot = Path.GetPathRoot(WorkingDirectory);
+			}
+
+			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -1348,9 +1362,6 @@ namespace Files.App.Data.Models
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-			// Reset Git repository info
-			GitDirectory = null;
-
 			if (FtpHelpers.IsFtpPath(path))
 			{
 				// Recycle bin and network are enumerated by the fulltrust process
@@ -1372,7 +1383,6 @@ namespace Files.App.Data.Models
 					case 0:
 						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						GitDirectory = GetGitDirectory();
 						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 						{
 							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
@@ -1412,24 +1422,6 @@ namespace Files.App.Data.Models
 
 			stopwatch.Stop();
 			Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-		}
-
-		private string? GetGitDirectory()
-		{
-			string? pathRoot;
-			if (FtpHelpers.IsFtpPath(WorkingDirectory))
-			{
-				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
-				pathRoot = rootIndex is -1
-					? WorkingDirectory
-					: WorkingDirectory.Substring(0, rootIndex);
-			}
-			else
-			{
-				pathRoot = Path.GetPathRoot(WorkingDirectory);
-			}
-
-			return pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 		}
 
 		public void CloseWatcher()
