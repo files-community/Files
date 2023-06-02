@@ -288,29 +288,18 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static bool GetGitInformationForItem(Repository repository, string path, out ChangeKind changeKind, out DateTimeOffset lastCommitDate, out string? lastCommitMessage, out string? LastCommitAuthor, out string? LastCommitSha)
+		public static GitItemModel? GetGitInformationForItem(Repository repository, string path)
 		{
-			changeKind = ChangeKind.Unmodified;
-			lastCommitDate = new(DateTime.UnixEpoch);
-			lastCommitMessage = null;
-			LastCommitAuthor = null;
-			LastCommitSha = null;
-
 			var rootRepoPath = repository.Info.WorkingDirectory;
 			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
 
 			var commits = repository.Commits.QueryBy(relativePath).ToList();
 			if (commits.Count == 0)
-				return false;
+				return null;
 
 			var commit = commits.First().Commit;
 
-			changeKind = ChangeKind.Unmodified;
-			lastCommitDate = commit.Author.When;
-			lastCommitMessage = commit.MessageShort;
-			LastCommitAuthor = commit.Author.Name;
-			LastCommitSha = commit.Sha;
-
+			var changeKind = ChangeKind.Unmodified;
 			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
 			{
 				if (c.Path.StartsWith(path))
@@ -320,7 +309,29 @@ namespace Files.App.Helpers
 				}
 			}
 
-			return true;
+			string? changeKindHumanized = "";
+
+			if (changeKind is not ChangeKind.Ignored)
+			{
+				changeKindHumanized = changeKind switch
+				{
+					ChangeKind.Added => "A",
+					ChangeKind.Deleted => "D",
+					ChangeKind.Modified => "M",
+					ChangeKind.Untracked => "U",
+					_ => "",
+				};
+			}
+
+			var gitItemModel = new GitItemModel()
+			{
+				ChangeKind = changeKind,
+				ChangeKindHumanized = changeKindHumanized,
+				LastCommit = commit,
+				Path = relativePath,
+			};
+
+			return gitItemModel;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

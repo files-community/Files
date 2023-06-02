@@ -189,7 +189,7 @@
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
 
-		<!--  Empty Indicator  -->
+		<!--  Semantic Zooming  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
@@ -900,7 +900,7 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsGitItem.GitLastCommitDate, Mode=OneWay}"
+										Text="{x:Bind AsGitItem.GitLastCommitDateHumanized, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitLastCommitDateColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit Message  -->

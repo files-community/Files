@@ -194,31 +194,59 @@ namespace Files.App.Filesystem.StorageEnumerators
 				opacity = Constants.UI.DimItemOpacity;
 
 			if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
-				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\') &&
-				GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
+				repo is not null &&
+				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
 			{
-				return new GitItem()
-				{
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemNameRaw = itemName,
-					ItemDateModifiedReal = itemModifiedDate,
-					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = folderTypeTextLocalized,
-					FileImage = null,
-					IsHiddenItem = isHidden,
-					Opacity = opacity,
-					LoadFileIcon = false,
-					ItemPath = itemPath,
-					FileSize = null,
-					FileSizeBytes = 0,
+				GitItemModel? gitItemModel = new();
 
-					// Git
-					UnmergedGitStatusLabel = changeKind == LibGit2Sharp.ChangeKind.Modified ? "M" : "",
-					GitLastCommitDate = lastCommitDate,
-					GitLastCommitMessage = lastCommitMessage,
-					GitLastCommitAuthor = lastCommitAuthor,
-					GitLastCommitSha = lastCommitSha,
-				};
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
+				});
+
+				if (gitItemModel is not null)
+				{
+					return new GitItem()
+					{
+						PrimaryItemAttribute = StorageItemTypes.Folder,
+						ItemNameRaw = itemName,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = folderTypeTextLocalized,
+						FileImage = null,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						LoadFileIcon = false,
+						ItemPath = itemPath,
+						FileSize = null,
+						FileSizeBytes = 0,
+
+						// Git
+						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
+						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
+						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
+						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
+						GitLastCommitSha = gitItemModel.LastCommit.Sha,
+					};
+				}
+				else
+				{
+					return new ListedItem()
+					{
+						PrimaryItemAttribute = StorageItemTypes.Folder,
+						ItemNameRaw = itemName,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = folderTypeTextLocalized,
+						FileImage = null,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						LoadFileIcon = false,
+						ItemPath = itemPath,
+						FileSize = null,
+						FileSizeBytes = 0,
+					};
+				}
 			}
 			else
 			{
@@ -379,33 +407,63 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 			// File type is Git item
 			else if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
-				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\') &&
-				GitHelpers.GetGitInformationForItem(repo, itemPath, out var changeKind, out var lastCommitDate, out var lastCommitMessage, out var lastCommitAuthor, out var lastCommitSha))
+				repo is not null &&
+				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
 			{
-				return new GitItem()
-				{
-					PrimaryItemAttribute = StorageItemTypes.File,
-					FileExtension = itemFileExtension,
-					FileImage = null,
-					LoadFileIcon = itemThumbnailImgVis,
-					ItemNameRaw = itemName,
-					IsHiddenItem = isHidden,
-					Opacity = opacity,
-					ItemDateModifiedReal = itemModifiedDate,
-					ItemDateAccessedReal = itemLastAccessDate,
-					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = itemType,
-					ItemPath = itemPath,
-					FileSize = itemSize,
-					FileSizeBytes = itemSizeBytes,
+				GitItemModel? gitItemModel = new();
 
-					// Git
-					UnmergedGitStatusLabel = changeKind == LibGit2Sharp.ChangeKind.Modified ? "M" : "",
-					GitLastCommitDate = lastCommitDate,
-					GitLastCommitMessage = lastCommitMessage,
-					GitLastCommitAuthor = lastCommitAuthor,
-					GitLastCommitSha = lastCommitSha,
-				};
+				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
+				});
+
+				if (gitItemModel is not null)
+				{
+					return new GitItem()
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						FileExtension = itemFileExtension,
+						FileImage = null,
+						LoadFileIcon = itemThumbnailImgVis,
+						ItemNameRaw = itemName,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateAccessedReal = itemLastAccessDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = itemType,
+						ItemPath = itemPath,
+						FileSize = itemSize,
+						FileSizeBytes = itemSizeBytes,
+
+						// Git
+						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
+						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
+						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
+						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
+						GitLastCommitSha = gitItemModel.LastCommit.Sha,
+					};
+				}
+				else
+				{
+					return new ListedItem()
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						FileExtension = itemFileExtension,
+						FileImage = null,
+						LoadFileIcon = itemThumbnailImgVis,
+						ItemNameRaw = itemName,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateAccessedReal = itemLastAccessDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = itemType,
+						ItemPath = itemPath,
+						FileSize = itemSize,
+						FileSizeBytes = itemSizeBytes,
+					};
+				}
 			}
 			// File type is something else
 			else
