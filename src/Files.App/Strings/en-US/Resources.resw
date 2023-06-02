@@ -3354,6 +3354,6 @@
     <value>Commit message</value>
   </data>
   <data name="GitLastCommitSha" xml:space="preserve">
-    <value>Last commit SHA</value>
+    <value>Commit SHA</value>
   </data>
 </root>
