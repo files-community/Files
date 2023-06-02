@@ -26,7 +26,15 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-		public static async Task<List<ListedItem>> ListEntries(string path, IntPtr hFile, Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
+		public static async Task<List<ListedItem>> ListEntries(
+			string path,
+			IntPtr hFile,
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			CancellationToken cancellationToken,
+			int countLimit,
+			Func<List<ListedItem>, Task> intermediateAction,
+			Dictionary<string, BitmapImage> defaultIconPairs = null
+		)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -34,6 +42,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
+
+			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repo);
 
 			do
 			{
@@ -47,7 +57,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				{
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
-						var file = await GetFile(findData, path, cancellationToken);
+						var file = await GetFile(findData, path, isGitRepo, cancellationToken);
 						if (file is not null)
 						{
 							if (defaultIconPairs is not null)
@@ -74,7 +84,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					{
 						if (findData.cFileName != "." && findData.cFileName != "..")
 						{
-							var folder = await GetFolder(findData, path, cancellationToken);
+							var folder = await GetFolder(findData, path, isGitRepo, cancellationToken);
 							if (folder is not null)
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -158,7 +168,12 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
+		public static async Task<ListedItem> GetFolder(
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			string pathRoot,
+			bool isGitRepo,
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -193,60 +208,23 @@ namespace Files.App.Filesystem.StorageEnumerators
 			if (isHidden)
 				opacity = Constants.UI.DimItemOpacity;
 
-			if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
-				repo is not null &&
-				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
+			if (isGitRepo)
 			{
-				GitItemModel? gitItemModel = new();
-
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				return new GitItem()
 				{
-					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
-				});
-
-				if (gitItemModel is not null)
-				{
-					return new GitItem()
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemNameRaw = itemName,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = folderTypeTextLocalized,
-						FileImage = null,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						LoadFileIcon = false,
-						ItemPath = itemPath,
-						FileSize = null,
-						FileSizeBytes = 0,
-
-						// Git
-						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
-						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
-						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
-						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
-						GitLastCommitSha = gitItemModel.LastCommit.Sha,
-					};
-				}
-				else
-				{
-					return new ListedItem()
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemNameRaw = itemName,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = folderTypeTextLocalized,
-						FileImage = null,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						LoadFileIcon = false,
-						ItemPath = itemPath,
-						FileSize = null,
-						FileSizeBytes = 0,
-					};
-				}
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = folderTypeTextLocalized,
+					FileImage = null,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					LoadFileIcon = false,
+					ItemPath = itemPath,
+					FileSize = null,
+					FileSizeBytes = 0,
+				};
 			}
 			else
 			{
@@ -268,7 +246,12 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 		}
 
-		public static async Task<ListedItem> GetFile(NativeFindStorageItemHelper.WIN32_FIND_DATA findData, string pathRoot, CancellationToken cancellationToken)
+		public static async Task<ListedItem> GetFile(
+			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			string pathRoot,
+			bool isGitRepo,
+			CancellationToken cancellationToken
+		)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return null;
@@ -303,7 +286,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			var itemSize = itemSizeBytes.ToSizeString();
 
 			// Get more specific file type from extension
-			if (string.IsNullOrEmpty(itemFileExtension))
+			if (!string.IsNullOrEmpty(itemFileExtension))
 				itemType = $"{itemFileExtension.Trim('.')} {itemType}";
 
 			bool itemThumbnailImgVis = false;
@@ -406,64 +389,25 @@ namespace Files.App.Filesystem.StorageEnumerators
 				};
 			}
 			// File type is Git item
-			else if (GitHelpers.IsRepositoryEx(itemPath, out var repo) &&
-				repo is not null &&
-				repo.Info.WorkingDirectory.TrimEnd('\\') != itemPath.TrimEnd('\\'))
+			else if (isGitRepo)
 			{
-				GitItemModel? gitItemModel = new();
-
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				return new GitItem()
 				{
-					gitItemModel = GitHelpers.GetGitInformationForItem(repo, itemPath);
-				});
-
-				if (gitItemModel is not null)
-				{
-					return new GitItem()
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateAccessedReal = itemLastAccessDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes,
-
-						// Git
-						UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized,
-						GitLastCommitDate = gitItemModel.LastCommit.Author.When,
-						GitLastCommitMessage = gitItemModel.LastCommit.MessageShort,
-						GitLastCommitAuthor = gitItemModel.LastCommit.Author.Name,
-						GitLastCommitSha = gitItemModel.LastCommit.Sha,
-					};
-				}
-				else
-				{
-					return new ListedItem()
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						FileExtension = itemFileExtension,
-						FileImage = null,
-						LoadFileIcon = itemThumbnailImgVis,
-						ItemNameRaw = itemName,
-						IsHiddenItem = isHidden,
-						Opacity = opacity,
-						ItemDateModifiedReal = itemModifiedDate,
-						ItemDateAccessedReal = itemLastAccessDate,
-						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = itemType,
-						ItemPath = itemPath,
-						FileSize = itemSize,
-						FileSizeBytes = itemSizeBytes,
-					};
-				}
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateAccessedReal = itemLastAccessDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = itemType,
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = itemSizeBytes
+				};
 			}
 			// File type is something else
 			else

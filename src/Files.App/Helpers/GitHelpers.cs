@@ -27,8 +27,6 @@ namespace Files.App.Helpers
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static Dictionary<string, ChangeKind> _unmergedStatusCacheList = new();
-
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
 		{
@@ -288,21 +286,19 @@ namespace Files.App.Helpers
 			return false;
 		}
 
-		public static GitItemModel? GetGitInformationForItem(Repository repository, string path)
+		public static GitItemModel GetGitInformationForItem(Repository repository, string path)
 		{
 			var rootRepoPath = repository.Info.WorkingDirectory;
 			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
 
-			var commits = repository.Commits.QueryBy(relativePath).ToList();
-			if (commits.Count == 0)
-				return null;
-
-			var commit = commits.First().Commit;
+			var commit = GetLastCommitForFile(repository, relativePath);
+			//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
 
 			var changeKind = ChangeKind.Unmodified;
-			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+			//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
 			{
-				if (c.Path.StartsWith(path))
+				if (c.Path.StartsWith(relativePath))
 				{
 					changeKind = c.Status;
 					break;
@@ -310,7 +306,6 @@ namespace Files.App.Helpers
 			}
 
 			string? changeKindHumanized = "";
-
 			if (changeKind is not ChangeKind.Ignored)
 			{
 				changeKindHumanized = changeKind switch
@@ -332,6 +327,36 @@ namespace Files.App.Helpers
 			};
 
 			return gitItemModel;
+		}
+
+		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
+		{
+			foreach (var currentCommit in repository.Commits)
+			{
+				var currentTreeEntry = currentCommit.Tree[currentPath];
+				if (currentTreeEntry == null)
+					return null;
+
+				var parentCount = currentCommit.Parents.Take(2).Count();
+				if (parentCount == 0)
+				{
+					return currentCommit;
+				}
+				else if (parentCount == 1)
+				{
+					var parentCommit = currentCommit.Parents.Single();
+					var parentPath = currentPath; // Does not consider renames
+					var parentTreeEntry = parentCommit.Tree[parentPath];
+
+					if (parentTreeEntry == null ||
+						parentTreeEntry.Target.Id != currentTreeEntry.Target.Id ||
+						parentPath != currentPath)
+					{
+						return currentCommit;
+					}
+				}
+			}
+			return null;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

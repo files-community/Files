@@ -14,7 +14,14 @@ namespace Files.App.Filesystem.StorageEnumerators
 	/// </summary>
 	public static class UniversalStorageEnumerator
 	{
-		public static async Task<List<ListedItem>> ListEntries(BaseStorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken, int countLimit, Func<List<ListedItem>, Task> intermediateAction, Dictionary<string, BitmapImage> defaultIconPairs = null)
+		public static async Task<List<ListedItem>> ListEntries(
+			BaseStorageFolder rootFolder,
+			StorageFolderWithPath currentStorageFolder,
+			CancellationToken cancellationToken,
+			int countLimit,
+			Func<List<ListedItem>, Task> intermediateAction,
+			Dictionary<string, BitmapImage> defaultIconPairs = null
+		)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -217,7 +224,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(BaseStorageFile file, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		public static async Task<ListedItem> AddFileAsync(
+			BaseStorageFile file,
+			StorageFolderWithPath currentStorageFolder,
+			CancellationToken cancellationToken
+		)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
 			// Display name does not include extension
