@@ -478,7 +478,7 @@
     <value>Farklı türler</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Tümü {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Kullanılan alan:</value>
@@ -1354,7 +1354,7 @@
     <value>Çakışan bir dosya adı var.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Seçimli klasör oluştur</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>İsim:</value>
@@ -1591,10 +1591,10 @@
     <value>Dizin içeriğini listele</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Değiştir</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>İzinler {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Oku ve yürüt</value>
@@ -2566,13 +2566,13 @@
     <value>Hash Değeri</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>Gösterilecek karmaları seçin</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>Hesaplanıyor...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Sabitlenen öğeler</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Boyutu küçült</value>
@@ -2581,25 +2581,25 @@
     <value>Boyutu büyüt</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Sıralama yönünü değiştir</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Geçersiz isim</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>İsim boş olmamalı veya nokta ile başlamamalı veya bitmemelidir.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Videolar</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Önizleme açılır penceresini başlat</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Çevrimiçi yardım sayfasını tarayıcıda aç</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Tam ekranı aç/kapat</value>
@@ -2611,16 +2611,16 @@
     <value>Kompakt yer paylaşımından çık</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Kompakt yer paylaşımını değiştir</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Arama kutusuna git</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Gizli öğelerin gösterilip gösterilmeyeceğini değiştirin</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Dosya uzantılarının gösterilip gösterilmeyeceğini değiştirin</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Toggle whether to show preview pane</value>
@@ -3317,25 +3317,25 @@
     <value>Translate on Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Getirmek</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Çekmek</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Git getirmeyi çalıştır</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Git pull'u çalıştır</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git Hatası</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>zaman aşımı hatası nedeniyle git çekme başarısız oldu</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
