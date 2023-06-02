@@ -15,9 +15,6 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
-	/// <summary>
-	/// Provides static helper for storage item enumeration in Win32.
-	/// </summary>
 	public static class Win32StorageEnumerator
 	{
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
