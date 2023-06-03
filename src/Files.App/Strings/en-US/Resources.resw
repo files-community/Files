@@ -3341,4 +3341,16 @@
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="SettingsAppearanceSystemBackdrop" xml:space="preserve">
+    <value>System Backdrop</value>
+  </data>
 </root>

@@ -2,7 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
+using Files.App.ServicesImplementation.Settings;
 using Files.Backend.Services;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
@@ -13,6 +15,7 @@ namespace Files.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
+		public Dictionary<SystemBackdropType, string> SystemBackdropTypes { get; private set; } = new();
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
@@ -27,6 +30,18 @@ namespace Files.App.ViewModels.Settings
 				"LightTheme".GetLocalizedResource(),
 				"DarkTheme".GetLocalizedResource()
 			};
+
+			SystemBackdropTypes.Add(SystemBackdropType.None, "None".GetLocalizedResource());
+
+			if (DesktopAcrylicController.IsSupported())
+				SystemBackdropTypes.Add(SystemBackdropType.Acrylic, "Acrylic".GetLocalizedResource());
+
+			if (MicaController.IsSupported())
+			{
+				SystemBackdropTypes.Add(SystemBackdropType.Mica, "Mica".GetLocalizedResource());
+				SystemBackdropTypes.Add(SystemBackdropType.MicaAlt, "MicaAlt".GetLocalizedResource());
+			}
+			selectedSystemBackdrop = SystemBackdropTypes[UserSettingsService.AppearanceSettingsService.AppThemeSystemBackdrop];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
 
@@ -129,5 +144,19 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		private string selectedSystemBackdrop;
+		public string SelectedSystemBackdrop
+		{
+			get => selectedSystemBackdrop;
+			set
+			{
+				if(SetProperty(ref selectedSystemBackdrop, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeSystemBackdrop = SystemBackdropTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+		
 	}
 }
