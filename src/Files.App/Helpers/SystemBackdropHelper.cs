@@ -71,7 +71,6 @@ namespace Files.App.Helpers
 					return new MicaController()
 					{
 						Kind = MicaKind.BaseAlt
-
 					};
 
 				case SystemBackdropType.Mica:
