@@ -49,16 +49,15 @@ body:
       description: Which version of Windows are you using?
       multiple: true
       options:
-        - Windows 10
-        - Windows 10 Release Preview
-        - Windows 10 Beta
-        - Windows 10 Dev
-        - Windows 10 Canary
-        - Windows 11
-        - Windows 11 Release Preview
-        - Windows 11 Beta
-        - Windows 11 Dev
-        - Windows 11 Canary
+        - 'Windows 11 Insider: 25xxx series'
+        - 'Windows 11 Insider: 23xxx series'
+        - 'Windows 11 (22H2): 22621'
+        - 'Windows 11 (21H2): 22000'
+        - 'Windows 10 (22H2): 19045'
+        - 'Windows 10 (21H2): 19044'
+        - 'Windows 10 (21H1): 19043'
+        - 'Windows 10 (20H2): 19042'
+        - 'Windows 10 (2004): 19041'
     validations:
       required: true
 
