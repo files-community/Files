@@ -79,7 +79,7 @@ jobs:
     - name: Build & run tests
       shell: pwsh
       run: |
-        Set-Location 'C:\Program Files\Windows Application Driver'
+        Set-Location 'C:\Program Files (x86)\Windows Application Driver'
         winappdriver.exe
         Set-Location $env:DEFAULT_DIR
         dotnet test tests\Files.InteractionTests\Files.InteractionTests.csproj
