@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Инсталиране на драйвер(и) посредством избран(и) inf файл(ове)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Пускане на избраното приложение като администратор</value>
   </data>
