@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>選択した inf ファイルを使用してドライバーをインストールする</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>選択した証明書をインストールする</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>選択したアプリケーションを管理者として実行する</value>
   </data>
