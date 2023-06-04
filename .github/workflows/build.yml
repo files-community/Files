@@ -73,6 +73,10 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never `
 
+    - name: Run Windows App Driver
+      shell: pwsh
+      run: '& "C:\Program Files\Windows Application Driver\winappdriver.exe"'
+
     - name: Build & run tests
       shell: pwsh
       run: |
