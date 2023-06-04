@@ -121,7 +121,7 @@
     <value>Nové okno</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Zkopírovat cestu</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Prohlížet</value>
@@ -238,7 +238,7 @@
     <value>Název</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>Sestupně</value>
+    <value>Vzestupně</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Vložit</value>
@@ -271,7 +271,7 @@
     <value>Přidat k oblíbeným</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Vítejte v Files!</value>
+    <value>Vítejte v aplikaci Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Udělit oprávnění</value>
@@ -364,7 +364,7 @@
     <value>Soubor je používán</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Rozložení</value>
+    <value>Rozvržení</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pouze pro čtení</value>
@@ -478,7 +478,7 @@
     <value>Rozdílné typy</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Vše v {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Použité místo:</value>
@@ -1354,7 +1354,7 @@
     <value>Je tu jeden konfliktní název souboru.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Vytvořit složku z výběru</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Název:</value>
@@ -2446,7 +2446,7 @@
     <value>Zobrazit více</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+    <value>Avšak nemějte strach. Připravili jsme fantastickou náhradu, která je spolehlivější a má více funkcí. Widget štítků si můžete zapnout v Nastavení &gt; Obecné &gt; Widgety. Aktivace widgetu štítků automaticky vypne widget balíčků.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Balíčky se chystají odejít do důchodu během nadcházejících aktualizací 📎</value>
@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Videa</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Spustit QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Spustit okno náhledu</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Přepnout kompaktní překrytí</value>
@@ -2713,16 +2713,16 @@
     <value>Použiť vybraný obrázek jako pozadí</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Nastavení vybraných obrázků jako prezentace na ploše</value>
+    <value>Nastavit vybrané obrázky jako prezentaci na ploše</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Nastaví vybraný obrázek jako pozadí zamykací obrazovky</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Nainstalovat vybraná písma</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Nainstalovat ovladače pomocí vybraných inf souborů</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Spustit vybranou aplikaci jako administrátor</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Spustit vybraný skript PowerShell</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Spustit QuickLook s vybranou položkou</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Spustit náhled v okně</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Vytvořit archiv s vybranými položkami</value>
@@ -2743,67 +2743,67 @@
     <value>Vytvořit okamžitě 7z archiv s vybranými položkami</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Vytvořit rovnou archiv s vybranými položkami</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Extrahovat položky z vybraných archivů do jakékoli složky</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Extrahovat položky z vybraných archivů do aktuální složky</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Extrahovat položky z vybraných archivů do nové složky</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Otočit vybrané obrázky doleva</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Otočit vybrané obrázky doprava</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Otevřít nastavení</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Otevřít složku v terminálu</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Otevřít složku v terminálu jako administrátor</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Zmenšit ikonu v zobrazení mřížky</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Zvětšit ikonu v zobrazení mřížky</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Přepnout na detailní zobrazení</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Přepnout na zobrazení dlaždic</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Přepnout na zobrazení mřížky s malými ikonami</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Přepnout na zobrazení mřížky se střednými ikonami</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Přepnout na zobrazení mřížky s velkými ikonami</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Přepnout na sloupce</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Přepínat zobrazení adaptivně</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Seřadit položky dle názvu</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Seřadit položky dle data úprav</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Seřadit položky dle data vytvoření</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Seřadit položky dle velikosti</value>
@@ -2881,58 +2881,58 @@
     <value>Otevřít novou kartu</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Přejít zpět v historii navigace</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Přejít vpřed v historii navigace</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Přejít o složku výše</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Duplikovat aktuální záložku</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Duplikovat vybranou záložku</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zavřít záložky vlevo od aktuální záložky</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Zavřít záložky vlevo od vybrané záložky</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Zavřít záložky vpravo od aktuální záložky</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Zavřít záložky vpravo od vybrané záložky</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Zavřít všechny ostatní záložky</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Zavřít všechny ostatní záložky</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Vrátit poslední zavřenou záložku</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Přesunout na předchozí záložku</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Přesunout na další záložku</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Zavřít aktuální záložku</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Otevřít nový panel</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Zavřít pravý panel</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Skrýt/Zobrazit postranní panel</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2955,7 +2955,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Space</value>
+    <value>Mezerník</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
@@ -2979,15 +2979,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Vlevo</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Vpravo</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Down</value>
+    <value>Dolů</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
@@ -3043,7 +3043,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>App</value>
+    <value>Aplikace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
@@ -3059,23 +3059,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>Domů</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>Zpět</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>Vpřed</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>Znovu načíst</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>Zastavit načítání</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -3107,7 +3107,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>Ztlumení</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
@@ -3122,201 +3122,223 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Přepnout výběr</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Zobrazovat varování při změně přípony souborů</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>Tento počítač</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Koš</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Untagged</value>
+    <value>Neoznačené</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Přesune se do předchozí záložky</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Přesune se do následující záložky</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Zavře aktuální záložku</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Upravit cestu</value>
   </data>
   <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
+    <value>Větev: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Zopakovat</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Vrátit zpět</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Neplatné umístění</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>Opravdu chcete zkopírovat tyto soubory bez jejich vlastností?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>Tyto soubory mají vlastnosti, které nelze zkopírovat do nového umístění</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>Tyto soubory mají vlastnosti, které nelze přesunout do nového umístění</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>Opravdu chcete přesunout tyto soubory bez jejich vlastností?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Zobrazit zaškrtávací políčka při výběru položek</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Vyhledávat neindexované položky</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Zaměřit se na vyhledávací lištu</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Vytvořit novou položku</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Žádné skupiny nebo uživatelé nemají oprávnění k přístupu k tomuto objektu. Vlastník tohoto objektu však může přiřadit oprávnění.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>Otevřít umístění položky</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Navždy smazat</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Odstranit položky permanentně</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Přehrát vybrané soubory médií</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Vrátit zpět poslední operaci</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Zopakovat poslední operaci</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Umístění:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Seskupit položky dle měsíce</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Seskupit položky dle roku</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Měsíc</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Přepnout jednotku pro seskupování podle data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Přepnout seskupovací jednotku</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Rok</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Seskupit dle měsíce namísto roku</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Seskupit dle měsíce data vytvoření</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Seskupit položky dle roku vytvoření</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Seskupit položky dle měsíce smazání</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Seskupit položky dle roku smazání</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Seskupit položky dle měsíce úpravy</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Seskupit položky dle roku úpravy</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Klikněte na 'Rozšířená oprávnění' pro pokračování.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Pro zobrazení vlastností této položky musíte mít oprávnění ke čtení.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Chcete-li zkusit převzít vlastnictví položky, která obsahuje oprávnění k zobrazení jejích vlastností, klepněte na tlačítko Změnit výše.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Nepodařilo se zobrazit oprávnění.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Ponechat mé změny na '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Zahodit změny</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Nastavit mé změny na '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>V této větvi máte neprovedené změny. Co s nimi chcete udělat?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Přepnout větev</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Větve</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Přepínač</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Nová větev</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Neplatný název větve</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Vytvořit novou větev</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Vytvořit novou větev</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Na základě</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Přepnout na novou větev</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Vytvořit složku s aktuálně vybranými položkami</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Otevřít vlastnosti</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Otevřít okno s vlastnostmi</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Místní</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Vzdálené</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Pomoct s překladem na Crowdin</value>
+  </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Stáhnout</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Vložit</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Spustit git stahování</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Spustit vložení do gitu</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Náhled</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Chyba Gitu</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git vložení selhalo kvůli vypršení limitu spojení</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(vícero hodnot)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
