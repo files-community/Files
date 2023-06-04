@@ -3345,7 +3345,7 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="GitCommitAuthor" xml:space="preserve">
-    <value>Cuthor</value>
+    <value>Author</value>
   </data>
   <data name="GitLastCommitDate" xml:space="preserve">
     <value>Last commit</value>
