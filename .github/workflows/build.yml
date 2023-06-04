@@ -75,7 +75,7 @@ jobs:
 
     - name: Run Windows App Driver
       shell: pwsh
-      run: '& "C:\Program Files\Windows Application Driver\winappdriver.exe"'
+      run: '& "C:\Program Files (x86)\Windows Application Driver\winappdriver.exe"'
 
     - name: Build & run tests
       shell: pwsh
