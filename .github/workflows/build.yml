@@ -73,16 +73,13 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never `
 
-    - name: Build tests
-      shell: pwsh
-      run: 'dotnet build tests\Files.InteractionTests\Files.InteractionTests.csproj'
-
     - name: Run Windows Application Driver
       shell: pwsh
       run: 'Start-Process -FilePath ''C:\Program Files\Windows Application Driver\winappdriver.exe'''
 
-    - name: Build tests
+    - name: Build & run tests
       shell: pwsh
-      run: 'vstest.console.exe $env:TEST_DLL_FILE_PATH'
-      env:
-        TEST_DLL_FILE_PATH: tests\Files.InteractionTests\bin\${{ env.PLATFORM }}\${{ env.CONFIGURATION }}\net7.0\Files.InteractionTests.dll
+      run: |
+        dotnet test tests\Files.InteractionTests\Files.InteractionTests.csproj
+        -a $env:PLATFORM
+        -c $env:CONFIGURATION
