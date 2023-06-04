@@ -279,39 +279,41 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				//var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
-				//var pathToCurrentFolder = (instance.TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
+				SelectedItem?.FileDetails?.Clear();
 
-				if (true)// || string.IsNullOrEmpty(pathToCurrentFolder))
+				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+				var pathToCurrentFolder = (instance.TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
+
+				if (string.IsNullOrEmpty(pathToCurrentFolder))
 				{
 					PreviewPaneContent = null;
 					PreviewPaneState = PreviewPaneStates.NoItemSelected;
 				}
-				//else
-				//{
-				//	try
-				//	{
-				//		PreviewPaneState = PreviewPaneStates.LoadingPreview;
-				//		loadCancellationTokenSource = new CancellationTokenSource();
-				//		await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
-				//	}
-				//	catch (Exception e)
-				//	{
-				//		Debug.WriteLine(e);
-				//		loadCancellationTokenSource?.Cancel();
+				else
+				{
+					try
+					{
+						PreviewPaneState = PreviewPaneStates.LoadingPreview;
+						loadCancellationTokenSource = new CancellationTokenSource();
 
-				//		// If initial loading fails, attempt to load a basic preview (thumbnail and details only)
-				//		// If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
-				//		if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
-				//		{
-				//			await LoadBasicPreviewAsync();
-				//			return;
-				//		}
+						SelectedItem = new ListedItem(null!)
+						{
+							ItemPath = pathToCurrentFolder,
+							PrimaryItemAttribute = StorageItemTypes.Folder,
+							ItemType = "Folder".GetLocalizedResource(),
+						};
 
-				//		PreviewPaneContent = null;
-				//		PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
-				//	}
-				//}
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, SelectedItem, downloadItem);
+					}
+					catch (Exception e)
+					{
+						Debug.WriteLine(e);
+						loadCancellationTokenSource?.Cancel();
+
+						PreviewPaneContent = null;
+						PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+					}
+				}
 			}
 		}
 
