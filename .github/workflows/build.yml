@@ -39,6 +39,9 @@ jobs:
     - name: Setup NuGet
       id: setup-nuget
       uses: NuGet/setup-nuget@v1.1.1
+      
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1.2
 
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
@@ -74,12 +77,16 @@ jobs:
       shell: pwsh
       run: 'dotnet build tests/Files.InteractionTests/Files.InteractionTests.csproj'
 
-    - name: Run tests
-      uses: microsoft/vstest-action@v1.0.0
-      with:
-        testAssembly: |
-          **\*Files.InteractionTests.dll
-          !**\*TestAdapter.dll
-          !**\obj\**
-        searchFolder: '$env:DEFAULT_DIR\tests\'
-        runInParallel: true
+#    - name: Run tests
+#      uses: microsoft/vstest-action@v1.0.0
+#      with:
+#        testAssembly: |
+#          **\*Files.InteractionTests.dll
+#          !**\*TestAdapter.dll
+#          !**\obj\**
+#        searchFolder: '$env:DEFAULT_DIR\tests\'
+#        runInParallel: true
+
+    - name: Build tests
+      shell: pwsh
+      run: 'vstest.console.exe /Platform:x64 C:\Users\0x5bfa\source\repos\Files\tests\Files.InteractionTests\bin\x64\Debug\net7.0\Files.InteractionTests.dll'
