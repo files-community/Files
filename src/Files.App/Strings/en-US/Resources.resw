@@ -3348,7 +3348,7 @@
     <value>Cuthor</value>
   </data>
   <data name="GitLastCommitDate" xml:space="preserve">
-    <value>Date last committed</value>
+    <value>Last commit</value>
   </data>
   <data name="GitLastCommitMessage" xml:space="preserve">
     <value>Commit message</value>
