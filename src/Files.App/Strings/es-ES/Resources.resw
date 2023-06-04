@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Instalar controlador(es) usando archivo(s) inf seleccionado(s)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ejecutar la aplicación seleccionada como administrador</value>
   </data>
