@@ -89,4 +89,4 @@ jobs:
 
     - name: Build tests
       shell: pwsh
-      run: 'vstest.console.exe /Platform:x64 D:\a\Files\Files\tests\Files.InteractionTests\bin\x64\Debug\net7.0\Files.InteractionTests.dll'
+      run: 'vstest.console.exe tests/Files.InteractionTests/bin/x64/Debug/net7.0/Files.InteractionTests.dll'
