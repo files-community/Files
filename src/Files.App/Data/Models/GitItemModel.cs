@@ -13,7 +13,7 @@ namespace Files.App.Data.Models
 		/// <remarks>
 		/// This is often showed as A(Add), D(Delete), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
-		public ChangeKind ChangeKind { get; init; }
+		public ChangeKind Status { get; init; }
 
 		/// <summary>
 		/// Gets or initializes file change kind humanized string
@@ -21,7 +21,7 @@ namespace Files.App.Data.Models
 		/// <remarks>
 		/// This is often showed as A(Add), D(Delete), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
-		public string? ChangeKindHumanized { get; init; }
+		public string? StatusHumanized { get; init; }
 
 		/// <summary>
 		/// Gets or initializes file last commit information including author, committed date, and SHA.

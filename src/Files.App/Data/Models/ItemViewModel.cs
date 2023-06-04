@@ -1204,7 +1204,7 @@ namespace Files.App.Data.Models
 								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
-									item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.ChangeKindHumanized;
+									item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
 									item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
 									item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;

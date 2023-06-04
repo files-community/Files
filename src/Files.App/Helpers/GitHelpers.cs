@@ -320,8 +320,8 @@ namespace Files.App.Helpers
 
 			var gitItemModel = new GitItemModel()
 			{
-				ChangeKind = changeKind,
-				ChangeKindHumanized = changeKindHumanized,
+				Status = changeKind,
+				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,
 			};
