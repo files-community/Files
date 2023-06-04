@@ -81,9 +81,9 @@ namespace Files.App.ViewModels.UserControls
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
-		private async Task LoadPreviewControlAsync(CancellationToken token, ListedItem item, bool downloadItem)
+		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (item.IsHiddenItem)
+			if (SelectedItem.IsHiddenItem)
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var control = await GetBuiltInPreviewControlAsync(item, downloadItem);
+			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
 
 			if (token.IsCancellationRequested)
 				return;
@@ -103,7 +103,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var basicModel = new BasicPreviewViewModel(item);
+			var basicModel = new BasicPreviewViewModel(SelectedItem);
 			await basicModel.LoadAsync();
 
 			control = new BasicPreview(basicModel);
@@ -119,7 +119,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			ShowCloudItemButton = false;
 
-			if (item.IsRecycleBinItem)
+			if (SelectedItem.IsRecycleBinItem)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 				{
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var model = new BasicPreviewViewModel(item);
+					var model = new BasicPreviewViewModel(SelectedItem);
 					await model.LoadAsync();
 
 					return new BasicPreview(model);
@@ -139,7 +139,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item.IsShortcut)
 			{
-				var model = new ShortcutPreviewViewModel(item);
+				var model = new ShortcutPreviewViewModel(SelectedItem);
 				await model.LoadAsync();
 
 				return new BasicPreview(model);
@@ -253,7 +253,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
 					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, SelectedItem, downloadItem);
+					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
 				}
 				catch (Exception e)
 				{
@@ -303,7 +303,7 @@ namespace Files.App.ViewModels.UserControls
 							ItemType = "Folder".GetLocalizedResource(),
 						};
 
-						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, SelectedItem, downloadItem);
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
 					}
 					catch (Exception e)
 					{
