@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Instalar controlador(es) usando archivo(s) inf seleccionado(s)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ejecutar la aplicación seleccionada como administrador</value>
   </data>
@@ -3317,25 +3320,25 @@
     <value>Traducir en Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Guardar (Fetch)</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Fusionar (Pull)</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Ejecutar guardar git (git fetch)</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Ejecutar fusionar git (git pull)</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Vista previa</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Error de git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>Fusionar git (git pull) ha fallado debido a un error de tiempo de espera</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
