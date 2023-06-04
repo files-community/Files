@@ -399,8 +399,8 @@
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<!--  TODO: Add Icon  -->
 				</AppBarButton>
-				
-				<!-- Install Certificate -->
+
+				<!--  Install Certificate  -->
 				<AppBarButton
 					x:Name="InstallCertificateButton"
 					x:Load="{x:Bind Commands.InstallCertificate.IsExecutable, Mode=OneWay, FallbackValue=False}"
