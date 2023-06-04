@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Nainstalovat ovladače pomocí vybraných inf souborů</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Nainstalovat zvolené certifikáty</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Spustit vybranou aplikaci jako administrátor</value>
   </data>
