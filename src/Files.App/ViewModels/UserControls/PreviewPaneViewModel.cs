@@ -81,9 +81,9 @@ namespace Files.App.ViewModels.UserControls
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 		}
 
-		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
+		private async Task LoadPreviewControlAsync(CancellationToken token, ListedItem item, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem)
+			if (item.IsHiddenItem)
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var control = await GetBuiltInPreviewControlAsync(SelectedItem, downloadItem);
+			var control = await GetBuiltInPreviewControlAsync(item, downloadItem);
 
 			if (token.IsCancellationRequested)
 				return;
@@ -103,7 +103,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			var basicModel = new BasicPreviewViewModel(SelectedItem);
+			var basicModel = new BasicPreviewViewModel(item);
 			await basicModel.LoadAsync();
 
 			control = new BasicPreview(basicModel);
@@ -119,7 +119,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			ShowCloudItemButton = false;
 
-			if (SelectedItem.IsRecycleBinItem)
+			if (item.IsRecycleBinItem)
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder && !item.IsArchive)
 				{
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var model = new BasicPreviewViewModel(SelectedItem);
+					var model = new BasicPreviewViewModel(item);
 					await model.LoadAsync();
 
 					return new BasicPreview(model);
@@ -139,7 +139,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (item.IsShortcut)
 			{
-				var model = new ShortcutPreviewViewModel(SelectedItem);
+				var model = new ShortcutPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new BasicPreview(model);
@@ -253,7 +253,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
 					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, SelectedItem, downloadItem);
 				}
 				catch (Exception e)
 				{
@@ -279,8 +279,39 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				PreviewPaneContent = null;
-				PreviewPaneState = PreviewPaneStates.NoItemSelected;
+				//var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+				//var pathToCurrentFolder = (instance.TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
+
+				if (true)// || string.IsNullOrEmpty(pathToCurrentFolder))
+				{
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoItemSelected;
+				}
+				//else
+				//{
+				//	try
+				//	{
+				//		PreviewPaneState = PreviewPaneStates.LoadingPreview;
+				//		loadCancellationTokenSource = new CancellationTokenSource();
+				//		await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+				//	}
+				//	catch (Exception e)
+				//	{
+				//		Debug.WriteLine(e);
+				//		loadCancellationTokenSource?.Cancel();
+
+				//		// If initial loading fails, attempt to load a basic preview (thumbnail and details only)
+				//		// If that fails, revert to no preview/details available as long as the item is not a shortcut or folder
+				//		if (SelectedItem is not null && !SelectedItem.IsShortcut && SelectedItem.PrimaryItemAttribute != StorageItemTypes.Folder)
+				//		{
+				//			await LoadBasicPreviewAsync();
+				//			return;
+				//		}
+
+				//		PreviewPaneContent = null;
+				//		PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+				//	}
+				//}
 			}
 		}
 
