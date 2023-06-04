@@ -1,7 +1,7 @@
-﻿using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
+﻿
 using Files.App.Commands;
 using Files.App.Contexts;
+using Files.App.Shell;
 using Files.Backend.Helpers;
 
 namespace Files.App.Actions;
@@ -15,41 +15,19 @@ internal class InstallCertificateAction : ObservableObject, IAction
 	public string Description => "InstallCertificateDescription".GetLocalizedResource();
 
 	public RichGlyph Glyph { get; } = new("\uEB95");
-	
-	public bool IsExecutable =>context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
-	                            context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
+
+	public bool IsExecutable => context.SelectedItems.Any() &&
+		context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
+		context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
 
 	public InstallCertificateAction()
 	{
 		context.PropertyChanged += Context_PropertyChanged;
 	}
 
-	public Task ExecuteAsync()
+	public async Task ExecuteAsync()
 	{
-		foreach (ListedItem selectedItem in context.SelectedItems)
-		{
-			try
-			{
-				X509Certificate2 certificate = new X509Certificate2(selectedItem.ItemPath);
-				X509Store store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
-
-				store.Open(OpenFlags.ReadWrite);
-				try
-				{
-					store.Add(certificate);
-				}
-				finally
-				{
-					store.Close();
-				}
-			}
-			catch (CryptographicException)
-			{
-				break;
-			}
-		}
-
-		return Task.CompletedTask;
+		await ContextMenu.InvokeVerb("add", context.SelectedItems.Select(x => x.ItemPath).ToArray());
 	}
 
 	private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
