@@ -46,7 +46,7 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the git last commit author column should be visible by default.
 		/// </summary>
-		bool ShowGitLastCommitAuthorColumn { get; set; }
+		bool ShowGitCommitAuthorColumn { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the git last commit SHA column should be visible by default.
@@ -96,7 +96,7 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value indicating git last commit author column's default width
 		/// </summary>
-		double GitLastCommitAuthorColumnWidth { get; set; }
+		double GitCommitAuthorColumnWidth { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating git last commit SHA column's default width

@@ -119,7 +119,7 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
 				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
 				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ColumnsViewModel.GitLastCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitLastCommitAuthorColumn;
+				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
@@ -224,7 +224,7 @@ namespace Files.App.Views.LayoutModes
 			// Show git columns in git repository
 			if (e.IsTypeGitRepository)
 			{
-				ColumnsViewModel.GitLastCommitAuthorColumn.Show();
+				ColumnsViewModel.GitCommitAuthorColumn.Show();
 				ColumnsViewModel.GitLastCommitDateColumn.Show();
 				ColumnsViewModel.GitLastCommitMessageColumn.Show();
 				ColumnsViewModel.GitLastCommitShaColumn.Show();
@@ -232,7 +232,7 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				ColumnsViewModel.GitLastCommitAuthorColumn.Hide();
+				ColumnsViewModel.GitCommitAuthorColumn.Hide();
 				ColumnsViewModel.GitLastCommitDateColumn.Hide();
 				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
 				ColumnsViewModel.GitLastCommitShaColumn.Hide();
@@ -515,7 +515,7 @@ namespace Files.App.Views.LayoutModes
 			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitAuthorColumn.UserLength = new GridLength(GitLastCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
 			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
 
 			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
@@ -587,7 +587,7 @@ namespace Files.App.Views.LayoutModes
 				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.UnmergedGitStatusLabel?.Length ?? 0).Max(), // git
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
 				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
+				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitCommitAuthor?.Length ?? 0).Max(), // git
 				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
 				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
 				9 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
@@ -614,7 +614,7 @@ namespace Files.App.Views.LayoutModes
 					3 => ColumnsViewModel.GitStatusColumn,
 					4 => ColumnsViewModel.GitLastCommitDateColumn,
 					5 => ColumnsViewModel.GitLastCommitMessageColumn,
-					6 => ColumnsViewModel.GitLastCommitAuthorColumn,
+					6 => ColumnsViewModel.GitCommitAuthorColumn,
 					7 => ColumnsViewModel.GitLastCommitShaColumn,
 					8 => ColumnsViewModel.TagColumn,
 					9 => ColumnsViewModel.OriginalPathColumn,
@@ -711,7 +711,7 @@ namespace Files.App.Views.LayoutModes
 				"ItemGitStatusTextBlock" => 3,
 				"ItemGitLastCommitDateTextBlock" => 4,
 				"ItemGitLastCommitMessageTextBlock" => 5,
-				"ItemGitLastCommitAuthorTextBlock" => 6,
+				"ItemGitCommitAuthorTextBlock" => 6,
 				"ItemGitLastCommitShaTextBlock" => 7,
 				"ItemTagGrid" => 8,
 				"ItemOriginalPath" => 9,

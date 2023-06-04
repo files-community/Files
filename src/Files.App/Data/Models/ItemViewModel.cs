@@ -1207,7 +1207,7 @@ namespace Files.App.Data.Models
 									item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
 									item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									item.AsGitItem.GitCommitAuthor = gitItemModel.LastCommit?.Author.Name;
 									item.AsGitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha;
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);

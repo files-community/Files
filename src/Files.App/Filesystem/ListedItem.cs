@@ -665,11 +665,11 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref _GitLastCommitMessage, value);
 		}
 
-		private string? _GitLastCommitAuthor;
-		public string? GitLastCommitAuthor
+		private string? _GitCommitAuthor;
+		public string? GitCommitAuthor
 		{
-			get => _GitLastCommitAuthor;
-			set => SetProperty(ref _GitLastCommitAuthor, value);
+			get => _GitCommitAuthor;
+			set => SetProperty(ref _GitCommitAuthor, value);
 		}
 
 		private string? _GitLastCommitSha;

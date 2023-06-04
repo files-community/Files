@@ -363,7 +363,7 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !prefs.ColumnsViewModel.GitStatusColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !prefs.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitLastCommitAuthorColumn = !prefs.ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !prefs.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !prefs.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !prefs.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !prefs.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
@@ -581,7 +581,7 @@ namespace Files.App.Data.Models
 			userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !columns.GitStatusColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !columns.GitLastCommitDateColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !columns.GitLastCommitMessageColumn.UserCollapsed;
-			userSettingsService.FoldersSettingsService.ShowGitLastCommitAuthorColumn = !columns.GitLastCommitAuthorColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
@@ -596,7 +596,7 @@ namespace Files.App.Data.Models
 			userSettingsService.FoldersSettingsService.GitStatusColumnWidth = columns.GitStatusColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = columns.GitLastCommitDateColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = columns.GitLastCommitMessageColumn.UserLengthPixels;
-			userSettingsService.FoldersSettingsService.GitLastCommitAuthorColumnWidth = columns.GitLastCommitAuthorColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
