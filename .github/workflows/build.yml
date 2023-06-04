@@ -73,13 +73,15 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never `
 
-    - name: Run Windows App Driver
-      shell: pwsh
-      run: '& "C:\Program Files (x86)\Windows Application Driver\winappdriver.exe"'
-
+    - name: Setup xvfb for screen 0
+      run: Xvfb :1 -screen 0 1600x1200x24 &
+  
     - name: Build & run tests
       shell: pwsh
       run: |
+        Set-Location 'C:\Program Files\Windows Application Driver'
+        winappdriver.exe
+        Set-Location $env:DEFAULT_DIR
         dotnet test tests\Files.InteractionTests\Files.InteractionTests.csproj
         -a $env:PLATFORM
         -c $env:CONFIGURATION
