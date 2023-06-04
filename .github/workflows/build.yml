@@ -79,7 +79,7 @@ jobs:
 
     - name: Run Windows Application Driver
       shell: pwsh
-      run: 'C:\Program Files\Windows Application Driver\winappdriver.exe'
+      run: 'Start-Process -FilePath ''C:\Program Files\Windows Application Driver\winappdriver.exe'''
 
     - name: Build tests
       shell: pwsh
