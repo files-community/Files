@@ -28,7 +28,7 @@ body:
     attributes:
       label: Requirements
       description: describe the expected behavior (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
-      placeholder: |
+      value: |
         - e.g. Fix crash that occurs when...
     validations:
       required: true
