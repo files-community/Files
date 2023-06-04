@@ -3353,4 +3353,7 @@
   <data name="SettingsAppearanceSystemBackdrop" xml:space="preserve">
     <value>System Backdrop</value>
   </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
 </root>

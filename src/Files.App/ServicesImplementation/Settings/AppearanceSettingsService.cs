@@ -74,7 +74,7 @@ namespace Files.App.ServicesImplementation.Settings
 		/// <inheritdoc/>
 		public SystemBackdropType AppThemeSystemBackdrop
 		{
-			get => Get(MicaController.IsSupported() ? SystemBackdropType.MicaAlt : SystemBackdropType.None);
+			get => Get(MicaController.IsSupported() ? SystemBackdropType.MicaAlt : SystemBackdropType.Solid);
 			set => Set(value);
 		}
 

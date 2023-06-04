@@ -2,7 +2,7 @@
 {
 	public enum SystemBackdropType
 	{
-		None,
+		Solid,
 		Mica,
 		MicaAlt,
 		Acrylic
