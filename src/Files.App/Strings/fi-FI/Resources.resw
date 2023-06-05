@@ -2725,7 +2725,7 @@
     <value>Asenna ajurit käyttämällä valittuja inf-tiedostoja</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+      <value>Asenna valitut varmenteet</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Suorita valittu sovellus järjestelmänvalvojana</value>
