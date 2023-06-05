@@ -65,6 +65,7 @@ namespace Files.App.Commands
 
 		IRichCommand InstallFont { get; }
 		IRichCommand InstallInfDriver { get; }
+		IRichCommand InstallCertificate { get; }
 
 		IRichCommand RunAsAdmin { get; }
 		IRichCommand RunAsAnotherUser { get; }

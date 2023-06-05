@@ -74,6 +74,7 @@ namespace Files.App.Commands
 		// Install
 		InstallFont,
 		InstallInfDriver,
+		InstallCertificate,
 
 		// Run
 		RunAsAdmin,

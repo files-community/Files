@@ -2464,16 +2464,16 @@
     <value>Snelle toegang</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Voer uw inloggegevens in om verbinding te maken met: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Voer netwerkreferenties in</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Mijn referenties onthouden</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Fout in netwerkmap</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>App-versie</value>
@@ -2515,7 +2515,7 @@
     <value>Toon verborgen items</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Formatteren...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
@@ -2539,10 +2539,10 @@
     <value>Deze actie toepassen op alle conflicterende items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Openen in terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Openen in terminal als administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Opslaan</value>
@@ -2575,10 +2575,10 @@
     <value>Vastgemaakte items</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Verkleinen</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Vergroten</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Wijzig sorteerrichting</value>
@@ -2592,11 +2592,11 @@
   <data name="Videos" xml:space="preserve">
     <value>Video's</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Start QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Open voorbeeld popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Compacte overlay aan/uit</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Open de online help pagina in de browser</value>
@@ -2623,10 +2623,10 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Zet voorvertoningspaneel aan/uit</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Zet zijbalk aan/uit</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Kopieer item(s) naar klembord</value>
@@ -2659,7 +2659,7 @@
     <value>Prullenbak leegmaken</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Open het "Formatteer Schijf" menu voor geselecteerde item</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Herstel geselecteerde item(s) uit prullenbak</value>
@@ -2704,25 +2704,25 @@
     <value>Van Start losmaken</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Map(pen) vastmaken aan favorieten</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Map(pen) losmaken van favorieten</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Stel geselecteerde afbeelding in als bureaubladachtergrond</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Stel geselecteerde afbeeldingen in als bureaubladdiashow</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Geselecteerde afbeelding als vergrendelschermachtergrond instellen</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Geselecteerde lettertype(s) installeren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Geselecteerde toepassing uitvoeren als beheerder</value>
@@ -2733,26 +2733,26 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>PowerShell script uitvoeren</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Start QuickLook met het geselecteerde item</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Voorbeeld openen in pop-upvenster</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Archief maken met geselecteerde item(s)</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Maak 7z-archief direct met geselecteerde item(s)</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Maak zip-archief direct met geselecteerde item(s)</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Items uit geselecteerde archieven naar een willekeurige map uitpakken</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Items uit geselecteerde archieven naar de huidige map uitpakken</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Items uit geselecteerde archieven naar nieuwe map uitpakken</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Draai geselecteerde afbeelding(en) linksom</value>
@@ -2767,7 +2767,7 @@
     <value>Open map in terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Open de map in de terminal als beheerder</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Pictogramgrootte verkleinen in rasterweergave</value>
@@ -2776,34 +2776,34 @@
     <value>Pictogramgrootte verhogen in rasterweergave</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Overschakelen naar detailweergave</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Overschakelen naar tegelweergave</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Overschakelen naar rasterweergave met kleine iconen</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Overschakelen naar rasterweergave met medium pictogrammen</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Overschakelen naar rasterweergave met grote pictogrammen</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Overschakelen naar kolomweergave</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Schakel adaptief van weergave over</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Sorteer items op naam</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Sorteer items op gewijzigde datum</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Sorteer items op datum aangemaakt</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Sorteer items op grootte</value>
@@ -2818,73 +2818,73 @@
     <value>Sorteert items op labels</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Sorteer items op oorspronkelijke map</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Sorteer items op datum verwijderd</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Sorteer items in oplopende volgorde</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Sorteer items in aflopende volgorde</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Wijzig sorteerrichting</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Som op en sorteer mappen naast bestanden</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Items tonen zonder groepering</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Items groeperen op naam</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Items groeperen op datum gewijzigd</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Items groeperen op aanmaakdatum</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Items groeperen op grootte</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Items groeperen op type</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Items groeperen op synchronisatieststatus</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Items groeperen op labels</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Items groeperen op oorspronkelijke folder</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Items groeperen op datum verwijderd</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Items groeperen op pad</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Sorteer groepen in oplopende volgorde</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Sorteer groepen in aflopende volgorde</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Wijzig sorteerrichting groep</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Open nieuw tabblad</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Navigeer achteruit in de navigatiegeschiedenis</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Navigeer vooruit in de navigatiegeschiedenis</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigeer één map naar boven</value>
@@ -3176,25 +3176,25 @@
     <value>Selectievakjes weergeven bij het selecteren van items</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Niet-geïndexeerde items doorzoeken</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Focus padenbalk</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Maak nieuw item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Geen groepen of gebruikers zijn gemachtigd voor toegang tot dit object. De eigenaar van dit object kan echter machtigingen toewijzen.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>Itemlocatie openen</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>Permanent verwijderen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Item(s) permanent verwijderen</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>De geselecteerde mediabestanden afspelen</value>
@@ -3209,19 +3209,19 @@
     <value>Locatie:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Items groeperen op maand</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Items groeperen op jaar</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>Maand</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Wissel eenheid voor groeperen op datum</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Wissel groeperingseenheid</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Jaar</value>
@@ -3254,22 +3254,22 @@
     <value>U moet leesrechten hebben om de eigenschappen van dit item te bekijken.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Om te proberen eigenaar te worden van het item, dat toestemming bevat om de eigenschappen ervan te bekijken, klikt u hierboven op Wijzigen.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Kan machtigingen niet weergeven.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Laat mijn wijzigingen op '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
     <value>Wijzigingen niet opslaan</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Breng mijn wijzigingen over naar '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Je hebt niet-gecommitte wijzigingen in deze branche. Wat wil je ermee doen?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Wissel van branch</value>
@@ -3284,13 +3284,13 @@
     <value>Nieuwe branch</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Ongeldige branchnaam</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Maak branch aan</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Maak branch aan</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
     <value>Gebaseerd op</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Vertaal op Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Start git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Start git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Voorbeeld</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git fout</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull is mislukt door een time-out fout</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(Meerdere waarden)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
