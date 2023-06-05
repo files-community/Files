@@ -637,7 +637,7 @@
     <value>Složka</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Vytvořit prázdnou složku</value>
+    <value>Vytvoří prázdnou složku</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>Režim rozvržení</value>
@@ -652,7 +652,7 @@
     <value>Přesunout rozšíření do podnabídky</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Vyžadovat potvrzení pro mazání souborů</value>
+    <value>Vyžadovat potvrzení při mazání souborů</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Při ukládání některých vlastností došlo k chybě.</value>
