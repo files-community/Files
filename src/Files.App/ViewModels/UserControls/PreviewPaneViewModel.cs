@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Helpers;
@@ -281,38 +282,30 @@ namespace Files.App.ViewModels.UserControls
 			{
 				SelectedItem?.FileDetails?.Clear();
 
-				var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
-				var pathToCurrentFolder = (instance.TabItemArguments.NavigationArg as PaneNavigationArguments)?.LeftPaneNavPathParam;
+				var currentFolder = Ioc.Default.GetRequiredService<IPageContext>().PaneOrColumn?.FilesystemViewModel.CurrentFolder;
 
-				if (string.IsNullOrEmpty(pathToCurrentFolder))
+				if (currentFolder is null)
 				{
 					PreviewPaneContent = null;
 					PreviewPaneState = PreviewPaneStates.NoItemSelected;
+					return;
 				}
-				else
+
+				try
 				{
-					try
-					{
-						PreviewPaneState = PreviewPaneStates.LoadingPreview;
-						loadCancellationTokenSource = new CancellationTokenSource();
+					PreviewPaneState = PreviewPaneStates.LoadingPreview;
+					loadCancellationTokenSource = new CancellationTokenSource();
 
-						SelectedItem = new ListedItem(null!)
-						{
-							ItemPath = pathToCurrentFolder,
-							PrimaryItemAttribute = StorageItemTypes.Folder,
-							ItemType = "Folder".GetLocalizedResource(),
-						};
+					SelectedItem = currentFolder;
+					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine(e);
+					loadCancellationTokenSource?.Cancel();
 
-						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
-					}
-					catch (Exception e)
-					{
-						Debug.WriteLine(e);
-						loadCancellationTokenSource?.Cancel();
-
-						PreviewPaneContent = null;
-						PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
-					}
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 				}
 			}
 		}
