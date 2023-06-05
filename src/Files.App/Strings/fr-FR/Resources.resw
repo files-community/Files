@@ -2725,7 +2725,7 @@
     <value>Installer le(s) pilote(s) en utilisant le(s) fichier(s) inf sélectionné(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+      <value>Installer le(s) certificat(s) sélectionné(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Exécuter l'application sélectionnée en tant qu'administrateur</value>
