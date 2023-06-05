@@ -29,6 +29,9 @@ namespace Files.App.Helpers
 		[MemberNotNull(nameof(target), nameof(root))]
 		protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
 		{
+			if (target is not null)
+				throw new InvalidOperationException("AppSystemBackdrop cannot be used with more than one target");
+
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
