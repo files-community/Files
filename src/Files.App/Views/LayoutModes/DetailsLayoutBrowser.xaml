@@ -288,13 +288,13 @@
 											Text="{helpers:ResourceString Name=GitLastCommitMessage}"
 											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-									<!--  Git Last Commit Author  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitCommitAuthor}"
-										Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Git Last Commit Author  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitCommitAuthor}"
+											Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
