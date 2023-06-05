@@ -258,45 +258,53 @@
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
 
-									<!--  Git Unmerged File Kind  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitUnmergedFileKindColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitStatus}"
-										Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+									<!--  Git Columns  -->
+									<MenuFlyoutSubItem
+										x:Name="GitColumnsMenuFlyoutSubItem"
+										Text="{helpers:ResourceString Name=Git}"
+										Visibility="{x:Bind ColumnsViewModel.IsAllGitColumnsHidden, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
-									<!--  Git Last Commit Date  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitLastDateCommitColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitLastCommitDate}"
-										Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Git Unmerged File Kind  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitUnmergedFileKindColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitStatus}"
+											Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-									<!--  Git Last Commit Message  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitLastCommitMessageColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitLastCommitMessage}"
-										Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Git Last Commit Date  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitLastDateCommitColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitLastCommitDate}"
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-									<!--  Git Last Commit Author  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitLastCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitLastCommitAuthor}"
-										Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Git Last Commit Message  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitLastCommitMessageColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitLastCommitMessage}"
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-									<!--  Git Last Commit SHA  -->
-									<ToggleMenuFlyoutItem
-										x:Name="ShowItemGitLastCommitShaColumnVisibilityToggleMenuFlyoutItem"
-										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-										Text="{helpers:ResourceString Name=GitLastCommitSha}"
-										Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										<!--  Git Last Commit Author  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitLastCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitLastCommitAuthor}"
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+										<!--  Git Last Commit SHA  -->
+										<ToggleMenuFlyoutItem
+											x:Name="ShowItemGitLastCommitShaColumnVisibilityToggleMenuFlyoutItem"
+											Click="ToggleMenuFlyoutItem_Click"
+											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											Text="{helpers:ResourceString Name=GitLastCommitSha}"
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
+									</MenuFlyoutSubItem>
 
 									<!--  File Tag  -->
 									<ToggleMenuFlyoutItem
@@ -972,7 +980,8 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										Foreground="LightGreen"
+										FontWeight="SemiBold"
+										Foreground="#238636"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"

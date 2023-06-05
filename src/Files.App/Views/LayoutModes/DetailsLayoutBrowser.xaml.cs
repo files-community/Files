@@ -239,6 +239,7 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitStatusColumn.Hide();
 			}
 
+			ColumnsViewModel.UpdateVisibility();
 			UpdateSortIndicator();
 		}
 
