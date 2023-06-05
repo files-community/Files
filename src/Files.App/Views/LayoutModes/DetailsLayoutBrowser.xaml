@@ -288,13 +288,13 @@
 											Text="{helpers:ResourceString Name=GitLastCommitMessage}"
 											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
-										<!--  Git Last Commit Author  -->
-										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitLastCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
-											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-											Text="{helpers:ResourceString Name=GitLastCommitAuthor}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+									<!--  Git Last Commit Author  -->
+									<ToggleMenuFlyoutItem
+										x:Name="ShowItemGitCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=GitCommitAuthor}"
+										Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
@@ -432,9 +432,9 @@
 
 								<!--  Item Git Last Commit Author  -->
 								<ColumnDefinition
-									x:Name="GitLastCommitAuthorColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.MaxLength, Mode=OneWay}" />
+									x:Name="GitCommitAuthorColumnDefinition"
+									Width="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -613,17 +613,17 @@
 
 							<!--  Item Last Commit Author  -->
 							<uc:DataGridHeader
-								x:Name="GitLastCommitAuthorHeader"
+								x:Name="GitCommitAuthorHeader"
 								Grid.Column="10"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitAuthor"
-								Header="{helpers:ResourceString Name=GitLastCommitAuthor}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, Mode=OneWay}" />
+								Header="{helpers:ResourceString Name=GitCommitAuthor}"
+								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
 								Grid.Column="11"
-								AutomationProperties.Name="GitLastCommitAuthorHeaderGridSplitter"
+								AutomationProperties.Name="GitCommitAuthorHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
 								ManipulationCompleted="GridSplitter_ManipulationCompleted"
@@ -631,7 +631,7 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit SHA  -->
 							<uc:DataGridHeader
@@ -1011,14 +1011,14 @@
 
 									<!--  Item Git Last Commit Author  -->
 									<TextBlock
-										x:Name="ItemGitLastCommitAuthorTextBlock"
-										Width="{Binding ColumnsViewModel.GitLastCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										x:Name="ItemGitCommitAuthorTextBlock"
+										Width="{Binding ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitLastCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Text="{x:Bind AsGitItem.GitCommitAuthor, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.GitCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit SHA  -->
 									<TextBlock

@@ -57,12 +57,12 @@ namespace Files.App.ServicesImplementation.Settings
 			}
 		}
 
-		public double GitLastCommitAuthorColumnWidth
+		public double GitCommitAuthorColumnWidth
 		{
 			get => Get(140d);
 			set
 			{
-				if (ShowGitLastCommitAuthorColumn)
+				if (ShowGitCommitAuthorColumn)
 					Set(value);
 			}
 		}
@@ -205,7 +205,7 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowGitLastCommitAuthorColumn
+		public bool ShowGitCommitAuthorColumn
 		{
 			get => Get(true);
 			set => Set(value);

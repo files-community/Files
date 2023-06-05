@@ -44,7 +44,7 @@ namespace Files.App.Helpers.LayoutPreferences
 			ColumnsViewModel.GitStatusColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitStatusColumn;
 			ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn;
 			ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn;
-			ColumnsViewModel.GitLastCommitAuthorColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitAuthorColumn;
+			ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn;
 			ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn;
 			ColumnsViewModel.TagColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowFileTagColumn;
 			ColumnsViewModel.DateDeletedColumn.UserCollapsed = !UserSettingsService.FoldersSettingsService.ShowDateDeletedColumn;

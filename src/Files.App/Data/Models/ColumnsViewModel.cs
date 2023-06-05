@@ -40,11 +40,11 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _GitLastCommitMessageColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitAuthorColumn = new();
-		public ColumnViewModel GitLastCommitAuthorColumn
+		private ColumnViewModel _GitCommitAuthorColumn = new();
+		public ColumnViewModel GitCommitAuthorColumn
 		{
-			get => _GitLastCommitAuthorColumn;
-			set => SetProperty(ref _GitLastCommitAuthorColumn, value);
+			get => _GitCommitAuthorColumn;
+			set => SetProperty(ref _GitCommitAuthorColumn, value);
 		}
 
 		private ColumnViewModel _GitLastCommitShaColumn = new();
