@@ -1,11 +1,6 @@
 name: Files Build Pipeline
 
 on:
-  push:
-    branches-ignore:
-    - 'dependabot**'
-    tags-ignore:
-    - '**'
   pull_request:
     paths-ignore:
     - '**.md'
@@ -22,7 +17,8 @@ jobs:
         platform: [x86, x64, arm64]
     env:
       SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_NAME: 'src/Files.App (Package)/Files.Package.wapproj'
+      PACKAGE_PROJECT_NAME: 'src\Files.App (Package)\Files.Package.wapproj'
+      TEST_PROJECT_NAME: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       PROJECT_RESTORE_PLATFORM: "x64"
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
@@ -76,11 +72,42 @@ jobs:
     - name: Setup xvfb for screen 0
       run: Xvfb :1 -screen 0 1600x1200x24 &
   
-    - name: Build & run tests
+    # - name: Build & run tests
+    #   shell: pwsh
+    #   run: |
+    #     & 'C:\Program Files (x86)\Windows Application Driver\winappdriver.exe'
+    #     Set-Location $env:DEFAULT_DIR
+    #     dotnet test tests\Files.InteractionTests\Files.InteractionTests.csproj
+    #     -a $env:PLATFORM
+    #     -c $env:CONFIGURATION
+
+    - name: Build tests
       shell: pwsh
       run: |
-        & 'C:\Program Files (x86)\Windows Application Driver\winappdriver.exe'
-        Set-Location $env:DEFAULT_DIR
-        dotnet test tests\Files.InteractionTests\Files.InteractionTests.csproj
-        -a $env:PLATFORM
-        -c $env:CONFIGURATION
+        msbuild $env:TEST_PROJECT_NAME `
+        -t:Build `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION`
+
+    - name: Run tests
+      uses: microsoft/vstest-action@main
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssembly: |
+          **\*Files.InteractionTests.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$env:DEFAULT_DIR'
+        runInParallel: true
+        codeCoverageEnabled: true
+        ifNoFilesFound: ignore
+        resultLogsArtifactName: 'vs-test-result-logs'
+    
+    - name: Publish tests results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: |
+          TestResults/**/*.xml
+          TestResults/**/*.trx
+          TestResults/**/*.json
