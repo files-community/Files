@@ -81,12 +81,12 @@ namespace Files.App.ViewModels.Properties
 
 			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 			{
-				hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
-
 				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{
+						hashInfoItem.IsCalculating = true;
+
 						using (var stream = File.OpenRead(_item.ItemPath))
 						{
 							hashInfoItem.HashValue = hashInfoItem.Algorithm switch
@@ -110,6 +110,10 @@ namespace Files.App.ViewModels.Properties
 					catch (Exception)
 					{
 						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
+					}
+					finally
+					{
+						hashInfoItem.IsCalculating = false;
 					}
 				});
 			}
