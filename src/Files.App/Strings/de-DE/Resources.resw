@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Typ:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Videos</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Schnellansicht öffnen</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Vorschau-Popup starten</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Kompakte Ansicht umschalten</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Ausgewähltes PowerShell-Skript ausführen</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>QuickLook mit ausgewähltem Element öffnen</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Vorschau in Popup-Fenster starten</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Archiv mit ausgewählten/r Element(en) erstellen</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Auf Crowdin übersetzen</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Abrufen</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Git fetch ausführen</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Git pull ausführen</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Vorschau</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git-Fehler</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull wegen eines Timeout-Fehlers fehlgeschlagen</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(mehrere Werte)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>

@@ -67,5 +67,12 @@ namespace Files.App.Data.Models
 			get => isPasteEnabled;
 			set => SetProperty(ref isPasteEnabled, value);
 		}
+
+		private bool isMainWindowClosed = false;
+		public bool IsMainWindowClosed
+		{
+			get => isMainWindowClosed;
+			set => SetProperty(ref isMainWindowClosed, value);
+		}
 	}
 }

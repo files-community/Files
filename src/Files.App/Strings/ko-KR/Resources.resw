@@ -184,7 +184,7 @@
     <value>이 항목 삭제</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>GitHub 리포지토리 열기</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>정보</value>
@@ -214,7 +214,7 @@
     <value>배경 화면</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>고급</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>마지막으로 사용한 경로 열기</value>
@@ -241,22 +241,22 @@
     <value>오름차순</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>붙여넣기</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>새로 만들기</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>속성</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>열기</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>새 탭에서 열기</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>새 창에서 열기</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>공유</value>
@@ -268,7 +268,7 @@
     <value>삭제</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>즐겨찾기에 고정</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files에 오신 걸 환영합니다!</value>
@@ -283,7 +283,7 @@
     <value>Display</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>항목 이름을 입력하세요</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>이름 설정</value>
@@ -358,7 +358,7 @@
     <value>접근하려는 파일은 {0}이(가) 현재 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>접근하려는 파일은 현재 다른 애플리케이션이 사용 중입니다</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>사용 중인 파일</value>
@@ -391,10 +391,10 @@
     <value>{0}초 전</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 초 전</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>지금</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>해당 기능은 지원되지 않습니다.</value>
@@ -406,13 +406,13 @@
     <value>연결 프로그램</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>보내기</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>파일명에는 다음 문자들을 사용할 수 없습니다: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>지정한 항목 이름이 잘못되었습니다</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>항목 선택함</value>
@@ -520,7 +520,7 @@
     <value>{0}(으)로 복사</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>바로가기 만들기</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>파일 경로 열기</value>
@@ -601,13 +601,13 @@
     <value>이름이 너무 김</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>추가 옵션 표시</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>설정을 적용되려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>GitHub에서 후원해주세요</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다.</value>
@@ -646,13 +646,13 @@
     <value>경로 새로고침</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>언어</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>셸 확장을 '추가 옵션 표시'로 이동</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>항목을 삭제할 때 확인 대화 상자 표시</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>일부 속성을 저장하던 중 문제가 발생했습니다.</value>
@@ -967,7 +967,7 @@
     <value>탭을 새 창으로 이동</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>새 탭</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>일부 속성에는 개인 정보가 포함될 수 있습니다.</value>
@@ -1129,13 +1129,13 @@
     <value>선택한 파일 미리보기 패널</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>피드백 보내기</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>온라인 전용</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>자습서 열기</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>오프라인 사용 가능</value>
@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>이름:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>유형:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -1387,7 +1387,7 @@
     <value>Sort</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
-    <value>그룹화 방법</value>
+    <value>분류 방법</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
     <value>수정한 날짜</value>
@@ -1921,7 +1921,7 @@
     <value>타일</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>새 탭에서 폴더 열기</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>진행 중인 작업</value>
@@ -1933,7 +1933,7 @@
     <value>항목 크기 열</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>실험적 기능</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>도움말 및 지원</value>
@@ -1942,7 +1942,7 @@
     <value>기능 요청 제출</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>버그 신고하기</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Files를 기본 파일 탐색기로 설정</value>
@@ -2077,7 +2077,7 @@
     <value>폴더 크기 계산</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>최근 항목</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Files를 윈도우 시작 프로그램으로 등록</value>
@@ -2182,7 +2182,7 @@
     <value>태그</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>자세히 레이아웃에서 폭을 더 좁게 설정</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>유니버설</value>
@@ -2221,10 +2221,10 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Alternate Data Stream 영역 표시</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>동작</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>파일 검토</value>
@@ -2326,7 +2326,7 @@
     <value>경로</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>정렬 및 그룹화</value>
+    <value>정렬 및 분류 방법</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>보관</value>
@@ -2395,34 +2395,34 @@
     <value>상태 열 동기화</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>그룹화 기준</value>
+    <value>분류 기준</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>정렬 기준</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>내림차순으로 분류하기</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>내림차순으로 정렬하기</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>바로 가기 만들기</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>로컬 또는 네트워크상에 있는 프로그램, 파일, 폴더, 컴퓨터, 인터넷 주소로 연결되는 바로가기를 만들 수 있습니다.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>항목 위치 입력:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>바로가기 만들기</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Windows 파일 탐색기에서 최근 사용된 파일은 현재 사용할 수 없습니다.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>설정 파일 수정</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
@@ -2455,28 +2455,28 @@
     <value>Show edit tags flyout</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>'새 탭에서 폴더 열기' 옵션 표시</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>'새 창에서 폴더 열기' 옵션 표시</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>바로 가기</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>{0} 로 연결 할 자격 증명을 입력하세요</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>네트워크 자격 증명을 입력하세요</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>내 자격 증명 기억하기</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>네트워크 폴더 오류</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>애플리케이션 버전</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows 버전</value>
@@ -2485,28 +2485,28 @@
     <value>항상</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>완전히 삭제할 때만</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>안함</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
+    <value>태그 색상</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>변경사항 저장</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>새 태그</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>새 태그 만들기</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>불러오는 중…</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>컨텍스트 메뉴 옵션</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>파일 확장자 표시</value>
@@ -2554,25 +2554,25 @@
     <value>Reorder sidebar items</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>해시</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>작업 도중 오류가 발생했습니다</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>알고리즘</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>값</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>표시할 해시 선택</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>계산 중...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>고정된 항목</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Decrease size</value>
@@ -2584,16 +2584,16 @@
     <value>Toggle sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>잘못된 이름</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>이름은 공백이거나 마침표로 시작하거나 끝날 수 없습니다.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>동영상</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>미리 보기 팝업 표시</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Run selected PowerShell script</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Launch preview in popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
@@ -2878,7 +2878,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>새 탭 열기</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Translate on Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Run git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Run git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git Error</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull failed due to a timeout error</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(multiple values)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>

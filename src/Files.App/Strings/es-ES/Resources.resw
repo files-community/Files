@@ -1102,7 +1102,7 @@
     <value>Nuevo nombre</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Alternar el panel de vista previa</value>
+    <value>Mostrar/Ocultar panel de vista previa</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nombre:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Tipo:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Vídeos</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Iniciar QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Abrir vista previa emergente</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Intercambiar superposición compacta</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Ejecuta el script PowerShell seleccionado</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Lanzar QuickLook con el elemento seleccionado</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Abrir vista previa en ventana emergente</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Crear archivo con elemento(s) seleccionado(s)</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traducir en Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Guardar (Fetch)</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Fusionar (Pull)</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Ejecutar guardar git (git fetch)</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Ejecutar fusionar git (git pull)</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Vista previa</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Error de git</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>Fusionar git (git pull) ha fallado debido a un error de tiempo de espera</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(varios valores)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>
