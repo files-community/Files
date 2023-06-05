@@ -483,8 +483,6 @@ namespace Files.App.Views.LayoutModes
 					UpdatePreviewPaneSelection(null);
 					ItemManipulationModel.FocusFileList();
 				}
-
-
 			}
 			catch (Exception) { }
 		}
@@ -1361,7 +1359,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void UpdatePreviewPaneSelection(List<ListedItem>? value)
+		protected virtual void UpdatePreviewPaneSelection(List<ListedItem>? value)
 		{
 			if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 			{
