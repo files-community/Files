@@ -1,5 +1,11 @@
 trigger:
-- main
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - .github/*
+    - specs/*
 
 pool:
   vmImage: 'windows-latest'
