@@ -2725,7 +2725,7 @@
     <value>Treiber mit ausgewählter/n INF-Datei(en) installieren</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+      <value>Ausgewählte(s) Zertifikat(e) installieren</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ausgewählte Anwendung als Administrator ausführen</value>
