@@ -22,6 +22,8 @@ namespace Files.App.Helpers
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
 		{
 			this.isSecondaryWindow = isSecondaryWindow;
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			userSettingsService.OnSettingChangedEvent += OnSettingChanged;
 		}
 
 		[MemberNotNull(nameof(target), nameof(root))]
@@ -30,11 +32,9 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeSystemBackdrop);
 			controller?.SetSystemBackdropConfiguration(GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot));
 			controller?.AddSystemBackdropTarget(connectedTarget);
-			userSettingsService.OnSettingChangedEvent += OnSettingChanged;
 		}
 
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
@@ -49,6 +49,9 @@ namespace Files.App.Helpers
 
 		private void OnSettingChanged(object? sender, Shared.EventArguments.SettingChangedEventArgs e)
 		{
+			if (target is null)
+				return;
+
 			switch (e.SettingName)
 			{
 				case nameof(IAppearanceSettingsService.AppThemeSystemBackdrop):
