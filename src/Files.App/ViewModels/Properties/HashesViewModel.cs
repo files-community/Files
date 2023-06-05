@@ -81,12 +81,12 @@ namespace Files.App.ViewModels.Properties
 
 			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 			{
+				hashInfoItem.IsCalculating = true;
+
 				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{
-						hashInfoItem.IsCalculating = true;
-
 						using (var stream = File.OpenRead(_item.ItemPath))
 						{
 							hashInfoItem.HashValue = hashInfoItem.Algorithm switch
