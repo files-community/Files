@@ -91,7 +91,7 @@ jobs:
 
     - name: Run tests
       uses: microsoft/vstest-action@main
-      inputs:
+      with:
         testSelector: 'testAssemblies'
         testAssembly: |
           **\*Files.InteractionTests.dll
