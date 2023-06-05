@@ -182,7 +182,12 @@ namespace Files.App.Views
 					PaneRight.IsCurrentInstance = false;
 
 				if (ActivePane is not null)
+				{
 					ActivePane.IsCurrentInstance = value;
+
+					if (value && ActivePane is BaseShellPage baseShellPage)
+						baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
+				}
 
 				CurrentInstanceChanged?.Invoke(null, this);
 			}

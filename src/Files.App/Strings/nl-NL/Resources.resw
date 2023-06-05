@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Nieuw venster</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Locatie kopiëren</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Pad kopiëren</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
@@ -181,13 +181,13 @@
     <value>Bestanden en mappen die u eerder heeft gebruikt worden hier weergeven</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Dit item verwijderen</value>
+    <value>Verwijder dit item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>GitHub Repository</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>Info</value>
+    <value>Over</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
     <value>Open source</value>
@@ -265,7 +265,7 @@
     <value>Knippen</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Verwijder</value>
+    <value>Verwijderen</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
     <value>Toevoegen aan favorieten</value>
@@ -478,7 +478,7 @@
     <value>Verschillende typen</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Allemaal in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Gebruikte ruimte:</value>
@@ -964,7 +964,7 @@
     <value>Tabblad dupliceren</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Tabblad naar nieuw venster verplaatsen</value>
+    <value>Verplaats tabblad naar nieuw venster</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nieuw tabblad</value>
@@ -1018,10 +1018,10 @@
     <value>Wissen</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabbladen in gedeelde vensters</value>
+    <value>Open tabbladen in deelvensters</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Toon optie om mappen in een nieuw venster te openen</value>
+    <value>Toon optie om mappen in een nieuw deelvenster te openen</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nieuw paneel</value>
@@ -1075,7 +1075,7 @@
     <value>Bundels</value>
   </data>
   <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Bestanden en mappen slepen en hier neerzetten om er later snel toegang tot te krijgen</value>
+    <value>Sleep een bestand of map hier naartoe om er snel toegang toe te krijgen</value>
   </data>
   <data name="EnterBundleName" xml:space="preserve">
     <value>Voer bundelnaam in</value>
@@ -1216,7 +1216,7 @@
     <value>Argumenten</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in nieuw deelvenster</value>
+    <value>In nieuw deelvenster openen</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standaard</value>
@@ -1252,10 +1252,10 @@
     <value>Kolommen (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Aan startscherm vastmaken</value>
+    <value>Aan Start vastmaken</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Van startscherm losmaken</value>
+    <value>Van Start losmaken</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliotheek</value>
@@ -1353,8 +1353,8 @@
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
     <value>Er is een conflicterende itemnaam.</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutCreateFolderWithSelection.Text" xml:space="preserve">
-    <value>Map maken van selectie</value>
+  <data name="CreateFolderWithSelection" xml:space="preserve">
+    <value>Maak map met selectie</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Naam:</value>
@@ -1411,7 +1411,7 @@
     <value>Groot</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Normaal</value>
+    <value>Gemiddeld</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
     <value>Klein</value>
@@ -1591,10 +1591,10 @@
     <value>Mapinhoud opsommen</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Aanpassen</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Machtigingen voor {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lezen en uitvoeren</value>
@@ -1618,7 +1618,7 @@
     <value>Eigenaar:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Onbekende gebruiker</value>
+    <value>Onbekende eigenaar</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Archief uitpakken</value>
@@ -1693,7 +1693,7 @@
     <value>Alleen deze map</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>Deze map en submappenOnly files</value>
+    <value>Deze map en submappen</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Gegevens toevoegen</value>
@@ -1899,9 +1899,6 @@
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Geen items gevonden</value>
   </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Toon alleen voorbeeld</value>
-  </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open logboek locatie</value>
   </data>
@@ -1933,7 +1930,7 @@
     <value>Aanmaakdatum kolom</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Bestands grootte kolom</value>
+    <value>Bestandsgrootte kolom</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
     <value>Experimentele functies</value>
@@ -2059,13 +2056,13 @@
     <value>Voer de probleemoplosser voor compatibiliteit uit</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Gebruik DPI instellingen van de hoofd monitor</value>
+    <value>Gebruik DPI instellingen van primaire monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Licenties van derden</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Deze instelling wijzigt systeembestanden en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden.</value>
+    <value>Deze instelling wijzigt het register en kan onverwachte bijwerkingen op uw apparaat hebben. De ontwikkelaars nemen geen verantwoordelijkheid in het geval er zich een probleem voordoet. Doorgaan met deze optie is een erkenning van de risico's die aan deze actie zijn verbonden.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Wis alles</value>
@@ -2101,7 +2098,7 @@
     <value>Schoon de inhoud van je schijf op</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Schijf opschoning</value>
+    <value>Schijfopruiming</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Soort</value>
@@ -2278,7 +2275,7 @@
     <value>{0} is gecomprimeerd</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} kan niet worden gecomprimeerd</value>
+    <value>{0} kon niet worden gecomprimeerd</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Archief comprimeren</value>
@@ -2332,7 +2329,7 @@
     <value>Sorteren en groeperen</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archief</value>
+    <value>Archiveren</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>ZIP-bestand maken</value>
@@ -2449,22 +2446,22 @@
     <value>Meer weergeven</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+    <value>Maar maak je geen zorgen, we hebben een fantastische vervanging gemaakt die betrouwbaarder is en meer functies heeft. U kunt de widget 'Bestands-tags' inschakelen vanuit Instellingen &gt; Voorkeuren &gt; Widgets. Inschakelen van de tag-widget schakelt automatisch de widget van de bundels uit.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Bundels zullen in een toekomstige update met pensioen gaan 📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Toon Bewerk Labels menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Toon optie om mappen in een nieuw tabblad te openen</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Toon optie om mappen in een nieuw venster te openen</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Snelle toegang</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
@@ -2479,43 +2476,43 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>App-versie</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Windows versie</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Altijd</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Alleen permanente verwijdering</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Nooit</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
+    <value>Label kleur</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Wijzigingen opslaan</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Nieuw label</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>Nieuw label aanmaken</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Laden...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Opties contextmenu</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Toon bestandsnaamextensies</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Toon verborgen items</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format...</value>
@@ -2524,22 +2521,22 @@
     <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Volledig scherm in-/uitschakelen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Weet u zeker dat u dit label wilt verwijderen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Alles afspelen</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Hoogte</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Breedte</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Deze actie toepassen op alle conflicterende items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>Open in terminal</value>
@@ -2548,34 +2545,34 @@
     <value>Open in terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Opslaan</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Meervoudige selectie</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Zijbalk items herordenen</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Algoritme</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>Hash waarde</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>Selecteer hashes om te laten zien</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Berekenen...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Vastgemaakte items</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Decrease size</value>
@@ -2584,28 +2581,28 @@
     <value>Increase size</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Wijzig sorteerrichting</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Ongeldige naam</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>Naam mag niet leeg zijn of beginnen of eindigen met een punt.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Video's</value>
   </data>
   <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Launch QuickLook</value>
+    <value>Start QuickLook</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Open de online help pagina in de browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Volledig scherm in-/uitschakelen</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Ga naar compacte overlay</value>
@@ -2620,10 +2617,10 @@
     <value>Ga naar zoekveld</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Schakel tussen verborgen items weergeven</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Toggle whether to show preview pane</value>
@@ -2632,19 +2629,19 @@
     <value>Toggle whether to show sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopieer item(s) naar klembord</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Kopieer pad van item naar klembord</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Knip item(s) naar klembord</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Plak item(s) van klembord naar huidige map</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Plak item(s) van klembord naar geselecteerde map</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Item(s) verwijderen</value>
@@ -2653,10 +2650,10 @@
     <value>Nieuwe map maken</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Maak nieuwe snelkoppeling(en) aan voor geselecteerde item(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Maak een nieuwe snelkoppeling naar een item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Prullenbak leegmaken</value>
@@ -2665,19 +2662,19 @@
     <value>Open "Format Drive" menu for selected item</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Herstel geselecteerde item(s) uit prullenbak</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Herstel alle items vanuit de prullenbak</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>Open item(s)</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Open item(s) met geselecteerde toepassing</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Open de bovenliggende map van gezochte item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>Ververs pagina-inhoud</value>
@@ -2698,13 +2695,13 @@
     <value>Selectie item in-/uitschakelen</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Deel geselecteerde bestand(en) met anderen</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Aan Start vastmaken</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Van Start losmaken</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Pin folder(s) to Favorites</value>
@@ -2722,25 +2719,25 @@
     <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Geselecteerde lettertype(s) installeren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Geselecteerde toepassing uitvoeren als beheerder</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Geselecteerde toepassing uitvoeren als andere gebruiker</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>PowerShell script uitvoeren</value>
   </data>
   <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Launch QuickLook with selected item</value>
+    <value>Start QuickLook met het geselecteerde item</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Archief maken met geselecteerde item(s)</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
     <value>Create 7z archive instantly with selected item(s)</value>
@@ -2758,10 +2755,10 @@
     <value>Extract items from selected archive(s) to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Draai geselecteerde afbeelding(en) linksom</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Draai geselecteerde afbeelding(en) rechtsom</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Open instellingen pagina</value>
@@ -2773,10 +2770,10 @@
     <value>Open folder in terminal as administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Pictogramgrootte verkleinen in rasterweergave</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Pictogramgrootte verhogen in rasterweergave</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
@@ -2890,52 +2887,52 @@
     <value>Navigate forward in navigation history</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Navigeer één map naar boven</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Huidig tabblad dupliceren</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Geselecteerde tabblad dupliceren</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Tabbladen aan de linkerkant van het huidige tabblad sluiten</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Tabbladen aan de linkerkant van geselecteerde tabblad sluiten</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Tabbladen aan de rechterkant van het huidige tabblad sluiten</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Tabbladen aan de rechterkant van geselecteerde tabblad sluiten</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Sluit andere tabbladen dan huidige tabblad</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Sluit tabbladen anders dan geselecteerd tabblad</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Laatst gesloten tabblad heropenen</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Verplaats naar het vorige tabblad</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Verplaats naar het volgende tabblad</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Huidig tabblad sluiten</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Nieuw deelvenster openen</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Sluit rechterpaneel</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Zijbalk tonen/verbergen</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -2982,11 +2979,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Links</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Rechts</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
@@ -2994,15 +2991,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Omhoog (Alt+Pijl-omhoog)</value>
+    <value>Omhoog</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>Start</value>
+    <value>Home</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
-    <value>Einde</value>
+    <value>End</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageDown" xml:space="preserve">
@@ -3018,7 +3015,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
-    <value>Pauzeren</value>
+    <value>Pause</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
@@ -3149,16 +3146,16 @@
     <value>Sluit huidig tabblad</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Pad bewerken</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>Branch: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Opnieuw</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Ongedaan maken</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Ongeldige locatie</value>
@@ -3185,7 +3182,7 @@
     <value>Focus path bar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Maak nieuw item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
@@ -3194,33 +3191,132 @@
     <value>Open the item's location</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Permanent verwijderen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
     <value>Delete item(s) permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>De geselecteerde mediabestanden afspelen</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>De laatste bestandsbewerking ongedaan maken</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Herhaal de laatste bestandsbewerking</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Locatie:</value>
+  </data>
+  <data name="GroupByMonthDescription" xml:space="preserve">
+    <value>Group items by month</value>
+  </data>
+  <data name="GroupByYearDescription" xml:space="preserve">
+    <value>Group items by year</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Maand</value>
+  </data>
+  <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
+    <value>Toggle unit for grouping by date</value>
+  </data>
+  <data name="ToggleGroupingUnit" xml:space="preserve">
+    <value>Toggle grouping unit</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Jaar</value>
+  </data>
+  <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
+    <value>Groeperen per week in plaats van dag</value>
+  </data>
+  <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
+    <value>Items groeperen op maand van datum aangemaakt</value>
+  </data>
+  <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
+    <value>Items groeperen op jaar van datum aangemaakt</value>
+  </data>
+  <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
+    <value>Items groeperen op maand van datum verwijderd</value>
+  </data>
+  <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
+    <value>Items groeperen op jaar van datum verwijderd</value>
+  </data>
+  <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
+    <value>Items groeperen op maand van datum gewijzigd</value>
+  </data>
+  <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
+    <value>Items groeperen op jaar van datum gewijzigd</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Klik op 'Geavanceerde machtigingen' om door te gaan.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>U moet leesrechten hebben om de eigenschappen van dit item te bekijken.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
     <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Kan machtigingen niet weergeven.</value>
+  </data>
+  <data name="StashChanges" xml:space="preserve">
+    <value>Leave my changes on '{0}'</value>
+  </data>
+  <data name="DiscardChanges" xml:space="preserve">
+    <value>Wijzigingen niet opslaan</value>
+  </data>
+  <data name="BringChanges" xml:space="preserve">
+    <value>Bring my changes to '{0}'</value>
+  </data>
+  <data name="UncommittedChanges" xml:space="preserve">
+    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="SwitchBranch" xml:space="preserve">
+    <value>Wissel van branch</value>
+  </data>
+  <data name="Branches" xml:space="preserve">
+    <value>Branches</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Wisselen</value>
+  </data>
+  <data name="NewBranch" xml:space="preserve">
+    <value>Nieuwe branch</value>
+  </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Invalid branch name</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Create branch</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Create Branch</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Gebaseerd op</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Overschakelen naar nieuwe branch</value>
+  </data>
+  <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
+    <value>Maak een map met de momenteel geselecteerde item(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open eigenschappen</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open eigenschappen venster</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locals</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotes</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Vertaal op Crowdin</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Voorbeeld</value>
   </data>
 </root>

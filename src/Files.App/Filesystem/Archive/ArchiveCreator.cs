@@ -1,62 +1,29 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Shared;
 using Microsoft.Extensions.Logging;
 using SevenZip;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.Archive
 {
+	/// <summary>
+	/// Provides an archive creation support.
+	/// </summary>
 	public class ArchiveCreator : IArchiveCreator
 	{
-		// Represents the total number of items to be processed.
-		// It is used to calculate a weighted progress with this formula:
-		// Progress = [OldProgress + (ProgressDelta / ItemsAmount)]
-		private int itemsAmount = 1;
-		private int processedItems = 0;
+		/// <summary>
+		/// Represents the total number of items to be processed.
+		/// </summary>
+		/// <remarks>
+		/// It is used to calculate a weighted progress with this formula:
+		/// <code>Progress = [OldProgress + (ProgressDelta / ItemsAmount)]</code>
+		/// </remarks>
+		private int _itemsAmount = 1;
 
-		private string archivePath = string.Empty;
-		public string ArchivePath
-		{
-			get => archivePath;
-			set => archivePath = value;
-		}
+		private int _processedItems = 0;
 
-		public string Directory { get; init; } = string.Empty;
-		public string FileName { get; init; } = string.Empty;
-		public string Password { get; init; } = string.Empty;
-
-		public IEnumerable<string> Sources { get; init; } = Enumerable.Empty<string>();
-
-		public ArchiveFormats FileFormat { get; init; } = ArchiveFormats.Zip;
-		public ArchiveCompressionLevels CompressionLevel { get; init; } = ArchiveCompressionLevels.Normal;
-		public ArchiveSplittingSizes SplittingSize { get; init; } = ArchiveSplittingSizes.None;
-
-		private IProgress<FileSystemProgress> progress = new Progress<FileSystemProgress>();
-		public IProgress<FileSystemProgress> Progress
-		{
-			get => progress;
-			set
-			{
-				progress = value;
-				fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
-				fsProgress.Report(0);
-			}
-		}
-
-		private FileSystemProgress fsProgress;
-
-		public ArchiveCreator()
-		{
-			fsProgress = new(Progress, true, Shared.Enums.FileSystemStatusCode.InProgress);
-			fsProgress.Report(0);
-		}
+		private FileSystemProgress _fileSystemProgress;
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -66,6 +33,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.GZip => ".gz",
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
+
 		private OutArchiveFormat SevenZipArchiveFormat => FileFormat switch
 		{
 			ArchiveFormats.Zip => OutArchiveFormat.Zip,
@@ -74,6 +42,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveFormats.GZip => OutArchiveFormat.GZip,
 			_ => throw new ArgumentOutOfRangeException(nameof(FileFormat)),
 		};
+
 		private CompressionLevel SevenZipCompressionLevel => CompressionLevel switch
 		{
 			ArchiveCompressionLevels.Ultra => SevenZip.CompressionLevel.Ultra,
@@ -84,6 +53,7 @@ namespace Files.App.Filesystem.Archive
 			ArchiveCompressionLevels.None => SevenZip.CompressionLevel.None,
 			_ => throw new ArgumentOutOfRangeException(nameof(CompressionLevel)),
 		};
+
 		private long SevenZipVolumeSize => SplittingSize switch
 		{
 			ArchiveSplittingSizes.None => 0L,
@@ -100,11 +70,63 @@ namespace Files.App.Filesystem.Archive
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
+		private IProgress<FileSystemProgress> _Progress;
+		public IProgress<FileSystemProgress> Progress
+		{
+			get => _Progress;
+			set
+			{
+				_Progress = value;
+				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+				_fileSystemProgress.Report(0);
+			}
+		}
+
+		/// <inheritdoc/>
+		public string ArchivePath { get; set; }
+
+		/// <inheritdoc/>
+		public string Directory { get; init; }
+
+		/// <inheritdoc/>
+		public string FileName { get; init; }
+
+		/// <inheritdoc/>
+		public string Password { get; init; }
+
+		/// <inheritdoc/>
+		public IEnumerable<string> Sources { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveFormats FileFormat { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveCompressionLevels CompressionLevel { get; init; }
+
+		/// <inheritdoc/>
+		public ArchiveSplittingSizes SplittingSize { get; init; }
+
+		public ArchiveCreator()
+		{
+			// Initialize
+			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+			_Progress = new Progress<FileSystemProgress>();
+			ArchivePath = string.Empty;
+			Sources = Enumerable.Empty<string>();
+			FileFormat = ArchiveFormats.Zip;
+			CompressionLevel = ArchiveCompressionLevels.Normal;
+			SplittingSize = ArchiveSplittingSizes.None;
+
+			_fileSystemProgress.Report(0);
+		}
+
+		/// <inheritdoc/>
 		public string GetArchivePath(string suffix = "")
 		{
 			return Path.Combine(Directory, $"{FileName}{suffix}{ArchiveExtension}");
 		}
 
+		/// <inheritdoc/>
 		public async Task<bool> RunCreationAsync()
 		{
 			string[] sources = Sources.ToArray();
@@ -125,23 +147,24 @@ namespace Files.App.Filesystem.Archive
 
 			try
 			{
-				var files = sources.Where(source => File.Exists(source)).ToArray();
-				var directories = sources.Where(source => System.IO.Directory.Exists(source));
+				var files = sources.Where(File.Exists).ToArray();
+				var directories = sources.Where(SystemIO.Directory.Exists);
 
-				itemsAmount = files.Length + directories.Count();
+				_itemsAmount = files.Length + directories.Count();
 
 				foreach (string directory in directories)
 				{
-					await compressor.CompressDirectoryAsync(directory, archivePath, Password);
+					await compressor.CompressDirectoryAsync(directory, ArchivePath, Password);
+
 					compressor.CompressionMode = CompressionMode.Append;
 				}
 
 				if (files.Any())
 				{
 					if (string.IsNullOrEmpty(Password))
-						await compressor.CompressFilesAsync(archivePath, files);
+						await compressor.CompressFilesAsync(ArchivePath, files);
 					else
-						await compressor.CompressFilesEncryptedAsync(archivePath, Password, files);
+						await compressor.CompressFilesEncryptedAsync(ArchivePath, Password, files);
 				}
 
 				return true;
@@ -149,7 +172,7 @@ namespace Files.App.Filesystem.Archive
 			catch (Exception ex)
 			{
 				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-				logger?.LogWarning(ex, $"Error compressing folder: {archivePath}");
+				logger?.LogWarning(ex, $"Error compressing folder: {ArchivePath}");
 
 				return false;
 			}
@@ -157,22 +180,22 @@ namespace Files.App.Filesystem.Archive
 
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
-			if (++processedItems == itemsAmount)
+			if (++_processedItems == _itemsAmount)
 			{
-				fsProgress.Percentage = null;
-				fsProgress.ReportStatus(Shared.Enums.FileSystemStatusCode.Success);
+				_fileSystemProgress.Percentage = null;
+				_fileSystemProgress.ReportStatus(FileSystemStatusCode.Success);
 			}
 			else
 			{
-				fsProgress.Percentage = processedItems * 100 / itemsAmount;
-				fsProgress.Report(fsProgress.Percentage);
+				_fileSystemProgress.Percentage = _processedItems * 100 / _itemsAmount;
+				_fileSystemProgress.Report(_fileSystemProgress.Percentage);
 			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			fsProgress.Percentage += e.PercentDelta / itemsAmount;
-			fsProgress.Report(fsProgress.Percentage);
+			_fileSystemProgress.Percentage += e.PercentDelta / _itemsAmount;
+			_fileSystemProgress.Report(_fileSystemProgress.Percentage);
 		}
 	}
 }

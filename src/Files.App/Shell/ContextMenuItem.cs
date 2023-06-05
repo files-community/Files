@@ -3,6 +3,9 @@
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Represents an item for Win32 context menu.
+	/// </summary>
 	public class ContextMenuItem : Win32ContextMenuItem, IDisposable
 	{
 		public void Dispose()

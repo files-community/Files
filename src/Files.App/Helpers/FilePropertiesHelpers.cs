@@ -61,6 +61,9 @@ namespace Files.App.Helpers
 			{
 				// Instance's current folder
 				var folder = associatedInstance.FilesystemViewModel.CurrentFolder;
+				if (folder is null)
+					return;
+
 				item = folder;
 
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();

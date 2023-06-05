@@ -38,13 +38,13 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public bool ContinueLastSessionOnStartUp
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
 		public bool OpenNewTabOnStartup
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 

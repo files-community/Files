@@ -1,22 +1,23 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-
 using Microsoft.Win32;
 using System.IO;
-using System.Runtime.Versioning;
 using System.Security;
 using System.Text;
 using Windows.Storage;
 
 namespace Files.App.Shell
 {
-	[SupportedOSPlatform("Windows10.0.10240")]
+	/// <summary>
+	/// Provides static helper to get extension-specific shell context menu from Windows Registry.
+	/// </summary>
 	public static class ShellNewMenuHelper
 	{
 		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
 		{
 			var newMenuItems = new List<ShellNewEntry>();
+
 			var shortcutExtensions = new string[] { ShellLibraryItem.EXTENSION, ".url", ".lnk" };
 
 			foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames().Where(x => x.StartsWith('.') && !shortcutExtensions.Contains(x, StringComparer.OrdinalIgnoreCase)))
@@ -79,7 +80,9 @@ namespace Files.App.Shell
 				!valueNames.Contains("Command", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("ItemName", StringComparer.OrdinalIgnoreCase) &&
 				!valueNames.Contains("Data", StringComparer.OrdinalIgnoreCase))
+			{
 				return Task.FromResult<ShellNewEntry>(null);
+			}
 
 			var extension = root.Name.Substring(root.Name.LastIndexOf('\\') + 1);
 			var fileName = (string)key.GetValue("FileName");
@@ -90,16 +93,12 @@ namespace Files.App.Shell
 
 			if (dataObj is not null)
 			{
-				switch (key.GetValueKind("Data"))
+				data = key.GetValueKind("Data") switch
 				{
-					case RegistryValueKind.Binary:
-						data = (byte[])dataObj;
-						break;
-
-					case RegistryValueKind.String:
-						data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
-						break;
-				}
+					RegistryValueKind.Binary => (byte[])dataObj,
+					RegistryValueKind.String => Encoding.UTF8.GetBytes((string)dataObj),
+					_ => (byte[])dataObj,
+				};
 			}
 
 			return CreateShellNewEntry(extension, fileName, command, data);

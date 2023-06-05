@@ -10,23 +10,33 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Shell
 {
+	/// <summary>
+	/// Provides static helper for launching external executable files.
+	/// </summary>
 	public static class LaunchHelper
 	{
 		public static void LaunchSettings(string page)
 		{
 			var appActiveManager = new Shell32.IApplicationActivationManager();
-			appActiveManager.ActivateApplication("windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
-				page, Shell32.ACTIVATEOPTIONS.AO_NONE, out _);
+
+			appActiveManager.ActivateApplication(
+				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
+				page,
+				Shell32.ACTIVATEOPTIONS.AO_NONE,
+				out _);
 		}
 
 		public static Task<bool> LaunchAppAsync(string application, string arguments, string workingDirectory)
-			=> HandleApplicationLaunch(application, arguments, workingDirectory);
+		{
+			return HandleApplicationLaunch(application, arguments, workingDirectory);
+		}
 
 		public static Task<bool> RunCompatibilityTroubleshooterAsync(string filePath)
 		{
-			var afPath = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
-			File.WriteAllText(afPath, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
-			return HandleApplicationLaunch("msdt.exe", $"/id PCWDiagnostic /af \"{afPath}\"", "");
+			var compatibilityTroubleshooterAnswerFile = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile.xml");
+			File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+
+			return HandleApplicationLaunch("MSDT.exe", $"/id PCWDiagnostic /af \"{compatibilityTroubleshooterAnswerFile}\"", "");
 		}
 
 		private static async Task<bool> HandleApplicationLaunch(string application, string arguments, string workingDirectory)
@@ -35,7 +45,7 @@ namespace Files.App.Shell
 
 			if (FileExtensionHelpers.IsVhdFile(application))
 			{
-				// Use powershell to mount vhds as this requires admin rights
+				// Use PowerShell to mount Vhd Disk as this requires admin rights
 				return Win32API.MountVhdDisk(application);
 			}
 
@@ -48,25 +58,25 @@ namespace Files.App.Shell
 				// Show window if workingDirectory (opening terminal)
 				process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
 
-				if (arguments == "runas")
+				if (arguments == "RunAs")
 				{
 					process.StartInfo.UseShellExecute = true;
-					process.StartInfo.Verb = "runas";
+					process.StartInfo.Verb = "RunAs";
 
 					if (FileExtensionHelpers.IsMsiFile(application))
 					{
-						process.StartInfo.FileName = "msiexec.exe";
+						process.StartInfo.FileName = "MSIEXEC.exe";
 						process.StartInfo.Arguments = $"/a \"{application}\"";
 					}
 				}
-				else if (arguments == "runasuser")
+				else if (arguments == "RunAsUser")
 				{
 					process.StartInfo.UseShellExecute = true;
-					process.StartInfo.Verb = "runasuser";
+					process.StartInfo.Verb = "RunAsUser";
 
 					if (FileExtensionHelpers.IsMsiFile(application))
 					{
-						process.StartInfo.FileName = "msiexec.exe";
+						process.StartInfo.FileName = "MSIEXEC.exe";
 						process.StartInfo.Arguments = $"/i \"{application}\"";
 					}
 				}

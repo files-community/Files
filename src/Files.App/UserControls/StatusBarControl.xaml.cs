@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -41,6 +40,17 @@ namespace Files.App.UserControls
 		public StatusBarControl()
 		{
 			InitializeComponent();
+		}
+
+		private void BranchesFlyout_Opening(object sender, object e)
+		{
+			DirectoryPropertiesViewModel.ShowLocals = true;
+			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+		}
+
+		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			BranchesFlyout.Hide();
 		}
 	}
 }

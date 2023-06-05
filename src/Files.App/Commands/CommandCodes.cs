@@ -34,6 +34,7 @@ namespace Files.App.Commands
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
+		CreateFolderWithSelection,
 		AddItem,
 		CreateShortcut,
 		CreateShortcutFromDialog,
@@ -95,6 +96,7 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenProperties,
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,

@@ -1,19 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared.Enums;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.System;
 
 namespace Files.App.Helpers
@@ -220,6 +212,52 @@ namespace Files.App.Helpers
 					vm.HideDialog();
 				}
 
+			});
+
+			return dialog;
+		}
+
+		public static DynamicDialog GetFor_GitCheckoutConflicts(string checkoutBranchName, string headBranchName)
+		{
+			DynamicDialog dialog = null!;
+
+			var optionsListView = new ListView()
+			{
+				ItemsSource = new string[]
+				{
+					string.Format("BringChanges".GetLocalizedResource(), checkoutBranchName),
+					string.Format("StashChanges".GetLocalizedResource(), headBranchName),
+					"DiscardChanges".GetLocalizedResource()
+				},
+				SelectionMode = ListViewSelectionMode.Single
+			};
+			optionsListView.SelectedIndex = 0;
+
+			optionsListView.SelectionChanged += (listView, args) =>
+			{
+				dialog.ViewModel.AdditionalData = (GitCheckoutOptions)optionsListView.SelectedIndex;
+			};
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "SwitchBranch".GetLocalizedResource(),
+				PrimaryButtonText = "Switch".GetLocalizedResource(),
+				CloseButtonText = "Cancel".GetLocalizedResource(),
+				SubtitleText = "UncommittedChanges".GetLocalizedResource(),
+				DisplayControl = new Grid()
+				{
+					MinWidth = 250d,
+					Children =
+					{
+						optionsListView
+					}
+				},
+				AdditionalData = GitCheckoutOptions.BringChanges,
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
+					vm.HideDialog();
+				}
 			});
 
 			return dialog;

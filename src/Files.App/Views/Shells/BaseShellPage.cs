@@ -29,6 +29,8 @@ namespace Files.App.Views.Shells
 				typeof(ModernShellPage),
 				new PropertyMetadata(null));
 
+		private bool _isCheckingOutBranch = false;
+
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
@@ -75,10 +77,15 @@ namespace Files.App.Views.Shells
 			{
 				if (value != _ContentPage)
 				{
+					if (_ContentPage is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
+					if (value is not null)
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
@@ -123,9 +130,7 @@ namespace Files.App.Views.Shells
 				{
 					_IsCurrentInstance = value;
 
-					if (value)
-						ContentPage?.ItemManipulationModel.FocusFileList();
-					else if (SlimContentPage is not ColumnViewBrowser)
+					if (!value && SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
@@ -219,9 +224,13 @@ namespace Files.App.Views.Shells
 
 			InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
 
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			if (!_isCheckingOutBranch)
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			ContentPage.UpdateSelectionSize();
@@ -229,10 +238,32 @@ namespace Files.App.Views.Shells
 
 		protected void FilesystemViewModel_GitDirectoryUpdated(object sender, EventArgs e)
 		{
+			if (_isCheckingOutBranch)
+				return;
+
 			InstanceViewModel.UpdateCurrentBranchName();
-			ContentPage.DirectoryPropertiesViewModel.GitBranchDisplayName = InstanceViewModel.IsGitRepository
-					? string.Format("Branch".GetLocalizedResource(), InstanceViewModel.GitBranchName)
-					: null;
+			ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				InstanceViewModel.IsGitRepository,
+				InstanceViewModel.GitRepositoryPath,
+				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+		}
+
+		protected async void GitCheckout_Required(object? sender, string branchName)
+		{
+			_isCheckingOutBranch = true;
+			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
+			{
+				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
+				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+			}
+			else
+			{
+				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+					InstanceViewModel.IsGitRepository,
+					InstanceViewModel.GitRepositoryPath,
+					GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+			}
+			_isCheckingOutBranch = false;
 		}
 
 		protected virtual void Page_Loaded(object sender, RoutedEventArgs e)
@@ -606,7 +637,6 @@ namespace Files.App.Views.Shells
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.PropertiesCommand = new RelayCommand(() => SlimContentPage?.CommandsViewModel.ShowPropertiesCommand.Execute(null));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 		}
 
