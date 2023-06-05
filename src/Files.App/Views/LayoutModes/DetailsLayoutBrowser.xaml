@@ -981,7 +981,7 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										FontWeight="SemiBold"
-										Foreground="#238636"
+										Foreground="{ThemeResource SystemFillColorSuccessBrush}"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"

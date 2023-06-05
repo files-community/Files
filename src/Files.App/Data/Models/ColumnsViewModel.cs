@@ -58,7 +58,7 @@ namespace Files.App.Data.Models
 			GitStatusColumn.IsHidden &&
 			GitLastCommitDateColumn.IsHidden &&
 			GitLastCommitMessageColumn.IsHidden &&
-			GitLastCommitAuthorColumn.IsHidden &&
+			GitCommitAuthorColumn.IsHidden &&
 			GitLastCommitShaColumn.IsHidden;
 
 		private ColumnViewModel tagColumn = new();
