@@ -112,6 +112,10 @@
 							</Setter.Value>
 						</Setter>
 					</Style>
+					<Style x:Key="Local.FileDetailsRepeaterStyle" TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="Normal" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+					</Style>
 
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
@@ -181,7 +185,7 @@
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
 				Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
-				TextWrapping="WrapWholeWords" />
+				TextWrapping="WrapWholeWords"  />
 			<ContentPresenter
 				x:Name="PreviewControlPresenter"
 				HorizontalContentAlignment="Stretch"
@@ -207,12 +211,12 @@
 					HorizontalAlignment="Center"
 					FontSize="20"
 					FontWeight="Bold"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					IsTextSelectionEnabled="True"
 					Text="{x:Bind ViewModel.SelectedItem.Name, Mode=OneWay}"
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed" />
-
 				<ItemsControl
 					x:Name="FileDetailsRepeater"
 					Margin="12"
@@ -233,7 +237,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									MaxLines="2"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource Local.FileDetailsRepeaterStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
 								<!--  Value  -->
