@@ -2626,7 +2626,7 @@
     <value>Afficher/Masquer le volet de prévisualisation</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Afficher/Masquer le panneau latéral</value>
+    <value>Afficher/Masquer la barre latérale</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
@@ -2737,7 +2737,7 @@
     <value>Exécuter le script PowerShell sélectionné</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Lancer l'aperçu dans la fenêtre pop-up</value>
+    <value>Lancer la prévisualisation dans une fenêtre contextuelle</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Créer une archive avec le(s) élément(s) sélectionné(s)</value>
