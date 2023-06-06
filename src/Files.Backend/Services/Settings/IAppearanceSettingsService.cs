@@ -54,7 +54,7 @@ namespace Files.Backend.Services.Settings
 		String AppThemeFontFamily { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value for the app theme system backdrop.
+		/// Gets or sets a value for the theme system backdrop.
 		/// </summary>
 		SystemBackdropType AppThemeSystemBackdrop { get; set; }
 	}
