@@ -3351,7 +3351,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="SettingsAppearanceSystemBackdrop" xml:space="preserve">
-    <value>System Backdrop</value>
+    <value>Backdrop Material</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
