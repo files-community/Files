@@ -79,7 +79,7 @@ namespace Files.Backend.Services.Settings
 		FolderLayoutModes DefaultLayoutMode { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git status column's default width
+		/// Gets or sets a value indicating the width of the git status column
 		/// </summary>
 		double GitStatusColumnWidth { get; set; }
 
