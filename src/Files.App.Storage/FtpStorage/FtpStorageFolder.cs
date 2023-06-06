@@ -145,14 +145,8 @@ namespace Files.App.Storage.FtpStorage
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
 			var newPath = $"{Path}/{desiredName}";
-			if (await ftpClient.FileExists(newPath, cancellationToken))
-			{
-				if (collisionOption == CreationCollisionOption.FailIfExists)
-					throw new IOException("File already exists.");
-
-				if (collisionOption == CreationCollisionOption.OpenIfExists)
-					return new FtpStorageFile(newPath, desiredName);
-			}
+			if (overwrite && await ftpClient.FileExists(newPath, cancellationToken))
+				throw new IOException("File already exists.");
 
 			using var stream = new MemoryStream();
 			var result = await ftpClient.UploadStream(stream, newPath, overwrite ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip, token: cancellationToken);
@@ -181,14 +175,8 @@ namespace Files.App.Storage.FtpStorage
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
 			var newPath = $"{Path}/{desiredName}";
-			if (await ftpClient.DirectoryExists(newPath, cancellationToken))
-			{
-				if (collisionOption == CreationCollisionOption.FailIfExists)
-					throw new IOException("Directory already exists.");
-
-				if (collisionOption == CreationCollisionOption.OpenIfExists)
-					return new FtpStorageFolder(newPath, desiredName);
-			}
+			if (overwrite && await ftpClient.DirectoryExists(newPath, cancellationToken))
+				throw new IOException("Directory already exists.");
 
 			var isSuccessful = await ftpClient.CreateDirectory(newPath, overwrite, cancellationToken);
 			if (!isSuccessful)

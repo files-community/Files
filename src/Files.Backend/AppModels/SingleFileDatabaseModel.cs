@@ -1,17 +1,14 @@
 ﻿using Files.Backend.Models;
-using Files.Sdk.Storage.ModifiableStorage;
 using Files.Sdk.Storage;
+using Files.Sdk.Storage.Extensions;
+using Files.Sdk.Storage.ModifiableStorage;
+using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Files.Shared;
 using System.Threading.Tasks;
-using Files.Sdk.Storage.Extensions;
 
 namespace Files.Backend.AppModels
 {
