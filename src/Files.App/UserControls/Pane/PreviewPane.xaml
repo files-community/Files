@@ -185,7 +185,7 @@
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
 				Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
-				TextWrapping="WrapWholeWords"  />
+				TextWrapping="WrapWholeWords" />
 			<ContentPresenter
 				x:Name="PreviewControlPresenter"
 				HorizontalContentAlignment="Stretch"
