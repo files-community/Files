@@ -99,7 +99,7 @@ namespace Files.Backend.Services.Settings
 		double GitCommitAuthorColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit SHA column's default width
+		/// Gets or sets a value indicating the width of the git sha column
 		/// </summary>
 		double GitLastCommitShaColumnWidth { get; set; }
 
