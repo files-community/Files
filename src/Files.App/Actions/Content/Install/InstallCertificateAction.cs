@@ -1,40 +1,43 @@
-﻿
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Shell;
 using Files.Backend.Helpers;
 
-namespace Files.App.Actions;
-
-internal class InstallCertificateAction : ObservableObject, IAction
+namespace Files.App.Actions
 {
-	private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-	public string Label => "Install".GetLocalizedResource();
-
-	public string Description => "InstallCertificateDescription".GetLocalizedResource();
-
-	public RichGlyph Glyph { get; } = new("\uEB95");
-
-	public bool IsExecutable => context.SelectedItems.Any() &&
-		context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
-		context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
-
-	public InstallCertificateAction()
+	internal class InstallCertificateAction : ObservableObject, IAction
 	{
-		context.PropertyChanged += Context_PropertyChanged;
-	}
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-	public async Task ExecuteAsync()
-	{
-		await ContextMenu.InvokeVerb("add", context.SelectedItems.Select(x => x.ItemPath).ToArray());
-	}
+		public string Label => "Install".GetLocalizedResource();
 
-	private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-	{
-		if (e.PropertyName == nameof(IContentPageContext.SelectedItems))
+		public string Description => "InstallCertificateDescription".GetLocalizedResource();
+
+		public RichGlyph Glyph { get; } = new("\uEB95");
+
+		public bool IsExecutable => context.SelectedItems.Any() &&
+			context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&
+			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
+
+		public InstallCertificateAction()
 		{
-			OnPropertyChanged(nameof(IsExecutable));
+			context.PropertyChanged += Context_PropertyChanged;
+		}
+
+		public async Task ExecuteAsync()
+		{
+			await ContextMenu.InvokeVerb("add", context.SelectedItems.Select(x => x.ItemPath).ToArray());
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IContentPageContext.SelectedItems))
+			{
+				OnPropertyChanged(nameof(IsExecutable));
+			}
 		}
 	}
 }
