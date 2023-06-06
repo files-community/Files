@@ -94,7 +94,7 @@ namespace Files.Backend.Services.Settings
 		double GitCommitMessageColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit author column's default width
+		/// Gets or sets a value indicating the width of the git author column
 		/// </summary>
 		double GitCommitAuthorColumnWidth { get; set; }
 
