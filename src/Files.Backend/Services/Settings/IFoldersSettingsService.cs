@@ -79,27 +79,27 @@ namespace Files.Backend.Services.Settings
 		FolderLayoutModes DefaultLayoutMode { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git status column's default width
+		/// Gets or sets a value indicating the width of the git status column
 		/// </summary>
 		double GitStatusColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit date column's default width
+		/// Gets or sets a value indicating the width of the commit date column
 		/// </summary>
 		double GitLastCommitDateColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit message column's default width
+		/// Gets or sets a value indicating the width of the commit message column
 		/// </summary>
-		double GitLastCommitMessageColumnWidth { get; set; }
+		double GitCommitMessageColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit author column's default width
+		/// Gets or sets a value indicating the width of the git author column
 		/// </summary>
 		double GitCommitAuthorColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit SHA column's default width
+		/// Gets or sets a value indicating the width of the git sha column
 		/// </summary>
 		double GitLastCommitShaColumnWidth { get; set; }
 
