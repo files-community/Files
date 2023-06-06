@@ -20,6 +20,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly IPreviewPaneSettingsService previewSettingsService;
 
+		private readonly IContentPageContext contentPageContextService;
+
 		private CancellationTokenSource loadCancellationTokenSource;
 
 		private bool isEnabled;
@@ -69,7 +71,7 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
+		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
 			userSettingsService = userSettings;
 			previewSettingsService = previewSettings;
@@ -80,6 +82,8 @@ namespace Files.App.ViewModels.UserControls
 
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+
+			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
@@ -281,8 +285,7 @@ namespace Files.App.ViewModels.UserControls
 			else
 			{
 				SelectedItem?.FileDetails?.Clear();
-
-				var currentFolder = Ioc.Default.GetRequiredService<IPageContext>().PaneOrColumn?.FilesystemViewModel.CurrentFolder;
+				var currentFolder = contentPageContextService.Folder;
 
 				if (currentFolder is null)
 				{
