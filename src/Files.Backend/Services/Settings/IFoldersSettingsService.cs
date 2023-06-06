@@ -84,7 +84,7 @@ namespace Files.Backend.Services.Settings
 		double GitStatusColumnWidth { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating git last commit date column's default width
+		/// Gets or sets a value indicating the width of the commit date column
 		/// </summary>
 		double GitLastCommitDateColumnWidth { get; set; }
 
