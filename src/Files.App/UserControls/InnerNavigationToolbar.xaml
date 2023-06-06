@@ -397,7 +397,9 @@
 					Label="{x:Bind Commands.InstallFont.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
-					<!--  TODO: Add Icon  -->
+					<AppBarButton.Icon>
+						<FontIcon Glyph="{x:Bind Commands.InstallFont.Glyph.BaseGlyph, Mode=OneTime}" />
+					</AppBarButton.Icon>
 				</AppBarButton>
 
 				<!--  Install Certificate  -->
