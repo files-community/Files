@@ -470,7 +470,7 @@ namespace Files.App.Views.LayoutModes
 					navigationArguments.SelectItems is not null &&
 					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> listedtemsToSelect = new();
+					List<ListedItem> listedItemsToSelect = new();
 					foreach (string item in navigationArguments.SelectItems)
 						listedtemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
 
