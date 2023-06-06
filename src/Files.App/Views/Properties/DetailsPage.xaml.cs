@@ -24,6 +24,8 @@ namespace Files.App.Views.Properties
 				await fileProps.GetSystemFilePropertiesAsync();
 				stopwatch.Stop();
 				Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
+
+				ViewModel.IsPropertiesLoaded = true;
 			}
 		}
 

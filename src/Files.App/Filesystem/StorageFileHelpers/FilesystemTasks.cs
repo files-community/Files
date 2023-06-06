@@ -14,14 +14,14 @@ namespace Files.App.Filesystem
 		{
 			(UnauthorizedAccessException, _) => FileSystemStatusCode.Unauthorized,
 			(FileNotFoundException, _) => FileSystemStatusCode.NotFound, // Item was deleted
-			(COMException, _) => FileSystemStatusCode.NotFound, // Item's drive was ejected
-			(_, 0x8007000F) => FileSystemStatusCode.NotFound, // The system cannot find the drive specified
 			(PathTooLongException, _) => FileSystemStatusCode.NameTooLong,
 			(FileAlreadyExistsException, _) => FileSystemStatusCode.AlreadyExists,
-			(IOException, _) => FileSystemStatusCode.InUse,
-			(ArgumentException, _) => ToStatusCode(T), // Item was invalid
+			(_, 0x8007000F) => FileSystemStatusCode.NotFound, // The system cannot find the drive specified
 			(_, 0x800700B7) => FileSystemStatusCode.AlreadyExists,
 			(_, 0x80071779) => FileSystemStatusCode.ReadOnly,
+			(COMException, _) => FileSystemStatusCode.NotFound, // Item's drive was ejected
+			(IOException, _) => FileSystemStatusCode.InUse,
+			(ArgumentException, _) => ToStatusCode(T), // Item was invalid
 			_ => FileSystemStatusCode.Generic,
 		};
 
