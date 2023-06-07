@@ -2593,7 +2593,7 @@
     <value>Video</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Avvia popup anteprima</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Attiva/Disattiva modalità primo piano</value>
@@ -2725,7 +2725,7 @@
     <value>Installa driver usando i file inf selezionati</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+      <value>Installa i certificati selezionati</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Esegui come amministratore l'applicazione selezionata</value>
@@ -2737,7 +2737,7 @@
     <value>Esegui lo script di PowerShell selezionato</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Avvia l'anteprima in una finestra popup</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Crea un archivio con gli elementi selezionati</value>
@@ -3221,10 +3221,10 @@
     <value>Mese</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Alterna il campo di raggruppamento per data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Alterna il campo di raggruppamento</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Anno</value>
@@ -3257,7 +3257,7 @@
     <value>È necessario disporre dei permessi di lettura per visualizzare le proprietà di questo elemento.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Per provare ad acquisire la proprietà dell'elemento, che include il permesso di visualizzare le sue proprietà, clicca su Cambia sopra.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Impossibile mostrare le autorizzazioni.</value>
@@ -3317,7 +3317,7 @@
     <value>Remoti</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Traduci su Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3332,7 +3332,7 @@
     <value>Esegui git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Anteprima</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Errore di Git</value>
