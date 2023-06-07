@@ -153,7 +153,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if(SetProperty(ref selectedBackdropMaterial, value))
 				{
-					UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial = BackdropMaterialTypes.First(e => e.Value == value).Key;
+					UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial = BackdropMaterialTypes.FirstOrDefault(e => e.Value == value).Key;
 				}
 			}
 		}
