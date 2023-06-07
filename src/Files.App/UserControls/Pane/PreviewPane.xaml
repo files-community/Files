@@ -209,9 +209,9 @@
 				<TextBlock
 					x:Name="DetailsListHeader"
 					HorizontalAlignment="Center"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					FontSize="20"
 					FontWeight="Bold"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					IsTextSelectionEnabled="True"
 					Text="{x:Bind ViewModel.SelectedItem.Name, Mode=OneWay}"
 					TextAlignment="Center"
