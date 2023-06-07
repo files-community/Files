@@ -262,7 +262,7 @@
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind ColumnsViewModel.IsAllGitColumnsHidden, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
+										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem

@@ -54,13 +54,6 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _GitLastCommitShaColumn, value);
 		}
 
-		public bool IsAllGitColumnsHidden =>
-			GitStatusColumn.IsHidden &&
-			GitLastCommitDateColumn.IsHidden &&
-			GitLastCommitMessageColumn.IsHidden &&
-			GitCommitAuthorColumn.IsHidden &&
-			GitLastCommitShaColumn.IsHidden;
-
 		private ColumnViewModel tagColumn = new();
 		public ColumnViewModel TagColumn
 		{
@@ -135,11 +128,6 @@ namespace Files.App.Data.Models
 		{
 			get => sizeColumn;
 			set => SetProperty(ref sizeColumn, value);
-		}
-
-		public void UpdateVisibility()
-		{
-			OnPropertyChanged(nameof(IsAllGitColumnsHidden));
 		}
 
 		[LiteDB.BsonIgnore]
