@@ -31,14 +31,14 @@ namespace Files.App.ViewModels.Settings
 			};
 
 			// TODO: Re-add Solid and regular Mica when theming is revamped
-			//SystemBackdropTypes.Add(SystemBackdropType.Solid, "Solid".GetLocalizedResource());
+			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
 
 			if (DesktopAcrylicController.IsSupported())
 				BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
 
 			if (MicaController.IsSupported())
 			{
-				//SystemBackdropTypes.Add(SystemBackdropType.Mica, "Mica".GetLocalizedResource());
+				//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
 				BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
 			}
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
