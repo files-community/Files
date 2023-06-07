@@ -3353,7 +3353,7 @@
   <data name="MicaAlt" xml:space="preserve">
     <value>Mica Alt</value>
   </data>
-  <data name="SettingsAppearanceSystemBackdrop" xml:space="preserve">
+  <data name="BackdropMaterial" xml:space="preserve">
     <value>Backdrop Material</value>
   </data>
   <data name="Solid" xml:space="preserve">

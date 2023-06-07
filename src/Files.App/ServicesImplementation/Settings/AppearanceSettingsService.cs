@@ -72,9 +72,9 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		/// <inheritdoc/>
-		public SystemBackdropType AppThemeSystemBackdrop
+		public BackdropMaterialType AppThemeBackdropMaterial
 		{
-			get => Get(SystemBackdropType.MicaAlt);
+			get => Get(BackdropMaterialType.MicaAlt);
 			set => Set(value);
 		}
 
@@ -87,7 +87,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
-				case nameof(AppThemeSystemBackdrop):
+				case nameof(AppThemeBackdropMaterial):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

@@ -35,7 +35,7 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeSystemBackdrop);
+			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial);
 			controller?.SetSystemBackdropConfiguration(GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot));
 			controller?.AddSystemBackdropTarget(connectedTarget);
 		}
@@ -57,10 +57,10 @@ namespace Files.App.Helpers
 
 			switch (e.SettingName)
 			{
-				case nameof(IAppearanceSettingsService.AppThemeSystemBackdrop):
+				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
-					var newController = GetSystemBackdropController((SystemBackdropType)e.NewValue!);
+					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!);
 					newController?.SetSystemBackdropConfiguration(GetDefaultSystemBackdropConfiguration(target, root));
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;
@@ -68,26 +68,26 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(SystemBackdropType backdropType)
+		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(BackdropMaterialType backdropType)
 		{
-			if (isSecondaryWindow && backdropType == SystemBackdropType.MicaAlt)
-				backdropType = SystemBackdropType.Mica;
+			if (isSecondaryWindow && backdropType == BackdropMaterialType.MicaAlt)
+				backdropType = BackdropMaterialType.Mica;
 
 			switch (backdropType)
 			{
-				case SystemBackdropType.MicaAlt:
+				case BackdropMaterialType.MicaAlt:
 					return new MicaController()
 					{
 						Kind = MicaKind.BaseAlt
 					};
 
-				case SystemBackdropType.Mica:
+				case BackdropMaterialType.Mica:
 					return new MicaController()
 					{
 						Kind = MicaKind.Base
 					};
 
-				case SystemBackdropType.Acrylic:
+				case BackdropMaterialType.Acrylic:
 					return new DesktopAcrylicController();
 
 				default:

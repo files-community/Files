@@ -1,6 +1,6 @@
 ﻿namespace Files.Backend.Enums
 {
-	public enum SystemBackdropType
+	public enum BackdropMaterialType
 	{
 		Solid,
 		Mica,

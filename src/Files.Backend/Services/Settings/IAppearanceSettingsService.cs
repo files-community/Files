@@ -56,6 +56,6 @@ namespace Files.Backend.Services.Settings
 		/// <summary>
 		/// Gets or sets a value for the theme system backdrop.
 		/// </summary>
-		SystemBackdropType AppThemeSystemBackdrop { get; set; }
+		BackdropMaterialType AppThemeBackdropMaterial { get; set; }
 	}
 }

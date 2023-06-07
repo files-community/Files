@@ -115,16 +115,16 @@
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
-			<!--  System Backdrop  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceSystemBackdrop}" HorizontalAlignment="Stretch">
+			<!--  Backdrop Material  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BackdropMaterial}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xEF1F;" />
 				</local:SettingsBlockControl.Icon>
 				<ComboBox
 					x:Name="SystemBackdropChooser"
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceSystemBackdrop}"
-					ItemsSource="{x:Bind ViewModel.SystemBackdropTypes.Values}"
-					SelectedItem="{x:Bind ViewModel.SelectedSystemBackdrop, Mode=TwoWay}" />
+					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
+					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
+					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
 			</local:SettingsBlockControl>
 
 			<!--  App Background  -->
