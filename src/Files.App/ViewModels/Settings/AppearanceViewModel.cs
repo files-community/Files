@@ -33,14 +33,11 @@ namespace Files.App.ViewModels.Settings
 			// TODO: Re-add Solid and regular Mica when theming is revamped
 			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
 
-			if (DesktopAcrylicController.IsSupported())
-				BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
 
-			if (MicaController.IsSupported())
-			{
-				//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
-				BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
-			}
+			//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
+
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
