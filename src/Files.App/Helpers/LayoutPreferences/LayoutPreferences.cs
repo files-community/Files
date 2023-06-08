@@ -56,6 +56,11 @@ namespace Files.App.Helpers.LayoutPreferences
 			ColumnsViewModel.DateCreatedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateCreatedColumnWidth;
 			ColumnsViewModel.ItemTypeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TypeColumnWidth;
 			ColumnsViewModel.SizeColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitStatusColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.SizeColumnWidth;
+			ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels= UserSettingsService.FoldersSettingsService.SizeColumnWidth;
 			ColumnsViewModel.TagColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.TagColumnWidth;
 			ColumnsViewModel.DateDeletedColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.DateDeletedColumnWidth;
 			ColumnsViewModel.OriginalPathColumn.UserLengthPixels = UserSettingsService.FoldersSettingsService.OriginalPathColumnWidth;

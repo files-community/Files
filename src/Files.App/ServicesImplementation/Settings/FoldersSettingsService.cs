@@ -29,7 +29,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double GitStatusColumnWidth
 		{
-			get => Get(80d);
+			get => Get(50d);
 			set
 			{
 				if (ShowGitStatusColumn)
@@ -69,7 +69,7 @@ namespace Files.App.ServicesImplementation.Settings
 
 		public double GitLastCommitShaColumnWidth
 		{
-			get => Get(140d);
+			get => Get(80d);
 			set
 			{
 				if (ShowGitLastCommitShaColumn)

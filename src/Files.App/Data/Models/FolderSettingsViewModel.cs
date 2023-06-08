@@ -375,6 +375,11 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.GitStatusColumnWidth = prefs.ColumnsViewModel.GitStatusColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = prefs.ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = prefs.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = prefs.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = prefs.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = prefs.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = prefs.ColumnsViewModel.StatusColumn.UserLengthPixels;
