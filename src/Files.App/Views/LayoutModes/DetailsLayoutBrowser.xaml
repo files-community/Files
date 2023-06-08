@@ -260,13 +260,13 @@
 
 									<!--  Git Columns  -->
 									<MenuFlyoutSubItem
-										x:Name="GitColumnsMenuFlyoutSubItem"
+										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
 										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitUnmergedFileKindColumnVisibilityToggleMenuFlyoutItem"
+											x:Name="GitStatusColumnVisibilityToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitStatus}"
@@ -274,7 +274,7 @@
 
 										<!--  Git Last Commit Date  -->
 										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitLastDateCommitColumnVisibilityToggleMenuFlyoutItem"
+											x:Name="GitCommitDateColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitLastCommitDate}"
@@ -282,7 +282,7 @@
 
 										<!--  Git Last Commit Message  -->
 										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitLastCommitMessageColumnVisibilityToggleMenuFlyoutItem"
+											x:Name="GitCommititMessageColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitLastCommitMessage}"
@@ -290,7 +290,7 @@
 
 										<!--  Git Last Commit Author  -->
 										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitCommitAuthorColumnVisibilityToggleMenuFlyoutItem"
+											x:Name="GitCommitAuthorColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitCommitAuthor}"
@@ -298,7 +298,7 @@
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
-											x:Name="ShowItemGitLastCommitShaColumnVisibilityToggleMenuFlyoutItem"
+											x:Name="GitCommitShaColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitLastCommitSha}"
@@ -308,7 +308,7 @@
 
 									<!--  File Tag  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemFileTagColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="FileTagColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=Tag}"
@@ -316,7 +316,7 @@
 
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemOriginalPathColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
@@ -324,7 +324,7 @@
 
 									<!--  Item Date Deleted  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemDateDeletedColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="DateDeletedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
@@ -332,7 +332,7 @@
 
 									<!--  Item Date Modified  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemDateModifiedColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="DateModifiedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
@@ -340,7 +340,7 @@
 
 									<!--  Item Date Created  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemDateCreatedColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="DateCreatedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
@@ -348,7 +348,7 @@
 
 									<!--  Item Type  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemTypeColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="TypeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
@@ -356,7 +356,7 @@
 
 									<!--  Item Size  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowItemSizeColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="SizeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
@@ -364,7 +364,7 @@
 
 									<!--  Cloud Sync Status  -->
 									<ToggleMenuFlyoutItem
-										x:Name="ShowCloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
+										x:Name="CloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
