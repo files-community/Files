@@ -112,6 +112,7 @@
 							</Setter.Value>
 						</Setter>
 					</Style>
+
 					<Style x:Key="Local.FileDetailsTextBlockStyle" TargetType="TextBlock">
 						<Setter Property="FontWeight" Value="Normal" />
 						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
