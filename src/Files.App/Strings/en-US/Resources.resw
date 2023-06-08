@@ -3359,4 +3359,7 @@
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
   </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
+  </data>
 </root>
