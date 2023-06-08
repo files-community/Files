@@ -266,6 +266,30 @@ namespace Files.App.Helpers
 			IsExecutingGitAction = false;
 		}
 
+		public static void PushToOrigin(string? repositoryPath, string? branchName)
+		{
+			if (string.IsNullOrWhiteSpace(repositoryPath) || string.IsNullOrWhiteSpace(branchName))
+				return;
+
+			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+			if (signature is null)
+				return;
+
+			IsExecutingGitAction = true;
+
+			try
+			{
+				repository.Network.Push(repository.Branches[branchName]);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+			}
+
+			IsExecutingGitAction = false;
+		}
+
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);

@@ -92,8 +92,8 @@ namespace Files.App.Data.Models
 			ShowLocals = true;
 
 			PullInfo = branches.Any() 
-				? branches[0].BehindBy.ToString() ?? "0"
-				: "0";
+				? $"{branches[0].AheadBy ?? 0} / {branches[0].BehindBy ?? 0}"
+				: "0 / 0";
 
 			if (isGitRepository)
 			{
