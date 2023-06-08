@@ -472,7 +472,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					List<ListedItem> listedItemsToSelect = new();
 					foreach (string item in navigationArguments.SelectItems)
-						listedtemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
+						listedItemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
