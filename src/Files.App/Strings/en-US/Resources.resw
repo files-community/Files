@@ -2725,7 +2725,7 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
@@ -3347,16 +3347,16 @@
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
-  <data name="GitCommitAuthor" xml:space="preserve">
+  <data name="Author" xml:space="preserve">
     <value>Author</value>
   </data>
-  <data name="GitLastCommitDate" xml:space="preserve">
-    <value>Last commit</value>
+  <data name="GitDateCommitted" xml:space="preserve">
+    <value>Date committed</value>
   </data>
-  <data name="GitLastCommitMessage" xml:space="preserve">
+  <data name="GitCommitMessage" xml:space="preserve">
     <value>Commit message</value>
   </data>
-  <data name="GitLastCommitSha" xml:space="preserve">
+  <data name="GitCommitSha" xml:space="preserve">
     <value>Commit SHA</value>
   </data>
   <data name="Git" xml:space="preserve">

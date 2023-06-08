@@ -573,7 +573,7 @@
 								Grid.Column="6"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitDate"
-								Header="{helpers:ResourceString Name=GitLastCommitDate}"
+								Header="{helpers:ResourceString Name=GitDateCommitted}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
@@ -595,7 +595,7 @@
 								Grid.Column="8"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitMessage"
-								Header="{helpers:ResourceString Name=GitLastCommitMessage}"
+								Header="{helpers:ResourceString Name=GitCommitMessage}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
@@ -617,7 +617,7 @@
 								Grid.Column="10"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitAuthor"
-								Header="{helpers:ResourceString Name=GitCommitAuthor}"
+								Header="{helpers:ResourceString Name=Author}"
 								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
@@ -639,7 +639,7 @@
 								Grid.Column="12"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitSha"
-								Header="{helpers:ResourceString Name=GitLastCommitSha}"
+								Header="{helpers:ResourceString Name=GitCommitSha}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
