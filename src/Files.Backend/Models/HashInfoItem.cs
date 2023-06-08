@@ -28,6 +28,13 @@ namespace Files.Backend.Models
 			set => SetProperty(ref _IsSelected, value);
 		}
 
+		private bool _IsCalculating;
+		public bool IsCalculating
+		{
+			get => _IsCalculating;
+			set => SetProperty(ref _IsCalculating, value);
+		}
+
 		private bool _IsCalculated;
 		public bool IsCalculated
 		{
