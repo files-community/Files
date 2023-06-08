@@ -18,6 +18,8 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 	{
 		public static SeerProProvider Instance { get; } = new();
 
+		private string? CurrentPath;
+
 		public async Task TogglePreviewPopup(string path)
 		{
 			HWND Window = User32.FindWindow("SeerWindowClass", null);
@@ -26,11 +28,14 @@ namespace Files.App.ServicesImplementation.PreviewPopupProviders
 			data.cbData = (path.Length + 1) * 2;
 			data.lpData = Marshal.StringToHGlobalUni(path);
 			User32.SendMessage(Window, (uint)User32.WindowMessage.WM_COPYDATA, 0, ref data);
+
+			CurrentPath = User32.IsWindowVisible(Window) ? path : null;
 		}
 
 		public async Task SwitchPreview(string path)
 		{
-			// TODO
+			if (CurrentPath is not null && path != CurrentPath)
+				await TogglePreviewPopup(path);
 		}
 
 		public async Task<bool> DetectAvailability()

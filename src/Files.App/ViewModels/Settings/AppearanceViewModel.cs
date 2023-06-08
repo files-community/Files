@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using Files.Backend.Services;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
@@ -13,6 +14,7 @@ namespace Files.App.ViewModels.Settings
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
+		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = new();
 
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
@@ -27,6 +29,16 @@ namespace Files.App.ViewModels.Settings
 				"LightTheme".GetLocalizedResource(),
 				"DarkTheme".GetLocalizedResource()
 			};
+
+			// TODO: Re-add Solid and regular Mica when theming is revamped
+			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
+
+			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
+
+			//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
+
+			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
 
@@ -129,5 +141,19 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		private string selectedBackdropMaterial;
+		public string SelectedBackdropMaterial
+		{
+			get => selectedBackdropMaterial;
+			set
+			{
+				if(SetProperty(ref selectedBackdropMaterial, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial = BackdropMaterialTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+		
 	}
 }
