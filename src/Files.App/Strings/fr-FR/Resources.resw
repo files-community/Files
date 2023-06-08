@@ -688,7 +688,7 @@
     <value>Date de modification</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Profondeur en bits</value>
+    <value>Profondeur de couleur</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
@@ -1234,7 +1234,7 @@
     <value>Suppression annulée</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Vidage de la corbeille terminée</value>
+    <value>Recyclage terminé</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
     <value>Déplacement terminé</value>
@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Vidéos</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Lancer l'aperçu rapide</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Lancer la fenêtre de prévisualisation</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Activer/désactiver le mode compact</value>
@@ -2617,13 +2617,13 @@
     <value>Accéder à la zone de recherche</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Activer/désactiver l'affichage des éléments cachés</value>
+    <value>Afficher/Masquer les éléments cachés</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Afficher ou non les extensions de fichiers</value>
+    <value>Afficher/Masquer les extensions de fichier</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet d'aperçu</value>
+    <value>Afficher/Masquer le volet de prévisualisation</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer le panneau latéral</value>
@@ -2659,7 +2659,7 @@
     <value>Vider la corbeille</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Ouvre le menu "Formater le disque dur" pour l'élément sélectionné</value>
+    <value>Ouvrir le menu "Formater le lecteur" pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>Restaurer le(s) élément(s) sélectionné(s) depuis la corbeille</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Exécuter le script PowerShell sélectionné</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Lancer l'aperçu rapide avec l'élément sélectionné</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Lancer l'aperçu dans la fenêtre pop-up</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Créer une archive avec le(s) élément(s) sélectionné(s)</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traduire sur Crowdin</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Récupérer</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Tirer</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Exécuter git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Exécuter git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Prévisualisation</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Erreur Git</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull a échoué en raison d'une erreur de délai</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(plusieurs valeurs)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>

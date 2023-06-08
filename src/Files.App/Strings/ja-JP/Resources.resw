@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>ビデオ</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>QuickLook を起動</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>プレビュー ポップアップを開く</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを切り替える</value>
@@ -2733,8 +2733,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>選択した PowerShell スクリプトを実行する</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>選択したアイテムで QuickLook を起動する</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>ポップアップ ウィンドウでプレビューを開く</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>選択したアイテムでアーカイブを作成する</value>
@@ -3316,7 +3316,29 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Crowdin で翻訳</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>フェッチ</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>プル</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>git fetch を実行する</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>git pull を実行する</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>プレビュー</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git エラー</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>タイムアウト エラーのため git pull に失敗しました</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(複数の値)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
 </root>

@@ -116,12 +116,14 @@
 				x:Name="DirectoryItemCount"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
 
 			<TextBlock
 				x:Name="SelectedItemsCountString"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
 				Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
 
@@ -129,6 +131,7 @@
 				x:Name="ItemSize"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
 				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
 		</StackPanel>
@@ -164,7 +167,8 @@
 				x:Name="GitBranch"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
+				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
 				<Button.Flyout>
 					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
 						<Grid

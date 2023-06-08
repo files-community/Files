@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
   </data>
@@ -3358,5 +3361,23 @@
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Backdrop Material</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
   </data>
 </root>

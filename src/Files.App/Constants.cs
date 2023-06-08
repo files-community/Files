@@ -103,6 +103,11 @@ namespace Files.App
 			public const double ContextMenuItemsMaxWidth = 250;
 		}
 
+		public static class Appearance
+		{
+			public const string StandardFont = "Segoe UI Variable";
+		}
+
 		public static class Browser
 		{
 			public static class GridViewBrowser

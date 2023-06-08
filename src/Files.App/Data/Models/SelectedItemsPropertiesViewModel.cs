@@ -613,5 +613,12 @@ namespace Files.App.Data.Models
 			get => runAsAdminEnabled;
 			set => SetProperty(ref runAsAdminEnabled, value);
 		}
+
+		private bool isPropertiesLoaded;
+		public bool IsPropertiesLoaded
+		{
+			get => isPropertiesLoaded;
+			set => SetProperty(ref isPropertiesLoaded, value);
+		}
 	}
 }
