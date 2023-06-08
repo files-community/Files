@@ -189,6 +189,11 @@ namespace Files.App.Helpers
 				var menuId = menuItem.ID;
 				var isFont = FileExtensionHelpers.IsFontFile(contextMenu.ItemsPath[0]);
 				var verb = menuItem.CommandString;
+				if (menuItem.Label.Equals("Scan With Windows Defender"))
+				{
+					System.Diagnostics.Process.Start("CMD", "/K (\"%ProgramFiles%\\Windows Defender\\MpCmdRun.exe\" -Scan -ScanType 3 -File \"" + contextMenu.ItemsPath[0] + "\")");
+					return;
+				}
 				switch (verb)
 				{
 					case "install" when isFont:

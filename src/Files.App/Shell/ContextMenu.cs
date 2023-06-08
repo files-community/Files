@@ -7,6 +7,10 @@ using System.Runtime.InteropServices;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using static Vanara.PInvoke.ComCtl32;
+using static Vanara.PInvoke.Ole32;
+using static Vanara.PInvoke.Shell32;
+using static Vanara.PInvoke.ShlwApi;
 
 namespace Files.App.Shell
 {
@@ -161,6 +165,17 @@ namespace Files.App.Shell
 				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
 				var hMenu = User32.CreatePopupMenu();
 				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+				
+				int menuItemCount = User32.GetMenuItemCount(hMenu);
+				// Create a new MENUITEMINFO structure for Windows Defender
+				User32.MENUITEMINFO menuItemInfo = new User32.MENUITEMINFO();
+				menuItemInfo.cbSize = (uint)(Marshal.SizeOf(menuItemInfo));
+				menuItemInfo.fMask = User32.MenuItemInfoMask.MIIM_ID | User32.MenuItemInfoMask.MIIM_TYPE;
+				menuItemInfo.wID = 4323; // Assign a unique command ID
+				menuItemInfo.fType = (User32.MenuItemType)MenuItemType.MFT_STRING;
+				menuItemInfo.dwTypeData = Marshal.StringToHGlobalAuto("Scan With Windows Defender");
+				User32.InsertMenuItem(hMenu, (uint)0, true, ref menuItemInfo);
+
 				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread, itemFilter);
 				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
 
