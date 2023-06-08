@@ -112,7 +112,7 @@
 							</Setter.Value>
 						</Setter>
 					</Style>
-					<Style x:Key="Local.FileDetailsRepeaterStyle" TargetType="TextBlock">
+					<Style x:Key="Local.FileDetailsTextBlockStyle" TargetType="TextBlock">
 						<Setter Property="FontWeight" Value="Normal" />
 						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 					</Style>
@@ -237,7 +237,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									MaxLines="2"
-									Style="{StaticResource Local.FileDetailsRepeaterStyle}"
+									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
 								<!--  Value  -->
