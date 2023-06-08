@@ -474,7 +474,7 @@ namespace Files.App.Views.LayoutModes
 					foreach (string item in navigationArguments.SelectItems)
 						listedtemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
 
-					ItemManipulationModel.SetSelectedItems(listedtemsToSelect);
+					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
 				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
