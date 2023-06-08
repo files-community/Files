@@ -471,7 +471,7 @@ namespace Files.App.Views.LayoutModes
 					navigationArguments.SelectItems.Any())
 				{
 					List<ListedItem> listedItemsToSelect = new();
-						listedItemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
+					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
