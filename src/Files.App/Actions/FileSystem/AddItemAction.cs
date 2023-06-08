@@ -24,7 +24,7 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconNew");
 
-		public bool IsExecutable => context.CanCreateItem && !context.HasSelection;
+		public bool IsExecutable => context.CanCreateItem;
 
 		public AddItemAction()
 		{

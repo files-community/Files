@@ -1,10 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ServicesImplementation.Settings;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
@@ -158,6 +161,9 @@ namespace Files.App
 			//  just ensure that the window is active
 			if (!(App.Window.Content is Frame rootFrame))
 			{
+				// Set system backdrop
+				this.SystemBackdrop = new AppSystemBackdrop();
+
 				// Create a Frame to act as the navigation context and navigate to the first page
 				rootFrame = new Frame();
 				rootFrame.CacheSize = 1;

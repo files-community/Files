@@ -47,10 +47,9 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
 				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
 				GetFileProperty("PropertyItemPathDisplay", Folder.Path),
+				GetFileProperty("FileTags",
+				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null)
 			};
-
-			Item.FileDetails.Add(GetFileProperty("FileTags",
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

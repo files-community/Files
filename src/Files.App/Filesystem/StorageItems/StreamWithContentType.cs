@@ -1,11 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 
@@ -268,5 +267,73 @@ namespace Files.App.Filesystem.StorageItems
 		}
 
 		public string ContentType { get; set; } = "application/octet-stream";
+	}
+
+	public class ComStreamWrapper : Stream
+	{
+		private IStream iStream;
+		private STATSTG iStreamStat;
+
+		public ComStreamWrapper(IStream stream)
+		{
+			iStream = stream;
+			iStream.Stat(out iStreamStat, 0);
+		}
+
+		public override bool CanRead => true;
+
+		public override bool CanSeek => true;
+
+		public override bool CanWrite => false;
+
+		public override long Length => iStreamStat.cbSize;
+
+		public override long Position
+		{
+			get => Seek(0, SeekOrigin.Current);
+			set => Seek(value, SeekOrigin.Begin);
+		}
+
+		public override void Flush()
+		{
+		}
+
+		public override int Read(byte[] buffer, int offset, int count)
+		{
+			if (offset != 0)
+				throw new NotSupportedException();
+			unsafe
+			{
+				int newPos = 0;
+				iStream.Read(buffer, count, new IntPtr(&newPos));
+				return (int)newPos;
+			}
+		}
+
+		public override long Seek(long offset, SeekOrigin origin)
+		{
+			unsafe
+			{
+				long newPos = 0;
+				iStream.Seek(0, (int)origin, new IntPtr(&newPos));
+				return newPos;
+			}
+		}
+
+		public override void SetLength(long value)
+		{
+			throw new NotSupportedException();
+		}
+
+		public override void Write(byte[] buffer, int offset, int count)
+		{
+			throw new NotSupportedException();
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			Marshal.ReleaseComObject(iStream);
+		}
 	}
 }

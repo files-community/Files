@@ -113,6 +113,11 @@
 						</Setter>
 					</Style>
 
+					<Style x:Key="Local.FileDetailsTextBlockStyle" TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="Normal" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+					</Style>
+
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
@@ -205,6 +210,7 @@
 				<TextBlock
 					x:Name="DetailsListHeader"
 					HorizontalAlignment="Center"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					FontSize="20"
 					FontWeight="Bold"
 					IsTextSelectionEnabled="True"
@@ -212,7 +218,6 @@
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed" />
-
 				<ItemsControl
 					x:Name="FileDetailsRepeater"
 					Margin="12"
@@ -233,7 +238,7 @@
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									MaxLines="2"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
 								<!--  Value  -->
