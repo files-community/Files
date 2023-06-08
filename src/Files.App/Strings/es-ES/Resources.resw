@@ -1927,7 +1927,7 @@
     <value>Tareas en curso</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>fecha de creación</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Tamaño</value>
@@ -2245,7 +2245,7 @@
     <value>Columna de fecha</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Fecha de creación</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Columna de tamaño</value>
@@ -3343,5 +3343,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrílico</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica alternativa</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Material de fondo</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Sólido</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Administrar ramas</value>
   </data>
 </root>
