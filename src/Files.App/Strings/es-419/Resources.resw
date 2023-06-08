@@ -2725,7 +2725,7 @@
     <value>Instalar controlador(es) usando archivo(s) inf seleccionado(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+      <value>Instalar certificado(s) seleccionado(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ejecutar la aplicación seleccionada como administrador</value>
@@ -3343,5 +3343,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrílico</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica alternativa</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Material de fondo</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Sólido</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Administrar ramas</value>
   </data>
 </root>
