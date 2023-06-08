@@ -168,7 +168,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Branches}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
 				<Button.Flyout>
 					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
 						<Grid
