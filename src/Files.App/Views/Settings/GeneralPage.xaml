@@ -324,29 +324,29 @@
 
 		<!--  Restart Teaching Tip  -->
 		<TeachingTip
-				IsLightDismissEnabled="True"
-				IsOpen="{x:Bind ViewModel.ShowRestartControl, Mode=TwoWay}"
-				Subtitle="{helpers:ResourceString Name=RestartNotificationText/Text}"
-				Target="{x:Bind AppLanguagesComboBox}">
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.ShowRestartControl, Mode=TwoWay}"
+			Subtitle="{helpers:ResourceString Name=RestartNotificationText/Text}"
+			Target="{x:Bind AppLanguagesComboBox}">
 			<StackPanel
-					x:Name="ButtonsStackPanel"
-					Padding="0,8,0,0"
-					HorizontalAlignment="Right"
-					Orientation="Horizontal"
-					Spacing="8">
+				x:Name="ButtonsStackPanel"
+				Padding="0,8,0,0"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal"
+				Spacing="8">
 
 				<Button
-						x:Name="YesButton"
-						MinWidth="140"
-						Command="{x:Bind ViewModel.RestartCommand, Mode=OneWay}"
-						Content="{helpers:ResourceString Name=Yes}"
-						Style="{ThemeResource AccentButtonStyle}" />
+					x:Name="YesButton"
+					MinWidth="140"
+					Command="{x:Bind ViewModel.RestartCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=Yes}"
+					Style="{ThemeResource AccentButtonStyle}" />
 
 				<Button
-						x:Name="NoButton"
-						MinWidth="140"
-						Command="{x:Bind ViewModel.CancelRestartCommand, Mode=OneWay}"
-						Content="{helpers:ResourceString Name=No}" />
+					x:Name="NoButton"
+					MinWidth="140"
+					Command="{x:Bind ViewModel.CancelRestartCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=No}" />
 			</StackPanel>
 		</TeachingTip>
 	</Grid>
