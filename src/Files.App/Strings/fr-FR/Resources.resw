@@ -3344,4 +3344,22 @@
     <value>(plusieurs valeurs)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylique</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Matériau de fond</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solide</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Gérer les branches</value>
+  </data>
 </root>
