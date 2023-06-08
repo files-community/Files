@@ -115,7 +115,7 @@ namespace Files.App.Helpers
 			propertiesWindow.Width = 800;
 			propertiesWindow.Height = 550;
 			propertiesWindow.Content = frame;
-			propertiesWindow.SystemBackdrop = new MicaBackdrop();
+			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
 			var appWindow = propertiesWindow.AppWindow;
 			appWindow.Title = "Properties".GetLocalizedResource();

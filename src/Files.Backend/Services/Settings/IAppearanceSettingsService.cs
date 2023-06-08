@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Backend.Enums;
 using System;
 using System.ComponentModel;
 
@@ -51,5 +52,10 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value for the app theme font family.
 		/// </summary>
 		String AppThemeFontFamily { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value for the theme system backdrop.
+		/// </summary>
+		BackdropMaterialType AppThemeBackdropMaterial { get; set; }
 	}
 }
