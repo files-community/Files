@@ -262,7 +262,7 @@
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
+										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem
@@ -1017,7 +1017,7 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsGitItem.GitCommitAuthor, Mode=OneWay}"
+										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit SHA  -->

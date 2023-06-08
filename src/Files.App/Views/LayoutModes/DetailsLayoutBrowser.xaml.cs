@@ -587,7 +587,7 @@ namespace Files.App.Views.LayoutModes
 				3 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.UnmergedGitStatusLabel?.Length ?? 0).Max(), // git
 				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
 				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitCommitAuthor?.Length ?? 0).Max(), // git
+				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
 				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
 				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
 				9 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column

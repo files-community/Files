@@ -345,7 +345,10 @@ namespace Files.App.Helpers
 				else if (parentCount == 1)
 				{
 					var parentCommit = currentCommit.Parents.Single();
-					var parentPath = currentPath; // Does not consider renames
+
+					// Does not consider renames
+					var parentPath = currentPath; 
+
 					var parentTreeEntry = parentCommit.Tree[parentPath];
 
 					if (parentTreeEntry == null ||
@@ -356,6 +359,7 @@ namespace Files.App.Helpers
 					}
 				}
 			}
+
 			return null;
 		}
 

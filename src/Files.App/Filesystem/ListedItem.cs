@@ -666,7 +666,7 @@ namespace Files.App.Filesystem
 		}
 
 		private string? _GitCommitAuthor;
-		public string? GitCommitAuthor
+		public string? GitLastCommitAuthor
 		{
 			get => _GitCommitAuthor;
 			set => SetProperty(ref _GitCommitAuthor, value);
