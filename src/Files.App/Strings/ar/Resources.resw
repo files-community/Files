@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>تعديل المسار</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>الفرع: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>اعادة</value>
   </data>
