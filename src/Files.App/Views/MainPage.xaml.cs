@@ -156,6 +156,9 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
 
+			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel is not null)
+				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
+
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
