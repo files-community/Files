@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Редагувати шлях</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Гілка: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Повторити</value>
   </data>
