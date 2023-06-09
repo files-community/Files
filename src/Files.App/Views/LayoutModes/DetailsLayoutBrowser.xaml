@@ -573,7 +573,7 @@
 								Grid.Column="6"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitDate"
-								Header="{helpers:ResourceString Name=GitDateCommitted}"
+								Header="{helpers:ResourceString Name=DateCommitted}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->

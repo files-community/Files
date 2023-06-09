@@ -3350,7 +3350,7 @@
   <data name="Author" xml:space="preserve">
     <value>Author</value>
   </data>
-  <data name="GitDateCommitted" xml:space="preserve">
+  <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
   </data>
   <data name="GitCommitMessage" xml:space="preserve">

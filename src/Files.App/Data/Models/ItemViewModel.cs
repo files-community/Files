@@ -1204,11 +1204,12 @@ namespace Files.App.Data.Models
 								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
-									item.AsGitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
-									item.AsGitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									item.AsGitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									item.AsGitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									item.AsGitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+									var gitItem = item.AsGitItem;
+									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
+									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 							});

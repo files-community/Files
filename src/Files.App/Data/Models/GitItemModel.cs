@@ -3,7 +3,7 @@
 namespace Files.App.Data.Models
 {
 	/// <summary>
-	/// Represents an model for Git items
+	/// Represents a model for Git items
 	/// </summary>
 	internal class GitItemModel
 	{
