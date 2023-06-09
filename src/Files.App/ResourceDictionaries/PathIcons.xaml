@@ -1908,7 +1908,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconGitPull" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
