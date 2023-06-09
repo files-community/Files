@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Yolu düzenle</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Dal: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Tekrarla</value>
   </data>
@@ -3345,19 +3342,19 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Akrilik</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>Mika</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>Mika Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Zemin Malzemesi</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>Sert</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
