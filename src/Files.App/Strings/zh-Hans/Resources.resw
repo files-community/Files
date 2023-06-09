@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>编辑路径</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>分支: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>重做</value>
   </data>
