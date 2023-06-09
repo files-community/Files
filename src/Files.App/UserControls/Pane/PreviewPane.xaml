@@ -43,30 +43,32 @@
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="RadioButton">
-									<Grid x:Name="RootGrid" Margin="0">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="Auto" />
-											<RowDefinition Height="4" />
-										</Grid.RowDefinitions>
-										<ContentPresenter
-											x:Name="ContentPresenter"
-											Grid.Row="0"
-											Padding="12,4,12,4"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											AutomationProperties.AccessibilityView="Raw"
-											Content="{TemplateBinding Content}"
-											ContentTemplate="{TemplateBinding ContentTemplate}"
-											ContentTransitions="{TemplateBinding ContentTransitions}"
-											Foreground="{TemplateBinding Foreground}"
-											TextWrapping="Wrap" />
-										<Border
-											x:Name="SelectionPill"
-											Grid.Row="1"
-											Height="2"
-											Margin="16,0,16,0"
+									<Grid x:Name="RootGrid">
+										<Grid
+											x:Name="ContainerGrid"
+											Height="32"
 											Background="Transparent"
-											CornerRadius="2" />
+											BorderThickness="1"
+											CornerRadius="4">
+											<ContentPresenter
+												x:Name="ContentPresenter"
+												Padding="16,0,16,0"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Center"
+												AutomationProperties.AccessibilityView="Raw"
+												Content="{TemplateBinding Content}"
+												ContentTemplate="{TemplateBinding ContentTemplate}"
+												ContentTransitions="{TemplateBinding ContentTransitions}"
+												TextWrapping="Wrap" />
+											<Border
+												x:Name="SelectionPill"
+												Width="16"
+												Height="2"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Bottom"
+												Background="Transparent"
+												CornerRadius="1" />
+										</Grid>
 										<VisualStateManager.VisualStateGroups>
 											<VisualStateGroup x:Name="CommonStates">
 												<VisualState x:Name="Normal" />
@@ -75,12 +77,8 @@
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
 														</ObjectAnimationUsingKeyFrames>
-													</Storyboard>
-												</VisualState>
-												<VisualState x:Name="Pressed">
-													<Storyboard>
-														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="Background">
+															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 														</ObjectAnimationUsingKeyFrames>
 													</Storyboard>
 												</VisualState>
@@ -95,8 +93,14 @@
 											<VisualStateGroup x:Name="CheckStates">
 												<VisualState x:Name="Checked">
 													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="Background">
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource ControlFillColorDefaultBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="BorderBrush">
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource ControlElevationBorderBrush}" />
+														</ObjectAnimationUsingKeyFrames>
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionPill" Storyboard.TargetProperty="Background">
-															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource SystemAccentColor}" />
 														</ObjectAnimationUsingKeyFrames>
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
@@ -142,9 +146,14 @@
 			Grid.Row="0"
 			Grid.Column="0"
 			Grid.ColumnSpan="2"
-			Padding="12"
-			HorizontalAlignment="Left"
+			Margin="12"
+			Padding="-1"
+			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
+			Background="{ThemeResource SubtleFillColorTertiaryBrush}"
+			BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4"
 			Orientation="Horizontal">
 			<!--  Details  -->
 			<RadioButton
