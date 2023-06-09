@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Editar caminho</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Ramo: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Refazer</value>
   </data>
@@ -3360,6 +3357,6 @@
     <value>Sólido</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Gerir 'branches'</value>
   </data>
 </root>
