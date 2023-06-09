@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem)
+			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith("\\"))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
