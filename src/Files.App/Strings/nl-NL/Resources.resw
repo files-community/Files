@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Pad bewerken</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Opnieuw</value>
   </data>
