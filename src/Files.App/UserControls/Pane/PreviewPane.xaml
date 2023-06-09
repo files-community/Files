@@ -63,7 +63,7 @@
 											<Border
 												x:Name="SelectionPill"
 												Width="16"
-												Height="2"
+												Height="3"
 												HorizontalAlignment="Center"
 												VerticalAlignment="Bottom"
 												Background="Transparent"
