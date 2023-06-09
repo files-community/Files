@@ -276,11 +276,32 @@ namespace Files.App.Helpers
 			if (signature is null)
 				return;
 
+			var config = repository.Config.BuildSignature(DateTimeOffset.Now);
+			var options = new PushOptions()
+			{
+				CredentialsProvider = (url, user, cred) 
+					=> new UsernamePasswordCredentials
+					{
+						Username = config.Name,
+						Password = "TOKEN"
+					}
+			};
+
 			IsExecutingGitAction = true;
 
 			try
 			{
-				repository.Network.Push(repository.Branches[branchName]);
+				var branch = repository.Branches[branchName];
+				if (!branch.IsTracking)
+				{
+					var origin = repository.Network.Remotes["origin"];
+					repository.Branches.Update(
+						branch,
+						b => b.Remote = origin.Name,
+						b => b.UpstreamBranch = branch.CanonicalName);
+				}
+
+				repository.Network.Push(branch, options);
 			}
 			catch (Exception ex)
 			{

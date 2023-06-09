@@ -149,66 +149,52 @@
 				Background="Transparent"
 				BorderBrush="Transparent">
 				<Button.Flyout>
-					<Flyout>
-						<StackPanel Spacing="4">
-							<!--  Pull Button  -->
-							<Button
-								x:Name="GitPullButton"
-								VerticalAlignment="Center"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind Commands.GitPull}"
-								IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
-								<StackPanel Orientation="Horizontal" Spacing="8">
-									<FontIcon
-										HorizontalAlignment="Center"
-										FontSize="12"
-										Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+					<MenuFlyout>
+						<!--  Pull Button  -->
+						<MenuFlyoutItem
+							x:Name="GitPullButton"
+							Command="{x:Bind Commands.GitPull}"
+							IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitPull.Label}"
+							ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon
+									HorizontalAlignment="Center"
+									FontSize="12"
+									Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
 
-									<TextBlock Text="{x:Bind Commands.GitPull.Label}" />
-								</StackPanel>
-							</Button>
+						<!--  Push Button  -->
+						<MenuFlyoutItem
+							x:Name="GitPushButton"
+							Command="{x:Bind Commands.GitPush}"
+							IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitPush.Label}"
+							ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.PushInfo, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon
+									HorizontalAlignment="Center"
+									FontSize="12"
+									Glyph="{x:Bind Commands.GitPush.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
 
-							<!--  Push Button  -->
-							<Button
-								x:Name="GitPushButton"
-								VerticalAlignment="Center"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind Commands.GitPush}"
-								IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}">
-								<StackPanel Orientation="Horizontal" Spacing="8">
-									<FontIcon
-										HorizontalAlignment="Center"
-										FontSize="12"
-										Glyph="{x:Bind Commands.GitPush.Glyph.BaseGlyph}" />
-
-									<TextBlock Text="{x:Bind Commands.GitPush.Label}" />
-								</StackPanel>
-							</Button>
-
-							<!--  Sync Button  -->
-							<Button
-								x:Name="GitSyncButton"
-								VerticalAlignment="Center"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								Command="{x:Bind Commands.GitSync}"
-								IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
-								ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}">
-								<StackPanel Orientation="Horizontal" Spacing="8">
-									<FontIcon
-										HorizontalAlignment="Center"
-										FontSize="12"
-										Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
-
-									<TextBlock Text="{x:Bind Commands.GitSync.Label}" />
-								</StackPanel>
-							</Button>
-						</StackPanel>
-					</Flyout>
+						<!--  Sync Button  -->
+						<MenuFlyoutItem
+							x:Name="GitSyncButton"
+							Command="{x:Bind Commands.GitSync}"
+							IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitSync.Label}"
+							ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon
+									HorizontalAlignment="Center"
+									FontSize="12"
+									Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+					</MenuFlyout>
 				</Button.Flyout>
 
 				<StackPanel Orientation="Horizontal" Spacing="8">
@@ -218,7 +204,7 @@
 						Glyph="&#xE8CB;" />
 
 					<!--  Outgoing / Incoming commits  -->
-					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
+					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.StatusInfo, Mode=OneWay}" />
 				</StackPanel>
 			</Button>
 
