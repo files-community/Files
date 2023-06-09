@@ -3374,7 +3374,7 @@
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
   </data>
-  <data name="CommitsNumber" xml:space="preserve">
-    <value>{0} commits</value>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
   </data>
 </root>

@@ -147,7 +147,8 @@
 				x:Name="GitNetworkActions"
 				VerticalAlignment="Center"
 				Background="Transparent"
-				BorderBrush="Transparent">
+				BorderBrush="Transparent"
+				ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.ExtendedStatusInfo, Mode=OneWay}">
 				<Button.Flyout>
 					<MenuFlyout>
 						<!--  Pull Button  -->
@@ -156,7 +157,7 @@
 							Command="{x:Bind Commands.GitPull}"
 							IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
 							Text="{x:Bind Commands.GitPull.Label}"
-							ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}">
+							ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon
 									HorizontalAlignment="Center"
@@ -171,7 +172,7 @@
 							Command="{x:Bind Commands.GitPush}"
 							IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
 							Text="{x:Bind Commands.GitPush.Label}"
-							ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.PushInfo, Mode=OneWay}">
+							ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon
 									HorizontalAlignment="Center"

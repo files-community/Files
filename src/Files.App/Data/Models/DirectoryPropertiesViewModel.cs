@@ -68,18 +68,11 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _StatusInfo, value);
 		}
 
-		private string _PullInfo = string.Format("CommitsNumber".GetLocalizedResource(), 0);
-		public string PullInfo
+		private string _ExtendedStatusInfo = string.Format("CommitsNumber".GetLocalizedResource(), 0);
+		public string ExtendedStatusInfo
 		{
-			get => _PullInfo;
-			set => SetProperty(ref _PullInfo, value);
-		}
-
-		private string _PushInfo = string.Format("CommitsNumber".GetLocalizedResource(), 0);
-		public string PushInfo
-		{
-			get => _PushInfo;
-			set => SetProperty(ref _PushInfo, value);
+			get => _ExtendedStatusInfo;
+			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
@@ -108,8 +101,7 @@ namespace Files.App.Data.Models
 			var behind = branches.Any() ? branches[0].BehindBy ?? 0 : 0;
 			var ahead = branches.Any() ? branches[0].AheadBy ?? 0 : 0;
 
-			PullInfo = string.Format("CommitsNumber".GetLocalizedResource(), behind);
-			PushInfo = string.Format("CommitsNumber".GetLocalizedResource(), ahead);
+			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
 
 			if (isGitRepository)
