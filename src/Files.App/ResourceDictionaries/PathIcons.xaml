@@ -1908,6 +1908,46 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+			
+			<Style x:Key="ColorIconGitPull" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M13.5 11C12.6716 11 12 11.6716 12 12.5C12 13.3284 12.6716 14 13.5 14C14.3284 14 15 13.3284 15 12.5C15 11.6716 14.3284 11 13.5 11Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M6.5 2C5.67157 2 5 2.67157 5 3.5C5 4.32843 5.67157 5 6.5 5C7.32843 5 8 4.32843 8 3.5C8 2.67157 7.32843 2 6.5 2Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M15.1464 6.14645C15.3417 5.95118 15.6583 5.95118 15.8536 6.14645C16.0488 6.34171 16.0488 6.65829 15.8536 6.85355L13.8536 8.85355C13.6583 9.04882 13.3417 9.04882 13.1464 8.85355L11.1464 6.85355C10.9512 6.65829 10.9512 6.34171 11.1464 6.14645C11.3417 5.95118 11.6583 5.95118 11.8536 6.14645L13 7.29289V5C13 4.44772 12.5523 4 12 4L8.94999 4C8.71836 5.14112 7.70948 6 6.5 6C5.11929 6 4 4.88071 4 3.5C4 2.11929 5.11929 1 6.5 1C7.70948 1 8.71836 1.85888 8.94999 3L12 3C13.1046 3 14 3.89543 14 5V7.29289L15.1464 6.14645ZM8 3.5C8 4.32843 7.32843 5 6.5 5C5.67157 5 5 4.32843 5 3.5C5 2.67157 5.67157 2 6.5 2C7.32843 2 8 2.67157 8 3.5Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M16 12.5C16 13.8807 14.8807 15 13.5 15C12.2905 15 11.2816 14.1411 11.05 13H4.94999C4.71836 14.1411 3.70948 15 2.5 15C1.11929 15 -6.03528e-08 13.8807 0 12.5C6.03528e-08 11.1193 1.11929 10 2.5 10C3.70948 10 4.71836 10.8589 4.94999 12H11.05C11.2816 10.8589 12.2905 10 13.5 10C14.8807 10 16 11.1193 16 12.5ZM13.5 14C14.3284 14 15 13.3284 15 12.5C15 11.6716 14.3284 11 13.5 11C12.6716 11 12 11.6716 12 12.5C12 13.3284 12.6716 14 13.5 14ZM2.5 14C3.32843 14 4 13.3284 4 12.5C4 11.6716 3.32843 11 2.5 11C1.67157 11 1 11.6716 1 12.5C1 13.3284 1.67157 14 2.5 14Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 		</ResourceDictionary>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
