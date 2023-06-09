@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>パスを編集</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>ブランチ: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>やり直す</value>
   </data>
