@@ -3151,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Upravit cestu</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Větev: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Zopakovat</value>
   </data>
