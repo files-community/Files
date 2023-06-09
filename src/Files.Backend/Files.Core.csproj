@@ -11,7 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentFTP" Version="43.0.1" />
+        <PackageReference Include="ByteSize" Version="2.1.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     </ItemGroup>
 
     <ItemGroup>
