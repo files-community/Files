@@ -151,13 +151,15 @@
         </Application>
     </Applications>
 
-    <!-- To host the Background Task Component, you must add this activatable class entry -->
-    <Extension Category="windows.activatableClass.inProcessServer">
-        <InProcessServer>
-            <Path>Files.App\WinRT.Host.dll</Path>
-            <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
-        </InProcessServer>
-    </Extension>
+    <Extensions>
+        <!-- To host the Background Task Component, you must add this activatable class entry -->
+        <Extension Category="windows.activatableClass.inProcessServer">
+            <InProcessServer>
+                <Path>Files.App\WinRT.Host.dll</Path>
+                <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
+            </InProcessServer>
+        </Extension>
+    </Extensions>
 
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
