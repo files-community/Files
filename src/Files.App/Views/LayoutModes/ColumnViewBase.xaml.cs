@@ -223,7 +223,17 @@ namespace Files.App.Views.LayoutModes
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
-			if (SelectedItems?.Count > 1 || SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File)
+			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
+			{
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				else
+					CloseFolder();
+			}
+			else if (SelectedItems?.Count > 1 || SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File)
+				CloseFolder();
+
+			void CloseFolder()
 			{
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
@@ -240,21 +250,6 @@ namespace Files.App.Views.LayoutModes
 		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
 		{
 			HandleRightClick(e.OriginalSource);
-		}
-
-		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
-		{
-			if
-			(
-				IsRenamingItem ||
-				!(e.Key is VirtualKey.Up or VirtualKey.Down or VirtualKey.Right) ||
-				SelectedItems?.Count > 1
-			)
-				return;
-
-			// Open selected directory
-			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
