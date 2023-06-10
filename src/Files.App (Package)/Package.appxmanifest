@@ -109,26 +109,30 @@
 
             <!--  Application Extensions  -->
             <Extensions>
+
               <uap3:Extension Category="windows.appExtensionHost">
                 <uap3:AppExtensionHost>
                   <uap3:Name>com.files.filepreview</uap3:Name>
                 </uap3:AppExtensionHost>
               </uap3:Extension>
+
               <uap:Extension Category="windows.protocol">
                   <uap:Protocol ReturnResults="none" Name="files-uwp"/>
               </uap:Extension>
+
               <uap5:Extension Category="windows.appExecutionAlias">
                   <uap5:AppExecutionAlias>
                       <uap5:ExecutionAlias Alias="files.exe"/>
                   </uap5:AppExecutionAlias>
               </uap5:Extension>
+
               <uap5:Extension Category="windows.startupTask">
                 <uap5:StartupTask
                   TaskId="3AA55462-A5FA-4933-88C4-712D0B6CDEBB"
                   Enabled="false"
                   DisplayName="Files" />
               </uap5:Extension>
-              <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
+
               <uap:Extension Category="windows.fileTypeAssociation">
                 <uap:FileTypeAssociation Name="archives">
                   <uap:SupportedFileTypes>
@@ -139,20 +143,22 @@
                   </uap:SupportedFileTypes>
                 </uap:FileTypeAssociation>
               </uap:Extension>
+
+              <Extension Category="windows.updateTask" EntryPoint="BackgroundTasks.UpdateTask" />
+
+              <!-- To host the Background Task Component, you must add this activatable class entry -->
+              <Extension Category="windows.activatableClass.inProcessServer">
+                <InProcessServer>
+                  <Path>Files.App\WinRT.Host.dll</Path>
+                  <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
+                </InProcessServer>
+              </Extension>
+
             </Extensions>
+
 
         </Application>
     </Applications>
-  
-    <!-- To host the BgTaskComponent, you must add this activatable class entry -->
-    <Extensions>
-      <Extension Category="windows.activatableClass.inProcessServer">
-        <InProcessServer>
-          <Path>Files.App\WinRT.Host.dll</Path>
-          <ActivatableClass ActivatableClassId="BackgroundTasks.UpdateTask" ThreadingModel="both" />
-        </InProcessServer>
-      </Extension>
-    </Extensions>
   
     <Capabilities>
         <!--<rescap:Capability Name="packageQuery"/>-->
