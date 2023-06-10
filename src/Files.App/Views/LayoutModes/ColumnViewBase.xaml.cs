@@ -230,15 +230,20 @@ namespace Files.App.Views.LayoutModes
 				else
 					CloseFolder();
 			}
-			else if (SelectedItems?.Count > 1 || SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File)
-				CloseFolder();
-
-			void CloseFolder()
+			else if (SelectedItems?.Count > 1
+				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
+				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
+				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
 			{
-				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
-				ClearOpenedFolderSelectionIndicator();
+				CloseFolder();
 			}
+		}
+
+		private void CloseFolder()
+		{
+			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			ClearOpenedFolderSelectionIndicator();
 		}
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
