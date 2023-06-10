@@ -14,11 +14,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Shared", "src\Files.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.Storage", "src\Files.App.Storage\Files.App.Storage.csproj", "{B8051E11-5BF2-49F7-A7C8-E3820DBB8209}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Backend", "src\Files.Backend\Files.Backend.csproj", "{74704E22-9A09-4675-AE35-7896DE81EC4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Core", "src\Files.Backend\Files.Core.csproj", "{74704E22-9A09-4675-AE35-7896DE81EC4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Sdk.Storage", "src\Files.Sdk.Storage\Files.Sdk.Storage.csproj", "{53371D77-7AC1-4975-9A2A-5E0EB0B37CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Core.Storage", "src\Files.Sdk.Storage\Files.Core.Storage.csproj", "{53371D77-7AC1-4975-9A2A-5E0EB0B37CE3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{BB1DA0B0-4E5B-4336-961E-DF389482C094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.BackgroundTasks", "src\BackgroundTasks\Files.App.BackgroundTasks.csproj", "{BB1DA0B0-4E5B-4336-961E-DF389482C094}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.InteractionTests", "tests\Files.InteractionTests\Files.InteractionTests.csproj", "{4ED01D20-8529-4DEF-8C1B-4E31031AE7E0}"
 EndProject
@@ -28,9 +28,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FilesLauncher", "src\Files.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App", "src\Files.App\Files.App.csproj", "{6F431D82-A5FF-4833-B5E4-702E1E523126}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.App (Package)\Files.Package.wapproj", "{8F60FD8E-1921-47D6-97B0-D26D7B3A4999}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.App.Package", "src\Files.App (Package)\Files.App.Package.wapproj", "{8F60FD8E-1921-47D6-97B0-D26D7B3A4999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.SourceGenerator", "src\Files.SourceGenerator\Files.SourceGenerator.csproj", "{6FA07816-DE0A-4D49-84E8-38E953A33C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Core.SourceGenerator", "src\Files.SourceGenerator\Files.Core.SourceGenerator.csproj", "{6FA07816-DE0A-4D49-84E8-38E953A33C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

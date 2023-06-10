@@ -1,9 +1,8 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsTrimmable>true</IsTrimmable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
@@ -12,7 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentFTP" Version="43.0.1" />
+        <PackageReference Include="ByteSize" Version="2.1.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     </ItemGroup>
 
     <ItemGroup>
