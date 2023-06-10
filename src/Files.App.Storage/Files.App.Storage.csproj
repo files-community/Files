@@ -17,7 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Core.Storage.csproj" />
-        <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
+        <ProjectReference Include="..\Files.Shared\Files.Common.csproj" />
     </ItemGroup>
 
 </Project>

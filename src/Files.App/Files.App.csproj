@@ -106,7 +106,7 @@
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
         <ProjectReference Include="..\Files.Backend\Files.Core.csproj" />
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Core.Storage.csproj" />
-        <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
+        <ProjectReference Include="..\Files.Shared\Files.Common.csproj" />
         <ProjectReference Include="..\Files.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
