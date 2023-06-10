@@ -3,19 +3,15 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <IsTrimmable>true</IsTrimmable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-        <Product>Files</Product>
-        <Copyright>Copyright (c) 2023 Files Community</Copyright>
-        <Authors>Files Community</Authors>
     </PropertyGroup>
 
     <ItemGroup>
-        <!--  NOTE: Do Not Update LiteDB To Version 5.x  -->
+        <!-- NOTE: Do Not Update LiteDB To Version 5.x -->
         <PackageReference Include="LiteDB" Version="4.1.4" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="System.IO.Hashing" Version="7.0.0" />

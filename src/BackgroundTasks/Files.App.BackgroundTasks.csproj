@@ -1,17 +1,13 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
+        <TargetFramework>net7.0</TargetFramework>
+        <DefaultLanguage>en-US</DefaultLanguage>
         <IsTrimmable>true</IsTrimmable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
-        <Platforms>x86;x64;arm64</Platforms>
+        <Platforms>x86;x64;ARM64</Platforms>
         <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-        <Product>Files</Product>
-        <Copyright>Copyright (c) 2023 Files Community</Copyright>
-        <Authors>Files Community</Authors>
     </PropertyGroup>
 
     <PropertyGroup>

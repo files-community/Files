@@ -1,8 +1,8 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <!--  NOTE: Analyzer Project Should Be Targeted .NET Standard 2.0 Framework  -->
-    <!--  NOTE: Analyzer Project Should Be Targeted Any CPU Platform  -->
+    <!-- NOTE: Do Not Change Architecture From AnyCPU. -->
+    <!-- NOTE: Do Not Change Target Framework From .netstandard2.0 -->
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
@@ -10,9 +10,6 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <Product>Files</Product>
-        <Copyright>Copyright (c) 2023 Files Community</Copyright>
-        <Authors>Files Community</Authors>
     </PropertyGroup>
 
     <ItemGroup>
