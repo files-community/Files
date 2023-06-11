@@ -29,6 +29,8 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
+		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+
 
 		public AdvancedViewModel()
 		{
@@ -40,6 +42,7 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
+			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartup);
 		}
 
 		private async Task OpenSettingsJson()
@@ -286,6 +289,79 @@ namespace Files.App.ViewModels.Settings
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 
 			return obj;
+		}
+
+		private bool openOnWindowsStartup;
+		public bool OpenOnWindowsStartup
+		{
+			get => openOnWindowsStartup;
+			set => SetProperty(ref openOnWindowsStartup, value);
+		}
+
+		private bool canOpenOnWindowsStartup;
+		public bool CanOpenOnWindowsStartup
+		{
+			get => canOpenOnWindowsStartup;
+			set => SetProperty(ref canOpenOnWindowsStartup, value);
+		}
+
+		public async Task OpenFilesOnWindowsStartup()
+		{
+			var stateMode = await ReadState();
+
+			bool state = stateMode switch
+			{
+				StartupTaskState.Enabled => true,
+				StartupTaskState.EnabledByPolicy => true,
+				StartupTaskState.DisabledByPolicy => false,
+				StartupTaskState.DisabledByUser => false,
+				_ => false,
+			};
+
+			if (state != OpenOnWindowsStartup)
+			{
+				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+				if (OpenOnWindowsStartup)
+					await startupTask.RequestEnableAsync();
+				else
+					startupTask.Disable();
+				await DetectOpenFilesAtStartup();
+			}
+		}
+
+		public async Task DetectOpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			switch (stateMode)
+			{
+				case StartupTaskState.Disabled:
+					CanOpenOnWindowsStartup = true;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.Enabled:
+					CanOpenOnWindowsStartup = true;
+					OpenOnWindowsStartup = true;
+					break;
+				case StartupTaskState.DisabledByPolicy:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.DisabledByUser:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.EnabledByPolicy:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = true;
+					break;
+			}
+		}
+
+		public async Task<StartupTaskState> ReadState()
+		{
+			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+			return state.State;
 		}
 	}
 }

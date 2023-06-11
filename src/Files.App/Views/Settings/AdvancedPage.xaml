@@ -80,8 +80,22 @@
 					Glyph="&#xE8A7;" />
 			</local:SettingsBlockControl>
 
+			<!--  Open on Windows startup  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
+					IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
+					IsOn="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}">
+					<i:Interaction.Behaviors>
+						<icore:EventTriggerBehavior EventName="Toggled">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesOnWindowsStartupCommand, Mode=OneWay}" />
+						</icore:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
+				</ToggleSwitch>
+			</local:SettingsBlockControl>
 
-			<!--  Default file manager  -->
+			<!--  Experimental Settings  -->
 			<TextBlock
 				Padding="0,16,0,4"
 				FontSize="16"
