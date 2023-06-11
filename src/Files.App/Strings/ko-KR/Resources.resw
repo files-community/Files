@@ -1462,7 +1462,7 @@
     <value>이름 바꾸기</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>개인 정보</value>
+    <value>개인정보 보호 정책</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>이동 취소됨</value>
@@ -1939,7 +1939,7 @@
     <value>도움말 및 지원</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>기능 요청 제출</value>
+    <value>새 기능 요청하기</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>버그 제보하기</value>
