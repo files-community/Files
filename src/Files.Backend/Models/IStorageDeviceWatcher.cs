@@ -1,26 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage.MutableStorage;
 using System;
+using System.IO;
 
 namespace Files.Backend.Models
 {
 	/// <summary>
 	/// Represents a storage device watcher
 	/// </summary>
-	public interface IStorageDeviceWatcher
+	public interface IStorageDeviceWatcher : IWatcher
 	{
-		/// <summary>
-		/// Fires when a new device is detected by the storage device watcher
-		/// </summary>
-		event EventHandler<ILocatableFolder> DeviceAdded;
-
-		/// <summary>
-		/// Fires when a device removal is detected by the storage device watcher
-		/// </summary>
-		event EventHandler<string> DeviceRemoved;
-
 		/// <summary>
 		/// Fires when the storage device watcher completes an enumeration
 		/// </summary>
@@ -29,21 +20,11 @@ namespace Files.Backend.Models
 		/// <summary>
 		/// Fires when a device modification is detected by the storage device watcher
 		/// </summary>
-		event EventHandler<string> DeviceModified;
+		event EventHandler<FileSystemEventArgs> ItemModified;
 
 		/// <summary>
 		/// Represents whether the storage device watcher should be started
 		/// </summary>
 		bool CanBeStarted { get; }
-
-		/// <summary>
-		/// Starts the storage device watcher
-		/// </summary>
-		void Start();
-
-		/// <summary>
-		/// Stops the storage device watcher
-		/// </summary>
-		void Stop();
 	}
 }
