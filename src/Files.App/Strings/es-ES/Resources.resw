@@ -1951,7 +1951,7 @@
     <value>Usar Files como diálogo de apertura de archivos</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
+    <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Abrir elementos con un solo clic</value>
@@ -2446,7 +2446,7 @@
     <value>Ver más</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de Etiquetas de archivos desde Configuración &gt; General &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
+    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de etiquetas desde Configuración &gt; General &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Los contenedores se retirarán en una futura actualización 📎</value>
