@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-	internal static class FtpHelpers
+	public static class FtpHelpers
 	{
 		public static string GetFtpPath(string path)
 		{

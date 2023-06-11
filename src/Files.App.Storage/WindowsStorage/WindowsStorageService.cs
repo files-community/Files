@@ -4,6 +4,7 @@
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -59,6 +60,22 @@ namespace Files.App.Storage.WindowsStorage
 		{
 			var file = await StorageFile.GetFileFromPathAsync(path).AsTask(cancellationToken);
 			return new WindowsStorageFile(file);
+		}
+
+		public async Task<ILocatableStorable> GetItemFromPathAsync(string path, CancellationToken cancellationToken = default)
+		{
+			if (await FileExistsAsync(path, cancellationToken))
+			{
+				return await GetFileFromPathAsync(path, cancellationToken);
+			}
+			else if (await DirectoryExistsAsync(path, cancellationToken))
+			{
+				return await GetFolderFromPathAsync(path, cancellationToken);
+			}
+			else
+			{
+				return await Task.FromException<ILocatableStorable>(new FileNotFoundException());
+			}
 		}
 	}
 }

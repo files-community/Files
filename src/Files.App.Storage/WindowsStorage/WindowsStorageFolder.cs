@@ -1,10 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Storage.NativeStorage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
+using Files.Sdk.Storage.MutableStorage;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -16,7 +18,7 @@ using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFolder"/>
-	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder
+	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder, IMutableFolder
 	{
 		public WindowsStorageFolder(StorageFolder storage)
 			: base(storage)
@@ -172,6 +174,11 @@ namespace Files.App.Storage.WindowsStorage
 				CreationCollisionOption.FailIfExists => Windows.Storage.CreationCollisionOption.FailIfExists,
 				_ => throw new ArgumentOutOfRangeException(nameof(options))
 			};
+		}
+
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		{
+			return Task.FromResult<IFolderWatcher>(new WindowsStorageFolderWatcher(this));
 		}
 	}
 }

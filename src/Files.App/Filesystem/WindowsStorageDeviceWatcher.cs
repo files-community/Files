@@ -1,13 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
 using Files.App.Helpers.MMI;
+using Files.App.Storage.NativeStorage;
 using Files.Backend.Models;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage;
 using Microsoft.Extensions.Logging;
-using System;
 using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
@@ -17,10 +15,10 @@ namespace Files.App.Filesystem
 {
 	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
-		public event EventHandler<ILocatableFolder> DeviceAdded;
-		public event EventHandler<string> DeviceRemoved;
+		public event EventHandler<FileSystemEventArgs> ItemAdded;
+		public event EventHandler<FileSystemEventArgs> ItemRemoved;
 		public event EventHandler EnumerationCompleted;
-		public event EventHandler<string> DeviceModified;
+		public event EventHandler<FileSystemEventArgs> ItemModified;
 
 		private DeviceWatcher watcher;
 
@@ -46,12 +44,13 @@ namespace Files.App.Filesystem
 
 		private void Win32_OnDeviceEjectedOrInserted(object? sender, DeviceEventArgs e)
 		{
-			DeviceModified?.Invoke(this, e.DeviceId);
+			ItemModified?.Invoke(this, new(WatcherChangeTypes.Changed, e.DeviceId, e.DeviceName));
 		}
 
 		private void Win32_OnDeviceRemoved(object? sender, DeviceEventArgs e)
 		{
-			DeviceRemoved?.Invoke(this, e.DeviceId);
+			var item = new NativeFolder(e.DeviceId);
+			ItemRemoved?.Invoke(this, new(WatcherChangeTypes.Deleted, e.DeviceId, e.DeviceName));
 		}
 
 		private async void Win32_OnDeviceAdded(object? sender, DeviceEventArgs e)
@@ -68,7 +67,7 @@ namespace Files.App.Filesystem
 			var type = DriveHelpers.GetDriveType(driveAdded);
 			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, type);
 
-			DeviceAdded?.Invoke(this, driveItem);
+			ItemAdded?.Invoke(this, new(WatcherChangeTypes.Created, driveItem.Path, driveItem.Name));
 		}
 
 		private void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -76,9 +75,10 @@ namespace Files.App.Filesystem
 			EnumerationCompleted?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
+		private async void Watcher_Removed(DeviceWatcher sender, DeviceInformationUpdate args)
 		{
-			DeviceRemoved?.Invoke(this, args.Id);
+			var item = new NativeFolder(args.Id);
+			ItemRemoved?.Invoke(this, new(WatcherChangeTypes.Deleted, item.Path, item.Name));
 		}
 
 		private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args)
@@ -110,7 +110,7 @@ namespace Files.App.Filesystem
 
 			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type);
 
-			DeviceAdded?.Invoke(this, driveItem);
+			ItemAdded?.Invoke(this, new(WatcherChangeTypes.Created, driveItem.Path, driveItem.Name));
 		}
 
 		public void Start()
