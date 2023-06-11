@@ -88,7 +88,7 @@
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
 					IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
-					IsOn="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=TwoWay}"
+					IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}">
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="Toggled">
