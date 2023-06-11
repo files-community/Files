@@ -1195,13 +1195,15 @@ namespace Files.App.Data.Models
 						}
 
 						if (item.IsGitItem &&
-							GitHelpers.IsRepositoryEx(item.ItemPath, out var repo) &&
-							repo is not null)
+							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
+							!string.IsNullOrEmpty(repoPath))
 						{
 							cts.Token.ThrowIfCancellationRequested();
 							await SafetyExtensions.IgnoreExceptions(() =>
 							{
+								var repo = new LibGit2Sharp.Repository(repoPath);
 								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;

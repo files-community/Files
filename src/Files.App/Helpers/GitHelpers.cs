@@ -268,10 +268,13 @@ namespace Files.App.Helpers
 			IsExecutingGitAction = false;
 		}
 
-		public static bool IsRepositoryEx(string path, out Repository? repository)
+		public static bool IsRepositoryEx(string path, out string repoRootPath)
 		{
-			repository = null;
+			repoRootPath = path;
+
 			var rootPath = SystemIO.Path.GetPathRoot(path);
+			if (rootPath is null)
+				return false;
 
 			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
 			if (string.IsNullOrEmpty(repositoryRootPath))
@@ -279,7 +282,7 @@ namespace Files.App.Helpers
 
 			if (Repository.IsValid(repositoryRootPath))
 			{
-				repository = new(repositoryRootPath);
+				repoRootPath = repositoryRootPath;
 				return true;
 			}
 
