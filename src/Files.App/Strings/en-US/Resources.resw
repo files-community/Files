@@ -3353,10 +3353,10 @@
   <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
   </data>
-  <data name="GitCommitMessage" xml:space="preserve">
+  <data name="CommitMessage" xml:space="preserve">
     <value>Commit message</value>
   </data>
-  <data name="GitCommitSha" xml:space="preserve">
+  <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
   </data>
   <data name="Git" xml:space="preserve">

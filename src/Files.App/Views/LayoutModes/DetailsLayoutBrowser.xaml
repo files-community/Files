@@ -595,7 +595,7 @@
 								Grid.Column="8"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitMessage"
-								Header="{helpers:ResourceString Name=GitCommitMessage}"
+								Header="{helpers:ResourceString Name=CommitMessage}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
@@ -639,7 +639,7 @@
 								Grid.Column="12"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitSha"
-								Header="{helpers:ResourceString Name=GitCommitSha}"
+								Header="{helpers:ResourceString Name=CommitSha}"
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
