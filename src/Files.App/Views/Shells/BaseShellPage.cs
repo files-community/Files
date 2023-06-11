@@ -201,12 +201,7 @@ namespace Files.App.Views.Shells
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected void FilesystemViewModel_PageTypeUpdated(object sender, PageTypeUpdatedEventArgs e)
-		{
-			InstanceViewModel.IsPageTypeCloudDrive = e.IsTypeCloudDrive;
-		}
-
-		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<ListedItem> e)
+		protected void FilesystemViewModel_OnSelectionRequestedEvent(object sender, List<StandardItemViewModel> e)
 		{
 			// Set focus since selection might occur before the UI finishes updating
 			ContentPage.ItemManipulationModel.FocusFileList();

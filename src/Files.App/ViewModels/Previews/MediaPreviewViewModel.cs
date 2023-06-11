@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Previews
 			private set => SetProperty(ref source, value);
 		}
 
-		public MediaPreviewViewModel(ListedItem item) : base(item) { }
+		public MediaPreviewViewModel(StandardItemViewModel item) : base(item) { }
 
 		// TODO: Use existing helper mothods
 		public static bool ContainsExtension(string extension)

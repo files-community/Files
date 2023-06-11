@@ -279,7 +279,7 @@ namespace Files.App.Views
 				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
 			else if (e.InvokedItemDataContext is LocationItem locationItem)
 			{
-				ListedItem listedItem = new ListedItem(null!)
+				StandardItemViewModel listedItem = new StandardItemViewModel(null!)
 				{
 					ItemPath = locationItem.Path,
 					ItemNameRaw = locationItem.Text,

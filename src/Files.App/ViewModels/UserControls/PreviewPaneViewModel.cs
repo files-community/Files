@@ -40,8 +40,8 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref isItemSelected, value);
 		}
 
-		private ListedItem selectedItem;
-		public ListedItem SelectedItem
+		private StandardItemViewModel selectedItem;
+		public StandardItemViewModel SelectedItem
 		{
 			get => selectedItem;
 			set => SetProperty(ref selectedItem, value);
@@ -115,7 +115,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
-		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
+		private async Task<UserControl> GetBuiltInPreviewControlAsync(StandardItemViewModel item, bool downloadItem)
 		{
 			ShowCloudItemButton = false;
 

@@ -58,7 +58,7 @@ namespace Files.App.Actions
 				? context.SelectedItems.All(IsPinned)
 				: context.Folder is not null && IsPinned(context.Folder);
 
-			bool IsPinned(ListedItem item)
+			bool IsPinned(StandardItemViewModel item)
 			{
 				return favorites.Contains(item.ItemPath);
 			}

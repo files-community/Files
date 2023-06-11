@@ -32,7 +32,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		private VirtualStorageItem() { }
 
-		public static VirtualStorageItem FromListedItem(ListedItem item)
+		public static VirtualStorageItem FromListedItem(StandardItemViewModel item)
 		{
 			return new VirtualStorageItem()
 			{

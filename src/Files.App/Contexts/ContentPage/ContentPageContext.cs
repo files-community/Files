@@ -17,7 +17,7 @@ namespace Files.App.Contexts
 {
 	internal class ContentPageContext : ObservableObject, IContentPageContext
 	{
-		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
+		private static readonly IReadOnlyList<StandardItemViewModel> emptyItems = Enumerable.Empty<StandardItemViewModel>().ToImmutableList();
 
 		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
 
@@ -30,15 +30,15 @@ namespace Files.App.Contexts
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
+		public StandardItemViewModel? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
 
 		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
 
 		public bool HasSelection => SelectedItems.Count is not 0;
-		public ListedItem? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
+		public StandardItemViewModel? SelectedItem => SelectedItems.Count is 1 ? SelectedItems[0] : null;
 
-		private IReadOnlyList<ListedItem> selectedItems = emptyItems;
-		public IReadOnlyList<ListedItem> SelectedItems => selectedItems;
+		private IReadOnlyList<StandardItemViewModel> selectedItems = emptyItems;
+		public IReadOnlyList<StandardItemViewModel> SelectedItems => selectedItems;
 
 		public bool CanRefresh => ShellPage is not null && ShellPage.ToolbarViewModel.CanRefresh;
 
@@ -215,9 +215,9 @@ namespace Files.App.Contexts
 		private void UpdateSelectedItems()
 		{
 			bool oldHasSelection = HasSelection;
-			ListedItem? oldSelectedItem = SelectedItem;
+			StandardItemViewModel? oldSelectedItem = SelectedItem;
 
-			IReadOnlyList<ListedItem> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
+			IReadOnlyList<StandardItemViewModel> items = ShellPage?.ToolbarViewModel?.SelectedItems?.AsReadOnly() ?? emptyItems;
 			if (SetProperty(ref selectedItems, items, nameof(SelectedItems)))
 			{
 				if (HasSelection != oldHasSelection)

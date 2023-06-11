@@ -54,7 +54,7 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardItemViewModel e)
 		{
 			FileList.ScrollIntoView(e);
 		}
@@ -68,7 +68,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			if ((NextRenameIndex != 0 && TryStartRenameNextItem(e)) || (!FileList?.Items.Contains(e) ?? true))
 				return;
@@ -76,7 +76,7 @@ namespace Files.App.Views.LayoutModes
 			FileList!.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
@@ -236,7 +236,7 @@ namespace Files.App.Views.LayoutModes
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				popup!.IsOpen = false;
-				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
+				textBlock!.Opacity = (textBlock.DataContext as StandardItemViewModel)!.Opacity;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
@@ -280,7 +280,7 @@ namespace Files.App.Views.LayoutModes
 				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem? folder in folders)
+					foreach (StandardItemViewModel? folder in folders)
 					{
 						if (folder is not null)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
@@ -344,7 +344,7 @@ namespace Files.App.Views.LayoutModes
 		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			foreach (StandardItemViewModel listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is null)
@@ -360,7 +360,7 @@ namespace Files.App.Views.LayoutModes
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as StandardItemViewModel;
 			if (item is null)
 				return;
 
@@ -410,7 +410,7 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is StandardItemViewModel item &&
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -422,7 +422,7 @@ namespace Files.App.Views.LayoutModes
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
+				checkBox.DataContext is StandardItemViewModel item &&
 				!FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
@@ -430,7 +430,7 @@ namespace Files.App.Views.LayoutModes
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
 			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
+				checkBox.DataContext is StandardItemViewModel item &&
 				FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
 		}

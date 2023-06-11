@@ -75,7 +75,7 @@ namespace Files.App.Views.LayoutModes
 			openedFolderPresenter = null;
 		}
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardItemViewModel e)
 		{
 			try
 			{
@@ -96,7 +96,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			if (NextRenameIndex != 0 && TryStartRenameNextItem(e))
 				return;
@@ -104,7 +104,7 @@ namespace Files.App.Views.LayoutModes
 			FileList?.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			FileList?.SelectedItems.Remove(e);
 		}
@@ -133,7 +133,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
+			if (args.Item is StandardItemViewModel item && columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
 				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
@@ -150,7 +150,7 @@ namespace Files.App.Views.LayoutModes
 		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			foreach (StandardItemViewModel listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
@@ -325,7 +325,7 @@ namespace Files.App.Views.LayoutModes
 
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
-			if (clickedItem?.DataContext is ListedItem item)
+			if (clickedItem?.DataContext is StandardItemViewModel item)
 			{
 				switch (item.PrimaryItemAttribute)
 				{
@@ -363,7 +363,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void HandleRightClick(object pressed)
 		{
-			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
+			var objectPressed = ((FrameworkElement)pressed).DataContext as StandardItemViewModel;
 
 			// Check if RightTapped row is currently selected
 			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
@@ -377,7 +377,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as StandardItemViewModel;
 
 
 			// Allow for Ctrl+Shift selection
@@ -425,7 +425,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void CheckDoubleClick(ListedItem item)
+		private void CheckDoubleClick(StandardItemViewModel item)
 		{
 			doubleClickTimer.Debounce(() =>
 			{

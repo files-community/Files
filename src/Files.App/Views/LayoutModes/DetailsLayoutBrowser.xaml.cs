@@ -30,7 +30,7 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private ListedItem? _nextItemToSelect;
+		private StandardItemViewModel? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
 
@@ -67,7 +67,7 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardItemViewModel e)
 		{
 			FileList.ScrollIntoView(e);
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
@@ -82,7 +82,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			if (NextRenameIndex != 0)
 			{
@@ -93,7 +93,7 @@ namespace Files.App.Views.LayoutModes
 				FileList!.SelectedItems.Add(e);
 		}
 
-		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
+		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardItemViewModel e)
 		{
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
@@ -226,7 +226,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			SelectedItems = FileList.SelectedItems.Cast<StandardItemViewModel>().Where(x => x is not null).ToList();
 
 			if (e != null)
 			{
@@ -318,7 +318,7 @@ namespace Files.App.Views.LayoutModes
 				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem? folder in folders)
+					foreach (StandardItemViewModel? folder in folders)
 					{
 						if (folder is not null)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
@@ -384,7 +384,7 @@ namespace Files.App.Views.LayoutModes
 		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			foreach (StandardItemViewModel listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
@@ -397,7 +397,7 @@ namespace Files.App.Views.LayoutModes
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = (e.OriginalSource as FrameworkElement)?.DataContext as StandardItemViewModel;
 			if (item is null)
 				return;
 
@@ -440,7 +440,7 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is StandardItemViewModel item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -551,14 +551,14 @@ namespace Files.App.Views.LayoutModes
 			var maxItemLength = columnToResize switch
 			{
 				1 => 40, // Check all items columns
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				3 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				6 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				7 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
+				2 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
+				3 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
+				4 => FileList.Items.Cast<StandardItemViewModel>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
+				5 => FileList.Items.Cast<StandardItemViewModel>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
+				6 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
+				7 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
+				8 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
+				9 => FileList.Items.Cast<StandardItemViewModel>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
 				_ => 20 // cloud status column
 			};
 
@@ -692,13 +692,13 @@ namespace Files.App.Views.LayoutModes
 
 		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox && checkBox.DataContext is StandardItemViewModel item && !FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Add(item);
 		}
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+			if (sender is CheckBox checkBox && checkBox.DataContext is StandardItemViewModel item && FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
 		}
 
@@ -763,7 +763,7 @@ namespace Files.App.Views.LayoutModes
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
 
-			if (tagName is null || parent?.DataContext is not ListedItem item)
+			if (tagName is null || parent?.DataContext is not StandardItemViewModel item)
 				return;
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;

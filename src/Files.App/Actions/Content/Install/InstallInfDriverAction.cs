@@ -34,7 +34,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			foreach (ListedItem selectedItem in context.SelectedItems)
+			foreach (StandardItemViewModel selectedItem in context.SelectedItems)
 				await Win32API.InstallInf(selectedItem.ItemPath);
 		}
 

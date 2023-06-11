@@ -15,13 +15,13 @@ namespace Files.App.ViewModels.Properties
 {
 	internal class CombinedProperties : BaseProperties
 	{
-		public List<ListedItem> List { get; }
+		public List<StandardItemViewModel> List { get; }
 
 		public CombinedProperties(
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			List<ListedItem> listedItems,
+			List<StandardItemViewModel> listedItems,
 			IShellPage instance)
 		{
 			ViewModel = viewModel;

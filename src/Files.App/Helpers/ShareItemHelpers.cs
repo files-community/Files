@@ -15,12 +15,12 @@ namespace Files.App.Helpers
 {
 	public static class ShareItemHelpers
 	{
-		public static bool IsItemShareable(ListedItem item)
+		public static bool IsItemShareable(StandardItemViewModel item)
 			=> !item.IsHiddenItem &&
 				(!item.IsShortcut || item.IsLinkItem) &&
 				(item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive);
 
-		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
+		public static void ShareItems(IEnumerable<StandardItemViewModel> itemsToShare)
 		{
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
 			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 				List<IStorageItem> items = new();
 				DataRequest dataRequest = args.Request;
 
-				foreach (ListedItem item in itemsToShare)
+				foreach (StandardItemViewModel item in itemsToShare)
 				{
 					if (item is ShortcutItem shItem)
 					{

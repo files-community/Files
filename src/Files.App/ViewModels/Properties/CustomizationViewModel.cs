@@ -46,7 +46,7 @@ namespace Files.App.ViewModels.Properties
 
 		public CustomizationViewModel(IShellPage appInstance, BaseProperties baseProperties, AppWindow appWindow)
 		{
-			ListedItem item;
+			StandardItemViewModel item;
 
 			if (baseProperties is FileProperties fileProperties)
 				item = fileProperties.Item;

@@ -28,18 +28,18 @@ namespace Files.App.Helpers
 	{
 		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
-		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
+		public static bool CanDecompress(IReadOnlyList<StandardItemViewModel> selectedItems)
 		{
 			return selectedItems.Any() && selectedItems.All(x => x.IsArchive)
 				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
 		}
 
-		public static bool CanCompress(IReadOnlyList<ListedItem> selectedItems)
+		public static bool CanCompress(IReadOnlyList<StandardItemViewModel> selectedItems)
 		{
 			return !CanDecompress(selectedItems) || selectedItems.Count > 1;
 		}
 
-		public static string DetermineArchiveNameFromSelection(IReadOnlyList<ListedItem> selectedItems)
+		public static string DetermineArchiveNameFromSelection(IReadOnlyList<StandardItemViewModel> selectedItems)
 		{
 			if (!selectedItems.Any())
 				return string.Empty;

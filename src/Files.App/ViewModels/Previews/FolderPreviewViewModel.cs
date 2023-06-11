@@ -15,13 +15,13 @@ namespace Files.App.ViewModels.Previews
 
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-		public ListedItem Item { get; }
+		public StandardItemViewModel Item { get; }
 
 		public BitmapImage Thumbnail { get; set; } = new();
 
 		private BaseStorageFolder Folder { get; set; }
 
-		public FolderPreviewViewModel(ListedItem item)
+		public FolderPreviewViewModel(StandardItemViewModel item)
 			=> Item = item;
 
 		public Task LoadAsync()

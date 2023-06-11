@@ -35,11 +35,11 @@ namespace Files.App.ViewModels.Properties
 
 		public ICommand ToggleIsEnabledCommand { get; private set; }
 
-		private ListedItem _item;
+		private StandardItemViewModel _item;
 
 		private CancellationTokenSource _cancellationTokenSource;
 
-		public HashesViewModel(ListedItem item)
+		public HashesViewModel(StandardItemViewModel item)
 		{
 			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
 

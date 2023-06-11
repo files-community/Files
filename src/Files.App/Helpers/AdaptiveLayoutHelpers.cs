@@ -20,7 +20,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly IFoldersSettingsService foldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
-		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(FolderSettingsViewModel folderSettings, string path, IList<StandardItemViewModel> filesAndFolders)
 		{
 			if (foldersSettingsService.SyncFolderPreferencesAcrossDirectories)
 				return;
@@ -41,7 +41,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static Layouts GetAdaptiveLayout(string path, IList<ListedItem> filesAndFolders)
+		private static Layouts GetAdaptiveLayout(string path, IList<StandardItemViewModel> filesAndFolders)
 		{
 			var pathLayout = GetPathLayout(path);
 			if (pathLayout is not Layouts.None)
@@ -86,7 +86,7 @@ namespace Files.App.Helpers
 				=> "FolderType".Equals(data.KeyName, StringComparison.OrdinalIgnoreCase);
 		}
 
-		private static Layouts GetContentLayout(IList<ListedItem> filesAndFolders)
+		private static Layouts GetContentLayout(IList<StandardItemViewModel> filesAndFolders)
 		{
 			int itemCount = filesAndFolders.Count;
 			if (filesAndFolders.Count is 0)
@@ -109,14 +109,14 @@ namespace Files.App.Helpers
 				return Layouts.Detail;
 			return Layouts.Grid;
 
-			static bool IsFolder(ListedItem item)
+			static bool IsFolder(StandardItemViewModel item)
 				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-			static bool IsImage(ListedItem item)
+			static bool IsImage(StandardItemViewModel item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
 				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 
-			static bool IsMedia(ListedItem item)
+			static bool IsMedia(StandardItemViewModel item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
 				&& MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 		}

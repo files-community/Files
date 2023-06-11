@@ -187,7 +187,7 @@ namespace Files.App.Views
 
 		private async void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
-			ListedItem listedItem = new(null!)
+			StandardItemViewModel listedItem = new(null!)
 			{
 				ItemPath = e.Item.Path,
 				ItemNameRaw = e.Item.Text,

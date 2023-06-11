@@ -8,8 +8,6 @@ namespace Files.App.Views.Shells
 {
 	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
-		ItemViewModel FilesystemViewModel { get; }
-
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }

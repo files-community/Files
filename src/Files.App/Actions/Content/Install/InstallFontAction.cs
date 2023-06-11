@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			foreach (ListedItem selectedItem in context.SelectedItems)
+			foreach (StandardItemViewModel selectedItem in context.SelectedItems)
 				Win32API.InstallFont(selectedItem.ItemPath, false);
 
 			return Task.CompletedTask;

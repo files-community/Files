@@ -22,13 +22,13 @@ namespace Files.App.ViewModels.Properties
 {
 	public class FileProperties : BaseProperties
 	{
-		public ListedItem Item { get; }
+		public StandardItemViewModel Item { get; }
 
 		public FileProperties(
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			ListedItem item,
+			StandardItemViewModel item,
 			IShellPage instance)
 		{
 			ViewModel = viewModel;

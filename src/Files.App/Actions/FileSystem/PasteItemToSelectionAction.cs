@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return;
 
-			string path = context.SelectedItem is ListedItem selectedItem
+			string path = context.SelectedItem is StandardItemViewModel selectedItem
 				? selectedItem.ItemPath
 				: context.ShellPage.FilesystemViewModel.WorkingDirectory;
 

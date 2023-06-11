@@ -236,7 +236,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
+		public static async Task<bool> RenameFileItemAsync(StandardItemViewModel item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
 			{
@@ -360,7 +360,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="isHidden"></param>
-		public static void SetHiddenAttributeItem(ListedItem item, bool isHidden, ItemManipulationModel itemManipulationModel)
+		public static void SetHiddenAttributeItem(StandardItemViewModel item, bool isHidden, ItemManipulationModel itemManipulationModel)
 		{
 			item.IsHiddenItem = isHidden;
 			itemManipulationModel.RefreshItemsOpacity();

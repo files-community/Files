@@ -13,9 +13,9 @@ namespace Files.App.Views.LayoutModes
 
 		bool IsMiddleClickToScrollEnabled { get; set; }
 
-		public List<ListedItem>? SelectedItems { get; }
+		public List<StandardItemViewModel>? SelectedItems { get; }
 
-		public ListedItem? SelectedItem { get; }
+		public StandardItemViewModel? SelectedItem { get; }
 
 		ItemManipulationModel ItemManipulationModel { get; }
 

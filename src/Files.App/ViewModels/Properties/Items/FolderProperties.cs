@@ -17,13 +17,13 @@ namespace Files.App.ViewModels.Properties
 {
 	internal class FolderProperties : BaseProperties
 	{
-		public ListedItem Item { get; }
+		public StandardItemViewModel Item { get; }
 
 		public FolderProperties(
 			SelectedItemsPropertiesViewModel viewModel,
 			CancellationTokenSource tokenSource,
 			DispatcherQueue coreDispatcher,
-			ListedItem item,
+			StandardItemViewModel item,
 			IShellPage instance)
 		{
 			ViewModel = viewModel;

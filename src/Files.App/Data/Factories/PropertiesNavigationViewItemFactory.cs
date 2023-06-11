@@ -71,7 +71,7 @@ namespace Files.App.Data.Factories
 			PropertiesNavigationViewItems.Add(customizationItem);
 			PropertiesNavigationViewItems.Add(compatibilityItem);
 
-			if (item is List<ListedItem> listedItems)
+			if (item is List<StandardItemViewModel> listedItems)
 			{
 				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
 				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
@@ -86,7 +86,7 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(hashesItem);
 			}
-			else if (item is ListedItem listedItem)
+			else if (item is StandardItemViewModel listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
 				var isLibrary = listedItem.IsLibrary;

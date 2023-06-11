@@ -16,13 +16,13 @@ namespace Files.App.Contexts
 
 		Type PageLayoutType { get; }
 
-		ListedItem? Folder { get; }
+		StandardItemViewModel? Folder { get; }
 
 		bool HasItem { get; }
 		bool HasSelection { get; }
 		bool CanRefresh { get; }
-		ListedItem? SelectedItem { get; }
-		IReadOnlyList<ListedItem> SelectedItems { get; }
+		StandardItemViewModel? SelectedItem { get; }
+		IReadOnlyList<StandardItemViewModel> SelectedItems { get; }
 
 		bool CanGoBack { get; }
 		bool CanGoForward { get; }

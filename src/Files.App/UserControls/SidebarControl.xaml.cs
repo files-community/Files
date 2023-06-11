@@ -820,7 +820,7 @@ namespace Files.App.UserControls
 			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
-				var listedItem = new ListedItem(null)
+				var listedItem = new StandardItemViewModel(null)
 				{
 					ItemPath = item.Path,
 					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),

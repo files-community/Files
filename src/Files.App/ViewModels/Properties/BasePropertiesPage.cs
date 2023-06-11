@@ -36,10 +36,10 @@ namespace Files.App.ViewModels.Properties
 			else if (np.Parameter is DriveItem drive)
 				BaseProperties = new DriveProperties(ViewModel, drive, AppInstance);
 			// Storage objects (multi-selected)
-			else if (np.Parameter is List<ListedItem> items)
+			else if (np.Parameter is List<StandardItemViewModel> items)
 				BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
 			// A storage object
-			else if (np.Parameter is ListedItem item)
+			else if (np.Parameter is StandardItemViewModel item)
 			{
 				// File or Archive
 				if (item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)

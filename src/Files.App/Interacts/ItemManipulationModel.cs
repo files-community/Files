@@ -17,15 +17,15 @@ namespace Files.App.Interacts
 
 		public event EventHandler InvertSelectionInvoked;
 
-		public event EventHandler<ListedItem> AddSelectedItemInvoked;
+		public event EventHandler<StandardItemViewModel> AddSelectedItemInvoked;
 
-		public event EventHandler<ListedItem> RemoveSelectedItemInvoked;
+		public event EventHandler<StandardItemViewModel> RemoveSelectedItemInvoked;
 
 		public event EventHandler FocusSelectedItemsInvoked;
 
 		public event EventHandler StartRenameItemInvoked;
 
-		public event EventHandler<ListedItem> ScrollIntoViewInvoked;
+		public event EventHandler<StandardItemViewModel> ScrollIntoViewInvoked;
 
 		public event EventHandler SetDragModeForItemsInvoked;
 
@@ -55,39 +55,39 @@ namespace Files.App.Interacts
 			InvertSelectionInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public void AddSelectedItem(ListedItem item)
+		public void AddSelectedItem(StandardItemViewModel item)
 		{
 			AddSelectedItemInvoked?.Invoke(this, item);
 		}
 
-		public void AddSelectedItems(List<ListedItem> items)
+		public void AddSelectedItems(List<StandardItemViewModel> items)
 		{
-			foreach (ListedItem item in items)
+			foreach (StandardItemViewModel item in items)
 			{
 				AddSelectedItem(item);
 			}
 		}
 
-		public void RemoveSelectedItem(ListedItem item)
+		public void RemoveSelectedItem(StandardItemViewModel item)
 		{
 			RemoveSelectedItemInvoked?.Invoke(this, item);
 		}
 
-		public void RemoveSelectedItems(List<ListedItem> items)
+		public void RemoveSelectedItems(List<StandardItemViewModel> items)
 		{
-			foreach (ListedItem item in items)
+			foreach (StandardItemViewModel item in items)
 			{
 				RemoveSelectedItem(item);
 			}
 		}
 
-		public void SetSelectedItem(ListedItem item)
+		public void SetSelectedItem(StandardItemViewModel item)
 		{
 			ClearSelection();
 			AddSelectedItem(item);
 		}
 
-		public void SetSelectedItems(List<ListedItem> items)
+		public void SetSelectedItems(List<StandardItemViewModel> items)
 		{
 			ClearSelection();
 			AddSelectedItems(items);
@@ -103,7 +103,7 @@ namespace Files.App.Interacts
 			StartRenameItemInvoked?.Invoke(this, EventArgs.Empty);
 		}
 
-		public void ScrollIntoView(ListedItem item)
+		public void ScrollIntoView(StandardItemViewModel item)
 		{
 			ScrollIntoViewInvoked?.Invoke(this, item);
 		}

@@ -24,7 +24,7 @@ namespace Files.App.Actions
 		{
 			if (context.SelectedItems.Count > 0)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
+				foreach (StandardItemViewModel listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
 			}
 			else

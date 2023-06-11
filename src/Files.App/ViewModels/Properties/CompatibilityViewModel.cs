@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.Properties
 {
 	public class CompatibilityViewModel : ObservableObject
 	{
-		public ListedItem Item { get; }
+		public StandardItemViewModel Item { get; }
 
 		private string ExePath
 			=> Item is ShortcutItem sht ? sht.TargetPath : Item.ItemPath;
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Properties
 
 		public IRelayCommand RunTroubleshooterCommand { get; set; }
 
-		public CompatibilityViewModel(ListedItem item)
+		public CompatibilityViewModel(StandardItemViewModel item)
 		{
 			Item = item;
 

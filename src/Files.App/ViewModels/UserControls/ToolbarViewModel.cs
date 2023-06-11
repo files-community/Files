@@ -172,7 +172,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
+		public ObservableCollection<StandardItemViewModel> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -737,7 +737,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					IList<ListedItem>? suggestions = null;
+					IList<StandardItemViewModel>? suggestions = null;
 					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
 					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
@@ -749,7 +749,7 @@ namespace Files.App.ViewModels.UserControls
 					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
 					if (currPath.Count >= maxSuggestions)
 					{
-						suggestions = currPath.Select(x => new ListedItem(null!)
+						suggestions = currPath.Select(x => new StandardItemViewModel(null!)
 						{
 							ItemPath = x.Path,
 							ItemNameRaw = x.Item.DisplayName
@@ -758,12 +758,12 @@ namespace Files.App.ViewModels.UserControls
 					else if (currPath.Any())
 					{
 						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-						suggestions = currPath.Select(x => new ListedItem(null!)
+						suggestions = currPath.Select(x => new StandardItemViewModel(null!)
 						{
 							ItemPath = x.Path,
 							ItemNameRaw = x.Item.DisplayName
 						}).Concat(
-							subPath.Select(x => new ListedItem(null!)
+							subPath.Select(x => new StandardItemViewModel(null!)
 							{
 								ItemPath = x.Path,
 								ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
@@ -771,7 +771,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
-						suggestions = new List<ListedItem>() { new ListedItem(null!) {
+						suggestions = new List<StandardItemViewModel>() { new StandardItemViewModel(null!) {
 						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
 						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
@@ -811,7 +811,7 @@ namespace Files.App.ViewModels.UserControls
 				}))
 				{
 					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new ListedItem(null!)
+					NavigationBarSuggestions.Add(new StandardItemViewModel(null!)
 					{
 						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
 						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
@@ -827,9 +827,9 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref hasItem, value);
 		}
 
-		private List<ListedItem>? selectedItems;
+		private List<StandardItemViewModel>? selectedItems;
 
-		public List<ListedItem> SelectedItems
+		public List<StandardItemViewModel> SelectedItems
 		{
 			get => selectedItems;
 			set

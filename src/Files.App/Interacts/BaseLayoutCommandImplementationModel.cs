@@ -75,7 +75,7 @@ namespace Files.App.Interacts
 
 		public virtual async Task OpenDirectoryInNewTab(RoutedEventArgs e)
 		{
-			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
+			foreach (StandardItemViewModel listedItem in SlimContentPage.SelectedItems)
 			{
 				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
@@ -92,9 +92,9 @@ namespace Files.App.Interacts
 
 		public virtual async Task OpenInNewWindowItem(RoutedEventArgs e)
 		{
-			List<ListedItem> items = SlimContentPage.SelectedItems;
+			List<StandardItemViewModel> items = SlimContentPage.SelectedItems;
 
-			foreach (ListedItem listedItem in items)
+			foreach (StandardItemViewModel listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
 				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
@@ -112,7 +112,7 @@ namespace Files.App.Interacts
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
 			{
 				// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
-				if (e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+				if (e.OriginalSource is FrameworkElement { DataContext: StandardItemViewModel Item } && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
 					SlimContentPage.IsMiddleClickToScrollEnabled = false;
 					SlimContentPage.IsMiddleClickToScrollEnabled = true;

@@ -39,7 +39,7 @@ namespace Files.App.Actions
 				currentPath = library.DefaultSaveFolder;
 			}
 
-			foreach (ListedItem selectedItem in context.SelectedItems)
+			foreach (StandardItemViewModel selectedItem in context.SelectedItems)
 			{
 				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
 				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);

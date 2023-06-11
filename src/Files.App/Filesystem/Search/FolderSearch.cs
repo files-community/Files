@@ -84,7 +84,7 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+		public Task SearchAsync(IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			try
 			{
@@ -109,7 +109,7 @@ namespace Files.App.Filesystem.Search
 			return Task.CompletedTask;
 		}
 
-		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsAsyncForHome(IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
@@ -124,9 +124,9 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		public async Task<ObservableCollection<ListedItem>> SearchAsync()
+		public async Task<ObservableCollection<StandardItemViewModel>> SearchAsync()
 		{
-			ObservableCollection<ListedItem> results = new ObservableCollection<ListedItem>();
+			ObservableCollection<StandardItemViewModel> results = new ObservableCollection<StandardItemViewModel>();
 			try
 			{
 				var token = CancellationToken.None;
@@ -151,7 +151,7 @@ namespace Files.App.Filesystem.Search
 			return results;
 		}
 
-		private async Task SearchAsync(BaseStorageFolder folder, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchAsync(BaseStorageFolder folder, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			uint index = 0;
@@ -192,7 +192,7 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			foreach (var folder in library.Folders)
 			{
@@ -200,7 +200,7 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchTagsAsync(string folder, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
@@ -271,7 +271,7 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsAsync(string folder, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
@@ -295,7 +295,7 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<ListedItem> results, CancellationToken token)
+		private async Task SearchWithWin32Async(string folder, bool hiddenOnly, uint maxItemCount, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
 			(IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
@@ -355,9 +355,9 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private ListedItem GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
+		private StandardItemViewModel GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
 		{
-			ListedItem listedItem = null;
+			StandardItemViewModel listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
 			if (!isFolder)
@@ -370,7 +370,7 @@ namespace Files.App.Filesystem.Search
 					itemType = itemFileExtension.Trim('.') + " " + itemType;
 				}
 
-				listedItem = new ListedItem(null)
+				listedItem = new StandardItemViewModel(null)
 				{
 					PrimaryItemAttribute = StorageItemTypes.File,
 					ItemNameRaw = findData.cFileName,
@@ -386,7 +386,7 @@ namespace Files.App.Filesystem.Search
 			{
 				if (findData.cFileName != "." && findData.cFileName != "..")
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardItemViewModel(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = findData.cFileName,
@@ -399,7 +399,7 @@ namespace Files.App.Filesystem.Search
 			}
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
+				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.Storable.Path, ThumbnailSize, ThumbnailMode.ListView, isFolder)
 					.ContinueWith((t) =>
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
@@ -414,9 +414,9 @@ namespace Files.App.Filesystem.Search
 			return listedItem;
 		}
 
-		private async Task<ListedItem> GetListedItemAsync(IStorageItem item)
+		private async Task<StandardItemViewModel> GetListedItemAsync(IStorageItem item)
 		{
-			ListedItem listedItem = null;
+			StandardItemViewModel listedItem = null;
 			if (item.IsOfType(StorageItemTypes.Folder))
 			{
 				var folder = item.AsBaseStorageFolder();
@@ -438,7 +438,7 @@ namespace Files.App.Filesystem.Search
 				}
 				else
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardItemViewModel(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -486,7 +486,7 @@ namespace Files.App.Filesystem.Search
 				}
 				else
 				{
-					listedItem = new ListedItem(null)
+					listedItem = new StandardItemViewModel(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						ItemNameRaw = file.Name,

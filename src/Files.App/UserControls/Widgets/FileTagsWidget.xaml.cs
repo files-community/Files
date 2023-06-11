@@ -83,7 +83,7 @@ namespace Files.App.UserControls.Widgets
 			flyoutClosed = async (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
-				ListedItem listedItem = new(null!)
+				StandardItemViewModel listedItem = new(null!)
 				{
 					ItemPath = (item.Item as FileTagsItemViewModel).Path,
 					ItemNameRaw = (item.Item as FileTagsItemViewModel).Name,

@@ -30,18 +30,18 @@ namespace Files.App.Filesystem.StorageEnumerators
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
 
-		public static async Task<List<ListedItem>> ListEntries(
+		public static async Task<List<StandardItemViewModel>> ListEntries(
 			string path,
 			IntPtr hFile,
 			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
+			Func<List<StandardItemViewModel>, Task> intermediateAction,
 			Dictionary<string, BitmapImage> defaultIconPairs = null
 		)
 		{
 			var sampler = new IntervalSampler(500);
-			var tempList = new List<ListedItem>();
+			var tempList = new List<StandardItemViewModel>();
 			var count = 0;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -132,7 +132,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return tempList;
 		}
 
-		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
+		private static IEnumerable<StandardItemViewModel> EnumAdsForPath(string itemPath, StandardItemViewModel main)
 		{
 			foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
 			{
@@ -140,7 +140,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			}
 		}
 
-		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
+		public static StandardItemViewModel GetAlternateStream((string Name, long Size) ads, StandardItemViewModel main)
 		{
 			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
@@ -170,7 +170,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFolder(
+		public static async Task<StandardItemViewModel> GetFolder(
 			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			CancellationToken cancellationToken
@@ -210,7 +210,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				opacity = Constants.UI.DimItemOpacity;
 			}
 
-			return new ListedItem(null)
+			return new StandardItemViewModel(null)
 			{
 				PrimaryItemAttribute = StorageItemTypes.Folder,
 				ItemNameRaw = itemName,
@@ -227,7 +227,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			};
 		}
 
-		public static async Task<ListedItem> GetFile(
+		public static async Task<StandardItemViewModel> GetFile(
 			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			CancellationToken cancellationToken
@@ -368,7 +368,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 				else
 				{
-					return new ListedItem(null)
+					return new StandardItemViewModel(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,

@@ -1,36 +1,28 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Filesystem.StorageEnumerators
 {
 	public static class UniversalStorageEnumerator
 	{
-		public static async Task<List<ListedItem>> ListEntries(
+		public static async Task<List<StandardItemViewModel>> ListEntries(
 			BaseStorageFolder rootFolder,
-			StorageFolderWithPath currentStorageFolder,
+			ILocatableFolder currentStorageFolder,
 			CancellationToken cancellationToken,
 			int countLimit,
-			Func<List<ListedItem>, Task> intermediateAction,
+			Func<List<StandardItemViewModel>, Task> intermediateAction,
 			Dictionary<string, BitmapImage> defaultIconPairs = null
 		)
 		{
 			var sampler = new IntervalSampler(500);
-			var tempList = new List<ListedItem>();
+			var tempList = new List<StandardItemViewModel>();
 			uint count = 0;
 			var firstRound = true;
 
@@ -161,7 +153,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return tempList;
 		}
 
-		public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		public static async Task<StandardItemViewModel> AddFolderAsync(BaseStorageFolder folder, ILocatableFolder currentStorageFolder, CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
 			if (!cancellationToken.IsCancellationRequested)
@@ -210,7 +202,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 				else
 				{
-					return new ListedItem(folder.FolderRelativeId)
+					return new StandardItemViewModel(folder.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = folder.DisplayName,
@@ -230,9 +222,9 @@ namespace Files.App.Filesystem.StorageEnumerators
 			return null;
 		}
 
-		public static async Task<ListedItem> AddFileAsync(
+		public static async Task<StandardItemViewModel> AddFileAsync(
 			BaseStorageFile file,
-			StorageFolderWithPath currentStorageFolder,
+			ILocatableFolder currentStorageFolder,
 			CancellationToken cancellationToken
 		)
 		{
@@ -313,7 +305,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				}
 				else
 				{
-					return new ListedItem(file.FolderRelativeId)
+					return new StandardItemViewModel(file.FolderRelativeId)
 					{
 						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,

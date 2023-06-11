@@ -12,10 +12,10 @@ namespace Files.App.Helpers
 {
 	public static class SortingHelper
 	{
-		private static object OrderByNameFunc(ListedItem item)
+		private static object OrderByNameFunc(StandardItemViewModel item)
 			=> item.Name;
 
-		public static Func<ListedItem, object>? GetSortFunc(SortOption directorySortOption)
+		public static Func<StandardItemViewModel, object>? GetSortFunc(SortOption directorySortOption)
 		{
 			return directorySortOption switch
 			{
@@ -32,17 +32,17 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static IEnumerable<ListedItem> OrderFileList(List<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection, bool sortDirectoriesAlongsideFiles)
+		public static IEnumerable<StandardItemViewModel> OrderFileList(List<StandardItemViewModel> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection, bool sortDirectoriesAlongsideFiles)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
 			var naturalStringComparer = NaturalStringComparer.GetForProcessor();
 
 			// In ascending order, show folders first, then files.
 			// So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
-			static bool FolderThenFileAsync(ListedItem listedItem)
+			static bool FolderThenFileAsync(StandardItemViewModel listedItem)
 				=> (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsShortcut || listedItem.IsArchive);
 
-			IOrderedEnumerable<ListedItem> ordered;
+			IOrderedEnumerable<StandardItemViewModel> ordered;
 
 			if (directorySortDirection == SortDirection.Ascending)
 			{

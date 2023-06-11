@@ -10,7 +10,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
 
-		public static Func<ListedItem, string> GetItemGroupKeySelector(GroupOption option, GroupByDateUnit unit)
+		public static Func<StandardItemViewModel, string> GetItemGroupKeySelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static (Action<GroupedCollection<ListedItem>>, Action<GroupedCollection<ListedItem>>) GetGroupInfoSelector(GroupOption option, GroupByDateUnit unit)
+		public static (Action<GroupedCollection<StandardItemViewModel>>, Action<GroupedCollection<StandardItemViewModel>>) GetGroupInfoSelector(GroupOption option, GroupByDateUnit unit)
 		{
 			return option switch
 			{
@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 					}
 				}, x =>
 				{
-					ListedItem first = x.First();
+					StandardItemViewModel first = x.First();
 					var model = x.Model;
 
 					model.Text = first.ItemType;
@@ -83,7 +83,7 @@ namespace Files.App.Helpers
 
 				GroupOption.SyncStatus => (x =>
 				{
-					ListedItem first = x.First();
+					StandardItemViewModel first = x.First();
 					x.Model.ShowCountTextBelow = true;
 					x.Model.Text = first.SyncStatusString;
 					x.Model.Icon = first?.SyncStatusUI.Glyph;
@@ -91,7 +91,7 @@ namespace Files.App.Helpers
 
 				GroupOption.FileTag => (x =>
 				{
-					ListedItem first = x.FirstOrDefault();
+					StandardItemViewModel first = x.FirstOrDefault();
 					x.Model.ShowCountTextBelow = true;
 					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.Name ?? "Untagged".GetLocalizedResource();
 					//x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
@@ -107,7 +107,7 @@ namespace Files.App.Helpers
 
 				GroupOption.OriginalFolder => (x =>
 					{
-						ListedItem first = x.First();
+						StandardItemViewModel first = x.First();
 						var model = x.Model;
 						model.ShowCountTextBelow = true;
 
@@ -117,7 +117,7 @@ namespace Files.App.Helpers
 
 				GroupOption.FolderPath => (x =>
 				{
-					ListedItem first = x.First();
+					StandardItemViewModel first = x.First();
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
 					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
