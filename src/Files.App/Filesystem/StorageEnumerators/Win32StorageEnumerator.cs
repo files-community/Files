@@ -47,7 +47,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
-			var isGitRepo = GitHelpers.IsRepositoryEx(path, out var repo);
+			var isGitRepo = GitHelpers.IsRepositoryEx(path, out _);
 
 			do
 			{
