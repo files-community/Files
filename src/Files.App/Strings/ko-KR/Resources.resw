@@ -277,7 +277,7 @@
     <value>권한 부여</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>시작하기 위해서는 파일 표시 권한이 필요합니다. 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다. </value>
+    <value>시작하기 위해서는 파일 표시 권한이 필요합니다. 권한을 얻기 위한 설정 페이지가 열리고, 권한 부여 후 앱을 재시작 하면 됩니다. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>표시</value>
@@ -316,7 +316,7 @@
     <value>앞으로 가기</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>위로 가기</value>
+    <value>상위 폴더로 이동</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>새로고침</value>
@@ -607,7 +607,7 @@
     <value>설정을 적용되려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>GitHub에서 후원해주세요</value>
+    <value>GitHub에서 후원하기</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다.</value>
@@ -739,7 +739,7 @@
     <value>초점 거리</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>조리개 최대 개방</value>
+    <value>조리개</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>사람들 이름</value>
@@ -1018,16 +1018,16 @@
     <value>삭제</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>새 탭을 듀얼 패널 모드로 열기</value>
+    <value>새 탭을 분할 화면 모드로 열기</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>새 패널에서 폴더 열기 옵션 표시</value>
+    <value>'새 분할 화면에서 폴더 열기' 옵션 표시</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>새 패널</value>
+    <value>새 분할 화면</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>새 패널에서 열기</value>
+    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>폴더</value>
@@ -1102,7 +1102,7 @@
     <value>원하는 이름</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>미리 보기 패널 전환</value>
+    <value>미리보기 화면</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
@@ -1165,7 +1165,7 @@
     <value>클라우드 드라이브</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>고정 디스크 드라이브</value>
+    <value>하드 디스크 드라이브</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>플로피 디스크 드라이브</value>
@@ -1213,10 +1213,10 @@
     <value>대상</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>고급 실행 옵션:</value>
+    <value>고급 실행 인수:</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>새 패널에서 열기</value>
+    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>기본값</value>
@@ -1243,7 +1243,7 @@
     <value>복사 완료</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>관리자 권한이 필요함</value>
+    <value>관리자 권한이 필요합니다</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>관리자 권한으로 계속하시겠습니까?</value>
@@ -1756,7 +1756,7 @@
     <value>모든 하위 객체의 사용 권한 항목을 이 객체의 상속 가능한 사용 권한 항목으로 변경</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>패널 닫기</value>
+    <value>분할 화면 닫기</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>간략한 화면 진입</value>
@@ -2275,10 +2275,10 @@
     <value>{0}가 압축되었습니다</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0}는 압축될 수 없습니다</value>
+    <value>{0} 을(를) 압축할 수 없습니다</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>보관 파일을 압축하는 중</value>
+    <value>압축하는 중</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>파일과 폴더에 마우스를 올려 선택하기</value>
@@ -2452,7 +2452,7 @@
     <value>번들은 향후 업데이트에서 삭제될 예정입니다📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>태그 편집 표시</value>
+    <value>'태그 편집' 표시</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>'새 탭에서 폴더 열기' 옵션 표시</value>
@@ -2515,7 +2515,7 @@
     <value>숨긴 항목 표시</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>포맷...</value>
+    <value>포맷</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>도움말</value>
@@ -2659,7 +2659,7 @@
     <value>휴지통 비우기</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>선택된 항목에 대한 드라이브 포맷</value>
+    <value>선택한 드라이브 포맷</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>복원</value>
@@ -2722,7 +2722,7 @@
     <value>선택한 폰트 설치</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>설치 정보 파일을 이용해 드라이버 설치</value>
+    <value>설치 정보를 이용해 드라이버 설치</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
       <value>인증서 설치</value>
@@ -2743,10 +2743,10 @@
     <value>선택한 항목으로 압축파일 만들기</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>선택한 항목으로 7z 압축파일 만들기</value>
+    <value>7z 압축파일 만들기</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>선택한 항목으로 Zip 압축파일 만들기</value>
+    <value>Zip 압축파일 만들기</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
     <value>폴더에 압축 해제</value>
@@ -2755,7 +2755,7 @@
     <value>현재 폴더에 압출 풀기</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>새 폴더에 압축 풀기</value>
+    <value>새 폴더에 압축 해제</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>이미지를 왼쪽으로 회전</value>
@@ -2994,7 +2994,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>위로 (Alt+위쪽 화살표)</value>
+    <value>Up</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -3066,7 +3066,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>뒤로</value>
+    <value>뒤로 가기</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
