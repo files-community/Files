@@ -30,6 +30,7 @@ using System.Text;
 using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
+using Windows.Media.Protection.PlayReady;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -140,20 +141,14 @@ namespace Files.App.Data.Models
 
 			WorkingDirectory = value;
 
-			string? pathRoot;
-			if (FtpHelpers.IsFtpPath(WorkingDirectory))
-			{
-				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
-				pathRoot = rootIndex is -1
-					? WorkingDirectory
-					: WorkingDirectory.Substring(0, rootIndex);
-			}
-			else
+			string? pathRoot = null;
+			if (!FtpHelpers.IsFtpPath(WorkingDirectory))
 			{
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
 			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -852,7 +847,7 @@ namespace Files.App.Data.Models
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new ();
+		public Dictionary<string, BitmapImage> DefaultIcons = new();
 
 		private uint currentDefaultIconSize = 0;
 
@@ -1342,49 +1337,40 @@ namespace Files.App.Data.Models
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-			if (FtpHelpers.IsFtpPath(path))
+			var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
+			var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
+
+			// Hide progressbar after enumeration
+			IsLoadingItems = false;
+
+			switch (enumerated)
 			{
-				// Recycle bin and network are enumerated by the fulltrust process
-				PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-				await EnumerateItemsFromSpecialFolderAsync(path);
-			}
-			else
-			{
-				var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
-				var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
+				// Enumerated with FindFirstFileExFromApp
+				// Is folder synced to cloud storage?
+				case 0:
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+					WatchForDirectoryChanges(path, syncStatus);
+					break;
 
-				// Hide progressbar after enumeration
-				IsLoadingItems = false;
+				// Enumerated with StorageFolder
+				case 1:
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					WatchForStorageFolderChanges(currentStorageFolder?.Item);
+					break;
 
-				switch (enumerated)
-				{
-					// Enumerated with FindFirstFileExFromApp
-					// Is folder synced to cloud storage?
-					case 0:
-						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-						WatchForDirectoryChanges(path, syncStatus);
-						break;
+				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
+				case 2:
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+					WatchForWin32FolderChanges(path);
+					break;
 
-					// Enumerated with StorageFolder
-					case 1:
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
-						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-						WatchForStorageFolderChanges(currentStorageFolder?.Item);
-						break;
-
-					// Watch for changes using FTP in Box Drive folder (#7428) and network drives (#5869)
-					case 2:
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-						WatchForWin32FolderChanges(path);
-						break;
-
-					// Enumeration failed
-					case -1:
-					default:
-						break;
-				}
+				// Enumeration failed
+				case -1:
+				default:
+					break;
 			}
 
 			if (addFilesCTS.IsCancellationRequested)
@@ -1407,99 +1393,6 @@ namespace Files.App.Data.Models
 			gitProcessQueueAction = null;
 			watcherCTS?.Cancel();
 			watcherCTS = new CancellationTokenSource();
-		}
-
-		public async Task EnumerateItemsFromSpecialFolderAsync(string path)
-		{
-			var isFtp = FtpHelpers.IsFtpPath(path);
-
-			CurrentFolder = new ListedItem(null!)
-			{
-				PrimaryItemAttribute = StorageItemTypes.Folder,
-				ItemPropertiesInitialized = true,
-				ItemNameRaw =
-							path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
-							path.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
-							path.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
-							isFtp ? "FTP" : "Unknown",
-				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
-				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now
-				ItemType = "Folder".GetLocalizedResource(),
-				FileImage = null,
-				LoadFileIcon = false,
-				ItemPath = path,
-				FileSize = null,
-				FileSizeBytes = 0
-			};
-
-			if (!isFtp || !FtpHelpers.VerifyFtpPath(path))
-				return;
-
-			// TODO: Show invalid path dialog
-
-			using var client = new AsyncFtpClient();
-			client.Host = FtpHelpers.GetFtpHost(path);
-			client.Port = FtpHelpers.GetFtpPort(path);
-			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
-
-			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
-			{
-				try
-				{
-					return await client.AutoConnect();
-				}
-				catch (FtpAuthenticationException)
-				{
-					return null;
-				}
-
-				throw new InvalidOperationException();
-			}
-
-			await Task.Run(async () =>
-			{
-				try
-				{
-					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							var credentialDialogViewModel = new CredentialDialogViewModel();
-
-							if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
-								return;
-
-							// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-							if (!credentialDialogViewModel.IsAnonymous)
-								client.Credentials = new NetworkCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-						});
-					}
-
-					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
-						throw new InvalidOperationException();
-
-					FtpManager.Credentials[client.Host] = client.Credentials;
-
-					var sampler = new IntervalSampler(500);
-					var list = await client.GetListing(FtpHelpers.GetFtpPath(path));
-
-					for (var i = 0; i < list.Length; i++)
-					{
-						filesAndFolders.Add(new FtpItem(list[i], path));
-
-						if (i == list.Length - 1 || sampler.CheckNow())
-						{
-							await OrderFilesAndFoldersAsync();
-							await ApplyFilesAndFoldersChangesAsync();
-						}
-					}
-				}
-				catch
-				{
-					// Network issue
-					FtpManager.Credentials.Remove(client.Host);
-				}
-			});
 		}
 
 		public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
@@ -1704,12 +1597,29 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
-				return Task.CompletedTask;
+				return;
 
-			return Task.Run(async () =>
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			if (rootFolder is IPasswordProtectedItem ppi)
+			{
+				if (await ppi.CheckAccess() == AccessResult.NeedsAuth)
+				{
+					var credentialDialogViewModel = new CredentialDialogViewModel();
+
+					if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
+						return;
+
+					// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+					if (!credentialDialogViewModel.IsAnonymous)
+						ppi.Credentials = new (credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+				}
+			}
+
+			await Task.Run(async () =>
 			{
 				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,

@@ -11,6 +11,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -22,7 +23,7 @@ using IO = System.IO;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem<string>
+	public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
 	{
 		private readonly string containerPath;
 		private BaseStorageFile backingFile;
@@ -37,7 +38,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public string Credentials { private get; set; }
+		public StorageCredential Credentials { private get; set; } = new();
 
 		public ZipStorageFolder(string path, string containerPath)
 		{
@@ -131,7 +132,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					var containerPath = path.Substring(0, marker + ext.Length);
 					var item = new ZipStorageFolder(path, containerPath);
-					if (await item.CheckAccess(string.Empty) != AccessResult.Failed)
+					if (await item.CheckAccess() != AccessResult.Failed)
 					{
 						return item;
 					}
@@ -145,7 +146,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
 			{
 				var item = new ZipStorageFolder(file);
-				return await item.CheckAccess(string.Empty) != AccessResult.Failed ? item : null;
+				return await item.CheckAccess() != AccessResult.Failed ? item : null;
 			});
 		}
 
@@ -322,7 +323,7 @@ namespace Files.App.Filesystem.StorageItems
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
-						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials, ms);
+						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials.Password, ms);
 					}
 					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
@@ -371,7 +372,7 @@ namespace Files.App.Filesystem.StorageItems
 							var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index,
 								IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
-							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -419,7 +420,7 @@ namespace Files.App.Filesystem.StorageItems
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index, null)));
-							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -528,7 +529,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials) : null;
+				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials.Password) : null;
 			});
 		}
 
@@ -591,7 +592,7 @@ namespace Files.App.Filesystem.StorageItems
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
-						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials, ms);
+						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials.Password, ms);
 					}
 					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
@@ -606,12 +607,12 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
-		public async Task<AccessResult> CheckAccess(string credentials)
+		public async Task<AccessResult> CheckAccess()
 		{
 			try
 			{
 				var archiveStream = await OpenZipFileAsync(FileAccessMode.Read);
-				using (SevenZipExtractor zipFile = new SevenZipExtractor(archiveStream, credentials))
+				using (SevenZipExtractor zipFile = new SevenZipExtractor(archiveStream, Credentials.Password))
 				{
 					//zipFile.IsStreamOwner = false;
 					return zipFile.ArchiveFileData is not null ?

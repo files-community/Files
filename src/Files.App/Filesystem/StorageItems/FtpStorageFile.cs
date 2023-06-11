@@ -14,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public sealed class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem<NetworkCredential>
+	public sealed class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -41,7 +41,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public NetworkCredential Credentials { private get; set; }
+		public StorageCredential Credentials { private get; set; }
 
 		public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -234,9 +234,9 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
-			var credentials = Credentials;
-			if (credentials is null)
-				credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = Credentials is not null ? 
+				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
+				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
 		}
@@ -265,12 +265,11 @@ namespace Files.App.Filesystem.StorageItems
 			}
 		}
 
-		public async Task<AccessResult> CheckAccess(NetworkCredential credentials)
+		public async Task<AccessResult> CheckAccess()
 		{
 			try
 			{
 				using var ftpClient = GetFtpClient();
-				ftpClient.Credentials = credentials;
 				await ftpClient.Connect();
 				return AccessResult.Success;
 			}
