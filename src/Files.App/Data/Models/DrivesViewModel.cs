@@ -40,9 +40,9 @@ namespace Files.App.Data.Models
 			drives = new ObservableCollection<ILocatableFolder>();
 
 			watcher = removableDrivesService.CreateWatcher();
-			watcher.DeviceAdded += Watcher_DeviceAdded;
-			watcher.DeviceRemoved += Watcher_DeviceRemoved;
-			watcher.DeviceModified += Watcher_DeviceModified;
+			watcher.ItemAdded += Watcher_DeviceAdded;
+			watcher.ItemRemoved += Watcher_DeviceRemoved;
+			watcher.ItemModified += Watcher_DeviceModified;
 			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 		}
 
@@ -116,9 +116,9 @@ namespace Files.App.Data.Models
 		public void Dispose()
 		{
 			watcher.Stop();
-			watcher.DeviceAdded -= Watcher_DeviceAdded;
-			watcher.DeviceRemoved -= Watcher_DeviceRemoved;
-			watcher.DeviceModified -= Watcher_DeviceModified;
+			watcher.ItemAdded -= Watcher_DeviceAdded;
+			watcher.ItemRemoved -= Watcher_DeviceRemoved;
+			watcher.ItemModified -= Watcher_DeviceModified;
 			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 		}
 	}

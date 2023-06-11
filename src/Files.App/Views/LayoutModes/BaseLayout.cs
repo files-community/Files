@@ -4,9 +4,16 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.ServicesImplementation;
+using Files.App.Storage.FtpStorage;
 using Files.App.UserControls;
 using Files.App.UserControls.Menus;
 using Files.App.Views;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.LocatableStorage;
+using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -14,8 +21,10 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -37,6 +46,8 @@ namespace Files.App.Views.LayoutModes
 	{
 		private readonly DispatcherQueueTimer jumpTimer;
 
+		private IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
@@ -50,6 +61,7 @@ namespace Files.App.Views.LayoutModes
 			=> ParentShellPageInstance?.InstanceViewModel;
 
 		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
+		public LayoutModeViewModel LayoutModeViewModel { get; }
 
 		public AppModel AppModel
 			=> App.AppModel;
@@ -76,7 +88,7 @@ namespace Files.App.Views.LayoutModes
 
 		public bool IsRenamingItem { get; set; } = false;
 
-		public ListedItem? RenamingItem { get; set; } = null;
+		public StandardItemViewModel? RenamingItem { get; set; } = null;
 
 		public string? OldItemName { get; set; } = null;
 
@@ -151,25 +163,25 @@ namespace Files.App.Views.LayoutModes
 					value = jumpString;
 				if (value != string.Empty)
 				{
-					ListedItem? jumpedToItem = null;
-					ListedItem? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
+					StandardItemViewModel? jumpedToItem = null;
+					StandardItemViewModel? previouslySelectedItem = IsItemSelected ? SelectedItem : null;
 
 					// Select first matching item after currently selected item
 					if (previouslySelectedItem is not null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
+						IEnumerable<StandardItemViewModel> candidateItems = LayoutModeViewModel.Items
 							.SkipWhile(x => x != previouslySelectedItem)
 							.Skip(value.Length == 1 ? 1 : 0) // User is trying to cycle through items starting with the same letter
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+							.Where(f => f.Storable.Name.Length >= value.Length && string.Equals(f.Storable.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
 					if (jumpedToItem is null)
 					{
 						// Use FilesAndFolders because only displayed entries should be jumped to
-						IEnumerable<ListedItem> candidateItems = ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders
-							.Where(f => f.Name.Length >= value.Length && string.Equals(f.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
+						IEnumerable<StandardItemViewModel> candidateItems = LayoutModeViewModel.Items
+							.Where(f => f.Storable.Name.Length >= value.Length && string.Equals(f.Storable.Name.Substring(0, value.Length), value, StringComparison.OrdinalIgnoreCase));
 						jumpedToItem = candidateItems.FirstOrDefault();
 					}
 
@@ -188,8 +200,8 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private List<ListedItem>? selectedItems = new List<ListedItem>();
-		public List<ListedItem>? SelectedItems
+		private List<StandardItemViewModel>? selectedItems = new List<StandardItemViewModel>();
+		public List<StandardItemViewModel>? SelectedItems
 		{
 			get => selectedItems;
 			internal set
@@ -258,7 +270,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public ListedItem? SelectedItem { get; private set; }
+		public StandardItemViewModel? SelectedItem { get; private set; }
 
 		private readonly DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
 
@@ -269,6 +281,8 @@ namespace Files.App.Views.LayoutModes
 		public BaseLayout()
 		{
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+			LayoutModeViewModel = Ioc.Default.GetRequiredService<LayoutModeViewModel>();
+
 			ItemManipulationModel = new ItemManipulationModel();
 
 			HookBaseEvents();
@@ -310,13 +324,13 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract void InitializeCommandsViewModel();
 
-		protected IEnumerable<ListedItem>? GetAllItems()
+		protected IEnumerable<StandardItemViewModel>? GetAllItems()
 		{
 			var items = CollectionViewSource.IsSourceGrouped
-				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
-				: CollectionViewSource.Source as IEnumerable<ListedItem>;
+				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<StandardItemViewModel>>)?.SelectMany(g => g) // add all items from each group to the new list
+				: CollectionViewSource.Source as IEnumerable<StandardItemViewModel>;
 
-			return items ?? new List<ListedItem>();
+			return items ?? new List<StandardItemViewModel>();
 		}
 
 		public virtual void ResetItemOpacity()
@@ -332,12 +346,12 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected ListedItem? GetItemFromElement(object element)
+		protected StandardItemViewModel? GetItemFromElement(object element)
 		{
 			if (element is not ContentControl item || !CanGetItemFromElement(element))
 				return null;
 
-			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
+			return (item.DataContext as StandardItemViewModel) ?? (item.Content as StandardItemViewModel) ?? (ItemsControl.ItemFromContainer(item) as StandardItemViewModel);
 		}
 
 		protected abstract bool CanGetItemFromElement(object element);
@@ -346,7 +360,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (ParentShellPageInstance?.SlimContentPage is not null)
 			{
-				var layoutType = FolderSettings!.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+				var layoutType = FolderSettings!.GetLayoutType(LayoutModeViewModel.CurrentFolder.Path);
 
 				if (layoutType != ParentShellPageInstance.CurrentPageType)
 				{
@@ -366,7 +380,7 @@ namespace Files.App.Views.LayoutModes
 					ParentShellPageInstance.ResetNavigationStackLayoutMode();
 				}
 
-				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
+				LayoutModeViewModel.UpdateEmptyTextType();
 			}
 		}
 
@@ -396,16 +410,35 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
-			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
+			LayoutModeViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 
 			if (!navigationArguments.IsSearchResultPage)
 			{
-				var previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
+				var previousDir = LayoutModeViewModel.CurrentFolder.Path;
+				try
+				{
+					await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.NavPathParam);
+				}
+				catch (FtpException)
+				{
+					var client = Storage.FtpStorage.FtpHelpers.GetFtpClient(navigationArguments.NavPathParam);
+					if (!client.IsAuthenticated)
+					{
+						if (await dialogService.ShowDialogAsync<CredentialDialogViewModel>() != DialogResult.Primary)
+							return;
 
+						var credentialDialogViewModel = dialogService.GetDialog<CredentialDialogViewModel>().ViewModel;
+
+						// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+						if (!credentialDialogViewModel.IsAnonymous)
+							client.Credentials = new NetworkCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+
+						await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.NavPathParam);
+					}
+				}
+				var workingDir = LayoutModeViewModel.CurrentFolder.Path;
 				// pathRoot will be empty on recycle bin path
-				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
 				var pathRoot = GetPathRoot(workingDir);
 
 				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
@@ -413,7 +446,6 @@ namespace Files.App.Views.LayoutModes
 
 				// Can't go up from recycle bin
 				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = !(string.IsNullOrEmpty(pathRoot) || isRecycleBin);
-
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeFtp = FtpHelpers.IsFtpPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
@@ -422,22 +454,19 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
-					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
+					await LayoutModeViewModel.GetItemsAsync();
 				else
 					ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
 			}
 			else
 			{
-				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+				await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.SearchPathParam);
 
 				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
-
-				// Impose no artificial restrictions on back navigation. Even in a search results page.
 				ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;
-
 				ParentShellPageInstance.ToolbarViewModel.CanNavigateToParent = false;
 
-				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
+				var workingDir = LayoutModeViewModel.CurrentFolder?.Path ?? string.Empty;
 
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\", StringComparison.Ordinal);
@@ -464,7 +493,6 @@ namespace Files.App.Views.LayoutModes
 
 			// Show controls that were hidden on the home page
 			ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true;
-			ParentShellPageInstance.FilesystemViewModel.UpdateGroupOptions();
 
 			UpdateCollectionViewSource();
 			FolderSettings.IsLayoutModeChanging = false;
@@ -483,9 +511,9 @@ namespace Files.App.Views.LayoutModes
 					navigationArguments.SelectItems is not null &&
 					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> liItemsToSelect = new();
+					List<StandardItemViewModel> liItemsToSelect = new();
 					foreach (string item in navigationArguments.SelectItems)
-						liItemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
+						liItemsToSelect.Add(LayoutModeViewModel.Items.Where((li) => li.Storable.Name == item).First());
 
 					ItemManipulationModel.SetSelectedItems(liItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
@@ -555,7 +583,7 @@ namespace Files.App.Views.LayoutModes
 			try
 			{
 				// Workaround for item sometimes not getting selected
-				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
+				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: StandardItemViewModel li })
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (IsItemSelected)
@@ -585,7 +613,7 @@ namespace Files.App.Views.LayoutModes
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
+				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<StandardItemViewModel> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
 				BaseContextMenuFlyout.SecondaryCommands.Clear();
@@ -602,7 +630,7 @@ namespace Files.App.Views.LayoutModes
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<StandardItemViewModel>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -908,7 +936,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			try
 			{
-				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
+				var shellItemList = e.Items.OfType<StandardItemViewModel>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
 				if (shellItemList[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -924,7 +952,7 @@ namespace Files.App.Views.LayoutModes
 				else
 				{
 					// Only support IStorageItem capable paths
-					var storageItemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+					var storageItemList = e.Items.OfType<StandardItemViewModel>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
 					e.Data.SetStorageItems(storageItemList, false);
 				}
 			}
@@ -934,7 +962,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? dragOverItem = null;
+		private StandardItemViewModel? dragOverItem = null;
 
 		private void Item_DragLeave(object sender, DragEventArgs e)
 		{
@@ -1085,7 +1113,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void RefreshItem(SelectorItem container, object item, bool inRecycleQueue, ContainerContentChangingEventArgs args)
 		{
-			if (item is not ListedItem listedItem)
+			if (item is not StandardItemViewModel listedItem)
 				return;
 
 			if (inRecycleQueue)
@@ -1125,7 +1153,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? hoveredItem = null;
+		private StandardItemViewModel? hoveredItem = null;
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
@@ -1161,7 +1189,7 @@ namespace Files.App.Views.LayoutModes
 							found++;
 
 						if (found != 0 && !selectedItems.Contains(ItemsControl.Items[i]))
-							ItemManipulationModel.AddSelectedItem((ListedItem)ItemsControl.Items[i]);
+							ItemManipulationModel.AddSelectedItem((StandardItemViewModel)ItemsControl.Items[i]);
 					}
 				}
 				// Avoid resetting the selection if multiple items are selected
@@ -1190,7 +1218,7 @@ namespace Files.App.Views.LayoutModes
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
 
-		protected void InitializeDrag(UIElement containter, ListedItem item)
+		protected void InitializeDrag(UIElement containter, StandardItemViewModel item)
 		{
 			if (item is null)
 				return;
@@ -1263,7 +1291,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// According to the docs this isn't necessary, but it would crash otherwise
-			var destination = e.DestinationItem.Item as GroupedCollection<ListedItem>;
+			var destination = e.DestinationItem.Item as GroupedCollection<StandardItemViewModel>;
 
 			e.DestinationItem.Item = destination?.FirstOrDefault();
 		}
@@ -1295,7 +1323,7 @@ namespace Files.App.Views.LayoutModes
 			if (items is null)
 				return;
 
-			foreach (ListedItem listedItem in items)
+			foreach (StandardItemViewModel listedItem in items)
 			{
 				if (listedItem.IsHiddenItem)
 					listedItem.Opacity = Constants.UI.DimItemOpacity;
@@ -1314,11 +1342,11 @@ namespace Files.App.Views.LayoutModes
 		{
 		}
 
-		private ListedItem? preRenamingItem = null;
+		private StandardItemViewModel? preRenamingItem = null;
 
 		public void CheckRenameDoubleClick(object clickedItem)
 		{
-			if (clickedItem is ListedItem item)
+			if (clickedItem is StandardItemViewModel item)
 			{
 				if (item == preRenamingItem)
 				{

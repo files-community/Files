@@ -130,8 +130,8 @@ namespace Files.App.Views.LayoutModes
 				return;
 			}
 
-			List<ListedItem> newSelectedItems = GetAllItems()
-				.Cast<ListedItem>()
+			List<StandardItemViewModel> newSelectedItems = GetAllItems()
+				.Cast<StandardItemViewModel>()
 				.Except(SelectedItems)
 				.ToList();
 
@@ -143,13 +143,13 @@ namespace Files.App.Views.LayoutModes
 			StartRenameItem();
 		}
 
-		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, StandardItemViewModel e);
 
-		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, StandardItemViewModel e);
 
 		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
 
-		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, StandardItemViewModel e);
 
 		protected virtual void ZoomIn(object? sender, GroupOption option)
 		{
@@ -159,7 +159,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+			SelectedItems = ListViewBase.SelectedItems.Cast<StandardItemViewModel>().Where(x => x is not null).ToList();
 		}
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
@@ -282,7 +282,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected bool TryStartRenameNextItem(ListedItem item)
+		protected bool TryStartRenameNextItem(StandardItemViewModel item)
 		{
 			var nextItemIndex = ListViewBase.Items.IndexOf(item) + NextRenameIndex;
 			NextRenameIndex = 0;
