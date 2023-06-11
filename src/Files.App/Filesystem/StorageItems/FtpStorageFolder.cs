@@ -5,6 +5,7 @@ using Files.App.Data.Exceptions;
 using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
@@ -13,7 +14,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public sealed class FtpStorageFolder : BaseStorageFolder
+	public sealed class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem<NetworkCredential>
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -25,6 +26,8 @@ namespace Files.App.Filesystem.StorageItems
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
+
+		public NetworkCredential Credentials { private get; set; }
 
 		public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -93,11 +96,11 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						return new FtpStorageFile(Path, item);
+						return new FtpStorageFile(Path, item) { Credentials = Credentials };
 					}
 					if (item.Type is FtpObjectType.Directory)
 					{
-						return new FtpStorageFolder(Path, item);
+						return new FtpStorageFolder(Path, item) { Credentials = Credentials };
 					}
 				}
 				return null;
@@ -133,11 +136,11 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						items.Add(new FtpStorageFile(Path, item));
+						items.Add(new FtpStorageFile(Path, item) { Credentials = Credentials });
 					}
 					else if (item.Type is FtpObjectType.Directory)
 					{
-						items.Add(new FtpStorageFolder(Path, item));
+						items.Add(new FtpStorageFolder(Path, item) { Credentials = Credentials });
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
@@ -200,7 +203,7 @@ namespace Files.App.Filesystem.StorageItems
 				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
 
 				if (result is FtpStatus.Success)
-					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
+					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}")) { Credentials = Credentials };
 
 				if (result is FtpStatus.Skipped)
 				{
@@ -229,7 +232,7 @@ namespace Files.App.Filesystem.StorageItems
 				string fileName = $"{FtpPath}/{desiredName}";
 				if (await ftpClient.DirectoryExists(fileName))
 				{
-					return new FtpStorageFolder(new StorageFileWithPath(null, fileName));
+					return new FtpStorageFolder(new StorageFileWithPath(null, fileName)) { Credentials = Credentials };
 				}
 
 				bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
@@ -239,7 +242,7 @@ namespace Files.App.Filesystem.StorageItems
 					throw new IOException($"Failed to create folder {desiredName}.");
 				}
 
-				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
+				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}")) { Credentials = Credentials };
 			});
 		}
 
@@ -304,9 +307,30 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = Credentials;
+			if (credentials is null)
+				credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
+		}
+
+		public async Task<AccessResult> CheckAccess(NetworkCredential credentials)
+		{
+			try
+			{
+				using var ftpClient = GetFtpClient();
+				ftpClient.Credentials = credentials;
+				await ftpClient.Connect();
+				return AccessResult.Success;
+			}
+			catch(FtpAuthenticationException)
+			{
+				return AccessResult.NeedsAuth;
+			}
+			catch
+			{
+				return AccessResult.Failed;
+			}
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties

@@ -4,6 +4,7 @@
 using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
@@ -13,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public sealed class FtpStorageFile : BaseStorageFile
+	public sealed class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem<NetworkCredential>
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -39,6 +40,8 @@ namespace Files.App.Filesystem.StorageItems
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Normal;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
+
+		public NetworkCredential Credentials { private get; set; }
 
 		public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -231,7 +234,9 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = Credentials;
+			if (credentials is null)
+				credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
 		}
@@ -257,6 +262,25 @@ namespace Files.App.Filesystem.StorageItems
 			catch
 			{
 				request.FailAndClose(StreamedFileFailureMode.Incomplete);
+			}
+		}
+
+		public async Task<AccessResult> CheckAccess(NetworkCredential credentials)
+		{
+			try
+			{
+				using var ftpClient = GetFtpClient();
+				ftpClient.Credentials = credentials;
+				await ftpClient.Connect();
+				return AccessResult.Success;
+			}
+			catch (FtpAuthenticationException)
+			{
+				return AccessResult.NeedsAuth;
+			}
+			catch
+			{
+				return AccessResult.Failed;
 			}
 		}
 

@@ -7,6 +7,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.Backend.Helpers;
 using Files.Backend.Services.Settings;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 				{
 					// If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
 					items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
+					break;
 				}
 				foreach (var item in items)
 				{
@@ -155,6 +161,11 @@ namespace Files.App.Filesystem.StorageEnumerators
 					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
 				{
 					continue;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
+					break;
 				}
 				tempList.Add(item);
 			}
