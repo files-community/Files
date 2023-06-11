@@ -43,6 +43,8 @@ namespace Files.App.ViewModels.Settings
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartup);
+
+			_ = DetectOpenFilesAtStartup();
 		}
 
 		private async Task OpenSettingsJson()

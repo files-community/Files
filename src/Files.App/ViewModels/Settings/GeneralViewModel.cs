@@ -112,7 +112,6 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			_ = InitStartupSettingsRecentFoldersFlyout();
-			_ = DetectOpenFilesAtStartup();
 		}
 
 		private async void DoRestart()
