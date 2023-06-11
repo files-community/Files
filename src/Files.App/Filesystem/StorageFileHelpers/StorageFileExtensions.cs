@@ -157,7 +157,7 @@ namespace Files.App.Filesystem
 		public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync
 			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
 		{
-			if (rootFolder is not null)
+			if (rootFolder is not null || parentFolder is not null)
 			{
 				var currComponents = GetDirectoryPathComponents(value);
 
@@ -175,7 +175,7 @@ namespace Files.App.Filesystem
 					path = PathNormalization.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
-				else if (value.IsSubPathOf(rootFolder.Path))
+				else if (rootFolder is not null && value.IsSubPathOf(rootFolder.Path))
 				{
 					var folder = rootFolder.Item;
 					var path = rootFolder.Path;
@@ -209,11 +209,11 @@ namespace Files.App.Filesystem
 		public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync
 			(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
 		{
-			if (rootFolder is not null)
+			if (rootFolder is not null || parentFolder is not null)
 			{
 				var currComponents = GetDirectoryPathComponents(value);
 
-				if (rootFolder.Path == value)
+				if (rootFolder is not null && rootFolder.Path == value)
 				{
 					return rootFolder;
 				}
@@ -229,7 +229,7 @@ namespace Files.App.Filesystem
 					}
 					return new StorageFolderWithPath(folder, path);
 				}
-				else if (value.IsSubPathOf(rootFolder.Path))
+				else if (rootFolder is not null && value.IsSubPathOf(rootFolder.Path))
 				{
 					var folder = rootFolder.Item;
 					var path = rootFolder.Path;

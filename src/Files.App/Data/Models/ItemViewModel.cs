@@ -1432,7 +1432,7 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
 				if (res)
 				{
 					currentStorageFolder = res.Result;
