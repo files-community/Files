@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>使用所选的 .inf 文件安装驱动程序</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>安装所选证书</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>以管理员身份运行所选程序</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>编辑路径</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>分支: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>重做</value>
   </data>
@@ -3317,28 +3317,46 @@
     <value>在 Crowdin 上翻译此应用</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>抓取</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>拉取</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>运行 git fetch</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>运行 git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>预览</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git 错误</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>由于超时错误，git pull 失败</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(多个值)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica 变体</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>背景材质</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>实心</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>管理分支</value>
   </data>
 </root>
