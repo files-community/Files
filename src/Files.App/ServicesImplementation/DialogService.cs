@@ -9,6 +9,7 @@ using Files.Backend.ViewModels.Dialogs;
 using Files.Backend.ViewModels.Dialogs.AddItemDialog;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Files.Shared.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -23,7 +24,7 @@ namespace Files.App.ServicesImplementation
 	/// <inheritdoc cref="IDialogService"/>
 	internal sealed class DialogService : IDialogService
 	{
-		private readonly IReadOnlyDictionary<Type, Func<ContentDialog>> _dialogs;
+		private static IReadOnlyDictionary<Type, Func<ContentDialog>> _dialogs;
 
 		public DialogService()
 		{
@@ -41,8 +42,13 @@ namespace Files.App.ServicesImplementation
 			};
 		}
 
+		public static List<Type> GetDialogViewModelTypes()
+		{
+			return _dialogs.Keys.ToList();
+		}
+
 		/// <inheritdoc/>
-		public IDialog<TViewModel> GetDialog<TViewModel>(TViewModel viewModel)
+		public IDialog<TViewModel> GetDialog<TViewModel>()
 			where TViewModel : class, INotifyPropertyChanged
 		{
 			if (!_dialogs.TryGetValue(typeof(TViewModel), out var initializer))
@@ -52,7 +58,7 @@ namespace Files.App.ServicesImplementation
 			if (contentDialog is not IDialog<TViewModel> dialog)
 				throw new NotSupportedException($"The dialog does not implement {typeof(IDialog<TViewModel>)}.");
 
-			dialog.ViewModel = viewModel;
+			dialog.ViewModel = Ioc.Default.GetService<TViewModel>()!;
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
@@ -61,12 +67,12 @@ namespace Files.App.ServicesImplementation
 		}
 
 		/// <inheritdoc/>
-		public Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+		public Task<DialogResult> ShowDialogAsync<TViewModel>()
 			where TViewModel : class, INotifyPropertyChanged
 		{
 			try
 			{
-				return GetDialog(viewModel).TryShowAsync();
+				return GetDialog<TViewModel>().TryShowAsync();
 			}
 			catch (Exception ex)
 			{

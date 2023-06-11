@@ -14,19 +14,18 @@ namespace Files.Backend.Services
 	public interface IDialogService
 	{
 		/// <summary>
-		/// Gets appropriate dialog with associated <paramref name="viewModel"/>.
+		/// Gets appropriate dialog with associated view model of the type provided.
 		/// </summary>
 		/// <typeparam name="TViewModel">The type of view model.</typeparam>
-		/// <param name="viewModel">The view model of the dialog.</param>
 		/// <returns>A new instance of <see cref="IDialog{TViewModel}"/> with associated <paramref name="viewModel"/>.</returns>
-		IDialog<TViewModel> GetDialog<TViewModel>(TViewModel viewModel) where TViewModel : class, INotifyPropertyChanged;
+		IDialog<TViewModel> GetDialog<TViewModel>() where TViewModel : class, INotifyPropertyChanged;
 
 		/// <summary>
-		/// Creates and shows appropriate dialog derived from associated <paramref name="viewModel"/>.
+		/// Creates and shows appropriate dialog of the corresponding view model type provided.
 		/// </summary>
 		/// <typeparam name="TViewModel">The type of view model.</typeparam>
-		/// <param name="viewModel">The view model of the dialog.</param>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. Returns <see cref="DialogResult"/> based on the selected option.</returns>
-		Task<DialogResult> ShowDialogAsync<TViewModel>(TViewModel viewModel) where TViewModel : class, INotifyPropertyChanged;
+		Task<DialogResult> ShowDialogAsync<TViewModel>() where TViewModel : class, INotifyPropertyChanged;
+
 	}
 }
