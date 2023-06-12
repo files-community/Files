@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Treiber mit ausgewählter/n INF-Datei(en) installieren</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Ausgewählte(s) Zertifikat(e) installieren</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ausgewählte Anwendung als Administrator ausführen</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Pfad bearbeiten</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(mehrere Werte)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Hintergrundmaterial</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solide</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Branches verwalten</value>
   </data>
 </root>

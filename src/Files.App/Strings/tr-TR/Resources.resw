@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Seçilen inf dosya(ları) kullanarak sürücü(ler) kurun</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Seçilen sertifika(ları) yükleyin</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Seçili uygulamayı yönetici olarak çalıştır</value>
   </data>
@@ -3137,25 +3140,22 @@
     <value>Etiketlenmemiş</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Önceki sekmeye gider</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Sonraki sekmeye gider</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Geçerli sekmeyi kapatır</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
-  </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
+    <value>Yolu düzenle</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Tekrarla</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Geri Al</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
     <value>Geçersiz konum</value>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(birden fazla değer)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Akrilik</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mika</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mika Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Zemin Malzemesi</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Sert</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
   </data>
 </root>

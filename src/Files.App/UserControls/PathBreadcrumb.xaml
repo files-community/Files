@@ -7,8 +7,8 @@
 	xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
-	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -172,7 +172,7 @@
 		</ListView.ItemContainerTransitions>
 
 		<ListView.ItemTemplateSelector>
-			<helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
+			<templateselectors:PathBreadcrumbItemSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
 		</ListView.ItemTemplateSelector>
 
 	</ListView>
