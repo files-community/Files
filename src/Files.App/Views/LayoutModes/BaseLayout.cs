@@ -478,8 +478,10 @@ namespace Files.App.Views.LayoutModes
 				}
 				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
 				{
+					if (SelectedItems?.Count == 0)
+						UpdatePreviewPaneSelection(null);
+
 					// Set focus on layout specific file list control
-					UpdatePreviewPaneSelection(null);
 					ItemManipulationModel.FocusFileList();
 				}
 			}
@@ -831,14 +833,16 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			{
 				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			{
 				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
