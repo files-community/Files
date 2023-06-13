@@ -30,7 +30,6 @@ using System.Text;
 using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
-using Windows.Media.Protection.PlayReady;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -1602,13 +1601,13 @@ namespace Files.App.Data.Models
 			if (rootFolder is null)
 				return;
 
-			var isFtp = FtpHelpers.IsFtpPath(path);
-
 			if (rootFolder is IPasswordProtectedItem ppi)
 			{
 				if (await ppi.CheckAccess() == AccessResult.NeedsAuth)
 				{
-					var credentialDialogViewModel = new CredentialDialogViewModel();
+					var isFtp = FtpHelpers.IsFtpPath(path);
+
+					var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
 
 					if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
 						return;
