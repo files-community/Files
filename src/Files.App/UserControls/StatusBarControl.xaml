@@ -232,10 +232,11 @@
 								Grid.Row="1"
 								Padding="4"
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
 								IsItemClickEnabled="True"
 								ItemClick="BranchesList_ItemClick"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
-								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectedIndex="{Binding SelectedBranchIndex, Mode=TwoWay}"
 								SelectionMode="Single" />
 						</Grid>
 					</Flyout>
