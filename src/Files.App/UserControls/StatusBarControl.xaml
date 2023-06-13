@@ -208,7 +208,8 @@
 									Orientation="Horizontal">
 									<RadioButton
 										Content="{helpers:ResourceString Name=Locals}"
-										IsChecked="{x:Bind DirectoryPropertiesViewModel.ShowLocals, Mode=TwoWay}"
+										DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
+										IsChecked="{Binding ShowLocals, Mode=TwoWay}"
 										Style="{StaticResource Local.RadioButtonStyle}" />
 									<RadioButton Content="{helpers:ResourceString Name=Remotes}" Style="{StaticResource Local.RadioButtonStyle}" />
 								</StackPanel>
