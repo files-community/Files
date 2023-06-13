@@ -1,24 +1,27 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.Shared;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.App.Filesystem
 {
-	public class LibraryLocationItem : LocationItem
+	public class LibraryLocationItem : LocationItem, ILocatableStorable
 	{
+		private readonly ShellLibraryItem shellItem;
+
 		public string DefaultSaveFolder { get; }
 
 		public ReadOnlyCollection<string> Folders { get; }
 
 		public bool IsEmpty => DefaultSaveFolder is null || Folders is null || Folders.Count is 0;
 
+		public string Id => shellItem.FullPath;
+
+		public string Name => Text;
+
 		public LibraryLocationItem(ShellLibraryItem shellLibrary)
 		{
+			shellItem = shellLibrary;
 			Section = SectionType.Library;
 			MenuOptions = new ContextMenuOptions
 			{
@@ -30,7 +33,7 @@ namespace Files.App.Filesystem
 			Text = shellLibrary.DisplayName is not null ? shellLibrary.DisplayName : "";
 			Path = shellLibrary.FullPath;
 			DefaultSaveFolder = shellLibrary.DefaultSaveFolder;
-			Folders = shellLibrary.Folders is null ? null : new ReadOnlyCollection<string>(shellLibrary.Folders);
+			Folders = shellLibrary.Folders is null ? new ReadOnlyCollection<string>(Enumerable.Empty<string>().ToList()) : new ReadOnlyCollection<string>(shellLibrary.Folders);
 			IsDefaultLocation = shellLibrary.IsPinned;
 		}
 
@@ -62,5 +65,10 @@ namespace Files.App.Filesystem
 
 		public override bool Equals(object obj)
 			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
+
+		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

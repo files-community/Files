@@ -6,6 +6,7 @@ using Files.App.Dialogs;
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
+using Files.App.Filesystem.Properties;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
@@ -236,6 +237,15 @@ namespace Files.App.Helpers
 
 				await ExtractArchive(archive, currentFolder, password);
 			}
+		}
+
+		public static async Task<bool> IsArchiveAsync(this IStorageProperties props)
+		{
+			if(props is not ShellItemProperties) return false;
+			var pair = await props.GetStoragePropertyAsync("System.FileAttributes");
+			var value = (System.IO.FileAttributes)pair.Value;
+
+			return (value & System.IO.FileAttributes.Archive) == System.IO.FileAttributes.Archive;
 		}
 
 		public static async Task DecompressArchiveToChildFolder(IShellPage associatedInstance)

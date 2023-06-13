@@ -3,19 +3,23 @@
 
 using Files.App.Filesystem.StorageEnumerators;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.Storage.WindowsStorage;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
+using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
-using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.MutableStorage;
 using Files.Shared.Services;
 using FluentFTP;
 using Microsoft.Extensions.Logging;
+using System.CodeDom;
 using System.IO;
+using System.Security.Authentication;
+using Windows.Storage;
 using FtpHelpers = Files.App.Helpers.FtpHelpers;
 
 namespace Files.App.ViewModels
@@ -26,13 +30,15 @@ namespace Files.App.ViewModels
 		private readonly IUserSettingsService userSettingsService;
 		private readonly IJumpListService jumpListService;
 		private readonly ITrashService trashService;
+		private readonly ISizeProvider folderSizeProvider;
 		private readonly IFileTagsSettingsService fileTagsSettingsService;
+		private CancellationTokenSource addFilesCTS;
+		private CancellationTokenSource semaphoreCTS;
 		private List<StandardItemViewModel> items;
-		private ILocatableFolder? currentFolder;
+		private ILocatableStorable? currentFolder;
 		private IFolderWatcher? folderWatcher;
 		private EmptyTextType emptyTextType;
 		private FolderSettingsViewModel folderSettings;
-
 
 		public BulkConcurrentObservableCollection<StandardItemViewModel> Items { get; }
 		public ObservableCollection<StandardItemViewModel> SelectedItems { get; }
@@ -45,7 +51,7 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref emptyTextType, value);
 		}
 
-		public ILocatableFolder? CurrentFolder
+		public ILocatableStorable? CurrentFolder
 		{
 			get => currentFolder;
 			set => SetProperty(ref currentFolder, value);
@@ -55,6 +61,7 @@ namespace Files.App.ViewModels
 			IJumpListService jumpListService,
 			ITrashService trashService,
 			IFileTagsSettingsService fileTagsSettingsService,
+			ISizeProvider folderSizeProvider,
 			FolderSettingsViewModel folderSettings
 			)
 		{
@@ -62,8 +69,12 @@ namespace Files.App.ViewModels
 			this.jumpListService = jumpListService;
 			this.trashService = trashService;
 			this.fileTagsSettingsService = fileTagsSettingsService;
+			this.folderSizeProvider = folderSizeProvider;
 			this.folderSettings = folderSettings;
 
+			enumFolderSemaphore = new SemaphoreSlim(1, 1);
+			addFilesCTS = new CancellationTokenSource();
+			semaphoreCTS = new CancellationTokenSource();
 			items = new List<StandardItemViewModel>();
 			Items = new BulkConcurrentObservableCollection<StandardItemViewModel>(items);
 			SelectedItems = new ObservableCollection<StandardItemViewModel>();
@@ -74,27 +85,53 @@ namespace Files.App.ViewModels
 
 		public async Task SetCurrentFolderFromPathAsync(string path)
 		{
-			if (await GetFolderOfTypeFromPathAsync(path) is ILocatableFolder folder)
+			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
+			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
+			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
+			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
+				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
+				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
+				!isWslDistro;
+			bool enumFromStorageFolder = isBoxFolder;
+
+			if (isNetwork)
 			{
-				CurrentFolder = folder;
+				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
+				if (!auth)
+					throw new AuthenticationException();
+			}
+
+			if (!FolderHelpers.CheckFolderAccessWithWin32(path))
+			{
+				throw new UnauthorizedAccessException();
+			}
+
+			var pathRoot = Path.GetPathRoot(path);
+			if (Path.IsPathRooted(path) && pathRoot == path)
+			{
+				if (await FolderHelpers.CheckBitlockerStatusAsync(path))
+					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
+			}
+
+			if (enumFromStorageFolder)
+			{
+				var folder = await StorageFolder.GetFolderFromPathAsync(path);
+				CurrentFolder = new WindowsStorageFolder(folder);
 			}
 			else
 			{
-				if (FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path))
-				{
-					throw new FtpException("The valid path failed authentication for FTP");
-				}
+				CurrentFolder = await GetFolderOfTypeFromPathAsync(path);
 			}
 		}
 
-		private async Task<ILocatableFolder> GetFolderOfTypeFromPathAsync(string path)
+		private async Task<ILocatableStorable> GetFolderOfTypeFromPathAsync(string path)
 		{
-			if (FtpHelpers.IsFtpPath(path))
+			if (FtpHelpers.IsFtpPath(path) && FtpHelpers.VerifyFtpPath(path))
 			{
 				var service = Ioc.Default.GetRequiredService<IFtpStorageService>();
 
 				if (!FtpHelpers.VerifyFtpPath(path))
-					return await Task.FromException<ILocatableFolder>(new FtpException("The path failed verification for FTP"));
+					return await Task.FromException<ILocatableStorable>(new FtpException("The path failed verification for FTP"));
 
 				using var client = new AsyncFtpClient();
 				client.Host = FtpHelpers.GetFtpHost(path);
@@ -103,16 +140,7 @@ namespace Files.App.ViewModels
 
 				static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
 				{
-					try
-					{
-						return await client.AutoConnect();
-					}
-					catch (FtpAuthenticationException)
-					{
-						return null;
-					}
-
-					throw new InvalidOperationException();
+					return await client.AutoConnect();
 				}
 
 				try
@@ -124,42 +152,73 @@ namespace Files.App.ViewModels
 
 					return await service.GetFolderFromPathAsync(path);
 				}
-				catch
+				catch (FtpException)
 				{
 					// Network issue
 					FtpManager.Credentials.Remove(client.Host);
-					return null;
+					throw;
 				}
+			}
+			else if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
+			{
+				if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+				{
+					return library;
+				}
+
+				throw new FileNotFoundException();
 			}
 			else
 			{
 				var service = Ioc.Default.GetRequiredService<NativeStorageService>();
 				return await service.GetFolderFromPathAsync(path);
 			}
-			// TODO: Add case for Windows Storage
 		}
 
-		private async Task ApplySingleFileChangeAsync(StandardItemViewModel item)
+		private void ApplySingleFileChange(StandardItemViewModel item)
 		{
 			var newIndex = items.IndexOf(item);
-			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+
+			Items.Remove(item);
+			if (newIndex != -1)
+				Items.Insert(Math.Min(newIndex, Items.Count), item);
+
+			if (folderSettings.DirectoryGroupOption != GroupOption.None)
 			{
-				Items.Remove(item);
-				if (newIndex != -1)
-					Items.Insert(Math.Min(newIndex, Items.Count), item);
+				var key = Items.ItemGroupKeySelector?.Invoke(item);
+				var group = Items.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
+				group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
+			}
 
-				if (folderSettings.DirectoryGroupOption != GroupOption.None)
-				{
-					var key = Items.ItemGroupKeySelector?.Invoke(item);
-					var group = Items.GroupedCollection?.FirstOrDefault(x => x.Model.Key == key);
-					group?.OrderOne(list => SortingHelper.OrderFileList(list, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles), item);
-				}
-
-				UpdateEmptyTextType();
-			});
+			UpdateEmptyTextType();
 		}
 
-		private Task OrderFilesAndFoldersAsync()
+		private async void FolderSizeProvider_SizeChanged(object? sender, SizeChangedEventArgs e)
+		{
+			try
+			{
+				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
+			}
+
+			try
+			{
+				var matchingItem = Items.FirstOrDefault(x => x.Storable.Id == e.Path);
+				if (matchingItem is not null)
+				{
+					matchingItem.UpdateProperties();
+				}
+			}
+			finally
+			{
+				enumFolderSemaphore.Release();
+			}
+		}
+
+		private Task OrderItemsAsync()
 		{
 			// Sorting group contents is handled elsewhere
 			if (folderSettings.DirectoryGroupOption != GroupOption.None)
@@ -202,7 +261,7 @@ namespace Files.App.ViewModels
 			{
 				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
 					// Always show file sections below folders
-					Items.GroupedCollection.Order(x => x.OrderBy(y => y.First().Storable is not IFolder || y.First().IsArchive)
+					Items.GroupedCollection.Order(x => x.OrderBy(async y => y.First().Storable is not IFolder || await y.First().Properties.IsArchiveAsync())
 						.ThenBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
 				else
 					Items.GroupedCollection.Order(x => x.OrderBy(y => y.Model.SortIndexOverride).ThenBy(y => y.Model.Text));
@@ -211,7 +270,7 @@ namespace Files.App.ViewModels
 			{
 				if (folderSettings.DirectoryGroupOption == GroupOption.Size)
 					// Always show file sections below folders
-					Items.GroupedCollection.Order(x => x.OrderBy(y => y.First().Storable is not IFolder || y.First().IsArchive)
+					Items.GroupedCollection.Order(x => x.OrderBy(async y => y.First().Storable is not IFolder || await y.First().Properties.IsArchiveAsync())
 						.ThenByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
 				else
 					Items.GroupedCollection.Order(x => x.OrderByDescending(y => y.Model.SortIndexOverride).ThenByDescending(y => y.Model.Text));
@@ -251,7 +310,7 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					await OrderFilesAndFoldersAsync();
+					await OrderItemsAsync();
 				}
 
 				if (token.IsCancellationRequested)
@@ -277,7 +336,7 @@ namespace Files.App.ViewModels
 			Items.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		private async Task ApplyItemChangesAsync()
+		private Task ApplyItemChangesAsync()
 		{
 			try
 			{
@@ -291,7 +350,7 @@ namespace Files.App.ViewModels
 					if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent)
 						ClearDisplay();
 
-					return;
+					return Task.CompletedTask;
 				}
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
@@ -366,15 +425,16 @@ namespace Files.App.ViewModels
 					UpdateEmptyTextType();
 				}
 
-				if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent)
+				return Task.Run(() =>
 				{
-					await Task.Run(ApplyChanges);
+					ApplyChanges();
 					UpdateUI();
-				}
+				});
 			}
 			catch (Exception ex)
 			{
 				App.Logger.LogWarning(ex, ex.Message);
+				return Task.FromException(ex);
 			}
 		}
 
@@ -385,7 +445,9 @@ namespace Files.App.ViewModels
 
 		public void UpdateEmptyTextType()
 		{
-			EmptyTextType = Items.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
+			EmptyTextType = Items.Count == 0 ? 
+				(IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) 
+				: EmptyTextType.None;
 		}
 
 		private async Task WatchForChangesAsync()
@@ -438,7 +500,7 @@ namespace Files.App.ViewModels
 
 		private async Task HandleChangesOccurredAsync(string id)
 		{
-			await OrderFilesAndFoldersAsync();
+			await OrderItemsAsync();
 			await ApplyItemChangesAsync();
 
 			var item = items.FirstOrDefault(x => PathHelpers.FormatName(x.Storable.Id).Equals(PathHelpers.FormatName(id)));
@@ -448,22 +510,67 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task GetItemsAsync(CancellationToken cancellationToken = default)
+		public async Task GetItemsAsync()
 		{
 			Cancel();
 
-			await foreach (IStorable i in CurrentFolder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, cancellationToken))
+			try
 			{
-				if (cancellationToken.IsCancellationRequested)
-				{
-					return;
-				}
-				var storableViewModel = new StandardItemViewModel(i);
-				
+				// Only one instance at a time should access this function
+				// Wait here until the previous one has ended
+				// If we're waiting and a new update request comes through simply drop this instance
+				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				return;
 			}
 
-			UpdateGroupOptions();
-			await WatchForChangesAsync();
+			try
+			{
+				// Drop all the other waiting instances
+				semaphoreCTS.Cancel();
+				semaphoreCTS = new CancellationTokenSource();
+
+				if (CurrentFolder is ILocatableFolder folder)
+				{
+					await foreach (IStorable i in folder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+					{
+						if (addFilesCTS.IsCancellationRequested)
+						{
+							return;
+						}
+						var storableViewModel = new StandardItemViewModel(i);
+						Items.Add(storableViewModel);
+					}
+				}
+				else if (CurrentFolder is LibraryLocationItem sli)
+				{
+					foreach (string path in sli.Folders)
+					{
+						var libraryFolder = new NativeFolder(path);
+						await foreach (IStorable i in libraryFolder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+						{
+							if (addFilesCTS.IsCancellationRequested)
+							{
+								return;
+							}
+							var storableViewModel = new StandardItemViewModel(i);
+							Items.Add(storableViewModel);
+						}
+					}
+				}
+
+				UpdateGroupOptions();
+				await OrderItemsAsync();
+				await ApplyItemChangesAsync();
+				await WatchForChangesAsync();
+			}
+			finally
+			{
+				// Make sure item count is updated
+				enumFolderSemaphore.Release();
+			}
 		}
 
 		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
@@ -503,8 +610,8 @@ namespace Files.App.ViewModels
 			var newListedItem = new StandardItemViewModel(item);
 
 			await AddItemAsync(newListedItem);
-			await OrderFilesAndFoldersAsync();
-			await ApplySingleFileChangeAsync(newListedItem);
+			await OrderItemsAsync();
+			ApplySingleFileChange(newListedItem);
 		}
 
 		private async void UserSettingsService_OnSettingChangedEvent(object? sender, Shared.EventArguments.SettingChangedEventArgs e)
@@ -527,12 +634,8 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles):
 				case nameof(UserSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories):
 				case nameof(UserSettingsService.FoldersSettingsService.DefaultGroupByDateUnit):
-					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-					{
-						folderSettings.OnDefaultPreferencesChanged(CurrentFolder.Path, e.SettingName);
-						UpdateSortAndGroupOptions();
-					});
-					await OrderFilesAndFoldersAsync();
+					folderSettings.OnDefaultPreferencesChanged(CurrentFolder.Path, e.SettingName);
+					await OrderItemsAsync();
 					await ApplyItemChangesAsync();
 					break;
 			}
@@ -540,14 +643,11 @@ namespace Files.App.ViewModels
 
 		public void Cancel()
 		{
-			folderWatcher.Stop();
-			if (IsLoadingItems)
-				addFilesCTS.Cancel();
-			CancelExtendedPropertiesLoading();
+			folderWatcher?.Stop();
+			addFilesCTS.Cancel();
 			items.Clear();
 			SelectedItems.Clear();
 			Items.Clear();
-			CancelSearch();
 		}
 
 		private async Task AddItemAsync(StandardItemViewModel item)

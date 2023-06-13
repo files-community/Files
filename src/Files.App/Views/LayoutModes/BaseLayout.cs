@@ -20,6 +20,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -33,7 +34,9 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
+using static Vanara.PInvoke.Shell32;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
+using FtpHelpers = Files.App.Helpers.FtpHelpers;
 using SortDirection = Files.Shared.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
@@ -396,16 +399,22 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			// Add item jumping handler
+			CharacterReceived -= Page_CharacterReceived;
 			CharacterReceived += Page_CharacterReceived;
 
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
-			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+			ParentShellPageInstance = navigationArguments!.AssociatedTabInstance;
 
 			InitializeCommandsViewModel();
 
 			IsItemSelected = false;
 
-			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
+			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
+			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
+
+			FolderSettings.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
 			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
@@ -415,10 +424,34 @@ namespace Files.App.Views.LayoutModes
 
 			if (!navigationArguments.IsSearchResultPage)
 			{
-				var previousDir = LayoutModeViewModel.CurrentFolder.Path;
+				var previousDir = LayoutModeViewModel.CurrentFolder?.Path;
 				try
 				{
 					await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.NavPathParam);
+				}
+				catch (UnauthorizedAccessException)
+				{
+					var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(navigationArguments.NavPathParam));
+					if (res == FileSystemStatusCode.Unauthorized)
+					{
+						await DialogDisplayHelper.ShowDialogAsync(
+							"AccessDenied".GetLocalizedResource(),
+							"AccessDeniedToFolder".GetLocalizedResource());
+					}
+					else if (res == FileSystemStatusCode.NotFound)
+					{
+						await DialogDisplayHelper.ShowDialogAsync(
+							"FolderNotFoundDialog/Title".GetLocalizedResource(),
+							"FolderNotFoundDialog/Text".GetLocalizedResource());
+					}
+					else
+					{
+						await DialogDisplayHelper.ShowDialogAsync(
+							"DriveUnpluggedDialog/Title".GetLocalizedResource(),
+							res.ErrorCode.ToString());
+					}
+
+					return;
 				}
 				catch (FtpException)
 				{
@@ -434,10 +467,11 @@ namespace Files.App.Views.LayoutModes
 						if (!credentialDialogViewModel.IsAnonymous)
 							client.Credentials = new NetworkCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
 
-						await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.NavPathParam);
+						OnNavigatedTo(eventArgs);
+						return;
 					}
 				}
-				var workingDir = LayoutModeViewModel.CurrentFolder.Path;
+				var workingDir = LayoutModeViewModel.CurrentFolder!.Path;
 				// pathRoot will be empty on recycle bin path
 				var pathRoot = GetPathRoot(workingDir);
 
@@ -454,13 +488,29 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
+				{
 					await LayoutModeViewModel.GetItemsAsync();
+					AdaptiveLayoutHelpers.ApplyAdaptativeLayout(FolderSettings, LayoutModeViewModel.CurrentFolder.Path, LayoutModeViewModel.Items);
+
+					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().IsEnabled)
+					{
+						// Find and select README file
+						foreach (var item in LayoutModeViewModel.Items)
+						{
+							if (item.Storable is ILocatableFile f && f.Name.Contains("readme", StringComparison.OrdinalIgnoreCase))
+							{
+								LayoutModeViewModel.SelectedItems.Add(item);
+								break;
+							}
+						}
+					}
+				}
 				else
 					ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
 			}
 			else
 			{
-				await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.SearchPathParam);
+				await LayoutModeViewModel.SetCurrentFolderFromPathAsync(navigationArguments.SearchPathParam!);
 
 				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
 				ParentShellPageInstance.ToolbarViewModel.CanGoBack = true;

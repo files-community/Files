@@ -40,5 +40,13 @@ namespace Files.App.Filesystem.Properties
 				return Task.FromException<KeyValuePair<string, object>>(new ArgumentException($"A property value which corresponds to the canonical name {canonicalName} was not found."));
 			}
 		}
+
+		public async IAsyncEnumerable<KeyValuePair<string, object>> RetrievePropertiesAsync(string[] strings)
+		{
+			foreach (var key in strings)
+			{
+				yield return await GetStoragePropertyAsync(key);
+			}
+		}
 	}
 }

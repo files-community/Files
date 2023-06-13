@@ -5,6 +5,7 @@ using Files.App.Filesystem.Properties;
 using Files.App.Storage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
+using Files.Shared.Cloud;
 using System.Text;
 
 namespace Files.App.Filesystem
@@ -33,6 +34,43 @@ namespace Files.App.Filesystem
 				tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {Properties.Size}");
 
 			return tooltipBuilder.ToString();
+		}
+
+		public async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync()
+		{
+			int? syncStatus = null;
+			if (Storable is ILocatableFile && Properties is not null)
+			{
+				var extraProp = await Properties.GetStoragePropertyAsync("System.FilePlaceholderStatus");
+				syncStatus = (int?)(uint?)extraProp.Value;
+			}
+			else if (Storable is ILocatableFolder && Properties is not null)
+			{
+				var extraProperties = Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
+
+				await foreach (KeyValuePair<string, object> pair in extraProperties)
+				{
+					if (pair.Key.Equals("System.FileOfflineAvailabilityStatus"))
+					{
+						syncStatus = (int?)(uint?)pair.Value;
+					}
+					// If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+					else if (pair.Key.Equals("System.FilePlaceholderStatus"))
+					{
+						syncStatus ??= (int?)(uint?)pair.Value;
+					}
+				}
+			}
+
+			if (syncStatus is null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
+				return CloudDriveSyncStatus.Unknown;
+
+			return (CloudDriveSyncStatus)syncStatus;
+		}
+
+		public void UpdateProperties()
+		{
+			OnPropertyChanged(nameof(Properties));
 		}
 	}
 }

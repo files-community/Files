@@ -14,7 +14,7 @@ using Windows.Storage;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFile"/>
-	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended
+	public sealed class WindowsStorageFile : NativeStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended
 	{
 		public WindowsStorageFile(StorageFile storage)
 			: base(storage)

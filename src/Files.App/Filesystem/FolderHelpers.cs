@@ -1,7 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Filesystem.Properties;
 using Files.App.Filesystem.StorageItems;
+using Files.App.Storage.NativeStorage;
+using Files.App.Storage.WindowsStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,18 +27,20 @@ namespace Files.App.Filesystem
 			return false;
 		}
 
-		public static async Task<bool> CheckBitlockerStatusAsync(BaseStorageFolder rootFolder, string path)
+		public static async Task<bool> CheckBitlockerStatusAsync(string path)
 		{
-			if (rootFolder?.Properties is null)
+			var folder = new NativeFolder(path);
+			var folderViewModel = new StandardItemViewModel(folder);
+			if (folderViewModel.Properties is IStorageProperties props)
 			{
-				return false;
+				if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
+				{
+					KeyValuePair<string, object> extraProperties =
+						await props.GetStoragePropertyAsync("System.Volume.BitLockerProtection");
+					return (int?)extraProperties.Value == 6; // Drive is bitlocker protected and locked
+				}
 			}
-			if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
-			{
-				IDictionary<string, object> extraProperties =
-					await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
-				return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
-			}
+
 			return false;
 		}
 

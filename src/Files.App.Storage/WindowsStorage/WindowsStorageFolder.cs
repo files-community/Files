@@ -18,7 +18,7 @@ using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFolder"/>
-	public sealed class WindowsStorageFolder : WindowsStorable<StorageFolder>, ILocatableFolder, IModifiableFolder, IMutableFolder
+	public sealed class WindowsStorageFolder : NativeStorable<StorageFolder>, ILocatableFolder, IModifiableFolder, IMutableFolder
 	{
 		public WindowsStorageFolder(StorageFolder storage)
 			: base(storage)
@@ -79,11 +79,11 @@ namespace Files.App.Storage.WindowsStorage
 		/// <inheritdoc/>
 		public async Task DeleteAsync(IStorable item, bool permanently = false, CancellationToken cancellationToken = default)
 		{
-			if (item is WindowsStorable<StorageFile> storageFile)
+			if (item is NativeStorable<StorageFile> storageFile)
 			{
 				await storageFile.storage.DeleteAsync(GetWindowsStorageDeleteOption(permanently)).AsTask(cancellationToken);
 			}
-			else if (item is WindowsStorable<StorageFolder> storageFolder)
+			else if (item is NativeStorable<StorageFolder> storageFolder)
 			{
 				await storageFolder.storage.DeleteAsync(GetWindowsStorageDeleteOption(permanently)).AsTask(cancellationToken);
 			}
@@ -96,7 +96,7 @@ namespace Files.App.Storage.WindowsStorage
 		/// <inheritdoc/>
 		public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
-			if (itemToCopy is WindowsStorable<StorageFile> storageFile)
+			if (itemToCopy is NativeStorable<StorageFile> storageFile)
 			{
 				var copiedFileTask = storageFile.storage.CopyAsync(storage, itemToCopy.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
 				var copiedFile = await copiedFileTask;
@@ -110,7 +110,7 @@ namespace Files.App.Storage.WindowsStorage
 		/// <inheritdoc/>
 		public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
 		{
-			if (itemToMove is WindowsStorable<StorageFile> storageFile)
+			if (itemToMove is NativeStorable<StorageFile> storageFile)
 			{
 				await storageFile.storage.MoveAsync(storage, itemToMove.Name, GetWindowsNameCollisionOption(collisionOption)).AsTask(cancellationToken);
 				return new WindowsStorageFile(storageFile.storage);
