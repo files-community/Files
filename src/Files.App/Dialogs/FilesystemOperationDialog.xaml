@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ts="using:Files.App.TemplateSelectors"
+	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
 	xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.Backend.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
@@ -213,7 +213,7 @@
 				SelectionMode="None">
 
 				<ListView.ItemTemplateSelector>
-					<ts:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
+					<templateselectors:FileSystemDialogItemSelector ConflictItemDataTemplate="{StaticResource ConflictItemDataTemplate}" DefaultItemDataTemplate="{StaticResource DefaultItemDataTemplate}" />
 				</ListView.ItemTemplateSelector>
 
 				<ListView.ItemsPanel>

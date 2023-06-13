@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:usercontrols="using:Files.App.UserControls"
 	d:DesignHeight="32"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -116,12 +117,14 @@
 				x:Name="DirectoryItemCount"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
 
 			<TextBlock
 				x:Name="SelectedItemsCountString"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
 				Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
 
@@ -129,21 +132,55 @@
 				x:Name="ItemSize"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
 				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
 		</StackPanel>
 
 		<StackPanel
+			x:Name="GitActionsPanel"
 			Grid.Column="1"
 			VerticalAlignment="Center"
+			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 			Orientation="Horizontal"
-			Spacing="8">
+			Spacing="4">
+
+			<!--  Pull Button  -->
 			<Button
-				x:Name="GitBranch"
-				x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+				x:Name="GitPullButton"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}">
+				Command="{x:Bind Commands.GitPull}"
+				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
+				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitPull}" />
+
+					<!--  Remote commits  -->
+					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
+				</StackPanel>
+			</Button>
+
+			<Button
+				x:Name="GitBranch"
+				Height="24"
+				Padding="8,0,8,0"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
+
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
+
+						<!--  Branch Name  -->
+						<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+					</StackPanel>
+				</Button.Content>
+
 				<Button.Flyout>
 					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
 						<Grid
@@ -171,7 +208,8 @@
 									Orientation="Horizontal">
 									<RadioButton
 										Content="{helpers:ResourceString Name=Locals}"
-										IsChecked="{x:Bind DirectoryPropertiesViewModel.ShowLocals, Mode=TwoWay}"
+										DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
+										IsChecked="{Binding ShowLocals, Mode=TwoWay}"
 										Style="{StaticResource Local.RadioButtonStyle}" />
 									<RadioButton Content="{helpers:ResourceString Name=Remotes}" Style="{StaticResource Local.RadioButtonStyle}" />
 								</StackPanel>
@@ -194,10 +232,11 @@
 								Grid.Row="1"
 								Padding="4"
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+								DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
 								IsItemClickEnabled="True"
 								ItemClick="BranchesList_ItemClick"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
-								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+								SelectedIndex="{Binding SelectedBranchIndex, Mode=TwoWay}"
 								SelectionMode="Single" />
 						</Grid>
 					</Flyout>

@@ -73,7 +73,7 @@ namespace Files.App.ViewModels.UserControls
 			userSettingsService = userSettings;
 			previewSettingsService = previewSettings;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
+			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
@@ -286,12 +286,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public ICommand ShowPreviewOnlyInvoked { get; }
 
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
-				needsRefresh = true;
+				await UpdateSelectedItemPreview();
 			}
 		}
 
@@ -321,22 +321,6 @@ namespace Files.App.ViewModels.UserControls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-			}
-		}
-
-		/// <summary>
-		/// true if the content needs to be refreshed the next time the model is used
-		/// </summary>
-		private bool needsRefresh = false;
-
-		/// <summary>
-		/// refreshes the content if it needs to be refreshed, does nothing otherwise
-		/// </summary>
-		public void TryRefresh()
-		{
-			if (needsRefresh)
-			{
-				UpdateSelectedItemPreview();
 			}
 		}
 

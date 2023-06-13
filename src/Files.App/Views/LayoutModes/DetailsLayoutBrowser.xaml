@@ -633,7 +633,9 @@
 										</Grid.ColumnDefinitions>
 										<TextBlock
 											x:Name="ItemName"
+											Padding="6,0,0,0"
 											VerticalAlignment="Center"
+											IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 											Opacity="{x:Bind Opacity, Mode=OneWay}"
 											Text="{x:Bind Name, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis" />
@@ -716,10 +718,11 @@
 									<TextBlock
 										x:Name="ItemOriginalPath"
 										Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -727,10 +730,11 @@
 									<TextBlock
 										x:Name="ItemDateDeleted"
 										Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -738,9 +742,10 @@
 									<TextBlock
 										x:Name="ItemDateModified"
 										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemDateModified, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -748,9 +753,10 @@
 									<TextBlock
 										x:Name="ItemDateCreated"
 										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemDateCreated, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -758,9 +764,10 @@
 									<TextBlock
 										x:Name="ItemType"
 										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemType, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -768,9 +775,10 @@
 									<TextBlock
 										x:Name="ItemSize"
 										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind FileSize, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -778,7 +786,7 @@
 									<FontIcon
 										x:Name="ItemStatus"
 										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Margin="12,0,0,0"
+										Margin="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"

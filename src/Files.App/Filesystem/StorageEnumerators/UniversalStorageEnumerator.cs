@@ -250,6 +250,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			{
 				return new LibraryItem(library)
 				{
+					Opacity = 1,
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 				};

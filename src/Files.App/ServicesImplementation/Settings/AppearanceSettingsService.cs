@@ -5,6 +5,7 @@ using Files.App.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.UI.Composition.SystemBackdrops;
 using System;
 
 namespace Files.App.ServicesImplementation.Settings
@@ -70,6 +71,13 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public BackdropMaterialType AppThemeBackdropMaterial
+		{
+			get => Get(BackdropMaterialType.MicaAlt);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -79,6 +87,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(AppThemeAddressBarBackgroundColor):
 				case nameof(AppThemeSidebarBackgroundColor):
 				case nameof(AppThemeFileAreaBackgroundColor):
+				case nameof(AppThemeBackdropMaterial):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

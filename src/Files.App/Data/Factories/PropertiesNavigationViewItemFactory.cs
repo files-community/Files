@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Enums;
 using Files.Backend.Helpers;
 using Microsoft.UI.Xaml;
+using Windows.Storage;
 
 namespace Files.App.Data.Factories
 {
@@ -75,13 +75,16 @@ namespace Files.App.Data.Factories
 			{
 				var commonFileExt = listedItems.Select(x => x.FileExtension).Distinct().Count() == 1 ? listedItems.First().FileExtension : null;
 				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
+				var onlyFiles = listedItems.All(listedItem => listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsArchive);
 
 				if (!compatibilityItemEnabled)
 					PropertiesNavigationViewItems.Remove(compatibilityItem);
 
+				if (!onlyFiles)
+					PropertiesNavigationViewItems.Remove(detailsItem);
+
 				PropertiesNavigationViewItems.Remove(libraryItem);
 				PropertiesNavigationViewItems.Remove(shortcutItem);
-				PropertiesNavigationViewItems.Remove(detailsItem);
 				PropertiesNavigationViewItems.Remove(securityItem);
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(hashesItem);

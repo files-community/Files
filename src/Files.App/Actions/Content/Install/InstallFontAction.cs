@@ -1,15 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -20,6 +15,8 @@ namespace Files.App.Actions
 		public string Label => "Install".GetLocalizedResource();
 
 		public string Description => "InstallFontDescription".GetLocalizedResource();
+
+		public RichGlyph Glyph { get; } = new("\uE8D2");
 
 		public bool IsExecutable => context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&

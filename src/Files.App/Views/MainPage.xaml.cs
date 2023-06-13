@@ -156,6 +156,9 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
 
+			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel is not null)
+				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
+
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
@@ -489,7 +492,7 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && App.Window.Bounds.Height > 360;
 				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
 				return isEnabled;

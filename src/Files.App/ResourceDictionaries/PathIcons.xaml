@@ -960,6 +960,48 @@
 				</Setter>
 			</Style>
 
+			<Style x:Key="ColorIconLeftPane" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M7 14H12C13.1046 14 14 13.1046 14 12V5H7V14Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M2 5H6V14H4C2.89543 14 2 13.1046 2 12V5Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M1 4C1 2.34315 2.34315 1 4 1H12C13.6569 1 15 2.34315 15 4V12C15 13.6569 13.6569 15 12 15H4C2.34315 15 1 13.6569 1 12V4ZM4 2C2.89543 2 2 2.89543 2 4H14C14 2.89543 13.1046 2 12 2H4ZM6 5H2V12C2 13.1046 2.89543 14 4 14H6V5ZM7 5V14H12C13.1046 14 14 13.1046 14 12V5H7Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Selected">
+											<VisualState.Setters>
+												<Setter Target="Path1.Fill" Value="Transparent" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 			<Style x:Key="ColorIconCopyPath" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -1823,6 +1865,82 @@
 												<Setter Target="Path4.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconGitBranches" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M1 2.5C1 1.67157 1.67157 1 2.5 1C3.32843 1 4 1.67157 4 2.5C4 3.32843 3.32843 4 2.5 4C1.67157 4 1 3.32843 1 2.5Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M11 2.5C11 1.67157 11.6716 1 12.5 1C13.3284 1 14 1.67157 14 2.5C14 3.32843 13.3284 4 12.5 4C11.6716 4 11 3.32843 11 2.5Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M5 2.5C5 3.70948 4.14112 4.71836 3 4.94999V7C3 7.55228 3.44772 8 4 8H11C11.5523 8 12 7.55228 12 7V4.94999C10.8589 4.71836 10 3.70948 10 2.5C10 1.11929 11.1193 0 12.5 0C13.8807 0 15 1.11929 15 2.5C15 3.70948 14.1411 4.71836 13 4.94999V7C13 8.10457 12.1046 9 11 9H8V11.05C9.14112 11.2816 10 12.2905 10 13.5C10 14.8807 8.88071 16 7.5 16C6.11929 16 5 14.8807 5 13.5C5 12.2905 5.85888 11.2816 7 11.05V9H4C2.89543 9 2 8.10457 2 7V4.94999C0.85888 4.71836 0 3.70948 0 2.5C0 1.11929 1.11929 0 2.5 0C3.88071 0 5 1.11929 5 2.5ZM2.5 1C1.67157 1 1 1.67157 1 2.5C1 3.32843 1.67157 4 2.5 4C3.32843 4 4 3.32843 4 2.5C4 1.67157 3.32843 1 2.5 1ZM7.5 12C6.67157 12 6 12.6716 6 13.5C6 14.3284 6.67157 15 7.5 15C8.32843 15 9 14.3284 9 13.5C9 12.6716 8.32843 12 7.5 12ZM14 2.5C14 3.32843 13.3284 4 12.5 4C11.6716 4 11 3.32843 11 2.5C11 1.67157 11.6716 1 12.5 1C13.3284 1 14 1.67157 14 2.5Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<Style x:Key="ColorIconGitPull" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox
+								Width="12"
+								Height="12"
+								Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M13.5 11C12.6716 11 12 11.6716 12 12.5C12 13.3284 12.6716 14 13.5 14C14.3284 14 15 13.3284 15 12.5C15 11.6716 14.3284 11 13.5 11Z"
+										Fill="{ThemeResource IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M6.5 2C5.67157 2 5 2.67157 5 3.5C5 4.32843 5.67157 5 6.5 5C7.32843 5 8 4.32843 8 3.5C8 2.67157 7.32843 2 6.5 2Z"
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+									<Path
+										x:Name="Path3"
+										Data="M15.1464 6.14645C15.3417 5.95118 15.6583 5.95118 15.8536 6.14645C16.0488 6.34171 16.0488 6.65829 15.8536 6.85355L13.8536 8.85355C13.6583 9.04882 13.3417 9.04882 13.1464 8.85355L11.1464 6.85355C10.9512 6.65829 10.9512 6.34171 11.1464 6.14645C11.3417 5.95118 11.6583 5.95118 11.8536 6.14645L13 7.29289V5C13 4.44772 12.5523 4 12 4L8.94999 4C8.71836 5.14112 7.70948 6 6.5 6C5.11929 6 4 4.88071 4 3.5C4 2.11929 5.11929 1 6.5 1C7.70948 1 8.71836 1.85888 8.94999 3L12 3C13.1046 3 14 3.89543 14 5V7.29289L15.1464 6.14645ZM8 3.5C8 4.32843 7.32843 5 6.5 5C5.67157 5 5 4.32843 5 3.5C5 2.67157 5.67157 2 6.5 2C7.32843 2 8 2.67157 8 3.5Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M16 12.5C16 13.8807 14.8807 15 13.5 15C12.2905 15 11.2816 14.1411 11.05 13H4.94999C4.71836 14.1411 3.70948 15 2.5 15C1.11929 15 -6.03528e-08 13.8807 0 12.5C6.03528e-08 11.1193 1.11929 10 2.5 10C3.70948 10 4.71836 10.8589 4.94999 12H11.05C11.2816 10.8589 12.2905 10 13.5 10C14.8807 10 16 11.1193 16 12.5ZM13.5 14C14.3284 14 15 13.3284 15 12.5C15 11.6716 14.3284 11 13.5 11C12.6716 11 12 11.6716 12 12.5C12 13.3284 12.6716 14 13.5 14ZM2.5 14C3.32843 14 4 13.3284 4 12.5C4 11.6716 3.32843 11 2.5 11C1.67157 11 1 11.6716 1 12.5C1 13.3284 1.67157 14 2.5 14Z"
+										Fill="{ThemeResource IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
 									</VisualStateGroup>
 								</VisualStateManager.VisualStateGroups>
 							</Viewbox>
