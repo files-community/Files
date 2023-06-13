@@ -637,7 +637,7 @@
     <value>Složka</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Vytvořit prázdnou složku</value>
+    <value>Vytvoří prázdnou složku</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
     <value>Režim rozvržení</value>
@@ -652,7 +652,7 @@
     <value>Přesunout rozšíření do podnabídky</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Vyžadovat potvrzení pro mazání souborů</value>
+    <value>Vyžadovat potvrzení při mazání souborů</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Při ukládání některých vlastností došlo k chybě.</value>
@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Nainstalovat ovladače pomocí vybraných inf souborů</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Nainstalovat zvolené certifikáty</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Spustit vybranou aplikaci jako administrátor</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Upravit cestu</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Větev: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Zopakovat</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(vícero hodnot)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Akryl</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Alt. Mica</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Materiál pozadí</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Plná barva</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Spravovat větve</value>
   </data>
 </root>

@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:usercontrols="using:Files.App.UserControls"
 	d:DesignHeight="32"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
@@ -141,11 +142,14 @@
 			Grid.Column="1"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-			Orientation="Horizontal">
+			Orientation="Horizontal"
+			Spacing="4">
 
 			<!--  Pull Button  -->
 			<Button
 				x:Name="GitPullButton"
+				Height="24"
+				Padding="8,0,8,0"
 				VerticalAlignment="Center"
 				Background="Transparent"
 				BorderBrush="Transparent"
@@ -153,10 +157,7 @@
 				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
 				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
 				<StackPanel Orientation="Horizontal" Spacing="8">
-					<FontIcon
-						HorizontalAlignment="Center"
-						FontSize="12"
-						Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitPull}" />
 
 					<!--  Remote commits  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
@@ -165,10 +166,21 @@
 
 			<Button
 				x:Name="GitBranch"
+				Height="24"
+				Padding="8,0,8,0"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Content="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
+
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
+
+						<!--  Branch Name  -->
+						<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+					</StackPanel>
+				</Button.Content>
+
 				<Button.Flyout>
 					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
 						<Grid

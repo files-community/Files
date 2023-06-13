@@ -60,14 +60,14 @@ namespace Files.App.Views.LayoutModes
 		{
 			AlwaysExpanded = true,
 			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
+			Placement = FlyoutPlacementMode.Right,
 		};
 
 		public CommandBarFlyout BaseContextMenuFlyout { get; set; } = new()
 		{
 			AlwaysExpanded = true,
 			AreOpenCloseAnimationsEnabled = false,
-			Placement = FlyoutPlacementMode.RightEdgeAlignedTop,
+			Placement = FlyoutPlacementMode.Right,
 		};
 
 		public BaseLayoutCommandsViewModel? CommandsViewModel { get; protected set; }

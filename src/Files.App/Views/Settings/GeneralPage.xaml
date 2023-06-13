@@ -187,20 +187,6 @@
 								IsOn="{x:Bind ViewModel.AlwaysOpenANewInstance, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
-
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
-								IsEnabled="{x:Bind ViewModel.CanOpenInLogin, Mode=OneWay}"
-								IsOn="{x:Bind ViewModel.OpenInLogin, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}">
-								<i:Interaction.Behaviors>
-									<icore:EventTriggerBehavior EventName="Toggled">
-										<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesAtStartupCommand, Mode=OneWay}" />
-									</icore:EventTriggerBehavior>
-								</i:Interaction.Behaviors>
-							</ToggleSwitch>
-						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>

@@ -121,7 +121,7 @@
     <value>Cửa sổ mới</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Sao chép đường dẫn</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
@@ -136,7 +136,7 @@
     <value>Đường dẫn:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Kích thước:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Cỡ không nén:</value>
@@ -154,13 +154,13 @@
     <value>Bỏ qua</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Chọn tất cả</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert Selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Xóa lựa chọn</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Đã sửa:</value>
@@ -175,7 +175,7 @@
     <value>Nhập vào một đường</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Tìm kiếm</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Tệp tin bạn đã truy cập trước sẽ nổi lên ở đây</value>
@@ -1342,7 +1342,7 @@
     <value>Search unindexed items</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Thay thế hiện có</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Phát ra tên mới</value>
@@ -1447,7 +1447,7 @@
     <value>Last year</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Năm {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} mục</value>
@@ -1459,7 +1459,7 @@
     <value>Mở lại cửa sổ đã đóng</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Đổi tên</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
@@ -1582,7 +1582,7 @@
     <value>Cho phép</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Từ chối</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Kiểm soát đầy đủ</value>
@@ -1591,7 +1591,7 @@
     <value>Danh nội dung của danh mục</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Sửa đổi</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
     <value>Permissions for {0}</value>
@@ -2572,19 +2572,19 @@
     <value>Calculating...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Các mục được ghim</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Decrease size</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Tăng kích thước</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Tên không hợp lệ</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
     <value>Name must not be empty or start or end with a period.</value>
@@ -2602,7 +2602,7 @@
     <value>Open online help page in browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Bật tắt toàn màn hình</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Chỉnh cửa sổ thành gọn</value>
@@ -2719,22 +2719,25 @@
     <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Cài đặt (các) phông đã chọn</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
+  </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Chạy ứng dụng đã chọn với tư cách là người dùng khác</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Run selected PowerShell script</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Khởi chạy bản xem trước trong cửa sổ bật lên</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
@@ -3079,7 +3082,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Tìm kiếm</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3119,16 +3122,16 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Thay đổi</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Chuyển đổi lựa chọn</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Hiển thị cảnh báo khi thay đổi phần mở rộng tệp</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>PC này</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
     <value>Recycle Bin</value>
@@ -3147,9 +3150,6 @@
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Edit path</value>
-  </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
@@ -3266,10 +3266,10 @@
     <value>Discard my changes</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Đưa các thay đổi của tôi vào '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Bạn có những thay đổi chưa cam kết trên chi nhánh này. Bạn muốn làm gì với chúng?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Switch Branch</value>
@@ -3284,40 +3284,40 @@
     <value>New branch</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Tên nhánh không hợp lệ</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Tạo nhánh</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Tạo Nhánh</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Dựa trên</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
     <value>Switch to new branch</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Tạo thư mục với (các) mục hiện được chọn</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Mở thuộc tính</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Mở bảng thuộc tính</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Cục bộ</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Máy chủ</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Translate on Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Lấy</value>
   </data>
   <data name="GitPull" xml:space="preserve">
     <value>Pull</value>
@@ -3329,7 +3329,7 @@
     <value>Run git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Xem trước</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
@@ -3338,7 +3338,25 @@
     <value>git pull failed due to a timeout error</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(nhiều giá trị)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Backdrop Material</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
   </data>
 </root>

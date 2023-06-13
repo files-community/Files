@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>選択した inf ファイルを使用してドライバーをインストールする</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>選択した証明書をインストールする</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>選択したアプリケーションを管理者として実行する</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>パスを編集</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>ブランチ: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>やり直す</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(複数の値)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>アクリル</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>マイカ</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>マイカ Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>背景の素材</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>ソリッド</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>ブランチの管理</value>
   </data>
 </root>
