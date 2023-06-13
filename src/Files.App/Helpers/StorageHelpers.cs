@@ -147,6 +147,10 @@ namespace Files.App.Helpers
 			{
 				returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
 			}
+			if (returnedItem.Result is IPasswordProtectedItem ppid && item.Item is IPasswordProtectedItem ppis)
+			{
+				ppid.Credentials = ppis.Credentials;
+			}
 			return returnedItem;
 		}
 

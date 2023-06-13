@@ -50,7 +50,7 @@ namespace Files.App.Filesystem.StorageItems
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { private get; set; } = new();
+		public StorageCredential Credentials { get; set; } = new();
 
 		public ZipStorageFile(string path, string containerPath)
 		{

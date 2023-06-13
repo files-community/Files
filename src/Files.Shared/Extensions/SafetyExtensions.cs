@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Files.Shared.Extensions
 {
-	[Obsolete("This class will be replaced with SafeWrapper.")]
 	public static class SafetyExtensions
 	{
 		public static bool IgnoreExceptions(Action action, ILogger? logger = null)

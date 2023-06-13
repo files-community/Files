@@ -124,7 +124,7 @@ namespace Files.App.Filesystem.StorageItems
 
 	public interface IPasswordProtectedItem
 	{
-		StorageCredential Credentials { set; }
+		StorageCredential Credentials { get; set; }
 		Task<AccessResult> CheckAccess();
 	}
 }

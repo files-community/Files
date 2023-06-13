@@ -38,7 +38,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override Windows.Storage.FileAttributes Attributes => Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { private get; set; } = new();
+		public StorageCredential Credentials { get; set; } = new();
 
 		public ZipStorageFolder(string path, string containerPath)
 		{

@@ -27,7 +27,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { private get; set; }
+		public StorageCredential Credentials { get; set; }
 
 		public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
 		{
