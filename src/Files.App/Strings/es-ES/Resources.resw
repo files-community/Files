@@ -1927,7 +1927,7 @@
     <value>Tareas en curso</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>fecha de creación</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Tamaño</value>
@@ -1951,7 +1951,7 @@
     <value>Usar Files como diálogo de apertura de archivos</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Etiqueta de archivo</value>
+    <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Abrir elementos con un solo clic</value>
@@ -2245,7 +2245,7 @@
     <value>Columna de fecha</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Fecha de creación</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Columna de tamaño</value>
@@ -2446,7 +2446,7 @@
     <value>Ver más</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de Etiquetas de archivos desde Configuración &gt; General &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
+    <value>Pero no se preocupe, hemos creado un fantástico sustituto que es más fiable y tiene más funciones. Puede activar el widget de etiquetas desde Configuración &gt; General &gt; Widgets. Al activar el widget de etiquetas se desactivará automáticamente el widget de contenedores.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
     <value>Los contenedores se retirarán en una futura actualización 📎</value>
@@ -2723,6 +2723,9 @@
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Instalar controlador(es) usando archivo(s) inf seleccionado(s)</value>
+  </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Instalar certificado(s) seleccionado(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ejecutar la aplicación seleccionada como administrador</value>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Editar ruta</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Rama: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Rehacer</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrílico</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica alternativa</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Material de fondo</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Sólido</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Administrar ramas</value>
   </data>
 </root>
