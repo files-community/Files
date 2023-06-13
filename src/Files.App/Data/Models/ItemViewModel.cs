@@ -1212,6 +1212,8 @@ namespace Files.App.Data.Models
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
 									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
 									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+
+									repo.Dispose();
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 							});
