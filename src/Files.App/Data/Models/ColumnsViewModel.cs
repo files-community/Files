@@ -12,12 +12,46 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizeable = false,
 		};
-
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
 			get => iconColumn;
 			set => SetProperty(ref iconColumn, value);
+		}
+
+		private ColumnViewModel _GitStatusColumn = new();
+		public ColumnViewModel GitStatusColumn
+		{
+			get => _GitStatusColumn;
+			set => SetProperty(ref _GitStatusColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitDateColumn = new();
+		public ColumnViewModel GitLastCommitDateColumn
+		{
+			get => _GitLastCommitDateColumn;
+			set => SetProperty(ref _GitLastCommitDateColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitMessageColumn = new();
+		public ColumnViewModel GitLastCommitMessageColumn
+		{
+			get => _GitLastCommitMessageColumn;
+			set => SetProperty(ref _GitLastCommitMessageColumn, value);
+		}
+
+		private ColumnViewModel _GitCommitAuthorColumn = new();
+		public ColumnViewModel GitCommitAuthorColumn
+		{
+			get => _GitCommitAuthorColumn;
+			set => SetProperty(ref _GitCommitAuthorColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitShaColumn = new();
+		public ColumnViewModel GitLastCommitShaColumn
+		{
+			get => _GitLastCommitShaColumn;
+			set => SetProperty(ref _GitLastCommitShaColumn, value);
 		}
 
 		private ColumnViewModel tagColumn = new();
@@ -31,7 +65,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 1000d
 		};
-
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
@@ -43,7 +76,6 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
@@ -61,7 +93,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 500,
 		};
-
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
@@ -86,7 +117,6 @@ namespace Files.App.Data.Models
 		{
 			UserCollapsed = true
 		};
-
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
@@ -105,11 +135,13 @@ namespace Files.App.Data.Models
 			IconColumn.Length.Value +
 			TagColumn.Length.Value +
 			NameColumn.Length.Value +
-			DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value +
+			DateModifiedColumn.Length.Value +
+			OriginalPathColumn.Length.Value +
 			ItemTypeColumn.Length.Value +
 			DateDeletedColumn.Length.Value +
 			DateCreatedColumn.Length.Value +
-			SizeColumn.Length.Value + StatusColumn.Length.Value;
+			SizeColumn.Length.Value +
+			StatusColumn.Length.Value;
 
 		public void SetDesiredSize(double width)
 		{
