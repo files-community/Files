@@ -92,7 +92,7 @@ namespace Files.App.Data.Models
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
 		{
 			GitBranchDisplayName = isGitRepository && branches.Any()
-				? string.Format("Branch".GetLocalizedResource(), branches[ACTIVE_BRANCH_INDEX].Name)
+				? branches[ACTIVE_BRANCH_INDEX].Name
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
