@@ -855,7 +855,18 @@ namespace Files.App.Views.LayoutModes
 		// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
 		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
 		{
-			ToolTipService.SetToolTip(sender, sender.IsTextTrimmed ? sender.Text : null);
+			SetToolTip(sender);
+		}
+
+		private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
+		{
+			if (sender is TextBlock textBlock)
+				SetToolTip(textBlock);
+		}
+
+		private void SetToolTip(TextBlock textBlock)
+		{
+			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
 		}
 	}
 }
