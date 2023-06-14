@@ -9,7 +9,7 @@ using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.UI.StartScreen;
 
-namespace Files.App.BackgroundTasks
+namespace BackgroundTasks
 {
 	public sealed class UpdateTask : IBackgroundTask
 	{
