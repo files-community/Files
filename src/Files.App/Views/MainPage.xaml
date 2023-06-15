@@ -128,7 +128,7 @@
 				<Grid
 					x:Name="RightMarginGrid"
 					VerticalAlignment="Top"
-					BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+					BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 					BorderThickness="0,0,0,1">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
