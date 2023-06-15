@@ -1367,22 +1367,22 @@ namespace Files.App.Data.Models
 			// Hide progressbar after enumeration
 			IsLoadingItems = false;
 
-				switch (enumerated)
-				{
-					// Enumerated with FindFirstFileExFromApp
-					// Is folder synced to cloud storage?
-					case 0:
-						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
-						{
-							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
-							IsTypeGitRepository = GitDirectory is not null
-						});
-						WatchForDirectoryChanges(path, syncStatus);
-						if (GitDirectory is not null)
-							WatchForGitChanges();
-						break;
+			switch (enumerated)
+			{
+				// Enumerated with FindFirstFileExFromApp
+				// Is folder synced to cloud storage?
+				case 0:
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+					{
+						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
+						IsTypeGitRepository = GitDirectory is not null
+					});
+					WatchForDirectoryChanges(path, syncStatus);
+					if (GitDirectory is not null)
+						WatchForGitChanges();
+					break;
 
 				// Enumerated with StorageFolder
 				case 1:
