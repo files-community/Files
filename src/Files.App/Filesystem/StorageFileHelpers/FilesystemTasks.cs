@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Exceptions;
+using FluentFTP;
+using SevenZip;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
@@ -13,6 +15,9 @@ namespace Files.App.Filesystem
 		public static FileSystemStatusCode GetErrorCode(Exception ex, Type? T = null) => (ex, (uint)ex.HResult) switch
 		{
 			(UnauthorizedAccessException, _) => FileSystemStatusCode.Unauthorized,
+			(SevenZipOpenFailedException szoex, _) when szoex.Result == OperationResult.WrongPassword => FileSystemStatusCode.Unauthorized,
+			(ExtractionFailedException szeex, _) when szeex.Result == OperationResult.WrongPassword => FileSystemStatusCode.Unauthorized,
+			(FtpAuthenticationException, _) => FileSystemStatusCode.Unauthorized,
 			(FileNotFoundException, _) => FileSystemStatusCode.NotFound, // Item was deleted
 			(PathTooLongException, _) => FileSystemStatusCode.NameTooLong,
 			(FileAlreadyExistsException, _) => FileSystemStatusCode.AlreadyExists,

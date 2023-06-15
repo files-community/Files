@@ -1613,16 +1613,17 @@ namespace Files.App.Data.Models
 						return;
 
 					// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-					var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-					credentialDialogViewModel.Password?.Dispose();
-
 					if (!credentialDialogViewModel.IsAnonymous)
 					{
+						var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+						credentialDialogViewModel.Password?.Dispose();
+
 						if (isFtp)
 						{
 							var host = FtpHelpers.GetFtpHost(path);
 							FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
 						}
+
 						ppi.Credentials = credentials;
 					}
 				}
