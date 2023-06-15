@@ -141,11 +141,6 @@ namespace Files.App
 
 		public static class Widgets
 		{
-			public static class Bundles
-			{
-				public const int MaxAmountOfItemsPerBundle = 8;
-			}
-
 			public static class Drives
 			{
 				public const float LowStorageSpacePercentageThreshold = 90.0f;
@@ -158,11 +153,7 @@ namespace Files.App
 		{
 			public const string DateTimeFormat = "datetimeformat";
 
-			public const string Theme = "theme";
-
 			public const string SettingsFolderName = "settings";
-
-			public const string BundlesSettingsFileName = "bundles.json";
 
 			public const string UserSettingsFileName = "user_settings.json";
 

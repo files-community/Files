@@ -85,11 +85,6 @@ namespace Files.Backend.Services.Settings
 		bool ShowFileTagsWidget { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to display the bundles widget.
-		/// </summary>
-		bool ShowBundlesWidget { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to expand the folders widget.
 		/// </summary>
 		bool FoldersWidgetExpanded { get; set; }
@@ -108,11 +103,6 @@ namespace Files.Backend.Services.Settings
 		/// Gets or sets a value indicating whether or not to expand the file tags widget.
 		/// </summary>
 		bool FileTagsWidgetExpanded { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to expand the bundles widget.
-		/// </summary>
-		bool BundlesWidgetExpanded { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating if the favorites section should be visible.

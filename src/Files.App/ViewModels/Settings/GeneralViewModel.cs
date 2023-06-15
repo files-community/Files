@@ -421,32 +421,16 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowBundlesWidget
-		{
-			get => UserSettingsService.GeneralSettingsService.ShowBundlesWidget;
-			set
-			{
-				if (value != UserSettingsService.GeneralSettingsService.ShowBundlesWidget)
-					UserSettingsService.GeneralSettingsService.ShowBundlesWidget = value;
-
-				if (value & ShowFileTagsWidget)
-					ShowFileTagsWidget = false;
-
-				OnPropertyChanged();
-			}
-		}
 		public bool ShowFileTagsWidget
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 			set
 			{
 				if (value != UserSettingsService.GeneralSettingsService.ShowFileTagsWidget)
+				{
 					UserSettingsService.GeneralSettingsService.ShowFileTagsWidget = value;
-
-				if (value & ShowBundlesWidget)
-					ShowBundlesWidget = false;
-
-				OnPropertyChanged();
+					OnPropertyChanged();
+				}
 			}
 		}
 
