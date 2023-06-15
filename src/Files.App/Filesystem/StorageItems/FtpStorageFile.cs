@@ -43,6 +43,8 @@ namespace Files.App.Filesystem.StorageItems
 
 		public StorageCredential Credentials { get; set; }
 
+		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
+
 		public FtpStorageFile(string path, string name, DateTimeOffset dateCreated)
 		{
 			Path = path;
@@ -262,24 +264,6 @@ namespace Files.App.Filesystem.StorageItems
 			catch
 			{
 				request.FailAndClose(StreamedFileFailureMode.Incomplete);
-			}
-		}
-
-		public async Task<AccessResult> CheckAccess()
-		{
-			try
-			{
-				using var ftpClient = GetFtpClient();
-				await ftpClient.Connect();
-				return AccessResult.Success;
-			}
-			catch (FtpAuthenticationException)
-			{
-				return AccessResult.NeedsAuth;
-			}
-			catch
-			{
-				return AccessResult.Failed;
 			}
 		}
 

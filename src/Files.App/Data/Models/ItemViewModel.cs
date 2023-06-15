@@ -1634,30 +1634,7 @@ namespace Files.App.Data.Models
 
 			if (rootFolder is IPasswordProtectedItem ppi)
 			{
-				if (await ppi.CheckAccess() == AccessResult.NeedsAuth)
-				{
-					var isFtp = FtpHelpers.IsFtpPath(path);
 
-					var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-
-					if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
-						return;
-
-					// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-					if (!credentialDialogViewModel.IsAnonymous)
-					{
-						var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-						credentialDialogViewModel.Password?.Dispose();
-
-						if (isFtp)
-						{
-							var host = FtpHelpers.GetFtpHost(path);
-							FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
-						}
-
-						ppi.Credentials = credentials;
-					}
-				}
 			}
 
 			await Task.Run(async () =>

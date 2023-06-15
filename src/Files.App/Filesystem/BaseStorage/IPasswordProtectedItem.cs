@@ -9,13 +9,6 @@ using System.Threading.Tasks;
 
 namespace Files.App.Filesystem.StorageItems
 {
-	public enum AccessResult
-	{
-		Success,
-		NeedsAuth,
-		Failed
-	}
-
 	// Code from System.Net.NetworkCredential
 	public class StorageCredential
 	{
@@ -125,6 +118,7 @@ namespace Files.App.Filesystem.StorageItems
 	public interface IPasswordProtectedItem
 	{
 		StorageCredential Credentials { get; set; }
-		Task<AccessResult> CheckAccess();
+
+		event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
 	}
 }

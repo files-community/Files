@@ -11,7 +11,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -39,6 +38,8 @@ namespace Files.App.Filesystem.StorageItems
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
 		public StorageCredential Credentials { get; set; } = new();
+
+		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
 
 		public ZipStorageFolder(string path, string containerPath)
 		{
@@ -121,34 +122,24 @@ namespace Files.App.Filesystem.StorageItems
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
 		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+			if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
 			{
-				if (!FileExtensionHelpers.IsBrowsableZipFile(path, out var ext))
+				return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
+			}
+			var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
+			if (marker is not -1)
+			{
+				var containerPath = path.Substring(0, marker + ext.Length);
+				if (CheckAccess(containerPath))
 				{
-					return null;
+					return Task.FromResult((BaseStorageFolder)new ZipStorageFolder(path, containerPath)).AsAsyncOperation();
 				}
-				var marker = path.IndexOf(ext, StringComparison.OrdinalIgnoreCase);
-				if (marker is not -1)
-				{
-					var containerPath = path.Substring(0, marker + ext.Length);
-					var item = new ZipStorageFolder(path, containerPath);
-					if (await item.CheckAccess() != AccessResult.Failed)
-					{
-						return item;
-					}
-				}
-				return null;
-			});
+			}
+			return Task.FromResult<BaseStorageFolder>(null).AsAsyncOperation();
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromStorageFileAsync(BaseStorageFile file)
-		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
-			{
-				var item = new ZipStorageFolder(file);
-				return await item.CheckAccess() != AccessResult.Failed ? item : null;
-			});
-		}
+			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => await CheckAccess(file) ? new ZipStorageFolder(file) : null);
 
 		public override IAsyncOperation<StorageFolder> ToStorageFolderAsync() => throw new NotSupportedException();
 
@@ -486,6 +477,47 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
+		private static bool CheckAccess(string path)
+		{
+			return SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var hFile = NativeFileOperationsHelper.OpenFileForRead(path);
+				if (hFile.IsInvalid)
+				{
+					return false;
+				}
+				using var stream = new FileStream(hFile, FileAccess.Read);
+				return CheckAccess(stream);
+			});
+		}
+		private static bool CheckAccess(Stream stream)
+		{
+			try
+			{
+				using (SevenZipExtractor zipFile = new SevenZipExtractor(stream))
+				{
+					//zipFile.IsStreamOwner = false;
+					return zipFile.ArchiveFileData is not null;
+				}
+			}
+			catch (SevenZipOpenFailedException ex)
+			{
+				return ex.Result == OperationResult.WrongPassword;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+		private static async Task<bool> CheckAccess(IStorageFile file)
+		{
+			return await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				using var stream = await file.OpenReadAsync();
+				return CheckAccess(stream.AsStream());
+			});
+		}
+
 		public static Task<bool> InitArchive(string path, OutArchiveFormat format)
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
@@ -605,29 +637,6 @@ namespace Files.App.Filesystem.StorageItems
 
 				return new ZipStorageFile(zipDesiredName, containerPath, backingFile) { Credentials = Credentials };
 			});
-		}
-
-		public async Task<AccessResult> CheckAccess()
-		{
-			try
-			{
-				var archiveStream = await OpenZipFileAsync(FileAccessMode.Read);
-				using (SevenZipExtractor zipFile = new SevenZipExtractor(archiveStream, Credentials.Password))
-				{
-					//zipFile.IsStreamOwner = false;
-					return zipFile.ArchiveFileData is not null ?
-						AccessResult.Success : AccessResult.Failed;
-				}
-			}
-			catch (SevenZipOpenFailedException ex)
-			{
-				return ex.Result is OperationResult.WrongPassword ? 
-					AccessResult.NeedsAuth : AccessResult.Failed;
-			}
-			catch
-			{
-				return AccessResult.Failed;
-			}
 		}
 
 		private class ZipFolderBasicProperties : BaseBasicProperties

@@ -4,11 +4,8 @@
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.Helpers;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
-using System.Text;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
@@ -167,31 +164,6 @@ namespace Files.App.Filesystem
 					{
 						var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 
-						if (fsCopyResult == FileSystemStatusCode.Unauthorized)
-						{
-							if (fsSourceFolder.Result is IPasswordProtectedItem ppi)
-							{
-								IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-								var isFtp = FtpHelpers.IsFtpPath(source.Path);
-
-								var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-
-								if (await dialogService.ShowDialogAsync(credentialDialogViewModel) == DialogResult.Primary)
-								{
-									// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-									if (!credentialDialogViewModel.IsAnonymous)
-									{
-										var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-										credentialDialogViewModel.Password?.Dispose();
-										ppi.Credentials = credentials;
-
-										fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
-									}
-								}
-							}
-						}
-
 						if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
 						{
 							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
@@ -259,31 +231,6 @@ namespace Files.App.Filesystem
 						else
 						{
 							fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
-						}
-
-						if (fsResultCopy == FileSystemStatusCode.Unauthorized)
-						{
-							if (sourceResult.Result is IPasswordProtectedItem ppi)
-							{
-								IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-								var isFtp = FtpHelpers.IsFtpPath(source.Path);
-
-								var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-
-								if (await dialogService.ShowDialogAsync(credentialDialogViewModel) == DialogResult.Primary)
-								{
-									// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-									if (!credentialDialogViewModel.IsAnonymous)
-									{
-										var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-										credentialDialogViewModel.Password?.Dispose();
-										ppi.Credentials = credentials;
-
-										fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
-									}
-								}
-							}
 						}
 
 						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)

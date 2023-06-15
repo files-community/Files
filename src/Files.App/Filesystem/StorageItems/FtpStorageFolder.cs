@@ -29,6 +29,8 @@ namespace Files.App.Filesystem.StorageItems
 
 		public StorageCredential Credentials { get; set; }
 
+		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
+
 		public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
 		{
 			Path = path;
@@ -312,24 +314,6 @@ namespace Files.App.Filesystem.StorageItems
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
-		}
-
-		public async Task<AccessResult> CheckAccess()
-		{
-			try
-			{
-				using var ftpClient = GetFtpClient();
-				await ftpClient.Connect();
-				return AccessResult.Success;
-			}
-			catch(FtpAuthenticationException)
-			{
-				return AccessResult.NeedsAuth;
-			}
-			catch
-			{
-				return AccessResult.Failed;
-			}
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties
