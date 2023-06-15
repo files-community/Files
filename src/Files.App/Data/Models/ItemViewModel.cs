@@ -1187,6 +1187,31 @@ namespace Files.App.Data.Models
 									gp.InitializeExtendedGroupHeaderInfoAsync();
 								}));
 						}
+
+						if (item.IsGitItem &&
+							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
+							!string.IsNullOrEmpty(repoPath))
+						{
+							cts.Token.ThrowIfCancellationRequested();
+							await SafetyExtensions.IgnoreExceptions(() =>
+							{
+								var repo = new LibGit2Sharp.Repository(repoPath);
+								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+
+								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+								{
+									var gitItem = item.AsGitItem;
+									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
+									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+
+									repo.Dispose();
+								},
+								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+							});
+						}
 					}
 				}, cts.Token);
 			}
@@ -1342,16 +1367,22 @@ namespace Files.App.Data.Models
 			// Hide progressbar after enumeration
 			IsLoadingItems = false;
 
-			switch (enumerated)
-			{
-				// Enumerated with FindFirstFileExFromApp
-				// Is folder synced to cloud storage?
-				case 0:
-					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
-					WatchForDirectoryChanges(path, syncStatus);
-					break;
+				switch (enumerated)
+				{
+					// Enumerated with FindFirstFileExFromApp
+					// Is folder synced to cloud storage?
+					case 0:
+						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+						{
+							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
+							IsTypeGitRepository = GitDirectory is not null
+						});
+						WatchForDirectoryChanges(path, syncStatus);
+						if (GitDirectory is not null)
+							WatchForGitChanges();
+						break;
 
 				// Enumerated with StorageFolder
 				case 1:
@@ -1856,9 +1887,6 @@ namespace Files.App.Data.Models
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
 			});
 
-			if (GitDirectory is not null)
-				WatchForGitChanges(hasSyncStatus);
-
 			watcherCTS.Token.Register(() =>
 			{
 				if (aWatcherAction is not null)
@@ -1876,7 +1904,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private void WatchForGitChanges(bool hasSyncStatus)
+		private void WatchForGitChanges()
 		{
 			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
 				GitDirectory!,
@@ -1898,9 +1926,6 @@ namespace Files.App.Data.Models
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
-
-				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
 				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
@@ -2175,9 +2200,9 @@ namespace Files.App.Data.Models
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 
 			await AddFileOrFolderAsync(listedItem);
 
@@ -2366,6 +2391,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeCloudDrive { get; set; }
 
 		public bool IsTypeRecycleBin { get; set; }
+
+		public bool IsTypeGitRepository { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs

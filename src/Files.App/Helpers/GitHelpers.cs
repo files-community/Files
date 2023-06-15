@@ -50,23 +50,25 @@ namespace Files.App.Helpers
 			if (root.EndsWith('\\'))
 				root = root.Substring(0, root.Length - 1);
 
-			if (
-				string.IsNullOrWhiteSpace(path) ||
+			if (string.IsNullOrWhiteSpace(path) ||
 				path.Equals(root, StringComparison.OrdinalIgnoreCase) ||
 				path.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
-				ShellStorageFolder.IsShellPath(path)
-				)
+				ShellStorageFolder.IsShellPath(path))
+			{
 				return null;
+			}
 
 			try
 			{
-				return Repository.IsValid(path)
-					? path
-					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+				return
+					Repository.IsValid(path)
+						? path
+						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
 			catch (LibGit2SharpException ex)
 			{
 				_logger.LogWarning(ex.Message);
+
 				return null;
 			}
 		}
@@ -81,7 +83,7 @@ namespace Files.App.Helpers
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenBy(b => b.IsRemote)
-				.ThenByDescending(b => b.Tip.Committer.When)
+				.ThenByDescending(b => b.Tip?.Committer.When)
 				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();
 		}
@@ -264,6 +266,104 @@ namespace Files.App.Helpers
 			}
 
 			IsExecutingGitAction = false;
+		}
+
+		public static bool IsRepositoryEx(string path, out string repoRootPath)
+		{
+			repoRootPath = path;
+
+			var rootPath = SystemIO.Path.GetPathRoot(path);
+			if (rootPath is null)
+				return false;
+
+			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
+			if (string.IsNullOrEmpty(repositoryRootPath))
+				return false;
+
+			if (Repository.IsValid(repositoryRootPath))
+			{
+				repoRootPath = repositoryRootPath;
+				return true;
+			}
+
+			return false;
+		}
+
+		public static GitItemModel GetGitInformationForItem(Repository repository, string path)
+		{
+			var rootRepoPath = repository.Info.WorkingDirectory;
+			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
+
+			var commit = GetLastCommitForFile(repository, relativePath);
+			//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
+
+			var changeKind = ChangeKind.Unmodified;
+			//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+			{
+				if (c.Path.StartsWith(relativePath))
+				{
+					changeKind = c.Status;
+					break;
+				}
+			}
+
+			string? changeKindHumanized = "";
+			if (changeKind is not ChangeKind.Ignored)
+			{
+				changeKindHumanized = changeKind switch
+				{
+					ChangeKind.Added => "A",
+					ChangeKind.Deleted => "D",
+					ChangeKind.Modified => "M",
+					ChangeKind.Untracked => "U",
+					_ => "",
+				};
+			}
+
+			var gitItemModel = new GitItemModel()
+			{
+				Status = changeKind,
+				StatusHumanized = changeKindHumanized,
+				LastCommit = commit,
+				Path = relativePath,
+			};
+
+			return gitItemModel;
+		}
+
+		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
+		{
+			foreach (var currentCommit in repository.Commits)
+			{
+				var currentTreeEntry = currentCommit.Tree[currentPath];
+				if (currentTreeEntry == null)
+					return null;
+
+				var parentCount = currentCommit.Parents.Take(2).Count();
+				if (parentCount == 0)
+				{
+					return currentCommit;
+				}
+				else if (parentCount == 1)
+				{
+					var parentCommit = currentCommit.Parents.Single();
+
+					// Does not consider renames
+					var parentPath = currentPath; 
+
+					var parentTreeEntry = parentCommit.Tree[parentPath];
+
+					if (parentTreeEntry == null ||
+						parentTreeEntry.Target.Id != currentTreeEntry.Target.Id ||
+						parentPath != currentPath)
+					{
+						return currentCommit;
+					}
+				}
+			}
+
+			return null;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Instalar controlador(es) usando archivo(s) inf seleccionado(s)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Instalar certificado(s) seleccionado(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ejecutar la aplicación seleccionada como administrador</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Editar ruta</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Rama: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Rehacer</value>
   </data>
@@ -3317,28 +3317,46 @@
     <value>Traducir en Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Guardar (Fetch)</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Fusionar (Pull)</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Ejecutar guardar git (git fetch)</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Ejecutar fusionar git (git pull)</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Vista previa</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Error de git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>Fusionar git (git pull) ha fallado debido a un error de tiempo de espera</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrílico</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica alternativa</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Material de fondo</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Sólido</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Administrar ramas</value>
   </data>
 </root>
