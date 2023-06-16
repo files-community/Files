@@ -339,7 +339,7 @@ namespace Files.App.Helpers
 			var pending = true;
 			var client = new HttpClient();
 
-			await LoadClientId();
+			LoadClientId();
 
 			using (var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/device/code"))
 			{
@@ -401,7 +401,8 @@ namespace Files.App.Helpers
 					GIT_RESOURCE_USERNAME,
 					jsonContent.RootElement.GetProperty("access_token").GetRawText());
 			}
-      
+		}
+
 		public static bool IsRepositoryEx(string path, out string repoRootPath)
 		{
 			repoRootPath = path;
@@ -484,7 +485,7 @@ namespace Files.App.Helpers
 					var parentCommit = currentCommit.Parents.Single();
 
 					// Does not consider renames
-					var parentPath = currentPath; 
+					var parentPath = currentPath;
 
 					var parentTreeEntry = parentCommit.Tree[parentPath];
 
@@ -514,15 +515,12 @@ namespace Files.App.Helpers
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
 		}
 
-		private static async Task LoadClientId()
+		private static void LoadClientId()
 		{
 			if (!string.IsNullOrWhiteSpace(_clientId))
 				return;
 
-			var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/GitHubClientId.txt"));
-			var lines = await FileIO.ReadTextAsync(file);
-			using var obj = JsonDocument.Parse(lines);
-			_clientId = obj.RootElement.GetProperty("id").GetString() ?? string.Empty;
+			_clientId = "githubclientid.secret";
 		}
 	}
 }
