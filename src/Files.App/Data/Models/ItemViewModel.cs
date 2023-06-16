@@ -1369,8 +1369,6 @@ namespace Files.App.Data.Models
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			await GetDefaultItemIcons(folderSettings.GetIconSize());
-
 			if (FtpHelpers.IsFtpPath(path))
 			{
 				// Recycle bin and network are enumerated by the fulltrust process
@@ -1421,6 +1419,8 @@ namespace Files.App.Data.Models
 						break;
 				}
 			}
+
+			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
 			stopwatch.Stop();
 			Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");

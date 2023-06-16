@@ -500,7 +500,9 @@ namespace Files.App.Views.LayoutModes
 
 		internal void ClearSelectionIndicator()
 		{
+			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
+			LockPreviewPaneContent = false;
 		}
 	}
 }
