@@ -2626,7 +2626,7 @@
     <value>Afficher/Masquer le volet de prévisualisation</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Afficher/Masquer le panneau latéral</value>
+    <value>Afficher/Masquer la barre latérale</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Installer le(s) pilote(s) en utilisant le(s) fichier(s) inf sélectionné(s)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Installer le(s) certificat(s) sélectionné(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Exécuter l'application sélectionnée en tant qu'administrateur</value>
   </data>
@@ -2734,7 +2737,7 @@
     <value>Exécuter le script PowerShell sélectionné</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Lancer l'aperçu dans la fenêtre pop-up</value>
+    <value>Lancer la prévisualisation dans une fenêtre contextuelle</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Créer une archive avec le(s) élément(s) sélectionné(s)</value>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Modifier le chemin</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branche : {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Rétablir</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(plusieurs valeurs)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylique</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Matériau de fond</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solide</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Gérer les branches</value>
   </data>
 </root>

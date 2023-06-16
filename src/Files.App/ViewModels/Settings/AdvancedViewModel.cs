@@ -19,8 +19,6 @@ namespace Files.App.ViewModels.Settings
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		private readonly IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
 		
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -29,6 +27,8 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public ICommand OpenSettingsJsonCommand { get; }
+		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+
 
 		public AdvancedViewModel()
 		{
@@ -40,6 +40,9 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
 			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
+			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartup);
+
+			_ = DetectOpenFilesAtStartup();
 		}
 
 		private async Task OpenSettingsJson()
@@ -170,11 +173,6 @@ namespace Files.App.ViewModels.Settings
 					string importSettings = await userSettingsFile.ReadTextAsync();
 					UserSettingsService.ImportSettings(importSettings);
 
-					// Import bundles
-					var bundles = await zipFolder.GetFileAsync(Constants.LocalSettings.BundlesSettingsFileName);
-					string importBundles = await bundles.ReadTextAsync();
-					bundlesSettingsService.ImportSettings(importBundles);
-
 					// Import file tags list and DB
 					var fileTagsList = await zipFolder.GetFileAsync(Constants.LocalSettings.FileTagSettingsFileName);
 					string importTags = await fileTagsList.ReadTextAsync();
@@ -221,10 +219,6 @@ namespace Files.App.ViewModels.Settings
 					// Export user settings
 					var exportSettings = UTF8Encoding.UTF8.GetBytes((string)UserSettingsService.ExportSettings());
 					await zipFolder.CreateFileAsync(new MemoryStream(exportSettings), Constants.LocalSettings.UserSettingsFileName, CreationCollisionOption.ReplaceExisting);
-
-					// Export bundles
-					var exportBundles = UTF8Encoding.UTF8.GetBytes((string)bundlesSettingsService.ExportSettings());
-					await zipFolder.CreateFileAsync(new MemoryStream(exportBundles), Constants.LocalSettings.BundlesSettingsFileName, CreationCollisionOption.ReplaceExisting);
 
 					// Export file tags list and DB
 					var exportTags = UTF8Encoding.UTF8.GetBytes((string)fileTagsSettingsService.ExportSettings());
@@ -286,6 +280,79 @@ namespace Files.App.ViewModels.Settings
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
 
 			return obj;
+		}
+
+		private bool openOnWindowsStartup;
+		public bool OpenOnWindowsStartup
+		{
+			get => openOnWindowsStartup;
+			set => SetProperty(ref openOnWindowsStartup, value);
+		}
+
+		private bool canOpenOnWindowsStartup;
+		public bool CanOpenOnWindowsStartup
+		{
+			get => canOpenOnWindowsStartup;
+			set => SetProperty(ref canOpenOnWindowsStartup, value);
+		}
+
+		public async Task OpenFilesOnWindowsStartup()
+		{
+			var stateMode = await ReadState();
+
+			bool state = stateMode switch
+			{
+				StartupTaskState.Enabled => true,
+				StartupTaskState.EnabledByPolicy => true,
+				StartupTaskState.DisabledByPolicy => false,
+				StartupTaskState.DisabledByUser => false,
+				_ => false,
+			};
+
+			if (state != OpenOnWindowsStartup)
+			{
+				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+				if (OpenOnWindowsStartup)
+					await startupTask.RequestEnableAsync();
+				else
+					startupTask.Disable();
+				await DetectOpenFilesAtStartup();
+			}
+		}
+
+		public async Task DetectOpenFilesAtStartup()
+		{
+			var stateMode = await ReadState();
+
+			switch (stateMode)
+			{
+				case StartupTaskState.Disabled:
+					CanOpenOnWindowsStartup = true;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.Enabled:
+					CanOpenOnWindowsStartup = true;
+					OpenOnWindowsStartup = true;
+					break;
+				case StartupTaskState.DisabledByPolicy:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.DisabledByUser:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = false;
+					break;
+				case StartupTaskState.EnabledByPolicy:
+					CanOpenOnWindowsStartup = false;
+					OpenOnWindowsStartup = true;
+					break;
+			}
+		}
+
+		public async Task<StartupTaskState> ReadState()
+		{
+			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+			return state.State;
 		}
 	}
 }

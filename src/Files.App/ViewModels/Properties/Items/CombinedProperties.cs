@@ -66,8 +66,8 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
 
-			ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).ToList().Count;
-			ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder).ToList().Count;
+			ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File || x.IsArchive).ToList().Count;
+			ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive).ToList().Count;
 
 			long totalSize = 0;
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);

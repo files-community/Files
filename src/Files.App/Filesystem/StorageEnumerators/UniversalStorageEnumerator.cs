@@ -202,8 +202,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 						FileImage = null,
 						LoadFileIcon = false,
 						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-						FileSize = null,
-						FileSizeBytes = 0,
+						FileSize = basicProperties.Size.ToSizeString(),
+						FileSizeBytes = (long)basicProperties.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
 						ItemOriginalPath = binFolder.OriginalPath,
 					};

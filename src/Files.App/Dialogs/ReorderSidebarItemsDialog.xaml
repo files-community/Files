@@ -17,22 +17,8 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<Grid
-		x:Name="DestinationPathGrid"
-		ColumnSpacing="8"
-		RowSpacing="8">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-
-		<ListView
-			x:Name="SidebarNavView"
-			Grid.Row="1"
-			ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
+	<Grid x:Name="DestinationPathGrid">
+		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:LocationItem">
 					<Grid

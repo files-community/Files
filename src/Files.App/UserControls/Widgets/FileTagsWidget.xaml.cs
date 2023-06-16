@@ -47,7 +47,7 @@ namespace Files.App.UserControls.Widgets
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 
-		public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName => nameof(FileTagsWidget);
 
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
 
