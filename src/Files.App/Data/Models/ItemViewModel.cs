@@ -544,7 +544,11 @@ namespace Files.App.Data.Models
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingItems = false;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -640,7 +644,7 @@ namespace Files.App.Data.Models
 
 					for (var i = 0; i < filesAndFolders.Count; i++)
 					{
-						if (addFilesCTS.IsCancellationRequested)
+						if (!IsLoadingItems)
 							return;
 
 						if (i < FilesAndFolders.Count)
@@ -1416,13 +1420,6 @@ namespace Files.App.Data.Models
 					default:
 						break;
 				}
-			}
-
-			if (addFilesCTS.IsCancellationRequested)
-			{
-				addFilesCTS = new CancellationTokenSource();
-				IsLoadingItems = false;
-				return;
 			}
 
 			stopwatch.Stop();
