@@ -1,22 +1,35 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Enums;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Files.Backend.CommandLine
 {
+	/// <summary>
+	/// Represents a parsed command node on Windows.
+	/// </summary>
 	public class ParsedCommand
 	{
+		/// <summary>
+		/// Gets or sets parsed command type.
+		/// </summary>
 		public ParsedCommandType Type { get; set; }
 
-		public string Payload
-			=> Args.FirstOrDefault();
-
+		/// <summary>
+		/// Gets or sets list of arguments.
+		/// </summary>
 		public List<string> Args { get; set; }
 
-		public ParsedCommand() =>
-			Args = new List<string>();
+		/// <summary>
+		/// Gets first argument item.
+		/// </summary>
+		public string Payload
+			=> Args.First();
+
+		/// <summary>
+		/// Initialize a parsed command class.
+		/// </summary>
+		public ParsedCommand()
+		{
+			Args = new();
+		}
 	}
 }

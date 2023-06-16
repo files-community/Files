@@ -2,10 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Extensions;
-using System;
-using System.Linq;
 
-namespace Files.Backend.SecureStore
+namespace Files.Backend.Data.Models
 {
 	public sealed class DisposableArray : FreeableStore<DisposableArray>
 	{
@@ -59,6 +57,9 @@ namespace Files.Backend.SecureStore
 			//}
 		}
 
-		public static implicit operator byte[](DisposableArray disposableArray) => disposableArray.Bytes;
+		public static implicit operator byte[](DisposableArray disposableArray)
+		{
+			return disposableArray.Bytes;
+		}
 	}
 }

@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Models;
 using Files.Sdk.Storage;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {

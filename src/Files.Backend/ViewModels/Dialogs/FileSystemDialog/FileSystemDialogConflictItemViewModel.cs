@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Files.Backend.Messages;
 using Files.Shared.Enums;
 using System.IO;
 

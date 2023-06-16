@@ -1,10 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Enums;
 using Files.Shared;
 
-namespace Files.Backend.Models.Dialogs
+namespace Files.Backend.Data.Models
 {
 	public sealed class AddItemDialogResultModel
 	{

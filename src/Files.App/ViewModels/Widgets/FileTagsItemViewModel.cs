@@ -1,10 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Models;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Backend.Helpers;
 using Files.App.UserControls.Widgets;
 
 namespace Files.App.ViewModels.Widgets
@@ -12,8 +10,10 @@ namespace Files.App.ViewModels.Widgets
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-															// This workaround must be kept until further refactor of navigation code is completed
+
+		// A workaround for lack of MVVM-compliant navigation support.
+		// This workaround must be kept until further refactor of navigation code is completed.
+		private readonly Func<string, Task> _openAction;
 
 		[ObservableProperty]
 		private IImageModel? _Icon;

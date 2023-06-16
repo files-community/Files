@@ -4,10 +4,6 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Files.Backend.Extensions;
-using Files.Backend.Messages;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;

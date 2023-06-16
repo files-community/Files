@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.Backend.Services;
 
 namespace Files.Backend.Extensions
 {
+	/// <summary>
+	/// Provides static extension for localization.
+	/// </summary>
 	public static class LocalizationExtensions
 	{
 		private static ILocalizationService? FallbackLocalizationService;

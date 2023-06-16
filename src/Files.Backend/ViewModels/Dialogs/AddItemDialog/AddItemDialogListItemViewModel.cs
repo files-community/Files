@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.Backend.Models;
-using Files.Backend.Models.Dialogs;
 
 namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {

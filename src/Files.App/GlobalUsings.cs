@@ -35,9 +35,25 @@ global using global::Files.App.ViewModels.UserControls;
 global using global::Files.App.Views;
 global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;
-global using global::Files.Backend.Enums;
+
+// Files.Backend
 global using global::Files.Backend.CommandLine;
+global using global::Files.Backend.Data.Enums;
+global using global::Files.Backend.Data.Messages;
+global using global::Files.Backend.Data.Models;
+global using global::Files.Backend.Extensions;
+global using global::Files.Backend.Helpers;
+global using global::Files.Backend.Services;
 global using global::Files.Backend.Services.Settings;
+//global using global::Files.Backend.Services.SizeProvider;
+global using global::Files.Backend.ViewModels;
+global using global::Files.Backend.ViewModels.Dialogs;
+global using global::Files.Backend.ViewModels.Dialogs.AddItemDialog;
+global using global::Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+global using global::Files.Backend.ViewModels.FileTags;
+global using global::Files.Backend.ViewModels.Widgets;
+
+// Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Enums;
 global using global::Files.Shared.Extensions;

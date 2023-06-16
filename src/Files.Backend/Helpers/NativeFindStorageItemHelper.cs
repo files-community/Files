@@ -1,12 +1,14 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
 namespace Files.Backend.Helpers
 {
+	/// <summary>
+	/// NativeFindStorageItemHelper
+	/// </summary>
 	public class NativeFindStorageItemHelper
 	{
 		[StructLayout(LayoutKind.Sequential)]

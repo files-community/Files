@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Files.Backend.Models
+namespace Files.Backend.Data.Models
 {
 	public class HashInfoItem : ObservableObject
 	{

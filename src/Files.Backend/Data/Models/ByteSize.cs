@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using Lib = ByteSizeLib;
 
-namespace Files.Backend.Models
+namespace Files.Backend.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{

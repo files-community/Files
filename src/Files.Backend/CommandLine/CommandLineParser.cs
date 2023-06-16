@@ -1,29 +1,44 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Enums;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace Files.Backend.CommandLine
 {
+	/// <summary>
+	/// Provides static helper for command line arguments on Windows.
+	/// </summary>
 	public class CommandLineParser
 	{
+		/// <summary>
+		/// Parses raw command line string.
+		/// </summary>
+		/// <param name="cmdLineString">String of command line to parse.</param>
+		/// <returns>A collection of parsed command.</returns>
 		public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
 		{
 			var parsedArgs = Parse(SplitArguments(cmdLineString, true));
+
 			return ParseSplitArguments(parsedArgs);
 		}
 
+		/// <summary>
+		/// Parses raw command line string.
+		/// </summary>
+		/// <param name="cmdLineStrings">String of command line to parse.</param>
+		/// <returns>A collection of parsed command.</returns>
 		public static ParsedCommands ParseUntrustedCommands(string[] cmdLineStrings)
 		{
 			var parsedArgs = Parse(cmdLineStrings);
+
 			return ParseSplitArguments(parsedArgs);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="parsedArgs">String of command line to parse.</param>
+		/// <returns>A collection of parsed command.</returns>
 		private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string[]>> parsedArgs)
 		{
 			var commands = new ParsedCommands();
@@ -52,8 +67,7 @@ namespace Files.Backend.CommandLine
 						command.Type = ParsedCommandType.TagFiles;
 						break;
 
-					default:
-						//case "Cmdless":
+					default: //case "Cmdless":
 						try
 						{
 							if (kvp.Value[0].StartsWith("::{", StringComparison.Ordinal) || kvp.Value[0].StartsWith("shell:", StringComparison.OrdinalIgnoreCase))
@@ -85,6 +99,12 @@ namespace Files.Backend.CommandLine
 			return commands;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="commandLine"></param>
+		/// <param name="trimQuotes"></param>
+		/// <returns></returns>
 		public static string[] SplitArguments(string commandLine, bool trimQuotes = false)
 		{
 			char[] commandLineCharArray = commandLine.ToCharArray();
@@ -93,14 +113,10 @@ namespace Files.Backend.CommandLine
 			for (int i = 0; i < commandLineCharArray.Length; i++)
 			{
 				if (commandLineCharArray[i] == '"')
-				{
 					isInQuote = !isInQuote;
-				}
 
 				if (!isInQuote && commandLineCharArray[i] == ' ')
-				{
 					commandLineCharArray[i] = '\n';
-				}
 			}
 
 			return trimQuotes
@@ -108,10 +124,17 @@ namespace Files.Backend.CommandLine
 				: new string(commandLineCharArray).Split('\n');
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		public static List<KeyValuePair<string, string[]>> Parse(string[] args = null)
 		{
 			var parsedArgs = new List<KeyValuePair<string, string[]>>();
-			//Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
+
+			// This is better but I haven't tested this enough.
+			//Environment.GetCommandLineArgs()
 
 			if (args is not null)
 			{
@@ -130,9 +153,7 @@ namespace Files.Backend.CommandLine
 								for (int j = 0; j < parsedArgs.Count; j++)
 								{
 									if (parsedArgs[j].Key == data.Key)
-									{
 										parsedArgs.RemoveAt(j);
-									}
 								}
 
 								parsedArgs.Add(data);
@@ -143,13 +164,17 @@ namespace Files.Backend.CommandLine
 			}
 
 			if (parsedArgs.Count == 0 && args.Length >= 2)
-			{
 				parsedArgs.Add(new KeyValuePair<string, string[]>("Cmdless", new[] { string.Join(' ', args.Skip(1)).TrimStart() }));
-			}
 
 			return parsedArgs;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="args"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
 		private static KeyValuePair<string, string[]> ParseData(string[] args, int index)
 		{
 			string? key = null;
@@ -166,9 +191,11 @@ namespace Files.Backend.CommandLine
 					key = argument.Substring(1, endIndex - 1);
 
 					int valueStart = endIndex + 1;
-					val.Add(valueStart < argument.Length
-						 ? argument.Substring(valueStart, argument.Length - valueStart)
-						 : null);
+
+					if (valueStart < argument.Length)
+					{
+						val.Add(argument[valueStart..]);
+					}
 				}
 				else
 				{
@@ -176,13 +203,17 @@ namespace Files.Backend.CommandLine
 				}
 
 				int argIndex = 1 + index;
+
 				while (argIndex < args.Length && !(args[argIndex].StartsWith('-') || args[argIndex].StartsWith('/')))
 				{
 					val.Add(args[argIndex++]);
 				}
 			}
 
-			return key is not null ? new KeyValuePair<string, string[]>(key, val.ToArray()) : default;
+			return
+				key is not null
+					? new KeyValuePair<string, string[]>(key, val.ToArray())
+					: default;
 		}
 	}
 }

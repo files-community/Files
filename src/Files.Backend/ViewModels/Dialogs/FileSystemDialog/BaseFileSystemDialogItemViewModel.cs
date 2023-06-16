@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Files.Backend.Models;
 using System.IO;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
