@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Helpers;
@@ -18,6 +19,8 @@ namespace Files.App.ViewModels.UserControls
 		private readonly IUserSettingsService userSettingsService;
 
 		private readonly IPreviewPaneSettingsService previewSettingsService;
+
+		private readonly IContentPageContext contentPageContextService;
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -68,7 +71,7 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
+		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
 			userSettingsService = userSettings;
 			previewSettingsService = previewSettings;
@@ -79,11 +82,13 @@ namespace Files.App.ViewModels.UserControls
 
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+
+			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem)
+			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith("\\"))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -279,8 +284,32 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				PreviewPaneContent = null;
-				PreviewPaneState = PreviewPaneStates.NoItemSelected;
+				SelectedItem?.FileDetails?.Clear();
+				var currentFolder = contentPageContextService.Folder;
+
+				if (currentFolder is null)
+				{
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoItemSelected;
+					return;
+				}
+
+				try
+				{
+					PreviewPaneState = PreviewPaneStates.LoadingPreview;
+					loadCancellationTokenSource = new CancellationTokenSource();
+
+					SelectedItem = currentFolder;
+					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine(e);
+					loadCancellationTokenSource?.Cancel();
+
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+				}
 			}
 		}
 

@@ -188,30 +188,17 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		protected bool LockPreviewPaneContent { get; set; }
+
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
 			internal set
 			{
-				// Check if the new list is different then the old one
-				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
-					if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
-					{
-						// Update preview pane properties
-						PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-						PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
-
-						// Check if the preview pane is open before updating the model
-						if (PreviewPaneViewModel.IsEnabled)
-						{
-							var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
-							if (isPaneEnabled)
-								PreviewPaneViewModel.UpdateSelectedItemPreview();
-						}
-					}
+					UpdatePreviewPaneSelection(value);
 
 					selectedItems = value;
 
@@ -483,15 +470,17 @@ namespace Files.App.Views.LayoutModes
 					navigationArguments.SelectItems is not null &&
 					navigationArguments.SelectItems.Any())
 				{
-					List<ListedItem> liItemsToSelect = new();
-					foreach (string item in navigationArguments.SelectItems)
-						liItemsToSelect.Add(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => li.ItemNameRaw == item).First());
+					List<ListedItem> listedItemsToSelect = new();
+					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
 
-					ItemManipulationModel.SetSelectedItems(liItemsToSelect);
+					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
 				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
 				{
+					if (SelectedItems?.Count == 0)
+						UpdatePreviewPaneSelection(null);
+
 					// Set focus on layout specific file list control
 					ItemManipulationModel.FocusFileList();
 				}
@@ -844,14 +833,16 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Add items to main shell submenu
-			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+			mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			{
 				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToMainMenu(mainItems, x);
 			});
 
 			// Add items to overflow shell submenu
-			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+			overflowShellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+			{
 				await x.LoadSubMenuAction();
 
 				ShellContextmenuHelper.AddItemsToOverflowMenu(overflowItem, x);
@@ -1368,6 +1359,27 @@ namespace Files.App.Views.LayoutModes
 			else
 			{
 				showError?.Invoke(false);
+			}
+		}
+
+		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)
+		{
+			if (LockPreviewPaneContent)
+				return;
+
+			if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
+			{
+				// Update preview pane properties
+				PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
+				PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
+
+				// Check if the preview pane is open before updating the model
+				if (PreviewPaneViewModel.IsEnabled)
+				{
+					var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
+					if (isPaneEnabled)
+						_ = PreviewPaneViewModel.UpdateSelectedItemPreview();
+				}
 			}
 		}
 
