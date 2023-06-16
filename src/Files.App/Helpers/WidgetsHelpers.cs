@@ -52,10 +52,6 @@ namespace Files.App.Helpers
 			{
 				return generalSettingsService.ShowFileTagsWidget;
 			}
-			if (typeof(TWidget) == typeof(BundlesWidget))
-			{
-				return generalSettingsService.ShowBundlesWidget;
-			}
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
 			{
 				return generalSettingsService.ShowRecentFilesWidget;
