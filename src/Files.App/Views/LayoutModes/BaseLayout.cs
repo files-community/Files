@@ -1378,7 +1378,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 					if (isPaneEnabled)
-						PreviewPaneViewModel.UpdateSelectedItemPreview();
+						_ = PreviewPaneViewModel.UpdateSelectedItemPreview();
 				}
 			}
 		}
