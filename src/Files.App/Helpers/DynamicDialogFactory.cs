@@ -3,6 +3,7 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -260,6 +261,54 @@ namespace Files.App.Helpers
 				}
 			});
 
+			return dialog;
+		}
+
+		public static DynamicDialog GetFor_GitLogin(string userCode)
+		{
+			var url = "https://github.com/login/device";
+
+			var redirectLink = new HyperlinkButton()
+			{
+				Content = url,
+				NavigateUri = new Uri(url),
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+			var userCodeTextBlock = new TextBlock()
+			{
+				Text = userCode,
+				FontWeight = FontWeights.Bold,
+				FontSize = 20.0d,
+				HorizontalAlignment = HorizontalAlignment.Center
+			};
+
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "ConnectGitHub".GetLocalizedResource(),
+				PrimaryButtonText = "Close".GetLocalizedResource(),
+				SubtitleText = "ConnectGitHubDescription".GetLocalizedResource(),
+				DisplayControl = new StackPanel()
+				{
+					MinWidth = 250d,
+					Children =
+					{
+						redirectLink,
+						userCodeTextBlock
+					}
+				},
+				DynamicButtons = DynamicDialogButtons.Primary,
+			});
+		}
+
+		public static DynamicDialog GetFor_GitHubConnectionError()
+		{
+			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "Error".GetLocalizedResource(),
+				SubtitleText = "CannotReachGitHubError".GetLocalizedResource(),
+				PrimaryButtonText = "Close".GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
 			return dialog;
 		}
 	}
