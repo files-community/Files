@@ -188,14 +188,14 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		protected bool LockPreviewPaneContent { get; set; }
+
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
 			internal set
 			{
-				// Check if the new list is different then the old one
-				//if (!(value?.All(x => selectedItems?.Contains(x) ?? false) ?? value == selectedItems))
 				if (value != selectedItems)
 				{
 					UpdatePreviewPaneSelection(value);
@@ -1362,8 +1362,11 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected virtual void UpdatePreviewPaneSelection(List<ListedItem>? value)
+		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)
 		{
+			if (LockPreviewPaneContent)
+				return;
+
 			if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
 			{
 				// Update preview pane properties
@@ -1375,7 +1378,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 					if (isPaneEnabled)
-						_ = PreviewPaneViewModel.UpdateSelectedItemPreview();
+						PreviewPaneViewModel.UpdateSelectedItemPreview();
 				}
 			}
 		}
