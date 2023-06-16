@@ -432,6 +432,8 @@ namespace Files.App.Filesystem.Search
 						ItemDateCreatedReal = folder.DateCreated,
 						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
+						FileSize = props.Size.ToSizeString(),
+						FileSizeBytes = (long)props.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
 						ItemOriginalPath = binFolder.OriginalPath
 					};
