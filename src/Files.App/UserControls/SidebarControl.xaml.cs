@@ -412,25 +412,29 @@ namespace Files.App.UserControls
 
 		private async void Sidebar_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
 		{
-			if (IsInPointerPressed || args.InvokedItem is null || args.InvokedItemContainer is null)
+			try
+			{
+				if (args.InvokedItem is null || args.InvokedItemContainer is null)
+					return;
+
+				var navigationPath = args.InvokedItemContainer.Tag?.ToString();
+
+				if (await DriveHelpers.CheckEmptyDrive(navigationPath))
+					return;
+
+				var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+				if ((IsInPointerPressed || ctrlPressed) && navigationPath is not null)
+				{
+					await NavigationHelpers.OpenPathInNewTab(navigationPath);
+					return;
+				}
+
+				SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
+			}
+			finally
 			{
 				IsInPointerPressed = false;
-				return;
 			}
-
-			var navigationPath = args.InvokedItemContainer.Tag?.ToString();
-
-			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
-				return;
-
-			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed && navigationPath is not null)
-			{
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
-				return;
-			}
-
-			SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
 		}
 
 		private async void Sidebar_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -443,7 +447,6 @@ namespace Files.App.UserControls
 
 			IsInPointerPressed = true;
 			e.Handled = true;
-			await NavigationHelpers.OpenPathInNewTab(item?.Path);
 		}
 
 		private void PaneRoot_RightTapped(object sender, RightTappedRoutedEventArgs e)
