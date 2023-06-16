@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Geselecteerde toepassing uitvoeren als beheerder</value>
   </data>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Pad bewerken</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Opnieuw</value>
   </data>
@@ -3340,5 +3340,23 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(Meerdere waarden)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Backdrop Material</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
   </data>
 </root>

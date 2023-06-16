@@ -121,7 +121,7 @@
     <value>새 창</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>경로 복사</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>탐색</value>
@@ -139,7 +139,7 @@
     <value>크기:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>압축 해제된 크기:</value>
+    <value>압축 해제 크기:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>작업을 수행할 수 없습니다.</value>
@@ -157,10 +157,10 @@
     <value>모두 선택</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>선택 영역 반전</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>선택 영역 초기화</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>수정한 날짜:</value>
@@ -178,7 +178,7 @@
     <value>검색</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>최근에 액세스한 파일이 여기에 표시됩니다.</value>
+    <value>이전에 액세스한 파일이 여기에 표시됩니다.</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>이 항목 삭제</value>
@@ -190,7 +190,7 @@
     <value>정보</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>오픈소스</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>날짜 형식</value>
@@ -277,10 +277,10 @@
     <value>권한 부여</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>시작하기 위해서는 파일들을 표시 가능한 권한을 부여해야 합니다. 권한을 얻기 위한 설정 페이지가 열립니다. 이 단계를 완료하려면 앱을 재시작 하면 됩니다.</value>
+    <value>시작하기 위해서는 파일 표시 권한이 필요합니다. 권한을 얻기 위한 설정 페이지가 열리고, 권한 부여 후 앱을 재시작 하면 됩니다. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>표시</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>항목 이름을 입력하세요</value>
@@ -310,13 +310,13 @@
     <value>이 폴더는 비어있습니다.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>뒤로 (Alt+왼쪽 화살표)</value>
+    <value>뒤로 가기</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>앞으로 (Alt+오른쪽 화살표)</value>
+    <value>앞으로 가기</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>위로 (Alt+위쪽 화살표)</value>
+    <value>상위 폴더로 이동</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>새로고침</value>
@@ -328,7 +328,7 @@
     <value>기존 항목으로 대체하기</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>이미 존재하는 항목</value>
+    <value>항목이 이미 존재합니다</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>잠금 화면 배경으로 설정</value>
@@ -415,10 +415,10 @@
     <value>지정한 항목 이름이 잘못되었습니다</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>항목 선택함</value>
+    <value>항목 선택됨</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>항목 선택함</value>
+    <value>항목 선택됨</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>항목</value>
@@ -469,7 +469,7 @@
     <value>주소 {2:#,##0}개로부터 파일 {0:#,##0}개, 폴더 {1:#,##0}개</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>다른 사용자로 실행</value>
+    <value>다른 사용자 권한으로 실행</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>{0} 형식의 모든 파일</value>
@@ -478,7 +478,7 @@
     <value>다른 종류</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>{0}의 모든 항목</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>사용 중인 공간:</value>
@@ -526,7 +526,7 @@
     <value>파일 경로 열기</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>명령 전달인자:</value>
+    <value>고급 실행 옵션:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>대상:</value>
@@ -556,7 +556,7 @@
     <value>문제가 발생했습니다!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>오류 보고하기</value>
+    <value>오류 신고하기</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>선택한 항목이 잘못되었거나 접근할 수 없습니다.{0}오류 메시지:{0}{1}</value>
@@ -607,7 +607,7 @@
     <value>설정을 적용되려면 프로그램을 다시 시작해야합니다. 프로그램을 다시 시작할까요?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>GitHub에서 후원해주세요</value>
+    <value>GitHub에서 후원하기</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>항목을 만들 수 없습니다.</value>
@@ -739,7 +739,7 @@
     <value>초점 거리</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>조리개 최대 개방</value>
+    <value>조리개</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>사람들 이름</value>
@@ -928,7 +928,7 @@
     <value>주소</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>선택 옵션</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>선택</value>
@@ -961,7 +961,7 @@
     <value>꺼내기</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>탭 복제</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>탭을 새 창으로 이동</value>
@@ -1000,13 +1000,13 @@
     <value>검색 결과에 색인되지 않은 항목 포함</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>디렉토리 간 레이아웃 및 정렬 설정 동기화</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>마우스 우클릭 컨텍스트 메뉴를 설정</value>
+    <value>마우스 우클릭 메뉴 설정</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>원본 경로</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>추가</value>
@@ -1018,16 +1018,16 @@
     <value>삭제</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>새 탭을 분할 화면 모드로 열기</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>'새 분할 화면에서 폴더 열기' 옵션 표시</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>새 패널</value>
+    <value>새 분할 화면</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>폴더</value>
@@ -1102,7 +1102,7 @@
     <value>원하는 이름</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>미리보기 화면</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
@@ -1111,7 +1111,7 @@
     <value>항목명</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>즐겨찾기에서 고정 해제</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>네트워크 드라이브</value>
@@ -1165,7 +1165,7 @@
     <value>클라우드 드라이브</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>고정 디스크 드라이브</value>
+    <value>하드 디스크 드라이브</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>플로피 디스크 드라이브</value>
@@ -1213,10 +1213,10 @@
     <value>대상</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>전달인자</value>
+    <value>고급 실행 인수:</value>
   </data>
   <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>새 패널에서 열기</value>
+    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>기본값</value>
@@ -1243,7 +1243,7 @@
     <value>복사 완료</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>관리자 권한이 필요한 작업</value>
+    <value>관리자 권한이 필요합니다</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
     <value>관리자 권한으로 계속하시겠습니까?</value>
@@ -1270,10 +1270,10 @@
     <value>위치 없음</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>입력 필드는 비워 둘 수 없습니다!</value>
+    <value>입력란은 비워 둘 수 없습니다!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>다음 기호가 포함될 수 없습니다: \ / : * ? " &lt; &gt; |</value>
+    <value>이름에는 다음 기호가 포함될 수 없습니다: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>이 이름은 사용할 수 없습니다!</value>
@@ -1339,10 +1339,10 @@
     <value>원하는 항목을 찾지 못했나요?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>색인되지 않은 항목 검색</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>기존 항목 대체</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>새 이름 생성</value>
@@ -1354,7 +1354,7 @@
     <value>이름이 중복되는 파일이 1개 있습니다.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>선택한 항목으로 폴더 생성</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>이름:</value>
@@ -1384,7 +1384,7 @@
     <value>삭제된 날짜 열</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>정렬</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>분류 방법</value>
@@ -1393,7 +1393,7 @@
     <value>수정한 날짜</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>원본 폴더</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>정렬 기준</value>
@@ -1420,7 +1420,7 @@
     <value>매우 작게</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>미래</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>오늘</value>
@@ -1435,19 +1435,19 @@
     <value>지난 주</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>이달 초</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>지난 달</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>올해 초</value>
   </data>
   <data name="LastYear" xml:space="preserve">
     <value>지난 해</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>{0}년</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>항목 {0}개</value>
@@ -1462,7 +1462,7 @@
     <value>이름 바꾸기</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>개인 정보</value>
+    <value>개인정보 보호 정책</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>이동 취소됨</value>
@@ -1591,10 +1591,10 @@
     <value>경로 내 내용 나열</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>수정하기</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>{0}의 권한</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>읽기 및 실행</value>
@@ -1612,7 +1612,7 @@
     <value>알 수 없는 계정</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>이 개체의 보안 속성을 볼 권한이 없습니다. 진행하려면 "고급 실행 권한"을 클릭하세요.</value>
+    <value>이 항목의 보안 속성을 볼 권한이 없습니다. 진행하려면 "고급 실행 권한"을 클릭하세요.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>소유자:</value>
@@ -1621,13 +1621,13 @@
     <value>알 수 없는 소유자</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>보관 파일 추출하기</value>
+    <value>압축 해제</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>완료 후 압축을 푼 폴더 표시</value>
+    <value>완료 후 압축을 해제한 폴더 표시</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>{0}에 압축 풀기</value>
+    <value>{0}에 압축 해제</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>새 라이브러리 생성</value>
@@ -1651,10 +1651,10 @@
     <value>접근</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>적용 대상:</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>주요 사항</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>파일</value>
@@ -1666,13 +1666,13 @@
     <value>하위 폴더</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>상속됨</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>권한</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>이 개체의 보안 속성을 볼 권한이 없습니다. 이 개체에 대해 소유권 가져오기를 시도할 수 있습니다.</value>
+    <value>이 항목의 보안 속성을 볼 권한이 없습니다. 이 항목에 대해 소유권 가져오기를 시도할 수 있습니다.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>현재 폴더 및 파일</value>
@@ -1699,7 +1699,7 @@
     <value>데이터 추가</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>사용 권한 변경</value>
+    <value>권한 변경</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
     <value>폴더 생성</value>
@@ -1756,7 +1756,7 @@
     <value>모든 하위 객체의 사용 권한 항목을 이 객체의 상속 가능한 사용 권한 항목으로 변경</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>패널 닫기</value>
+    <value>분할 화면 닫기</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>간략한 화면 진입</value>
@@ -1789,7 +1789,7 @@
     <value>항목 {0}개 (파일 {1}개, 폴더 {2}개)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>미압축 크기</value>
+    <value>압축 해제 크기</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -1843,10 +1843,10 @@
     <value>Ctrl+Shift+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>보관 파일 추출이 성공적으로 완료되었습니다.</value>
+    <value>압축 해제가 성공적으로 완료되었습니다.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>보관 파일을 추출하는 중</value>
+    <value>압축 해제 중</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>압축 해제 완료!</value>
@@ -1858,7 +1858,7 @@
     <value>알 수 없음</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>파일 태그 수정</value>
+    <value>태그 수정</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>세트 중 일부</value>
@@ -1894,7 +1894,7 @@
     <value>드라이브 위젯</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>최근 파일 위젯</value>
+    <value>최근 항목 위젯</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>항목 없음</value>
@@ -1939,10 +1939,10 @@
     <value>도움말 및 지원</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>기능 요청 제출</value>
+    <value>새 기능 요청하기</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>버그 신고하기</value>
+    <value>버그 제보하기</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Files를 기본 파일 탐색기로 설정</value>
@@ -1990,7 +1990,7 @@
     <value>작업 표시줄 점프 목록에서 디렉터리를 열 때 새 인스턴스에서 열기</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>프로그램 시작시 설정</value>
+    <value>프로그램 시작 시</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>호환성</value>
@@ -2041,7 +2041,7 @@
     <value>640 x 480 화면 해상도로 실행</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>높은 DPI 스케일링 재정의</value>
+    <value>높은 DPI 조정 재정의</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
     <value>축소된 컬러 모드</value>
@@ -2113,10 +2113,10 @@
     <value>압축 해제</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>파일 압축 풀기</value>
+    <value>파일 압축 해제</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>여기에 압축 풀기</value>
+    <value>여기에 압축 해제</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2143,10 +2143,10 @@
     <value>설치</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>좌측 탭 닫기</value>
+    <value>왼쪽 탭 닫기</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>우측 탭 닫기</value>
+    <value>오른쪽 탭 닫기</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>다른 탭 닫기</value>
@@ -2275,10 +2275,10 @@
     <value>{0}가 압축되었습니다</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0}는 압축될 수 없습니다</value>
+    <value>{0} 을(를) 압축할 수 없습니다</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
-    <value>보관 파일을 압축하는 중</value>
+    <value>압축하는 중</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>파일과 폴더에 마우스를 올려 선택하기</value>
@@ -2422,10 +2422,10 @@
     <value>Windows 파일 탐색기에서 최근 사용된 파일은 현재 사용할 수 없습니다.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>설정 파일 수정</value>
+    <value>Files 설정 파일 수정</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>릴리스 노트</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>이 위치에 바로 가기를 만들려면 관리자 권한이 필요합니다</value>
@@ -2434,25 +2434,25 @@
     <value>대신 바탕 화면에 바로가기를 만드시겠습니까?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>지정된 항목의 이름이 잘못되었습니다</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>설정</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>빈 공간을 두 번 클릭해 상위 디렉토리로 이동</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>더 보기</value>
   </data>
   <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantastic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
+    <value>하지만 걱정하지 마세요. 우리는 더 안정적이고 더 많은 기능을 갖춘 새 기능을 만들었습니다. 설정 &gt; 환경설정 &gt; 위젯에서 파일 태그 위젯을 활성화할 수 있습니다. 태그 위젯을 사용하도록 설정하면 번들 위젯이 자동으로 해제됩니다.</value>
   </data>
   <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles will be retiring in a future update 📎</value>
+    <value>번들은 향후 업데이트에서 삭제될 예정입니다📎</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>'태그 편집' 표시</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>'새 탭에서 폴더 열기' 옵션 표시</value>
@@ -2515,7 +2515,7 @@
     <value>숨긴 항목 표시</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>포맷...</value>
+    <value>포맷</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>도움말</value>
@@ -2536,7 +2536,7 @@
     <value>너비</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>모든 항목에 적용</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
     <value>터미널에서 열기</value>
@@ -2548,10 +2548,10 @@
     <value>저장</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>다중 선택</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>사이드 바 항목 재지정</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>해시</value>
@@ -2575,13 +2575,13 @@
     <value>고정된 항목</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>크기 축소</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>크기 확대</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>정렬 방향 전환</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>잘못된 이름</value>
@@ -2596,10 +2596,10 @@
     <value>미리 보기 팝업 표시</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>간략한 오버레이 전환</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>온라인 지원 페이지 열기</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>전체 화면 전환</value>
@@ -2611,37 +2611,37 @@
     <value>간략한 화면 종료</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>간략한 오버레이 전환</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>검색으로 이동</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>숨겨진 항목 표시 여부를 전환합니다</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>파일 확장자 표시 여부를 전환합니다</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>미리보기 화면 표시 전환</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>사이드바 표시 전환</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>클립보드에 복사</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>클립보드에 경로 복사</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>클립보드에 잘라내기</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>클립보드에서 현재 폴더에 붙여넣기</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>클립보드에서 선택된 폴더에 붙여넣기</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>항목 삭제</value>
@@ -2650,289 +2650,292 @@
     <value>새 폴더 만들기</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>항목에 대한 새 바로가기 만들기</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>새 바로가기 만들기</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>휴지통 비우기</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>선택한 드라이브 포맷</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>복원</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>모든 항목 복원</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>열기</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>선택된 응용 프로그램으로 열기</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>검색된 항목의 상위 폴더 열기</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>새로 고침</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>이름 바꾸기</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>모두 선택</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>선택 영역 반전</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>선택 취소</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>선택 전환</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>공유</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>시작 화면에 고정</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>시작 화면에 고정 해제</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>즐겨찾기에 추가</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>즐겨찾기에서 제거</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>바탕 화면 배경으로 설정</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>바탕화면 슬라이드쇼로 지정하기</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>잠금 화면 배경으로 설정</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>선택한 폰트 설치</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>설치 정보를 이용해 드라이버 설치</value>
+  </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>인증서 설치</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>관리자 권한으로 실행</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>다른 사용자 권한으로 실행</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>PowerShell 스크립트 실행</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>팝업창에서 미리보기</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>선택한 항목으로 압축파일 만들기</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>7z 압축파일 만들기</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Zip 압축파일 만들기</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>폴더에 압축 해제</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>현재 폴더에 압출 풀기</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>새 폴더에 압축 해제</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>이미지를 왼쪽으로 회전</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>이미지를 오른쪽으로 회전</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>설정 열기</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
     <value>터미널에서 폴더 열기</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>관리자 권한으로 터미널에서 열기</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>아이콘 크기 축소</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>아이콘 크기 확대</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>자세히 보기로 전환</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>타일 보기로 전환</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>작은 아이콘</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>보통 아이콘</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>큰 아이콘</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>열 보기로 전환</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>적응형 보기로 전환</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>이름으로 정렬</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>수정한 날짜로 정렬</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>만든 날짜순으로 정렬</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>크키로 정렬</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>파일 유형으로 정렬</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>동기화 상태로 정렬</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>태그로 정렬</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>원본 폴더로 정렬</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>삭제된 날짜로 정렬</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>오름차순으로 정렬</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>내림차순으로 정렬</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>항목 정렬 방향 전환</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>파일과 함께 경로 나열 및 정렬</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>분류하지 않고 나열</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>이름으로 분류</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>수정한 날짜로 분류</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>만든 날짜로 분류</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>크기로 분류</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>파일 유형으로 분류</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>동기화 상태로 분류</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>태그로 분류</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>원본 폴더로 분류</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>삭제된 날짜로 분류</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>폴더 경로로 분류</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>오름차순으로 분류</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>내림차순으로 분류</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>분류 정렬 방향 전환</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>새 탭 열기</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>탐색 기록에서 뒤로 이동</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>탐색 기록에서 앞으로 이동</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>상위 디렉토리로 이동</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>현재 탭 복제</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>선택한 탭 복제</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>현재 탭의 왼쪽에 있는 탭 닫기</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>선택한 탭의 왼쪽에 있는 탭 닫기</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>현재 탭의 오른쪽에 있는 탭 닫기</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>선택한 탭의 오른쪽에 있는 탭 닫기</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>현재 탭을 제외한 모든 탭 닫기</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>선택한 탭을 제외한 모든 탭 닫기</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>마지막으로 닫은 탭 다시 열기</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>이전 탭으로 이동</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>다음 탭으로 이동</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>현재 탭 닫기</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>새 분할 화면 열기</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>오른쪽 분할 화면 닫기</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>사이드 바 전환</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2991,7 +2994,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>위로 (Alt+위쪽 화살표)</value>
+    <value>Up</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -3015,11 +3018,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
-    <value>Pause</value>
+    <value>일시정지</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
-    <value>Sleep</value>
+    <value>절전</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
@@ -3027,7 +3030,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
-    <value>Print</value>
+    <value>인쇄</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
@@ -3055,27 +3058,27 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>Mail</value>
+    <value>메일</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>홈으로</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>뒤로 가기</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>앞으로</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>브라우저 새로 고침</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>브라우저 정지</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -3087,69 +3090,66 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>미디어 일시정지</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>MediaStop</value>
+    <value>미디어 중지</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>이전 트랙</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>다음 트랙</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>미디어 선택</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>음소거</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>VolDown</value>
+    <value>볼륨 낮추기</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>VolUp</value>
+    <value>볼륨 높이기</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>변경</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>선택 전환</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>파일 확장자를 변경할 때 경고 표시</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>내 PC</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
     <value>휴지통</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Untagged</value>
+    <value>태그 지정 안함</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>이전 탭으로 이동</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>다음 탭으로 이동</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>현재 탭 닫기</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>경로 수정</value>
-  </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>다시 실행</value>
@@ -3158,34 +3158,34 @@
     <value>실행 취소</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>잘못된 위치</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>해당 속성 없이 이 파일들을 복사하시겠습니까?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>이 파일들에는 새 위치로 복사할 수 없는 속성이 있습니다</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>이 파일들에는 새 위치로 이동할 수 없는 속성이 있습니다</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>해당 속성 없이 이 파일들을 옮기시겠습니까?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>항목 확인란 표시</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>색인되지 않은 항목 검색</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>경로 표시기 강조</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>새 항목 만들기</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>이 항목에 액세스할 수 있는 권한이 있는 그룹이나 사용자가 없습니다. 그러나 이 항목의 소유자는 권한을 할당할 수 있습니다.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>항목 위치 열기</value>
@@ -3209,136 +3209,154 @@
     <value>위치:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>월별로 분류</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>년별로 분류</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>월</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>분류 기준을 날짜로 전환</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>정렬 기준 전환</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>연도</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>월별로 분류</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>만든 날짜의 월별로 분류</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>만든 날짜의 년별로 분류</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>삭제된 날짜의 월별로 분류</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>삭제된 날짜의 년별로 분류</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>수정한 날짜의 월별로 분류</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>수정한 날짜의 년별로 분류</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>계속하려면 '고급 권한' 버튼을 클릭하세요.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>이 항목의 속성을 보려면 읽기 권한이 필요합니다.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>속성 확인 권한이 포함된 항목의 소유권을 가져오려면 위의 변경을 클릭하세요.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>권한을 표시할 수 없음</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>변경 사항을 {0} 에 저장</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>되돌리기</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>변경 사항을 {0} 으로 가져오기</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>이 분기에서 변경 사항을 커밋하지 않았습니다. 어떻게 하시겠습니까?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>분기 전환</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>분기</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>전환</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>새 분기</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>잘못된 분기 이름</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>새 분기</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>새 분기</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>기반</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>새 분기로 전환</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>선택된 항목으로 폴더 생성</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>속성</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>속성</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>로컬 저장소</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>원격 저장소</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Crowdin에서 번역하기</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>패치</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>풀</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>패치</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>풀</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>미리보기</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git 오류</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>풀 요청이 시간초과로 실패했습니다</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(여러 값)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>앱 배경 재질</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>분기 관리</value>
   </data>
 </root>
