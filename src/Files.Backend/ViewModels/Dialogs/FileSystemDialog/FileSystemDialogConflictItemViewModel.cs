@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Files.Shared.Enums;
 using System.IO;
 
@@ -37,9 +36,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			set
 			{
 				if (SetProperty(ref _DestinationPath, value))
-				{
 					OnPropertyChanged(nameof(DestinationDirectoryDisplayName));
-				}
 			}
 		}
 
@@ -51,14 +48,10 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 		}
 
 		public string DestinationDirectoryDisplayName
-		{
-			get => Path.GetFileName(Path.GetDirectoryName(DestinationPath));
-		}
+			=> Path.GetFileName(Path.GetDirectoryName(DestinationPath));
 
 		public bool IsConflict
-		{
-			get => ConflictResolveOption != FileNameConflictResolveOptionType.None;
-		}
+			=> ConflictResolveOption != FileNameConflictResolveOptionType.None;
 
 		private FileNameConflictResolveOptionType _ConflictResolveOption;
 		public FileNameConflictResolveOptionType ConflictResolveOption
@@ -67,9 +60,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			set
 			{
 				if (SetProperty(ref _ConflictResolveOption, value))
-				{
 					Messenger?.Send(new FileSystemDialogOptionChangedMessage(this));
-				}
 			}
 		}
 	}

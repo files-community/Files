@@ -3,6 +3,9 @@
 
 namespace Files.Backend.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify 
+	/// </summary>
 	public enum ImpossibleActionResponseTypes
 	{
 		/// <summary>

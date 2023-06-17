@@ -17,6 +17,7 @@ namespace Files.Backend.Extensions
 			if (localizationService is null)
 			{
 				FallbackLocalizationService ??= Ioc.Default.GetService<ILocalizationService>();
+
 				return FallbackLocalizationService?.LocalizeFromResourceKey(resourceKey) ?? string.Empty;
 			}
 

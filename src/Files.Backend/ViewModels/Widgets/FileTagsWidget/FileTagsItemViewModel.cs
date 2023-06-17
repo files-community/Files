@@ -1,31 +1,39 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Files.Backend.Helpers;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
 	public sealed partial class FileTagsItemViewModel : ObservableObject
 	{
 		private readonly ILocatableStorable _associatedStorable;
-		private readonly Func<string, Task> _openAction;	// A workaround for lack of MVVM-compliant navigation support.
-															// This workaround must be kept until further refactor of navigation code is completed
 
-		[ObservableProperty]
+		// A workaround for lack of MVVM-compliant navigation support.
+		// This workaround must be kept until further refactor of navigation code is completed
+		private readonly Func<string, Task> _openAction;
+
 		private IImageModel? _Icon;
+		public IImageModel? Icon
+		{
+			get => _Icon;
+			set => SetProperty(ref _Icon, value);
+		}
 
-		[ObservableProperty]
 		private string _Name;
+		public string Name
+		{
+			get => _Name;
+			set => SetProperty(ref _Name, value);
+		}
 
-		[ObservableProperty]
 		private string? _Path;
+		public string? Path
+		{
+			get => _Path;
+			set => SetProperty(ref _Path, value);
+		}
 
 		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{

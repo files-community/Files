@@ -6,7 +6,7 @@ using System.IO;
 namespace Files.Backend.CommandLine
 {
 	/// <summary>
-	/// Provides static helper for command line arguments on Windows.
+	/// Provides static helper for parsing of command line arguments on Windows.
 	/// </summary>
 	public class CommandLineParser
 	{
@@ -35,7 +35,7 @@ namespace Files.Backend.CommandLine
 		}
 
 		/// <summary>
-		/// 
+		/// Convert string split arguments into a collection of <see cref="ParsedCommand"/>
 		/// </summary>
 		/// <param name="parsedArgs">String of command line to parse.</param>
 		/// <returns>A collection of parsed command.</returns>
@@ -100,7 +100,7 @@ namespace Files.Backend.CommandLine
 		}
 
 		/// <summary>
-		/// 
+		/// Split flat string argument to an array of <see cref="string"/>.
 		/// </summary>
 		/// <param name="commandLine"></param>
 		/// <param name="trimQuotes"></param>
@@ -125,7 +125,7 @@ namespace Files.Backend.CommandLine
 		}
 
 		/// <summary>
-		/// 
+		/// Parse an arguments array of <see cref="string"/> to a collection of <see cref="KeyValuePair"/>.
 		/// </summary>
 		/// <param name="args"></param>
 		/// <returns></returns>
@@ -170,7 +170,7 @@ namespace Files.Backend.CommandLine
 		}
 
 		/// <summary>
-		/// 
+		/// Parse an arguments array of <see cref="string"/> to a collection of <see cref="KeyValuePair"/>.
 		/// </summary>
 		/// <param name="args"></param>
 		/// <param name="index"></param>

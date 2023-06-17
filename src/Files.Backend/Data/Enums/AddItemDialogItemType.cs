@@ -3,14 +3,29 @@
 
 namespace Files.Backend.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify item type for item creation dialog.
+	/// </summary>
 	public enum AddItemDialogItemType
 	{
-		Folder = 0,
+		/// <summary>
+		/// Canceled an operation.
+		/// </summary>
+		Cancel,
 
-		File = 1,
+		/// <summary>
+		/// Item type is a folder.
+		/// </summary>
+		Folder,
 
-		Shortcut = 2,
+		/// <summary>
+		/// Item type is a file.
+		/// </summary>
+		File,
 
-		Cancel = 3
+		/// <summary>
+		/// Item type is a shortcut.
+		/// </summary>
+		Shortcut,
 	}
 }

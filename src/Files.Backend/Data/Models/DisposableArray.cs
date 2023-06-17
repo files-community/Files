@@ -22,9 +22,7 @@ namespace Files.Backend.Data.Models
 		public override bool Equals(DisposableArray other)
 		{
 			if (other?.Bytes is null || Bytes is null)
-			{
 				return false;
-			}
 
 			return Bytes.SequenceEqual(other.Bytes);
 		}

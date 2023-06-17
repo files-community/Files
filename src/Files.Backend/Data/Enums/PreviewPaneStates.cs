@@ -3,16 +3,34 @@
 
 namespace Files.Backend.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify preview pane status.
+	/// </summary>
 	public enum PreviewPaneStates
 	{
+		/// <summary>
+		/// No item selected status.
+		/// </summary>
 		NoItemSelected,
 
+		/// <summary>
+		/// No preview available status.
+		/// </summary>
 		NoPreviewAvailable,
 
+		/// <summary>
+		/// No preview or details status.
+		/// </summary>
 		NoPreviewOrDetailsAvailable,
 
+		/// <summary>
+		/// Preview and details available status.
+		/// </summary>
 		PreviewAndDetailsAvailable,
 
+		/// <summary>
+		/// Loading preview status.
+		/// </summary>
 		LoadingPreview
 	}
 }

@@ -57,6 +57,7 @@ namespace Files.Backend.Helpers
 			if (string.IsNullOrWhiteSpace(filePath))
 			{
 				ext = null;
+
 				return false;
 			}
 

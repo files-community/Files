@@ -1,23 +1,14 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly IUserSettingsService _userSettingsService;
 
 		private readonly CancellationTokenSource _dialogClosingCts;
 
@@ -34,9 +25,7 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			set
 			{
 				if (SetProperty(ref _AggregatedResolveOption, value))
-				{
 					ApplyConflictOptionToAll(value);
-				}
 			}
 		}
 
@@ -63,14 +52,19 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		private FileSystemDialogViewModel(FileSystemDialogMode fileSystemDialogMode, IEnumerable<BaseFileSystemDialogItemViewModel> items)
 		{
+			// Dependency injection
+			_userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 			FileSystemDialogMode = fileSystemDialogMode;
+
 			_dialogClosingCts = new();
+
 			_messenger = new WeakReferenceMessenger();
-			_messenger.Register<FileSystemDialogOptionChangedMessage>(this);
+			_messenger.Register(this);
+
 			foreach (var item in items)
-			{
 				item.Messenger = _messenger;
-			}
+
 			Items = new(items);
 
 			SecondaryButtonClickCommand = new RelayCommand(SecondaryButtonClick);
@@ -83,14 +77,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		public void ApplyConflictOptionToAll(FileNameConflictResolveOptionType e)
 		{
-			if (!FileSystemDialogMode.IsInDeleteMode && e != FileNameConflictResolveOptionType.None)
+			if (!FileSystemDialogMode.IsInDeleteMode &&
+				e != FileNameConflictResolveOptionType.None)
 			{
 				foreach (var item in Items)
 				{
 					if (item is FileSystemDialogConflictItemViewModel conflictItem && conflictItem.ConflictResolveOption != FileNameConflictResolveOptionType.None)
-					{
 						conflictItem.ConflictResolveOption = e;
-					}
 				}
 
 				PrimaryButtonEnabled = true;
@@ -107,20 +100,28 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			if (message.Value.ConflictResolveOption != FileNameConflictResolveOptionType.None)
 			{
 				var itemsWithoutNone = Items.Where(x => (x as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption != FileNameConflictResolveOptionType.None);
+
 				// If all items have the same resolve option -- set the aggregated option to that choice
 				var first = (itemsWithoutNone.First() as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption;
-				AggregatedResolveOption = itemsWithoutNone.All(x => (x as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption == first) ? first : FileNameConflictResolveOptionType.None;
+
+				AggregatedResolveOption = itemsWithoutNone.All(x
+					=> (x as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption == first)
+						? first
+						: FileNameConflictResolveOptionType.None;
 			}
 		}
 
-		public FileNameConflictResolveOptionType LoadConflictResolveOption() => UserSettingsService.GeneralSettingsService.ConflictsResolveOption;
+		public FileNameConflictResolveOptionType LoadConflictResolveOption()
+		{
+			return _userSettingsService.GeneralSettingsService.ConflictsResolveOption;
+		}
 
 		public void SaveConflictResolveOption()
 		{
-			if (AggregatedResolveOption != FileNameConflictResolveOptionType.None
-				&& AggregatedResolveOption != UserSettingsService.GeneralSettingsService.ConflictsResolveOption)
+			if (AggregatedResolveOption != FileNameConflictResolveOptionType.None &&
+				AggregatedResolveOption != _userSettingsService.GeneralSettingsService.ConflictsResolveOption)
 			{
-				UserSettingsService.GeneralSettingsService.ConflictsResolveOption = AggregatedResolveOption;
+				_userSettingsService.GeneralSettingsService.ConflictsResolveOption = AggregatedResolveOption;
 			}
 		}
 
@@ -148,17 +149,16 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 				if (conflictingItems.Count > 1)
 				{
 					var descriptionLocalized = (nonConflictingItems.Count > 0)
-						? "ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized() // There are {0} conflicting file names, and {1} outgoing item(s)
-						: "ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized(); // There are {0} conflicting file names
+						? "ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts".ToLocalized()
+						: "ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts".ToLocalized();
 
 					descriptionText = string.Format(descriptionLocalized, conflictingItems.Count, nonConflictingItems.Count);
 				}
 				else
 				{
 					descriptionText = (nonConflictingItems.Count > 0)
-						? string.Format(
-							"ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count) // There is one conflicting file name, and {0} outgoing item(s)
-						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count); // There is one conflicting file name
+						? string.Format("ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts".ToLocalized(), nonConflictingItems.Count)
+						: string.Format("ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts".ToLocalized(), conflictingItems.Count);
 				}
 
 				titleText = "ConflictingItemsDialogTitle".ToLocalized();
@@ -172,40 +172,56 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 					case FilesystemOperationType.Copy:
 						{
 							titleText = "CopyItemsDialogTitle".ToLocalized();
+
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "CopyItemsDialogSubtitleSingle".ToLocalized()
 								: string.Format("CopyItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+
 							primaryButtonText = "Copy".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
+
 							break;
 						}
 
 					case FilesystemOperationType.Move:
 						{
 							titleText = "MoveItemsDialogTitle".ToLocalized();
+
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "MoveItemsDialogSubtitleSingle".ToLocalized()
 								: string.Format("MoveItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count + conflictingItems.Count);
+
 							primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
+
 							break;
 						}
 
 					case FilesystemOperationType.Delete:
 						{
 							titleText = "DeleteItemsDialogTitle".ToLocalized();
+
 							descriptionText = (nonConflictingItems.Count + conflictingItems.Count == 1)
 								? "DeleteItemsDialogSubtitleSingle".ToLocalized()
 								: string.Format("DeleteItemsDialogSubtitleMultiple".ToLocalized(), nonConflictingItems.Count);
+
 							primaryButtonText = "Delete".ToLocalized();
 							secondaryButtonText = "Cancel".ToLocalized();
+
 							isInDeleteMode = true;
+
 							break;
 						}
 				}
 			}
 
-			var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = isInDeleteMode, ConflictsExist = !conflictingItems.IsEmpty() }, conflictingItems.Concat(nonConflictingItems))
+			var viewModel = new FileSystemDialogViewModel(
+				new()
+				{
+					IsInDeleteMode = isInDeleteMode,
+					ConflictsExist = !conflictingItems.IsEmpty()
+				},
+				conflictingItems.Concat(nonConflictingItems))
 			{
 				Title = titleText,
 				Description = descriptionText,
@@ -222,7 +238,13 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 
 		public static FileSystemDialogViewModel GetDialogViewModel(List<BaseFileSystemDialogItemViewModel> nonConflictingItems, string titleText, string descriptionText, string primaryButtonText, string secondaryButtonText)
 		{
-			var viewModel = new FileSystemDialogViewModel(new() { IsInDeleteMode = false, ConflictsExist = false }, nonConflictingItems)
+			var viewModel = new FileSystemDialogViewModel(
+				new()
+				{
+					IsInDeleteMode = false,
+					ConflictsExist = false
+				},
+				nonConflictingItems)
 			{
 				Title = titleText,
 				Description = descriptionText,
@@ -242,11 +264,12 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 			var imagingService = Ioc.Default.GetRequiredService<IImageService>();
 			var threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
-			return items.ParallelForEachAsync(async (item) =>
+			var task = items.ParallelForEachAsync(async (item) =>
 			{
 				try
 				{
-					if (token.IsCancellationRequested) return;
+					if (token.IsCancellationRequested)
+						return;
 
 					await threadingService.ExecuteOnUiThreadAsync(async () =>
 					{
@@ -257,7 +280,11 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 				{
 					_ = ex;
 				}
-			}, 10, token);
+			},
+			10,
+			token);
+
+			return task;
 		}
 	}
 
