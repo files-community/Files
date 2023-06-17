@@ -7,7 +7,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitPush".GetLocalizedResource();
+		public string Label { get; } = "Push".GetLocalizedResource();
 
 		public string Description { get; } = "GitPushDescription".GetLocalizedResource();
 

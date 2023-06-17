@@ -3314,7 +3314,7 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
-  <data name="GitPush" xml:space="preserve">
+  <data name="Push" xml:space="preserve">
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">

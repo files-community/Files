@@ -36,7 +36,12 @@ namespace Files.App.Helpers
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static string _clientId = string.Empty;
+		private static readonly string _clientId =
+#if STORE || STABLE || PREVIEW
+			"githubclientid.secret"
+#else
+			string.Empty;
+#endif
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -339,8 +344,6 @@ namespace Files.App.Helpers
 			var pending = true;
 			var client = new HttpClient();
 
-			LoadClientId();
-
 			using (var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/device/code"))
 			{
 				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -513,14 +516,6 @@ namespace Files.App.Helpers
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
-		}
-
-		private static void LoadClientId()
-		{
-			if (!string.IsNullOrWhiteSpace(_clientId))
-				return;
-
-			_clientId = "githubclientid.secret";
 		}
 	}
 }
