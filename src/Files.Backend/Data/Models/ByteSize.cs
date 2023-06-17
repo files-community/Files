@@ -9,13 +9,13 @@ namespace Files.Backend.Data.Models
 	{
 		private static readonly IImmutableDictionary<string, string> units = new Dictionary<string, string>
 		{
-			[Lib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
-			[Lib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),
-			[Lib.ByteSize.KibiByteSymbol] = "KiloByteSymbol".ToLocalized(),
-			[Lib.ByteSize.MebiByteSymbol] = "MegaByteSymbol".ToLocalized(),
-			[Lib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".ToLocalized(),
-			[Lib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".ToLocalized(),
-			[Lib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.KibiByteSymbol] = "KiloByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.MebiByteSymbol] = "MegaByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".ToLocalized(),
 		}.ToImmutableDictionary();
 
 		private readonly ByteSizeLib.ByteSize size;
