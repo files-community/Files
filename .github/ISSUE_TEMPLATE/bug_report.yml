@@ -38,28 +38,18 @@ body:
     id: files_version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? The version number can be found by going to Files' Settings > About
-      placeholder: "e.g. Version: 2.0.34.0"
+      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
+      placeholder: "e.g. 2.0.34.0"
     validations:
       required: true
 
   # Windows Version
-  - type: dropdown
+  - type: input
     id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using?
-      multiple: true
-      options:
-        - 'Windows 11 Insider: 25xxx series'
-        - 'Windows 11 Insider: 23xxx series'
-        - 'Windows 11 (22H2): 22621'
-        - 'Windows 11 (21H2): 22000'
-        - 'Windows 10 (22H2): 19045'
-        - 'Windows 10 (21H2): 19044'
-        - 'Windows 10 (21H1): 19043'
-        - 'Windows 10 (20H2): 19042'
-        - 'Windows 10 (2004): 19041'
+      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
+      placeholder: "e.g. 10.0.22621.1848"
     validations:
       required: true
 
