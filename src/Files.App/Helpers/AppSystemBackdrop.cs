@@ -114,8 +114,8 @@ namespace Files.App.Helpers
 
 		private void SetAcrylicBackdropProperties(DesktopAcrylicController controller, SystemBackdropTheme theme)
 		{
-			// need to set all properties to work around a bug where other properties stop updating when fallback color is changed
-			// this uses the Thin Acrylic recipe from the WinUI Figma toolkit
+			// This sets all properties to work around a bug where other properties stop updating when fallback color is changed
+			// This uses the Thin Acrylic recipe from the WinUI Figma toolkit
 
 			switch(theme)
 			{
