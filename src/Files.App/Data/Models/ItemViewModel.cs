@@ -539,13 +539,15 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
 			{
-				IsLoadingItems = false;
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
 				addFilesCTS = new CancellationTokenSource();
 			}
@@ -644,7 +646,7 @@ namespace Files.App.Data.Models
 
 					for (var i = 0; i < filesAndFolders.Count; i++)
 					{
-						if (!IsLoadingItems)
+						if (addFilesCTS.IsCancellationRequested)
 							return;
 
 						if (i < FilesAndFolders.Count)
@@ -1421,6 +1423,13 @@ namespace Files.App.Data.Models
 			}
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
+
+			if (IsLoadingCancelled)
+			{
+				IsLoadingCancelled = false;
+				IsLoadingItems = false;
+				return;
+			}
 
 			stopwatch.Stop();
 			Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
