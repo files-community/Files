@@ -1733,7 +1733,8 @@ namespace Files.App.Data.Models
 						}, defaultIconPairs: DefaultIcons);
 
 						filesAndFolders.AddRange(fileList);
-						CheckForSolutionFile();
+
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
