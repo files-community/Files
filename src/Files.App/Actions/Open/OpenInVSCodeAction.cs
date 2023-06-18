@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&
-			(_context.ShellPage?.InstanceViewModel.IsGitRepository ?? false);
+			_context.Folder is not null;
 
 		public OpenInVSCodeAction()
 		{
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(IContentPageContext.IsGitRepository))
+			if (e.PropertyName == nameof(IContentPageContext.Folder))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 
