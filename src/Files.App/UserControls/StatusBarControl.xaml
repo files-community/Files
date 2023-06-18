@@ -104,6 +104,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<StackPanel
 			Grid.Column="0"
@@ -137,9 +138,37 @@
 				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
 		</StackPanel>
 
+		<!--  Open in VS Code Button  -->
+		<Button
+			x:Name="OpenInVSCodeButton"
+			Grid.Column="1"
+			Height="24"
+			Padding="8,0,8,0"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+			Background="Transparent"
+			BorderBrush="Transparent"
+			Command="{x:Bind Commands.OpenInVSCode}"
+			Content="{x:Bind Commands.OpenInVSCode.Label}"
+			ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
+
+		<!--  Open in VS Button  -->
+		<Button
+			x:Name="OpenInVSButton"
+			Grid.Column="1"
+			Height="24"
+			Padding="8,0,8,0"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+			Background="Transparent"
+			BorderBrush="Transparent"
+			Command="{x:Bind Commands.OpenInVS}"
+			Content="{x:Bind Commands.OpenInVS.Label}"
+			ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}" />
+
 		<StackPanel
 			x:Name="GitActionsPanel"
-			Grid.Column="1"
+			Grid.Column="2"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 			Orientation="Horizontal"
