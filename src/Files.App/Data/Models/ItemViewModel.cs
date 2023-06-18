@@ -76,11 +76,11 @@ namespace Files.App.Data.Models
 			private set => SetProperty(ref currentFolder, value);
 		}
 
-		private string? solutionFilePath;
+		private string? _SolutionFilePath;
 		public string? SolutionFilePath
 		{
-			get => solutionFilePath;
-			private set => SetProperty(ref solutionFilePath, value);
+			get => _SolutionFilePath;
+			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
 		public CollectionViewSource viewSource;
@@ -1782,6 +1782,7 @@ namespace Files.App.Data.Models
 					return;
 				}
 			}
+
 			SolutionFilePath = null;
 		}
 

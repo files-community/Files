@@ -1,4 +1,7 @@
-﻿using Files.App.Contexts;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Contexts;
 using Files.App.Shell;
 using Microsoft.Win32;
 
@@ -30,6 +33,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			Win32API.RunPowershellCommand($"code {_context.ShellPage?.FilesystemViewModel.WorkingDirectory}", false);
+
 			return Task.CompletedTask;
 		}
 
@@ -55,6 +59,7 @@ namespace Files.App.Actions
 				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith("Microsoft Visual Studio Code"))
 				{
 					key.Close();
+
 					return true;
 				}
 			}

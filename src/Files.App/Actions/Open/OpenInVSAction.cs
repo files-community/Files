@@ -1,4 +1,7 @@
-﻿using Files.App.Contexts;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Contexts;
 using Files.App.Shell;
 using Microsoft.Win32;
 
@@ -36,6 +39,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			Win32API.RunPowershellCommand($"start {_context.SolutionFilePath}", false);
+
 			return Task.CompletedTask;
 		}
 
@@ -48,6 +52,7 @@ namespace Files.App.Actions
 				return false;
 
 			key.Close();
+
 			return true;
 		}
 	}
