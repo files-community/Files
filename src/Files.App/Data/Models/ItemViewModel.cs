@@ -1777,11 +1777,11 @@ namespace Files.App.Data.Models
 			{
 				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
 				{
-					solutionFilePath = filesAndFolders[i].ItemPath;
+					SolutionFilePath = filesAndFolders[i].ItemPath;
 					return;
 				}
 			}
-			solutionFilePath = null;
+			SolutionFilePath = null;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
