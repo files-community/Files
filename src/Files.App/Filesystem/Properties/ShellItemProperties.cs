@@ -1,5 +1,9 @@
-﻿using Files.Sdk.Storage.LocatableStorage;
+﻿using Files.App.Helpers;
+using Files.App.Shell;
+using Files.Sdk.Storage.LocatableStorage;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Vanara.Windows.Shell;
+using Windows.Storage.Streams;
 using static Vanara.PInvoke.Ole32;
 
 namespace Files.App.Filesystem.Properties
@@ -39,6 +43,16 @@ namespace Files.App.Filesystem.Properties
 			{
 				return Task.FromException<KeyValuePair<string, object>>(new ArgumentException($"A property value which corresponds to the canonical name {canonicalName} was not found."));
 			}
+		}
+
+		public Task<IRandomAccessStream> GetThumbnailAsync(uint requestedSize)
+		{
+			return item.GetThumbnailAsync(requestedSize);
+		}
+
+		public Task<IRandomAccessStream?> GetOverlayIconAsync()
+		{
+			return item.GetOverlayIconAsync();
 		}
 
 		public async IAsyncEnumerable<KeyValuePair<string, object>> RetrievePropertiesAsync(string[] strings)

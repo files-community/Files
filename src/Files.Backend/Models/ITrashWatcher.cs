@@ -10,7 +10,7 @@ namespace Files.Backend.Models
 	/// <summary>
 	/// Represents a watcher for the trash bin
 	/// </summary>
-	public interface ITrashWatcher : IWatcher
+	public interface ITrashWatcher : IWatcher2
 	{
 		/// <summary>
 		/// Fires when a refresh is needed

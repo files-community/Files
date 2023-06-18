@@ -7,12 +7,16 @@ using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.ModifiableStorage;
 using Files.Sdk.Storage.MutableStorage;
+using Files.Shared.Extensions;
+using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Vanara.Windows.Shell;
 using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
 
 namespace Files.App.Storage.WindowsStorage
@@ -179,6 +183,76 @@ namespace Files.App.Storage.WindowsStorage
 		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
 		{
 			return Task.FromResult<IFolderWatcher>(new WindowsStorageFolderWatcher(this));
+		}
+
+		public async IAsyncEnumerable<IStorable> SearchAsync(string userQuery, SearchDepth depth = SearchDepth.Shallow)
+		{
+			IEnumerable<ShellItem> itemSearchLocations = 
+				(depth == SearchDepth.Deep) 
+				? new ShellFolder(Path).EnumerateChildren(FolderItemFilter.Folders)
+				: new List<ShellItem> { new ShellItem(Path) };
+
+			var resultsShellItem = ShellSearch.GetSearchResults(SearchCondition.CreateFromStructuredQuery(userQuery), Name, itemSearchLocations?.Select(x => new ShellFolder(x)));
+			
+			if (resultsShellItem is not null)
+			{
+				var service = new WindowsStorageService();
+				var shellResults = new ShellFolder(resultsShellItem).EnumerateChildren(FolderItemFilter.FlatList | FolderItemFilter.Folders | FolderItemFilter.NonFolders | FolderItemFilter.FastItems).Select(x => service.GetItemFromPathAsync(x.FileSystemPath));
+
+				foreach (var item in shellResults)
+				{
+					yield return await item;
+				}
+			}
+			else
+			{
+				var result = storage.CreateItemQueryWithOptions(new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFolderQuery.DefaultQuery)
+				{
+					FolderDepth = depth == SearchDepth.Deep ? Windows.Storage.Search.FolderDepth.Deep : Windows.Storage.Search.FolderDepth.Shallow,
+					UserSearchFilter = userQuery,
+					IndexerOption = Windows.Storage.Search.IndexerOption.UseIndexerWhenAvailable
+				});
+
+				foreach (var item in await result.GetItemsAsync())
+				{
+					yield return await new WindowsStorageService().GetItemFromPathAsync(item.Path);
+				}
+
+				List<IStorable> results = new List<IStorable>();
+
+				if (depth == SearchDepth.Deep)
+				{
+					async Task<IStorable> SearchInternalAsync(WindowsStorageFolder folder)
+					{
+						await foreach (IStorable item in folder.GetItemsAsync(StorableKind.All))
+						{
+							if (item is WindowsStorageFolder folderChild)
+							{
+								results.Add(await SearchInternalAsync(folderChild));
+								return item;
+							}
+							else
+							{
+								return item;
+							}
+						}
+						return folder;
+					}
+					await SearchInternalAsync(this);
+				}
+				else
+				{
+					await foreach (var item in GetItemsAsync(StorableKind.All))
+					{
+						results.Add(item);
+					}
+				}
+
+				foreach (var item in results.Where(x => x.Name.Contains(userQuery)))
+				{
+					yield return item;
+				}
+			}
 		}
 	}
 }

@@ -26,6 +26,25 @@ namespace Files.App.Storage.FtpStorage
 			return ftpClient.IsConnected ? Task.CompletedTask : ftpClient.Connect(cancellationToken);
 		}
 
+		public static bool IsFtpPath(string path)
+		{
+			if (!string.IsNullOrEmpty(path))
+			{
+				return path.StartsWith("ftp://", StringComparison.OrdinalIgnoreCase)
+					|| path.StartsWith("ftps://", StringComparison.OrdinalIgnoreCase)
+					|| path.StartsWith("ftpes://", StringComparison.OrdinalIgnoreCase);
+			}
+			return false;
+		}
+
+		public static bool VerifyFtpPath(string path)
+		{
+			var authority = GetFtpAuthority(path);
+			var index = authority.IndexOf(':', StringComparison.Ordinal);
+
+			return index == -1 || ushort.TryParse(authority.Substring(index + 1), out _);
+		}
+
 		public static string GetFtpHost(string path)
 		{
 			var authority = GetFtpAuthority(path);

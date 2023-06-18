@@ -8,6 +8,7 @@ using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.Storage.WindowsStorage;
 using Files.Backend.Helpers;
+using Files.Backend.Models;
 using Files.Backend.Services;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
@@ -16,11 +17,8 @@ using Files.Sdk.Storage.MutableStorage;
 using Files.Shared.Services;
 using FluentFTP;
 using Microsoft.Extensions.Logging;
-using System.CodeDom;
 using System.IO;
 using System.Security.Authentication;
-using Windows.Storage;
-using FtpHelpers = Files.App.Helpers.FtpHelpers;
 
 namespace Files.App.ViewModels
 {
@@ -31,7 +29,10 @@ namespace Files.App.ViewModels
 		private readonly IJumpListService jumpListService;
 		private readonly ITrashService trashService;
 		private readonly ISizeProvider folderSizeProvider;
+		private readonly IGitRepositoryService gitRepositoryService;
+		private readonly WindowsStorageService windowsStorageService;
 		private readonly IFileTagsSettingsService fileTagsSettingsService;
+		private readonly ITrashWatcher trashWatcher;
 		private CancellationTokenSource addFilesCTS;
 		private CancellationTokenSource semaphoreCTS;
 		private List<StandardItemViewModel> items;
@@ -39,6 +40,7 @@ namespace Files.App.ViewModels
 		private IFolderWatcher? folderWatcher;
 		private EmptyTextType emptyTextType;
 		private FolderSettingsViewModel folderSettings;
+		private IWatcher gitRepositoryWatcher;
 
 		public BulkConcurrentObservableCollection<StandardItemViewModel> Items { get; }
 		public ObservableCollection<StandardItemViewModel> SelectedItems { get; }
@@ -62,6 +64,8 @@ namespace Files.App.ViewModels
 			ITrashService trashService,
 			IFileTagsSettingsService fileTagsSettingsService,
 			ISizeProvider folderSizeProvider,
+			IGitRepositoryService gitRepositoryService,
+			WindowsStorageService windowsStorageService,
 			FolderSettingsViewModel folderSettings
 			)
 		{
@@ -70,6 +74,8 @@ namespace Files.App.ViewModels
 			this.trashService = trashService;
 			this.fileTagsSettingsService = fileTagsSettingsService;
 			this.folderSizeProvider = folderSizeProvider;
+			this.gitRepositoryService = gitRepositoryService;
+			this.windowsStorageService = windowsStorageService;
 			this.folderSettings = folderSettings;
 
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
@@ -81,6 +87,12 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+			if (currentFolder!.Path.Split('\\').Contains("$RECYCLE.BIN"))
+			{
+				trashWatcher = trashService.CreateWatcher();
+				trashWatcher.Start();
+			}
 		}
 
 		public async Task SetCurrentFolderFromPathAsync(string path)
@@ -115,12 +127,20 @@ namespace Files.App.ViewModels
 
 			if (enumFromStorageFolder)
 			{
-				var folder = await StorageFolder.GetFolderFromPathAsync(path);
-				CurrentFolder = new WindowsStorageFolder(folder);
+				CurrentFolder = await windowsStorageService.GetFolderFromPathAsync(path);
 			}
 			else
 			{
 				CurrentFolder = await GetFolderOfTypeFromPathAsync(path);
+			}
+
+			if (CurrentFolder is ILocatableFolder folder1)
+			{
+				if (pathRoot is not null && GitHelpers.GetGitRepositoryPath(folder1.Path, pathRoot) is not null)
+				{
+					gitRepositoryWatcher = gitRepositoryService.CreateWatcher(folder1);
+					gitRepositoryWatcher.Start();
+				}
 			}
 		}
 
@@ -148,7 +168,7 @@ namespace Files.App.ViewModels
 					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
 						throw new InvalidOperationException();
 
-					FtpManager.Credentials[client.Host] = client.Credentials;
+					FtpManager.Credentials[client.Host] = client.Credentials!;
 
 					return await service.GetFolderFromPathAsync(path);
 				}
@@ -422,7 +442,6 @@ namespace Files.App.ViewModels
 					// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
 					// once loading is completed so that UI can be updated
 					Items.EndBulkOperation();
-					UpdateEmptyTextType();
 				}
 
 				return Task.Run(() =>
@@ -443,10 +462,10 @@ namespace Files.App.ViewModels
 			await GetItemsAsync();
 		}
 
-		public void UpdateEmptyTextType()
+		public void UpdateEmptyTextType(bool isSearch = false)
 		{
 			EmptyTextType = Items.Count == 0 ? 
-				(IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) 
+				(isSearch ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) 
 				: EmptyTextType.None;
 		}
 
@@ -482,20 +501,34 @@ namespace Files.App.ViewModels
 
 		private async void Watcher_ItemAdded(object? sender, FileSystemEventArgs e)
 		{
-			var item = await GetFolderOfTypeFromPathAsync(e.FullPath);
-			var itemViewModel = new StandardItemViewModel(item);
-			await AddItemAsync(itemViewModel);
-			await HandleChangesOccurredAsync(item.Id);
+			var item = await GetItemFromPathAsync(e.FullPath);
+			await AddItemAsync(item);
+			await HandleChangesOccurredAsync(item.Storable.Id);
 		}
 
-		private void Watcher_ItemRenamed(object? sender, RenamedEventArgs e)
+		private async void Watcher_ItemRenamed(object? sender, RenamedEventArgs e)
 		{
-			throw new NotImplementedException();
+			var oldItem = items.FirstOrDefault(x => x.Storable.Name.Equals(e.OldName));
+			if (oldItem is not null)
+			{
+				await RemoveItemAsync(oldItem.Storable.Id);
+				var item = await GetItemFromPathAsync(e.FullPath);
+				await AddItemAsync(item);
+				await HandleChangesOccurredAsync(item?.Storable.Id!);
+			}
 		}
 
-		private void Watcher_ItemChanged(object? sender, FileSystemEventArgs e)
+		private async void Watcher_ItemChanged(object? sender, FileSystemEventArgs e)
 		{
-			throw new NotImplementedException();
+			var item = items.FirstOrDefault(x => x.Storable.Name.Equals(e.Name));
+			item?.UpdateProperties();
+			await HandleChangesOccurredAsync(item?.Storable.Id!);
+		}
+
+		private async Task<StandardItemViewModel> GetItemFromPathAsync(string path)
+		{
+			var item = await GetFolderOfTypeFromPathAsync(path);
+			return new StandardItemViewModel(item);
 		}
 
 		private async Task HandleChangesOccurredAsync(string id)
@@ -510,7 +543,7 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task GetItemsAsync()
+		public async Task GetItemsAsync(string? query = default)
 		{
 			Cancel();
 
@@ -532,37 +565,56 @@ namespace Files.App.ViewModels
 				semaphoreCTS.Cancel();
 				semaphoreCTS = new CancellationTokenSource();
 
-				if (CurrentFolder is ILocatableFolder folder)
+				if (query is not null)
 				{
-					await foreach (IStorable i in folder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+					if (CurrentFolder is ILocatableFolder folder)
 					{
-						if (addFilesCTS.IsCancellationRequested)
-						{
-							return;
-						}
-						var storableViewModel = new StandardItemViewModel(i);
-						Items.Add(storableViewModel);
-					}
-				}
-				else if (CurrentFolder is LibraryLocationItem sli)
-				{
-					foreach (string path in sli.Folders)
-					{
-						var libraryFolder = new NativeFolder(path);
-						await foreach (IStorable i in libraryFolder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+						await foreach (IStorable i in folder.SearchAsync(query, SearchDepth.Deep))
 						{
 							if (addFilesCTS.IsCancellationRequested)
 							{
 								return;
 							}
 							var storableViewModel = new StandardItemViewModel(i);
-							Items.Add(storableViewModel);
+							items.Add(storableViewModel);
+						}
+					}
+				}
+				else
+				{
+					if (CurrentFolder is ILocatableFolder folder)
+					{
+						await foreach (IStorable i in folder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+						{
+							if (addFilesCTS.IsCancellationRequested)
+							{
+								return;
+							}
+							var storableViewModel = new StandardItemViewModel(i);
+							items.Add(storableViewModel);
+						}
+					}
+					else if (CurrentFolder is LibraryLocationItem sli)
+					{
+						foreach (string path in sli.Folders)
+						{
+							var libraryFolder = new NativeFolder(path);
+							await foreach (IStorable i in libraryFolder.GetItemsAsync(Sdk.Storage.Enums.StorableKind.All, addFilesCTS.Token))
+							{
+								if (addFilesCTS.IsCancellationRequested)
+								{
+									return;
+								}
+								var storableViewModel = new StandardItemViewModel(i);
+								items.Add(storableViewModel);
+							}
 						}
 					}
 				}
 
 				UpdateGroupOptions();
 				await OrderItemsAsync();
+				UpdateEmptyTextType(query is not null);
 				await ApplyItemChangesAsync();
 				await WatchForChangesAsync();
 			}
@@ -643,6 +695,8 @@ namespace Files.App.ViewModels
 
 		public void Cancel()
 		{
+			trashWatcher?.Stop();
+			gitRepositoryWatcher?.Stop();
 			folderWatcher?.Stop();
 			addFilesCTS.Cancel();
 			items.Clear();

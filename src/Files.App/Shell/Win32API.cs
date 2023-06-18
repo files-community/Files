@@ -6,10 +6,12 @@ using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.System;
 
 namespace Files.App.Shell

@@ -10,7 +10,7 @@ namespace Files.Backend.Models
 	/// <summary>
 	/// Represents a storage device watcher
 	/// </summary>
-	public interface IStorageDeviceWatcher : IWatcher
+	public interface IStorageDeviceWatcher : IWatcher2
 	{
 		/// <summary>
 		/// Fires when the storage device watcher completes an enumeration

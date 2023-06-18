@@ -1,19 +1,57 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Shell;
 using Files.Backend.Helpers;
-using System;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
+using static Vanara.PInvoke.Gdi32;
 
 namespace Files.App.Helpers
 {
 	public static class FileThumbnailHelper
 	{
+		public static Task<IRandomAccessStream> GetThumbnailAsync(this ShellItem item, uint size)
+		{
+			return Task.Run(() =>
+			{
+				using MemoryStream stream = new();
+				var hBitmap = item.GetImage(new SIZE((int)size, (int)size), ShellItemGetImageOptions.ResizeToFit);
+				hBitmap.ToBitmap().Save(stream, ImageFormat.MemoryBmp);
+				return stream.AsRandomAccessStream();
+			});
+		}
+
+		public static Task<IRandomAccessStream?> GetOverlayIconAsync(this ShellItem item)
+		{
+			return Task.Run(() =>
+			{
+				if (Shell32.SHGetImageList(0, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+				{
+					ShellFileInfo shfi = new ShellFileInfo(item.PIDL);
+					var imageList = (ComCtl32.IImageList)imageListOut;
+
+					var overlayImage = imageList.GetOverlayImage(shfi.IconOverlayIndex);
+					using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+					if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+					{
+						using MemoryStream stream = new();
+						using var icon = hOverlay.ToIcon();
+						using var image = icon.ToBitmap();
+						image.Save(stream, ImageFormat.MemoryBmp);
+						return stream.AsRandomAccessStream();
+					}
+				}
+				return null;
+			});
+		}
+
 		public static Task<(byte[] IconData, byte[] OverlayData)> LoadIconAndOverlayAsync(string filePath, uint thumbnailSize, bool isFolder = false)
 			=> Win32API.StartSTATask(() => Win32API.GetFileIconAndOverlay(filePath, (int)thumbnailSize, isFolder, true, false));
 

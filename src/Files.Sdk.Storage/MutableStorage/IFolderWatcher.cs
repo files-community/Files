@@ -10,7 +10,7 @@ namespace Files.Sdk.Storage.MutableStorage
 	/// <summary>
 	/// A disposable object which can notify of changes to the folder.
 	/// </summary>
-	public interface IFolderWatcher : INotifyCollectionChanged, IDisposable, IAsyncDisposable, IWatcher
+	public interface IFolderWatcher : INotifyCollectionChanged, IDisposable, IAsyncDisposable, IWatcher2
 	{
 		/// <summary>
 		/// The folder being watched for changes.

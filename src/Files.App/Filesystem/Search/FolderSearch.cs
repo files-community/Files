@@ -1,23 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -151,47 +137,6 @@ namespace Files.App.Filesystem.Search
 			return results;
 		}
 
-		private async Task SearchAsync(BaseStorageFolder folder, IList<StandardItemViewModel> results, CancellationToken token)
-		{
-			//var sampler = new IntervalSampler(500);
-			uint index = 0;
-			var stepSize = Math.Min(defaultStepSize, UsedMaxItemCount);
-			var options = ToQueryOptions();
-
-			var queryResult = folder.CreateItemQueryWithOptions(options);
-			var items = await queryResult.GetItemsAsync(0, stepSize);
-
-			while (items.Count > 0)
-			{
-				foreach (IStorageItem item in items)
-				{
-					if (token.IsCancellationRequested)
-					{
-						return;
-					}
-
-					try
-					{
-						if (!item.Name.StartsWith('.') || UserSettingsService.FoldersSettingsService.ShowDotFiles)
-							results.Add(await GetListedItemAsync(item));
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, "Error creating ListedItem from StorageItem");
-					}
-
-					if (results.Count == 32 || results.Count % 300 == 0 /*|| sampler.CheckNow()*/)
-					{
-						SearchTick?.Invoke(this, EventArgs.Empty);
-					}
-				}
-
-				index += (uint)items.Count;
-				stepSize = Math.Min(defaultStepSize, UsedMaxItemCount - (uint)results.Count);
-				items = await queryResult.GetItemsAsync(index, stepSize);
-			}
-		}
-
 		private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<StandardItemViewModel> results, CancellationToken token)
 		{
 			foreach (var folder in library.Folders)
@@ -279,15 +224,6 @@ namespace Files.App.Filesystem.Search
 			}
 			else
 			{
-				var workingFolder = await GetStorageFolderAsync(folder);
-
-				var hiddenOnlyFromWin32 = false;
-				if (workingFolder)
-				{
-					await SearchAsync(workingFolder, results, token);
-					hiddenOnlyFromWin32 = (results.Count != 0);
-				}
-
 				if (!IsAQSQuery && (!hiddenOnlyFromWin32 || UserSettingsService.FoldersSettingsService.ShowHiddenItems))
 				{
 					await SearchWithWin32Async(folder, hiddenOnlyFromWin32, UsedMaxItemCount - (uint)results.Count, results, token);
@@ -355,169 +291,6 @@ namespace Files.App.Filesystem.Search
 			}
 		}
 
-		private StandardItemViewModel GetListedItemAsync(string itemPath, WIN32_FIND_DATA findData)
-		{
-			StandardItemViewModel listedItem = null;
-			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
-			if (!isFolder)
-			{
-				string itemFileExtension = null;
-				string itemType = null;
-				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
-				{
-					itemFileExtension = Path.GetExtension(itemPath);
-					itemType = itemFileExtension.Trim('.') + " " + itemType;
-				}
-
-				listedItem = new StandardItemViewModel(null)
-				{
-					PrimaryItemAttribute = StorageItemTypes.File,
-					ItemNameRaw = findData.cFileName,
-					ItemPath = itemPath,
-					IsHiddenItem = isHidden,
-					LoadFileIcon = false,
-					FileExtension = itemFileExtension,
-					ItemType = itemType,
-					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
-				};
-			}
-			else
-			{
-				if (findData.cFileName != "." && findData.cFileName != "..")
-				{
-					listedItem = new StandardItemViewModel(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemNameRaw = findData.cFileName,
-						ItemPath = itemPath,
-						IsHiddenItem = isHidden,
-						LoadFileIcon = false,
-						Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
-					};
-				}
-			}
-			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
-			{
-				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.Storable.Path, ThumbnailSize, ThumbnailMode.ListView, isFolder)
-					.ContinueWith((t) =>
-					{
-						if (t.IsCompletedSuccessfully && t.Result is not null)
-						{
-							_ = FilesystemTasks.Wrap(() => App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								listedItem.FileImage = await t.Result.ToBitmapAsync();
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
-						}
-					});
-			}
-			return listedItem;
-		}
-
-		private async Task<StandardItemViewModel> GetListedItemAsync(IStorageItem item)
-		{
-			StandardItemViewModel listedItem = null;
-			if (item.IsOfType(StorageItemTypes.Folder))
-			{
-				var folder = item.AsBaseStorageFolder();
-				var props = await folder.GetBasicPropertiesAsync();
-				if (folder is BinStorageFolder binFolder)
-				{
-					listedItem = new RecycleBinItem(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemNameRaw = folder.DisplayName,
-						ItemPath = folder.Path,
-						ItemDateModifiedReal = props.DateModified,
-						ItemDateCreatedReal = folder.DateCreated,
-						NeedsPlaceholderGlyph = false,
-						Opacity = 1,
-						ItemDateDeletedReal = binFolder.DateDeleted,
-						ItemOriginalPath = binFolder.OriginalPath
-					};
-				}
-				else
-				{
-					listedItem = new StandardItemViewModel(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemNameRaw = folder.DisplayName,
-						ItemPath = folder.Path,
-						ItemDateModifiedReal = props.DateModified,
-						ItemDateCreatedReal = folder.DateCreated,
-						NeedsPlaceholderGlyph = false,
-						Opacity = 1
-					};
-				}
-			}
-			else if (item.IsOfType(StorageItemTypes.File))
-			{
-				var file = item.AsBaseStorageFile();
-				var props = await file.GetBasicPropertiesAsync();
-				string itemFileExtension = null;
-				string itemType = null;
-				if (file.Name.Contains('.', StringComparison.Ordinal))
-				{
-					itemFileExtension = Path.GetExtension(file.Path);
-					itemType = itemFileExtension.Trim('.') + " " + itemType;
-				}
-
-				var itemSize = props.Size.ToSizeString();
-
-				if (file is BinStorageFile binFile)
-				{
-					listedItem = new RecycleBinItem(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						ItemNameRaw = file.Name,
-						ItemPath = file.Path,
-						LoadFileIcon = false,
-						FileExtension = itemFileExtension,
-						FileSizeBytes = (long)props.Size,
-						FileSize = itemSize,
-						ItemDateModifiedReal = props.DateModified,
-						ItemDateCreatedReal = file.DateCreated,
-						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
-						Opacity = 1,
-						ItemDateDeletedReal = binFile.DateDeleted,
-						ItemOriginalPath = binFile.OriginalPath
-					};
-				}
-				else
-				{
-					listedItem = new StandardItemViewModel(null)
-					{
-						PrimaryItemAttribute = StorageItemTypes.File,
-						ItemNameRaw = file.Name,
-						ItemPath = file.Path,
-						LoadFileIcon = false,
-						FileExtension = itemFileExtension,
-						FileSizeBytes = (long)props.Size,
-						FileSize = itemSize,
-						ItemDateModifiedReal = props.DateModified,
-						ItemDateCreatedReal = file.DateCreated,
-						ItemType = itemType,
-						NeedsPlaceholderGlyph = false,
-						Opacity = 1
-					};
-				}
-			}
-			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
-			{
-				var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
-				if (iconData is not null)
-				{
-					listedItem.FileImage = await iconData.ToBitmapAsync();
-				}
-				else
-				{
-					listedItem.NeedsPlaceholderGlyph = true;
-				}
-			}
-			return listedItem;
-		}
-
 		private QueryOptions ToQueryOptions()
 		{
 			var query = new QueryOptions
@@ -538,11 +311,5 @@ namespace Files.App.Filesystem.Search
 
 			return query;
 		}
-
-		private static Task<FilesystemResult<BaseStorageFolder>> GetStorageFolderAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-
-		private static Task<FilesystemResult<BaseStorageFile>> GetStorageFileAsync(string path)
-			=> FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
 	}
 }

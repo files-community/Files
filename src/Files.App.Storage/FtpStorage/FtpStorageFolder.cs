@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Storage.NativeStorage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
 using Files.Sdk.Storage.Extensions;
@@ -11,6 +12,7 @@ using FluentFTP;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -196,6 +198,44 @@ namespace Files.App.Storage.FtpStorage
 				throw new IOException("Directory was not successfully created.");
 
 			return new FtpStorageFolder(newPath, desiredName);
+		}
+
+		public async IAsyncEnumerable<IStorable> SearchAsync(string userQuery, SearchDepth depth = SearchDepth.Shallow)
+		{
+			List<IStorable> results = new List<IStorable>();
+
+			if (depth == SearchDepth.Deep)
+			{
+				async Task<IStorable> SearchInternalAsync(FtpStorageFolder folder)
+				{
+					await foreach (IStorable item in folder.GetItemsAsync(StorableKind.All))
+					{
+						if (item is FtpStorageFolder folderChild)
+						{
+							results.Add(await SearchInternalAsync(folderChild));
+							return item;
+						}
+						else
+						{
+							return item;
+						}
+					}
+					return folder;
+				}
+				await SearchInternalAsync(this);
+			}
+			else
+			{
+				await foreach (var item in GetItemsAsync(StorableKind.All))
+				{
+					results.Add(item);
+				}
+			}
+
+			foreach (var item in results.Where(x => x.Name.Contains(userQuery)))
+			{
+				yield return item;
+			}
 		}
 	}
 }

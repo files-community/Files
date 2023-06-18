@@ -10,6 +10,7 @@ using Files.Sdk.Storage.MutableStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -201,5 +202,43 @@ namespace Files.App.Storage.NativeStorage
         {
             return Task.FromResult<IFolderWatcher>(new NativeFolderWatcher(this));
         }
-    }
+
+		public async IAsyncEnumerable<IStorable> SearchAsync(string userQuery, SearchDepth depth = SearchDepth.Shallow)
+		{
+			List<IStorable> results = new List<IStorable>();
+
+			if (depth == SearchDepth.Deep)
+			{
+				async Task<IStorable> SearchInternalAsync(NativeFolder folder)
+				{
+					await foreach (IStorable item in folder.GetItemsAsync(StorableKind.All))
+					{
+						if (item is NativeFolder folderChild)
+						{
+							results.Add(await SearchInternalAsync(folderChild));
+							return item;
+						}
+						else
+						{
+							return item;
+						}
+					}
+					return folder;
+				}
+				await SearchInternalAsync(this);
+			}
+			else
+			{
+				await foreach (var item in GetItemsAsync(StorableKind.All))
+				{
+					results.Add(item);
+				}
+			}
+
+			foreach (var item in results.Where(x => x.Name.Contains(userQuery)))
+			{
+				yield return item;
+			}
+		}
+	}
 }
