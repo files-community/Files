@@ -37,11 +37,9 @@ namespace Files.App.Helpers
 		private static readonly PullOptions _pullOptions = new();
 
 		private static readonly string _clientId =
-#if STORE || STABLE || PREVIEW
-			"githubclientid.secret"
-#else
-			string.Empty;
-#endif
+			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+				? "githubclientid.secret"
+				: string.Empty;
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -256,6 +254,17 @@ namespace Files.App.Helpers
 			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 			if (signature is null)
 				return;
+
+			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			if (!string.IsNullOrWhiteSpace(token))
+			{
+				_pullOptions.FetchOptions.CredentialsProvider = (url, user, cred)
+					=> new UsernamePasswordCredentials
+					{
+						Username = signature.Name,
+						Password = token
+					};
+			}
 
 			IsExecutingGitAction = true;
 
