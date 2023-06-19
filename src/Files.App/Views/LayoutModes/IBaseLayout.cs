@@ -13,6 +13,8 @@ namespace Files.App.Views.LayoutModes
 
 		bool IsMiddleClickToScrollEnabled { get; set; }
 
+		bool LockPreviewPaneContent { get; set; }
+
 		public List<ListedItem>? SelectedItems { get; }
 
 		public ListedItem? SelectedItem { get; }

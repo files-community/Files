@@ -188,7 +188,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected bool LockPreviewPaneContent { get; set; }
+		public bool LockPreviewPaneContent { get; set; }
 
 		private List<ListedItem>? selectedItems = new List<ListedItem>();
 		public List<ListedItem>? SelectedItems
