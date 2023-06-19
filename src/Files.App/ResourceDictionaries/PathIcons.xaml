@@ -1954,8 +1954,8 @@
 					<Setter.Value>
 						<ControlTemplate>
 							<Viewbox
-								Width="12"
-								Height="12"
+								Width="16"
+								Height="16"
 								Stretch="Fill">
 								<Grid Width="16" Height="16">
 									<Path
@@ -1965,11 +1965,11 @@
 									<Path
 										x:Name="Path2"
 										Data="M8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2ZM1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8Z"
-										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
+										Fill="{ThemeResource IconBaseBrush}" />
 									<Path
 										x:Name="Path3"
 										Data="M10.9621 5.30861C10.938 5.25051 10.9026 5.19602 10.8557 5.14857C10.8543 5.14715 10.8528 5.14574 10.8514 5.14433C10.7611 5.05509 10.637 5 10.5 5H6.5C6.22386 5 6 5.22386 6 5.5C6 5.77614 6.22386 6 6.5 6H9.29289L5.14645 10.1464C4.95118 10.3417 4.95118 10.6583 5.14645 10.8536C5.34171 11.0488 5.65829 11.0488 5.85355 10.8536L10 6.70711V9.5C10 9.77614 10.2239 10 10.5 10C10.7761 10 11 9.77614 11 9.5V5.50035C11 5.49923 11 5.49812 11 5.497C10.9996 5.43287 10.987 5.3688 10.9621 5.30861Z"
-										Fill="{ThemeResource IconBaseBrush}" />
+										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
