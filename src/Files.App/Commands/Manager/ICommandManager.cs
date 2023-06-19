@@ -83,6 +83,8 @@ namespace Files.App.Commands
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
+		IRichCommand OpenInVS { get; }
+		IRichCommand OpenInVSCode { get; }
 		IRichCommand OpenProperties { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }

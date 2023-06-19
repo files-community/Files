@@ -85,6 +85,8 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenInVS => commands[CommandCodes.OpenInVS];
+		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
@@ -236,6 +238,8 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenInVS] = new OpenInVSAction(),
+			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
