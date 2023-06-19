@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -120,7 +119,7 @@ namespace Files.App.ViewModels.Previews
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile,
 				Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
-			list.Find(x => x.ID is "address").Value = await FileProperties.GetAddressFromCoordinatesAsync(
+			list.Find(x => x.ID is "address").Value = await LocationHelpers.GetAddressFromCoordinatesAsync(
 				(double?)list.Find(x => x.Property is "System.GPS.LatitudeDecimal").Value,
 				(double?)list.Find(x => x.Property is "System.GPS.LongitudeDecimal").Value
 			);

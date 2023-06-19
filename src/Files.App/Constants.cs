@@ -103,6 +103,11 @@ namespace Files.App
 			public const double ContextMenuItemsMaxWidth = 250;
 		}
 
+		public static class Appearance
+		{
+			public const string StandardFont = "Segoe UI Variable";
+		}
+
 		public static class Browser
 		{
 			public static class GridViewBrowser
@@ -136,11 +141,6 @@ namespace Files.App
 
 		public static class Widgets
 		{
-			public static class Bundles
-			{
-				public const int MaxAmountOfItemsPerBundle = 8;
-			}
-
 			public static class Drives
 			{
 				public const float LowStorageSpacePercentageThreshold = 90.0f;
@@ -153,11 +153,7 @@ namespace Files.App
 		{
 			public const string DateTimeFormat = "datetimeformat";
 
-			public const string Theme = "theme";
-
 			public const string SettingsFolderName = "settings";
-
-			public const string BundlesSettingsFileName = "bundles.json";
 
 			public const string UserSettingsFileName = "user_settings.json";
 
@@ -207,8 +203,8 @@ namespace Files.App
 		{
 			public const string GitHubRepoUrl = @"https://github.com/files-community/Files";
 			public const string DocumentationUrl = @"https://files.community/docs";
-			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?assignees=&labels=feature+request&template=feature_request.yml";
-			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?assignees=&labels=bug&template=bug_report.yml";
+			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
+			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://github.com/files-community/Files/blob/main/Privacy.md";
 			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
 		}

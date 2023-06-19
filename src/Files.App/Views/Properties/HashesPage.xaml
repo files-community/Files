@@ -145,10 +145,30 @@
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind Algorithm}" />
 
+								<!--  Calculating  -->
+								<StackPanel
+									x:Name="CalculatingPanel"
+									Grid.Column="2"
+									x:Load="{x:Bind IsCalculating, Mode=OneWay}"
+									Orientation="Horizontal">
+									<TextBlock
+										VerticalAlignment="Center"
+										Style="{StaticResource BodyTextBlockStyle}"
+										Text="{helpers:ResourceString Name=Calculating}" />
+
+									<ProgressBar
+										Width="100"
+										Margin="16,0,0,0"
+										HorizontalAlignment="Left"
+										IsIndeterminate="True" />
+								</StackPanel>
+
 								<!--  Hash Value  -->
 								<TextBlock
+									x:Name="HashValueText"
 									Grid.Column="2"
 									VerticalAlignment="Center"
+									x:Load="{x:Bind IsCalculating, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind HashValue, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"

@@ -1,21 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.Helpers.FileListCache;
 using Files.Backend.Extensions;
 using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Storage;
 using static Files.Backend.Helpers.NativeFindStorageItemHelper;
@@ -47,6 +39,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
 
+			var isGitRepo = GitHelpers.IsRepositoryEx(path, out _);
+
 			do
 			{
 				var isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) == FileAttributes.System;
@@ -59,7 +53,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 				{
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
-						var file = await GetFile(findData, path, cancellationToken);
+						var file = await GetFile(findData, path, isGitRepo, cancellationToken);
 						if (file is not null)
 						{
 							if (defaultIconPairs is not null)
@@ -86,7 +80,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 					{
 						if (findData.cFileName != "." && findData.cFileName != "..")
 						{
-							var folder = await GetFolder(findData, path, cancellationToken);
+							var folder = await GetFolder(findData, path, isGitRepo, cancellationToken);
 							if (folder is not null)
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
@@ -173,13 +167,12 @@ namespace Files.App.Filesystem.StorageEnumerators
 		public static async Task<ListedItem> GetFolder(
 			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
+			bool isGitRepo,
 			CancellationToken cancellationToken
 		)
 		{
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			DateTime itemModifiedDate;
 			DateTime itemCreatedDate;
@@ -210,26 +203,48 @@ namespace Files.App.Filesystem.StorageEnumerators
 				opacity = Constants.UI.DimItemOpacity;
 			}
 
-			return new ListedItem(null)
+			if (isGitRepo)
 			{
-				PrimaryItemAttribute = StorageItemTypes.Folder,
-				ItemNameRaw = itemName,
-				ItemDateModifiedReal = itemModifiedDate,
-				ItemDateCreatedReal = itemCreatedDate,
-				ItemType = folderTypeTextLocalized,
-				FileImage = null,
-				IsHiddenItem = isHidden,
-				Opacity = opacity,
-				LoadFileIcon = false,
-				ItemPath = itemPath,
-				FileSize = null,
-				FileSizeBytes = 0,
-			};
+				return new GitItem()
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = folderTypeTextLocalized,
+					FileImage = null,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					LoadFileIcon = false,
+					ItemPath = itemPath,
+					FileSize = null,
+					FileSizeBytes = 0,
+				};
+			}
+			else
+			{
+				return new ListedItem(null)
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = folderTypeTextLocalized,
+					FileImage = null,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					LoadFileIcon = false,
+					ItemPath = itemPath,
+					FileSize = null,
+					FileSizeBytes = 0,
+				};
+			}
 		}
 
 		public static async Task<ListedItem> GetFile(
 			Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
+			bool isGitRepo,
 			CancellationToken cancellationToken
 		)
 		{
@@ -340,6 +355,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			{
 				return new LibraryItem(library)
 				{
+					Opacity = opacity,
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 				};
@@ -351,6 +367,26 @@ namespace Files.App.Filesystem.StorageEnumerators
 					return new ZipItem(null)
 					{
 						PrimaryItemAttribute = StorageItemTypes.Folder, // Treat zip files as folders
+						FileExtension = itemFileExtension,
+						FileImage = null,
+						LoadFileIcon = itemThumbnailImgVis,
+						ItemNameRaw = itemName,
+						IsHiddenItem = isHidden,
+						Opacity = opacity,
+						ItemDateModifiedReal = itemModifiedDate,
+						ItemDateAccessedReal = itemLastAccessDate,
+						ItemDateCreatedReal = itemCreatedDate,
+						ItemType = itemType,
+						ItemPath = itemPath,
+						FileSize = itemSize,
+						FileSizeBytes = itemSizeBytes
+					};
+				}
+				else if (isGitRepo)
+				{
+					return new GitItem()
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
 						FileExtension = itemFileExtension,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,

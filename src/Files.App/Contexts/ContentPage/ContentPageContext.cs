@@ -1,17 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
-using Files.App.Views.LayoutModes;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
 
 namespace Files.App.Contexts
 {
@@ -58,11 +49,24 @@ namespace Files.App.Contexts
 
 		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
+		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
+
+		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
+
+		public string? SolutionFilePath => ShellPage?.FilesystemViewModel.SolutionFilePath;
+
 		public ContentPageContext()
 		{
 			context.Changing += Context_Changing;
 			context.Changed += Context_Changed;
+			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
+
 			Update();
+		}
+
+		private void GitHelpers_IsExecutingGitActionChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}
 
 		private void Context_Changing(object? sender, EventArgs e)
@@ -149,6 +153,10 @@ namespace Files.App.Contexts
 				case nameof(CurrentInstanceViewModel.ShowSearchUnindexedItemsMessage):
 					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
+				case nameof(CurrentInstanceViewModel.IsGitRepository):
+					OnPropertyChanged(nameof(IsGitRepository));
+					OnPropertyChanged(nameof(CanExecuteGitAction));
+					break;
 			}
 		}
 
@@ -172,8 +180,15 @@ namespace Files.App.Contexts
 
 		private void FilesystemViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(ItemViewModel.CurrentFolder))
-				OnPropertyChanged(nameof(Folder));
+			switch (e.PropertyName)
+			{
+				case nameof(ItemViewModel.CurrentFolder):
+					OnPropertyChanged(nameof(Folder));
+					break;
+				case nameof(ItemViewModel.SolutionFilePath):
+					OnPropertyChanged(nameof(SolutionFilePath));
+					break;
+			}
 		}
 
 		private void Update()
@@ -191,6 +206,8 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+			OnPropertyChanged(nameof(IsGitRepository));
+			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}
 
 		private void UpdatePageType()

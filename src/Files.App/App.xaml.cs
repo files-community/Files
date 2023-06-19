@@ -192,7 +192,6 @@ namespace Files.App
 						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
@@ -217,7 +216,7 @@ namespace Files.App
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
 #endif
-						.AddSingleton<IPreviewPopupService, QuickLookPreviewPopupService>()
+						.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
@@ -329,6 +328,10 @@ namespace Files.App
 			},
 			Logger);
 
+			// Destroy cached properties windows
+			FilePropertiesHelpers.DestroyCachedWindows();
+			AppModel.IsMainWindowClosed = true;
+
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
 		}
@@ -339,9 +342,6 @@ namespace Files.App
 		public static void SaveSessionTabs() 
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-
-			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{

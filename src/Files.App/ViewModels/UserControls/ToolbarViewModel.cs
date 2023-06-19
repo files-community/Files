@@ -233,7 +233,6 @@ namespace Files.App.ViewModels.UserControls
 				// TODO: Move this to the widget page, it doesn't belong here.
 				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.GeneralSettingsService.ShowBundlesWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);

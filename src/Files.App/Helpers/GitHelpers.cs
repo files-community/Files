@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
@@ -16,27 +18,57 @@ namespace Files.App.Helpers
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
+		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
+		private static readonly FetchOptions _fetchOptions = new()
+		{
+			Prune = true
+		};
+
+		private static readonly PullOptions _pullOptions = new();
+
+		private static bool _IsExecutingGitAction;
+		public static bool IsExecutingGitAction
+		{
+			get => _IsExecutingGitAction;
+			private set
+			{
+				if (_IsExecutingGitAction != value)
+				{
+					_IsExecutingGitAction = value;
+					IsExecutingGitActionChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsExecutingGitAction)));
+				}
+			}
+		}
+
+		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
+
+		public static event EventHandler? GitFetchCompleted;
+
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
 			if (root.EndsWith('\\'))
 				root = root.Substring(0, root.Length - 1);
 
-			if (
-				string.IsNullOrWhiteSpace(path) ||
+			if (string.IsNullOrWhiteSpace(path) ||
 				path.Equals(root, StringComparison.OrdinalIgnoreCase) ||
 				path.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
-				ShellStorageFolder.IsShellPath(path)
-				)
+				ShellStorageFolder.IsShellPath(path))
+			{
 				return null;
+			}
 
 			try
 			{
-				return Repository.IsValid(path)
-					? path
-					: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
+				return
+					Repository.IsValid(path)
+						? path
+						: GetGitRepositoryPath(PathNormalization.GetParentDir(path), root);
 			}
-			catch (LibGit2SharpException)
+			catch (LibGit2SharpException ex)
 			{
+				_logger.LogWarning(ex.Message);
+
 				return null;
 			}
 		}
@@ -51,8 +83,8 @@ namespace Files.App.Helpers
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenBy(b => b.IsRemote)
-				.ThenByDescending(b => b.Tip.Committer.When)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote))
+				.ThenByDescending(b => b.Tip?.Committer.When)
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();
 		}
 
@@ -70,6 +102,8 @@ namespace Files.App.Helpers
 
 			var options = new CheckoutOptions();
 			var isBringingChanges = false;
+
+			IsExecutingGitAction = true;
 
 			if (repository.RetrieveStatus().IsDirty)
 			{
@@ -112,9 +146,14 @@ namespace Files.App.Helpers
 				}
 				return true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				_logger.LogWarning(ex.Message);
 				return false;
+			}
+			finally
+			{
+				IsExecutingGitAction = false;
 			}
 		}
 
@@ -132,6 +171,8 @@ namespace Files.App.Helpers
 
 			using var repository = new Repository(repositoryPath);
 
+			IsExecutingGitAction = true;
+
 			if (repository.Head.FriendlyName.Equals(viewModel.NewBranchName) ||
 				await Checkout(repositoryPath, viewModel.BasedOn))
 			{
@@ -140,6 +181,8 @@ namespace Files.App.Helpers
 				if (viewModel.Checkout)
 					await Checkout(repositoryPath, viewModel.NewBranchName);
 			}
+
+			IsExecutingGitAction = false;
 		}
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
@@ -154,6 +197,173 @@ namespace Files.App.Helpers
 			using var repository = new Repository(repositoryPath);
 			return !repository.Branches.Any(branch =>
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+		}
+
+		public static void FetchOrigin(string? repositoryPath)
+		{
+			if (string.IsNullOrWhiteSpace(repositoryPath))
+				return;
+
+			IsExecutingGitAction = true;
+			using var repository = new Repository(repositoryPath);
+
+			try
+			{
+				foreach (var remote in repository.Network.Remotes)
+				{
+					LibGit2Sharp.Commands.Fetch(
+						repository,
+						remote.Name,
+						remote.FetchRefSpecs.Select(rs => rs.Specification),
+						_fetchOptions,
+						"git fetch updated a ref");
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+			}
+
+			App.Window.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+			});
+		}
+
+		public static async void PullOrigin(string? repositoryPath)
+		{
+			if (string.IsNullOrWhiteSpace(repositoryPath))
+				return;
+
+			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+			if (signature is null)
+				return;
+
+			IsExecutingGitAction = true;
+
+			try
+			{
+				LibGit2Sharp.Commands.Pull(
+					repository,
+					signature,
+					_pullOptions);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex.Message);
+
+				var viewModel = new DynamicDialogViewModel()
+				{
+					TitleText = "GitError".GetLocalizedResource(),
+					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
+					CloseButtonText = "Close".GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Cancel
+				};
+				var dialog = new DynamicDialog(viewModel);
+				await dialog.TryShowAsync();
+			}
+
+			IsExecutingGitAction = false;
+		}
+
+		public static bool IsRepositoryEx(string path, out string repoRootPath)
+		{
+			repoRootPath = path;
+
+			var rootPath = SystemIO.Path.GetPathRoot(path);
+			if (rootPath is null)
+				return false;
+
+			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
+			if (string.IsNullOrEmpty(repositoryRootPath))
+				return false;
+
+			if (Repository.IsValid(repositoryRootPath))
+			{
+				repoRootPath = repositoryRootPath;
+				return true;
+			}
+
+			return false;
+		}
+
+		public static GitItemModel GetGitInformationForItem(Repository repository, string path)
+		{
+			var rootRepoPath = repository.Info.WorkingDirectory;
+			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
+
+			var commit = GetLastCommitForFile(repository, relativePath);
+			//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
+
+			var changeKind = ChangeKind.Unmodified;
+			//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+			{
+				if (c.Path.StartsWith(relativePath))
+				{
+					changeKind = c.Status;
+					break;
+				}
+			}
+
+			string? changeKindHumanized = "";
+			if (changeKind is not ChangeKind.Ignored)
+			{
+				changeKindHumanized = changeKind switch
+				{
+					ChangeKind.Added => "A",
+					ChangeKind.Deleted => "D",
+					ChangeKind.Modified => "M",
+					ChangeKind.Untracked => "U",
+					_ => "",
+				};
+			}
+
+			var gitItemModel = new GitItemModel()
+			{
+				Status = changeKind,
+				StatusHumanized = changeKindHumanized,
+				LastCommit = commit,
+				Path = relativePath,
+			};
+
+			return gitItemModel;
+		}
+
+		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
+		{
+			foreach (var currentCommit in repository.Commits)
+			{
+				var currentTreeEntry = currentCommit.Tree[currentPath];
+				if (currentTreeEntry == null)
+					return null;
+
+				var parentCount = currentCommit.Parents.Take(2).Count();
+				if (parentCount == 0)
+				{
+					return currentCommit;
+				}
+				else if (parentCount == 1)
+				{
+					var parentCommit = currentCommit.Parents.Single();
+
+					// Does not consider renames
+					var parentPath = currentPath; 
+
+					var parentTreeEntry = parentCommit.Tree[parentPath];
+
+					if (parentTreeEntry == null ||
+						parentTreeEntry.Target.Id != currentTreeEntry.Target.Id ||
+						parentPath != currentPath)
+					{
+						return currentCommit;
+					}
+				}
+			}
+
+			return null;
 		}
 
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)

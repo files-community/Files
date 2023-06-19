@@ -69,10 +69,11 @@ namespace Files.App.Commands
 		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
+		public IRichCommand InstallCertificate => commands[CommandCodes.InstallCertificate];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand RunWithPowershell => commands[CommandCodes.RunWithPowershell];
-		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
+		public IRichCommand LaunchPreviewPopup => commands[CommandCodes.LaunchPreviewPopup];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -84,6 +85,8 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenInVS => commands[CommandCodes.OpenInVS];
+		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
@@ -154,6 +157,8 @@ namespace Files.App.Commands
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
+		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
+		public IRichCommand GitPull => commands[CommandCodes.GitPull];
 
 		public CommandManager()
 		{
@@ -217,10 +222,11 @@ namespace Files.App.Commands
 			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
+			[CommandCodes.InstallCertificate] = new InstallCertificateAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.RunWithPowershell] = new RunWithPowershellAction(),
-			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
+			[CommandCodes.LaunchPreviewPopup] = new LaunchPreviewPopupAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
@@ -232,6 +238,8 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenInVS] = new OpenInVSAction(),
+			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
@@ -302,6 +310,8 @@ namespace Files.App.Commands
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
+			[CommandCodes.GitFetch] = new GitFetchAction(),
+			[CommandCodes.GitPull] = new GitPullAction(),
 		};
 
 		private void UpdateHotKeys()

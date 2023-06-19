@@ -1,0 +1,45 @@
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Contexts;
+using Files.App.Shell;
+
+namespace Files.App.Actions
+{
+	internal sealed class OpenInVSCodeAction : ObservableObject, IAction
+	{
+		private readonly IContentPageContext _context;
+
+		private readonly bool _isVSCodeInstalled;
+
+		public string Label { get; } = "OpenInVSCode".GetLocalizedResource();
+
+		public string Description { get; } = "OpenInVSCodeDescription".GetLocalizedResource();
+
+		public bool IsExecutable =>
+			_isVSCodeInstalled &&
+			_context.Folder is not null;
+
+		public OpenInVSCodeAction()
+		{
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			_isVSCodeInstalled = SoftwareHelpers.IsVSCodeInstalled();
+			if (_isVSCodeInstalled)
+				_context.PropertyChanged += Context_PropertyChanged;
+		}
+
+		public Task ExecuteAsync()
+		{
+			Win32API.RunPowershellCommand($"code {_context.ShellPage?.FilesystemViewModel.WorkingDirectory}", false);
+
+			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IContentPageContext.Folder))
+				OnPropertyChanged(nameof(IsExecutable));
+		}
+	}
+}

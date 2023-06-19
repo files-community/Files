@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Backend.Helpers;
@@ -18,6 +19,8 @@ namespace Files.App.ViewModels.UserControls
 		private readonly IUserSettingsService userSettingsService;
 
 		private readonly IPreviewPaneSettingsService previewSettingsService;
+
+		private readonly IContentPageContext contentPageContextService;
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -68,22 +71,24 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings)
+		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
 			userSettingsService = userSettings;
 			previewSettingsService = previewSettings;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(() => UpdateSelectedItemPreview());
+			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
 			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+
+			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem)
+			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith("\\"))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -279,19 +284,43 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				PreviewPaneContent = null;
-				PreviewPaneState = PreviewPaneStates.NoItemSelected;
+				SelectedItem?.FileDetails?.Clear();
+				var currentFolder = contentPageContextService.Folder;
+
+				if (currentFolder is null)
+				{
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoItemSelected;
+					return;
+				}
+
+				try
+				{
+					PreviewPaneState = PreviewPaneStates.LoadingPreview;
+					loadCancellationTokenSource = new CancellationTokenSource();
+
+					SelectedItem = currentFolder;
+					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine(e);
+					loadCancellationTokenSource?.Cancel();
+
+					PreviewPaneContent = null;
+					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+				}
 			}
 		}
 
 		public ICommand ShowPreviewOnlyInvoked { get; }
 
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
-				needsRefresh = true;
+				await UpdateSelectedItemPreview();
 			}
 		}
 
@@ -321,22 +350,6 @@ namespace Files.App.ViewModels.UserControls
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
-			}
-		}
-
-		/// <summary>
-		/// true if the content needs to be refreshed the next time the model is used
-		/// </summary>
-		private bool needsRefresh = false;
-
-		/// <summary>
-		/// refreshes the content if it needs to be refreshed, does nothing otherwise
-		/// </summary>
-		public void TryRefresh()
-		{
-			if (needsRefresh)
-			{
-				UpdateSelectedItemPreview();
 			}
 		}
 

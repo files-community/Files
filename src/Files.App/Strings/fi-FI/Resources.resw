@@ -1359,7 +1359,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nimi:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Tyyppi:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -2592,8 +2592,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Videot</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Käynnistä pikakatselu</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Käynnistä esikatseluikkuna</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Kytke suppea asettelu päälle/pois</value>
@@ -2724,6 +2724,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Asenna ajurit käyttämällä valittuja inf-tiedostoja</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+      <value>Asenna valitut varmenteet</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Suorita valittu sovellus järjestelmänvalvojana</value>
   </data>
@@ -2733,8 +2736,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Suorita valittu PowerShell-skripti</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Käynnistä pikakatselu valitulla kohteella</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Käynnistä esikatselu ponnahdusikkunassa</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Luo arkisto valituista kohteista</value>
@@ -3148,9 +3151,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Muokkaa polkua</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Haara: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Tee uudelleen</value>
   </data>
@@ -3316,7 +3316,47 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Käännä Crowdinissa</value>
   </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Hae</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Vedä</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Suorita git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Suorita git pull</value>
+  </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Esikatselu</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git-virhe</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull epäonnistui aikakatkaisuvirheen vuoksi</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(useita arvoja)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Taustamateriaali</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Yhtenäinen</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Hallitse haaroja</value>
   </data>
 </root>

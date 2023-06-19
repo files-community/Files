@@ -324,15 +324,33 @@ namespace Files.App.Views
 			((UIElement)sender).GotFocus += Pane_GotFocus;
 		}
 
-		private void Pane_GotFocus(object sender, RoutedEventArgs e)
+		private async void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
 			var isLeftPane = sender == PaneLeft;
 			if (isLeftPane && (PaneRight?.SlimContentPage?.IsItemSelected ?? false))
+			{
+				PaneRight.SlimContentPage.LockPreviewPaneContent = true;
 				PaneRight.SlimContentPage.ItemManipulationModel.ClearSelection();
+				PaneRight.SlimContentPage.LockPreviewPaneContent = false;
+			}
 			else if (!isLeftPane && (PaneLeft?.SlimContentPage?.IsItemSelected ?? false))
+			{
+				PaneLeft.SlimContentPage.LockPreviewPaneContent = true;
 				PaneLeft.SlimContentPage.ItemManipulationModel.ClearSelection();
+				PaneLeft.SlimContentPage.LockPreviewPaneContent = false;
+			}
 
-			ActivePane = isLeftPane ? PaneLeft : PaneRight;
+			var activePane = isLeftPane ? PaneLeft : PaneRight;
+			if (ActivePane != activePane)
+			{
+				ActivePane = activePane;
+
+				if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
+				{
+					page.PreviewPaneViewModel.IsItemSelected = false;
+					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
+				}
+			}
 		}
 
 		public void Dispose()

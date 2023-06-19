@@ -17,7 +17,6 @@ using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
 using Microsoft.UI.Dispatching;
-using Files.App.Data.EventArguments;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -138,6 +137,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
 		}
@@ -222,6 +222,28 @@ namespace Files.App.Views.LayoutModes
 				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
+
+			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
+			{
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				else
+					CloseFolder();
+			}
+			else if (SelectedItems?.Count > 1
+				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
+				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
+				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
+			{
+				CloseFolder();
+			}
+		}
+
+		private void CloseFolder()
+		{
+			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			ClearOpenedFolderSelectionIndicator();
 		}
 
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -235,16 +257,14 @@ namespace Files.App.Views.LayoutModes
 			HandleRightClick(e.OriginalSource);
 		}
 
-		private void FileList_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
-		{
-			// Open selected directory
-			if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
-		}
-
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance is null || IsRenamingItem)
+			if
+			(
+				ParentShellPageInstance is null ||
+				IsRenamingItem ||
+				SelectedItems?.Count > 1
+			)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -480,7 +500,9 @@ namespace Files.App.Views.LayoutModes
 
 		internal void ClearSelectionIndicator()
 		{
+			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
+			LockPreviewPaneContent = false;
 		}
 	}
 }

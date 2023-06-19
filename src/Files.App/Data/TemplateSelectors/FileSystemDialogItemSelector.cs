@@ -4,7 +4,7 @@
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 
-namespace Files.App.TemplateSelectors
+namespace Files.App.Data.TemplateSelectors
 {
 	internal sealed class FileSystemDialogItemSelector : BaseTemplateSelector<BaseFileSystemDialogItemViewModel>
 	{

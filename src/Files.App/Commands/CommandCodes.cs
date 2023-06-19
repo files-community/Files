@@ -74,14 +74,15 @@ namespace Files.App.Commands
 		// Install
 		InstallFont,
 		InstallInfDriver,
+		InstallCertificate,
 
 		// Run
 		RunAsAdmin,
 		RunAsAnotherUser,
 		RunWithPowershell,
 
-		// QuickLook
-		LaunchQuickLook,
+		// Preview Popup
+		LaunchPreviewPopup,
 
 		// Archives
 		CompressIntoArchive,
@@ -96,6 +97,8 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenInVS,
+		OpenInVSCode,
 		OpenProperties,
 		OpenSettings,
 		OpenTerminal,
@@ -176,5 +179,9 @@ namespace Files.App.Commands
 
 		// Play
 		PlayAll,
+
+		// Git
+		GitFetch,
+		GitPull,
 	}
 }

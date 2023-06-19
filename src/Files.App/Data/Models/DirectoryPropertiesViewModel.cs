@@ -61,6 +61,13 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private string _PullInfo = "0";
+		public string PullInfo
+		{
+			get => _PullInfo;
+			set => SetProperty(ref _PullInfo, value);
+		}
+
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
@@ -78,11 +85,15 @@ namespace Files.App.Data.Models
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
 		{
 			GitBranchDisplayName = isGitRepository && branches.Any()
-				? string.Format("Branch".GetLocalizedResource(), branches[ACTIVE_BRANCH_INDEX].Name)
+				? branches[ACTIVE_BRANCH_INDEX].Name
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
 			ShowLocals = true;
+
+			PullInfo = branches.Any() 
+				? branches[0].BehindBy.ToString() ?? "0"
+				: "0";
 
 			if (isGitRepository)
 			{
