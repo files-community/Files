@@ -352,51 +352,52 @@ namespace Files.App.Helpers
 			int interval;
 			var pending = true;
 			var client = new HttpClient();
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-			using (var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/device/code"))
+			var codeRequestContent = new StringContent(
+				$"{{{JsonSerializer.Serialize(new GitRequireTokenParams(_clientId))}}}",
+				System.Text.Encoding.UTF8,
+				"application/json");
+
+			var codeResponse = await client.PostAsync("https://github.com/login/device/code", codeRequestContent);
+			if (!codeResponse.IsSuccessStatusCode)
 			{
-				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				request.Content = JsonContent.Create(new GitRequireTokenParams(_clientId), typeof(GitRequireTokenParams));
-
-				var response = await client.SendAsync(request);
-				if (!response.IsSuccessStatusCode)
-				{
-					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-					return;
-				}
-
-				var jsonContent = await response.Content.ReadFromJsonAsync<JsonDocument>();
-				if (jsonContent is null)
-				{
-					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-					return;
-				}
-
-				userCode = jsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
-				deviceCode = jsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
-				interval = jsonContent.RootElement.GetProperty("interval").GetInt32();
+				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+				return;
 			}
+
+			var codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+			if (codeJsonContent is null)
+			{
+				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+				return;
+			}
+
+			userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
+			deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
+			interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
 
 			await DynamicDialogFactory.GetFor_GitLogin(userCode).TryShowAsync();
 
 			while (pending)
 			{
-				using var request = new HttpRequestMessage(HttpMethod.Post, "https://github.com/login/oauth/access_token");
-				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				request.Content = JsonContent.Create(new GitConfirmLoginParams(_clientId, deviceCode), typeof(GitConfirmLoginParams));
+				var loginRequestContent = new StringContent(
+					$"{{{JsonSerializer.Serialize(new GitConfirmLoginParams(_clientId, deviceCode))}}}",
+					System.Text.Encoding.UTF8,
+					"application/json");
 
-				var response = await client.SendAsync(request);
+				var loginResponse = await client.PostAsync("https://github.com/login/oauth/access_token", loginRequestContent);
 
-				var jsonContent = await response.Content.ReadFromJsonAsync<JsonDocument>();
-				if (jsonContent is null)
+				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				if (loginJsonContent is null)
 				{
 					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
 					return;
 				}
 
-				if (!response.IsSuccessStatusCode)
+				if (!loginResponse.IsSuccessStatusCode)
 				{
-					if (jsonContent.RootElement.GetProperty("error").GetString() == "authorization_pending")
+					if (loginJsonContent.RootElement.GetProperty("error").GetString() == "authorization_pending")
 					{
 						await Task.Delay(TimeSpan.FromSeconds(interval));
 						continue;
@@ -411,7 +412,7 @@ namespace Files.App.Helpers
 				CredentialsHelpers.SavePassword(
 					GIT_RESOURCE_NAME,
 					GIT_RESOURCE_USERNAME,
-					jsonContent.RootElement.GetProperty("access_token").GetRawText());
+					loginJsonContent.RootElement.GetProperty("access_token").GetRawText());
 			}
 		}
 
