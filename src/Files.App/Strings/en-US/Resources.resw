@@ -3314,4 +3314,16 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
 </root>

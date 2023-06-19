@@ -49,7 +49,11 @@ namespace Files.App.Contexts
 
 		public bool ShowSearchUnindexedItemsMessage => ShellPage is not null && ShellPage.InstanceViewModel.ShowSearchUnindexedItemsMessage;
 
-		public bool CanExecuteGitAction => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository && !GitHelpers.IsExecutingGitAction;
+		public bool IsGitRepository => ShellPage is not null && ShellPage.InstanceViewModel.IsGitRepository;
+
+		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
+
+		public string? SolutionFilePath => ShellPage?.FilesystemViewModel.SolutionFilePath;
 
 		public ContentPageContext()
 		{
@@ -150,6 +154,7 @@ namespace Files.App.Contexts
 					OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
 					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
+					OnPropertyChanged(nameof(IsGitRepository));
 					OnPropertyChanged(nameof(CanExecuteGitAction));
 					break;
 			}
@@ -175,8 +180,15 @@ namespace Files.App.Contexts
 
 		private void FilesystemViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(ItemViewModel.CurrentFolder))
-				OnPropertyChanged(nameof(Folder));
+			switch (e.PropertyName)
+			{
+				case nameof(ItemViewModel.CurrentFolder):
+					OnPropertyChanged(nameof(Folder));
+					break;
+				case nameof(ItemViewModel.SolutionFilePath):
+					OnPropertyChanged(nameof(SolutionFilePath));
+					break;
+			}
 		}
 
 		private void Update()
@@ -194,6 +206,7 @@ namespace Files.App.Contexts
 			OnPropertyChanged(nameof(IsMultiPaneEnabled));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(ShowSearchUnindexedItemsMessage));
+			OnPropertyChanged(nameof(IsGitRepository));
 			OnPropertyChanged(nameof(CanExecuteGitAction));
 		}
 
