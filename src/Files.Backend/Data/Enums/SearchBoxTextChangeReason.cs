@@ -9,12 +9,12 @@ namespace Files.Backend.Data.Enums
 	public enum SearchBoxTextChangeReason : ushort
 	{
 		/// <summary>
-		/// The user has changed text manually.
+		/// The SearchBox has been changed text manually.
 		/// </summary>
 		UserInput,
 
 		/// <summary>
-		/// The app has changed programmatically.
+		/// The SearchBox has been changed text programmatically.
 		/// </summary>
 		ProgrammaticChange,
 
