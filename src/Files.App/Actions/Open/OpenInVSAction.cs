@@ -3,11 +3,10 @@
 
 using Files.App.Contexts;
 using Files.App.Shell;
-using Microsoft.Win32;
 
 namespace Files.App.Actions
 {
-	internal class OpenInVSAction : ObservableObject, IAction
+	internal sealed class OpenInVSAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
@@ -25,7 +24,7 @@ namespace Files.App.Actions
 		{
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			_isVSInstalled = IsVSInstalled();
+			_isVSInstalled = SoftwareHelpers.IsVSInstalled();
 			if (_isVSInstalled )
 				_context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -41,19 +40,6 @@ namespace Files.App.Actions
 			Win32API.RunPowershellCommand($"start {_context.SolutionFilePath}", false);
 
 			return Task.CompletedTask;
-		}
-
-		private static bool IsVSInstalled()
-		{
-			string registryKey = @"SOFTWARE\Microsoft\VisualStudio";
-
-			var key = Registry.LocalMachine.OpenSubKey(registryKey);
-			if (key is null)
-				return false;
-
-			key.Close();
-
-			return true;
 		}
 	}
 }

@@ -155,7 +155,7 @@
 				Background="Transparent"
 				BorderBrush="Transparent"
 				Command="{x:Bind Commands.OpenInVSCode}"
-				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" >
+				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />

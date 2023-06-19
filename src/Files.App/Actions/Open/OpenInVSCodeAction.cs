@@ -3,11 +3,10 @@
 
 using Files.App.Contexts;
 using Files.App.Shell;
-using Microsoft.Win32;
 
 namespace Files.App.Actions
 {
-	internal class OpenInVSCodeAction : ObservableObject, IAction
+	internal sealed class OpenInVSCodeAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
@@ -25,7 +24,7 @@ namespace Files.App.Actions
 		{
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-			_isVSCodeInstalled = IsVSCodeInstalled();
+			_isVSCodeInstalled = SoftwareHelpers.IsVSCodeInstalled();
 			if (_isVSCodeInstalled)
 				_context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -41,32 +40,6 @@ namespace Files.App.Actions
 		{
 			if (e.PropertyName == nameof(IContentPageContext.Folder))
 				OnPropertyChanged(nameof(IsExecutable));
-		}
-
-		private static bool IsVSCodeInstalled()
-		{
-			string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
-
-			var key = Registry.CurrentUser.OpenSubKey(registryKey);
-			if (key is null)
-				return false;
-
-			string? displayName;
-
-			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
-			{
-				displayName = subKey?.GetValue("DisplayName") as string;
-				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith("Microsoft Visual Studio Code"))
-				{
-					key.Close();
-
-					return true;
-				}
-			}
-
-			key.Close();
-
-			return false;
 		}
 	}
 }
