@@ -108,12 +108,6 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
-		public bool ShowBundlesWidget
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		public bool FoldersWidgetExpanded
 		{
 			get => Get(true);
@@ -133,12 +127,6 @@ namespace Files.App.ServicesImplementation.Settings
 		}
 
 		public bool FileTagsWidgetExpanded
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
-		public bool BundlesWidgetExpanded
 		{
 			get => Get(true);
 			set => Set(value);
@@ -247,10 +235,8 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):
 				case nameof(ShowDrivesWidget):
-				case nameof(ShowBundlesWidget):
 				case nameof(FoldersWidgetExpanded):
 				case nameof(RecentFilesWidgetExpanded):
-				case nameof(BundlesWidgetExpanded):
 				case nameof(DrivesWidgetExpanded):
 				case nameof(ShowFavoritesSection):
 				case nameof(ShowLibrarySection):

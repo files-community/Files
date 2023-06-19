@@ -83,7 +83,7 @@ namespace Files.App.Helpers
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenBy(b => b.IsRemote)
-				.ThenByDescending(b => b.Tip.Committer.When)
+				.ThenByDescending(b => b.Tip?.Committer.When)
 				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();
 		}

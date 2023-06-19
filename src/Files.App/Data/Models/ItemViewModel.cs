@@ -539,12 +539,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -1365,8 +1371,6 @@ namespace Files.App.Data.Models
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			await GetDefaultItemIcons(folderSettings.GetIconSize());
-
 			if (FtpHelpers.IsFtpPath(path))
 			{
 				// Recycle bin and network are enumerated by the fulltrust process
@@ -1418,9 +1422,11 @@ namespace Files.App.Data.Models
 				}
 			}
 
-			if (addFilesCTS.IsCancellationRequested)
+			await GetDefaultItemIcons(folderSettings.GetIconSize());
+
+			if (IsLoadingCancelled)
 			{
-				addFilesCTS = new CancellationTokenSource();
+				IsLoadingCancelled = false;
 				IsLoadingItems = false;
 				return;
 			}
