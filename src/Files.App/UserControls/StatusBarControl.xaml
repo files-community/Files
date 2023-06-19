@@ -158,7 +158,7 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" >
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpenWith}" />
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
@@ -177,7 +177,7 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpenWith}" />
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
