@@ -25,7 +25,7 @@ namespace Files.Backend.CommandLine
 		/// <summary>
 		/// Parses raw command line string.
 		/// </summary>
-		/// <param name="cmdLineStrings">String of command line to parse.</param>
+		/// <param name="cmdLineStrings">A string array of command line to parse.</param>
 		/// <returns>A collection of parsed command.</returns>
 		public static ParsedCommands ParseUntrustedCommands(string[] cmdLineStrings)
 		{
@@ -37,7 +37,7 @@ namespace Files.Backend.CommandLine
 		/// <summary>
 		/// Convert string split arguments into a collection of <see cref="ParsedCommand"/>
 		/// </summary>
-		/// <param name="parsedArgs">String of command line to parse.</param>
+		/// <param name="parsedArgs">A string array of command line to parse.</param>
 		/// <returns>A collection of parsed command.</returns>
 		private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string[]>> parsedArgs)
 		{

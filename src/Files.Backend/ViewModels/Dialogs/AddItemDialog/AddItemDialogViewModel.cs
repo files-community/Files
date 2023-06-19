@@ -7,7 +7,7 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed class AddItemDialogViewModel : ObservableObject
 	{
-		private readonly IImageService _imagingService = Ioc.Default.GetRequiredService<IImageService>();
+		private readonly IImageService _imagingService;
 
 		public ObservableCollection<AddItemDialogListItemViewModel> AddItemsList { get; }
 
@@ -15,6 +15,10 @@ namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
 
 		public AddItemDialogViewModel()
 		{
+			// Dependency injection
+			_imagingService = Ioc.Default.GetRequiredService<IImageService>();
+
+			// Initialize
 			AddItemsList = new();
 			ResultType = new()
 			{

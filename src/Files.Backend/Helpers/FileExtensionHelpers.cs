@@ -13,7 +13,7 @@ namespace Files.Backend.Helpers
 		/// </summary>
 		/// <param name="filePathToCheck">Path or name or extension of the file to check.</param>
 		/// <param name="extensions">List of the extensions to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck has one of the specified extensions; otherwis,e, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the filePathToCheck has one of the specified extensions; otherwise, <c>false</c>.</returns>
 		public static bool HasExtension(string? filePathToCheck, params string[] extensions)
 		{
 			if (string.IsNullOrWhiteSpace(filePathToCheck))
@@ -26,7 +26,7 @@ namespace Files.Backend.Helpers
 		/// Check if the file extension is an image file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwis,e, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
 		public static bool IsImageFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
@@ -36,7 +36,7 @@ namespace Files.Backend.Helpers
 		/// Check if the file extension is a PowerShell script.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwis,e, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
 		public static bool IsPowerShellFile(string fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".ps1");

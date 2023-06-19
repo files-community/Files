@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.ComTypes;
 namespace Files.Backend.Helpers
 {
 	/// <summary>
-	/// NativeFindStorageItemHelper
+	/// Provides a bunch of Win32API for native find storage items.
 	/// </summary>
 	public class NativeFindStorageItemHelper
 	{
@@ -25,7 +25,7 @@ namespace Files.Backend.Helpers
 
 			public SYSTEMTIME(DateTime dt)
 			{
-				dt = dt.ToUniversalTime();  // SetSystemTime expects the SYSTEMTIME in UTC
+				dt = dt.ToUniversalTime(); // SetSystemTime expects the SYSTEMTIME in UTC
 				Year = (short)dt.Year;
 				Month = (short)dt.Month;
 				DayOfWeek = (short)dt.DayOfWeek;
@@ -36,7 +36,10 @@ namespace Files.Backend.Helpers
 				Milliseconds = (short)dt.Millisecond;
 			}
 
-			public DateTime ToDateTime() => new(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
+			public DateTime ToDateTime()
+			{
+				return new(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
+			}
 		}
 
 		public enum FINDEX_INFO_LEVELS
@@ -56,9 +59,11 @@ namespace Files.Backend.Helpers
 		public struct WIN32_FIND_DATA
 		{
 			public uint dwFileAttributes;
+			
 			public FILETIME ftCreationTime;
 			public FILETIME ftLastAccessTime;
 			public FILETIME ftLastWriteTime;
+
 			public uint nFileSizeHigh;
 			public uint nFileSizeLow;
 			public uint dwReserved0;
@@ -108,8 +113,10 @@ namespace Files.Backend.Helpers
 			IntPtr hFile = FindFirstFileExFromApp(
 				targetPath,
 				findInfoLevel,
-				out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero, additionalFlags);
+				out findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
 			
 			if (hFile.ToInt64() != -1)
 			{

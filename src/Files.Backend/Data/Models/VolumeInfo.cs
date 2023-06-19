@@ -19,34 +19,54 @@ namespace Files.Backend.Data.Models
 		public Guid Guid { get; }
 
 		public VolumeInfo(Guid guid)
-			=> Guid = guid;
+		{
+			Guid = guid;
+		}
 
 		public VolumeInfo(string id)
-			=> Guid = ToGuid(id);
+		{
+			Guid = ToGuid(id);
+		}
 
 		public static implicit operator string(VolumeInfo info)
-			=> info.Id;
+		{
+			return info.Id;
+		}
 
 		public static implicit operator Guid(VolumeInfo info)
-			=> info.Guid;
+		{
+			return info.Guid;
+		}
 
 		public static bool operator ==(VolumeInfo a, VolumeInfo b)
-			=> a.Guid == b.Guid;
+		{
+			return a.Guid == b.Guid;
+		}
 
 		public static bool operator !=(VolumeInfo a, VolumeInfo b)
-			=> a.Guid != b.Guid;
+		{
+			return a.Guid != b.Guid;
+		}
 
 		public override string ToString()
-			=> Id;
+		{
+			return Id;
+		}
 
 		public override int GetHashCode()
-			=> Guid.GetHashCode();
+		{
+			return Guid.GetHashCode();
+		}
 
 		public override bool Equals(object? other)
-			=> other is VolumeInfo info && Equals(info);
+		{
+			return other is VolumeInfo info && Equals(info);
+		}
 
 		public bool Equals(VolumeInfo other)
-			=> other.Guid.Equals(Guid);
+		{
+			return other.Guid.Equals(Guid);
+		}
 
 		private static Guid ToGuid(string id)
 		{

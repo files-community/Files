@@ -19,7 +19,7 @@ namespace Files.Backend.Data.Enums
 		NoPreviewAvailable,
 
 		/// <summary>
-		/// No preview or details status.
+		/// No preview or details available status.
 		/// </summary>
 		NoPreviewOrDetailsAvailable,
 
