@@ -14,7 +14,7 @@ namespace Files.Backend.Data.Enums
 		UserInput,
 
 		/// <summary>
-		/// The SearchBox text has been changed programmatically.
+		/// The SearchBox text was changed programmatically.
 		/// </summary>
 		ProgrammaticChange,
 
