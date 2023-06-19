@@ -539,12 +539,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -1418,9 +1424,9 @@ namespace Files.App.Data.Models
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-			if (addFilesCTS.IsCancellationRequested)
+			if (IsLoadingCancelled)
 			{
-				addFilesCTS = new CancellationTokenSource();
+				IsLoadingCancelled = false;
 				IsLoadingItems = false;
 				return;
 			}
