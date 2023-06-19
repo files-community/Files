@@ -340,13 +340,16 @@ namespace Files.App.Views
 				PaneLeft.SlimContentPage.LockPreviewPaneContent = false;
 			}
 
-			ActivePane = isLeftPane ? PaneLeft : PaneRight;
-
-			if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
+			var activePane = isLeftPane ? PaneLeft : PaneRight;
+			if (ActivePane != activePane)
 			{
-				page.PreviewPaneViewModel.IsItemSelected = false;
-				page.PreviewPaneViewModel.SelectedItem = null;
-				await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
+				ActivePane = activePane;
+
+				if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
+				{
+					page.PreviewPaneViewModel.IsItemSelected = false;
+					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
+				}
 			}
 		}
 
