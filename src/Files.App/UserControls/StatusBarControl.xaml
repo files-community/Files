@@ -246,8 +246,7 @@
 									Orientation="Horizontal">
 									<RadioButton
 										Content="{helpers:ResourceString Name=Locals}"
-										DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
-										IsChecked="{Binding ShowLocals, Mode=TwoWay}"
+										IsChecked="{x:Bind DirectoryPropertiesViewModel.ShowLocals, Mode=TwoWay}"
 										Style="{StaticResource Local.RadioButtonStyle}" />
 									<RadioButton Content="{helpers:ResourceString Name=Remotes}" Style="{StaticResource Local.RadioButtonStyle}" />
 								</StackPanel>
@@ -270,11 +269,10 @@
 								Grid.Row="1"
 								Padding="4"
 								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-								DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
 								IsItemClickEnabled="True"
 								ItemClick="BranchesList_ItemClick"
 								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
-								SelectedIndex="{Binding SelectedBranchIndex, Mode=TwoWay}"
+								SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
 								SelectionMode="Single" />
 						</Grid>
 					</Flyout>
