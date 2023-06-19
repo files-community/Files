@@ -97,6 +97,8 @@ namespace Files.App.Commands
 		RotateRight,
 
 		// Open
+		OpenInVS,
+		OpenInVSCode,
 		OpenProperties,
 		OpenSettings,
 		OpenTerminal,

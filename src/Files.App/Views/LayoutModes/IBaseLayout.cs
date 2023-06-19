@@ -13,22 +13,27 @@ namespace Files.App.Views.LayoutModes
 
 		bool IsMiddleClickToScrollEnabled { get; set; }
 
-		public List<ListedItem>? SelectedItems { get; }
+		/// <summary>
+		/// If true, the preview pane is not updated when the selected item is changed.
+		/// </summary>
+		bool LockPreviewPaneContent { get; set; }
 
-		public ListedItem? SelectedItem { get; }
+		List<ListedItem>? SelectedItems { get; }
+
+		ListedItem? SelectedItem { get; }
 
 		ItemManipulationModel ItemManipulationModel { get; }
 
 		PreviewPaneViewModel PreviewPaneViewModel { get; }
 
-		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-		public BaseLayoutCommandsViewModel? CommandsViewModel { get; }
+		BaseLayoutCommandsViewModel? CommandsViewModel { get; }
 
-		public CommandBarFlyout ItemContextMenuFlyout { get; set; }
+		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 
-		public CommandBarFlyout BaseContextMenuFlyout { get; set; }
+		CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
 }

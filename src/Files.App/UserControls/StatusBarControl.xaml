@@ -145,6 +145,44 @@
 			Orientation="Horizontal"
 			Spacing="4">
 
+			<!--  Open in VS Code Button  -->
+			<Button
+				x:Name="OpenInVSCodeButton"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind Commands.OpenInVSCode}"
+				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
+			<!--  Open in VS Button  -->
+			<Button
+				x:Name="OpenInVSButton"
+				Height="24"
+				Padding="8,0,8,0"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				Command="{x:Bind Commands.OpenInVS}"
+				ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}">
+				<Button.Content>
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<TextBlock Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
+					</StackPanel>
+				</Button.Content>
+			</Button>
+
 			<Button
 				x:Name="GitNetworkActions"
 				Height="24"

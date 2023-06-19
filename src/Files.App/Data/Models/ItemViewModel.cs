@@ -8,8 +8,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
-using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
+using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
@@ -74,6 +74,13 @@ namespace Files.App.Data.Models
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
+		}
+
+		private string? _SolutionFilePath;
+		public string? SolutionFilePath
+		{
+			get => _SolutionFilePath;
+			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
 		public CollectionViewSource viewSource;
@@ -539,12 +546,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -1418,9 +1431,9 @@ namespace Files.App.Data.Models
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
-			if (addFilesCTS.IsCancellationRequested)
+			if (IsLoadingCancelled)
 			{
-				addFilesCTS = new CancellationTokenSource();
+				IsLoadingCancelled = false;
 				IsLoadingItems = false;
 				return;
 			}
@@ -1726,6 +1739,8 @@ namespace Files.App.Data.Models
 						}, defaultIconPairs: DefaultIcons);
 
 						filesAndFolders.AddRange(fileList);
+
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
@@ -1761,6 +1776,20 @@ namespace Files.App.Data.Models
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			}, cancellationToken);
+		}
+
+		private void CheckForSolutionFile()
+		{
+			for (int i = 0; i < filesAndFolders.Count; i++)
+			{
+				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
+				{
+					SolutionFilePath = filesAndFolders[i].ItemPath;
+					return;
+				}
+			}
+
+			SolutionFilePath = null;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
