@@ -116,7 +116,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					DisposeCallback = ftpClient.Dispose
 				};
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options) => OpenAsync(accessMode);
 
@@ -133,7 +133,7 @@ namespace Files.App.Filesystem.StorageItems
 				var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
 				var nsStream = new NonSeekableRandomAccessStreamForRead(inStream, (ulong)inStream.Length) { DisposeCallback = ftpClient.Dispose };
 				return new StreamWithContentType(nsStream);
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
 		{
@@ -147,7 +147,7 @@ namespace Files.App.Filesystem.StorageItems
 
 				var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
 				return new InputStreamWithDisposeCallback(inStream) { DisposeCallback = () => ftpClient.Dispose() };
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync() => throw new NotSupportedException();
@@ -180,7 +180,7 @@ namespace Files.App.Filesystem.StorageItems
 					using var stream = await file.OpenStreamForWriteAsync();
 					return await ftpClient.DownloadStream(stream, FtpPath, token: cancellationToken) ? file : null;
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
@@ -209,7 +209,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					// TODO: handle name generation
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction DeleteAsync()
@@ -221,7 +221,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await ftpClient.DeleteFile(FtpPath, cancellationToken);
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
@@ -241,6 +241,28 @@ namespace Files.App.Filesystem.StorageItems
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
+		}
+
+		private IAsyncOperation<TOut> RetryWithCredentials<TOut>(IAsyncOperation<TOut> func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				return await func;
+			});
+		}
+
+		private IAsyncAction RetryWithCredentials(IAsyncAction func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				await func;
+			});
 		}
 
 		private async void FtpDataStreamingHandler(StreamedFileDataRequest request)

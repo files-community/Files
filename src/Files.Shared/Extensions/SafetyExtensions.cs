@@ -62,5 +62,35 @@ namespace Files.Shared.Extensions
 				return default;
 			}
 		}
+
+		public static async Task<TOut> Wrap<TOut>(Func<Task<TOut>> inputTask, Func<Task<TOut>, Exception, Task<(bool, TOut)>> onFailed)
+		{
+			try
+			{
+				return await inputTask();
+			}
+			catch (Exception ex)
+			{
+				var (handled, value) = await onFailed(inputTask(), ex);
+				if (!handled)
+					throw;
+				return value;
+			}
+		}
+
+		public static async Task Wrap(Func<Task> inputTask, Func<Task, Exception, (bool, Task)> onFailed)
+		{
+			try
+			{
+				await inputTask();
+			}
+			catch (Exception ex)
+			{
+				var (handled, task) = onFailed(inputTask(), ex);
+				if (!handled)
+					throw;
+				await task;
+			}
+		}
 	}
 }

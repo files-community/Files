@@ -139,7 +139,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				throw new NotSupportedException("Can't open zip file as RW");
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
@@ -180,7 +180,7 @@ namespace Files.App.Filesystem.StorageItems
 					DisposeCallback = () => zipFile.Dispose()
 				};
 				return new StreamWithContentType(nsStream);
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
@@ -217,7 +217,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
@@ -263,7 +263,7 @@ namespace Files.App.Filesystem.StorageItems
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 					return destFile;
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
@@ -286,7 +286,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
@@ -340,7 +340,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
@@ -387,7 +387,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
@@ -483,6 +483,28 @@ namespace Files.App.Filesystem.StorageItems
 					}
 					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
+			});
+		}
+
+		private IAsyncOperation<TOut> RetryWithCredentials<TOut>(IAsyncOperation<TOut> func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				return await func;
+			});
+		}
+
+		private IAsyncAction RetryWithCredentials(IAsyncAction func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				await func;
 			});
 		}
 

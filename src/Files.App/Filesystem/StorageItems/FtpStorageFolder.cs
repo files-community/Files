@@ -106,7 +106,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 				}
 				return null;
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
@@ -146,7 +146,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -216,7 +216,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				throw new IOException($"Failed to create file {remotePath}.");
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName)
@@ -245,7 +245,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}")) { Credentials = Credentials };
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction RenameAsync(string desiredName)
@@ -267,7 +267,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					// TODO: handle name generation
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 
 		public override IAsyncAction DeleteAsync()
@@ -279,7 +279,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await ftpClient.DeleteDirectory(FtpPath, cancellationToken);
 				}
-			});
+			}).Wrap(RetryWithCredentials);
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
@@ -314,6 +314,28 @@ namespace Files.App.Filesystem.StorageItems
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
+		}
+
+		private IAsyncOperation<TOut> RetryWithCredentials<TOut>(IAsyncOperation<TOut> func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				return await func;
+			});
+		}
+
+		private IAsyncAction RetryWithCredentials(IAsyncAction func, Exception exception)
+		{
+			return AsyncInfo.Run(async (cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<StorageCredential>();
+				PasswordRequested?.Invoke(this, tcs);
+				Credentials = await tcs.Task;
+				await func;
+			});
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties
