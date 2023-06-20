@@ -34,7 +34,7 @@ namespace Files.App.Views.Properties
 
 		private void CopyHashButton_Click(object sender, RoutedEventArgs e)
 		{
-			var item = (Backend.Models.HashInfoItem)(((Button)sender).DataContext);
+			var item = (HashInfoItem)(((Button)sender).DataContext);
 
 			var dp = new Windows.ApplicationModel.DataTransfer.DataPackage();
 			dp.SetText(item.HashValue);

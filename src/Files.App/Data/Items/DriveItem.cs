@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using ByteSizeLib;
-using CommunityToolkit.WinUI;
 using Files.App.Storage.WindowsStorage;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Enums;
@@ -11,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {

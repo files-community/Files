@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Enums;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Dialogs
 {

@@ -1,15 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Shared.Utils;
-using System;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 {
@@ -17,36 +9,42 @@ namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
 	{
 		private readonly Func<string, Task> _openAction;
 
-		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+		private readonly IFileTagsService _fileTagsService;
 
-		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly IFileTagsSettingsService _fileTagsSettingsService;
 
 		public ObservableCollection<FileTagsContainerViewModel> Containers { get; }
 
 		public FileTagsWidgetViewModel(Func<string, Task> openAction)
 		{
+			// Dependency injection
+			_fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
+			_fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
 			_openAction = openAction;
 			Containers = new();
 
-			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+			_fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
 		}
 
 		private async void FileTagsSettingsService_OnTagsUpdated(object? _, EventArgs e)
 		{
 			Containers.Clear();
+
 			await InitAsync();
 		}
 
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in FileTagsService.GetTagsAsync(cancellationToken))
+			await foreach (var item in _fileTagsService.GetTagsAsync(cancellationToken))
 			{
 				var container = new FileTagsContainerViewModel(item.Uid, _openAction)
 				{
 					Name = item.Name,
 					Color = item.Color
 				};
+
 				Containers.Add(container);
 
 				_ = container.InitAsync(cancellationToken);

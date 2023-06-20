@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Sdk.Storage.LocatableStorage;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Files.Backend.Services
 {

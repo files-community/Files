@@ -4,7 +4,7 @@
 using Files.Sdk.Storage.LocatableStorage;
 using System;
 
-namespace Files.Backend.Models
+namespace Files.Backend.Data.Models
 {
 	/// <summary>
 	/// Represents a storage device watcher

@@ -1,10 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-
-namespace Files.Backend.Enums
+namespace Files.Backend.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify item type of the file system on Windows.
+	/// </summary>
 	public enum FilesystemItemType : byte
 	{
 		/// <summary>
