@@ -7,7 +7,9 @@ using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using static Microsoft.UI.Xaml.Application;
 
 namespace Files.App.Helpers
 {
@@ -271,15 +273,30 @@ namespace Files.App.Helpers
 			var redirectLink = new HyperlinkButton()
 			{
 				Content = url,
-				NavigateUri = new Uri(url),
-				HorizontalAlignment = HorizontalAlignment.Center
+				HorizontalAlignment = HorizontalAlignment.Center,
+				NavigateUri = new Uri(url)
 			};
 			var userCodeTextBlock = new TextBlock()
 			{
-				Text = userCode,
-				FontWeight = FontWeights.Bold,
 				FontSize = 20.0d,
-				HorizontalAlignment = HorizontalAlignment.Center
+				FontWeight = FontWeights.Bold,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				Text = userCode
+			};
+			var copyCodeButton = new Button()
+			{
+				Content = "Copy".GetLocalizedResource(),
+				HorizontalAlignment = HorizontalAlignment.Right,
+				Style = (Style)Current.Resources["AccentButtonStyle"]
+			};
+
+			copyCodeButton.Click += (s, e) =>
+			{
+				var data = new DataPackage();
+				data.SetText(userCode);
+
+				Clipboard.SetContent(data);
+				Clipboard.Flush();
 			};
 
 			return new DynamicDialog(new DynamicDialogViewModel()
@@ -293,7 +310,14 @@ namespace Files.App.Helpers
 					Children =
 					{
 						redirectLink,
-						userCodeTextBlock
+						new Grid()
+						{
+							Children =
+							{
+								userCodeTextBlock,
+								copyCodeButton
+							}
+						}
 					}
 				},
 				DynamicButtons = DynamicDialogButtons.Primary,

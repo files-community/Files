@@ -361,7 +361,7 @@ namespace Files.App.Helpers
 			var client = new HttpClient();
 			client.DefaultRequestHeaders.Add("Accept", "application/json");
 			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
-
+ 
 			var codeResponse = await client.PostAsync(
 				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo", 
 				new StringContent(""));
@@ -391,6 +391,12 @@ namespace Files.App.Helpers
 					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code", 
 					new StringContent(""));
 
+				if (!loginResponse.IsSuccessStatusCode)
+				{
+					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+					return;
+				}
+
 				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
 				if (loginJsonContent is null)
 				{
@@ -398,16 +404,10 @@ namespace Files.App.Helpers
 					return;
 				}
 
-				if (!loginResponse.IsSuccessStatusCode)
+				if (loginJsonContent.RootElement.GetProperty("error").GetString() == "authorization_pending")
 				{
-					if (loginJsonContent.RootElement.GetProperty("error").GetString() == "authorization_pending")
-					{
-						await Task.Delay(TimeSpan.FromSeconds(interval));
-						continue;
-					}
-
-					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-					return;
+					await Task.Delay(TimeSpan.FromSeconds(interval));
+					continue;
 				}
 
 				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
