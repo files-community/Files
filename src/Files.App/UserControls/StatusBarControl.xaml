@@ -188,7 +188,6 @@
 			<!--  Pull Button  -->
 			<Button
 				x:Name="GitPullButton"
-				Grid.Column="2"
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
