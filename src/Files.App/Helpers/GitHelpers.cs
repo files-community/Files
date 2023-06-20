@@ -354,14 +354,11 @@ namespace Files.App.Helpers
 
 		public static async Task RequireGitAuthentication()
 		{
-			string userCode;
-			string deviceCode;
-			int interval;
 			var pending = true;
 			var client = new HttpClient();
 			client.DefaultRequestHeaders.Add("Accept", "application/json");
 			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
- 
+
 			var codeResponse = await client.PostAsync(
 				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo", 
 				new StringContent(""));
@@ -379,17 +376,20 @@ namespace Files.App.Helpers
 				return;
 			}
 
-			userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
-			deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
-			interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
+			string userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
+			string deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
+			int interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
+			int expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32(); 
 
-			await DynamicDialogFactory.GetFor_GitLogin(userCode).TryShowAsync();
+			await DynamicDialogFactory.GetFor_GitLogin(userCode).TryShowAsync();			
 
-			while (pending)
+			while (pending && expiresIn > 0)
 			{
 				var loginResponse = await client.PostAsync(
 					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code", 
 					new StringContent(""));
+
+				expiresIn -= interval;
 
 				if (!loginResponse.IsSuccessStatusCode)
 				{

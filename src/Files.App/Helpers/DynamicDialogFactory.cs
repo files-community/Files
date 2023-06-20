@@ -3,18 +3,21 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
-using static Microsoft.UI.Xaml.Application;
 
 namespace Files.App.Helpers
 {
 	public static class DynamicDialogFactory
 	{
+		public static readonly SolidColorBrush _transparentBrush = new SolidColorBrush(Colors.Transparent);
+
 		public static DynamicDialog GetFor_PropertySaveErrorDialog()
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -278,16 +281,24 @@ namespace Files.App.Helpers
 			};
 			var userCodeTextBlock = new TextBlock()
 			{
-				FontSize = 20.0d,
+				FontSize = 20d,
 				FontWeight = FontWeights.Bold,
 				HorizontalAlignment = HorizontalAlignment.Center,
-				Text = userCode
+				Text = userCode,
+				Margin = new Thickness(0d, 4d, 0d, 4d)
 			};
 			var copyCodeButton = new Button()
 			{
-				Content = "Copy".GetLocalizedResource(),
+				Background = _transparentBrush,
+				BorderBrush = _transparentBrush,
+				Content = new FontIcon()
+				{
+					Glyph = "\uE8C8",
+					FontSize = 20d
+				},
 				HorizontalAlignment = HorizontalAlignment.Right,
-				Style = (Style)Current.Resources["AccentButtonStyle"]
+				VerticalAlignment = VerticalAlignment.Stretch,
+				Padding = new Thickness(4d)
 			};
 
 			copyCodeButton.Click += (s, e) =>
@@ -310,8 +321,11 @@ namespace Files.App.Helpers
 					Children =
 					{
 						redirectLink,
-						new Grid()
+						new StackPanel()
 						{
+							Orientation = Orientation.Horizontal,
+							HorizontalAlignment = HorizontalAlignment.Center,
+							Spacing = 8d,
 							Children =
 							{
 								userCodeTextBlock,
