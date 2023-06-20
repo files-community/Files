@@ -14,6 +14,7 @@
 
 	<UserControl.Resources>
 		<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+		<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 
 		<Style x:Key="Local.RadioButtonStyle" TargetType="RadioButton">
 			<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -100,9 +101,10 @@
 		</Style>
 	</UserControl.Resources>
 
-	<Grid Padding="8,0" ColumnSpacing="8">
+	<Grid Padding="8,0" ColumnSpacing="4">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 		<StackPanel
@@ -201,85 +203,86 @@
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
 				</StackPanel>
 			</Button>
-
-			<Button
-				x:Name="GitBranch"
-				Height="24"
-				Padding="8,0,8,0"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}">
-
-				<Button.Content>
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
-
-						<!--  Branch Name  -->
-						<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
-					</StackPanel>
-				</Button.Content>
-
-				<Button.Flyout>
-					<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
-						<Grid
-							Width="300"
-							Height="340"
-							Margin="-16">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
-							</Grid.RowDefinitions>
-
-							<!--  Header  -->
-							<Grid
-								Grid.Row="0"
-								Padding="4,8,8,8"
-								Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-								BorderThickness="0,0,0,1">
-
-								<!--  Locals and Remotes  -->
-								<StackPanel
-									Grid.Row="1"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Orientation="Horizontal">
-									<RadioButton
-										Content="{helpers:ResourceString Name=Locals}"
-										DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
-										IsChecked="{Binding ShowLocals, Mode=TwoWay}"
-										Style="{StaticResource Local.RadioButtonStyle}" />
-									<RadioButton Content="{helpers:ResourceString Name=Remotes}" Style="{StaticResource Local.RadioButtonStyle}" />
-								</StackPanel>
-
-								<!--  New Branch Button  -->
-								<Button
-									x:Name="NewBranchButton"
-									Height="24"
-									Padding="8,0"
-									HorizontalAlignment="Right"
-									Command="{x:Bind DirectoryPropertiesViewModel.NewBranchCommand, Mode=OneWay}"
-									Content="{helpers:ResourceString Name=CreateBranch}"
-									FontSize="12"
-									ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}" />
-							</Grid>
-
-							<!--  Branches List  -->
-							<ListView
-								x:Name="BranchesList"
-								Grid.Row="1"
-								Padding="4"
-								Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-								DataContext="{x:Bind DirectoryPropertiesViewModel, Mode=OneWay}"
-								IsItemClickEnabled="True"
-								ItemClick="BranchesList_ItemClick"
-								ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
-								SelectedIndex="{Binding SelectedBranchIndex, Mode=TwoWay}"
-								SelectionMode="Single" />
-						</Grid>
-					</Flyout>
-				</Button.Flyout>
-			</Button>
 		</StackPanel>
+
+		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
+		<Button
+			x:Name="GitBranch"
+			Grid.Column="2"
+			Height="24"
+			Padding="8,0,8,0"
+			Background="Transparent"
+			BorderBrush="Transparent"
+			ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}"
+			Visibility="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}}">
+
+			<Button.Content>
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
+
+					<!--  Branch Name  -->
+					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+				</StackPanel>
+			</Button.Content>
+
+			<Button.Flyout>
+				<Flyout x:Name="BranchesFlyout" Opening="BranchesFlyout_Opening">
+					<Grid
+						Width="300"
+						Height="340"
+						Margin="-16">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<!--  Header  -->
+						<Grid
+							Grid.Row="0"
+							Padding="4,8,8,8"
+							Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="0,0,0,1">
+
+							<!--  Locals and Remotes  -->
+							<StackPanel
+								Grid.Row="1"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Orientation="Horizontal">
+								<RadioButton
+									Content="{helpers:ResourceString Name=Locals}"
+									IsChecked="{x:Bind DirectoryPropertiesViewModel.ShowLocals, Mode=TwoWay}"
+									Style="{StaticResource Local.RadioButtonStyle}" />
+								<RadioButton Content="{helpers:ResourceString Name=Remotes}" Style="{StaticResource Local.RadioButtonStyle}" />
+							</StackPanel>
+
+							<!--  New Branch Button  -->
+							<Button
+								x:Name="NewBranchButton"
+								Height="24"
+								Padding="8,0"
+								HorizontalAlignment="Right"
+								Command="{x:Bind DirectoryPropertiesViewModel.NewBranchCommand, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=CreateBranch}"
+								FontSize="12"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=CreateBranch}" />
+						</Grid>
+
+						<!--  Branches List  -->
+						<ListView
+							x:Name="BranchesList"
+							Grid.Row="1"
+							Padding="4"
+							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+							IsItemClickEnabled="True"
+							ItemClick="BranchesList_ItemClick"
+							ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
+							SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
+							SelectionMode="Single" />
+					</Grid>
+				</Flyout>
+			</Button.Flyout>
+		</Button>
 	</Grid>
 </UserControl>

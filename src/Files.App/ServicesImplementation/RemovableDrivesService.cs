@@ -7,8 +7,6 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Storage.WindowsStorage;
-using Files.Backend.Models;
-using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;

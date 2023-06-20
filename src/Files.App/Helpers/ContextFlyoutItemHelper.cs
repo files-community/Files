@@ -509,7 +509,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "Archive".GetLocalizedResource(),
+					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
 					OpacityIcon = new OpacityIconModel()
 					{
@@ -517,37 +517,27 @@ namespace Files.App.Helpers
 					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModel
-						{
-							ShowItem = canDecompress && canCompress,
-							ItemType = ContextMenuFlyoutItemType.Separator,
-						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && ArchiveHelpers.CanCompress(selectedItems)
+				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "Extract".GetLocalizedResource(),
+					ShowInSearchPage = true,
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconZip",
+					},
+					Items = new List<ContextMenuFlyoutItemViewModel>
+					{
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
+					},
+					ShowItem = ArchiveHelpers.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

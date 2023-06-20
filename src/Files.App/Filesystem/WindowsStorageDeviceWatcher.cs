@@ -4,7 +4,6 @@
 using Files.App.Data.Items;
 using Files.App.Helpers;
 using Files.App.Helpers.MMI;
-using Files.Backend.Models;
 using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System;
