@@ -37,7 +37,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand($"start {_context.SolutionFilePath}", false);
+			Win32API.RunPowershellCommand($"start \'{_context.SolutionFilePath}\'", false);
 
 			return Task.CompletedTask;
 		}
