@@ -9,11 +9,9 @@ using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Windows.Storage;
 
 namespace Files.App.Helpers
 {
@@ -412,12 +410,16 @@ namespace Files.App.Helpers
 					return;
 				}
 
+				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
+				if (token is null)
+					continue;
+
 				pending = false;
 
 				CredentialsHelpers.SavePassword(
 					GIT_RESOURCE_NAME,
 					GIT_RESOURCE_USERNAME,
-					loginJsonContent.RootElement.GetProperty("access_token").GetRawText());
+					token);
 			}
 		}
 
