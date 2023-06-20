@@ -36,7 +36,7 @@ global using global::Files.App.Views;
 global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;
 
-// Files.Backend
+// Files.Core
 global using global::Files.Core.CommandLine;
 global using global::Files.Core.Data.Enums;
 global using global::Files.Core.Data.Messages;
@@ -45,7 +45,7 @@ global using global::Files.Core.Extensions;
 global using global::Files.Core.Helpers;
 global using global::Files.Core.Services;
 global using global::Files.Core.Services.Settings;
-//global using global::Files.Backend.Services.SizeProvider;
+//global using global::Files.Core.Services.SizeProvider;
 global using global::Files.Core.ViewModels;
 global using global::Files.Core.ViewModels.Dialogs;
 global using global::Files.Core.ViewModels.Dialogs.AddItemDialog;
@@ -57,8 +57,3 @@ global using global::Files.Core.ViewModels.Widgets;
 global using global::Files.Shared;
 global using global::Files.Shared.Enums;
 global using global::Files.Shared.Extensions;
-
-// Files Back-end
-
-// Vanara
-//global using global::Vanara.PInvoke;
