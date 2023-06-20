@@ -521,7 +521,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = ArchiveHelpers.CanCompress(selectedItems)
+					ShowItem = itemsSelected && ArchiveHelpers.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
