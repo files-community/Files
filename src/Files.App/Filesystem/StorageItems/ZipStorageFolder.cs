@@ -6,6 +6,7 @@ using Files.App.Helpers;
 using Files.Backend.Helpers;
 using Files.Shared.Extensions;
 using SevenZip;
+using SQLitePCL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -178,7 +179,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
 		{
-			return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IStorageItem>(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
@@ -201,7 +202,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				return new ZipStorageFile(filePath, containerPath, entry, backingFile) { Credentials = Credentials };
-			}).Wrap(RetryWithCredentials);
+			}, RetryWithCredentials));
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
@@ -219,7 +220,7 @@ namespace Files.App.Filesystem.StorageItems
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
-			return AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IReadOnlyList<IStorageItem>>(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
@@ -252,7 +253,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 				}
 				return items;
-			}).Wrap(RetryWithCredentials);
+			}, RetryWithCredentials));
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -294,7 +295,7 @@ namespace Files.App.Filesystem.StorageItems
 			=> CreateFolderAsync(desiredName, CreationCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
 		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
 			{
 				var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
 				var item = await GetItemAsync(desiredName);
@@ -326,13 +327,13 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				return new ZipStorageFolder(zipDesiredName, containerPath, backingFile) { Credentials = Credentials };
-			}).Wrap(RetryWithCredentials);
+			}, RetryWithCredentials));
 		}
 
 		public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -374,13 +375,13 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}).Wrap(RetryWithCredentials);
+			}, RetryWithCredentials));
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -422,7 +423,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}).Wrap(RetryWithCredentials);
+			}, RetryWithCredentials));
 		}
 
 		public override bool AreQueryOptionsSupported(QueryOptions queryOptions) => false;
@@ -639,28 +640,29 @@ namespace Files.App.Filesystem.StorageItems
 			}, RetryWithCredentials));
 		}
 
-		private async Task<(bool, TOut)> RetryWithCredentials<TOut>(Task<TOut> func, Exception exception)
+		private async Task<TOut> RetryWithCredentials<TOut>(Task<TOut> func, Exception exception)
 		{
-			if (exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
-				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword)
-			{
-				var tcs = new TaskCompletionSource<StorageCredential>();
-				PasswordRequested?.Invoke(this, tcs);
-				Credentials = await tcs.Task;
-				return (true, await func);
-			}
-			return (false, default);
-		}
+			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
+				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
+			if (!handled)
+				throw exception;
 
-		private IAsyncAction RetryWithCredentials(IAsyncAction func, Exception exception)
+			var tcs = new TaskCompletionSource<StorageCredential>();
+			PasswordRequested?.Invoke(this, tcs);
+			Credentials = await tcs.Task;
+			return await func;
+		}
+		private async Task RetryWithCredentials(Task func, Exception exception)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
-			{
-				var tcs = new TaskCompletionSource<StorageCredential>();
-				PasswordRequested?.Invoke(this, tcs);
-				Credentials = await tcs.Task;
-				await func;
-			});
+			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
+				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
+			if (!handled)
+				throw exception;
+
+			var tcs = new TaskCompletionSource<StorageCredential>();
+			PasswordRequested?.Invoke(this, tcs);
+			Credentials = await tcs.Task;
+			await func;
 		}
 
 		private class ZipFolderBasicProperties : BaseBasicProperties

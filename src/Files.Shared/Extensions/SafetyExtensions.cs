@@ -63,7 +63,7 @@ namespace Files.Shared.Extensions
 			}
 		}
 
-		public static async Task<TOut> Wrap<TOut>(Func<Task<TOut>> inputTask, Func<Task<TOut>, Exception, Task<(bool, TOut)>> onFailed)
+		public static async Task<TOut> Wrap<TOut>(Func<Task<TOut>> inputTask, Func<Task<TOut>, Exception, Task<TOut>> onFailed)
 		{
 			try
 			{
@@ -71,14 +71,11 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				var (handled, value) = await onFailed(inputTask(), ex);
-				if (!handled)
-					throw;
-				return value;
+				return await onFailed(inputTask(), ex);
 			}
 		}
 
-		public static async Task Wrap(Func<Task> inputTask, Func<Task, Exception, (bool, Task)> onFailed)
+		public static async Task Wrap(Func<Task> inputTask, Func<Task, Exception, Task> onFailed)
 		{
 			try
 			{
@@ -86,10 +83,7 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				var (handled, task) = onFailed(inputTask(), ex);
-				if (!handled)
-					throw;
-				await task;
+				await onFailed(inputTask(), ex);
 			}
 		}
 	}
