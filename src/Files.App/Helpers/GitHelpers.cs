@@ -245,7 +245,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async void PullOrigin(string? repositoryPath)
+		public static async Task PullOrigin(string? repositoryPath)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -277,17 +277,24 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogWarning(ex.Message);
-
-				var viewModel = new DynamicDialogViewModel()
+				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase))
 				{
-					TitleText = "GitError".GetLocalizedResource(),
-					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
-					CloseButtonText = "Close".GetLocalizedResource(),
-					DynamicButtons = DynamicDialogButtons.Cancel
-				};
-				var dialog = new DynamicDialog(viewModel);
-				await dialog.TryShowAsync();
+					await RequireGitAuthentication();
+				}
+				else
+				{
+					_logger.LogWarning(ex.Message);
+
+					var viewModel = new DynamicDialogViewModel()
+					{
+						TitleText = "GitError".GetLocalizedResource(),
+						SubtitleText = "PullTimeoutError".GetLocalizedResource(),
+						CloseButtonText = "Close".GetLocalizedResource(),
+						DynamicButtons = DynamicDialogButtons.Cancel
+					};
+					var dialog = new DynamicDialog(viewModel);
+					await dialog.TryShowAsync();
+				}
 			}
 
 			IsExecutingGitAction = false;
@@ -338,8 +345,10 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogWarning(ex.Message);
-				await RequireGitAuthentication();
+				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase))
+					await RequireGitAuthentication();
+				else
+					_logger.LogWarning(ex.Message);
 			}
 
 			IsExecutingGitAction = false;
@@ -352,14 +361,13 @@ namespace Files.App.Helpers
 			int interval;
 			var pending = true;
 			var client = new HttpClient();
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+			client.DefaultRequestHeaders.Add("Accept", "application/json");
+			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
 
-			var codeRequestContent = new StringContent(
-				$"{{{JsonSerializer.Serialize(new GitRequireTokenParams(_clientId))}}}",
-				System.Text.Encoding.UTF8,
-				"application/json");
+			var codeResponse = await client.PostAsync(
+				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo", 
+				new StringContent(""));
 
-			var codeResponse = await client.PostAsync("https://github.com/login/device/code", codeRequestContent);
 			if (!codeResponse.IsSuccessStatusCode)
 			{
 				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
@@ -381,12 +389,9 @@ namespace Files.App.Helpers
 
 			while (pending)
 			{
-				var loginRequestContent = new StringContent(
-					$"{{{JsonSerializer.Serialize(new GitConfirmLoginParams(_clientId, deviceCode))}}}",
-					System.Text.Encoding.UTF8,
-					"application/json");
-
-				var loginResponse = await client.PostAsync("https://github.com/login/oauth/access_token", loginRequestContent);
+				var loginResponse = await client.PostAsync(
+					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code", 
+					new StringContent(""));
 
 				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
 				if (loginJsonContent is null)
