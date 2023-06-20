@@ -9,7 +9,7 @@ using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;

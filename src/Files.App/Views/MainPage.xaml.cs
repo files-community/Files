@@ -10,7 +10,7 @@ using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Backend.Extensions;
+using Files.Core.Extensions;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;

@@ -37,21 +37,21 @@ global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;
 
 // Files.Backend
-global using global::Files.Backend.CommandLine;
-global using global::Files.Backend.Data.Enums;
-global using global::Files.Backend.Data.Messages;
-global using global::Files.Backend.Data.Models;
-global using global::Files.Backend.Extensions;
-global using global::Files.Backend.Helpers;
-global using global::Files.Backend.Services;
-global using global::Files.Backend.Services.Settings;
+global using global::Files.Core.CommandLine;
+global using global::Files.Core.Data.Enums;
+global using global::Files.Core.Data.Messages;
+global using global::Files.Core.Data.Models;
+global using global::Files.Core.Extensions;
+global using global::Files.Core.Helpers;
+global using global::Files.Core.Services;
+global using global::Files.Core.Services.Settings;
 //global using global::Files.Backend.Services.SizeProvider;
-global using global::Files.Backend.ViewModels;
-global using global::Files.Backend.ViewModels.Dialogs;
-global using global::Files.Backend.ViewModels.Dialogs.AddItemDialog;
-global using global::Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-global using global::Files.Backend.ViewModels.FileTags;
-global using global::Files.Backend.ViewModels.Widgets;
+global using global::Files.Core.ViewModels;
+global using global::Files.Core.ViewModels.Dialogs;
+global using global::Files.Core.ViewModels.Dialogs.AddItemDialog;
+global using global::Files.Core.ViewModels.Dialogs.FileSystemDialog;
+global using global::Files.Core.ViewModels.FileTags;
+global using global::Files.Core.ViewModels.Widgets;
 
 // Files.Shared
 global using global::Files.Shared;

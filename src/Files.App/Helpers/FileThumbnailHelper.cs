@@ -4,7 +4,7 @@
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Shell;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;

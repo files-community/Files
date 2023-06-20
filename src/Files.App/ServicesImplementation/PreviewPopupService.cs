@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ServicesImplementation.PreviewPopupProviders;
-using Files.Backend.Services;
+using Files.Core.Services;
 
 namespace Files.App.ServicesImplementation
 {

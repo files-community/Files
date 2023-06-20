@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.Helpers;
-using Files.Backend.Services;
+using Files.Core.Services;
 using Files.Shared;
 using Microsoft.Extensions.Logging;
 using System;

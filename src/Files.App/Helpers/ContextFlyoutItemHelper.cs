@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
+using Files.Core.Helpers;
+using Files.Core.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
