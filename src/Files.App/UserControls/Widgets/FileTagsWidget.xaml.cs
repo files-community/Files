@@ -114,7 +114,8 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			var showSendTo = userSettingsService.GeneralSettingsService.ShowSendToMenu;
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: showSendTo);
 			e.Handled = true;
 		}
 
@@ -136,7 +137,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder
+					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

@@ -49,6 +49,8 @@ namespace Files.App.UserControls.Widgets
 
 		private CancellationTokenSource refreshRecentsCTS;
 
+		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public string WidgetName => nameof(RecentFilesWidget);
 
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -157,6 +159,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
+					ShowItem = userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
