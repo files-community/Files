@@ -807,7 +807,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Add items to sendto dropdown
-			if (!UserSettingsService.GeneralSettingsService.ShowSendToMenu)
+			if (UserSettingsService.GeneralSettingsService.ShowSendToMenu)
 			{
 				var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
 
