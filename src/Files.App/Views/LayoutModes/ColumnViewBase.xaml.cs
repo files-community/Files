@@ -137,6 +137,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
 		}
@@ -499,7 +500,9 @@ namespace Files.App.Views.LayoutModes
 
 		internal void ClearSelectionIndicator()
 		{
+			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
+			LockPreviewPaneContent = false;
 		}
 	}
 }

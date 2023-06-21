@@ -308,22 +308,36 @@ namespace Files.App.Helpers
 				}
 			}
 
-			string? changeKindHumanized = "";
+			string? changeKindSymbol = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
-				changeKindHumanized = changeKind switch
+				changeKindSymbol = changeKind switch
 				{
 					ChangeKind.Added => "A",
 					ChangeKind.Deleted => "D",
 					ChangeKind.Modified => "M",
 					ChangeKind.Untracked => "U",
-					_ => "",
+					_ => null,
+				};
+			}
+
+			string? changeKindHumanized = null;
+			if (changeKind is not ChangeKind.Ignored)
+			{
+				changeKindHumanized = changeKind switch
+				{
+					ChangeKind.Added => "Added".GetLocalizedResource(),
+					ChangeKind.Deleted => "Deleted".GetLocalizedResource(),
+					ChangeKind.Modified => "Modified".GetLocalizedResource(),
+					ChangeKind.Untracked => "Untracked".GetLocalizedResource(),
+					_ => null,
 				};
 			}
 
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
+				StatusSymbol = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,

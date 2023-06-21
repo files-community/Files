@@ -8,8 +8,8 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
-using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
+using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Files.Backend.Services.SizeProvider;
 using Files.Backend.ViewModels.Dialogs;
@@ -74,6 +74,13 @@ namespace Files.App.Data.Models
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
+		}
+
+		private string? _SolutionFilePath;
+		public string? SolutionFilePath
+		{
+			get => _SolutionFilePath;
+			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
 		public CollectionViewSource viewSource;
@@ -533,12 +540,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -1201,11 +1214,13 @@ namespace Files.App.Data.Models
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
+									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusSymbol;
+									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
 									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
 									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
 									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
 
 									repo.Dispose();
 								},
@@ -1359,8 +1374,6 @@ namespace Files.App.Data.Models
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			await GetDefaultItemIcons(folderSettings.GetIconSize());
-
 			var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 			var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
 
@@ -1403,9 +1416,11 @@ namespace Files.App.Data.Models
 					break;
 			}
 
-			if (addFilesCTS.IsCancellationRequested)
+			await GetDefaultItemIcons(folderSettings.GetIconSize());
+
+			if (IsLoadingCancelled)
 			{
-				addFilesCTS = new CancellationTokenSource();
+				IsLoadingCancelled = false;
 				IsLoadingItems = false;
 				return;
 			}
@@ -1618,6 +1633,8 @@ namespace Files.App.Data.Models
 						}, defaultIconPairs: DefaultIcons);
 
 						filesAndFolders.AddRange(fileList);
+
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
@@ -1694,6 +1711,20 @@ namespace Files.App.Data.Models
 			}
 
 			e.TrySetResult(credentials);
+		}
+
+		private void CheckForSolutionFile()
+		{
+			for (int i = 0; i < filesAndFolders.Count; i++)
+			{
+				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
+				{
+					SolutionFilePath = filesAndFolders[i].ItemPath;
+					return;
+				}
+			}
+
+			SolutionFilePath = null;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)

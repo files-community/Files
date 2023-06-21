@@ -1,12 +1,14 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
 namespace Files.Backend.Helpers
 {
+	/// <summary>
+	/// Provides a bunch of Win32API for native find storage items.
+	/// </summary>
 	public class NativeFindStorageItemHelper
 	{
 		[StructLayout(LayoutKind.Sequential)]
@@ -23,7 +25,7 @@ namespace Files.Backend.Helpers
 
 			public SYSTEMTIME(DateTime dt)
 			{
-				dt = dt.ToUniversalTime();  // SetSystemTime expects the SYSTEMTIME in UTC
+				dt = dt.ToUniversalTime(); // SetSystemTime expects the SYSTEMTIME in UTC
 				Year = (short)dt.Year;
 				Month = (short)dt.Month;
 				DayOfWeek = (short)dt.DayOfWeek;
@@ -34,7 +36,10 @@ namespace Files.Backend.Helpers
 				Milliseconds = (short)dt.Millisecond;
 			}
 
-			public DateTime ToDateTime() => new(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
+			public DateTime ToDateTime()
+			{
+				return new(Year, Month, Day, Hour, Minute, Second, Milliseconds, DateTimeKind.Utc);
+			}
 		}
 
 		public enum FINDEX_INFO_LEVELS
@@ -54,9 +59,11 @@ namespace Files.Backend.Helpers
 		public struct WIN32_FIND_DATA
 		{
 			public uint dwFileAttributes;
+			
 			public FILETIME ftCreationTime;
 			public FILETIME ftLastAccessTime;
 			public FILETIME ftLastWriteTime;
+
 			public uint nFileSizeHigh;
 			public uint nFileSizeLow;
 			public uint dwReserved0;
@@ -82,25 +89,42 @@ namespace Files.Backend.Helpers
 		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
-		public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+		public static extern bool FindNextFile(
+			IntPtr hFindFile,
+			out WIN32_FIND_DATA lpFindFileData);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
-		public static extern bool FindClose(IntPtr hFindFile);
+		public static extern bool FindClose(
+			IntPtr hFindFile);
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
-		public static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
+		public static extern bool FileTimeToSystemTime(
+			ref FILETIME lpFileTime,
+			out SYSTEMTIME lpSystemTime);
 
-		public static bool GetWin32FindDataForPath(string targetPath, out WIN32_FIND_DATA findData)
+		public static bool GetWin32FindDataForPath(
+			string targetPath,
+			out WIN32_FIND_DATA findData)
 		{
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+
 			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-			IntPtr hFile = FindFirstFileExFromApp(targetPath, findInfoLevel, out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+			IntPtr hFile = FindFirstFileExFromApp(
+				targetPath,
+				findInfoLevel,
+				out findData,
+				FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
+			
 			if (hFile.ToInt64() != -1)
 			{
 				FindClose(hFile);
+
 				return true;
 			}
+
 			return false;
 		}
 	}

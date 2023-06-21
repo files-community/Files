@@ -211,4 +211,31 @@ namespace Files.App.Converters
 			return string.Empty;
 		}
 	}
+
+	internal sealed class NullToVisibilityCollapsedConverter : ValueConverter<object?, Visibility>
+	{
+		/// <summary>
+		/// Converts a source value to the target type.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="parameter"></param>
+		/// <param name="language"></param>
+		/// <returns></returns>
+		protected override Visibility Convert(object? value, object? parameter, string? language)
+		{
+			return value is null ? Visibility.Collapsed : Visibility.Visible;
+		}
+
+		/// <summary>
+		/// Converts a target value back to the source type.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <param name="parameter"></param>
+		/// <param name="language"></param>
+		/// <returns></returns>
+		protected override object? ConvertBack(Visibility value, object? parameter, string? language)
+		{
+			return new NotSupportedException();
+		}
+	}
 }

@@ -1,52 +1,50 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-
 namespace Files.Backend.ViewModels.FileTags
 {
 	public class ListedTagViewModel : ObservableObject
 	{
-		private TagViewModel tag;
+		private TagViewModel _Tag;
 		public TagViewModel Tag
 		{
-			get => tag;
-			set => SetProperty(ref tag, value);
+			get => _Tag;
+			set => SetProperty(ref _Tag, value);
 		}
 
-		private bool isEditing;
+		private bool _IsEditing;
 		public bool IsEditing
 		{
-			get => isEditing;
-			set => SetProperty(ref isEditing, value);
+			get => _IsEditing;
+			set => SetProperty(ref _IsEditing, value);
 		}
 
-		private bool isNameValid = true;
+		private bool _IsNameValid = true;
 		public bool IsNameValid
 		{
-			get => isNameValid;
-			set => SetProperty(ref isNameValid, value);
+			get => _IsNameValid;
+			set => SetProperty(ref _IsNameValid, value);
 		}
 
-		private bool canCommit = false;
+		private bool _CanCommit = false;
 		public bool CanCommit
 		{
-			get => canCommit;
-			set => SetProperty(ref canCommit, value);
+			get => _CanCommit;
+			set => SetProperty(ref _CanCommit, value);
 		}
 
-		private string newName;
+		private string _NewName;
 		public string NewName
 		{
-			get => newName;
-			set => SetProperty(ref newName, value);
+			get => _NewName;
+			set => SetProperty(ref _NewName, value);
 		}
 
-		private string newColor;
+		private string _NewColor;
 		public string NewColor
 		{
-			get => newColor;
-			set => SetProperty(ref newColor, value);
+			get => _NewColor;
+			set => SetProperty(ref _NewColor, value);
 		}
 
 		public ListedTagViewModel(TagViewModel tag)

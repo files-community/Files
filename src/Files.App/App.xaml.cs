@@ -20,9 +20,6 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
 using Files.Backend.Services.SizeProvider;
 using Files.Sdk.Storage;
 using Files.Shared;
@@ -192,7 +189,6 @@ namespace Files.App
 						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
@@ -343,9 +339,6 @@ namespace Files.App
 		public static void SaveSessionTabs() 
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-
-			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{

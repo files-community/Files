@@ -1,26 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
-using Files.Shared.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -47,7 +34,7 @@ namespace Files.App.UserControls.Widgets
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
 
-		public string WidgetName => nameof(BundlesWidget);
+		public string WidgetName => nameof(FileTagsWidget);
 
 		public string WidgetHeader => "FileTags".GetLocalizedResource();
 
@@ -109,15 +96,13 @@ namespace Files.App.UserControls.Widgets
 				await itemViewModel.ClickCommand.ExecuteAsync(null);
 		}
 
-		private async void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			App.Logger.LogWarning("rightTapped");
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (sender is not StackPanel tagsItemsStackPanel || tagsItemsStackPanel.DataContext is not FileTagsItemViewModel item)
+			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not FileTagsItemViewModel item)
 				return;
 
-			App.Logger.LogWarning("Item path: " + item.Path + " widgetcarditem.path = " + (item as WidgetCardItem)?.Path);
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
@@ -127,7 +112,7 @@ namespace Files.App.UserControls.Widgets
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
-			itemContextMenuFlyout.ShowAt(tagsItemsStackPanel, new FlyoutShowOptions { Position = e.GetPosition(tagsItemsStackPanel) });
+			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
 			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 			e.Handled = true;

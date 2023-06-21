@@ -2,11 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.SecureStore;
 using Microsoft.UI.Xaml.Controls;
 using System.Text;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.App.Dialogs
 {

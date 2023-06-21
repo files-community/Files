@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers;
-using Files.Backend.Models;
-using Files.Backend.Services;
 
 namespace Files.App.ServicesImplementation
 {

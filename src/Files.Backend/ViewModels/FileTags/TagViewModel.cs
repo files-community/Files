@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using System;
 using System.Text.Json.Serialization;
 
 namespace Files.Backend.ViewModels.FileTags

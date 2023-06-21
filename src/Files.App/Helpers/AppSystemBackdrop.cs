@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace Files.App.Helpers
 {
@@ -18,6 +19,7 @@ namespace Files.App.Helpers
 		private ISystemBackdropControllerWithTargets? controller;
 		private ICompositionSupportsSystemBackdrop target;
 		private XamlRoot root;
+		private SystemBackdropTheme? prevTheme = null;
 
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
 		{
@@ -35,9 +37,21 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial);
-			controller?.SetSystemBackdropConfiguration(GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot));
+			var configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
+			controller?.SetSystemBackdropConfiguration(configuration);
 			controller?.AddSystemBackdropTarget(connectedTarget);
+		}
+
+		protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
+		{
+			base.OnDefaultSystemBackdropConfigurationChanged(target, xamlRoot);
+			var configuration = GetDefaultSystemBackdropConfiguration(target, xamlRoot);
+			if (controller is not DesktopAcrylicController acrylicController || configuration.Theme == prevTheme)
+				return;
+
+			prevTheme = configuration.Theme;
+			SetAcrylicBackdropProperties(acrylicController, configuration.Theme);
 		}
 
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
@@ -60,15 +74,16 @@ namespace Files.App.Helpers
 				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
-					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!);
-					newController?.SetSystemBackdropConfiguration(GetDefaultSystemBackdropConfiguration(target, root));
+					var configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!, configuration.Theme);
+					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;
 					break;
 			}
 		}
 
-		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(BackdropMaterialType backdropType)
+		private ISystemBackdropControllerWithTargets? GetSystemBackdropController(BackdropMaterialType backdropType, SystemBackdropTheme theme)
 		{
 			if (isSecondaryWindow && backdropType == BackdropMaterialType.MicaAlt)
 				backdropType = BackdropMaterialType.Mica;
@@ -88,10 +103,35 @@ namespace Files.App.Helpers
 					};
 
 				case BackdropMaterialType.Acrylic:
-					return new DesktopAcrylicController();
+					var acrylicController = new DesktopAcrylicController();
+					SetAcrylicBackdropProperties(acrylicController, theme);
+					return acrylicController;
 
 				default:
 					return null;
+			}
+		}
+
+		private void SetAcrylicBackdropProperties(DesktopAcrylicController controller, SystemBackdropTheme theme)
+		{
+			// This sets all properties to work around a bug where other properties stop updating when fallback color is changed
+			// This uses the Thin Acrylic recipe from the WinUI Figma toolkit
+
+			switch(theme)
+			{
+				case SystemBackdropTheme.Light:
+					controller.TintColor = Color.FromArgb(0xff, 0xd3, 0xd3, 0xd3);
+					controller.TintOpacity = 0f;
+					controller.LuminosityOpacity = 0.44f;
+					controller.FallbackColor = Color.FromArgb(0x99, 0xd3, 0xd3, 0xd3);
+					break;
+
+				case SystemBackdropTheme.Dark:
+					controller.TintColor = Color.FromArgb(0xff, 0x54, 0x54, 0x54);
+					controller.TintOpacity = 0f;
+					controller.LuminosityOpacity = 0.64f;
+					controller.FallbackColor = Color.FromArgb(0xff, 0x20, 0x20, 0x20);
+					break;
 			}
 		}
 	}
