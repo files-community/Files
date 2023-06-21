@@ -13,89 +13,119 @@ namespace Files.App.Actions
 {
 	internal class SortByNameAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.Name;
+		protected override SortOption SortOption
+			=> SortOption.Name;
 
-		public override string Label { get; } = "Name".GetLocalizedResource();
+		public override string Label
+			=> "Name".GetLocalizedResource();
 
-		public override string Description => "SortByNameDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByNameDescription".GetLocalizedResource();
 	}
 
 	internal class SortByDateModifiedAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.DateModified;
+		protected override SortOption SortOption
+			=> SortOption.DateModified;
 
-		public override string Label { get; } = "DateModifiedLowerCase".GetLocalizedResource();
+		public override string Label
+			=> "DateModifiedLowerCase".GetLocalizedResource();
 
-		public override string Description => "SortByDateModifiedDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByDateModifiedDescription".GetLocalizedResource();
 	}
 
 	internal class SortByDateCreatedAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.DateCreated;
+		protected override SortOption SortOption
+			=> SortOption.DateCreated;
 
-		public override string Label { get; } = "DateCreated".GetLocalizedResource();
+		public override string Label
+			=> "DateCreated".GetLocalizedResource();
 
-		public override string Description => "SortByDateCreatedDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByDateCreatedDescription".GetLocalizedResource();
 	}
 
 	internal class SortBySizeAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.Size;
+		protected override SortOption SortOption
+			=> SortOption.Size;
 
-		public override string Label { get; } = "Size".GetLocalizedResource();
+		public override string Label
+			=> "Size".GetLocalizedResource();
 
-		public override string Description => "SortBySizeDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortBySizeDescription".GetLocalizedResource();
 	}
 
 	internal class SortByTypeAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.FileType;
+		protected override SortOption SortOption
+			=> SortOption.FileType;
 
-		public override string Label { get; } = "Type".GetLocalizedResource();
+		public override string Label
+			=> "Type".GetLocalizedResource();
 
-		public override string Description => "SortByTypeDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByTypeDescription".GetLocalizedResource();
 	}
 
 	internal class SortBySyncStatusAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.SyncStatus;
+		protected override SortOption SortOption
+			=> SortOption.SyncStatus;
 
-		public override string Label { get; } = "SyncStatus".GetLocalizedResource();
+		public override string Label
+			=> "SyncStatus".GetLocalizedResource();
 
-		public override string Description => "SortBySyncStatusDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortBySyncStatusDescription".GetLocalizedResource();
 
-		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
 	internal class SortByTagAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.FileTag;
+		protected override SortOption SortOption
+			=> SortOption.FileTag;
 
-		public override string Label { get; } = "FileTags".GetLocalizedResource();
+		public override string Label
+			=> "FileTags".GetLocalizedResource();
 
-		public override string Description => "SortByTagDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByTagDescription".GetLocalizedResource();
 	}
 
 	internal class SortByOriginalFolderAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.OriginalFolder;
+		protected override SortOption SortOption
+			=> SortOption.OriginalFolder;
 
-		public override string Label { get; } = "OriginalFolder".GetLocalizedResource();
+		public override string Label
+			=> "OriginalFolder".GetLocalizedResource();
 
-		public override string Description => "SortByOriginalFolderDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByOriginalFolderDescription".GetLocalizedResource();
 
-		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
 	internal class SortByDateDeletedAction : SortByAction
 	{
-		protected override SortOption SortOption { get; } = SortOption.DateDeleted;
+		protected override SortOption SortOption
+			=> SortOption.DateDeleted;
 
-		public override string Label { get; } = "DateDeleted".GetLocalizedResource();
+		public override string Label
+			=> "DateDeleted".GetLocalizedResource();
 
-		public override string Description => "SortByDateDeletedDescription".GetLocalizedResource();
+		public override string Description
+			=> "SortByDateDeletedDescription".GetLocalizedResource();
 
-		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.RecycleBin;
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
@@ -149,11 +179,14 @@ namespace Files.App.Actions
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "Ascending".GetLocalizedResource();
+		public string Label
+			=> "Ascending".GetLocalizedResource();
 
-		public string Description => "SortAscendingDescription".GetLocalizedResource();
+		public string Description
+			=> "SortAscendingDescription".GetLocalizedResource();
 
-		public bool IsOn => context.SortDirection is SortDirection.Ascending;
+		public bool IsOn
+			=> context.SortDirection is SortDirection.Ascending;
 
 		public SortAscendingAction()
 		{
@@ -177,11 +210,14 @@ namespace Files.App.Actions
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "Descending".GetLocalizedResource();
+		public string Label
+			=> "Descending".GetLocalizedResource();
 
-		public string Description => "SortDescendingDescription".GetLocalizedResource();
+		public string Description
+			=> "SortDescendingDescription".GetLocalizedResource();
 
-		public bool IsOn => context.SortDirection is SortDirection.Descending;
+		public bool IsOn
+			=> context.SortDirection is SortDirection.Descending;
 
 		public SortDescendingAction()
 		{
@@ -205,9 +241,11 @@ namespace Files.App.Actions
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "ToggleSortDirection".GetLocalizedResource();
+		public string Label
+			=> "ToggleSortDirection".GetLocalizedResource();
 
-		public string Description => "ToggleSortDirectionDescription".GetLocalizedResource();
+		public string Description
+			=> "ToggleSortDirectionDescription".GetLocalizedResource();
 
 		public Task ExecuteAsync()
 		{

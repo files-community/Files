@@ -13,13 +13,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "SelectAll".GetLocalizedResource();
+		public string Label
+			=> "SelectAll".GetLocalizedResource();
 
-		public string Description => "SelectAllDescription".GetLocalizedResource();
+		public string Description
+			=> "SelectAllDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE8B3");
+		public RichGlyph Glyph
+			=> new("\uE8B3");
 
-		public HotKey HotKey { get; } = new(Keys.A, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.A, KeyModifiers.Ctrl);
 
 		public bool IsExecutable
 		{
@@ -47,6 +51,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
+
 			return Task.CompletedTask;
 		}
 	}

@@ -18,13 +18,17 @@ namespace Files.App.Actions
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public string Label { get; } = "UnpinFromFavorites".GetLocalizedResource();
+		public string Label
+			=> "UnpinFromFavorites".GetLocalizedResource();
 
-		public string Description => "UnpinItemFromFavoritesDescription".GetLocalizedResource();
+		public string Description
+			=> "UnpinItemFromFavoritesDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;

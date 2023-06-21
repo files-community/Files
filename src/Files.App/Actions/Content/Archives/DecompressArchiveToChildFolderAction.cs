@@ -1,24 +1,19 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class DecompressArchiveToChildFolderAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => ComputeLabel();
+		public string Label
+			=> ComputeLabel();
 
-		public string Description => "DecompressArchiveToChildFolderDescription".GetLocalizedResource();
+		public string Description
+			=> "DecompressArchiveToChildFolderDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -27,6 +22,8 @@ namespace Files.App.Actions
 
 		public DecompressArchiveToChildFolderAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -37,9 +34,10 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private string ComputeLabel()
@@ -57,12 +55,15 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
-					if (IsContextPageTypeAdaptedToCommand())
 					{
-						OnPropertyChanged(nameof(Label));
-						OnPropertyChanged(nameof(IsExecutable));
+						if (IsContextPageTypeAdaptedToCommand())
+						{
+							OnPropertyChanged(nameof(Label));
+							OnPropertyChanged(nameof(IsExecutable));
+						}
+
+						break;
 					}
-					break;
 			}
 		}
 	}

@@ -1,28 +1,23 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class CutItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Cut".GetLocalizedResource();
+		public string Label
+			=> "Cut".GetLocalizedResource();
 
-		public string Description => "CutItemDescription".GetLocalizedResource();
+		public string Description
+			=> "CutItemDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCut");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconCut");
 
-		public HotKey HotKey { get; } = new(Keys.X, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.X, KeyModifiers.Ctrl);
 
 		public bool IsExecutable => context.HasSelection;
 
@@ -31,11 +26,10 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				UIFilesystemHelpers.CutItem(context.ShellPage);
-			return Task.CompletedTask;
+				await UIFilesystemHelpers.CutItem(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

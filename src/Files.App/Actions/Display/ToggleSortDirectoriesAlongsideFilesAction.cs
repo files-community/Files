@@ -14,11 +14,14 @@ namespace Files.App.Actions
 	{
 		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
-		public string Label { get; } = "SettingsListAndSortDirectoriesAlongsideFiles".GetLocalizedResource();
+		public string Label
+			=> "SettingsListAndSortDirectoriesAlongsideFiles".GetLocalizedResource();
 
-		public string Description => "ToggleSortDirectoriesAlongsideFilesDescription".GetLocalizedResource();
+		public string Description
+			=> "ToggleSortDirectoriesAlongsideFilesDescription".GetLocalizedResource();
 
-		public bool IsOn => context.SortDirectoriesAlongsideFiles;
+		public bool IsOn
+			=> context.SortDirectoriesAlongsideFiles;
 
 		public ToggleSortDirectoriesAlongsideFilesAction()
 		{
@@ -28,6 +31,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.SortDirectoriesAlongsideFiles = !IsOn;
+
 			return Task.CompletedTask;
 		}
 

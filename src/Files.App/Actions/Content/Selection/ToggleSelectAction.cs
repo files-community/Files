@@ -11,19 +11,23 @@ namespace Files.App.Actions
 {
 	internal class ToggleSelectAction : IAction
 	{
-		public string Label { get; } = "ToggleSelect".GetLocalizedResource();
-		public string Description => "ToggleSelectDescription".GetLocalizedResource();
+		public string Label
+			=> "ToggleSelect".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.Space, KeyModifiers.Ctrl);
+		public string Description
+			=> "ToggleSelectDescription".GetLocalizedResource();
 
-		public bool IsExecutable => GetFocusedElement() is not null;
+		public HotKey HotKey
+			=> new(Keys.Space, KeyModifiers.Ctrl);
+
+		public bool IsExecutable
+			=> GetFocusedElement() is not null;
 
 		public Task ExecuteAsync()
 		{
 			if (GetFocusedElement() is SelectorItem item)
-			{
 				item.IsSelected = !item.IsSelected;
-			}
+
 			return Task.CompletedTask;
 		}
 

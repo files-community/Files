@@ -1,19 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.App.Views;
-using Files.Shared.Enums;
-using System;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -21,13 +9,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "OpenFileLocation".GetLocalizedResource();
+		public string Label
+			=> "OpenFileLocation".GetLocalizedResource();
 
-		public string Description => "OpenFileLocationDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenFileLocationDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph => new(baseGlyph: "\uE8DA");
+		public RichGlyph Glyph
+			=> new(baseGlyph: "\uE8DA");
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItem is ShortcutItem;
+		public bool IsExecutable
+			=> context.HasSelection && context.SelectedItem is ShortcutItem;
 
 		public OpenFileLocationAction()
 		{

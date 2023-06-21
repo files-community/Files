@@ -1,29 +1,23 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Data.Models;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Paste".GetLocalizedResource();
+		public string Label
+			=> "Paste".GetLocalizedResource();
 
-		public string Description => "PasteItemToSelectionDescription".GetLocalizedResource();
+		public string Description
+			=> "PasteItemToSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconPaste");
 
-		public HotKey HotKey { get; } = new(Keys.V, KeyModifiers.CtrlShift);
+		public HotKey HotKey
+			=> new(Keys.V, KeyModifiers.CtrlShift);
 
 		private bool isExecutable;
 		public override bool IsExecutable => isExecutable;
@@ -56,6 +50,7 @@ namespace Files.App.Actions
 				return false;
 			if (!context.HasSelection)
 				return true;
+
 			return context.SelectedItem?.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder && UIHelpers.CanShowDialog;
 		}
 

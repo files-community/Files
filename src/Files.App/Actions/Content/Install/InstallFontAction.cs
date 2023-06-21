@@ -4,26 +4,32 @@
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Shell;
-using Files.Backend.Helpers;
 
 namespace Files.App.Actions
 {
 	internal class InstallFontAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "Install".GetLocalizedResource();
+		public string Label
+			=> "Install".GetLocalizedResource();
 
-		public string Description => "InstallFontDescription".GetLocalizedResource();
+		public string Description
+			=> "InstallFontDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE8D2");
+		public RichGlyph Glyph
+			=> new("\uE8D2");
 
-		public bool IsExecutable => context.SelectedItems.Any() &&
+		public bool IsExecutable =>
+			context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) &&
-			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ZipFolder;
 
 		public InstallFontAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

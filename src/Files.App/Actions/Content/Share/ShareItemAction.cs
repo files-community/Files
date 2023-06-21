@@ -1,14 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
@@ -17,13 +11,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label => "Share".GetLocalizedResource();
+		public string Label
+			=> "Share".GetLocalizedResource();
 
-		public string Description => "ShareItemDescription".GetLocalizedResource();
+		public string Description
+			=> "ShareItemDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShare");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconShare");
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
+		public bool IsExecutable =>
+			IsContextPageTypeAdaptedToCommand() &&
 			DataTransferManager.IsSupported() &&
 			context.SelectedItems.Any() &&
 			context.SelectedItems.All(ShareItemHelpers.IsItemShareable);
@@ -42,14 +40,15 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.Home
-				and not ContentPageTypes.Ftp
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.Home &&
+				context.PageType != ContentPageTypes.Ftp &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

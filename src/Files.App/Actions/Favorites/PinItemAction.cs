@@ -19,13 +19,17 @@ namespace Files.App.Actions
 	internal class PinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public string Label { get; } = "PinToFavorites".GetLocalizedResource();
+		public string Label
+			=> "PinToFavorites".GetLocalizedResource();
 
-		public string Description => "PinItemToFavoritesDescription".GetLocalizedResource();
+		public string Description
+			=> "PinItemToFavoritesDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPinToFavorites");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconPinToFavorites");
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;
@@ -43,6 +47,7 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
+
 				await service.PinToSidebar(items);
 			}
 			else if (context.Folder is not null)
@@ -61,8 +66,9 @@ namespace Files.App.Actions
 
 			bool IsPinnable(ListedItem item)
 			{
-				return item.PrimaryItemAttribute is StorageItemTypes.Folder
-					&& !favorites.Contains(item.ItemPath);
+				return
+					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
+					!favorites.Contains(item.ItemPath);
 			}
 		}
 		private void UpdateIsExecutable()

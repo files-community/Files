@@ -11,9 +11,11 @@ namespace Files.App.Actions
 {
 	internal class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
-		public override string Label { get; } = "SetAsLockscreen".GetLocalizedResource();
+		public override string Label
+			=> "SetAsLockscreen".GetLocalizedResource();
 
-		public override string Description => "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
+		public override string Description
+			=> "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph { get; } = new("\uEE3F");
 

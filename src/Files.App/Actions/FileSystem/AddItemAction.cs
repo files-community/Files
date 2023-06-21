@@ -16,15 +16,20 @@ namespace Files.App.Actions
 
         private readonly AddItemDialogViewModel viewModel = new();
 
-		public string Label { get; } = "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource();
+		public string Label
+			=> "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource();
 
-		public string Description => "AddItemDescription".GetLocalizedResource();
+		public string Description
+			=> "AddItemDescription".GetLocalizedResource();
 
-        public HotKey HotKey { get; } = new(Keys.N, KeyModifiers.CtrlShift);
+        public HotKey HotKey
+			=> new(Keys.N, KeyModifiers.CtrlShift);
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconNew");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconNew");
 
-		public bool IsExecutable => context.CanCreateItem;
+		public bool IsExecutable
+			=> context.CanCreateItem;
 
 		public AddItemAction()
 		{
@@ -36,12 +41,16 @@ namespace Files.App.Actions
 			await dialogService.ShowDialogAsync(viewModel);
 
 			if (viewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
+			{
 				await Ioc.Default.GetRequiredService<ICommandManager>().CreateShortcutFromDialog.ExecuteAsync();
+			}
 			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
+			{
 				UIFilesystemHelpers.CreateFileFromDialogResultType(
-				viewModel.ResultType.ItemType,
-				viewModel.ResultType.ItemInfo,
-				context.ShellPage!);
+					viewModel.ResultType.ItemType,
+					viewModel.ResultType.ItemInfo,
+					context.ShellPage!);
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

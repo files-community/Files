@@ -16,13 +16,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CopyPath".GetLocalizedResource();
+		public string Label
+			=> "CopyPath".GetLocalizedResource();
 
-		public string Description => "CopyPathDescription".GetLocalizedResource();
+		public string Description
+			=> "CopyPathDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyPath");
+		public RichGlyph Glyph
+			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
-		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
+		public HotKey HotKey
+			=> new(Keys.C, KeyModifiers.CtrlShift);
 
 		public Task ExecuteAsync()
 		{

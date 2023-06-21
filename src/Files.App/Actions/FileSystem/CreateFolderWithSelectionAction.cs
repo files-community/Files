@@ -10,13 +10,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "CreateFolderWithSelection".GetLocalizedResource();
+		public string Label
+			=> "CreateFolderWithSelection".GetLocalizedResource();
 
-		public string Description { get; } = "CreateFolderWithSelectionDescription".GetLocalizedResource();
+		public string Description
+			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconNewFolder");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconNewFolder");
 
-		public bool IsExecutable => context.ShellPage is not null && context.HasSelection;
+		public bool IsExecutable
+			=> context.ShellPage is not null && context.HasSelection;
 
 		public CreateFolderWithSelectionAction()
 		{

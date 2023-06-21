@@ -15,15 +15,23 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Refresh".GetLocalizedResource();
-		public string Description { get; } = "RefreshItemsDescription".GetLocalizedResource();
+		public string Label
+			=> "Refresh".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE72C");
+		public string Description
+			=> "RefreshItemsDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.R, KeyModifiers.Ctrl);
-		public HotKey SecondHotKey { get; } = new(Keys.F5);
+		public RichGlyph Glyph
+			=> new("\uE72C");
 
-		public bool IsExecutable => context.CanRefresh;
+		public HotKey HotKey
+			=> new(Keys.R, KeyModifiers.Ctrl);
+
+		public HotKey SecondHotKey
+			=> new(Keys.F5);
+
+		public bool IsExecutable
+			=> context.CanRefresh;
 
 		public RefreshItemsAction()
 		{

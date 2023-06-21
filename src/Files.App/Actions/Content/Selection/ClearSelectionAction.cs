@@ -1,11 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -13,11 +10,14 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "ClearSelection".GetLocalizedResource();
+		public string Label
+			=> "ClearSelection".GetLocalizedResource();
 
-		public string Description => "ClearSelectionDescription".GetLocalizedResource();
+		public string Description
+			=> "ClearSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE8E6");
+		public RichGlyph Glyph
+			=> new("\uE8E6");
 
 		public bool IsExecutable
 		{
@@ -43,6 +43,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.ClearSelection();
+
 			return Task.CompletedTask;
 		}
 	}

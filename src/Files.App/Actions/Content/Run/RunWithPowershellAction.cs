@@ -17,26 +17,32 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public bool IsExecutable => context.SelectedItem is not null &&
+		public bool IsExecutable =>
+			context.SelectedItem is not null &&
 			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
 
-		public string Label => "RunWithPowerShell".GetLocalizedResource();
+		public string Label
+			=> "RunWithPowerShell".GetLocalizedResource();
 
-		public string Description => "RunWithPowershellDescription".GetLocalizedResource();
+		public string Description
+			=> "RunWithPowershellDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph => new("\uE756");
+		public RichGlyph Glyph
+			=> new("\uE756");
 
 		public RunWithPowershellAction()
 		{
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			Win32API.RunPowershellCommand($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
+
+			return Task.CompletedTask;
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

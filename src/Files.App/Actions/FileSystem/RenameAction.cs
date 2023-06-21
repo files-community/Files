@@ -1,26 +1,23 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Rename".GetLocalizedResource();
+		public string Label
+			=> "Rename".GetLocalizedResource();
 
-		public string Description { get; } = "RenameDescription".GetLocalizedResource();
+		public string Description
+			=> "RenameDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.F2);
+		public HotKey HotKey
+			=> new(Keys.F2);
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRename");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconRename");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
@@ -36,6 +33,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
+
 			return Task.CompletedTask;
 		}
 
@@ -59,11 +57,11 @@ namespace Files.App.Actions
 
 		private bool IsPageTypeValid()
 		{
-			return context.PageType is
-				not ContentPageTypes.None and
-				not ContentPageTypes.Home and
-				not ContentPageTypes.RecycleBin and
-				not ContentPageTypes.ZipFolder;
+			return
+				context.PageType != ContentPageTypes.None &&
+				context.PageType != ContentPageTypes.Home &&
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder;
 		}
 	}
 }

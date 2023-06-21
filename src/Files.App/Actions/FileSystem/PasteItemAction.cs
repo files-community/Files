@@ -17,13 +17,17 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Paste".GetLocalizedResource();
+		public string Label
+			=> "Paste".GetLocalizedResource();
 
-		public string Description => "PasteItemDescription".GetLocalizedResource();
+		public string Description
+			=> "PasteItemDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconPaste");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconPaste");
 
-		public HotKey HotKey { get; } = new(Keys.V, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.V, KeyModifiers.Ctrl);
 
 		private bool isExecutable;
 		public bool IsExecutable => isExecutable;

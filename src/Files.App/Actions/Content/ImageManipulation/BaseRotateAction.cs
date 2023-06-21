@@ -16,7 +16,7 @@ namespace Files.App.Actions
 {
 	internal abstract class BaseRotateAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public abstract string Label { get; }
 
@@ -26,11 +26,14 @@ namespace Files.App.Actions
 
 		protected abstract BitmapRotation Rotation { get; }
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
+		public bool IsExecutable =>
+			IsContextPageTypeAdaptedToCommand() &&
 			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public BaseRotateAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -40,14 +43,16 @@ namespace Files.App.Actions
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
+
 			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

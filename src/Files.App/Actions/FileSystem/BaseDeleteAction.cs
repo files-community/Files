@@ -31,10 +31,16 @@ namespace Files.App.Actions
 
 		protected async Task DeleteItems(bool permanently)
 		{
-			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
-					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+			var items =
+				context.SelectedItems.Select(item =>
+					StorageHelpers.FromPathAndType(
+						item.ItemPath,
+						item.PrimaryItemAttribute is StorageItemTypes.File
+							? FilesystemItemType.File
+							: FilesystemItemType.Directory));
 
 			await context.ShellPage!.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
+
 			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 

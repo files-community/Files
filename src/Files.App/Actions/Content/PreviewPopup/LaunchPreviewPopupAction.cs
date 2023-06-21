@@ -3,28 +3,33 @@
 
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.Backend.Services;
 
 namespace Files.App.Actions
 {
 	internal class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
+
 		private readonly IPreviewPopupService previewPopupService;
 
-		public HotKey HotKey { get; } = new(Keys.Space);
+		public string Label
+			=> "LaunchPreviewPopup".GetLocalizedResource();
 
-		public bool IsExecutable => context.SelectedItems.Count == 1 &&
+		public string Description
+			=> "LaunchPreviewPopupDescription".GetLocalizedResource();
+
+		public HotKey HotKey
+			=> new(Keys.Space);
+
+		public bool IsExecutable =>
+			context.SelectedItems.Count == 1 &&
 			(!context.ShellPage?.ToolbarViewModel?.IsEditModeEnabled ?? false) &&
 			(!context.ShellPage?.SlimContentPage?.IsRenamingItem ?? false);
-
-		public string Label => "LaunchPreviewPopup".GetLocalizedResource();
-
-		public string Description => "LaunchPreviewPopupDescription".GetLocalizedResource();
 
 		public LaunchPreviewPopupAction()
 		{
 			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

@@ -1,26 +1,20 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Restore".GetLocalizedResource();
+		public string Label
+			=> "Restore".GetLocalizedResource();
 
-		public string Description => "RestoreRecycleBinDescription".GetLocalizedResource();
+		public string Description
+			=> "RestoreRecycleBinDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconRestoreItem");
+		public RichGlyph Glyph
+			=> new RichGlyph(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
 			context.PageType is ContentPageTypes.RecycleBin &&

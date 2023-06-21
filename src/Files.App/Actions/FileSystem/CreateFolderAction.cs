@@ -15,13 +15,18 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "Folder".GetLocalizedResource();
+		public string Label
+			=> "Folder".GetLocalizedResource();
 
-		public string Description => "CreateFolderDescription".GetLocalizedResource();
+		public string Description
+			=> "CreateFolderDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
+		public RichGlyph Glyph
+			=> new RichGlyph(baseGlyph: "\uE8B7");
 
-		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
+		public override bool IsExecutable =>
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{
@@ -32,6 +37,7 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage is not null)
 				UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null!, context.ShellPage);
+
 			return Task.CompletedTask;
 		}
 

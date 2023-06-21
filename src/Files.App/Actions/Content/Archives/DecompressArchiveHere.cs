@@ -12,11 +12,13 @@ namespace Files.App.Actions
 {
 	internal class DecompressArchiveHere : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "ExtractHere".GetLocalizedResource();
+		public string Label
+			=> "ExtractHere".GetLocalizedResource();
 
-		public string Description => "DecompressArchiveHereDescription".GetLocalizedResource();
+		public string Description
+			=> "DecompressArchiveHereDescription".GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -25,6 +27,8 @@ namespace Files.App.Actions
 
 		public DecompressArchiveHere()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>()
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -35,9 +39,10 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

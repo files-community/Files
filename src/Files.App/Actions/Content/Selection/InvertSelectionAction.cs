@@ -13,11 +13,14 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public string Label { get; } = "InvertSelection".GetLocalizedResource();
+		public string Label
+			=> "InvertSelection".GetLocalizedResource();
 
-		public string Description => "InvertSelectionDescription".GetLocalizedResource();
+		public string Description
+			=> "InvertSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE746");
+		public RichGlyph Glyph
+			=> new("\uE746");
 
 		public bool IsExecutable
 		{
@@ -43,6 +46,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context?.ShellPage?.SlimContentPage?.ItemManipulationModel?.InvertSelection();
+
 			return Task.CompletedTask;
 		}
 	}
