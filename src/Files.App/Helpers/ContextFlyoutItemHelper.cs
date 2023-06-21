@@ -333,7 +333,7 @@ namespace Files.App.Helpers
 				{
 					OpacityIcon = new OpacityIconModel()
 					{
-						OpacityIconStyle = "ColorIconNew"
+						OpacityIconStyle = commands.AddItem.Glyph.OpacityStyle
 					},
 					Text = commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
