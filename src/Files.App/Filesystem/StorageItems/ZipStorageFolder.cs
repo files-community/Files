@@ -198,12 +198,13 @@ namespace Files.App.Filesystem.StorageItems
 
 				if (entry.IsDirectory)
 				{
-					return new ZipStorageFolder(filePath, containerPath, entry, backingFile) { Credentials = Credentials };
+					return new ZipStorageFolder(filePath, containerPath, entry, backingFile).InitFromParent(Credentials, PasswordRequested);
 				}
 
-				return new ZipStorageFile(filePath, containerPath, entry, backingFile) { Credentials = Credentials };
+				return new ZipStorageFile(filePath, containerPath, entry, backingFile).InitFromParent(Credentials, PasswordRequested);
 			}, RetryWithCredentials));
 		}
+
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
@@ -242,12 +243,12 @@ namespace Files.App.Filesystem.StorageItems
 								var itemPath = System.IO.Path.Combine(Path, split[0]);
 								if (!items.Any(x => x.Path == itemPath))
 								{
-									items.Add(new ZipStorageFolder(itemPath, containerPath, entry, backingFile) { Credentials = Credentials });
+									items.Add(new ZipStorageFolder(itemPath, containerPath, entry, backingFile).InitFromParent(Credentials, PasswordRequested));
 								}
 							}
 							else
 							{
-								items.Add(new ZipStorageFile(winPath, containerPath, entry, backingFile) { Credentials = Credentials });
+								items.Add(new ZipStorageFile(winPath, containerPath, entry, backingFile).InitFromParent(Credentials, PasswordRequested));
 							}
 						}
 					}
@@ -326,7 +327,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 				}
 
-				return new ZipStorageFolder(zipDesiredName, containerPath, backingFile) { Credentials = Credentials };
+				return new ZipStorageFolder(zipDesiredName, containerPath, backingFile).InitFromParent(Credentials, PasswordRequested);
 			}, RetryWithCredentials));
 		}
 
@@ -636,7 +637,7 @@ namespace Files.App.Filesystem.StorageItems
 					}
 				}
 
-				return new ZipStorageFile(zipDesiredName, containerPath, backingFile) { Credentials = Credentials };
+				return new ZipStorageFile(zipDesiredName, containerPath, backingFile).InitFromParent(Credentials, PasswordRequested);
 			}, RetryWithCredentials));
 		}
 
@@ -663,6 +664,18 @@ namespace Files.App.Filesystem.StorageItems
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
 			await func();
+		}
+
+		public ZipStorageFolder InitFromParent(StorageCredential credentials, EventHandler<TaskCompletionSource<StorageCredential>> passwordRequested)
+		{
+			if (passwordRequested is not null)
+			{
+				foreach (var handler in passwordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
+					this.PasswordRequested += handler;
+			}
+			this.Credentials = credentials;
+
+			return this;
 		}
 
 		private class ZipFolderBasicProperties : BaseBasicProperties

@@ -98,11 +98,11 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						return new FtpStorageFile(Path, item) { Credentials = Credentials };
+						return new FtpStorageFile(Path, item).InitFromParent(Credentials, PasswordRequested);
 					}
 					if (item.Type is FtpObjectType.Directory)
 					{
-						return new FtpStorageFolder(Path, item) { Credentials = Credentials };
+						return new FtpStorageFolder(Path, item).InitFromParent(Credentials, PasswordRequested);
 					}
 				}
 				return null;
@@ -138,11 +138,11 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						items.Add(new FtpStorageFile(Path, item) { Credentials = Credentials });
+						items.Add(new FtpStorageFile(Path, item).InitFromParent(Credentials, PasswordRequested));
 					}
 					else if (item.Type is FtpObjectType.Directory)
 					{
-						items.Add(new FtpStorageFolder(Path, item) { Credentials = Credentials });
+						items.Add(new FtpStorageFolder(Path, item).InitFromParent(Credentials, PasswordRequested));
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
@@ -205,7 +205,7 @@ namespace Files.App.Filesystem.StorageItems
 				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
 
 				if (result is FtpStatus.Success)
-					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}")) { Credentials = Credentials };
+					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}")).InitFromParent(Credentials, PasswordRequested);
 
 				if (result is FtpStatus.Skipped)
 				{
@@ -234,7 +234,7 @@ namespace Files.App.Filesystem.StorageItems
 				string fileName = $"{FtpPath}/{desiredName}";
 				if (await ftpClient.DirectoryExists(fileName))
 				{
-					return new FtpStorageFolder(new StorageFileWithPath(null, fileName)) { Credentials = Credentials };
+					return new FtpStorageFolder(new StorageFileWithPath(null, fileName)).InitFromParent(Credentials, PasswordRequested);
 				}
 
 				bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
@@ -244,7 +244,7 @@ namespace Files.App.Filesystem.StorageItems
 					throw new IOException($"Failed to create folder {desiredName}.");
 				}
 
-				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}")) { Credentials = Credentials };
+				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}")).InitFromParent(Credentials, PasswordRequested);
 			}, RetryWithCredentials));
 		}
 
@@ -335,6 +335,18 @@ namespace Files.App.Filesystem.StorageItems
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
 			await func();
+		}
+
+		public FtpStorageFolder InitFromParent(StorageCredential credentials, EventHandler<TaskCompletionSource<StorageCredential>> passwordRequested)
+		{
+			if (passwordRequested is not null)
+			{
+				foreach (var handler in passwordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
+					this.PasswordRequested += handler;
+			}
+			this.Credentials = credentials;
+
+			return this;
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties

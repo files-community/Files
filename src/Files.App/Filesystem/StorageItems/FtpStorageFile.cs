@@ -264,6 +264,18 @@ namespace Files.App.Filesystem.StorageItems
 			await func();
 		}
 
+		public FtpStorageFile InitFromParent(StorageCredential credentials, EventHandler<TaskCompletionSource<StorageCredential>> passwordRequested)
+		{
+			if (passwordRequested is not null)
+			{
+				foreach (var handler in passwordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
+					this.PasswordRequested += handler;
+			}
+			this.Credentials = credentials;
+
+			return this;
+		}
+
 		private async void FtpDataStreamingHandler(StreamedFileDataRequest request)
 		{
 			try
