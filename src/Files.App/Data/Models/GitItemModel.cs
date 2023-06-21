@@ -11,16 +11,21 @@ namespace Files.App.Data.Models
 		/// Gets or initializes file change kind
 		/// </summary>
 		/// <remarks>
-		/// This is often showed as A(Add), D(Delete), M(Modified), U(Untracked) in VS Code.
+		/// This is often showed as A(Added), D(Deleted), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
 		public ChangeKind Status { get; init; }
 
 		/// <summary>
-		/// Gets or initializes file change kind humanized string
+		/// Gets or initializes file change kind symbol
 		/// </summary>
 		/// <remarks>
-		/// This is often showed as A(Add), D(Delete), M(Modified), U(Untracked) in VS Code.
+		/// This is often showed as A(Added), D(Deleted), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
+		public string? StatusSymbol { get; init; }
+
+		/// <summary>
+		/// Gets or initializes file change kind humanized string
+		/// </summary>
 		public string? StatusHumanized { get; init; }
 
 		/// <summary>

@@ -3329,4 +3329,16 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
+  </data>
 </root>
