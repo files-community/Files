@@ -328,7 +328,7 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to sendto dropdown
-				if (sendToItem?.LoadSubMenuAction is not null)
+				if (sendToItem?.LoadSubMenuAction is not null && userSettingsService.GeneralSettingsService.ShowSendToMenu)
 				{
 					await sendToItem.LoadSubMenuAction();
 
