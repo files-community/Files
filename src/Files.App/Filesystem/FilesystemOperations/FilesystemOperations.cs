@@ -4,8 +4,11 @@
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.Helpers;
+using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
+using System.Text;
 using Windows.Storage;
 
 namespace Files.App.Filesystem
@@ -162,7 +165,13 @@ namespace Files.App.Filesystem
 
 					if (fsResult)
 					{
+						if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+							ppis.PasswordRequested += RequestPassword;
+
 						var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+
+						if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+							ppiu.PasswordRequested -= RequestPassword;
 
 						if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
 						{
@@ -210,6 +219,9 @@ namespace Files.App.Filesystem
 
 					if (fsResult)
 					{
+						if (sourceResult.Result is IPasswordProtectedItem ppis)
+							ppis.PasswordRequested += RequestPassword;
+
 						var file = (BaseStorageFile)sourceResult;
 						var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
 						if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
@@ -232,6 +244,9 @@ namespace Files.App.Filesystem
 						{
 							fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
 						}
+
+						if (sourceResult.Result is IPasswordProtectedItem ppiu)
+							ppiu.PasswordRequested += RequestPassword;
 
 						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
 						{
@@ -352,12 +367,18 @@ namespace Files.App.Filesystem
 
 						if (fsResult)
 						{
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+								ppis.PasswordRequested += RequestPassword;
+
 							// Moving folders using Storage API can result in data loss, copy instead
 							//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
 							var fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
 
 							if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
 								fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+								ppiu.PasswordRequested -= RequestPassword;
 
 							if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 							{
@@ -401,8 +422,14 @@ namespace Files.App.Filesystem
 
 					if (fsResult)
 					{
+						if (sourceResult.Result is IPasswordProtectedItem ppis)
+							ppis.PasswordRequested += RequestPassword;
+
 						var file = (BaseStorageFile)sourceResult;
 						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+
+						if (sourceResult.Result is IPasswordProtectedItem ppiu)
+							ppiu.PasswordRequested -= RequestPassword;
 
 						if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 						{
@@ -885,6 +912,36 @@ namespace Files.App.Filesystem
 		public Task<IStorageHistory> CreateShortcutItemsAsync(IList<IStorageItemWithPath> source, IList<string> destination, IProgress<FileSystemProgress> progress, CancellationToken token)
 		{
 			throw new NotImplementedException("Cannot create shortcuts in UWP.");
+		}
+
+		private async void RequestPassword(object? sender, TaskCompletionSource<StorageCredential> e)
+		{
+			var path = ((IStorageItem)sender).Path;
+
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
+
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+			var dialogResult = await dialogService.ShowDialogAsync(credentialDialogViewModel);
+
+			if (dialogResult != DialogResult.Primary)
+			{
+				e.TrySetResult(new());
+				return;
+			}
+			if (credentialDialogViewModel.IsAnonymous)
+			{
+				e.TrySetResult(new());
+				return;
+			}
+
+			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+			credentialDialogViewModel.Password?.Dispose();
+
+			e.TrySetResult(credentials);
 		}
 
 		public void Dispose()

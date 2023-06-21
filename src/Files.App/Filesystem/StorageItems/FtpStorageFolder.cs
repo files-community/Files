@@ -318,7 +318,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		private async Task<TOut> RetryWithCredentials<TOut>(Task<TOut> func, Exception exception)
 		{
-			if (exception is not FtpAuthenticationException)
+			if (exception is not FtpAuthenticationException || PasswordRequested is null)
 				throw exception;
 
 			var tcs = new TaskCompletionSource<StorageCredential>();
@@ -328,7 +328,7 @@ namespace Files.App.Filesystem.StorageItems
 		}
 		private async Task RetryWithCredentials(Task func, Exception exception)
 		{
-			if (exception is not FtpAuthenticationException)
+			if (exception is not FtpAuthenticationException || PasswordRequested is null)
 				throw exception;
 
 			var tcs = new TaskCompletionSource<StorageCredential>();

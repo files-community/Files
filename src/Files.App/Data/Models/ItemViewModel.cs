@@ -1632,41 +1632,8 @@ namespace Files.App.Data.Models
 			if (rootFolder is null)
 				return;
 
-			if (rootFolder is IPasswordProtectedItem ppi)
-			{
-				ppi.PasswordRequested += async (s, e) =>
-				{
-					var isFtp = FtpHelpers.IsFtpPath(path);
-
-					var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-
-					var dialogResult = await dispatcherQueue.EnqueueOrInvokeAsync(() => 
-						dialogService.ShowDialogAsync(credentialDialogViewModel));
-
-					if (dialogResult != DialogResult.Primary)
-					{
-						e.TrySetResult(new());
-						return;
-					}
-					if (credentialDialogViewModel.IsAnonymous)
-					{
-						e.TrySetResult(new());
-						return;
-					}
-
-					// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-					var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-					credentialDialogViewModel.Password?.Dispose();
-
-					if (isFtp)
-					{
-						var host = FtpHelpers.GetFtpHost(path);
-						FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
-					}
-
-					e.TrySetResult(credentials);
-				};
-			}
+			if (rootFolder is IPasswordProtectedItem ppis)
+				ppis.PasswordRequested += RequestPassword;
 
 			await Task.Run(async () =>
 			{
@@ -1689,6 +1656,44 @@ namespace Files.App.Data.Models
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			}, cancellationToken);
+
+			if (rootFolder is IPasswordProtectedItem ppiu)
+				ppiu.PasswordRequested -= RequestPassword;
+		}
+
+		private async void RequestPassword(object? sender, TaskCompletionSource<StorageCredential> e)
+		{
+			var path = ((IStorageItem)sender).Path;
+
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
+
+			var dialogResult = await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				dialogService.ShowDialogAsync(credentialDialogViewModel));
+
+			if (dialogResult != DialogResult.Primary)
+			{
+				e.TrySetResult(new());
+				return;
+			}
+			if (credentialDialogViewModel.IsAnonymous)
+			{
+				e.TrySetResult(new());
+				return;
+			}
+
+			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+			credentialDialogViewModel.Password?.Dispose();
+
+			if (isFtp)
+			{
+				var host = FtpHelpers.GetFtpHost(path);
+				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
+			}
+
+			e.TrySetResult(credentials);
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)

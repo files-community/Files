@@ -490,7 +490,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
-			if (!handled)
+			if (!handled || PasswordRequested is null)
 				throw exception;
 
 			var tcs = new TaskCompletionSource<StorageCredential>();
@@ -502,7 +502,7 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
-			if (!handled)
+			if (!handled || PasswordRequested is null)
 				throw exception;
 
 			var tcs = new TaskCompletionSource<StorageCredential>();
