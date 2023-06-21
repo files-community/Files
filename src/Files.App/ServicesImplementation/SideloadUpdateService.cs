@@ -27,8 +27,8 @@ namespace Files.App.ServicesImplementation
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
 		private static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
 
-		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
-		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
+		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.App.Package.appinstaller";
+		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.App.Package.appinstaller";
 
 		private readonly HttpClient _client = new(new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(1) });
 

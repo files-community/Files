@@ -167,8 +167,10 @@
         <rescap:Capability Name="allowElevation"/>
         <!--The unvirtualizedResources capability is used to support file operations in the AppData directory-->
         <rescap:Capability Name="unvirtualizedResources" />
-        <!--The packageManagement capability is used to download updates in the sideload version of Files. We only use
-        this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps-->
+        <!--
+            The packageManagement capability is used to download updates in the sideload version of Files. We only use
+            this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+        -->
         <rescap:Capability Name="packageManagement"/>
         <uap:Capability Name="removableStorage" />
         <Capability Name="internetClient"/>
