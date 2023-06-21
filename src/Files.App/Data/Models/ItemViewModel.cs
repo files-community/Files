@@ -1220,11 +1220,13 @@ namespace Files.App.Data.Models
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusHumanized;
+									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusSymbol;
+									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
 									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
 									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
 									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
 
 									repo.Dispose();
 								},

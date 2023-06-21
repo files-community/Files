@@ -81,7 +81,6 @@
     <ProjectGuid>{25fd5045-6d4c-4dd0-b3ac-613ab59cbb07}</ProjectGuid>
     <RootNamespace>FilesLauncher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Files.App.Launcher</ProjectName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

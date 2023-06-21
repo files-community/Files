@@ -108,12 +108,12 @@
         <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="2.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\BackgroundTasks\Files.App.BackgroundTasks.csproj" />
+        <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
         <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Core.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
-        <ProjectReference Include="..\Files.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\Files.SourceGenerator\Files.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
     <ItemGroup>
         <TrimmerRootAssembly Include="BackgroundTasks" />

@@ -987,6 +987,7 @@
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis"
+										ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit Date  -->
@@ -996,6 +997,8 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										DataContextChanged="TextBlock_DataContextChanged"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitDateHumanized, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitLastCommitDateColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -1007,6 +1010,8 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										DataContextChanged="TextBlock_DataContextChanged"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitMessage, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitLastCommitMessageColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -1018,6 +1023,8 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										DataContextChanged="TextBlock_DataContextChanged"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
@@ -1031,6 +1038,7 @@
 										VerticalAlignment="Center"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
+										ToolTipService.ToolTip="{x:Bind AsGitItem.GitLastCommitFullSha, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitLastCommitShaColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Tags That Item Is Labeled  -->
