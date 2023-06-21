@@ -269,10 +269,10 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null)
+			if (textBox is null || textBox.FindParent<Grid>() is not FrameworkElement parent)
 				return;
 
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+			Grid.SetColumnSpan(parent, 8);
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
