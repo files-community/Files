@@ -486,7 +486,7 @@ namespace Files.App.Filesystem.StorageItems
 			});
 		}
 
-		private async Task<TOut> RetryWithCredentials<TOut>(Task<TOut> func, Exception exception)
+		private async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
@@ -496,9 +496,9 @@ namespace Files.App.Filesystem.StorageItems
 			var tcs = new TaskCompletionSource<StorageCredential>();
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
-			return await func;
+			return await func();
 		}
-		private async Task RetryWithCredentials(Task func, Exception exception)
+		private async Task RetryWithCredentials(Func<Task> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
@@ -508,7 +508,7 @@ namespace Files.App.Filesystem.StorageItems
 			var tcs = new TaskCompletionSource<StorageCredential>();
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
-			await func;
+			await func();
 		}
 
 		private StreamedFileDataRequestedHandler ZipDataStreamingHandler(string name)

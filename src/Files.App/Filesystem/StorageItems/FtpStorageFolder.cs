@@ -316,7 +316,7 @@ namespace Files.App.Filesystem.StorageItems
 			return new(host, credentials, port);
 		}
 
-		private async Task<TOut> RetryWithCredentials<TOut>(Task<TOut> func, Exception exception)
+		private async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
 			if (exception is not FtpAuthenticationException || PasswordRequested is null)
 				throw exception;
@@ -324,9 +324,9 @@ namespace Files.App.Filesystem.StorageItems
 			var tcs = new TaskCompletionSource<StorageCredential>();
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
-			return await func;
+			return await func();
 		}
-		private async Task RetryWithCredentials(Task func, Exception exception)
+		private async Task RetryWithCredentials(Func<Task> func, Exception exception)
 		{
 			if (exception is not FtpAuthenticationException || PasswordRequested is null)
 				throw exception;
@@ -334,7 +334,7 @@ namespace Files.App.Filesystem.StorageItems
 			var tcs = new TaskCompletionSource<StorageCredential>();
 			PasswordRequested?.Invoke(this, tcs);
 			Credentials = await tcs.Task;
-			await func;
+			await func();
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties
