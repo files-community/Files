@@ -337,7 +337,8 @@ namespace Files.App.Helpers
 					},
 					Text = commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
-					ShowItem = !itemsSelected
+					ShowItem = !itemsSelected,
+					ShowInFtpPage = true
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
