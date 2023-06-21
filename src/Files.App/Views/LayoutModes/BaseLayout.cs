@@ -4,9 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls;
 using Files.App.UserControls.Menus;
-using Files.App.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -809,26 +807,29 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Add items to sendto dropdown
-			var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
-
-			var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
-			if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
+			if (!UserSettingsService.GeneralSettingsService.ShowSendToMenu)
 			{
-				await sendToMenuItem.LoadSubMenuAction();
-				var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
+				var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
 
-				if (sendToSubItems is not null)
+				var sendTo = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendTo") as AppBarButton;
+				if (sendToMenuItem?.LoadSubMenuAction is not null && sendToOverflow is not null && sendTo is not null)
 				{
-					var flyout = (MenuFlyout)sendToOverflow.Flyout;
+					await sendToMenuItem.LoadSubMenuAction();
+					var sendToSubItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(ShellContextmenuHelper.GetSendToItems(shellMenuItems));
 
-					flyout.Items.Clear();
+					if (sendToSubItems is not null)
+					{
+						var flyout = (MenuFlyout)sendToOverflow.Flyout;
 
-					foreach (var item in sendToSubItems)
-						flyout.Items.Add(item);
+						flyout.Items.Clear();
 
-					sendToOverflow.Flyout = flyout;
-					sendTo.Visibility = Visibility.Collapsed;
-					sendToOverflow.Visibility = Visibility.Visible;
+						foreach (var item in sendToSubItems)
+							flyout.Items.Add(item);
+
+						sendToOverflow.Flyout = flyout;
+						sendTo.Visibility = Visibility.Collapsed;
+						sendToOverflow.Visibility = Visibility.Visible;
+					}
 				}
 			}
 

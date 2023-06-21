@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
+using Files.App.ServicesImplementation.Settings;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -545,7 +546,7 @@ namespace Files.App.Helpers
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowEditTagsMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -561,7 +562,7 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowEditTagsMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
