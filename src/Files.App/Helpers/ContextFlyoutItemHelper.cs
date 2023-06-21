@@ -546,7 +546,7 @@ namespace Files.App.Helpers
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowEditTagsMenu
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -562,7 +562,7 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowEditTagsMenu
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
