@@ -246,7 +246,7 @@ namespace Files.App.Filesystem
 						}
 
 						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.PasswordRequested += RequestPassword;
+							ppiu.PasswordRequested -= RequestPassword;
 
 						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
 						{
