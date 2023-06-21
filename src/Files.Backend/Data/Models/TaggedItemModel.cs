@@ -3,7 +3,7 @@
 
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.Backend.AppModels
+namespace Files.Backend.Data.Models
 {
 	/// <summary>
 	/// Represents an item that is tagged.

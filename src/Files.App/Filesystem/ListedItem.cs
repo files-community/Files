@@ -638,6 +638,13 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref _UnmergedGitStatusLabel, value);
 		}
 
+		private string? _UnmergedGitStatusName;
+		public string? UnmergedGitStatusName
+		{
+			get => _UnmergedGitStatusName;
+			set => SetProperty(ref _UnmergedGitStatusName, value);
+		}
+
 		public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 
 		private DateTimeOffset? _GitLastCommitDate;
@@ -677,6 +684,13 @@ namespace Files.App.Filesystem
 		{
 			get => _GitLastCommitSha;
 			set => SetProperty(ref _GitLastCommitSha, value);
+		}
+
+		private string? _GitLastCommitFullSha;
+		public string? GitLastCommitFullSha
+		{
+			get => _GitLastCommitFullSha;
+			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
 	}
 }

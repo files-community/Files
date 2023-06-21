@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using Files.Backend.Models;
 using System.IO;
 
 namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
@@ -41,8 +38,6 @@ namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
 		}
 
 		public virtual string? SourceDirectoryDisplayName
-		{
-			get => Path.GetFileName(Path.GetDirectoryName(SourcePath));
-		}
+			=> Path.GetFileName(Path.GetDirectoryName(SourcePath));
 	}
 }

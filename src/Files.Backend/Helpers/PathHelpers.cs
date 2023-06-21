@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.IO;
 
 namespace Files.Backend.Helpers
@@ -10,9 +9,8 @@ namespace Files.Backend.Helpers
 	{
 		public static string FormatName(string path)
 		{
-			string 
-				fileName,
-				rootPath = Path.GetPathRoot(path) ?? string.Empty;
+			string fileName;
+			string rootPath = Path.GetPathRoot(path) ?? string.Empty;
 			
 			if (rootPath == path && path.StartsWith(@"\\"))
 			{

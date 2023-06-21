@@ -31,7 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand($"code {_context.ShellPage?.FilesystemViewModel.WorkingDirectory}", false);
+			Win32API.RunPowershellCommand($"code \'{_context.ShellPage?.FilesystemViewModel.WorkingDirectory}\'", false);
 
 			return Task.CompletedTask;
 		}

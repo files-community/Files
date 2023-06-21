@@ -4,10 +4,17 @@
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
 
-namespace Files.Backend.Messages
+namespace Files.Backend.Data.Messages
 {
-	public sealed class FileSystemDialogOptionChangedMessage : ValueChangedMessage<FileSystemDialogConflictItemViewModel>
+	/// <summary>
+	/// Represents a messenger for FileSystemDialog option changed.
+	/// </summary>
+	public sealed class FileSystemDialogOptionChangedMessage
+		: ValueChangedMessage<FileSystemDialogConflictItemViewModel>
 	{
+		/// <summary>
+		/// Initializes a class.
+		/// </summary>
 		public FileSystemDialogOptionChangedMessage(FileSystemDialogConflictItemViewModel value)
 			: base(value)
 		{

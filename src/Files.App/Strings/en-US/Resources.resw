@@ -2223,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Compressing archive</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
   </data>
@@ -2270,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Create archive</value>
@@ -3352,5 +3352,17 @@
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copy code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.Enums
+namespace Files.Backend.Data.Enums
 {
 	/// <summary>
 	/// Represents a page type used in Properties window
