@@ -329,11 +329,17 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(commands.AddItem)
+				new ContextMenuFlyoutItemViewModel()
 				{
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = commands.AddItem.Glyph.OpacityStyle
+					},
+					Text = commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
-					IsVisible = !itemsSelected
-				}.Build(),
+					ShowItem = !itemsSelected,
+					ShowInFtpPage = true
+				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{

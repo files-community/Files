@@ -19,7 +19,7 @@ namespace Files.App.Actions
 
 		public string Description => "CreateShortcutFromDialogDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
+		public RichGlyph Glyph { get; } = new("\uE71B");
 
 		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
 
