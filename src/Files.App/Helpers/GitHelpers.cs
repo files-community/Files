@@ -5,6 +5,7 @@ using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Files.Backend.Services;
+using Files.Backend.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
@@ -379,9 +380,10 @@ namespace Files.App.Helpers
 			string userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
 			string deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
 			int interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
-			int expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32(); 
+			int expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
 
-			await DynamicDialogFactory.GetFor_GitLogin(userCode).TryShowAsync();			
+			var viewModel = new GitHubLoginDialogViewModel(userCode);
+			await Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel).TryShowAsync();			
 
 			while (pending && expiresIn > 0)
 			{
