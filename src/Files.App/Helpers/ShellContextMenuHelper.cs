@@ -265,8 +265,10 @@ namespace Files.App.Helpers
 					shellMenuItems.Remove(openWithItem);
 
 				var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
-				if (sendToItem is not null && (showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
+				if (sendToItem is not null &&
+					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
+
 				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
