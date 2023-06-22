@@ -4,8 +4,6 @@
 using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
@@ -217,9 +215,21 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
-			IsExecutingGitAction = true;
 			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 
+			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			if (signature is not null && !string.IsNullOrWhiteSpace(token))
+			{
+				_fetchOptions.CredentialsProvider = (url, user, cred)
+					=> new UsernamePasswordCredentials
+					{
+						Username = signature.Name,
+						Password = token
+					};
+			}
+
+			IsExecutingGitAction = true;
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -257,6 +267,7 @@ namespace Files.App.Helpers
 			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
 			if (!string.IsNullOrWhiteSpace(token))
 			{
+				_pullOptions.FetchOptions ??= _fetchOptions;
 				_pullOptions.FetchOptions.CredentialsProvider = (url, user, cred)
 					=> new UsernamePasswordCredentials
 					{
@@ -276,7 +287,8 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase))
+				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
+					ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase))
 				{
 					await RequireGitAuthentication();
 				}
@@ -344,7 +356,8 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase))
+				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
+					ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase))
 					await RequireGitAuthentication();
 				else
 					_logger.LogWarning(ex.Message);
@@ -361,7 +374,7 @@ namespace Files.App.Helpers
 			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
 
 			var codeResponse = await client.PostAsync(
-				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo", 
+				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo",
 				new StringContent(""));
 
 			if (!codeResponse.IsSuccessStatusCode)
@@ -377,39 +390,48 @@ namespace Files.App.Helpers
 				return;
 			}
 
-			string userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
-			string deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
-			int interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
-			int expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
+			var userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
+			var deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
+			var interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
+			var expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
 
-			var viewModel = new GitHubLoginDialogViewModel(userCode);
-			await Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel).TryShowAsync();			
+			var loginCTS = new CancellationTokenSource();
+			var viewModel = new GitHubLoginDialogViewModel(userCode, "ConnectGitHubDescription".GetLocalizedResource(), loginCTS);
 
-			while (pending && expiresIn > 0)
+			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+			var loginDialogTask = dialog.TryShowAsync();
+
+			while (!loginCTS.Token.IsCancellationRequested && pending && expiresIn > 0)
 			{
 				var loginResponse = await client.PostAsync(
-					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code", 
+					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code",
 					new StringContent(""));
 
 				expiresIn -= interval;
 
 				if (!loginResponse.IsSuccessStatusCode)
 				{
-					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-					return;
+					dialog.Hide();
+					break;
 				}
 
 				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
 				if (loginJsonContent is null)
 				{
-					await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
-					return;
+					dialog.Hide();
+					break;
 				}
 
-				if (loginJsonContent.RootElement.GetProperty("error").GetString() == "authorization_pending")
+				if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
 				{
-					await Task.Delay(TimeSpan.FromSeconds(interval));
-					continue;
+					if (error.GetString() == "authorization_pending")
+					{
+						await Task.Delay(TimeSpan.FromSeconds(interval));
+						continue;
+					}
+
+					dialog.Hide();
+					break;
 				}
 
 				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
@@ -422,7 +444,12 @@ namespace Files.App.Helpers
 					GIT_RESOURCE_NAME,
 					GIT_RESOURCE_USERNAME,
 					token);
+
+				viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+				viewModel.LoginConfirmed = true;
 			}
+
+			await loginDialogTask;
 		}
 
 		public static bool IsRepositoryEx(string path, out string repoRootPath)

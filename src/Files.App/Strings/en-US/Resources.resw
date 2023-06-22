@@ -3333,7 +3333,7 @@
     <value>Connect to GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Please, enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>	
@@ -3365,4 +3365,7 @@
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
   </data>
+	<data name="AuthorizationSucceded">
+		<value>Great! You are now authorised.</value>
+	</data>
 </root>
