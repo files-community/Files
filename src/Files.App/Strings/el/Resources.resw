@@ -121,7 +121,7 @@
     <value>Νέο παράθυρο</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Αντιγραφή διαδρομής</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Περιηγηθείτε στο</value>
@@ -478,7 +478,7 @@
     <value>Διαφορετικοί τύποι</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Όλα σε {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Δεσμευμένος χώρος:</value>
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Δίσκοι Cloud</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Εξαγωγή δεσμών</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Εισαγωγή δεσμών</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Η δέσμη με το ίδιο όνομα υπάρχει ήδη!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Άνοιγμα τοποθεσίας στοιχείου</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Αφαίρεση από τη δέσμη</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Αφαίρεση πακέτου</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Δέσμες</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Σύρετε οποιοδήποτε αρχείο ή φάκελο εδώ για γρήγορη πρόσβαση σε αυτό</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Εισάγετε το όνομα δέσμης</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Εισάγετε το νέο όνομα</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Μετονομασία "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Δημιουργία δέσμης</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Επιβεβαίωση</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Προσθήκη πακέτου</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Μετονομασία δέσμης</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Επιθυμητό όνομα</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Χαρτογράφηση μονάδας δικτύου</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Περισσότερες επιλογές δεσμών</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Αγαπημένα</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Επιχειρήματα</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Άνοιγμα σε νέο παράθυρο</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Προεπιλογή</value>
@@ -1339,10 +1291,10 @@
     <value>Δεν βρήκατε αυτό που ψάχνατε;</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Αναζήτηση μη ευρετηριασμένων στοιχείων</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Αντικαταστήστε το υπάρχον</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Δημιουργία νέου ονόματος</value>
@@ -1354,7 +1306,7 @@
     <value>Υπάρχει ένα αντικρουόμενο όνομα αρχείου.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Δημιουργία φακέλου με επιλογή</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Όνομα:</value>
@@ -1384,7 +1336,7 @@
     <value>Στήλη ημερομηνίας διαγραφής</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Ταξινόμιση</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Ομαδοποίηση κατά</value>
@@ -1393,7 +1345,7 @@
     <value>Ημερομηνία τροποποίησης</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Αρχικός φάκελος</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Ταξινόμηση κατά</value>
@@ -1420,7 +1372,7 @@
     <value>Μικροσκοπικό</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Μέλλον</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Σήμερα</value>
@@ -1435,19 +1387,19 @@
     <value>Την περασμένη εβδομάδα</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Νωρίτερα αυτό το μήνα</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Τον περασμένο μήνα</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Νωρίτερα αυτό το έτος</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Πέρυσι</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Έτος {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} στοιχείο</value>
@@ -1459,10 +1411,10 @@
     <value>Άνοιγμα καρτέλας που έχει κλείσει</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Μετονομασία</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Απόρρητο</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Η Μετακίνηση ακυρώθηκε</value>
@@ -1582,7 +1534,7 @@
     <value>Αποδοχή</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Άρνηση</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Πλήρης έλεγχος</value>
@@ -1591,10 +1543,10 @@
     <value>Λίστα περιεχομένων καταλόγου</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Τροποποίηση</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Δικαιώματα για {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Ανάγνωση και εκτέλεση</value>
@@ -1615,7 +1567,7 @@
     <value>Δεν έχετε δικαιώματα προβολής των ιδιοτήτων ασφαλείας αυτού του αντικειμένου. Κάντε κλικ στην επιλογή "Προηγμένα δικαιώματα" για να συνεχίσετε.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Ιδιοκτήτης:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Άγνωστος ιδιοκτήτης</value>
@@ -1651,7 +1603,7 @@
     <value>Πρόσβαση</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Εφαρμογή σε</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1666,10 +1618,10 @@
     <value>υποφάκελοι</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Κληρονομικό</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Δικαιώματα</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Δεν έχετε δικαιώματα προβολής των ιδιοτήτων ασφαλείας αυτού του αντικειμένου. Μπορείτε να προσπαθήσετε να αναλάβετε την κυριότητα αυτού του αντικειμένου.</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Προσθήκη αρχείου</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Προσθήκη φακέλου</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Προσθήκη στοιχείου...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Διαθέσιμες ενημερώσεις</value>
   </data>
@@ -1855,7 +1801,7 @@
     <value>Άνοιγμα γονικού φακέλου</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Άγνωστο</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Επεξεργασία ετικετών αρχείων</value>
@@ -1873,7 +1819,7 @@
     <value>Τοποθετήστε ένα δίσκο</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Εντάξει</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Απαιτούμενα διαπιστευτήρια</value>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Όνομα χρήστη</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget δέσμες</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget δίσκων</value>
@@ -1921,7 +1864,7 @@
     <value>Πλακίδια</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Άνοιγμα φακέλων σε νέα καρτέλα</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
     <value>Συνεχιζόμενα καθήκοντα</value>
@@ -1933,10 +1876,10 @@
     <value>Στήλη μεγέθους στοιχείου</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Πειραματικές σημαίες χαρακτηριστικών</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Βοήθεια και υποστήριξη</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Συμπίεση αρχείου</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Να επιλέγονται τα αρχεία όταν το ποντίκι είναι πάνω τους</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Ταξινόμηση και ομαδοποίηση</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Αρχείο</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Δημιουργία αρχείου</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles will be retiring in a future update 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Show option to open folders in a new tab</value>
@@ -2725,7 +2665,7 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>
