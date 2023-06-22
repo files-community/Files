@@ -451,7 +451,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null)
+			if (textBox is null || textBox.FindParent<Grid>() is null)
 				return;
 
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
