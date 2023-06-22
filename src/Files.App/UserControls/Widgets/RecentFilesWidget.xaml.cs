@@ -205,7 +205,7 @@ namespace Files.App.UserControls.Widgets
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			};
+			}.Where(x => x.ShowItem).ToList();
 		}
 
 		public async Task RefreshWidget()
