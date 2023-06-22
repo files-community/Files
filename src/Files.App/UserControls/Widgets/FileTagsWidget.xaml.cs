@@ -114,8 +114,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
-			var showSendTo = userSettingsService.GeneralSettingsService.ShowSendToMenu;
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: showSendTo);
+			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 			e.Handled = true;
 		}
 

@@ -264,9 +264,12 @@ namespace Files.App.Helpers
 				if (openWithItem is not null)
 					shellMenuItems.Remove(openWithItem);
 
-				var sendToItem = showSendToMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault() : null;
-				if (sendToItem is not null)
+				var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
+				if (sendToItem is not null &&
+					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
+
+				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
@@ -328,7 +331,7 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to sendto dropdown
-				if (sendToItem?.LoadSubMenuAction is not null && UserSettingsService.GeneralSettingsService.ShowSendToMenu)
+				if (sendToItem?.LoadSubMenuAction is not null)
 				{
 					await sendToItem.LoadSubMenuAction();
 
