@@ -191,7 +191,8 @@ namespace Files.App.Views.LayoutModes
 
 			if (textBox.FindParent<Grid>() is null)
 			{
-				textBlock.Visibility = Visibility.Collapsed;
+				textBlock.Visibility = Visibility.Visible;
+				textBox.Visibility = Visibility.Collapsed;
 				return;
 			}
 
