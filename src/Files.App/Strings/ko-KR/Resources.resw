@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>클라우드 드라이브</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>보관함 내보내기</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>보관함 가져오기</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>같은 이름의 보관함이 이미 존재합니다!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>항목 경로 열기</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>보관함에서 삭제</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>보관함 삭제</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>보관함</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>파일이나 폴더를 여기에 끌어다 놓아 빠르게 접근하세요.</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>보관함 이름 입력</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>새로운 이름 입력</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" 이름 바꾸기</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>보관함 생성</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>확인</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>보관함 추가</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>보관함 이름 바꾸기</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>원하는 이름</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>네트워크 드라이브 연결</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>추가 보관함 옵션</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>즐겨찾기</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>고급 실행 인수:</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>기본값</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>파일 추가</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>폴더 추가</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>항목 추가...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>업데이트 가능</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>사용자명</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>번들 위젯</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>드라이브 위젯</value>
@@ -2191,7 +2134,7 @@
     <value>예시: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>축소판 그림 표시</value>
+    <value>이미지 썸네일 표시</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>다시 시도</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>압축하는 중</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>파일과 폴더에 마우스를 올려 선택하기</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>정렬 및 분류 방법</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>보관</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>보관 파일 만들기</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>더 보기</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>하지만 걱정하지 마세요. 우리는 더 안정적이고 더 많은 기능을 갖춘 새 기능을 만들었습니다. 설정 &gt; 환경설정 &gt; 위젯에서 파일 태그 위젯을 활성화할 수 있습니다. 태그 위젯을 사용하도록 설정하면 번들 위젯이 자동으로 해제됩니다.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>번들은 향후 업데이트에서 삭제될 예정입니다📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>'태그 편집' 표시</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>'새 탭에서 폴더 열기' 옵션 표시</value>
@@ -2725,7 +2665,7 @@
     <value>설치 정보를 이용해 드라이버 설치</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>인증서 설치</value>
+    <value>인증서 설치</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>관리자 권한으로 실행</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>미리보기</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git 상태</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git 오류</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(여러 값)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>커밋한 날짜</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>커밋 메시지</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>커밋 SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>분기 관리</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>
