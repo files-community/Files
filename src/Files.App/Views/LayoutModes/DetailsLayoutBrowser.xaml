@@ -36,7 +36,10 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
@@ -45,9 +48,6 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
-			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<Style
 				x:Name="HeaderGridSplitterStyle"
@@ -226,13 +226,6 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
-
-					<!--  ListView Item Transitions  -->
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
 
 					<!--  ListView Header  -->
 					<ListView.Header>
@@ -1352,6 +1345,13 @@
 						</GroupStyle>
 					</ListView.GroupStyle>
 
+					<!--  ListView Item Transitions  -->
+					<ListView.ItemContainerTransitions>
+						<TransitionCollection>
+							<AddDeleteThemeTransition />
+						</TransitionCollection>
+					</ListView.ItemContainerTransitions>
+
 					<!--  ListView Control Property Customizing  -->
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -1378,12 +1378,7 @@
 					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
 					SelectionMode="None">
 
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<ContentThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
-
+					<!--  Item Template  -->
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="ICollectionViewGroup">
 							<StackPanel
@@ -1434,6 +1429,14 @@
 						</DataTemplate>
 					</ListView.ItemTemplate>
 
+					<!--  ListView Item Transitions  -->
+					<ListView.ItemContainerTransitions>
+						<TransitionCollection>
+							<ContentThemeTransition />
+						</TransitionCollection>
+					</ListView.ItemContainerTransitions>
+
+					<!--  ListView Control Property Customizing  -->
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />

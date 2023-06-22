@@ -225,7 +225,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
 			{
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				if (_userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
@@ -350,20 +350,20 @@ namespace Files.App.Views.LayoutModes
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+						if (!_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
-						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+						if (!_userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
-						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+						if (_userSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 							ParentShellPageInstance.Up_Click();
 						break;
 				}
 			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			else if (_userSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
 				ParentShellPageInstance.Up_Click();
 			}
@@ -408,7 +408,7 @@ namespace Files.App.Views.LayoutModes
 			var isItemFolder = item?.PrimaryItemAttribute is StorageItemTypes.Folder;
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
+			if (_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -427,7 +427,7 @@ namespace Files.App.Views.LayoutModes
 					await CommitRename(textBox);
 				}
 
-				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				if (isItemFolder && _userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 				{
 					ItemInvoked?.Invoke(
 						new ColumnParam

@@ -15,19 +15,23 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.LayoutModes
 {
+	/// <summary>
+	/// Represents generic class for all of the content view layouts.
+	/// </summary>
 	public abstract class StandardViewBase : BaseLayout
 	{
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		private const int KEY_DOWN_MASK = 0x8000;
 
 		protected int NextRenameIndex = 0;
 
 		protected abstract ListViewBase ListViewBase { get; }
 
-		protected override ItemsControl ItemsControl => ListViewBase;
-
 		protected abstract SemanticZoom RootZoom { get; }
 
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		protected override ItemsControl ItemsControl
+			=> ListViewBase;
 
 		public StandardViewBase() : base()
 		{
@@ -177,8 +181,7 @@ namespace Files.App.Views.LayoutModes
 
 			int extensionLength = RenamingItem.FileExtension?.Length ?? 0;
 
-			ListViewItem? listViewItem = ListViewBase.ContainerFromItem(RenamingItem) as ListViewItem;
-			if (listViewItem is null)
+			if (ListViewBase.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
 				return;
 
 			TextBox? textBox = null;
@@ -196,7 +199,7 @@ namespace Files.App.Views.LayoutModes
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
-			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
+			if (!SelectedItem.IsShortcut && _userSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
