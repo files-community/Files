@@ -50,22 +50,26 @@ namespace Files.App.Shell
 
 		private static async Task<ShellNewEntry> GetShellNewRegistryEntries(RegistryKey current, RegistryKey root)
 		{
-			foreach (var keyName in current.GetSubKeyNames())
+			try
 			{
-				using var key = current.OpenSubKeySafe(keyName);
-
-				if (key is null)
-					continue;
-
-				if (keyName == "ShellNew")
-					return await ParseShellNewRegistryEntry(key, root);
-				else
+				foreach (var keyName in current.GetSubKeyNames())
 				{
-					var ret = await GetShellNewRegistryEntries(key, root);
-					if (ret is not null)
-						return ret;
+					using var key = current.OpenSubKeySafe(keyName);
+
+					if (key is null)
+						continue;
+
+					if (keyName == "ShellNew")
+						return await ParseShellNewRegistryEntry(key, root);
+					else
+					{
+						var ret = await GetShellNewRegistryEntries(key, root);
+						if (ret is not null)
+							return ret;
+					}
 				}
 			}
+			catch { }
 
 			return null;
 		}
