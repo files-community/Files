@@ -2391,6 +2391,9 @@
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
   </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
+  </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Show option to open folders in a new tab</value>
   </data>

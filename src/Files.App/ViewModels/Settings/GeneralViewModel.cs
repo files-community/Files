@@ -483,6 +483,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowSendToMenu
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowSendToMenu;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowSendToMenu)
+				{
+					UserSettingsService.GeneralSettingsService.ShowSendToMenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowOpenInNewWindow
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
