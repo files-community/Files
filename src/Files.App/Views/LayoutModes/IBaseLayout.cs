@@ -74,7 +74,7 @@ namespace Files.App.Views.LayoutModes
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 
 		/// <summary>
-		/// Gets a base CommandBarFlyout instance.
+		/// Gets or sets a base CommandBarFlyout instance.
 		/// </summary>
 		CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
