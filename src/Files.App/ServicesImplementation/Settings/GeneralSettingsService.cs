@@ -186,6 +186,12 @@ namespace Files.App.ServicesImplementation.Settings
 			set => Set(value);
 		}
 
+		public bool ShowSendToMenu
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowOpenInNewTab
 		{
 			get => Get(true);
@@ -246,6 +252,7 @@ namespace Files.App.ServicesImplementation.Settings
 				case nameof(ShowFileTagsSection):
 				case nameof(MoveShellExtensionsToSubMenu):
 				case nameof(ShowEditTagsMenu):
+				case nameof(ShowSendToMenu):
 				case nameof(ShowOpenInNewTab):
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):

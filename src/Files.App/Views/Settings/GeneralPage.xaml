@@ -284,6 +284,14 @@
 								IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
+
+						<!--  Send To  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSendToMenu}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowSendToMenu}"
+								IsOn="{x:Bind ViewModel.ShowSendToMenu, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
