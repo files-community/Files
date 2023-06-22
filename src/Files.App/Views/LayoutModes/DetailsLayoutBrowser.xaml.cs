@@ -26,10 +26,9 @@ namespace Files.App.Views.LayoutModes
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
-		private uint _currentIconSize;
-
 		private ListedItem? _nextItemToSelect;
 
+		private uint _currentIconSize;
 		protected override uint IconSize
 			=> _currentIconSize;
 
@@ -39,7 +38,11 @@ namespace Files.App.Views.LayoutModes
 		protected override SemanticZoom RootZoom
 			=> RootGridZoom;
 
-		public ColumnsViewModel ColumnsViewModel { get; } = new();
+		public ColumnsViewModel ColumnsViewModel { get; }
+
+		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
+
+		public ScrollViewer? ContentScroller { get; private set; }
 
 		private double _MaxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
@@ -55,15 +58,13 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
-
-		public ScrollViewer? ContentScroller { get; private set; }
-
 		public DetailsLayoutBrowser() : base()
 		{
 			InitializeComponent();
 
 			DataContext = this;
+
+			ColumnsViewModel = new();
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -144,7 +145,8 @@ namespace Files.App.Views.LayoutModes
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 		}
 
-		#region ItemManipulationModel
+		// Event methods
+
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
@@ -178,9 +180,7 @@ namespace Files.App.Views.LayoutModes
 			if (FileList?.Items.Contains(e) ?? false)
 				FileList.SelectedItems.Remove(e);
 		}
-		#endregion
 
-		#region FolderSettings
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
 		{
 			UpdateSortIndicator();
@@ -205,20 +205,6 @@ namespace Files.App.Views.LayoutModes
 				_currentIconSize = requestedIconSize; // Update icon size before refreshing
 				ReloadItemIcons();
 			}
-		}
-		#endregion
-
-		private void UpdateSortIndicator()
-		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
 		}
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
@@ -262,7 +248,6 @@ namespace Files.App.Views.LayoutModes
 			UpdateSortIndicator();
 		}
 
-		#region FileList
 		private void FileList_LayoutUpdated(object? sender, object e)
 		{
 			FileList.LayoutUpdated -= FileList_LayoutUpdated;
@@ -270,20 +255,6 @@ namespace Files.App.Views.LayoutModes
 			TryStartRenameNextItem(_nextItemToSelect!);
 
 			_nextItemToSelect = null;
-		}
-
-		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -426,6 +397,20 @@ namespace Files.App.Views.LayoutModes
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
 		}
 
+		private new void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+					SetCheckboxSelectionState(item);
+
+				foreach (var item in e.RemovedItems)
+					SetCheckboxSelectionState(item);
+			}
+		}
+
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
@@ -441,101 +426,13 @@ namespace Files.App.Views.LayoutModes
 			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
 		}
-		#endregion
-
-		override public void StartRenameItem()
-		{
-			StartRenameItem("ItemNameTextBox");
-
-			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
-				return;
-
-			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null || textBox.FindParent<Grid>() is null)
-				return;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-		}
-
-		protected override void EndRename(TextBox textBox)
-		{
-			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
-				Grid.SetColumnSpan(parent, 1);
-
-			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-
-			if (textBox is null || listViewItem is null)
-			{
-				// Navigating away, do nothing
-			}
-			else
-			{
-				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
-				textBox.Visibility = Visibility.Collapsed;
-				textBlock!.Visibility = Visibility.Visible;
-			}
-
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
-			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
-
-			// Re-focus selected list item
-			listViewItem?.Focus(FocusState.Programmatic);
-		}
-
-		protected override bool CanGetItemFromElement(object element)
-			=> element is ListViewItem;
-
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, _currentIconSize);
-			}
-		}
-
-		#region ItemNameTextBox & StackPanel & Grid & RootGrid
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-		{
-			if (IsRenamingItem)
-			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
-				{
-					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-					FileNameTeachingTip.IsOpen = showError;
-				});
-			}
-		}
-
-		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-		{
-			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
-			// because you can't use bindings in the setters
-			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
-			while (item is not ListViewItem)
-				item = VisualTreeHelper.GetParent(item);
-			if (item is ListViewItem itemContainer)
-				itemContainer.ContextFlyout = ItemContextMenuFlyout;
-		}
-
-		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			// This prevents the drag selection rectangle from appearing when resizing the columns
-			e.Handled = true;
-		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
 		{
 			ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
 			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
-		#endregion
 
-		#region GridSplitter
 		private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			UpdateColumnLayout();
@@ -573,7 +470,185 @@ namespace Files.App.Views.LayoutModes
 
 			e.Handled = true;
 		}
-		#endregion
+
+		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (IsRenamingItem)
+			{
+				ValidateItemNameInputText(textBox, args, (showError) =>
+				{
+					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+					FileNameTeachingTip.IsOpen = showError;
+				});
+			}
+		}
+
+		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+		{
+			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+			// because you can't use bindings in the setters
+			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
+			while (item is not ListViewItem)
+				item = VisualTreeHelper.GetParent(item);
+			if (item is ListViewItem itemContainer)
+				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			// This prevents the drag selection rectangle from appearing when resizing the columns
+			e.Handled = true;
+		}
+
+		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Add(item);
+		}
+
+		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Remove(item);
+		}
+
+		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+			if (tagName is null)
+				return;
+
+			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
+		}
+
+		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
+		}
+
+		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
+		}
+
+		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			var parent = (sender as FontIcon)?.Parent as StackPanel;
+			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
+
+			if (tagName is null || parent?.DataContext is not ListedItem item)
+				return;
+
+			var tagId = _fileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
+
+			item.FileTags = item.FileTags
+				.Except(new string[] { tagId })
+				.ToArray();
+
+			e.Handled = true;
+		}
+
+		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
+		}
+
+		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
+		{
+			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
+		}
+
+		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
+		{
+			// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
+			SetToolTip(sender);
+		}
+
+		private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
+		{
+			if (sender is TextBlock textBlock)
+				SetToolTip(textBlock);
+		}
+
+		// Functional methods
+
+		private void UpdateSortIndicator()
+		{
+			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
+			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
+			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
+			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
+			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
+			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
+			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
+			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
+			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+		}
+
+		override public void StartRenameItem()
+		{
+			StartRenameItem("ItemNameTextBox");
+
+			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
+				return;
+
+			if (listViewItem.FindDescendant("ItemNameTextBox") is not TextBox textBox ||
+				textBox.FindParent<Grid>() is null)
+			{
+				return;
+			}
+
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+		}
+
+		protected override void EndRename(TextBox textBox)
+		{
+			if (textBox is not null && textBox.FindParent<Grid>() is FrameworkElement parent)
+				Grid.SetColumnSpan(parent, 1);
+
+			ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+
+			if (textBox is null || listViewItem is null)
+			{
+				// Navigating away, do nothing
+			}
+			else
+			{
+				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+				textBox.Visibility = Visibility.Collapsed;
+				textBlock!.Visibility = Visibility.Visible;
+			}
+
+			textBox!.LostFocus -= RenameTextBox_LostFocus;
+			textBox.KeyDown -= RenameTextBox_KeyDown;
+			FileNameTeachingTip.IsOpen = false;
+			IsRenamingItem = false;
+
+			// Re-focus selected list item
+			listViewItem?.Focus(FocusState.Programmatic);
+		}
+
+		protected override bool CanGetItemFromElement(object element)
+		{
+			return element is ListViewItem;
+		}
+
+		private async Task ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, _currentIconSize);
+			}
+		}
 
 		private void UpdateColumnLayout()
 		{
@@ -771,20 +846,6 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
 		}
 
-		#region ItemSelected
-		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Add(item);
-		}
-
-		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Remove(item);
-		}
-		#endregion
-
 		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
 		{
 			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
@@ -806,61 +867,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		#region FileTag
-		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
-			if (tagName is null)
-				return;
-
-			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}", false);
-		}
-
-		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
-		}
-
-		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
-		}
-
-		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			var parent = (sender as FontIcon)?.Parent as StackPanel;
-			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
-
-			if (tagName is null || parent?.DataContext is not ListedItem item)
-				return;
-
-			var tagId = _fileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
-
-			item.FileTags = item.FileTags
-				.Except(new string[] { tagId })
-				.ToArray();
-
-			e.Handled = true;
-		}
-		#endregion
-
-		#region SelectionCheckBox
-		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
-		}
-
-		private void SelectionCheckbox_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
-		}
-
-		private void SelectionCheckbox_PointerCanceled(object sender, PointerRoutedEventArgs e)
-		{
-			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, false);
-		}
-		#endregion
-
 		private void UpdateCheckboxVisibility(object sender, bool isPointerOver)
 		{
 			if (sender is ListViewItem control && control.FindDescendant<UserControl>() is UserControl userControl)
@@ -875,20 +881,6 @@ namespace Files.App.Views.LayoutModes
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
 			}
 		}
-
-		#region TextBlock
-		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
-		{
-			// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
-			SetToolTip(sender);
-		}
-
-		private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs e)
-		{
-			if (sender is TextBlock textBlock)
-				SetToolTip(textBlock);
-		}
-		#endregion
 
 		private void SetToolTip(TextBlock textBlock)
 		{
