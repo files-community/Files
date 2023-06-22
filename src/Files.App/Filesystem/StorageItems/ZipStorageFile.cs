@@ -260,7 +260,11 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 					using var outStream = await destFile.OpenStreamForWriteAsync();
-					await zipFile.ExtractFileAsync(entry.Index, outStream);
+					await SafetyExtensions.Wrap(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
+					{
+						await destFile.DeleteAsync();
+						throw exception;
+					});
 					return destFile;
 				}
 			}, RetryWithCredentials));
