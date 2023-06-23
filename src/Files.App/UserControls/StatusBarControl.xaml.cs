@@ -11,7 +11,7 @@ namespace Files.App.UserControls
 	{
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
+		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
@@ -47,6 +47,9 @@ namespace Files.App.UserControls
 
 		private void BranchesFlyout_Opening(object sender, object e)
 		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
 			DirectoryPropertiesViewModel.ShowLocals = true;
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
