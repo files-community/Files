@@ -1,29 +1,26 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class CloseSelectedTabAction : ObservableObject, IAction
 	{
-		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext context;
 
-		public string Label { get; } = "CloseTab".GetLocalizedResource();
+		public string Label
+			=> "CloseTab".GetLocalizedResource();
 
-		public string Description { get; } = "CloseSelectedTabDescription".GetLocalizedResource();
+		public string Description
+			=> "CloseSelectedTabDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.W, KeyModifiers.Ctrl);
 
-		public HotKey SecondHotKey { get; } = new(Keys.F4, KeyModifiers.Ctrl);
+		public HotKey SecondHotKey
+			=> new(Keys.F4, KeyModifiers.Ctrl);
 
-		public RichGlyph Glyph { get; } = new();
+		public RichGlyph Glyph
+			=> new();
 
 		public bool IsExecutable =>
 			context.Control is not null &&
@@ -32,6 +29,8 @@ namespace Files.App.Actions
 
 		public CloseSelectedTabAction()
 		{
+			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
