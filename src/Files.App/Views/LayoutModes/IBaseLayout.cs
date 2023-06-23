@@ -84,12 +84,12 @@ namespace Files.App.Views.LayoutModes
 		BaseLayoutCommandsViewModel? CommandsViewModel { get; }
 
 		/// <summary>
-		/// Gets an CommandBarFlyout instance for the selected item(s).
+		/// Gets or sets a CommandBarFlyout instance for the selected item(s).
 		/// </summary>
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 
 		/// <summary>
-		/// Gets a base CommandBarFlyout instance.
+		/// Gets or sets a base CommandBarFlyout instance.
 		/// </summary>
 		CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
