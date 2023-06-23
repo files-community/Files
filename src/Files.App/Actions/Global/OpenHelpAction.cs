@@ -16,10 +16,10 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.F1);
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			var url = new Uri(Constants.GitHub.DocumentationUrl);
-			await Launcher.LaunchUriAsync(url);
+			return Launcher.LaunchUriAsync(url);
 		}
 	}
 }

@@ -23,9 +23,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			mainPageViewModel.AddNewTabAsync();
-
-			return Task.CompletedTask;
+			return mainPageViewModel.AddNewTabAsync();
 		}
 	}
 }

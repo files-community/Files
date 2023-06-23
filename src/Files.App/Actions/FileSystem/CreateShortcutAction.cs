@@ -20,7 +20,8 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			context.HasSelection &&
-			context.CanCreateItem && UIHelpers.CanShowDialog;
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateShortcutAction()
 		{

@@ -29,10 +29,11 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			if (context.ShellPage is not null)
-				await UIFilesystemHelpers.CutItem(context.ShellPage);
+			return context.ShellPage is not null
+				? UIFilesystemHelpers.CutItem(context.ShellPage)
+				: Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -60,25 +60,20 @@ namespace Files.App.Actions
 			}
 		}
 
-		private void UpdateIsExecutable()
-		{
-			OnPropertyChanged(nameof(IsExecutable));
-		}
-
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItems):
-					UpdateIsExecutable();
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
 
 		private void QuickAccessManager_DataChanged(object? sender, ModifyQuickAccessEventArgs e)
 		{
-			UpdateIsExecutable();
+			OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

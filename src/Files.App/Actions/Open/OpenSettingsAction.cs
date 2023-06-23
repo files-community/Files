@@ -18,10 +18,10 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.Ctrl);
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
 			var dialog = dialogService.GetDialog(viewModel);
-			await dialog.TryShowAsync();
+			return dialog.TryShowAsync();
 		}
 	}
 }

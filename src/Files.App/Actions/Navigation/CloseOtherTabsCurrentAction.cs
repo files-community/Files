@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CloseOtherTabsCurrentDescription".GetLocalizedResource();
 
 		public bool IsExecutable
-			=> GetIsExecutable();;
+			=> GetIsExecutable();
 
 		public CloseOtherTabsCurrentAction()
 		{
