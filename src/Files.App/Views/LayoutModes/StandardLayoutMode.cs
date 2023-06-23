@@ -20,7 +20,7 @@ namespace Files.App.Views.LayoutModes
 	/// </summary>
 	public abstract class StandardViewBase : BaseLayout
 	{
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		protected readonly ICommandManager Commands;
 
 		private const int KEY_DOWN_MASK = 0x8000;
 
@@ -35,6 +35,7 @@ namespace Files.App.Views.LayoutModes
 
 		public StandardViewBase() : base()
 		{
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		}
 
 		protected override void InitializeCommandsViewModel()
@@ -79,17 +80,24 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
-			ReloadSelectedItemsIcon();
+			_ = ReloadSelectedItemsIcon();
 		}
 
 		protected virtual void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
 		{
-			ReloadSelectedItemIcon();
+			_ = ReloadSelectedItemIcon();
 		}
 
 		protected virtual async Task ReloadSelectedItemIcon()
 		{
+			if (ParentShellPageInstance is null)
+				throw new NullReferenceException($"{ParentShellPageInstance} is null.");
+
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+			if (ParentShellPageInstance.SlimContentPage.SelectedItem is null)
+				return;
+
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
@@ -97,11 +105,18 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemsIcon()
 		{
+			if (ParentShellPageInstance is null)
+				throw new NullReferenceException($"{ParentShellPageInstance} is null.");
+
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
+			if (ParentShellPageInstance.SlimContentPage.SelectedItems is null)
+				return;
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
+
 				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
 			}
 		}
@@ -109,6 +124,7 @@ namespace Files.App.Views.LayoutModes
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+
 			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
 			if (!isFileListFocused)
 				ListViewBase.Focus(FocusState.Programmatic);
@@ -126,6 +142,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void ItemManipulationModel_InvertSelectionInvoked(object? sender, EventArgs e)
 		{
+			if (SelectedItems is null)
+				return;
+
 			if (SelectedItems.Count < GetAllItems().Count() / 2)
 			{
 				var oldSelectedItems = SelectedItems.ToList();

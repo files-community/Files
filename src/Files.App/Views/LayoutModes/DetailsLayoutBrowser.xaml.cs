@@ -70,6 +70,8 @@ namespace Files.App.Views.LayoutModes
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
+		// Event methods
+
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
@@ -144,8 +146,6 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 		}
-
-		// Event methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
