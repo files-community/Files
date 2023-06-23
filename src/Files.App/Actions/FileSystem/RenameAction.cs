@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RenameAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Rename".GetLocalizedResource();
@@ -27,6 +27,8 @@ namespace Files.App.Actions
 
 		public RenameAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -35,19 +37,6 @@ namespace Files.App.Actions
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
 
 			return Task.CompletedTask;
-		}
-
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.ShellPage):
-				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.HasSelection):
-				case nameof(IContentPageContext.SelectedItems):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
 		}
 
 		private bool IsSelectionValid()
@@ -62,6 +51,19 @@ namespace Files.App.Actions
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.ZipFolder;
+		}
+
+		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.ShellPage):
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.HasSelection):
+				case nameof(IContentPageContext.SelectedItems):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }

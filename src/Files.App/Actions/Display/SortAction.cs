@@ -1,14 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.Shared.Enums;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class SortByNameAction : SortByAction
@@ -130,8 +122,9 @@ namespace Files.App.Actions
 
 	internal abstract class SortByAction : ObservableObject, IToggleAction
 	{
-		private readonly IContentPageContext contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IDisplayPageContext displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IContentPageContext contentContext;
+
+		private readonly IDisplayPageContext displayContext;
 
 		protected abstract SortOption SortOption { get; }
 
@@ -139,16 +132,16 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
-		private bool isOn;
-		public bool IsOn => isOn;
+		public bool IsOn
+			=> displayContext.SortOption == SortOption;
 
-		private bool isExecutable = false;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable
+			=> GetIsExecutable(contentContext.PageType);
 
 		public SortByAction()
 		{
-			isOn = displayContext.SortOption == SortOption;
-			isExecutable = GetIsExecutable(contentContext.PageType);
+			contentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			displayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 			contentContext.PropertyChanged += ContentContext_PropertyChanged;
 			displayContext.PropertyChanged += DisplayContext_PropertyChanged;
@@ -157,6 +150,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			displayContext.SortOption = SortOption;
+
 			return Task.CompletedTask;
 		}
 
@@ -165,19 +159,19 @@ namespace Files.App.Actions
 		private void ContentContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref isExecutable, GetIsExecutable(contentContext.PageType), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.SortOption))
-				SetProperty(ref isOn, displayContext.SortOption == SortOption, nameof(IsOn));
+				OnPropertyChanged(nameof(IsOn));
 		}
 	}
 
 	internal class SortAscendingAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Ascending".GetLocalizedResource();
@@ -190,6 +184,8 @@ namespace Files.App.Actions
 
 		public SortAscendingAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -208,7 +204,7 @@ namespace Files.App.Actions
 
 	internal class SortDescendingAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Descending".GetLocalizedResource();
@@ -221,12 +217,15 @@ namespace Files.App.Actions
 
 		public SortDescendingAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			context.SortDirection = SortDirection.Descending;
+
 			return Task.CompletedTask;
 		}
 
@@ -239,7 +238,7 @@ namespace Files.App.Actions
 
 	internal class ToggleSortDirectionAction : IAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "ToggleSortDirection".GetLocalizedResource();
@@ -247,9 +246,18 @@ namespace Files.App.Actions
 		public string Description
 			=> "ToggleSortDirectionDescription".GetLocalizedResource();
 
+		public ToggleSortDirectionAction()
+		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		}
+
 		public Task ExecuteAsync()
 		{
-			context.SortDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
+			context.SortDirection =
+				context.SortDirection is SortDirection.Descending
+					? SortDirection.Ascending
+					: SortDirection.Descending;
+
 			return Task.CompletedTask;
 		}
 	}

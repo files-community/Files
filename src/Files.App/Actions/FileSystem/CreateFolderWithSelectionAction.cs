@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "CreateFolderWithSelection".GetLocalizedResource();
@@ -19,11 +16,14 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNewFolder");
 
-		public bool IsExecutable
-			=> context.ShellPage is not null && context.HasSelection;
+		public bool IsExecutable =>
+			context.ShellPage is not null &&
+			context.HasSelection;
 
 		public CreateFolderWithSelectionAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

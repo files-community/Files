@@ -7,7 +7,7 @@ namespace Files.App.Actions
 {
 	internal class OpenFileLocationAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "OpenFileLocation".GetLocalizedResource();
@@ -18,11 +18,14 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8DA");
 
-		public bool IsExecutable
-			=> context.HasSelection && context.SelectedItem is ShortcutItem;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.SelectedItem is ShortcutItem;
 
 		public OpenFileLocationAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class LaunchPreviewPopupAction : ObservableObject, IAction
@@ -28,6 +25,7 @@ namespace Files.App.Actions
 
 		public LaunchPreviewPopupAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			previewPopupService = Ioc.Default.GetRequiredService<IPreviewPopupService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
@@ -42,17 +40,6 @@ namespace Files.App.Actions
 			await provider.TogglePreviewPopup(context.SelectedItem!.ItemPath);
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-					OnPropertyChanged(nameof(IsExecutable));
-					var _ = SwitchPopupPreview();
-					break;
-			}
-		}
-
 		private async Task SwitchPopupPreview()
 		{
 			if (IsExecutable)
@@ -62,6 +49,17 @@ namespace Files.App.Actions
 					return;
 
 				await provider.SwitchPreview(context.SelectedItem!.ItemPath);
+			}
+		}
+
+		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.SelectedItems):
+					OnPropertyChanged(nameof(IsExecutable));
+					var _ = SwitchPopupPreview();
+					break;
 			}
 		}
 	}

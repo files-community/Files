@@ -139,7 +139,7 @@ namespace Files.App.Actions
 
 	internal abstract class ToggleLayoutAction : ObservableObject, IToggleAction
 	{
-		protected IDisplayPageContext Context { get; } = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected readonly IDisplayPageContext Context;
 
 		protected abstract LayoutTypes LayoutType { get; }
 
@@ -151,15 +151,16 @@ namespace Files.App.Actions
 
 		public abstract HotKey HotKey { get; }
 
-		private bool isOn;
-		public bool IsOn => isOn;
+		public bool IsOn
+			=> Context.LayoutType == LayoutType;
 
 		public virtual bool IsExecutable
 			=> true;
 
 		public ToggleLayoutAction()
 		{
-			isOn = Context.LayoutType == LayoutType;
+			Context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -173,7 +174,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType))
-				SetProperty(ref isOn, Context.LayoutType == LayoutType, nameof(IsOn));
+				OnContextChanged(nameof(IsOn));
 
 			if (e.PropertyName is not null)
 				OnContextChanged(e.PropertyName);
@@ -186,7 +187,7 @@ namespace Files.App.Actions
 
 	internal class LayoutDecreaseSizeAction : IAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "DecreaseSize".GetLocalizedResource();
@@ -200,6 +201,11 @@ namespace Files.App.Actions
 		public HotKey MediaHotKey
 			=> new(Keys.OemMinus, KeyModifiers.Ctrl, false);
 
+		public LayoutDecreaseSizeAction()
+		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		}
+
 		public Task ExecuteAsync()
 		{
 			context.DecreaseLayoutSize();
@@ -210,7 +216,7 @@ namespace Files.App.Actions
 
 	internal class LayoutIncreaseSizeAction : IAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "IncreaseSize".GetLocalizedResource();
@@ -223,6 +229,11 @@ namespace Files.App.Actions
 
 		public HotKey MediaHotKey
 			=> new(Keys.OemPlus, KeyModifiers.Ctrl, false);
+
+		public LayoutIncreaseSizeAction()
+		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		}
 
 		public Task ExecuteAsync()
 		{

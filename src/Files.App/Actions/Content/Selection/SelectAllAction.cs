@@ -1,17 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class SelectAllAction : IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "SelectAll".GetLocalizedResource();
@@ -46,6 +40,11 @@ namespace Files.App.Actions
 
 				return !isEditing && !isRenaming;
 			}
+		}
+
+		public SelectAllAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()

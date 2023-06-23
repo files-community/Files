@@ -1,23 +1,15 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
 	internal abstract class BaseDeleteAction : BaseUIAction
 	{
-		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly IFoldersSettingsService settings;
 
-		protected readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected readonly IContentPageContext context;
 
 		public override bool IsExecutable =>
 			context.HasSelection &&
@@ -26,6 +18,9 @@ namespace Files.App.Actions
 
 		public BaseDeleteAction()
 		{
+			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

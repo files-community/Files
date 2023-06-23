@@ -149,9 +149,9 @@ namespace Files.App.Actions
 
 	internal abstract class GroupByAction : ObservableObject, IToggleAction
 	{
-		protected IContentPageContext ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected IContentPageContext ContentContext;
 
-		protected IDisplayPageContext DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected IDisplayPageContext DisplayContext;
 
 		protected abstract GroupOption GroupOption { get; }
 
@@ -159,16 +159,16 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
-		private bool _IsOn;
-		public bool IsOn => _IsOn;
+		public bool IsOn
+			=> DisplayContext.GroupOption == GroupOption;
 
-		private bool isExecutable = false;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable
+			=> GetIsExecutable(ContentContext.PageType);
 
 		public GroupByAction()
 		{
-			_IsOn = DisplayContext.GroupOption == GroupOption;
-			isExecutable = GetIsExecutable(ContentContext.PageType);
+			ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
@@ -182,18 +182,20 @@ namespace Files.App.Actions
 		}
 
 		protected virtual bool GetIsExecutable(ContentPageTypes pageType)
-			=> true;
+		{
+			return true;
+		}
 
 		private void ContentContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref isExecutable, GetIsExecutable(ContentContext.PageType), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.GroupOption))
-				SetProperty(ref _IsOn, DisplayContext.GroupOption == GroupOption, nameof(IsOn));
+				OnPropertyChanged(nameof(IsOn));
 		}
 	}
 
@@ -295,9 +297,9 @@ namespace Files.App.Actions
 
 	internal abstract class GroupByDateAction : ObservableObject, IToggleAction
 	{
-		protected IContentPageContext ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected IContentPageContext ContentContext;
 
-		protected IDisplayPageContext DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		protected IDisplayPageContext DisplayContext;
 
 		protected abstract GroupOption GroupOption { get; }
 
@@ -307,16 +309,17 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
-		private bool _IsOn;
-		public bool IsOn => _IsOn;
+		public bool IsOn =>
+			DisplayContext.GroupOption == GroupOption &&
+			DisplayContext.GroupByDateUnit == GroupByDateUnit;
 
-		private bool _IsExecutable = false;
-		public bool IsExecutable => _IsExecutable;
+		public bool IsExecutable
+			=> GetIsExecutable(ContentContext.PageType);
 
 		public GroupByDateAction()
 		{
-			_IsOn = DisplayContext.GroupOption == GroupOption && DisplayContext.GroupByDateUnit == GroupByDateUnit;
-			_IsExecutable = GetIsExecutable(ContentContext.PageType);
+			ContentContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+			DisplayContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 
 			ContentContext.PropertyChanged += ContentContext_PropertyChanged;
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
@@ -330,23 +333,21 @@ namespace Files.App.Actions
 			return Task.CompletedTask;
 		}
 
-		protected virtual bool GetIsExecutable(ContentPageTypes pageType) => true;
+		protected virtual bool GetIsExecutable(ContentPageTypes pageType)
+		{
+			return true;
+		}
 
 		private void ContentContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref _IsExecutable, GetIsExecutable(ContentContext.PageType), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		private void DisplayContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.GroupOption) or nameof(IDisplayPageContext.GroupByDateUnit))
-			{
-				SetProperty(
-					ref _IsOn,
-					DisplayContext.GroupOption == GroupOption && DisplayContext.GroupByDateUnit == GroupByDateUnit,
-					nameof(IsOn));
-			}
+				OnPropertyChanged(nameof(IsOn));
 		}
 	}
 

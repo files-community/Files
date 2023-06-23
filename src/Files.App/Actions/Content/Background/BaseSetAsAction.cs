@@ -1,14 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal abstract class BaseSetAsAction : ObservableObject, IAction
@@ -34,6 +26,8 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
+		public abstract Task ExecuteAsync();
+
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
@@ -57,7 +51,5 @@ namespace Files.App.Actions
 					}
 			}
 		}
-
-		public abstract Task ExecuteAsync();
 	}
 }

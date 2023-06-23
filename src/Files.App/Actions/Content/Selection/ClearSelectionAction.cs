@@ -1,14 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class ClearSelectionAction : IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "ClearSelection".GetLocalizedResource();
@@ -38,6 +35,11 @@ namespace Files.App.Actions
 
 				return !isEditing && !isRenaming;
 			}
+		}
+
+		public ClearSelectionAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()

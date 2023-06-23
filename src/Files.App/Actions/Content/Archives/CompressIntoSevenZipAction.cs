@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
 using Files.App.Filesystem.Archive;
 
 namespace Files.App.Actions

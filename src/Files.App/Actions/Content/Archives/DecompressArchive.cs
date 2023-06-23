@@ -1,15 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.Backend.Helpers;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -23,7 +15,8 @@ namespace Files.App.Actions
 		public string Description
 			=> "DecompressArchiveDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.E, KeyModifiers.Ctrl);
 
 		public override bool IsExecutable => 
 			(IsContextPageTypeAdaptedToCommand() &&

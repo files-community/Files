@@ -1,15 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
 using Files.App.Shell;
 
 namespace Files.App.Actions
 {
 	internal class RunAsAnotherUserAction : ObservableObject, IAction
 	{
-		public IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		public IContentPageContext context;
 
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
@@ -26,6 +24,8 @@ namespace Files.App.Actions
 
 		public RunAsAnotherUserAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 			await ContextMenu.InvokeVerb("runasuser", context.SelectedItem!.ItemPath);
 		}
 
-		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

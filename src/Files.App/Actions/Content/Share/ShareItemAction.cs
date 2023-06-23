@@ -1,15 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
 	internal class ShareItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Share".GetLocalizedResource();
@@ -28,6 +26,8 @@ namespace Files.App.Actions
 
 		public ShareItemAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

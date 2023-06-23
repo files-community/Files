@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CutItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Cut".GetLocalizedResource();
@@ -19,10 +19,13 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.X, KeyModifiers.Ctrl);
 
-		public bool IsExecutable => context.HasSelection;
+		public bool IsExecutable
+			=> context.HasSelection;
 
 		public CutItemAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

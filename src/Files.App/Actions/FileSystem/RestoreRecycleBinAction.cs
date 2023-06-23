@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Restore".GetLocalizedResource();
@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "RestoreRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconRestoreItem");
+			=> new(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
 			context.PageType is ContentPageTypes.RecycleBin &&
@@ -23,6 +23,8 @@ namespace Files.App.Actions
 
 		public RestoreRecycleBinAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

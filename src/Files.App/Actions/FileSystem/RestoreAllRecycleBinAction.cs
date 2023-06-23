@@ -12,7 +12,7 @@ namespace Files.App.Actions
 			=> "RestoreAllRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconRestoreItem");
+			=> new(opacityStyle: "ColorIconRestoreItem");
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&

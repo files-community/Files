@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Paste".GetLocalizedResource();
@@ -19,12 +19,12 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.CtrlShift);
 
-		private bool isExecutable;
-		public override bool IsExecutable => isExecutable;
+		public override bool IsExecutable
+			=> GetIsExecutable();
 
 		public PasteItemToSelectionAction()
 		{
-			isExecutable = GetIsExecutable();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
@@ -46,12 +46,16 @@ namespace Files.App.Actions
 		{
 			if (!App.AppModel.IsPasteEnabled)
 				return false;
+
 			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
 				return false;
+
 			if (!context.HasSelection)
 				return true;
 
-			return context.SelectedItem?.PrimaryItemAttribute is Windows.Storage.StorageItemTypes.Folder && UIHelpers.CanShowDialog;
+			return
+				context.SelectedItem?.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder &&
+				UIHelpers.CanShowDialog;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -60,14 +64,14 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.PageType):
 				case nameof(IContentPageContext.SelectedItem):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
 		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(AppModel.IsPasteEnabled))
-				SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

@@ -1,23 +1,20 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class PlayAllAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
-			{ get; } = "PlayAll".GetLocalizedResource();
+			=> "PlayAll".GetLocalizedResource();
 
 		public string Description
-			{ get; } = "PlayAllDescription".GetLocalizedResource();
+			=> "PlayAllDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			{ get; } = new("\uE768");
+			=> new("\uE768");
 
 		public bool IsExecutable =>
 			context.PageType != ContentPageTypes.RecycleBin &&
@@ -26,6 +23,8 @@ namespace Files.App.Actions
 
 		public PlayAllAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

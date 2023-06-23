@@ -1,18 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class ToggleSortDirectoriesAlongsideFilesAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "SettingsListAndSortDirectoriesAlongsideFiles".GetLocalizedResource();
@@ -25,6 +18,8 @@ namespace Files.App.Actions
 
 		public ToggleSortDirectoriesAlongsideFilesAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

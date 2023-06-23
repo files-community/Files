@@ -1,25 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
 using Files.App.Shell;
-using Files.Backend.Helpers;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class RunWithPowershellAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-		public bool IsExecutable =>
-			context.SelectedItem is not null &&
-			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "RunWithPowerShell".GetLocalizedResource();
@@ -30,8 +18,14 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE756");
 
+		public bool IsExecutable =>
+			context.SelectedItem is not null &&
+			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
+
 		public RunWithPowershellAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

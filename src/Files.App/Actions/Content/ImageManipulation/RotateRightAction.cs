@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Extensions;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
@@ -16,7 +14,7 @@ namespace Files.App.Actions
 			=> "RotateRightDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconRotateRight");
+			=> new(opacityStyle: "ColorIconRotateRight");
 
 		protected override BitmapRotation Rotation
 			=> BitmapRotation.Clockwise90Degrees;

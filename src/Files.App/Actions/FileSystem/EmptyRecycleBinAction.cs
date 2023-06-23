@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "EmptyRecycleBin".GetLocalizedResource();
@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "EmptyRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconDelete");
+			=> new(opacityStyle: "ColorIconDelete");
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&
@@ -23,6 +23,8 @@ namespace Files.App.Actions
 
 		public EmptyRecycleBinAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

@@ -1,13 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class DecompressArchiveHere : BaseUIAction, IAction
@@ -27,7 +20,7 @@ namespace Files.App.Actions
 
 		public DecompressArchiveHere()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>()
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}

@@ -15,7 +15,7 @@ namespace Files.App.Actions
 {
 	internal class PasteItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Paste".GetLocalizedResource();
@@ -29,12 +29,12 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.Ctrl);
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public PasteItemAction()
 		{
-			isExecutable = GetIsExecutable();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
@@ -51,19 +51,23 @@ namespace Files.App.Actions
 
 		public bool GetIsExecutable()
 		{
-			return App.AppModel.IsPasteEnabled
-				&& context.PageType is not ContentPageTypes.Home and not ContentPageTypes.RecycleBin and not ContentPageTypes.SearchResults;
+			return
+				App.AppModel.IsPasteEnabled &&
+				context.PageType != ContentPageTypes.Home &&
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.SearchResults;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IContentPageContext.PageType))
-				SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
+
 		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(AppModel.IsPasteEnabled))
-				SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

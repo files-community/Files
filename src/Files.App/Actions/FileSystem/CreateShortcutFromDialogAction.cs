@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Shortcut".GetLocalizedResource();
@@ -16,11 +16,14 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE71B");
 
-		public override bool IsExecutable
-			=> context.CanCreateItem && UIHelpers.CanShowDialog;
+		public override bool IsExecutable =>
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateShortcutFromDialogAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

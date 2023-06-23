@@ -7,9 +7,9 @@ namespace Files.App.Actions
 {
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly DrivesViewModel drivesViewModel;
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -17,11 +17,16 @@ namespace Files.App.Actions
 		public string Description
 			=> "FormatDriveDescription".GetLocalizedResource();
 
-		public bool IsExecutable
-			=> context.HasItem && (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+		public bool IsExecutable =>
+			context.HasItem &&
+			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

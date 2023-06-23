@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal class OpenItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "Open".GetLocalizedResource();
@@ -32,6 +32,8 @@ namespace Files.App.Actions
 
 		public OpenItemAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -49,7 +51,7 @@ namespace Files.App.Actions
 
 	internal class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
@@ -68,6 +70,8 @@ namespace Files.App.Actions
 
 		public OpenItemWithApplicationPickerAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -85,7 +89,7 @@ namespace Files.App.Actions
 
 	internal class OpenParentFolderAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
 		public string Label
 			=> "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
@@ -96,11 +100,14 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE197");
 
-		public bool IsExecutable
-			=> context.HasSelection && context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

@@ -1,26 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.ServicesImplementation;
 using Files.App.UserControls.Widgets;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
 	internal class PinItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly IQuickAccessService service;
 
 		public string Label
 			=> "PinToFavorites".GetLocalizedResource();
@@ -31,12 +22,13 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconPinToFavorites");
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public PinItemAction()
 		{
-			isExecutable = GetIsExecutable();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
@@ -73,7 +65,7 @@ namespace Files.App.Actions
 		}
 		private void UpdateIsExecutable()
 		{
-			SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+			OnPropertyChanged(nameof(IsExecutable));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
