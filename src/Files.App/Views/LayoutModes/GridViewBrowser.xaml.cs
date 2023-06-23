@@ -204,7 +204,7 @@ namespace Files.App.Views.LayoutModes
 			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
-			if (!SelectedItem.IsShortcut && _userSettingsService.FoldersSettingsService.ShowFileExtensions)
+			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);
@@ -374,7 +374,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -411,9 +411,9 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
-				!_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-			else if (_userSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				ParentShellPageInstance.Up_Click();
 
 			ResetRenameDoubleClick();
@@ -508,7 +508,7 @@ namespace Files.App.Views.LayoutModes
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
-				if (_userSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
 					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else

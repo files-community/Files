@@ -72,10 +72,10 @@ namespace Files.App.Views.LayoutModes
 					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
 					NavPathParam = column.NavPathParam
 				});
-				navigationArguments.NavPathParam = column.NavPathParam;
+				_navigationArguments.NavPathParam = column.NavPathParam;
 				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-			else if (_userSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
 			{
 				CloseUnnecessaryColumns(column);
 			}
@@ -90,7 +90,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			base.OnNavigatedTo(eventArgs);
 
-			var path = navigationArguments.NavPathParam;
+			var path = _navigationArguments.NavPathParam;
 			var pathStack = new Stack<string>();
 
 			if (path is not null)
@@ -106,17 +106,17 @@ namespace Files.App.Views.LayoutModes
 				}
 			}
 
-			OwnerPath = navigationArguments.NavPathParam;
+			OwnerPath = _navigationArguments.NavPathParam;
 			FocusIndex = pathStack.Count;
 
 			MainPageFrame.Navigated += Frame_Navigated;
 			MainPageFrame.Navigate(typeof(ColumnShellPage), new ColumnParam
 			{
 				Column = 0,
-				IsSearchResultPage = navigationArguments.IsSearchResultPage,
-				SearchQuery = navigationArguments.SearchQuery,
-				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
-				SearchPathParam = navigationArguments.SearchPathParam,
+				IsSearchResultPage = _navigationArguments.IsSearchResultPage,
+				SearchQuery = _navigationArguments.SearchQuery,
+				SearchUnindexedItems = _navigationArguments.SearchUnindexedItems,
+				SearchPathParam = _navigationArguments.SearchPathParam,
 				NavPathParam = path
 			});
 
@@ -213,7 +213,7 @@ namespace Files.App.Views.LayoutModes
 
 					if ((ColumnHost.ActiveBlades[index].Content as Frame)?.Content is ColumnShellPage s)
 					{
-						navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
+						_navigationArguments.NavPathParam = s.FilesystemViewModel.WorkingDirectory;
 						ParentShellPageInstance.TabItemArguments.NavigationArg = s.FilesystemViewModel.WorkingDirectory;
 					}
 				});

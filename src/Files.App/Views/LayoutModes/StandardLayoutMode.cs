@@ -207,7 +207,7 @@ namespace Files.App.Views.LayoutModes
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
-			if (!SelectedItem.IsShortcut && _userSettingsService.FoldersSettingsService.ShowFileExtensions)
+			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
 				selectedTextLength -= extensionLength;
 
 			textBox.Select(0, selectedTextLength);

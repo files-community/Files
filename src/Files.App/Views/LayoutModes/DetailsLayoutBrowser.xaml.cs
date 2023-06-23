@@ -354,7 +354,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
@@ -381,11 +381,11 @@ namespace Files.App.Views.LayoutModes
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !_userSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else if (_userSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
 				ParentShellPageInstance?.Up_Click();
 			}
@@ -539,7 +539,7 @@ namespace Files.App.Views.LayoutModes
 			if (tagName is null || parent?.DataContext is not ListedItem item)
 				return;
 
-			var tagId = _fileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
+			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
 			item.FileTags = item.FileTags
 				.Except(new string[] { tagId })
@@ -874,7 +874,7 @@ namespace Files.App.Views.LayoutModes
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
-				if (_userSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
 					|| isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else

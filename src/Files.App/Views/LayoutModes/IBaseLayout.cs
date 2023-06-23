@@ -44,6 +44,21 @@ namespace Files.App.Views.LayoutModes
 		ListedItem? SelectedItem { get; }
 
 		/// <summary>
+		/// Gets a ParentShellPageInstance instance.
+		/// </summary>
+		public IShellPage? ParentShellPageInstance { get; }
+
+		/// <summary>
+		/// Gets an item in renaming.
+		/// </summary>
+		public ListedItem? RenamingItem { get; }
+
+		/// <summary>
+		/// Gets old name of the renamed item.
+		/// </summary>
+		public string? OldItemName { get; }
+
+		/// <summary>
 		/// Gets an ItemManipulationModel instance.
 		/// </summary>
 		ItemManipulationModel ItemManipulationModel { get; }

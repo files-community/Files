@@ -33,33 +33,41 @@ namespace Files.App.Views.LayoutModes
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
-		protected readonly IUserSettingsService _userSettingsService;
+		protected readonly IUserSettingsService UserSettingsService;
 
-		protected readonly IFileTagsSettingsService _fileTagsSettingsService;
+		protected readonly IFileTagsSettingsService FileTagsSettingsService;
 
-		private readonly DispatcherQueueTimer jumpTimer;
+		private readonly DispatcherQueueTimer _jumpTimer;
 
-		private readonly DispatcherQueueTimer dragOverTimer;
+		private readonly DispatcherQueueTimer _dragOverTimer;
 
-		private readonly DispatcherQueueTimer tapDebounceTimer;
+		private readonly DispatcherQueueTimer _tapDebounceTimer;
 
-		private readonly DispatcherQueueTimer hoverTimer;
+		private readonly DispatcherQueueTimer _hoverTimer;
 
-		private CancellationTokenSource? groupingCancellationToken;
+		private CancellationTokenSource? _groupingCancellationToken;
 
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+		private CancellationTokenSource? _shellContextMenuItemCancellationToken;
 
-		private ListedItem? dragOverItem = null;
+		private ListedItem? _dragOverItem;
 
-		private ListedItem? hoveredItem = null;
+		private ListedItem? _hoveredItem;
 
-		private ListedItem? preRenamingItem = null;
+		private ListedItem? _preRenamingItem;
 
-		protected NavigationArguments? navigationArguments;
+		protected NavigationArguments? _navigationArguments;
 
 		protected abstract uint IconSize { get; }
 
 		protected abstract ItemsControl ItemsControl { get; }
+
+		protected static AddressToolbar? NavToolbar
+			=> (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public static AppModel AppModel
+			=> App.AppModel;
 
 		/// <inheritdoc/>
 		public PreviewPaneViewModel PreviewPaneViewModel { get; }
@@ -88,12 +96,16 @@ namespace Files.App.Views.LayoutModes
 		/// <inheritdoc/>
 		public ListedItem? SelectedItem { get; private set; }
 
+		/// <inheritdoc/>
 		public IShellPage? ParentShellPageInstance { get; private set; }
 
+		/// <inheritdoc/>
 		public ListedItem? RenamingItem { get; set; }
 
+		/// <inheritdoc/>
 		public string? OldItemName { get; set; }
 
+		/// <inheritdoc/>
 		public bool LockPreviewPaneContent { get; set; }
 
 		public FolderSettingsViewModel? FolderSettings
@@ -101,14 +113,6 @@ namespace Files.App.Views.LayoutModes
 
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
-
-		public static AppModel AppModel
-			=> App.AppModel;
-
-		protected static AddressToolbar? NavToolbar
-			=> (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
-
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		private bool _IsMiddleClickToScrollEnabled;
 		public bool IsMiddleClickToScrollEnabled
@@ -205,7 +209,7 @@ namespace Files.App.Views.LayoutModes
 					}
 
 					// Restart the timer
-					jumpTimer.Start();
+					_jumpTimer.Start();
 				}
 
 				_JumpString = value;
@@ -250,7 +254,7 @@ namespace Files.App.Views.LayoutModes
 							{
 								// Tapped event must be executed first
 								await Task.Delay(50);
-								preRenamingItem = SelectedItem;
+								_preRenamingItem = SelectedItem;
 							});
 						}
 						else
@@ -271,8 +275,8 @@ namespace Files.App.Views.LayoutModes
 		public BaseLayout()
 		{
 			// Dependency injection
-			_userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			_fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 
 			// Initialize
@@ -304,18 +308,22 @@ namespace Files.App.Views.LayoutModes
 			HookEvents();
 
 			// Initialize timers.
-			jumpTimer = DispatcherQueue.CreateTimer();
-			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
-			jumpTimer.Tick += JumpTimer_Tick;
+			_jumpTimer = DispatcherQueue.CreateTimer();
+			_jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+			_jumpTimer.Tick += JumpTimer_Tick;
 
-			dragOverTimer = DispatcherQueue.CreateTimer();
-			tapDebounceTimer = DispatcherQueue.CreateTimer();
-			hoverTimer = DispatcherQueue.CreateTimer();
+			_dragOverTimer = DispatcherQueue.CreateTimer();
+			_tapDebounceTimer = DispatcherQueue.CreateTimer();
+			_hoverTimer = DispatcherQueue.CreateTimer();
 		}
 
 		protected abstract void HookEvents();
 
 		protected abstract void UnhookEvents();
+
+		protected abstract void InitializeCommandsViewModel();
+
+		protected abstract bool CanGetItemFromElement(object element);
 
 		private void HookBaseEvents()
 		{
@@ -330,18 +338,7 @@ namespace Files.App.Views.LayoutModes
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			_JumpString = string.Empty;
-			jumpTimer.Stop();
-		}
-
-		protected abstract void InitializeCommandsViewModel();
-
-		protected IEnumerable<ListedItem>? GetAllItems()
-		{
-			var items = CollectionViewSource.IsSourceGrouped
-				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
-				: CollectionViewSource.Source as IEnumerable<ListedItem>;
-
-			return items ?? new List<ListedItem>();
+			_jumpTimer.Stop();
 		}
 
 		public virtual void ResetItemOpacity()
@@ -357,6 +354,15 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		protected IEnumerable<ListedItem>? GetAllItems()
+		{
+			var items = CollectionViewSource.IsSourceGrouped
+				? (CollectionViewSource.Source as BulkConcurrentObservableCollection<GroupedCollection<ListedItem>>)?.SelectMany(g => g) // add all items from each group to the new list
+				: CollectionViewSource.Source as IEnumerable<ListedItem>;
+
+			return items ?? new List<ListedItem>();
+		}
+
 		protected ListedItem? GetItemFromElement(object element)
 		{
 			if (element is not ContentControl item || !CanGetItemFromElement(element))
@@ -364,8 +370,6 @@ namespace Files.App.Views.LayoutModes
 
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
 		}
-
-		protected abstract bool CanGetItemFromElement(object element);
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
@@ -377,11 +381,11 @@ namespace Files.App.Views.LayoutModes
 				{
 					ParentShellPageInstance.NavigateWithArguments(layoutType, new NavigationArguments()
 					{
-						NavPathParam = navigationArguments!.NavPathParam,
-						IsSearchResultPage = navigationArguments.IsSearchResultPage,
-						SearchPathParam = navigationArguments.SearchPathParam,
-						SearchQuery = navigationArguments.SearchQuery,
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
+						NavPathParam = _navigationArguments!.NavPathParam,
+						IsSearchResultPage = _navigationArguments.IsSearchResultPage,
+						SearchPathParam = _navigationArguments.SearchPathParam,
+						SearchQuery = _navigationArguments.SearchQuery,
+						SearchUnindexedItems = _navigationArguments.SearchUnindexedItems,
 						IsLayoutSwitch = true,
 						AssociatedTabInstance = ParentShellPageInstance
 					});
@@ -402,9 +406,9 @@ namespace Files.App.Views.LayoutModes
 			// Add item jumping handler
 			CharacterReceived += Page_CharacterReceived;
 
-			navigationArguments = (NavigationArguments)eventArgs.Parameter;
+			_navigationArguments = (NavigationArguments)eventArgs.Parameter;
 
-			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+			ParentShellPageInstance = _navigationArguments.AssociatedTabInstance;
 			if (ParentShellPageInstance is null)
 				throw new NullReferenceException($"{ParentShellPageInstance} is null.");
 
@@ -420,10 +424,10 @@ namespace Files.App.Views.LayoutModes
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
 
-			if (!navigationArguments.IsSearchResultPage)
+			if (!_navigationArguments.IsSearchResultPage)
 			{
 				var previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
+				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(_navigationArguments.NavPathParam);
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
@@ -440,16 +444,16 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam ?? string.Empty;
+				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = _navigationArguments.NavPathParam ?? string.Empty;
 
-				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
+				if (!_navigationArguments.IsLayoutSwitch || previousDir != workingDir)
 					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else
 					ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
 			}
 			else
 			{
-				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.SearchPathParam);
+				await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(_navigationArguments.SearchPathParam);
 
 				ParentShellPageInstance.ToolbarViewModel.CanGoForward = false;
 
@@ -467,16 +471,16 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
-				if (!navigationArguments.IsLayoutSwitch)
+				if (!_navigationArguments.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam ?? string.Empty, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
+					var displayName = App.LibraryManager.TryGetLibrary(_navigationArguments.SearchPathParam ?? string.Empty, out var lib) ? lib.Text : _navigationArguments.SearchPathParam;
+					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), _navigationArguments.SearchQuery, displayName));
 					var searchInstance = new Filesystem.Search.FolderSearch
 					{
-						Query = navigationArguments.SearchQuery,
-						Folder = navigationArguments.SearchPathParam,
+						Query = _navigationArguments.SearchQuery,
+						Folder = _navigationArguments.SearchPathParam,
 						ThumbnailSize = InstanceViewModel!.FolderSettings.GetIconSize(),
-						SearchUnindexedItems = navigationArguments.SearchUnindexedItems
+						SearchUnindexedItems = _navigationArguments.SearchUnindexedItems
 					};
 
 					_ = ParentShellPageInstance.FilesystemViewModel.SearchAsync(searchInstance);
@@ -500,17 +504,17 @@ namespace Files.App.Views.LayoutModes
 		{
 			try
 			{
-				if (navigationArguments is not null &&
-					navigationArguments.SelectItems is not null &&
-					navigationArguments.SelectItems.Any())
+				if (_navigationArguments is not null &&
+					_navigationArguments.SelectItems is not null &&
+					_navigationArguments.SelectItems.Any())
 				{
 					List<ListedItem> listedItemsToSelect = new();
-					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
+					listedItemsToSelect.AddRange(ParentShellPageInstance!.FilesystemViewModel.FilesAndFolders.Where((li) => _navigationArguments.SelectItems.Contains(li.ItemNameRaw)));
 
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
-				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
+				else if (_navigationArguments is not null && _navigationArguments.FocusOnNavigation)
 				{
 					if (SelectedItems?.Count == 0)
 						UpdatePreviewPaneSelection(null);
@@ -540,9 +544,9 @@ namespace Files.App.Views.LayoutModes
 		private async Task GroupPreferenceUpdated()
 		{
 			// Two or more of these running at the same time will cause a crash, so cancel the previous one before beginning
-			groupingCancellationToken?.Cancel();
-			groupingCancellationToken = new CancellationTokenSource();
-			var token = groupingCancellationToken.Token;
+			_groupingCancellationToken?.Cancel();
+			_groupingCancellationToken = new CancellationTokenSource();
+			var token = _groupingCancellationToken.Token;
 
 			await ParentShellPageInstance!.FilesystemViewModel.GroupOptionsUpdated(token);
 
@@ -600,8 +604,8 @@ namespace Files.App.Views.LayoutModes
 				if (BaseContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
 					itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
 
-				shellContextMenuItemCancellationToken?.Cancel();
-				shellContextMenuItemCancellationToken = new CancellationTokenSource();
+				_shellContextMenuItemCancellationToken?.Cancel();
+				_shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(
@@ -627,7 +631,7 @@ namespace Files.App.Views.LayoutModes
 
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
 				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, _shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
@@ -668,8 +672,8 @@ namespace Files.App.Views.LayoutModes
 			if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
 				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
 
-			shellContextMenuItemCancellationToken?.Cancel();
-			shellContextMenuItemCancellationToken = new CancellationTokenSource();
+			_shellContextMenuItemCancellationToken?.Cancel();
+			_shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
 			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
@@ -696,7 +700,7 @@ namespace Files.App.Views.LayoutModes
 					SelectedItems!,
 					shiftPressed,
 					false,
-					shellContextMenuItemCancellationToken.Token);
+					_shellContextMenuItemCancellationToken.Token);
 
 				if (shellMenuItems.Any())
 					await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
@@ -740,7 +744,7 @@ namespace Files.App.Views.LayoutModes
 			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
 
 			// Only show the edit tags flyout if settings is enabled
-			if (!_userSettingsService.GeneralSettingsService.ShowEditTagsMenu)
+			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
 				return;
 
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
@@ -763,7 +767,7 @@ namespace Files.App.Views.LayoutModes
 
 			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
 
-			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!_userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
+			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where((x, i) =>
@@ -821,12 +825,12 @@ namespace Files.App.Views.LayoutModes
 						index++;
 					}
 
-					if (overflowItemFlyout.Items.Count > 0 && _userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!_userSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					else if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
 						overflowItem.Visibility = Visibility.Collapsed;
 					}
@@ -862,7 +866,7 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			// Add items to sendto dropdown
-			if (_userSettingsService.GeneralSettingsService.ShowSendToMenu)
+			if (UserSettingsService.GeneralSettingsService.ShowSendToMenu)
 			{
 				var sendToOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "SendToOverflow") as AppBarButton;
 
@@ -995,8 +999,8 @@ namespace Files.App.Views.LayoutModes
 			var item = GetItemFromElement(sender);
 
 			// Reset dragged over item
-			if (item == dragOverItem)
-				dragOverItem = null;
+			if (item == _dragOverItem)
+				_dragOverItem = null;
 		}
 
 		protected async void Item_DragOver(object sender, DragEventArgs e)
@@ -1011,17 +1015,17 @@ namespace Files.App.Views.LayoutModes
 			{
 				deferral = e.GetDeferral();
 
-				if (dragOverItem != item)
+				if (_dragOverItem != item)
 				{
-					dragOverItem = item;
-					dragOverTimer.Stop();
-					dragOverTimer.Debounce(() =>
+					_dragOverItem = item;
+					_dragOverTimer.Stop();
+					_dragOverTimer.Debounce(() =>
 					{
-						if (dragOverItem is not null && !dragOverItem.IsExecutable)
+						if (_dragOverItem is not null && !_dragOverItem.IsExecutable)
 						{
-							dragOverTimer.Stop();
-							ItemManipulationModel.SetSelectedItem(dragOverItem);
-							dragOverItem = null;
+							_dragOverTimer.Stop();
+							ItemManipulationModel.SetSelectedItem(_dragOverItem);
+							_dragOverItem = null;
 							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
 						}
 					},
@@ -1099,7 +1103,7 @@ namespace Files.App.Views.LayoutModes
 			e.Handled = true;
 
 			// Reset dragged over item
-			dragOverItem = null;
+			_dragOverItem = null;
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
@@ -1129,7 +1133,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.RightTapped += FileListItem_RightTapped;
-				if (_userSettingsService.FoldersSettingsService.SelectFilesOnHover)
+				if (UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				{
 					container.PointerEntered += FileListItem_PointerEntered;
 					container.PointerExited += FileListItem_PointerExited;
@@ -1181,24 +1185,24 @@ namespace Files.App.Views.LayoutModes
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
-			if (!_userSettingsService.FoldersSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			hoveredItem = GetItemFromElement(sender);
+			_hoveredItem = GetItemFromElement(sender);
 
-			hoverTimer.Stop();
-			hoverTimer.Debounce(() =>
+			_hoverTimer.Stop();
+			_hoverTimer.Debounce(() =>
 			{
-				if (hoveredItem is null)
+				if (_hoveredItem is null)
 					return;
 
-				hoverTimer.Stop();
+				_hoverTimer.Stop();
 
 				// Selection of multiple individual items with control
 				if (e.KeyModifiers == VirtualKeyModifiers.Control &&
 					_SelectedItems is not null)
 				{
-					ItemManipulationModel.AddSelectedItem(hoveredItem);
+					ItemManipulationModel.AddSelectedItem(_hoveredItem);
 				}
 				// Selection of a range of items with shift
 				else if (e.KeyModifiers == VirtualKeyModifiers.Shift &&
@@ -1209,7 +1213,7 @@ namespace Files.App.Views.LayoutModes
 					byte found = 0;
 					for (int i = 0; i < ItemsControl.Items.Count && found != 2; i++)
 					{
-						if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == hoveredItem)
+						if (ItemsControl.Items[i] == last || ItemsControl.Items[i] == _hoveredItem)
 							found++;
 
 						if (found != 0 && !_SelectedItems.Contains(ItemsControl.Items[i]))
@@ -1219,7 +1223,7 @@ namespace Files.App.Views.LayoutModes
 				// Avoid resetting the selection if multiple items are selected
 				else if (SelectedItems is null || SelectedItems.Count <= 1)
 				{
-					ItemManipulationModel.SetSelectedItem(hoveredItem);
+					ItemManipulationModel.SetSelectedItem(_hoveredItem);
 				}
 			},
 			TimeSpan.FromMilliseconds(600), false);
@@ -1227,11 +1231,11 @@ namespace Files.App.Views.LayoutModes
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (!_userSettingsService.FoldersSettingsService.SelectFilesOnHover)
+			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
-			hoverTimer.Stop();
-			hoveredItem = null;
+			_hoverTimer.Stop();
+			_hoveredItem = null;
 		}
 
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -1367,22 +1371,22 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (clickedItem is ListedItem item)
 			{
-				if (item == preRenamingItem)
+				if (item == _preRenamingItem)
 				{
-					tapDebounceTimer.Debounce(() =>
+					_tapDebounceTimer.Debounce(() =>
 					{
-						if (item == preRenamingItem)
+						if (item == _preRenamingItem)
 						{
 							StartRenameItem();
-							tapDebounceTimer.Stop();
+							_tapDebounceTimer.Stop();
 						}
 					},
 					TimeSpan.FromMilliseconds(500));
 				}
 				else
 				{
-					tapDebounceTimer.Stop();
-					preRenamingItem = item;
+					_tapDebounceTimer.Stop();
+					_preRenamingItem = item;
 				}
 			}
 			else
@@ -1393,8 +1397,8 @@ namespace Files.App.Views.LayoutModes
 
 		public void ResetRenameDoubleClick()
 		{
-			preRenamingItem = null;
-			tapDebounceTimer.Stop();
+			_preRenamingItem = null;
+			_tapDebounceTimer.Stop();
 		}
 
 		protected async Task ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
