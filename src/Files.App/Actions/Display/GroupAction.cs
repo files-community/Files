@@ -353,7 +353,7 @@ namespace Files.App.Actions
 
 	internal class GroupAscendingAction : ObservableObject, IToggleAction
 	{
-		private	readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Ascending".GetLocalizedResource();
@@ -369,6 +369,8 @@ namespace Files.App.Actions
 
 		public GroupAscendingAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -395,7 +397,7 @@ namespace Files.App.Actions
 
 	internal class GroupDescendingAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Descending".GetLocalizedResource();
@@ -411,6 +413,8 @@ namespace Files.App.Actions
 
 		public GroupDescendingAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -437,13 +441,18 @@ namespace Files.App.Actions
 
 	internal class ToggleGroupDirectionAction : IAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "ToggleSortDirection".GetLocalizedResource();
 
 		public string Description
 			=> "ToggleGroupDirectionDescription".GetLocalizedResource();
+
+		public ToggleGroupDirectionAction()
+		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		}
 
 		public Task ExecuteAsync()
 		{
@@ -455,7 +464,7 @@ namespace Files.App.Actions
 
 	internal class GroupByYearAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Year".GetLocalizedResource();
@@ -471,6 +480,8 @@ namespace Files.App.Actions
 
 		public GroupByYearAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -497,7 +508,7 @@ namespace Files.App.Actions
 
 	internal class GroupByMonthAction : ObservableObject, IToggleAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "Month".GetLocalizedResource();
@@ -513,6 +524,8 @@ namespace Files.App.Actions
 
 		public GroupByMonthAction()
 		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -539,13 +552,18 @@ namespace Files.App.Actions
 
 	internal class ToggleGroupByDateUnitAction : IAction
 	{
-		private readonly IDisplayPageContext context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		private readonly IDisplayPageContext context;
 
 		public string Label
 			=> "ToggleGroupingUnit".GetLocalizedResource();
 
 		public string Description
 			=> "ToggleGroupByDateUnitDescription".GetLocalizedResource();
+
+		public ToggleGroupByDateUnitAction()
+		{
+			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+		}
 
 		public Task ExecuteAsync()
 		{

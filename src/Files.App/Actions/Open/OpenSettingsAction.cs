@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			var dialog = dialogService.GetDialog(viewModel);
-			return await dialog.TryShowAsync();
+			await dialog.TryShowAsync();
 		}
 	}
 }

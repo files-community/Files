@@ -11,7 +11,8 @@ namespace Files.App.Actions
 		public override string Description
 			=> "SetAsSlideshowBackgroundDescription".GetLocalizedResource();
 
-		public override RichGlyph Glyph { get; } = new("\uE91B");
+		public override RichGlyph Glyph
+			=> new("\uE91B");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&

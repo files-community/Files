@@ -45,7 +45,7 @@ namespace Files.App.Actions
 
 			return context.SelectedItems.Count > 1
 				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
+				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), SystemIO.Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

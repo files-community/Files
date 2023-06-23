@@ -192,6 +192,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.SortDirection = SortDirection.Ascending;
+
 			return Task.CompletedTask;
 		}
 

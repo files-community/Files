@@ -31,6 +31,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			viewModel.IsEnabled = !IsOn;
+
 			return Task.CompletedTask;
 		}
 
