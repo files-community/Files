@@ -2,13 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.WindowsStorage;
-using Files.Backend.Services;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
