@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
@@ -9,9 +12,9 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Helpers;
-using Files.App.ServicesImplementation;
-using Files.App.ServicesImplementation.DateTimeFormatter;
-using Files.App.ServicesImplementation.Settings;
+using Files.App.Services;
+using Files.App.Services.DateTimeFormatter;
+using Files.App.Services.Settings;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
