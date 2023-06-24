@@ -77,9 +77,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			NavigationHelpers.OpenSelectedItems(context.ShellPage, true);
-
-			return Task.CompletedTask;
+			return NavigationHelpers.OpenSelectedItems(context.ShellPage, true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
