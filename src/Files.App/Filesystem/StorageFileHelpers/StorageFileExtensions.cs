@@ -190,7 +190,7 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			var fullPath = (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
 				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
 				: value;
 			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath);
@@ -244,7 +244,7 @@ namespace Files.App.Filesystem
 				}
 			}
 
-			var fullPath = (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
 				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
 				: value;
 			var item = await BaseStorageFolder.GetFolderFromPathAsync(fullPath);
