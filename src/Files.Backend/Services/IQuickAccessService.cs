@@ -3,7 +3,7 @@
 
 using Files.Shared;
 
-namespace Files.App.ServicesImplementation
+namespace Files.App.Services
 {
 	public interface IQuickAccessService
 	{
