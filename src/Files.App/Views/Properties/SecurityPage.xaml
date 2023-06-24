@@ -54,7 +54,7 @@
 					Margin="0,0,12,12"
 					HorizontalAlignment="Right"
 					Click="OpenSecurityAdvancedPageButton_Click"
-					Content="Advanced permissions" />
+					Content="{helpers:ResourceString Name=AdvancedPermissions}" />
 			</InfoBar>
 
 			<!--  Access Control Entries  -->
