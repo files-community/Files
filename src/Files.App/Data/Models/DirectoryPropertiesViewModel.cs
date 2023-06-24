@@ -38,7 +38,8 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _SelectedBranchIndex, value) && 
 					value != -1 && 
-					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals))
+					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals) &&
+					value < BranchesNames.Count)
 				{
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
 				}
