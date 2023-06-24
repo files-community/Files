@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.Json;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud.Detector
 {
 	/// <summary>
 	/// Provides an utility for Drop Box Cloud detection.

@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
-using Files.App.Helpers;
+using Files.App.Utils.Archives;
 using Files.Backend.Helpers;
 using System.ComponentModel;
 using System.IO;

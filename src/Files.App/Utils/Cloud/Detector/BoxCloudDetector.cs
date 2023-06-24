@@ -5,7 +5,7 @@ using Files.Shared.Cloud;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud.Detector
 {
 	/// <summary>
 	/// Provides an utility for Box Cloud detection.

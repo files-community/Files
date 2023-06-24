@@ -2,10 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Cloud;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud.Detector
 {
 	public abstract class AbstractCloudDetector : ICloudDetector
 	{

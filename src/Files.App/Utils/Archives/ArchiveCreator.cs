@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 
-namespace Files.App.Filesystem.Archive
+namespace Files.App.Utils.Archives
 {
 	/// <summary>
 	/// Provides an archive creation support.
@@ -70,29 +70,17 @@ namespace Files.App.Filesystem.Archive
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
-		private IProgress<FileSystemProgress> _Progress;
-		public IProgress<FileSystemProgress> Progress
-		{
-			get => _Progress;
-			set
-			{
-				_Progress = value;
-				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
-				_fileSystemProgress.Report(0);
-			}
-		}
-
 		/// <inheritdoc/>
 		public string ArchivePath { get; set; }
 
 		/// <inheritdoc/>
-		public string Directory { get; init; }
+		public string? Directory { get; init; }
 
 		/// <inheritdoc/>
-		public string FileName { get; init; }
+		public string? FileName { get; init; }
 
 		/// <inheritdoc/>
-		public string Password { get; init; }
+		public string? Password { get; init; }
 
 		/// <inheritdoc/>
 		public IEnumerable<string> Sources { get; init; }
@@ -105,6 +93,19 @@ namespace Files.App.Filesystem.Archive
 
 		/// <inheritdoc/>
 		public ArchiveSplittingSizes SplittingSize { get; init; }
+
+		private IProgress<FileSystemProgress> _Progress;
+		public IProgress<FileSystemProgress> Progress
+		{
+			get => _Progress;
+			set
+			{
+				_Progress = value;
+
+				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+				_fileSystemProgress.Report(0);
+			}
+		}
 
 		public ArchiveCreator()
 		{
@@ -123,6 +124,9 @@ namespace Files.App.Filesystem.Archive
 		/// <inheritdoc/>
 		public string GetArchivePath(string suffix = "")
 		{
+			if (string.IsNullOrEmpty(Directory))
+				throw new NullReferenceException($"{Directory} is null.");
+
 			return Path.Combine(Directory, $"{FileName}{suffix}{ArchiveExtension}");
 		}
 
@@ -131,7 +135,7 @@ namespace Files.App.Filesystem.Archive
 		{
 			string[] sources = Sources.ToArray();
 
-			var compressor = new SevenZipCompressor
+			var compressor = new SevenZipCompressor()
 			{
 				ArchiveFormat = SevenZipArchiveFormat,
 				CompressionLevel = SevenZipCompressionLevel,
@@ -142,6 +146,7 @@ namespace Files.App.Filesystem.Archive
 				PreserveDirectoryRoot = sources.Length > 1,
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
+
 			compressor.Compressing += Compressor_Compressing;
 			compressor.CompressionFinished += Compressor_CompressionFinished;
 

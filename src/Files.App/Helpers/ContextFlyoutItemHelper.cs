@@ -3,6 +3,7 @@
 
 using Files.App.Commands;
 using Files.App.ServicesImplementation.Settings;
+using Files.App.Utils.Archives;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Media.Imaging;

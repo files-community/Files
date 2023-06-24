@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud
 {
 	public class CloudDrivesManager
 	{

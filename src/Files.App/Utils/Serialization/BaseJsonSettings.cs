@@ -2,10 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.EventArguments;
-using System;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Serialization
+namespace Files.App.Utils.Serialization
 {
 	/// <summary>
 	/// A base class to easily manage all application's settings.
@@ -37,7 +36,8 @@ namespace Files.App.Serialization
 			set => _JsonSettingsDatabase = value;
 		}
 
-		BaseJsonSettings ISettingsSharingContext.Instance => this;
+		BaseJsonSettings ISettingsSharingContext.Instance
+			=> this;
 
 		public event EventHandler<SettingChangedEventArgs>? OnSettingChangedEvent;
 

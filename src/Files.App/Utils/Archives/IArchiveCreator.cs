@@ -1,11 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Files.App.Filesystem.Archive
+namespace Files.App.Utils.Archives
 {
 	/// <summary>
 	/// Represents an interface for archive creation support.
@@ -20,17 +16,17 @@ namespace Files.App.Filesystem.Archive
 		/// <summary>
 		/// Directory name.
 		/// </summary>
-		string Directory { get; }
+		string? Directory { get; }
 
 		/// <summary>
 		/// File name.
 		/// </summary>
-		string FileName { get; }
+		string? FileName { get; }
 
 		/// <summary>
 		/// Password.
 		/// </summary>
-		string Password { get; }
+		string? Password { get; }
 
 		/// <summary>
 		/// Source.

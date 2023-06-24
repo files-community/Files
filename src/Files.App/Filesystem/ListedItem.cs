@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.Cloud;
 using Files.App.ViewModels.Properties;
 using Files.Backend.Helpers;
 using Files.Backend.ViewModels.FileTags;

@@ -4,8 +4,8 @@
 using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Helpers;
-using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
+using Files.App.Utils.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Backend.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;

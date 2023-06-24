@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
+using Files.App.Utils.Serialization;
 using Files.Backend.Services.Settings;
 using Files.Shared.EventArguments;
 using Files.Shared.Extensions;

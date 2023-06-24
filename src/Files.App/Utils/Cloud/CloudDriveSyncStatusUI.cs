@@ -3,7 +3,7 @@
 
 using Files.Shared.Cloud;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud
 {
 	public class CloudDriveSyncStatusUI : ObservableObject
 	{
