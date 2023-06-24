@@ -6,7 +6,7 @@ using Files.Shared.Enums;
 using System;
 using System.Threading;
 
-namespace Files.App.Interacts
+namespace Files.App.Data.Models
 {
 	public interface IOngoingTasksActions
 	{

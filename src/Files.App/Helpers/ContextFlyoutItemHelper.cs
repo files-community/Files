@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
+using Files.App.Data.Interacts;
 using Files.App.Services.Settings;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
@@ -380,42 +381,30 @@ namespace Files.App.Helpers
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModel()
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewTabAction)
 				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab"
-					},
-					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.GeneralSettingsService.ShowOpenInNewTab,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
+					IsVisible =
+						itemsSelected &&
+						selectedItems.Count < 5 &&
+						areAllItemsFolders &&
+						userSettingsService.GeneralSettingsService.ShowOpenInNewTab,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindowItemAction)
 				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow"
-					},
-					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.GeneralSettingsService.ShowOpenInNewWindow,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
+					IsVisible =
+						itemsSelected &&
+						selectedItems.Count < 5 &&
+						areAllItemsFolders &&
+						userSettingsService.GeneralSettingsService.ShowOpenInNewWindow,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewPaneAction)
 				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowOpenInNewPane && areAllItemsFolders,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+					IsVisible =
+						itemsSelected &&
+						selectedItems.Count == 1 &&
+						userSettingsService.GeneralSettingsService.ShowOpenInNewPane &&
+						areAllItemsFolders,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
@@ -600,7 +589,6 @@ namespace Files.App.Helpers
 					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
-					CommandParameter = null,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage

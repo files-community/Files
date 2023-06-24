@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.Interacts;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Views.LayoutModes

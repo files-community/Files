@@ -482,12 +482,12 @@ namespace Files.App.Views.Shells
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
+			return SlimContentPage?.CommandsViewModel.DragOver(e);
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
+			return SlimContentPage?.CommandsViewModel.Drop(e);
 		}
 
 		public async Task Refresh_Click()

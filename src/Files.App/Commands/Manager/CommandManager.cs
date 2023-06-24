@@ -149,6 +149,9 @@ namespace Files.App.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
+		public IRichCommand OpenDirectoryInNewPaneAction => commands[CommandCodes.OpenDirectoryInNewPane];
+		public IRichCommand OpenDirectoryInNewTabAction => commands[CommandCodes.OpenDirectoryInNewTab];
+		public IRichCommand OpenInNewWindowItemAction => commands[CommandCodes.OpenInNewWindowItem];
 		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
@@ -302,6 +305,9 @@ namespace Files.App.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
+			[CommandCodes.OpenDirectoryInNewPane] = new OpenDirectoryInNewPaneAction(),
+			[CommandCodes.OpenDirectoryInNewTab] = new OpenDirectoryInNewTabAction(),
+			[CommandCodes.OpenInNewWindowItem] = new OpenInNewWindowItemAction(),
 			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),

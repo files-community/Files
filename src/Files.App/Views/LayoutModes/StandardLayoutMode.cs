@@ -35,7 +35,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+			CommandsViewModel = new BaseLayoutCommandsViewModel(ParentShellPageInstance, ItemManipulationModel);
 		}
 
 		protected override void HookEvents()
