@@ -1449,7 +1449,8 @@ namespace Files.App.Data.Models
 				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
 				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
 				!isWslDistro;
-			bool enumFromStorageFolder = isBoxFolder;
+			bool isFtp = FtpHelpers.IsFtpPath(path);
+			bool enumFromStorageFolder = isBoxFolder || isFtp;
 
 			BaseStorageFolder? rootFolder = null;
 

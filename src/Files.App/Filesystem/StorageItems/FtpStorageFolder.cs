@@ -70,7 +70,7 @@ namespace Files.App.Filesystem.StorageItems
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -80,7 +80,7 @@ namespace Files.App.Filesystem.StorageItems
 
 				var item = await ftpClient.GetObjectInfo(FtpPath);
 				return item is null ? new BaseBasicProperties() : new FtpFolderBasicProperties(item);
-			});
+			}, (_, _) => Task.FromResult(new BaseBasicProperties())));
 		}
 
 		public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
