@@ -1,7 +1,7 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ServicesImplementation;
+using Files.App.Services;
 using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions

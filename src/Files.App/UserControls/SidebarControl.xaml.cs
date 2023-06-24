@@ -10,7 +10,7 @@ using Files.App.Data.Models;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ServicesImplementation;
+using Files.App.Services;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
