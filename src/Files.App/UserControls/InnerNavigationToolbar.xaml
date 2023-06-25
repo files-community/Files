@@ -145,11 +145,11 @@
 					MinWidth="40"
 					AccessKey="V"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
-					Command="{x:Bind Commands.PasteItem}"
-					Label="{x:Bind Commands.PasteItem.Label}"
+					Command="{x:Bind Commands.ModifiablePasteItem}"
+					Label="{x:Bind Commands.ModifiablePasteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.PasteItem.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.PasteItem.OpacityStyle}" />
+					ToolTipService.ToolTip="{x:Bind Commands.ModifiablePasteItem.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.ModifiablePasteItem.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  Rename  -->
@@ -187,11 +187,11 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
-					Command="{x:Bind Commands.DeleteItem}"
-					Label="{x:Bind Commands.DeleteItem.Label}"
+					Command="{x:Bind Commands.ModifiableDeleteItem}"
+					Label="{x:Bind Commands.ModifiableDeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
+					ToolTipService.ToolTip="{x:Bind Commands.ModifiableDeleteItem.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind Commands.ModifiableDeleteItem.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  Properties  -->

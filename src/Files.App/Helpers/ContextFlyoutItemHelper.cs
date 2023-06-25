@@ -485,7 +485,7 @@ namespace Files.App.Helpers
 				{
 					IsPrimary = true
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
+				new ContextMenuFlyoutItemViewModelBuilder(commands.ModifiableDeleteItem)
 				{
 					IsVisible = itemsSelected,
 					IsPrimary = true,

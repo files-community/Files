@@ -162,5 +162,8 @@ namespace Files.App.Commands
 
 		IRichCommand GitFetch { get; }
 		IRichCommand GitPull { get; }
+
+		IRichCommand ModifiableDeleteItem { get; }
+		IRichCommand ModifiablePasteItem { get; }
 	}
 }
