@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ServicesImplementation.Settings;
+using Files.App.Services.Settings;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;

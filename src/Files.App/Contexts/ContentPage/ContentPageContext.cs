@@ -53,7 +53,7 @@ namespace Files.App.Contexts
 
 		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
 
-		public string? SolutionFilePath => ShellPage?.FilesystemViewModel.SolutionFilePath;
+		public string? SolutionFilePath => ShellPage?.FilesystemViewModel?.SolutionFilePath;
 
 		public ContentPageContext()
 		{
