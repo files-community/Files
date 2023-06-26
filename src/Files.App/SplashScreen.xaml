@@ -19,13 +19,5 @@
 				IsActive="True" />
 		</Canvas>
 
-		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
-			<Button
-				x:Name="DismissSplash"
-				HorizontalAlignment="Center"
-				Click="DismissSplashButton_Click"
-				Content="Dismiss extended splash screen" />
-		</StackPanel>
-
 	</Grid>
 </Page>
