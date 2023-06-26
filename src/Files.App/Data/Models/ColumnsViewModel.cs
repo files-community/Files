@@ -133,6 +133,11 @@ namespace Files.App.Data.Models
 		[LiteDB.BsonIgnore]
 		public double TotalWidth =>
 			IconColumn.Length.Value +
+			GitStatusColumn.Length.Value +
+			GitLastCommitDateColumn.Length.Value +
+			GitLastCommitMessageColumn.Length.Value +
+			GitCommitAuthorColumn.Length.Value +
+			GitLastCommitShaColumn.Length.Value +
 			TagColumn.Length.Value +
 			NameColumn.Length.Value +
 			DateModifiedColumn.Length.Value +
@@ -160,6 +165,11 @@ namespace Files.App.Data.Models
 		private void SetColumnSizeProportionally(double factor)
 		{
 			NameColumn.TryMultiplySize(factor);
+			GitStatusColumn.TryMultiplySize(factor);
+			GitLastCommitDateColumn.TryMultiplySize(factor);
+			GitLastCommitMessageColumn.TryMultiplySize(factor);
+			GitCommitAuthorColumn.TryMultiplySize(factor);
+			GitLastCommitShaColumn.TryMultiplySize(factor);
 			TagColumn.TryMultiplySize(factor);
 			DateModifiedColumn.TryMultiplySize(factor);
 			OriginalPathColumn.TryMultiplySize(factor);
@@ -189,7 +199,12 @@ namespace Files.App.Data.Models
 					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
 					model.SizeColumn.Equals(SizeColumn) &&
 					model.StatusColumn.Equals(StatusColumn) &&
-					model.TagColumn.Equals(TagColumn);
+					model.TagColumn.Equals(TagColumn) &&
+					model.GitStatusColumn.Equals(GitStatusColumn) &&
+					model.GitLastCommitDateColumn.Equals(GitLastCommitDateColumn) &&
+					model.GitLastCommitMessageColumn.Equals(GitLastCommitMessageColumn) &&
+					model.GitCommitAuthorColumn.Equals(GitCommitAuthorColumn) &&
+					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn);
 			}
 
 			return base.Equals(obj);
@@ -206,6 +221,11 @@ namespace Files.App.Data.Models
 			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitStatusColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitDateColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitMessageColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitCommitAuthorColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
 
 			return hashCode;
 		}
