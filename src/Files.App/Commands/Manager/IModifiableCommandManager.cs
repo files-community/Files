@@ -5,6 +5,8 @@ namespace Files.App.Commands
 {
 	public interface IModifiableCommandManager : IEnumerable<IRichCommand>
 	{
+		IRichCommand this[CommandCodes code] { get; }
+
 		IRichCommand None { get; }
 
 		IRichCommand PasteItem { get; }
