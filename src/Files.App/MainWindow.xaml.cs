@@ -1,62 +1,51 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.Settings;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
-using IO = System.IO;
 
 namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
-		private MainPageViewModel mainPageViewModel;
+		private readonly MainPageViewModel _mainPageViewModel;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			PersistenceId = "FilesMainWindow";
+			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			EnsureEarlyWindow();
 		}
 
 		private void EnsureEarlyWindow()
 		{
-			// Set title
+			PersistenceId = "FilesMainWindow";
+			MinHeight = 328;
+			MinWidth = 516;
+
+			// Initialize AppWindow
 			AppWindow.Title = "Files";
-
-			// Set logo
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
-
-			// Extend title bar
+			AppWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-			// Set window buttons background to transparent
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-			// Set minimum sizes
-			base.MinHeight = 328;
-			base.MinWidth = 516;
 		}
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
-			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
+			// Get an initialized frame
 			var rootFrame = EnsureWindowIsInitialized();
+
 			Activate();
 
 			switch (activatedEventArgs)
@@ -64,7 +53,7 @@ namespace Files.App
 				case ILaunchActivatedEventArgs launchArgs:
 					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase))
 					{
-						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
+						// WINUI3: When launching from command line the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -81,7 +70,7 @@ namespace Files.App
 					{
 						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 						{
-							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							await _mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 						}
 					}
 					break;
@@ -145,7 +134,7 @@ namespace Files.App
 					}
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await _mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 			}
@@ -159,14 +148,13 @@ namespace Files.App
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
 			//  just ensure that the window is active
-			if (!(App.Window.Content is Frame rootFrame))
+			if (App.Window.Content is not Frame rootFrame)
 			{
 				// Set system backdrop
-				this.SystemBackdrop = new AppSystemBackdrop();
+				SystemBackdrop = new AppSystemBackdrop();
 
 				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new Frame();
-				rootFrame.CacheSize = 1;
+				rootFrame = new() { CacheSize = 1 };
 				rootFrame.NavigationFailed += OnNavigationFailed;
 
 				// Place the frame in the current Window
@@ -176,13 +164,10 @@ namespace Files.App
 			return rootFrame;
 		}
 
-		/// <summary>
-		/// Invoked when Navigation to a certain page fails
-		/// </summary>
-		/// <param name="sender">The Frame which failed navigation</param>
-		/// <param name="e">Details about the navigation failure</param>
 		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-			=> throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+		{
+			throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+		}
 
 		private async Task InitializeFromCmdLineArgs(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
@@ -203,10 +188,11 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is not null)
-					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+					await _mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
+
 			foreach (var command in parsedCommands)
 			{
 				switch (command.Type)
@@ -219,8 +205,8 @@ namespace Files.App
 						break;
 
 					case ParsedCommandType.SelectItem:
-						if (IO.Path.IsPathRooted(command.Payload))
-							await PerformNavigation(IO.Path.GetDirectoryName(command.Payload), IO.Path.GetFileName(command.Payload));
+						if (SystemIO.Path.IsPathRooted(command.Payload))
+							await PerformNavigation(SystemIO.Path.GetDirectoryName(command.Payload), SystemIO.Path.GetFileName(command.Payload));
 						break;
 
 					case ParsedCommandType.TagFiles:
@@ -249,7 +235,7 @@ namespace Files.App
 						{
 							if (!string.IsNullOrEmpty(command.Payload))
 							{
-								var target = IO.Path.GetFullPath(IO.Path.Combine(activationPath, command.Payload));
+								var target = SystemIO.Path.GetFullPath(SystemIO.Path.Combine(activationPath, command.Payload));
 								await PerformNavigation(target);
 							}
 							else

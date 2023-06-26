@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Shell;
-using Files.Backend.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -13,20 +12,31 @@ using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents the root entry point for the Files app assembly.
+	/// </summary>
 	internal class Program
 	{
-		// Note:
-		//  We can't declare Main to be async because in a WinUI app
-		//  This prevents Narrator from reading XAML elements
-		//  https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		//  STAThread has no effect if main is async, needed for Clipboard
+		private const uint CWMO_DEFAULT = 0;
+
+		private const uint INFINITE = 0xFFFFFFFF;
+
+		/// <summary>
+		/// Main cannot be declared to be async because this prevents Narrator from reading XAML elements in a WinUI app.
+		/// <br/>
+		/// <a href="https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs" />
+		/// <br/>
+		/// <see cref="STAThreadAttribute"/> has no effect if main is async, needed for Clipboard
+		/// </summary>
 		[STAThread]
 		private static void Main()
 		{
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
 			var proc = Process.GetCurrentProcess();
+
 			var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
+
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
 			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
@@ -126,17 +136,15 @@ namespace Files.App
 
 			var currentInstance = AppInstance.FindOrRegisterForKey((-proc.Id).ToString());
 			if (currentInstance.IsCurrent)
-			{
 				currentInstance.Activated += OnActivated;
-			}
 
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -proc.Id;
 
 			Application.Start((p) =>
 			{
-				var context = new DispatcherQueueSynchronizationContext(
-					DispatcherQueue.GetForCurrentThread());
+				var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
 				SynchronizationContext.SetSynchronizationContext(context);
+
 				new App();
 			});
 		}
@@ -150,9 +158,6 @@ namespace Files.App
 			}
 		}
 
-		private const uint CWMO_DEFAULT = 0;
-		private const uint INFINITE = 0xFFFFFFFF;
-
 		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
@@ -165,15 +170,17 @@ namespace Files.App
 			});
 
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-			=> Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		{
+			Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		}
 
 		public static void OpenFileFromTile(string filePath)
 		{
@@ -186,11 +193,11 @@ namespace Files.App
 			});
 
 			_ = CoWaitForMultipleObjects(
-			   CWMO_DEFAULT,
-			   INFINITE,
-			   1,
-			   new IntPtr[] { eventHandle },
-			   out uint handleIndex);
+				CWMO_DEFAULT,
+				INFINITE,
+				1,
+				new IntPtr[] { eventHandle },
+				out uint handleIndex);
 		}
 	}
 }
