@@ -2,21 +2,17 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Services.Settings;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
-	/// menus and toolbars for the user.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
-	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper
+	/// to create context menus and toolbars for the user.
 	/// </summary>
+	/// <remarks>
+	/// See also, <see cref="ContextMenuFlyoutItemViewModel"/> and <see cref="ContextFlyouts.ItemModelListToContextFlyoutHelper"/>.
+	/// </remarks>
 	public static class ContextFlyoutItemHelper
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

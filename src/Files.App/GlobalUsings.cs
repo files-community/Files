@@ -30,6 +30,7 @@ global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
 global using global::Files.App.Interacts;
 global using global::Files.App.UserControls;
+global using global::Files.App.Utils.Archives;
 global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Serialization.Implementation;
 global using global::Files.App.ViewModels;
