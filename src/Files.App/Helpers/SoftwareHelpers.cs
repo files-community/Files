@@ -11,12 +11,30 @@ namespace Files.App.Helpers
 		{
 			string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
 
-			var key = Registry.CurrentUser.OpenSubKey(registryKey);
+			return
+				ContainsVSCode(Registry.CurrentUser.OpenSubKey(registryKey)) ||
+				ContainsVSCode(Registry.LocalMachine.OpenSubKey(registryKey));
+		}
+
+		public static bool IsVSInstalled()
+		{
+			string registryKey = @"SOFTWARE\Microsoft\VisualStudio";
+
+			var key = Registry.LocalMachine.OpenSubKey(registryKey);
+			if (key is null)
+				return false;
+
+			key.Close();
+
+			return true;
+		}
+
+		private static bool ContainsVSCode(RegistryKey? key)
+		{
 			if (key is null)
 				return false;
 
 			string? displayName;
-
 			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
 			{
 				displayName = subKey?.GetValue("DisplayName") as string;
@@ -31,19 +49,6 @@ namespace Files.App.Helpers
 			key.Close();
 
 			return false;
-		}
-
-		public static bool IsVSInstalled()
-		{
-			string registryKey = @"SOFTWARE\Microsoft\VisualStudio";
-
-			var key = Registry.LocalMachine.OpenSubKey(registryKey);
-			if (key is null)
-				return false;
-
-			key.Close();
-
-			return true;
 		}
 	}
 }
