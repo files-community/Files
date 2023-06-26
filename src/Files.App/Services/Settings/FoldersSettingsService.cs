@@ -373,6 +373,11 @@ namespace Files.App.Services.Settings
 			{
 				case nameof(SyncFolderPreferencesAcrossDirectories):
 				case nameof(DefaultLayoutMode):
+				case nameof(GitStatusColumnWidth):
+				case nameof(GitLastCommitDateColumnWidth):
+				case nameof(GitLastCommitMessageColumnWidth):
+				case nameof(GitCommitAuthorColumnWidth):
+				case nameof(GitLastCommitShaColumnWidth):
 				case nameof(TagColumnWidth):
 				case nameof(NameColumnWidth):
 				case nameof(DateModifiedColumnWidth):
@@ -383,6 +388,11 @@ namespace Files.App.Services.Settings
 				case nameof(ShowDateCreatedColumn):
 				case nameof(ShowTypeColumn):
 				case nameof(ShowSizeColumn):
+				case nameof(ShowGitStatusColumn):
+				case nameof(ShowGitLastCommitDateColumn):
+				case nameof(ShowGitLastCommitMessageColumn):
+				case nameof(ShowGitCommitAuthorColumn):
+				case nameof(ShowGitLastCommitShaColumn):
 				case nameof(ShowFileTagColumn):
 				case nameof(ShowHiddenItems):
 				case nameof(ShowProtectedSystemFiles):
