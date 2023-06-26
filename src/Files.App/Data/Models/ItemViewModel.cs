@@ -1098,7 +1098,7 @@ namespace Files.App.Data.Models
 									{
 										item.FolderRelativeId = matchingStorageFile.FolderRelativeId;
 										item.ItemType = itemType;
-										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+										item.SyncStatusUI = CloudDriveSyncStatusItem.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									},
@@ -1148,7 +1148,7 @@ namespace Files.App.Data.Models
 									{
 										item.FolderRelativeId = matchingStorageFolder.FolderRelativeId;
 										item.ItemType = itemType;
-										item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+										item.SyncStatusUI = CloudDriveSyncStatusItem.FromCloudDriveSyncStatus(syncStatus);
 										item.FileFRN = fileFRN;
 										item.FileTags = fileTag;
 									},
@@ -1186,7 +1186,7 @@ namespace Files.App.Data.Models
 								await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									// Reset cloud sync status icon
-									item.SyncStatusUI = new CloudDriveSyncStatusUI();
+									item.SyncStatusUI = new CloudDriveSyncStatusItem();
 
 									item.FileTags = fileTag;
 								},
@@ -2381,7 +2381,7 @@ namespace Files.App.Data.Models
 							item.ItemDateCreatedReal = result.Value.Created;
 
 							if (result.Value.SyncStatus is not null)
-								item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
+								item.SyncStatusUI = CloudDriveSyncStatusItem.FromCloudDriveSyncStatus(result.Value.SyncStatus.Value);
 
 							if (result.Value.Size is not null)
 							{

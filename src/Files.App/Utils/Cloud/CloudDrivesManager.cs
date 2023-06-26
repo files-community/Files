@@ -22,9 +22,7 @@ namespace Files.App.Utils.Cloud
 			get
 			{
 				lock (_Drives)
-				{
 					return _Drives.ToList().AsReadOnly();
-				}
 			}
 		}
 

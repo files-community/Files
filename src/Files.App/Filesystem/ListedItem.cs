@@ -159,14 +159,14 @@ namespace Files.App.Filesystem
 			set => SetProperty(ref hasTags, value);
 		}
 
-		private CloudDriveSyncStatusUI syncStatusUI = new();
-		public CloudDriveSyncStatusUI SyncStatusUI
+		private CloudDriveSyncStatusItem syncStatusUI = new();
+		public CloudDriveSyncStatusItem SyncStatusUI
 		{
 			get => syncStatusUI;
 			set
 			{
 				// For some reason this being null will cause a crash with bindings
-				value ??= new CloudDriveSyncStatusUI();
+				value ??= new CloudDriveSyncStatusItem();
 				if (SetProperty(ref syncStatusUI, value))
 				{
 					OnPropertyChanged(nameof(SyncStatusString));
