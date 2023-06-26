@@ -179,7 +179,10 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<usercontrols:OpacityIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
@@ -243,10 +246,10 @@
 				</Button.Flyout>
 
 				<StackPanel Orientation="Horizontal" Spacing="8">
-					<FontIcon
-						HorizontalAlignment="Center"
-						FontSize="12"
-						Glyph="&#xE8CB;" />
+					<usercontrols:OpacityIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource ColorIconGitGeneral}" />
 
 					<!--  Outgoing / Incoming commits  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.StatusInfo, Mode=OneWay}" />
@@ -267,7 +270,10 @@
 
 			<Button.Content>
 				<StackPanel Orientation="Horizontal" Spacing="8">
-					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
+					<usercontrols:OpacityIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource ColorIconGitBranches}" />
 
 					<!--  Branch Name  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
