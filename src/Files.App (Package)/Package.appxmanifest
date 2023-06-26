@@ -13,7 +13,10 @@
     xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
     IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
 
-    <Identity Name="FilesDev" Publisher="CN=Files" Version="2.5.10.0" />
+    <Identity
+        Name="FilesDev"
+        Publisher="CN=Files"
+        Version="2.5.10.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -23,7 +26,6 @@
     </Properties>
 
     <Dependencies>
-        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
         <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
     </Dependencies>
 
