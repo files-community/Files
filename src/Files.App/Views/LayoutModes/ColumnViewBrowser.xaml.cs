@@ -326,7 +326,7 @@ namespace Files.App.Views.LayoutModes
 			if (activeBladeColumnViewBase is not null)
 			{
 				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
-				var selectedItem = activeBladeColumnViewBase.FileList.Items.First() as ListedItem;
+				var selectedItem = activeBladeColumnViewBase.FileList.Items.FirstOrDefault() as ListedItem;
 				if (selectedItem is not null)
 					UpdatePreviewPaneSelection(new List<ListedItem>() { selectedItem });
 			}
