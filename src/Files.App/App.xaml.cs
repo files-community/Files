@@ -204,6 +204,7 @@ namespace Files.App
 						.AddSingleton<ICloudDetector, CloudDetector>()
 						.AddSingleton<IFileTagsService, FileTagsService>()
 						.AddSingleton<ICommandManager, CommandManager>()
+						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 #if UWP
 						.AddSingleton<IStorageService, WindowsStorageService>()
 #else
