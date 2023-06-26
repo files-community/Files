@@ -10,45 +10,31 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 
-namespace Files.App.Behaviors
+namespace Files.App.Data.Behaviors
 {
 	/// <summary>
 	/// Performs an animation on a ListView or GridView Header to make it sticky using composition.
 	/// </summary>
-	/// <seealso>
-	///     <cref>Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}</cref>
-	/// </seealso>
+	/// <remarks>
+	/// See also, <see cref="Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}"/>
+	/// </remarks>
 	public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
 	{
-		public static bool IsXamlRootAvailable { get; } = ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "XamlRoot");
+		private static readonly bool IsXamlRootAvailable =
+			ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.UIElement", "XamlRoot");
 
-		/// <summary>
-		/// Attaches the behavior to the associated object.
-		/// </summary>
-		/// <returns>
-		///   <c>true</c> if attaching succeeded; otherwise <c>false</c>.
-		/// </returns>
-		protected override bool Initialize()
-		{
-			var result = AssignAnimation();
-			return result;
-		}
+		private ScrollViewer? _scrollViewer;
 
-		/// <summary>
-		/// Detaches the behavior from the associated object.
-		/// </summary>
-		/// <returns>
-		///   <c>true</c> if detaching succeeded; otherwise <c>false</c>.
-		/// </returns>
-		protected override bool Uninitialize()
-		{
-			RemoveAnimation();
-			return true;
-		}
+		private CompositionPropertySet? _scrollProperties;
+
+		private CompositionPropertySet? _animationProperties;
+
+		private Visual? _headerVisual, _itemsPanelVisual;
+
+		private InsetClip? _contentClip;
 
 		/// <summary>
 		/// The UIElement that will be faded.
@@ -60,12 +46,6 @@ namespace Files.App.Behaviors
 				typeof(StickyHeaderBehavior),
 				new PropertyMetadata(null, PropertyChangedCallback));
 
-		private ScrollViewer _scrollViewer;
-		private CompositionPropertySet _scrollProperties;
-		private CompositionPropertySet _animationProperties;
-		private Visual _headerVisual, _itemsPanelVisual;
-		private InsetClip _contentClip;
-
 		/// <summary>
 		/// Gets or sets the target element for the ScrollHeader behavior.
 		/// </summary>
@@ -76,6 +56,32 @@ namespace Files.App.Behaviors
 		{
 			get => (UIElement)GetValue(HeaderElementProperty);
 			set => SetValue(HeaderElementProperty, value);
+		}
+
+		/// <summary>
+		/// Attaches the behavior to the associated object.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if attaching succeeded; otherwise <c>false</c>.
+		/// </returns>
+		protected override bool Initialize()
+		{
+			var result = AssignAnimation();
+
+			return result;
+		}
+
+		/// <summary>
+		/// Detaches the behavior from the associated object.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if detaching succeeded; otherwise <c>false</c>.
+		/// </returns>
+		protected override bool Uninitialize()
+		{
+			RemoveAnimation();
+
+			return true;
 		}
 
 		/// <summary>
@@ -95,7 +101,9 @@ namespace Files.App.Behaviors
 		/// for the Header as it is scrolling off-screen. The opacity reaches 0 when the Header
 		/// is entirely scrolled off.
 		/// </summary>
-		/// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
+		/// <returns>
+		/// <c>true</c> if the assignment was successful; otherwise, <c>false</c>.
+		/// </returns>
 		private bool AssignAnimation()
 		{
 			StopAnimation();
@@ -122,9 +130,8 @@ namespace Files.App.Behaviors
 			if (HeaderElement is null && listView is not null)
 				HeaderElement = listView.Header as UIElement;
 
-			FrameworkElement? headerElement = HeaderElement as FrameworkElement;
 
-			if (headerElement is null || headerElement.RenderSize.Height == 0)
+			if (HeaderElement is not FrameworkElement headerElement || headerElement.RenderSize.Height == 0)
 				return false;
 
 			_headerVisual ??= ElementCompositionPreview.GetElementVisual(headerElement);
@@ -166,7 +173,7 @@ namespace Files.App.Behaviors
 			}
 
 			var expressionClipAnimation = ExpressionFunctions.Max(-scrollPropSet.Translation.Y, 0);
-			_contentClip.TopInset = (float)System.Math.Max(-_scrollViewer.VerticalOffset, 0);
+			_contentClip.TopInset = (float)Math.Max(-_scrollViewer.VerticalOffset, 0);
 			_contentClip.StartAnimation("TopInset", expressionClipAnimation);
 
 			return true;
@@ -229,14 +236,14 @@ namespace Files.App.Behaviors
 			// Popups have no parents, whereas a normal Item would have the ListView as a parent.
 			if (focusedElement is UIElement element && VisualTreeHelper.GetParent(element) is not null)
 			{
-				// Mod: ignore if element is child of header
+				// NOTE: Ignore if element is child of header
 				if (!element.FindAscendants().Any(x => x == HeaderElement))
 				{
 					FrameworkElement header = (FrameworkElement)HeaderElement;
 
 					var point = element.TransformToVisual(scroller).TransformPoint(new Point(0, 0));
 
-					// Mod: do not change scroller horizontal offset
+					// NOTE: Do not change scroller horizontal offset
 					if (point.Y < header.ActualHeight)
 						scroller.ChangeView(scroller.HorizontalOffset, scroller.VerticalOffset - (header.ActualHeight - point.Y), 1, false);
 				}
