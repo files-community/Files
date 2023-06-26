@@ -266,23 +266,23 @@
 						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
-								x:Load="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchive.Label}" />
+								Text="{x:Bind Commands.DecompressArchive.Label}"
+								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
-								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind Commands.DecompressArchiveHere.Label}" />
+								Text="{x:Bind Commands.DecompressArchiveHere.Label}"
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractTo"
-								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}" />
+								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}"
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 

@@ -229,7 +229,7 @@ namespace Files.App
 
 			public const string MyComputerPath = @"Shell:MyComputerFolder";
 
-			public static readonly string TempPath = Windows.Storage.ApplicationData.Current.LocalSettings.Values.Get("TEMP", "");
+			public static readonly string TempPath = Environment.GetEnvironmentVariable("TEMP") ?? "";
 
 			public static readonly string HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
