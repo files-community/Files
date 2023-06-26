@@ -168,7 +168,9 @@ namespace Files.App.Views.Shells
 		}
 
 		public override void NavigateHome()
-			=> throw new NotImplementedException("Can't show HomePage in ColumnView");
+		{
+			this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.NavigateHome();
+		}
 
 		public void RemoveLastPageFromBackStack()
 		{
