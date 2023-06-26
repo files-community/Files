@@ -165,6 +165,13 @@
 					</StackPanel>
 				</Button.Content>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				x:Name="VSCodeDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 
 			<!--  Open in VS Button  -->
 			<Button
@@ -187,6 +194,13 @@
 					</StackPanel>
 				</Button.Content>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				x:Name="VSDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 
 			<Button
 				x:Name="GitNetworkActions"
@@ -255,6 +269,11 @@
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.StatusInfo, Mode=OneWay}" />
 				</StackPanel>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				Width="1"
+				Height="18"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 		</StackPanel>
 
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
