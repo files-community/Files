@@ -103,7 +103,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\AppTiles\Dev\**" />
-    <Content Include="Package.appinstaller" />
   </ItemGroup>
 
   <ItemGroup>
