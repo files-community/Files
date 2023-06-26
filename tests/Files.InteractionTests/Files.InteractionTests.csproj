@@ -1,8 +1,8 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <RootNamespace>Files.InteractionTests</RootNamespace>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
