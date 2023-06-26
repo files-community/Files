@@ -141,4 +141,7 @@
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Data\Interacts\" />
+    </ItemGroup>
 </Project>

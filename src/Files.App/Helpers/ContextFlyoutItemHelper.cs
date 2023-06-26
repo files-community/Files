@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Data.Interacts;
 using Files.App.Services.Settings;
+using Files.App.ViewModels.LayoutModes;
 using Files.Backend.Helpers;
 using Files.Backend.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -24,7 +24,7 @@ namespace Files.App.Helpers
 		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
@@ -73,7 +73,7 @@ namespace Files.App.Helpers
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(
-			BaseLayoutCommandsViewModel commandsViewModel,
+			BaseLayoutViewModel commandsViewModel,
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
@@ -579,7 +579,7 @@ namespace Files.App.Helpers
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel, bool canCreateFileInPage)
+		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)
 		{
 			var list = new List<ContextMenuFlyoutItemViewModel>()
 			{

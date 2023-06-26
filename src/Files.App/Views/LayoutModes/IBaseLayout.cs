@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Interacts;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Views.LayoutModes
@@ -31,7 +31,7 @@ namespace Files.App.Views.LayoutModes
 
 		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
-		BaseLayoutCommandsViewModel? CommandsViewModel { get; }
+		BaseLayoutViewModel? CommandsViewModel { get; }
 
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 

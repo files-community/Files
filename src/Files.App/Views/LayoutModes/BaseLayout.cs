@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Interacts;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -69,7 +69,7 @@ namespace Files.App.Views.LayoutModes
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		public BaseLayoutCommandsViewModel? CommandsViewModel { get; protected set; }
+		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
 		public IShellPage? ParentShellPageInstance { get; private set; } = null;
 

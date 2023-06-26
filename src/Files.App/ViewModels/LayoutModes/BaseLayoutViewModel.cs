@@ -10,11 +10,13 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
-using static Files.App.Constants.Browser.GridViewBrowser;
 
-namespace Files.App.Data.Interacts
+namespace Files.App.ViewModels.LayoutModes
 {
-	public class BaseLayoutCommandsViewModel : IDisposable
+	/// <summary>
+	/// Represents ViewModel for <see cref="BaseLayout"/>.
+	/// </summary>
+	public class BaseLayoutViewModel : IDisposable
 	{
 		private readonly IShellPage _associatedInstance;
 
@@ -30,16 +32,11 @@ namespace Files.App.Data.Interacts
 
 		public ICommand DropCommand { get; private set; }
 
-		public BaseLayoutCommandsViewModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
+		public BaseLayoutViewModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
 		{
 			_associatedInstance = associatedInstance;
 			_itemManipulationModel = itemManipulationModel;
 
-			InitializeCommands();
-		}
-
-		private void InitializeCommands()
-		{
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CreateNewFile);
 			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressed);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
@@ -54,35 +51,34 @@ namespace Files.App.Data.Interacts
 
 		private async Task ItemPointerPressed(PointerRoutedEventArgs e)
 		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+			// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
+			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
+				e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } &&
+				Item.PrimaryItemAttribute == StorageItemTypes.Folder)
 			{
-				// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
-				if (e.OriginalSource is FrameworkElement { DataContext: ListedItem Item } &&
-					Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-				{
-					_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = false;
-					_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
+				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = false;
+				_associatedInstance.SlimContentPage.IsMiddleClickToScrollEnabled = true;
 
-					if (Item.IsShortcut)
-						await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-					else
-						await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
-				}
+				if (Item.IsShortcut)
+					await NavigationHelpers.OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+				else
+					await NavigationHelpers.OpenPathInNewTab(Item.ItemPath);
 			}
 		}
 
 		private void PointerWheelChanged(PointerRoutedEventArgs e)
 		{
-			if (e.KeyModifiers is VirtualKeyModifiers.Control)
+			if (e.KeyModifiers is VirtualKeyModifiers.Control &&
+				_associatedInstance.IsCurrentInstance)
 			{
-				if (_associatedInstance.IsCurrentInstance)
-				{
-					int delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
-					if (delta < 0) // Mouse wheel down
-						_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= GridViewIncrement;
-					else if (delta > 0) // Mouse wheel up
-						_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += GridViewIncrement;
-				}
+				int delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
+
+				// Mouse wheel down
+				if (delta < 0)
+					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize -= Constants.Browser.GridViewBrowser.GridViewIncrement;
+				// Mouse wheel up
+				else if (delta > 0)
+					_associatedInstance.InstanceViewModel.FolderSettings.GridViewSize += Constants.Browser.GridViewBrowser.GridViewIncrement;
 
 				e.Handled = true;
 			}
@@ -96,6 +92,7 @@ namespace Files.App.Data.Interacts
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 				deferral.Complete();
+
 				return;
 			}
 
