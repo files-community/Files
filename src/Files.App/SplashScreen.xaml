@@ -1,0 +1,31 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
+	x:Class="Files.App.SplashScreen"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Grid Background="#464646">
+
+		<Canvas>
+			<Image x:Name="extendedSplashImage" Source="Assets/SplashScreen.png" />
+			<ProgressRing
+				Name="splashProgressRing"
+				Width="20"
+				HorizontalAlignment="Center"
+				IsActive="True" />
+		</Canvas>
+
+		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+			<Button
+				x:Name="DismissSplash"
+				HorizontalAlignment="Center"
+				Click="DismissSplashButton_Click"
+				Content="Dismiss extended splash screen" />
+		</StackPanel>
+
+	</Grid>
+</Page>

@@ -54,32 +54,37 @@ using Windows.UI.Notifications;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents an entry point of the Files App UI.
+	/// </summary>
+	/// <remarks>
+	/// The app is going to be activated in following order:
+	/// <see cref="Program"/> -> <see cref="App"/> -> <see cref="MainWindow"/>.
+	/// </remarks>
 	public partial class App : Application
 	{
-		private static bool ShowErrorNotification = false;
-		private IHost host { get; set; }
-		public static string OutputPath { get; set; }
+		private static bool ShowErrorNotification;
+		private IHost host;
+
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
-		public static AppModel AppModel { get; private set; }
-		public static RecentItems RecentItemsManager { get; private set; }
-		public static QuickAccessManager QuickAccessManager { get; private set; }
-		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static WSLDistroManager WSLDistroManager { get; private set; }
-		public static LibraryManager LibraryManager { get; private set; }
-		public static FileTagsManager FileTagsManager { get; private set; }
+		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = new();
+		public static AppModel? AppModel { get; private set; }
+		public static RecentItems? RecentItemsManager { get; private set; }
+		public static QuickAccessManager? QuickAccessManager { get; private set; }
+		public static CloudDrivesManager? CloudDrivesManager { get; private set; }
+		public static WSLDistroManager? WSLDistroManager { get; private set; }
+		public static LibraryManager? LibraryManager { get; private set; }
+		public static FileTagsManager? FileTagsManager { get; private set; }
+		public static ILogger? Logger { get; private set; }
+		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
-		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-		public static string LogoPath;
+		public static readonly string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+		public static string? LogoPath;
 		public static AppEnvironment AppEnv;
+		public static string? OutputPath { get; set; }
+		public static MainWindow Window { get; set; } = null!;
+		public static IntPtr WindowHandle { get; private set; }
 
-		/// <summary>
-		/// Initializes the singleton application object.  This is the first line of authored code
-		/// executed, and as such is the logical equivalent of main() or WinMain().
-		/// </summary>
 		public App()
 		{
 			UnhandledException += OnUnhandledException;
@@ -158,87 +163,83 @@ namespace Files.App
 			}
 		}
 
-		/// <summary>
-		/// Invoked when the application is launched normally by the end user.  Other entry points
-		/// will be used such as when the application is launched to open a specific file.
-		/// </summary>
-		/// <param name="args">Details about the launch request and process.</param>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+			var appActivationEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
+			// Get app log path
 			var logPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log");
-			//start tracking app usage
-			if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
-				SystemInformation.Instance.TrackAppUse(iaea);
 
-			// Initialize MainWindow here
+			// Start tracking app usage
+			if (appActivationEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activatedEventArgs)
+				SystemInformation.Instance.TrackAppUse(activatedEventArgs);
+
+			// Initialize MainWindow contents
 			EnsureWindowIsInitialized();
+
+			// Configure dependency injection service.
 			host = Host.CreateDefaultBuilder()
 				.UseEnvironment(AppEnv.ToString())
-				.ConfigureLogging(builder => 
-					builder
+				.ConfigureLogging(builder => builder
 					.AddProvider(new FileLoggerProvider(logPath))
-					.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information)
-				)
-				.ConfigureServices(services => 
-					services
-						.AddSingleton<IUserSettingsService, UserSettingsService>()
-						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IGeneralSettingsService, GeneralSettingsService>((sp) => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IPageContext, PageContext>()
-						.AddSingleton<IContentPageContext, ContentPageContext>()
-						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-						.AddSingleton<IWindowContext, WindowContext>()
-						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-						.AddSingleton<IDialogService, DialogService>()
-						.AddSingleton<IImageService, ImagingService>()
-						.AddSingleton<IThreadingService, ThreadingService>()
-						.AddSingleton<ILocalizationService, LocalizationService>()
-						.AddSingleton<ICloudDetector, CloudDetector>()
-						.AddSingleton<IFileTagsService, FileTagsService>()
-						.AddSingleton<ICommandManager, CommandManager>()
+					.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information))
+				.ConfigureServices(services => services
+					.AddSingleton<IUserSettingsService, UserSettingsService>()
+					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>((sp) => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IContentPageContext, ContentPageContext>()
+					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+					.AddSingleton<IWindowContext, WindowContext>()
+					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<IImageService, ImagingService>()
+					.AddSingleton<IThreadingService, ThreadingService>()
+					.AddSingleton<ILocalizationService, LocalizationService>()
+					.AddSingleton<ICloudDetector, CloudDetector>()
+					.AddSingleton<IFileTagsService, FileTagsService>()
+					.AddSingleton<ICommandManager, CommandManager>()
 #if UWP
-						.AddSingleton<IStorageService, WindowsStorageService>()
+					.AddSingleton<IStorageService, WindowsStorageService>()
 #else
-						.AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IStorageService, NativeStorageService>()
 #endif
-						.AddSingleton<IFtpStorageService, FtpStorageService>()
-						.AddSingleton<IAddItemService, AddItemService>()
+					.AddSingleton<IFtpStorageService, FtpStorageService>()
+					.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
-						.AddSingleton<IUpdateService, SideloadUpdateService>()
+					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
-						.AddSingleton<IUpdateService, UpdateService>()
+					.AddSingleton<IUpdateService, UpdateService>()
 #endif
-						.AddSingleton<IPreviewPopupService, PreviewPopupService>()
-						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
-						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
-						.AddSingleton<ISizeProvider, UserSizeProvider>()
-						.AddSingleton<IQuickAccessService, QuickAccessService>()
-						.AddSingleton<IResourcesService, ResourcesService>()
-						.AddSingleton<IJumpListService, JumpListService>()
-						.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-						.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
-						.AddSingleton<MainPageViewModel>()
-						.AddSingleton<PreviewPaneViewModel>()
-						.AddSingleton<SidebarViewModel>()
-						.AddSingleton<SettingsViewModel>()
-						.AddSingleton<DrivesViewModel>()
-						.AddSingleton<NetworkDrivesViewModel>()
-						.AddSingleton<OngoingTasksViewModel>()
-						.AddSingleton<AppearanceViewModel>()
-				)
+					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
+					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
+					.AddSingleton<ISizeProvider, UserSizeProvider>()
+					.AddSingleton<IQuickAccessService, QuickAccessService>()
+					.AddSingleton<IResourcesService, ResourcesService>()
+					.AddSingleton<IJumpListService, JumpListService>()
+					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
+					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<MainPageViewModel>()
+					.AddSingleton<PreviewPaneViewModel>()
+					.AddSingleton<SidebarViewModel>()
+					.AddSingleton<SettingsViewModel>()
+					.AddSingleton<DrivesViewModel>()
+					.AddSingleton<NetworkDrivesViewModel>()
+					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<AppearanceViewModel>())
 				.Build();
 
+			// Get logger dependency
 			Logger = host.Services.GetRequiredService<ILogger<App>>();
-			App.Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
+			Logger.LogInformation($"App launched. Launch args type: {appActivationEventArgs.Data.GetType().Name}");
 
 			Ioc.Default.ConfigureServices(host.Services);
 
@@ -246,7 +247,7 @@ namespace Files.App
 
 			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-			_ = Window.InitializeApplication(activatedEventArgs.Data);
+			_ = Window.InitializeApplication(appActivationEventArgs.Data);
 		}
 
 		private void EnsureWindowIsInitialized()
@@ -276,11 +277,6 @@ namespace Files.App
 			_ = Window.DispatcherQueue.EnqueueOrInvokeAsync(() => Window.InitializeApplication(data));
 		}
 
-		/// <summary>
-		/// Invoked when application execution is being closed. Save application state.
-		/// </summary>
-		/// <param name="sender">The source of the suspend request.</param>
-		/// <param name="args">Details about the suspend request.</param>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
@@ -364,7 +360,9 @@ namespace Files.App
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-			=> AppUnhandledException(e.Exception, true);
+		{
+			AppUnhandledException(e.Exception, true);
+		}
 
 		/// <summary>
 		/// Occurs when an exception is not handled on a background thread.
@@ -373,7 +371,9 @@ namespace Files.App
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
-			=> AppUnhandledException(e.Exception, false);
+		{
+			AppUnhandledException(e.Exception, false);
+		}
 
 		private static void AppUnhandledException(Exception ex, bool shouldShowNotification)
 		{
@@ -488,7 +488,9 @@ namespace Files.App
 		}
 
 		public static void CloseApp()
-			=> Window.Close();
+		{
+			Window.Close();
+		}
 
 		public static AppWindow GetAppWindow(Window w)
 		{
@@ -500,9 +502,5 @@ namespace Files.App
 			return
 				AppWindow.GetFromWindowId(windowId);
 		}
-
-		public static MainWindow Window { get; set; } = null!;
-
-		public static IntPtr WindowHandle { get; private set; }
 	}
 }
