@@ -4,14 +4,14 @@
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
     xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-    xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
-    xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
     xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+    xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+    xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
     xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
     xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
     xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
-    IgnorableNamespaces="uap uap5 mp rescap desktop6 desktop4 desktop">
+    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5">
 
     <Identity
         Name="FilesDev"
@@ -30,50 +30,50 @@
     </Dependencies>
 
     <Resources>
-        <Resource Language="en-US"/>
-        <Resource Language="af"/>
-        <Resource Language="ar"/>
-        <Resource Language="bg"/>
-        <Resource Language="ca"/>
-        <Resource Language="cs-CZ"/>
-        <Resource Language="da"/>
-        <Resource Language="da-DK"/>
-        <Resource Language="de-DE"/>
-        <Resource Language="el"/>
-        <Resource Language="en-GB"/>
-        <Resource Language="es-ES"/>
-        <Resource Language="es-419"/>
-        <Resource Language="fi-FI"/>
-        <Resource Language="fil-PH"/>
-        <Resource Language="fr-FR"/>
-        <Resource Language="he-IL"/>
-        <Resource Language="hi-IN"/>
-        <Resource Language="hr-HR"/>
-        <Resource Language="hu-HU"/>
-        <Resource Language="id-ID"/>
-        <Resource Language="it-IT"/>
-        <Resource Language="ja-JP"/>
-        <Resource Language="ka"/>
-        <Resource Language="ko-KR"/>
-        <Resource Language="lt"/>
-        <Resource Language="lv-LV"/>
-        <Resource Language="nb-NO"/>
-        <Resource Language="nl-NL"/>
-        <Resource Language="or-IN"/>
-        <Resource Language="pl-PL"/>
-        <Resource Language="pt-BR"/>
-        <Resource Language="pt-PT"/>
-        <Resource Language="ro-RO"/>
-        <Resource Language="ru-RU"/>
-        <Resource Language="sk-SK"/>             
-        <Resource Language="sv-SE"/>
-        <Resource Language="ta"/>
-        <Resource Language="th-TH"/>
-        <Resource Language="tr-TR"/>
-        <Resource Language="uk-UA"/>
-        <Resource Language="vi"/>
-        <Resource Language="zh-Hans"/>
-        <Resource Language="zh-Hant"/>
+        <Resource Language="en-US" />
+        <Resource Language="af" />
+        <Resource Language="ar" />
+        <Resource Language="bg" />
+        <Resource Language="ca" />
+        <Resource Language="cs-CZ" />
+        <Resource Language="da" />
+        <Resource Language="da-DK" />
+        <Resource Language="de-DE" />
+        <Resource Language="el" />
+        <Resource Language="en-GB" />
+        <Resource Language="es-ES" />
+        <Resource Language="es-419" />
+        <Resource Language="fi-FI" />
+        <Resource Language="fil-PH" />
+        <Resource Language="fr-FR" />
+        <Resource Language="he-IL" />
+        <Resource Language="hi-IN" />
+        <Resource Language="hr-HR" />
+        <Resource Language="hu-HU" />
+        <Resource Language="id-ID" />
+        <Resource Language="it-IT" />
+        <Resource Language="ja-JP" />
+        <Resource Language="ka" />
+        <Resource Language="ko-KR" />
+        <Resource Language="lt" />
+        <Resource Language="lv-LV" />
+        <Resource Language="nb-NO" />
+        <Resource Language="nl-NL" />
+        <Resource Language="or-IN" />
+        <Resource Language="pl-PL" />
+        <Resource Language="pt-BR" />
+        <Resource Language="pt-PT" />
+        <Resource Language="ro-RO" />
+        <Resource Language="ru-RU" />
+        <Resource Language="sk-SK" />             
+        <Resource Language="sv-SE" />
+        <Resource Language="ta" />
+        <Resource Language="th-TH" />
+        <Resource Language="tr-TR" />
+        <Resource Language="uk-UA" />
+        <Resource Language="vi" />
+        <Resource Language="zh-Hans" />
+        <Resource Language="zh-Hant" />
     </Resources>
 
     <Applications>
@@ -96,13 +96,13 @@
                     Square310x310Logo="Assets\AppTiles\Dev\Large310x310Logo.png"
                     ShortName="Files">
                     <uap:ShowNameOnTiles>
-                        <uap:ShowOn Tile="square150x150Logo"/>
-                        <uap:ShowOn Tile="wide310x150Logo"/>
-                        <uap:ShowOn Tile="square310x310Logo"/>
+                        <uap:ShowOn Tile="square150x150Logo" />
+                        <uap:ShowOn Tile="wide310x150Logo" />
+                        <uap:ShowOn Tile="square310x310Logo" />
                     </uap:ShowNameOnTiles>
                 </uap:DefaultTile>
 
-                <uap:SplashScreen Image="Assets\AppTiles\Dev\SplashScreen.png" uap5:Optional="true" />
+                <uap:SplashScreen uap5:Optional="true" Image="Assets\AppTiles\Dev\SplashScreen.png" />
 
             </uap:VisualElements>
 
@@ -115,12 +115,12 @@
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-uwp"/>
+                    <uap:Protocol ReturnResults="none" Name="files-uwp" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
                     <uap5:AppExecutionAlias>
-                        <uap5:ExecutionAlias Alias="files.exe"/>
+                        <uap5:ExecutionAlias Alias="files.exe" />
                     </uap5:AppExecutionAlias>
                 </uap5:Extension>
 
@@ -160,18 +160,24 @@
     </Extensions>
   
     <Capabilities>
-        <!--<rescap:Capability Name="packageQuery"/>-->
+        <!--
+            <rescap:Capability Name="packageQuery" />
+        -->
         <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
-        <rescap:Capability Name="allowElevation"/>
-        <!--The unvirtualizedResources capability is used to support file operations in the AppData directory-->
+        <rescap:Capability Name="allowElevation" />
+        <!--
+            The unvirtualizedResources capability is used to support file operations in the AppData directory.
+        -->
         <rescap:Capability Name="unvirtualizedResources" />
-        <!--The packageManagement capability is used to download updates in the sideload version of Files. We only use
-        this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps-->
-        <rescap:Capability Name="packageManagement"/>
+        <!--
+            The packageManagement capability is used to download updates in the sideload version of Files.
+            We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+        -->
+        <rescap:Capability Name="packageManagement" />
         <uap:Capability Name="removableStorage" />
-        <Capability Name="internetClient"/>
-        <Capability Name="privateNetworkClientServer"/>
+        <Capability Name="internetClient" />
+        <Capability Name="privateNetworkClientServer" />
     </Capabilities>
 
 </Package>
