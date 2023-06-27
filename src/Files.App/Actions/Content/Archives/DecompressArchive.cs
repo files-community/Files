@@ -26,7 +26,7 @@ namespace Files.App.Actions
 
 		public DecompressArchive()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>()
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
