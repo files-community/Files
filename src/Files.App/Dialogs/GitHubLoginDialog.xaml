@@ -77,7 +77,7 @@
 				FontWeight="Normal"
 				Text="{x:Bind ViewModel.UserCode}" />
 		</StackPanel>
-		<Grid
+		<Border
 			x:Name="LoginSuccessBadge"
 			Grid.Row="1"
 			Width="70"
@@ -90,6 +90,6 @@
 				Width="52"
 				Height="52"
 				Symbol="Accept" />
-		</Grid>
+		</Border>
 	</Grid>
 </ContentDialog>

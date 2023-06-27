@@ -28,6 +28,8 @@ namespace Files.App.Helpers
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
+		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
@@ -175,7 +177,7 @@ namespace Files.App.Helpers
 			Analytics.TrackEvent("Triggered create git branch");
 
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
-			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+			var dialog = _dialogService.GetDialog(viewModel);
 
 			var result = await dialog.TryShowAsync();
 
@@ -398,7 +400,7 @@ namespace Files.App.Helpers
 			var loginCTS = new CancellationTokenSource();
 			var viewModel = new GitHubLoginDialogViewModel(userCode, "ConnectGitHubDescription".GetLocalizedResource(), loginCTS);
 
-			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+			var dialog = _dialogService.GetDialog(viewModel);
 			var loginDialogTask = dialog.TryShowAsync();
 
 			while (!loginCTS.Token.IsCancellationRequested && pending && expiresIn > 0)

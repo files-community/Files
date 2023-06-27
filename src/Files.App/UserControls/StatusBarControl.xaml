@@ -223,10 +223,7 @@
 							Text="{x:Bind Commands.GitPull.Label}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon
-									HorizontalAlignment="Center"
-									FontSize="12"
-									Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 
@@ -238,10 +235,7 @@
 							Text="{x:Bind Commands.GitPush.Label}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon
-									HorizontalAlignment="Center"
-									FontSize="12"
-									Glyph="{x:Bind Commands.GitPush.Glyph.BaseGlyph}" />
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPush.Glyph.BaseGlyph}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 
@@ -253,10 +247,7 @@
 							Text="{x:Bind Commands.GitSync.Label}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}">
 							<MenuFlyoutItem.Icon>
-								<FontIcon
-									HorizontalAlignment="Center"
-									FontSize="12"
-									Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
 					</MenuFlyout>
