@@ -8,7 +8,7 @@
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Light">
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
-					<SolidColorBrush x:Key="IconAltBrush" Color="#F0FFFFFF" />
+					<SolidColorBrush x:Key="IconAltBrush" Color="#72FFFFFF" />
 					<SolidColorBrush x:Key="Local.IconAltAccentBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
 						x:Key="IconBaseFadedBrush"
@@ -33,15 +33,15 @@
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#F0FFFFFF" />
+						Color="#72FFFFFF" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#F0FFFFFF" />
+						Color="#72FFFFFF" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#ABFFFFFF" />
-					<SolidColorBrush x:Key="IconAltBrush" Color="#F0000000" />
+					<SolidColorBrush x:Key="IconAltBrush" Color="#72000000" />
 					<SolidColorBrush
 						x:Key="Local.IconAltAccentBrush"
 						Opacity=".40"
@@ -69,11 +69,11 @@
 					<SolidColorBrush
 						x:Key="IconAltHalfBrush"
 						Opacity="0.40"
-						Color="#F0000000" />
+						Color="#72000000" />
 					<SolidColorBrush
 						x:Key="IconAltStrongBrush"
 						Opacity="0.70"
-						Color="#F0000000" />
+						Color="#72000000" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
 					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
