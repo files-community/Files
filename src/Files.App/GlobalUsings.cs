@@ -28,7 +28,6 @@ global using global::Files.App.Data.Factories;
 global using global::Files.App.Data.Items;
 global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
-global using global::Files.App.Data.Interacts;
 global using global::Files.App.UserControls;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
