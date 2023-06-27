@@ -46,7 +46,7 @@ namespace Files.App.Actions
 			return
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType!= ContentPageTypes.None;
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

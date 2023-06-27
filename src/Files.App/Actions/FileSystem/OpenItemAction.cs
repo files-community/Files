@@ -37,9 +37,9 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			await NavigationHelpers.OpenSelectedItems(context.ShellPage);
+			return NavigationHelpers.OpenSelectedItems(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

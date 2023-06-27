@@ -9,7 +9,7 @@ namespace Files.App.Actions
 
 		private readonly IDialogService dialogService;
 
-        private readonly AddItemDialogViewModel viewModel = new();
+		private readonly AddItemDialogViewModel viewModel = new();
 
 		public string Label
 			=> "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource();
@@ -17,7 +17,7 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddItemDescription".GetLocalizedResource();
 
-        public HotKey HotKey
+		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.CtrlShift);
 
 		public RichGlyph Glyph
