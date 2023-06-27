@@ -160,7 +160,10 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<usercontrols:OpacityIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
