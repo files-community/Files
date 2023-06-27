@@ -188,6 +188,14 @@ namespace Files.App.Views.LayoutModes
 			OldItemName = textBlock.Text;
 			textBlock.Visibility = Visibility.Collapsed;
 			textBox.Visibility = Visibility.Visible;
+
+			if (textBox.FindParent<Grid>() is null)
+			{
+				textBlock.Visibility = Visibility.Visible;
+				textBox.Visibility = Visibility.Collapsed;
+				return;
+			}
+
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
 			textBox.Focus(FocusState.Pointer);

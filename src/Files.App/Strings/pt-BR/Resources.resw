@@ -121,7 +121,7 @@
     <value>Nova janela</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Copiar caminho</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
@@ -232,7 +232,7 @@
     <value>Documentos</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Baixar</value>
+    <value>Downloads</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
@@ -478,7 +478,7 @@
     <value>Tipos diferentes</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Tudo em {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espaço usado:</value>
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Avaliação</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Caminho do Item</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Unidades em Nuvem</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Exportar Pacotes</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Importar Pacotes</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Já existe um pacote com o mesmo nome!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Abrir local do item</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Remover do pacote</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Remover Pacote</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Pacotes</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Arraste e solte qualquer arquivo ou pasta aqui para acessá-lo rapidamente</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Insira o nome do Pacote</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Digite o novo nome</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Renomear "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Criar Pacote</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirmar</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Adicionar Pacote</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Renomear Pacote</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Nome desejado</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Mapear unidade em rede</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mais opções de pacotes</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoritos</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumentos</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Abrir em novo Painel</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Padrão</value>
@@ -1354,7 +1306,7 @@
     <value>Existe um nome de arquivo em conflito.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Criar pasta com a seleção</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nome:</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Adicionar arquivo</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Adicionar pasta</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Adicionar item...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Atualizações disponíveis</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nome de Usuário</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget de Pacotes</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget de Unidades</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Compactando arquivo</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecionar arquivos e pastas ao passar o mouse sobre elas</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Ordenação e agrupamento</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Arquivo</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Criar arquivo</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Ver mais</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Pacotes serão aposentados em uma atualização futura 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Exibir etiquetas de edição de flyout</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mostrar opção para abrir pastas em uma nova guia</value>
@@ -2581,25 +2521,25 @@
     <value>Aumentar tamanho</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Alternar ordem de classificação</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nome inválido</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>O nome não pode ser vazio, começar, ou terminar com um período.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Vídeos</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Iniciar pré-visualização em janela</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Alternar janela para sobreposição compacta</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Abrir a página de ajuda online no navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Alternar para o modo tela cheia</value>
@@ -2611,10 +2551,10 @@
     <value>Remova a sobreposição compacta</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Alternar janela para sobreposição compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Ir para o campo de pesquisa</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle whether to show hidden items</value>
@@ -2629,10 +2569,10 @@
     <value>Toggle whether to show sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Copiar item(s) para área de transferência</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Copiar caminho do arquivo para área de transferência</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut item(s) to clipboard</value>
@@ -2725,7 +2665,7 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
@@ -2893,7 +2833,7 @@
     <value>Navigate up one directory</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Duplicar aba atual</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplicate selected tab</value>
@@ -3140,16 +3080,16 @@
     <value>Sem marcação</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Mover para a aba anterior</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Mover para a próxima aba</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Fechar a aba atual</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Editar caminho</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Refazer</value>
@@ -3176,13 +3116,13 @@
     <value>Mostrar caixas de seleção ao selecionar itens</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Pesquisar itens não indexados</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Foco na barra de endereço</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Criar novo item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Nenhum grupo ou usuário tem permissão para acessar este objeto. No entanto, o proprietário deste objeto pode atribuir permissões.</value>
@@ -3206,79 +3146,79 @@
     <value>Refazer a última operação</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Local:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Agrupar itens por mês</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Agrupar itens por ano</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Mês</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Alternar unidade para agrupar por data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Ativar/desativar unidade de agrupamento</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Ano</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Agrupar por mês em vez do ano</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Agrupar itens por mês da data de criação</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Agrupar itens por ano de data de criação</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Agrupar itens por mês da data de exclusão</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Agrupar itens por ano da data de exclusão</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Agrupar itens por mês da data de modificação</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Agrupar itens por ano da data de modificação</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Clique em 'Permissões Avançadas' para continuar.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Você deve ter permissões de Leitura para exibir as propriedades deste item.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Para tentar apropriar-se do item, o que inclui permissão para visualizar suas propriedades, clique em Alterar acima.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Não é possível exibir permissões.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Deixar minhas alterações em '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Descartar minhas alterações</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Trazer as minhas alterações para '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Você tem alterações não confirmadas nesta ramificação. O que você gostaria de fazer com eles?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Trocar Ramificação</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Ramificações</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Alternar</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

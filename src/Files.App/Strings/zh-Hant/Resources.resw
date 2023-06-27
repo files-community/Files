@@ -121,7 +121,7 @@
     <value>新視窗</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>複製路徑</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>評分</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>項目位置</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>雲端硬碟</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>匯出 Bundles</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>匯入 Bundles</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>已存在相同名稱的 Bundle！</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>開啟項目位置</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>從 Bundle 中移除</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>移除 Bundle</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Bundles</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>將檔案或資料夾拖曳至此處以方便您進行存取</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>輸入 Bundle 名稱</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>請輸入新名稱</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>重新命名「{0}」</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>新建 Bundle</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>確認</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>建立新的 Bundle</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>重新命名 Bundle</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>您想要的名稱</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>連線網路磁碟機</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>更多 Bundle 的選項</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>快速存取</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>參數</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>在副畫面中開啟</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>預設</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>新增檔案</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>新增資料夾</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>新增項目...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>有可用的更新</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>使用者名稱</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Bundles 小工具</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>磁碟機小工具</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>壓縮檔案</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>當游標停留於檔案與資料夾上時，選取它們</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>排序與分組</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>封存檔案</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>建立封存檔案</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>檢視更多</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles在未來更新將會停用📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>顯示編輯標籤選單</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>顯示在新索引標籤開啟資料夾選項</value>
@@ -2593,7 +2533,7 @@
     <value>影片</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>開啟預覽視窗</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>切換緊湊檢視</value>
@@ -2677,7 +2617,7 @@
     <value>開啟所選項目的資料夾</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>重新整理頁面內容</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>將選定的項目重新命名</value>
@@ -2704,10 +2644,10 @@
     <value>從開始功能表取消釘選</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>釘選資料夾至收藏</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>從收藏中取消釘選資料夾</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>設成桌面背景</value>
@@ -2725,7 +2665,7 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>以系統管理員身分執行</value>
@@ -2737,7 +2677,7 @@
     <value>執行PowerShell腳本</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>在跳出視窗中開啟預覽</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
@@ -2767,10 +2707,10 @@
     <value>開啟設定頁面</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>在終端機開啟資料夾</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>以系統管理員身分在終端機開啟資料夾</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Decrease icon size in grid view</value>
@@ -2917,7 +2857,7 @@
     <value>Close tabs other than selected tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>恢復先前關閉的分頁</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Move to the previous tab</value>
@@ -2926,7 +2866,7 @@
     <value>Move to the next tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>關閉目前分頁</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Open new pane</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>預覽</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

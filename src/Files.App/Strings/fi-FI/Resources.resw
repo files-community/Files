@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Luokitus</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Kohteen polku</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Pilviasemat</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Vie paketteja</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Tuo paketteja</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Samanniminen paketti on jo olemassa!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Avaa kohteen sijainti</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Poista paketista</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Poista paketti</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Paketit</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Vedä ja pudota mikä tahansa tiedosto tai kansio tähän päästäksesi siihen nopeasti käsiksi</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Syötä paketin nimi</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Syötä uusi nimi</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Uudelleennimeä "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Luo paketti</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Vahvista</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Lisää paketti</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Nimeä paketti uudelleen</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Haluttu nimi</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Yhdistä verkkoasemaan</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Lisää pakettivaihtoehtoja</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Suosikit</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumentit</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Avaa uudessa ruudussa</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Oletus</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Lisää tiedosto</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Lisää kansio</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Lisää kohde...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Päivityksiä saatavilla</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Käyttäjätunnus</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Paketit-widget</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Asemat-widget</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Pakataan arkistoa</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Pakkaa</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Valitse tiedostot ja kansiot viemällä hiiren osoitin niiden päälle</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Lajittelu ja ryhmittely</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Arkisto</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Luo arkisto</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Näytä lisää</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Mutta älä huoli, loimme upean korvaavan vaihtoehdon, joka on luotettavampi ja jossa on enemmän ominaisuuksia. Voit ottaa tiedostotunnisteet-widgetin käyttöön kohdasta Asetukset &gt; Asetukset &gt; Widgetit. Tunnisteet-widgetin käyttöönotto poistaa paketit-widgetin automaattisesti käytöstä.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Paketit poistuvat käytöstä tulevassa päivityksessä 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Näytä muokkaa tunnisteita -pikaikkuna</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Näytä vaihtoehto kansioiden avaamiseksi uudessa välilehdessä</value>
@@ -2725,7 +2665,7 @@
     <value>Asenna ajurit käyttämällä valittuja inf-tiedostoja</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Asenna valitut varmenteet</value>
+    <value>Asenna valitut varmenteet</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Suorita valittu sovellus järjestelmänvalvojana</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Esikatselu</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git-tila</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git-virhe</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(useita arvoja)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Tekijä</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Vahvistettu-pvm</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Vahvistusviesti</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Vahvistus-SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Hallitse haaroja</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Avaa nykyinen hakemisto Visual Studiossa</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Avaa nykyinen hakemisto Visual Studio Codessa</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Lisätty</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Poistettu</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Muokattu</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Seuraamaton</value>
   </data>
 </root>

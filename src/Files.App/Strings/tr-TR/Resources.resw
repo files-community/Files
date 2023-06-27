@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Değerlendirme</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Öge Yolu</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Bulut Sürücüleri</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Paketleri Dışa Aktar</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Paketleri İçe Aktar</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Aynı isimli bir paket zaten var!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Öge konumunu aç</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Paketten kaldır</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Paketi Kaldır</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Paketler</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Hızlı erişmek istediğiniz dosya ya da dizini sürükleyip buraya bırakın</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Paket adını yazın</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Yeni adı yazın</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" yeniden adlandır</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Paket Oluştur</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Onayla</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Ekle</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Paketi Yeniden Adlandır</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>İstenilen ad</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Ağ sürücüsüne bağlan</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Diğer paket seçenekleri</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Sık kullanılanlar</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argümanlar</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Yeni Bölmede Aç</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Varsayılan</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Dosya Ekle</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Klasörü eklemek</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Öğe eklemek...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Güncellemeler mevcut</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Kullanıcı adı</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Paket Widget'ı</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Diskler/Sürücüler Widget'ı</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Arşiv sıkıştırılıyor</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Üzerine getirildiğinde dosyaları ve dizinleri seçin</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sıralama ve gruplama</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Arşiv</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Arşiv oluştur</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Daha fazla göster</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Ancak endişelenmeyin, onun yerine daha güvenilir ve daha fazla özelliğe sahip harika bir widget geliştirdik. "Dosya Etiketleri" widget'ını Ayarlar &gt; Tercihler &gt; Widget'lardan etkinleştirebilirsiniz. Etiketler widget'ının etkinleştirilmesi, paketler widget'ını otomatik olarak devre dışı bırakacaktır.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Paketler ileri güncellemelerde kaldırılacak</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Etiketleri düzenle açılır penceresini göster</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Gönder menüsünü göster</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Dizinleri yeni bir sekmede açma seçeneğini göster</value>
@@ -2725,7 +2665,7 @@
     <value>Seçilen inf dosya(ları) kullanarak sürücü(ler) kurun</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Seçilen sertifika(ları) yükleyin</value>
+    <value>Seçilen sertifika(ları) yükleyin</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Seçili uygulamayı yönetici olarak çalıştır</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Önizleme</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Hatası</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(birden fazla değer)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Akrilik</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

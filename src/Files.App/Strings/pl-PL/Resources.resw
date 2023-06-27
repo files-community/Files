@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Klasyfikacja</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Ścieżka elementu</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Dyski w chmurze</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Eksportuj Paczki</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Importuj Paczki</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Paczka z tą samą nazwą już istnieje!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Otwórz lokalizację elementu</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Usuń z Paczki</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Usuń Paczkę</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Paczki</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Przeciągnij dowolny plik lub folder, aby szybko uzyskać do niego dostęp</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Wprowadź nazwę Paczki</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Wprowadź nową nazwę</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Zmień nazwę "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Utwórz nową Paczkę</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Zatwierdź</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Dodaj Paczkę</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Zmień nazwę Paczki</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Żądana nazwa</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Mapuj dysk sieciowy</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Więcej opcji Paczek</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Ulubione</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumenty</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Otwórz w nowym panelu</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Domyślny</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Dodaj plik</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Dodaj folder</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Dodaj element</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Dostępne aktualizacje</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nazwa użytkownika</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widżet paczek</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widżet dysków</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Kompresowanie archiwum</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Zaznacz pliki i foldery w trakcie trzymania kursora nad nimi</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sortowanie i grupowanie</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archiwum</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Utwórz archiwum</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Pokaż więcej</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Paczki zostaną wycofane w przyszłej aktualizacji 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Pokaż edycję tagów</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Pokaż opcję otwierania folderów w nowym panelu</value>
@@ -2710,7 +2650,7 @@
     <value>Odepnij folder(y) z Ulubionych</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Ustaw zaznaczony obraz jako tło pulpitu</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
     <value>Ustaw wybrane zdjęcia jako pokaz slajdów na pulpicie</value>
@@ -2725,7 +2665,7 @@
     <value>Zainstaluj sterownik(i) używając wybranych plików inf</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Zainstaluj wybrane certyfikaty</value>
+    <value>Zainstaluj wybrane certyfikaty</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Uruchom wybraną aplikację jako administrator</value>
@@ -2749,10 +2689,10 @@
     <value>Utwórz archiwum zip z wybranymi elementami</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Wypakuj elementy z wybranego archiwum(ów) do dowolnego folderu</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Wypakuj elementy z wybranego archiwum(ów) do obecnego folderu</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
     <value>Wypakuj elementy z wybranego archiwum(ów) do nowego folderu</value>
@@ -2833,13 +2773,13 @@
     <value>Sortuj według kolejności malejącej</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Zmień kolejność sortowania elementów</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Wyświetlaj i sortuj katalogi obok plików</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Sortuj elementy bez grupowania</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
     <value>Grupuj po nazwie</value>
@@ -2872,25 +2812,25 @@
     <value>Grupuj pozycje według ścieżki folderu</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Sortuje grupy w kolejności rosnącej</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Sortuj grupy w kolejności malejącej</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Zmień kolejność sortowania grup</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Otwórz nową kartę</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Idź wstecz w historii nawigacji</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Idź do przodu w historii nawigacji</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Idź o jeden katalog wyżej</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>Duplikuj bieżącą kartę</value>
@@ -2899,22 +2839,22 @@
     <value>Duplikuj wybraną kartę</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zamknij karty na lewo od bieżącej karty</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Zamknij karty na lewo od wybranej karty</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Zamknij karty na prawo od bieżącej karty</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Zamknij karty na prawo od wybranej karty</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Zamknij wszystkie karty poza bieżącą</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Zamknij wszystkie karty oprócz zaznaczonej</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Przywróć ostatnio zamkniętą kartę</value>
@@ -3066,19 +3006,19 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>Wstecz</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>DoPrzodu</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>OdświeżPrzeglądarkę</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>ZatrzymajPrzeglądarkę</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -3090,23 +3030,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>OdtwórzZatrzymaj</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>MediaStop</value>
+    <value>ZatrzymajMultimedia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>PoprzedniUtwór</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>NastępnyUtwór</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>WybierzMultimedia</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Podgląd</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Status Git</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Błąd Git</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(wiele wartości)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Zarządzaj gałęziami</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

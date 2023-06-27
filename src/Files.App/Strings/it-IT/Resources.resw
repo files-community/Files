@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Classificazione</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Percorso</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Archivi Cloud</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Esporta Gruppi</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Importa Gruppi</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Un gruppo con lo stesso nome esiste già</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Apri percorso file</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Rimuovi dal gruppo</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Rimuovi Gruppo</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Gruppi</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Trascina qui file o cartelle per accederci velocemente</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Inserisci nome del gruppo</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Inserisci il nuovo nome</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Rinomina "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Crea Gruppo</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Aggiungi gruppo</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Rinomina Gruppo</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Nome desiderato</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Connetti disco di rete</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Altre opzioni dei gruppi</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Preferiti</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argomenti:</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Apri nel pannello secondario</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Predefinito</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Aggiungi file</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Aggiungi cartella</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Aggiungi elemento...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Aggiornamenti disponibili</value>
   </data>
@@ -1813,7 +1759,7 @@
     <value>Aggiornamenti pronti per l'installazione</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Annulla</value>
+    <value>Chiudi</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
     <value>Aggiorna</value>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nome utente</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Gruppi</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget Dischi</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Comprimendo l'archivio</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Comprimi</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleziona i file e le cartelle quando si passa con il mouse</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Ordina e raggruppa</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archivio</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Creare archivio</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Mostra altro</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Ma non preoccuparti, abbiamo creato un sostituto fantastico, più affidabile e con più funzionalità. Puoi abilitare il widget delle Etichette da Impostazioni &gt; Preferenze &gt; Widget. Abilitando il widget delle Etichette, quello dei Gruppi verrà disabilitato automaticamente.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>I gruppi andranno in pensione in un aggiornamento futuro📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Mostra il menù per la modifica dei tag</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mostra l'opzione per aprire le cartelle in una nuova scheda</value>
@@ -2725,7 +2665,7 @@
     <value>Installa driver usando i file inf selezionati</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Installa i certificati selezionati</value>
+    <value>Installa i certificati selezionati</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Esegui come amministratore l'applicazione selezionata</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Anteprima</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Errore di Git</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(valori multipli)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autore</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Data della commit</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Messaggio della commit</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>SHA della Commit</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrilico</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Gestisci i branch</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Apri la directory attuale in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Apri la directory attuale in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Aggiunto</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Eliminato</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modificato</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Non tracciato</value>
   </data>
 </root>

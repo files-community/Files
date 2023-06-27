@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Hodnocení</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Cesta k položce</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudové disky</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Exportovat balíčky</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Importovat balíčky</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Balíček se stejným názvem již existuje!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Otevřít umístění položky</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Odstranit z balíčku</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Odstranit balíček</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Balíčky</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Přetáhněta a pusťte sem soubor nebo složku pro rychlý přístup</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Zadejte název balíčku</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Zadejte nový název</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Přejmenovat "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Vytvořit balíček</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Potvrdit</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Přidat balíček</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Přejmenovat balíček</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Požadovaný název</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Mapovat síťový disk</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Více možností balíčků</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Oblíbené</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumenty</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Otevřít v novém panelu</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Výchozí</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Přidat soubor</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Přidat složku</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Přidat položku...</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Jsou dostupné aktualizace</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Uživatelské jméno</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget balíčku</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Widget disků</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Komprimování archivu</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Komprese</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vyberte soubory a složky při najetí na ně</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Řazení a seskupování</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archiv</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Vytvořit archiv</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Zobrazit více</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Avšak nemějte strach. Připravili jsme fantastickou náhradu, která je spolehlivější a má více funkcí. Widget štítků si můžete zapnout v Nastavení &gt; Obecné &gt; Widgety. Aktivace widgetu štítků automaticky vypne widget balíčků.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Balíčky se chystají odejít do důchodu během nadcházejících aktualizací 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Zobrazit výsuvné menu pro upravení štítků</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Zobrazit odeslat do menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Zobrazit možnost otevřít složky v nové záložce</value>
@@ -2725,7 +2665,7 @@
     <value>Nainstalovat ovladače pomocí vybraných inf souborů</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Nainstalovat zvolené certifikáty</value>
+    <value>Nainstalovat zvolené certifikáty</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Spustit vybranou aplikaci jako administrátor</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Náhled</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git stav</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Chyba Gitu</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(vícero hodnot)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Datum provedení</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Zpráva provedení</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>SHA provedení</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Akryl</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Spravovat větve</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Otevřít aktuální adresář ve Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS kód</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Otevřít aktuální adresář ve Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Přidáno</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Smazáno</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Změněno</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Nesledováno</value>
   </data>
 </root>

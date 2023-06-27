@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Bewertung</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Dateipfad</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Sammlung exportieren</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Sammlung importieren</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Eine Gruppe mit dem gleichen Namen existiert bereits!"</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Dateispeicherort öffnen</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Aus Sammlung entfernen</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Sammlung entfernen</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Sammlungen</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu, um schnell darauf zuzugreifen</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Sammlungsnamen eingeben</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Neuen Namen eingeben</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" umbenennen</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Sammlung erstellen</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Bestätigen</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Gruppe hinzufügen</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Sammlung umbenennen</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Gewünschter Name</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Netzlaufwerk hinzufügen</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr Sammlungsoptionen</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoriten</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumente</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>In neuem Panel öffnen</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Datei hinzufügen</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Ordner hinzufügen</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Element hinzufügen</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Benutzername</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Sammlungs-Widget</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Laufwerks-Widget</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Archiv wird komprimiert</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Komprimieren</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Dateien und Ordner beim Überfahren auswählen</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sortierung und Gruppierung</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archiv</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Archiv erstellen</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Mehr anzeigen</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Aber keine Angst, wir haben einen fantastischen Ersatz, der zuverlässiger ist und mehr Funktionen hat. Du kannst das Tag-Widget in den Einstellungen unter Präferenzen &gt; Widgets aktivieren. Die Aktivierung des Tag-Widgets wird das Sammlungen-Widget automatisch deaktivieren.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Sammlungen werden in einem zukünftigen Update eingestellt📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Zeige Tags bearbeiten im Kontextmenü</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Sende an Menü anzeigen</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Option anzeigen, um Ordner in einem neuen Tab zu öffnen</value>
@@ -2725,7 +2665,7 @@
     <value>Treiber mit ausgewählter/n INF-Datei(en) installieren</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Ausgewählte(s) Zertifikat(e) installieren</value>
+    <value>Ausgewählte(s) Zertifikat(e) installieren</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ausgewählte Anwendung als Administrator ausführen</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Vorschau</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git-Status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git-Fehler</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(mehrere Werte)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Veröffentlichungsdatum</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit-Nachricht</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Branches verwalten</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Aktuelles Verzeichnis in Visual Studio öffnen</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Aktuelles Verzeichnis in Visual Studio Code öffnen</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Hinzugefügt</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Gelöscht</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Bearbeitet</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Nicht verfolgt</value>
   </data>
 </root>

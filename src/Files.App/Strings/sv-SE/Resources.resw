@@ -121,7 +121,7 @@
     <value>Nytt fönster</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopiera sökväg</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bläddra</value>
@@ -136,7 +136,7 @@
     <value>Sökväg:</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Storlek:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Okomprimerad storlek:</value>
@@ -154,13 +154,13 @@
     <value>Hoppa över</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Markera alla</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Invertera markering</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Rensa markering</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Ändrad:</value>
@@ -175,7 +175,7 @@
     <value>Ange en sökväg</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Sök</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Filer som du använt tidigare kommer att visas här</value>
@@ -205,7 +205,7 @@
     <value>Visa dolda filer och mappar</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Visa punktfiler</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Utseende</value>
@@ -241,34 +241,34 @@
     <value>Stigande</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Klistra in</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nya</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Egenskaper</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Öppna</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Öppna i ny flik</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Öppna i nytt fönster</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Dela</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Klipp ut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Ta bort</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>Fäst i Favoriter</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Välkommen till Files!</value>
@@ -280,10 +280,10 @@
     <value>För att komma igång behöver du bevilja behörighet till oss att visa dina filer. En sida kommer att öppnas i Inställningar där du kan bevilja behörigheten. Du behöver starta om appen efter att du har gjort detta.</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Visa</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Ange ett namn för objektet</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Tillämpa namn</value>
@@ -319,7 +319,7 @@
     <value>Upp en nivå (Alt + Uppåtpil)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Uppdatera</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Det finns redan ett objekt med samma namn på den här platsen.</value>
@@ -331,7 +331,7 @@
     <value>Objektet finns redan.</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Använd som låsskärmsbakgrund</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Vi kunde inte ta bort det här objektet</value>
@@ -412,7 +412,7 @@
     <value>Filnamn kan inte innehålla något av följande tecken: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Objektets namn är ogiltigt</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>objekt markerat</value>
@@ -445,7 +445,7 @@
     <value>byte</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>kB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
     <value>MB</value>
@@ -466,7 +466,7 @@
     <value>{0:#,##0} filer, {1:#,##0} mappar</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} files, {1:#,##0} folders from {2:#,##0} locations</value>
+    <value>{0:#,##0} filer, {1:#,##0} mappar från {2:#,##0} platser</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Kör som en annan användare</value>
@@ -478,7 +478,7 @@
     <value>Olika typer</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Allt i {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Använt utrymme:</value>
@@ -520,7 +520,7 @@
     <value>Kopiera till {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Skapa genväg</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Öppna filsökväg</value>
@@ -607,7 +607,7 @@
     <value>Appen måste startas om för att tillämpa språkinställningen. Vill du starta om appen?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Stöd oss på GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Vi kunde inte skapa det här objektet</value>
@@ -646,13 +646,13 @@
     <value>Uppdatera mappen</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Språk</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Flytta innehållsmenytillägg till en submeny</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Visa en bekräftelseruta när du tar bort objekt</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Det uppstod problem med att spara vissa egenskaper.</value>
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Klassificering</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Objektsökväg</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -682,7 +682,7 @@
     <value>Kommentar</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Upphovsrätt</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Senast ändrad</value>
@@ -928,7 +928,7 @@
     <value>Adress</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Markeringsalternativ</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Välj</value>
@@ -961,13 +961,13 @@
     <value>Mata ut</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Duplicera flik</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Flytta flik till nytt fönster</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Ny flik</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Vissa egenskaper kan innehålla personlig information.</value>
@@ -985,7 +985,7 @@
     <value>Sökresultat i</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Lista och sortera mappar tillsammans med filer</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Information</value>
@@ -1000,13 +1000,13 @@
     <value>Inkludera oindexerade objekt i sökresultaten</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Synkronisera layout- och sorteringspreferenser mellan mappar</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Anpassa högerklicksmenyn</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Ursprunglig sökväg</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Lägg till</value>
@@ -1018,16 +1018,16 @@
     <value>Ta bort</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Öppna flikar sida vid sida</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Visa alternativ för att öppna mappar i en ny ruta</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>New pane</value>
+    <value>Ny ruta</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Öppna i ny ruta</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Mappar</value>
@@ -1053,56 +1053,14 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Molnenheter</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Exportera samlingar</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Importera samlingar</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Det finns redan en samling med samma namn!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Öppna sökväg</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Ta bort från samling</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Ta bort samling</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Samlingar</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Dra och släpp valfri fil eller mapp hit för snabb åtkomst</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Ange namn för samlingen</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Ange ett nytt namn</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Byt namn på "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Skapa samling</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Bekräfta</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Lägg till samling</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Byt namn på samling</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Önskat namn</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Växla förhandsgranskningsrutan</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen förhandsgranskning är tillgänglig</value>
@@ -1111,7 +1069,7 @@
     <value>Filnamn</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Lossa från Favoriter</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Nätverksenheter:</value>
@@ -1156,7 +1114,7 @@
     <value>Okänd</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Om du ändrar filtillägg kan filen bli obrukbar. Är du säker på att du vill ändra filtillägget?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM-enhet</value>
@@ -1165,7 +1123,7 @@
     <value>Molnenhet</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Fixed Disk Drive</value>
+    <value>Fast diskenhet</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
     <value>Diskettenhet</value>
@@ -1174,19 +1132,19 @@
     <value>Nätverksenhet</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Unmounted Drive</value>
+    <value>Ej monterad enhet</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>RAM Disk Drive</value>
+    <value>RAM-diskenhet</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Removable Storage Device</value>
+    <value>Flyttbar lagringsenhet</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Okänd</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Virtual Drive</value>
+    <value>Virtuell disk</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Skapad</value>
@@ -1196,9 +1154,6 @@
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Anslut nätverksenhet</value>
-  </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More bundles options</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoriter</value>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argument:</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Open in new Pane</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
@@ -1234,28 +1186,28 @@
     <value>Borttagning avbruten</value>
   </data>
   <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recycle complete</value>
+    <value>Borttagning slutförd</value>
   </data>
   <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Move complete</value>
+    <value>Flytten är klar</value>
   </data>
   <data name="StatusCopyComplete" xml:space="preserve">
     <value>Kopiering slutförd</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>This action requires administrator rights</value>
+    <value>Denna åtgärd kräver administratörsrättigheter</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Would you like to continue as administrator?</value>
+    <value>Vill du fortsätta som administratör?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Kolumner (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Pin to the Start Menu</value>
+    <value>Fäst i startmenyn</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Unpin from the Start Menu</value>
+    <value>Lossa från startmenyn</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliotek</value>
@@ -1264,7 +1216,7 @@
     <value>Platser</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>Set as default save path</value>
+    <value>Ange som standard sparsökväg</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>Inga platser</value>
@@ -1273,28 +1225,28 @@
     <value>Inmatningsfältet får inte vara tomt!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>Filnamnet kan inte innehålla följande tecken: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>Using this name is not allowed!</value>
+    <value>Detta namn är inte tillåtet!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>Library with the same name already exists!</value>
+    <value>Bibliotek med samma namn finns redan!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Öppna Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopiera</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} items will be copied</value>
+    <value>{0} objekt kommer att kopieras</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Kopiera objekt</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Ta bort objekt</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Flytta</value>
@@ -1312,13 +1264,13 @@
     <value>Fortsätt</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names, and {1} outgoing item(s).</value>
+    <value>Det finns {0} filnamn i konflikt, och {1} utgående objekt.</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Conflicting file name(s)</value>
+    <value>Filnamn i konflikt</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name, and {0} outgoing item(s).</value>
+    <value>Det finns ett filnamn i konflikt, och {0} utgående objekt.</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
     <value>Ett objekt kommer att kopieras</value>
@@ -1327,7 +1279,7 @@
     <value>Ett objekt kommer att tas bort</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>One item will be moved</value>
+    <value>Ett objekt kommer att flyttas</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Ta bort permanent</value>
@@ -1342,19 +1294,19 @@
     <value>Sök oindexerade objekt</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Ersätt befintlig</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>Generate new name</value>
+    <value>Generera nytt namn</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>There are {0} conflicting file names.</value>
+    <value>Det finns {0} filnamn i konflikt.</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>There is one conflicting file name.</value>
+    <value>Det finns ett filnamn i konflikt.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Skapa mapp med markering</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Namn:</value>
@@ -1372,19 +1324,19 @@
     <value>Filikon</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Original path column</value>
+    <value>Ursprunglig sökvägskolumn</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Item type column</value>
+    <value>Objekttypkolumn</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Date modified column</value>
+    <value>Ändringsdatumkolumn</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>Date deleted column</value>
+    <value>Borttagningsdatumkolumn</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortera</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Gruppera efter</value>
@@ -1393,7 +1345,7 @@
     <value>Ändrad</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Ursprunglig mapp</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sortera efter</value>
@@ -1420,7 +1372,7 @@
     <value>mycket liten</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Kommande</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>I dag</value>
@@ -1435,19 +1387,19 @@
     <value>Förra veckan</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Tidigare denna månad</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Förra månaden</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Tidigare i år</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Förra året</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>År {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} objekt</value>
@@ -1459,52 +1411,52 @@
     <value>Öppna stängd flik igen</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Byt namn</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Integritet</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
+    <value>Flytt avbruten</value>
   </data>
   <data name="StatusCopyCanceled" xml:space="preserve">
     <value>Kopiering avbruten</value>
   </data>
   <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+    <value>Flytten av {0} objekt från {1} till {2} avbröts</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
+    <value>Flytten av {0} objekt från {1} till {2} avbröts efter att {3} objekt flyttats</value>
   </data>
   <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
+    <value>Flytten av {0} objekt från {1} till {2} avbröts efter att {3} objekt flyttats</value>
   </data>
   <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
+    <value>Flyttar {0} objekt från {1} till {2}</value>
   </data>
   <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
+    <value>Flyttar {0} objekt från {1} till {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
+    <value>Flyttade {0} objekt från {1} till {2}</value>
   </data>
   <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
+    <value>Flyttade {0} objekt från {1} till {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
+    <value>Flytten av {0} objekt från {1} till {2} misslyckades</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
+    <value>Flytten av {0} objekt från {1} till {2} misslyckades</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
+    <value>Kopieringen av {0} objekt till {1} avbröts</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
+    <value>Kopieringen av {0} objekt till {1} avbröts efter att {2} objekt kopierats</value>
   </data>
   <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
+    <value>Kopieringen av {0} objekt till {1} avbröts efter att {2} objekt kopierats</value>
   </data>
   <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
     <value>Kopierar {0} objekt till {1}</value>
@@ -1513,19 +1465,19 @@
     <value>Kopierar {0} objekt till {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
+    <value>Kopierade {0} objekt till {1}</value>
   </data>
   <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
+    <value>Kopierade {0} objekt till {1}</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+    <value>Borttagningen av {0} objekt från {1} avbröts</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+    <value>Borttagningen av {0} objekt från {1} avbröts efter att {3} objekt raderats</value>
   </data>
   <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+    <value>Borttagningen av {0} objekt från {1} avbröts efter att {3} objekt raderats</value>
   </data>
   <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
     <value>Tar bort {0} objekt från {1}</value>
@@ -1534,16 +1486,16 @@
     <value>Tar bort {0} objekt från {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
+    <value>{0} objekt togs bort från {1}</value>
   </data>
   <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
+    <value>{0} objekt togs bort från {1}</value>
   </data>
   <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
+    <value>Borttagningen av {0} objekt från {1} misslyckades</value>
   </data>
   <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+    <value>Borttagningen av {0} objekt från {1} misslyckades</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Papperskorgen</value>
@@ -1555,10 +1507,10 @@
     <value>Kopierar objekt</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+    <value>Borttagning misslyckades</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+    <value>Borttagning avbruten</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>avbryter</value>
@@ -1567,7 +1519,7 @@
     <value>Rensa</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgetar</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
@@ -1582,22 +1534,22 @@
     <value>Tillåt</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Neka</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Fullständig kontroll</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>Lista mappinnehåll</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Redigera</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Rättigheter för {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>Läsa och köra</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>Läs</value>
@@ -1612,10 +1564,10 @@
     <value>Okänt konto</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Du har inte behörighet för att visa säkerhetsegenskaperna för detta objekt. Klicka på "Avancerade rättigheter" för att fortsätta.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Ägare:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Okänd ägare.</value>
@@ -1624,7 +1576,7 @@
     <value>Extrahera arkiv</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Open destination folder when complete</value>
+    <value>Öppna målmappen när slutfört</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extrahera till {0}\</value>
@@ -1636,7 +1588,7 @@
     <value>Återställ standardbibliotek</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+    <value>Är du säker på att du vill återställa standardbiblioteken? Alla dina filer kommer att finnas kvar.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Återställ bibliotek</value>
@@ -1651,10 +1603,10 @@
     <value>Åtkomst</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Gäller för</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Huvudsaklig</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>filer</value>
@@ -1666,13 +1618,13 @@
     <value>undermappar</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Ärvd</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Rättigheter</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Du har inte behörighet för att visa säkerhetsegenskaperna för detta objekt. Du kan försöka att ta ägarskap av detta objekt.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Den här mappen och filer</value>
@@ -1696,7 +1648,7 @@
     <value>Den här mappen och undermappar</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>Lägg till data</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>Ändra behörighet</value>
@@ -1708,10 +1660,10 @@
     <value>Skapa filer</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Ta bort undermappar och filer</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Kör filer</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Läsa attribut</value>
@@ -1729,7 +1681,7 @@
     <value>Bli ägare</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Visit folder</value>
+    <value>Besök mapp</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Skriva attribut</value>
@@ -1741,7 +1693,7 @@
     <value>Skriva utökade attribut</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>Convert inherited permissions into explicit permissions</value>
+    <value>Konvertera ärvda rättigheter till fasta rättigheter</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
     <value>Aktivera arv</value>
@@ -1750,19 +1702,19 @@
     <value>Ta bort alla ärvda behörigheter</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Reset child permissions</value>
+    <value>Återställ underordnade rättigheter</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+    <value>Ersätt alla underordnade objekträttighetsposter med ärftliga rättighetsposter från detta objekt</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Stäng fönster</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>Öppna kompakt överlägg</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Stäng kompakt överlägg</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Filbeskrivning</value>
@@ -1780,13 +1732,13 @@
     <value>Filversion</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Load full preview</value>
+    <value>Läs in full förhandsgranskning</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Downloads the item from the cloud and loads the preview</value>
+    <value>Hämtar objektet från molnet och laddar förhandsgranskningen</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} items ({1} files, {2} folders)</value>
+    <value>{0} objekt ({1} filer, {2} mappar)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Okomprimerad storlek</value>
@@ -1799,12 +1751,6 @@
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Lägg till fil</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Lägg till mapp</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Lägg till objekt</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Uppdateringar är tillgängliga</value>
@@ -1843,7 +1789,7 @@
     <value>Ctrl+Skift+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>Arkivet har extraherats.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>Extraherar arkiv</value>
@@ -1852,10 +1798,10 @@
     <value>Extrahering slutförd!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Öppna överordnad mapp</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Okänd</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
     <value>Redigera taggar</value>
@@ -1864,10 +1810,10 @@
     <value>Del av uppsättning</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open Drive</value>
+    <value>Öppna enhet</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Vänligen, sätt i en skiva i enhet {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
     <value>Sätt in en skiva</value>
@@ -1882,19 +1828,16 @@
     <value>Anonym</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>Provide your credential:</value>
+    <value>Ange dina autentiseringsuppgifter:</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Användarnamn</value>
   </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Bundles Widget</value>
-  </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives Widget</value>
+    <value>Enhetswidget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files Widget</value>
+    <value>Senaste filer-widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Inga objekt hittades</value>
@@ -1921,16 +1864,16 @@
     <value>Paneler</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Öppna mappar i ny flik</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+    <value>Pågående uppgifter</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>Skapelsedatumskolumn</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Item size column</value>
+    <value>Objektstorlekskolumn</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
     <value>Experimentella funktioner</value>
@@ -1939,16 +1882,16 @@
     <value>Hjälp och stöd</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Skicka funktionsförfrågan</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Skicka felrapport</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Ange Files som standardfilhanterare</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Use Files as Open File Dialog</value>
+    <value>Använd Files för att öppna fildialoger</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Tagg</value>
@@ -1957,7 +1900,7 @@
     <value>Enkelklicka för att öppna</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Mappsökväg</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Exportera inställningar</value>
@@ -1966,7 +1909,7 @@
     <value>Importera inställningar</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Couldn't import settings. The settings file is corrupted.</value>
+    <value>Kunde inte importera inställningar. Inställningsfilen är skadad.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>Fel vid import av inställningar</value>
@@ -1978,7 +1921,7 @@
     <value>Sidofält</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Choose a custom folder icon</value>
+    <value>Välj en anpassad mappikon</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>Anpassning</value>
@@ -1987,10 +1930,10 @@
     <value>Återställ standard</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Open new instance when opening directories from the taskbar jumplist</value>
+    <value>Öppna ny instans när du öppnar kataloger från aktivitetsfältet</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>Startup settings</value>
+    <value>Startinställningar</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Kompatibilitet</value>
@@ -1999,16 +1942,16 @@
     <value>Ingen</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Vid Windowsinloggning</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>On program start</value>
+    <value>Vid programstart</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>systemet</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (advanced)</value>
+    <value>System (avancerat)</value>
   </data>
   <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -2026,10 +1969,10 @@
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16 Bit Colors (65536)</value>
+    <value>16 bitars färger (65536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
-    <value>8 Bit Colors (256)</value>
+    <value>8 bitars färger (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
     <value>Kompatibilitetsläge</value>
@@ -2038,16 +1981,16 @@
     <value>Inaktivera helskärmsoptimering</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
-    <value>Run at 640 x 480 screen resolution</value>
+    <value>Kör med skärmupplösning på 640 x 480</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>Åsidosätt högt DPI-skalningsbeteende</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
     <value>Reducerat färgläge</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>Registrera för omstart</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Kör som administratör</value>
@@ -2056,13 +1999,13 @@
     <value>Kör felsökaren för programkompatibilitet</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Använd DPI-inställningar för huvudskärmen</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Tredjepartslicenser</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>Det här alternativet ändrar systemregistret och kan ha oväntade effekter på din enhet. Fortsätt på egen risk.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
     <value>Rensa alla</value>
@@ -2080,7 +2023,7 @@
     <value>Senaste filer</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows Startup</value>
+    <value>Öppna filer vid Windowsstart</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Attribut</value>
@@ -2095,16 +2038,16 @@
     <value>Skrivskyddad</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>Rensa din enhets innehåll</value>
   </data>
   <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk cleanup</value>
+    <value>Diskrensning</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Ikonrutnät</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byte</value>
@@ -2122,7 +2065,7 @@
     <value>Ctrl+B</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>Extrahera till {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Kör skript</value>
@@ -2131,7 +2074,7 @@
     <value>Kör med PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Beräkning av mappstorlekar är resurskrävande och kan orsaka din CPU-användning att öka.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Rotera åt vänster</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Komprimerar arkiv</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Välj filer och mappar när man hovrar över dem</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Skapa arkiv</value>
@@ -2410,16 +2353,16 @@
     <value>Skapa en ny genväg</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Skapa genvägar till lokala program eller nätverksprogram, filer, mappar, datorer eller internetadresser.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Ange objektets plats:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>Skapar en genväg</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Nyligen använda filer är för närvarande inaktiverat i Utforskaren i Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Redigera inställningsfil</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Visa mer</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>But don't worry, we built a fantistic replacement that's more reliable and has more features. You can enable the File Tags widget from Settings &gt; Preferences &gt; Widgets. Enabling the tags widget will automatically turn off the bundles widget.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Bundles will be retiring in a future update 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Show edit tags flyout</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Show option to open folders in a new tab</value>
@@ -2605,10 +2545,10 @@
     <value>Växla helskärm</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>Öppna kompakt överlägg</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Stäng kompakt överlägg</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay</value>
@@ -2644,7 +2584,7 @@
     <value>Paste item(s) from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete item(s)</value>
+    <value>Ta bort objekt</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Create new folder</value>
@@ -2725,7 +2665,7 @@
     <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>Install selected certificate(s)</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
@@ -2836,7 +2776,7 @@
     <value>Toggle item sort direction</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>List and sort directories alongside files</value>
+    <value>Lista och sortera mappar tillsammans med filer</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>List items without grouping</value>
@@ -3082,7 +3022,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Sök</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Error</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(multiple values)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

@@ -143,7 +143,7 @@
 			x:Name="GitActionsPanel"
 			Grid.Column="1"
 			VerticalAlignment="Center"
-			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+			x:Load="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToFalseConverter}, FallbackValue=False}"
 			Orientation="Horizontal"
 			Spacing="4">
 
@@ -279,7 +279,7 @@
 			Background="Transparent"
 			BorderBrush="Transparent"
 			ToolTipService.ToolTip="{helpers:ResourceString Name=ManageBranches}"
-			Visibility="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}}">
+			Visibility="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}">
 
 			<Button.Content>
 				<StackPanel Orientation="Horizontal" Spacing="8">

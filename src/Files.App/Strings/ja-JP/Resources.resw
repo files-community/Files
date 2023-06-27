@@ -286,7 +286,7 @@
     <value>名前を入力</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>名前を変更</value>
+    <value>名前を設定</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>ライト</value>
@@ -475,7 +475,7 @@
     <value>すべての種類の {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>他の種類</value>
+    <value>複数の種類</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
     <value>{0} のすべて</value>
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>評価</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>ファイルのパス</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>クラウド ドライブ</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>バンドルをエクスポート</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>バンドルをインポート</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>同じ名前のバンドルが既に存在しています!</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>ファイルの場所を開く</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>バンドルから削除</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>バンドルを削除</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>バンドル</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>ファイルやフォルダーをここにドラッグして追加</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>バンドル名を入力</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>新しい名前を入力</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" の名前を変更</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>バンドルを作成</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>確定</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>バンドルを追加</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>バンドル名を変更</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>新しい名前</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>ネットワーク ドライブを割り当てる</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>その他のバンドル オプション</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>お気に入り</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>引数</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>新しいペインで開く</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>既定</value>
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>ファイルの追加</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>フォルダーの追加</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>ファイルの追加</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>更新プログラムが利用可能</value>
   </data>
@@ -1886,9 +1832,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>ユーザー名</value>
-  </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>バンドル ウィジェット</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>ドライブ ウィジェット</value>
@@ -2280,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>圧縮しています</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>圧縮</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>上にカーソルを合わせたときにファイルとフォルダーを選択する</value>
   </data>
@@ -2327,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>並べ替えとグループ化</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>アーカイブ</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>アーカイブを作成</value>
@@ -2445,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>さらに表示する</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>しかし、心配は無用です。より信頼性と機能性に優れた、タグ ウィジェットという代替機能を作成しました。設定 &gt; 個人用設定 &gt; ウィジェットから有効にできます。タグ ウィジェットを有効にすると、バンドル ウィジェットは自動的に無効になります。</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>バンドル ウィジェットは今後のアップデートで削除されます 📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>"ファイル タグを編集" オプションを表示する</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>"送る" メニューを表示する</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>"新しいタブでフォルダーを開く" オプションを表示する</value>
@@ -2725,7 +2665,7 @@
     <value>選択した inf ファイルを使用してドライバーをインストールする</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-      <value>選択した証明書をインストールする</value>
+    <value>選択した証明書をインストールする</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>選択したアプリケーションを管理者として実行する</value>
@@ -3331,6 +3271,9 @@
   <data name="Preview" xml:space="preserve">
     <value>プレビュー</value>
   </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git ステータス</value>
+  </data>
   <data name="GitError" xml:space="preserve">
     <value>Git エラー</value>
   </data>
@@ -3340,6 +3283,21 @@
   <data name="MultipleValues" xml:space="preserve">
     <value>(複数の値)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>作成者</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>コミット日時</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>コミット メッセージ</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>コミット SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>アクリル</value>
@@ -3358,5 +3316,29 @@
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>ブランチの管理</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>現在のフォルダーを Visual Studio で開く</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>現在のフォルダーを Visual Studio Code で開く</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>変更</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>未追跡</value>
   </data>
 </root>
