@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>რეიტინგი</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>ნივთის გზა</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
