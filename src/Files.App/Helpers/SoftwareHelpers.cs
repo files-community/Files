@@ -34,10 +34,9 @@ namespace Files.App.Helpers
 			if (key is null)
 				return false;
 
-			string? displayName;
 			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
 			{
-				displayName = subKey?.GetValue("DisplayName") as string;
+				var displayName = subKey?.GetValue("DisplayName") as string;
 				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith(find))
 				{
 					key.Close();
