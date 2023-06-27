@@ -3,6 +3,7 @@
 
 using Files.App.Commands;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Helpers

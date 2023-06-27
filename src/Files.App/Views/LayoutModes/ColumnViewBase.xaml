@@ -3,7 +3,7 @@
 	x:Class="Files.App.Views.LayoutModes.ColumnViewBase"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:cloud="using:Files.App.Filesystem.Cloud"
+	xmlns:cloud="using:Files.App.Utils.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:filesystem="using:Files.App.Filesystem"
@@ -307,8 +307,8 @@
 											VerticalAlignment="Center"
 											x:Phase="2"
 											FontSize="12"
-											Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-											Visibility="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
+											Glyph="{x:Bind ((cloud:CloudDriveSyncStatusItem)SyncStatusUI).Glyph, Mode=OneWay}"
+											Visibility="{x:Bind ((cloud:CloudDriveSyncStatusItem)SyncStatusUI).LoadSyncStatus, Mode=OneWay}" />
 
 										<!--  Tag  -->
 										<Ellipse
