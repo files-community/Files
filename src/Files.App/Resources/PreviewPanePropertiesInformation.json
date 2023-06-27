@@ -358,9 +358,9 @@
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyItemPathDisplay",
+		"NameResource": "PropertyParsingPath",
 		"SectionResource": "PropertySectionCore",
-		"Property": "System.ItemPathDisplay",
+		"Property": "System.ParsingPath",
 		"IsReadOnly": true,
 		"ID": null
 	},

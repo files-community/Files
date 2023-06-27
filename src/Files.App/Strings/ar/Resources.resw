@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>التقييم</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>مسار العنصر</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
