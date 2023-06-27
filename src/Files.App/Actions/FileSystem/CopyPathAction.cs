@@ -35,11 +35,14 @@ namespace Files.App.Actions
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
 
-				DataPackage data = new();
-				data.SetText(path);
+				SafetyExtensions.IgnoreExceptions(() =>
+				{
+					DataPackage data = new();
+					data.SetText(path);
 
-				Clipboard.SetContent(data);
-				Clipboard.Flush();
+					Clipboard.SetContent(data);
+					Clipboard.Flush();
+				});
 			}
 
 			return Task.CompletedTask;
