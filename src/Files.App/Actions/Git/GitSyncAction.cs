@@ -25,10 +25,12 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.PullOrigin(_context.ShellPage?.InstanceViewModel.GitRepositoryPath)
+			var instance = _context.ShellPage?.InstanceViewModel;
+
+			return GitHelpers.PullOrigin(instance?.GitRepositoryPath)
 				.ContinueWith(t => GitHelpers.PushToOrigin(
-					_context.ShellPage?.InstanceViewModel.GitRepositoryPath,
-					_context.ShellPage?.InstanceViewModel.GitBranchName));
+					instance?.GitRepositoryPath,
+					instance?.GitBranchName));
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

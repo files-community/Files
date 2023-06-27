@@ -22,6 +22,8 @@ namespace Files.App.Helpers
 
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
 
+		private const string CLIENT_ID_SECRET = "githubclientid.secret";
+
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
@@ -35,7 +37,7 @@ namespace Files.App.Helpers
 
 		private static readonly string _clientId =
 			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
-				? "githubclientid.secret"
+				? CLIENT_ID_SECRET
 				: string.Empty;
 
 		private static bool _IsExecutingGitAction;
@@ -287,8 +289,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
-					ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase))
+				if (IsAuthorizationException(ex))
 				{
 					await RequireGitAuthentication();
 				}
@@ -356,8 +357,7 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				if (ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
-					ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase))
+				if (IsAuthorizationException(ex))
 					await RequireGitAuthentication();
 				else
 					_logger.LogWarning(ex.Message);
@@ -576,6 +576,13 @@ namespace Files.App.Helpers
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
+		}
+
+		private static bool IsAuthorizationException(Exception ex)
+		{
+			return
+				ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
+				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

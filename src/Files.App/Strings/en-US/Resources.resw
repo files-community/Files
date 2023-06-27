@@ -3365,7 +3365,7 @@
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
   </data>
-	<data name="AuthorizationSucceded">
-		<value>Great! You are now authorised.</value>
-	</data>
+  <data name="AuthorizationSucceded">
+    <value>Great! You are now authorised.</value>
+  </data>
 </root>
