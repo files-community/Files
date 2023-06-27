@@ -46,7 +46,7 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("PropertyItemCount", items.Count),
 				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
 				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
-				GetFileProperty("PropertyItemPathDisplay", Folder.Path),
+				GetFileProperty("PropertyParsingPath", Folder.Path),
 				GetFileProperty("FileTags",
 				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null)
 			};
