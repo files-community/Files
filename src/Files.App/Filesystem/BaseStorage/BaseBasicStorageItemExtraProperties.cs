@@ -29,7 +29,7 @@ namespace Files.App.Filesystem.StorageItems
 
 				var basicProps = ret is not null ? await ret : null;
 
-				props["System.ItemPathDisplay"] = _item?.Path;
+				props["System.ParsingPath"] = _item?.Path;
 				props["System.DateCreated"] = basicProps?.ItemDate;
 				props["System.DateModified"] = basicProps?.DateModified;
 

@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>தரமதிப்பு</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>உருப்படிப் பாதை</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
