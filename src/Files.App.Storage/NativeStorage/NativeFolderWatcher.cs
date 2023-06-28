@@ -3,6 +3,7 @@
 
 using Files.Sdk.Storage.LocatableStorage;
 using Files.Sdk.Storage.MutableStorage;
+using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Files.App.Storage.NativeStorage
 	/// <inheritdoc cref="IFolderWatcher"/>
 	public sealed class NativeFolderWatcher : IFolderWatcher
 	{
+		private int _handlersCount;
 		private FileSystemWatcher? _fileSystemWatcher;
 		private NotifyCollectionChangedEventHandler? _collectionChanged;
 
@@ -26,13 +28,15 @@ namespace Files.App.Storage.NativeStorage
 					_fileSystemWatcher.EnableRaisingEvents = true;
 
 				_collectionChanged += value;
+				_handlersCount++;
 			}
 			remove
 			{
-				if (_fileSystemWatcher is not null)
+				if (_fileSystemWatcher is not null && _handlersCount <= 1)
 					_fileSystemWatcher.EnableRaisingEvents = false;
 
 				_collectionChanged -= value;
+				_handlersCount--;
 			}
 		}
 
@@ -44,19 +48,19 @@ namespace Files.App.Storage.NativeStorage
 
 		private void SetupWatcher()
 		{
-			if (Folder is ILocatableFolder locatableFolder)
-			{
-				_fileSystemWatcher = new(locatableFolder.Path);
-				_fileSystemWatcher.Changed += FileSystemWatcher_Changed;
-				_fileSystemWatcher.Created += FileSystemWatcher_Created;
-				_fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
-				_fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
-			}
+			if (Folder is not ILocatableFolder locatableFolder)
+				throw new InvalidOperationException("The watcher folder is not locatable.");
+
+			_fileSystemWatcher = new(locatableFolder.Path);
+			_fileSystemWatcher.Changed += FileSystemWatcher_Changed;
+			_fileSystemWatcher.Created += FileSystemWatcher_Created;
+			_fileSystemWatcher.Deleted += FileSystemWatcher_Deleted;
+			_fileSystemWatcher.Renamed += FileSystemWatcher_Renamed;
 		}
 
 		private void FileSystemWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			_collectionChanged?.Invoke(this, new(NotifyCollectionChangedAction.Replace, e.FullPath));
+			_collectionChanged?.Invoke(this, new(NotifyCollectionChangedAction.Replace, e.FullPath, e.FullPath));
 		}
 
 		private void FileSystemWatcher_Renamed(object sender, RenamedEventArgs e)
@@ -84,15 +88,15 @@ namespace Files.App.Storage.NativeStorage
 		/// <inheritdoc/>
 		public void Dispose()
 		{
-			if (_fileSystemWatcher is not null)
-			{
-				_fileSystemWatcher.EnableRaisingEvents = false;
-				_fileSystemWatcher.Changed -= FileSystemWatcher_Changed;
-				_fileSystemWatcher.Created -= FileSystemWatcher_Created;
-				_fileSystemWatcher.Deleted -= FileSystemWatcher_Deleted;
-				_fileSystemWatcher.Renamed -= FileSystemWatcher_Renamed;
-				_fileSystemWatcher.Dispose();
-			}
+			if (_fileSystemWatcher is null)
+				return;
+
+			_fileSystemWatcher.EnableRaisingEvents = false;
+			_fileSystemWatcher.Changed -= FileSystemWatcher_Changed;
+			_fileSystemWatcher.Created -= FileSystemWatcher_Created;
+			_fileSystemWatcher.Deleted -= FileSystemWatcher_Deleted;
+			_fileSystemWatcher.Renamed -= FileSystemWatcher_Renamed;
+			_fileSystemWatcher.Dispose();
 		}
 	}
 }

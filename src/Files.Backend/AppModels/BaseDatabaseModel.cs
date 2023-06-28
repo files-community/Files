@@ -35,5 +35,12 @@ namespace Files.Backend.AppModels
 
 		/// <inheritdoc/>
 		public abstract Task<bool> SaveAsync(CancellationToken cancellationToken = default);
+
+		/// <inheritdoc/>
+		public virtual void Dispose()
+		{
+			storageSemaphore.Dispose();
+			settingsCache.Clear();
+		}
 	}
 }

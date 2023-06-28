@@ -1,11 +1,14 @@
 ﻿using Files.Backend.Models;
+using Files.Core.AppModels;
 using Files.Sdk.Storage;
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.ModifiableStorage;
+using Files.Sdk.Storage.MutableStorage;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,11 +16,15 @@ using System.Threading.Tasks;
 namespace Files.Backend.AppModels
 {
 	/// <inheritdoc cref="BaseDatabaseModel{TDictionaryValue}"/>
-	public sealed class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>
+	public sealed class SingleFileDatabaseModel : ObservableDatabaseModel<ISerializedModel>
 	{
 		private readonly string _fileName;
 		private readonly IModifiableFolder _settingsFolder;
 		private IFile? _databaseFile;
+		private IFolderWatcher? _folderWatcher;
+
+		/// <inheritdoc/>
+		protected override INotifyCollectionChanged? NotifyCollectionChanged => _folderWatcher;
 
 		public SingleFileDatabaseModel(string fileName, IModifiableFolder settingsFolder, IAsyncSerializer<Stream> serializer)
 			: base(serializer)
@@ -124,12 +131,24 @@ namespace Files.Backend.AppModels
 			}
 		}
 
+		/// <inheritdoc/>
+		protected override async Task ProcessChangeAsync(string changedItem)
+		{
+			if (_databaseFile?.Id == changedItem)
+				await LoadAsync();
+		}
+
 		private async Task<bool> EnsureSettingsFileAsync(CancellationToken cancellationToken)
 		{
-			if (_databaseFile is not null)
-				return true;
+			if (_databaseFile is null)
+				_databaseFile = await _settingsFolder.TryCreateFileAsync(_fileName, false, cancellationToken);
 
-			_databaseFile = await _settingsFolder.TryCreateFileAsync(_fileName, false, cancellationToken);
+			if (_folderWatcher is null && _settingsFolder is IMutableFolder mutableFolder)
+			{
+				_folderWatcher = await mutableFolder.GetFolderWatcherAsync(cancellationToken);
+				StartCapturingChanges();
+			}
+
 			return _databaseFile is not null;
 		}
 

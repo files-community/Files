@@ -8,6 +8,7 @@ using System.Linq;
 namespace Files.Backend.AppModels
 {
 	/// <inheritdoc cref="IPersistable"/>
+	[Obsolete]
 	public abstract class ObservableSettingsModel : SettingsModel, IDisposable
 	{
 		private readonly IFolderWatcher _folderWatcher;
