@@ -10,10 +10,11 @@ namespace Files.App.Helpers
 		public static bool IsVSCodeInstalled()
 		{
 			string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
+			string vsCodeName = "Microsoft Visual Studio Code";
 
 			return
-				ContainsName(Registry.CurrentUser.OpenSubKey(registryKey), "Microsoft Visual Studio Code") ||
-				ContainsName(Registry.LocalMachine.OpenSubKey(registryKey), "Microsoft Visual Studio Code");
+				ContainsName(Registry.CurrentUser.OpenSubKey(registryKey), vsCodeName) ||
+				ContainsName(Registry.LocalMachine.OpenSubKey(registryKey), vsCodeName);
 		}
 
 		public static bool IsVSInstalled()
