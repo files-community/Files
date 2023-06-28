@@ -166,9 +166,6 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-
-			// Show controls that were hidden on the home page
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		private void WidgetCardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
@@ -200,9 +197,6 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-
-			// Show controls that were hidden on the home page
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
