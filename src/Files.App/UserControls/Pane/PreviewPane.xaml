@@ -114,6 +114,15 @@
 						</Setter>
 					</Style>
 
+					<Style
+						x:Key="Local.FileDetailsHeaderTextBlockStyle"
+						BasedOn="{StaticResource CaptionTextBlockStyle}"
+						TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="SemiBold" />
+						<Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+					</Style>
+
 					<Style x:Key="Local.FileDetailsTextBlockStyle" TargetType="TextBlock">
 						<Setter Property="FontWeight" Value="Normal" />
 						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -231,33 +240,32 @@
 					Visibility="Collapsed">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="properties:FileProperty">
-							<Grid
+							<StackPanel
+								Padding="0,8,0,8"
 								HorizontalAlignment="Stretch"
 								AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
-								ColumnSpacing="12">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="1*" />
-									<ColumnDefinition Width="2*" />
-								</Grid.ColumnDefinitions>
+								Orientation="Vertical"
+								Spacing="4">
+
 								<!--  Property  -->
 								<TextBlock
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									MaxLines="2"
-									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
+									Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
 								<!--  Value  -->
-								<TextBox
+								<TextBlock
 									x:Name="PropertyValueTemplateTextBox"
 									Grid.Column="1"
-									MaxHeight="50"
 									HorizontalAlignment="Stretch"
-									Background="Transparent"
-									BorderBrush="Transparent"
+									IsTextSelectionEnabled="True"
+									MaxLines="2"
+									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
 									Text="{x:Bind ValueText, Mode=TwoWay}"
 									TextWrapping="Wrap" />
-							</Grid>
+							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
