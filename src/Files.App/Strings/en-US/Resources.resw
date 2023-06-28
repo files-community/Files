@@ -138,6 +138,9 @@
   <data name="SizeLabel" xml:space="preserve">
     <value>Size:</value>
   </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
+  </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed Size:</value>
   </data>

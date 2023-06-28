@@ -164,6 +164,7 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
 						<!--  Item Location  -->
@@ -218,9 +219,43 @@
 								Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 						</Grid>
 
-						<!--  Uncompressed Item Size  -->
+						<!--  Item Size on disk -->
 						<TextBlock
 							Grid.Row="2"
+							Grid.Column="0"
+							HorizontalAlignment="Left"
+							Style="{StaticResource PropertyName}"
+							Text="{helpers:ResourceString Name=SizeOnDiskLabel}"
+							Visibility="{x:Bind ViewModel.ItemSizeOnDiskVisibility, Mode=OneWay}" />
+
+						<Grid
+							Grid.Row="2"
+							Grid.Column="1"
+							Style="{StaticResource PropertyValueGrid}"
+							Visibility="{x:Bind ViewModel.ItemSizeOnDiskVisibility, Mode=OneWay}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="100" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<TextBlock
+								x:Name="itemSizeOnDiskValue"
+								Grid.Column="0"
+								IsTextSelectionEnabled="True"
+								Text="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay}" />
+
+							<ProgressBar
+								x:Name="ItemSizeOnDiskProgress"
+								Grid.Column="1"
+								Width="100"
+								HorizontalAlignment="Left"
+								IsIndeterminate="True"
+								Visibility="{x:Bind ViewModel.ItemSizeOnDiskProgressVisibility, Mode=OneWay}" />
+						</Grid>
+
+						<!--  Uncompressed Item Size  -->
+						<TextBlock
+							Grid.Row="3"
 							Grid.Column="0"
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
@@ -229,7 +264,7 @@
 
 						<TextBlock
 							x:Name="UncompresseditemSizeValue"
-							Grid.Row="2"
+							Grid.Row="3"
 							Grid.Column="1"
 							IsTextSelectionEnabled="True"
 							Style="{StaticResource PropertyValueTextBlock}"
@@ -238,7 +273,7 @@
 
 						<!--  (Divider)  -->
 						<Border
-							Grid.Row="3"
+							Grid.Row="4"
 							Grid.Column="0"
 							Grid.ColumnSpan="2"
 							Height="1"
@@ -247,7 +282,7 @@
 
 						<!--  Date Created  -->
 						<TextBlock
-							Grid.Row="4"
+							Grid.Row="5"
 							Grid.Column="0"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=PropertiesCreated/Text}"
@@ -255,7 +290,7 @@
 
 						<TextBlock
 							x:Name="itemCreatedTimestampValue"
-							Grid.Row="4"
+							Grid.Row="5"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueTextBlock}"
 							Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
@@ -263,7 +298,7 @@
 
 						<!--  Date Modified  -->
 						<TextBlock
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="0"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=PropertiesModified/Text}"
@@ -271,7 +306,7 @@
 
 						<TextBlock
 							x:Name="itemModifiedTimestampValue"
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueTextBlock}"
 							Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
@@ -279,7 +314,7 @@
 
 						<!--  Date Accessed  -->
 						<TextBlock
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="0"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=Accessed}"
@@ -287,7 +322,7 @@
 
 						<TextBlock
 							x:Name="itemAccessedTimestampValue"
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueTextBlock}"
 							Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
