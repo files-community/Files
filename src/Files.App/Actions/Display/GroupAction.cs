@@ -87,7 +87,7 @@ namespace Files.App.Actions
 
 		public override string Description => "GroupByOriginalFolderDescription".GetLocalizedResource();
 
-		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.CloudDrive;
+		protected override bool GetIsExecutable(ContentPageTypes pageType) => pageType is ContentPageTypes.RecycleBin;
 	}
 
 	internal class GroupByDateDeletedAction : GroupByAction
