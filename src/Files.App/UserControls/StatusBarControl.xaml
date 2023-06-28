@@ -160,11 +160,21 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<usercontrols:OpacityIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				x:Name="VSCodeDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 
 			<!--  Open in VS Button  -->
 			<Button
@@ -179,30 +189,85 @@
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVS.LabelWithHotKey, Mode=OneWay}">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<usercontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
+						<usercontrols:OpacityIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
 					</StackPanel>
 				</Button.Content>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				x:Name="VSDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 
-			<!--  Pull Button  -->
 			<Button
-				x:Name="GitPullButton"
+				x:Name="GitNetworkActions"
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Command="{x:Bind Commands.GitPull}"
-				IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
-				ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
-				<StackPanel Orientation="Horizontal" Spacing="8">
-					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitPull}" />
+				ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.ExtendedStatusInfo, Mode=OneWay}">
+				<Button.Flyout>
+					<MenuFlyout>
+						<!--  Pull Button  -->
+						<MenuFlyoutItem
+							x:Name="GitPullButton"
+							Command="{x:Bind Commands.GitPull}"
+							IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitPull.Label}"
+							ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPull.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
 
-					<!--  Remote commits  -->
-					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.PullInfo, Mode=OneWay}" />
+						<!--  Push Button  -->
+						<MenuFlyoutItem
+							x:Name="GitPushButton"
+							Command="{x:Bind Commands.GitPush}"
+							IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitPush.Label}"
+							ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitPush.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+
+						<!--  Sync Button  -->
+						<MenuFlyoutItem
+							x:Name="GitSyncButton"
+							Command="{x:Bind Commands.GitSync}"
+							IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
+							Text="{x:Bind Commands.GitSync.Label}"
+							ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+					</MenuFlyout>
+				</Button.Flyout>
+
+				<StackPanel Orientation="Horizontal" Spacing="8">
+					<usercontrols:OpacityIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource ColorIconGitGeneral}" />
+
+					<!--  Outgoing / Incoming commits  -->
+					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.StatusInfo, Mode=OneWay}" />
 				</StackPanel>
 			</Button>
+			<!--  Divider  -->
+			<Border
+				Width="1"
+				Height="18"
+				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
 		</StackPanel>
 
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
@@ -218,7 +283,10 @@
 
 			<Button.Content>
 				<StackPanel Orientation="Horizontal" Spacing="8">
-					<usercontrols:OpacityIcon Style="{StaticResource ColorIconGitBranches}" />
+					<usercontrols:OpacityIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource ColorIconGitBranches}" />
 
 					<!--  Branch Name  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />

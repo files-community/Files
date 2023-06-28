@@ -159,6 +159,8 @@ namespace Files.App.Commands
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
+		public IRichCommand GitPush => commands[CommandCodes.GitPush];
+		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 
 		public CommandManager()
 		{
@@ -312,6 +314,8 @@ namespace Files.App.Commands
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
 			[CommandCodes.GitPull] = new GitPullAction(),
+			[CommandCodes.GitPush] = new GitPushAction(),
+			[CommandCodes.GitSync] = new GitSyncAction(),
 		};
 
 		private void UpdateHotKeys()
