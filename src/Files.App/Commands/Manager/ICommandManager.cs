@@ -162,5 +162,7 @@ namespace Files.App.Commands
 
 		IRichCommand GitFetch { get; }
 		IRichCommand GitPull { get; }
+		IRichCommand GitPush { get; }
+		IRichCommand GitSync { get; }
 	}
 }

@@ -11,5 +11,7 @@ namespace Files.Backend.ViewModels.Dialogs
 		TViewModel ViewModel { get; set; }
 
 		Task<DialogResult> ShowAsync();
+
+		void Hide();
 	}
 }

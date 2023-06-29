@@ -3,20 +3,20 @@ using Files.App.Contexts;
 
 namespace Files.App.Actions
 {
-	internal class GitPullAction : ObservableObject, IAction
+	internal class GitPushAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitPull".GetLocalizedResource();
+		public string Label { get; } = "Push".GetLocalizedResource();
 
-		public string Description { get; } = "GitPullDescription".GetLocalizedResource();
+		public string Description { get; } = "GitPushDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE74B");
+		public RichGlyph Glyph { get; } = new("\uE74A");
 
-		public bool IsExecutable
-			=> _context.CanExecuteGitAction;
+		public bool IsExecutable =>
+			_context.CanExecuteGitAction;
 
-		public GitPullAction()
+		public GitPushAction()
 		{
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -25,7 +25,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
+			return GitHelpers.PushToOrigin(
+				_context.ShellPage?.InstanceViewModel.GitRepositoryPath,
+				_context.ShellPage?.InstanceViewModel.GitBranchName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

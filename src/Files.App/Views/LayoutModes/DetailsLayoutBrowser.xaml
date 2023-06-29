@@ -682,7 +682,7 @@
 								x:Name="OriginalPathHeader"
 								Grid.Column="16"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
-								CommandParameter="OriginalPath"
+								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
