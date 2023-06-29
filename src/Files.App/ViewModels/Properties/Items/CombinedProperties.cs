@@ -74,7 +74,8 @@ namespace Files.App.ViewModels.Properties
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
 			long foldersSize = 0;
 			long totalSizeOnDisk = 0;
-			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
+			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File)
+				.Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
 			long foldersSizeOnDisk = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
