@@ -227,13 +227,13 @@
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=SizeOnDiskLabel}"
-							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter=StringVisibilityConverter}" />
+							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" />
 
 						<Grid
 							Grid.Row="2"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueGrid}"
-							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter=StringVisibilityConverter}">
+							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" MinWidth="100" />
 								<ColumnDefinition Width="*" />
