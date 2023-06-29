@@ -75,10 +75,7 @@
 									<DataTemplate x:DataType="vm:FileProperty">
 										<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
 											<Grid.ColumnDefinitions>
-												<ColumnDefinition
-													Width="Auto"
-													MinWidth="100"
-													MaxWidth="240" />
+												<ColumnDefinition Width="140" />
 												<ColumnDefinition Width="*" />
 											</Grid.ColumnDefinitions>
 
