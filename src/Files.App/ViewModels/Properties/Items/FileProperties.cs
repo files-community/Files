@@ -97,12 +97,8 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-			var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
-			if(sizeOnDisk is not null)
-			{
-				ViewModel.ItemSizeOnDiskVisibility = true;
-				ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
-			}
+			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
 			if (fileIconData is not null)

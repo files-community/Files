@@ -32,6 +32,7 @@
 			</ResourceDictionary.ThemeDictionaries>
 
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<toolkitconverters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
 
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -226,13 +227,13 @@
 							HorizontalAlignment="Left"
 							Style="{StaticResource PropertyName}"
 							Text="{helpers:ResourceString Name=SizeOnDiskLabel}"
-							Visibility="{x:Bind ViewModel.ItemSizeOnDiskVisibility, Mode=OneWay}" />
+							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter=StringVisibilityConverter}" />
 
 						<Grid
 							Grid.Row="2"
 							Grid.Column="1"
 							Style="{StaticResource PropertyValueGrid}"
-							Visibility="{x:Bind ViewModel.ItemSizeOnDiskVisibility, Mode=OneWay}">
+							Visibility="{x:Bind ViewModel.ItemSizeOnDisk, Mode=OneWay, Converter=StringVisibilityConverter}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" MinWidth="100" />
 								<ColumnDefinition Width="*" />

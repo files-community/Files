@@ -172,13 +172,6 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSizeVisibility, value);
 		}
 
-		private bool itemSizeOnDiskVisibility = false;
-		public bool ItemSizeOnDiskVisibility
-		{
-			get => itemSizeOnDiskVisibility;
-			set => SetProperty(ref itemSizeOnDiskVisibility, value);
-		}
-
 		private bool isUncompressedItemSizeVisibile = false;
 		public bool IsUncompressedItemSizeVisibile
 		{

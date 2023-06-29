@@ -74,10 +74,7 @@ namespace Files.App.ViewModels.Properties
 					{
 						size += findData.GetSize();
 						var fileSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
-						if (fileSizeOnDisk is not null)
-						{
-							sizeOnDisk += (long)fileSizeOnDisk;
-						}
+						sizeOnDisk += fileSizeOnDisk ?? 0;
 						++count;
 						ViewModel.FilesCount++;
 					}

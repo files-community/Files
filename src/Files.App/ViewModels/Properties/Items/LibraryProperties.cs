@@ -112,7 +112,6 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;
-			ViewModel.ItemSizeOnDiskVisibility = true;
 			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			try

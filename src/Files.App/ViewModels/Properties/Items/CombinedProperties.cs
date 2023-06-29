@@ -64,8 +64,6 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
 			ViewModel.LastSeparatorVisibility = false;
-			ViewModel.ItemSizeVisibility = true;
-			ViewModel.ItemSizeOnDiskVisibility = true;
 
 			ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File || x.IsArchive).ToList().Count;
 			ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive).ToList().Count;

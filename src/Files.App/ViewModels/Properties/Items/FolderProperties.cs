@@ -92,7 +92,6 @@ namespace Files.App.ViewModels.Properties
 				var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
 				if (sizeOnDisk is not null)
 				{
-					ViewModel.ItemSizeOnDiskVisibility = true;
 					ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
 				}
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
@@ -129,7 +128,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.ItemSizeVisibility = false;
 				}
-				ViewModel.ItemSizeOnDiskVisibility = false;
+				ViewModel.ItemSizeOnDisk = string.Empty;
 				if (recycleBinQuery.NumItems is long numItems)
 				{
 					ViewModel.FilesCount = (int)numItems;
@@ -163,7 +162,6 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;
-			ViewModel.ItemSizeOnDiskVisibility = true;
 			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			var fileSizeTask = Task.Run(async () =>
