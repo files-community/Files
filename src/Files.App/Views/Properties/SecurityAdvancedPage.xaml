@@ -652,7 +652,7 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>-->
 
-				<!--<SplitButton
+			<!--<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
 					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
