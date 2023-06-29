@@ -48,7 +48,7 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
-		<StackPanel Width="360" Height="40">
+		<Border Width="360" Height="40">
 			<!--  Subtitle  -->
 			<TextBlock
 				x:Name="Subtitle"
@@ -57,7 +57,7 @@
 				VerticalAlignment="Center"
 				Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
 				TextWrapping="WrapWholeWords" />
-		</StackPanel>
+		</Border>
 
 		<StackPanel
 			x:Name="UserCodeContainer"
@@ -80,16 +80,11 @@
 		<Border
 			x:Name="LoginSuccessBadge"
 			Grid.Row="1"
-			Width="70"
-			Height="70"
-			Margin="8"
-			x:Load="{x:Bind ViewModel.LoginConfirmed, Mode=OneWay}"
-			Background="#6ccb5f"
-			CornerRadius="35">
-			<SymbolIcon
-				Width="52"
-				Height="52"
-				Symbol="Accept" />
+			x:Load="{x:Bind ViewModel.LoginConfirmed, Mode=OneWay}">
+			<FontIcon
+				FontSize="85"
+				Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+				Glyph="&#xEC61;" />
 		</Border>
 	</Grid>
 </ContentDialog>

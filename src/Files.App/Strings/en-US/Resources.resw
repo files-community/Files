@@ -3372,6 +3372,6 @@
     <value>Unable to display current owner.</value>
   </data>
   <data name="AuthorizationSucceded">
-    <value>Great! You are now authorised.</value>
+    <value>Great! You are now authorized.</value>
   </data>
 </root>
