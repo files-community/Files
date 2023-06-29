@@ -83,7 +83,7 @@
 			x:Load="{x:Bind ViewModel.LoginConfirmed, Mode=OneWay}">
 			<FontIcon
 				FontSize="85"
-				Foreground="{StaticResource SystemFillColorSuccessBrush}"
+				Foreground="{ThemeResource SystemFillColorSuccessBrush}"
 				Glyph="&#xEC61;" />
 		</Border>
 	</Grid>
