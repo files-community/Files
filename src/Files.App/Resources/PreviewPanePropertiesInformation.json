@@ -478,5 +478,11 @@
 		"SectionResource": "PropertySectionCore",
 		"IsReadOnly": true,
 		"ID": null
+	},
+	{
+		"NameResource": "FileTags",
+		"SectionResource": "PropertySectionCore",
+		"IsReadOnly": true,
+		"ID": "filetag"
 	}
 ]
