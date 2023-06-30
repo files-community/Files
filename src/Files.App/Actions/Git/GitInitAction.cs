@@ -10,14 +10,13 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "Init".GetLocalizedResource();
+			=> "InitRepo".GetLocalizedResource();
 
 		public string Description
-			=> "InitRepositoryDescription".GetLocalizedResource();
+			=> "InitRepoDescription".GetLocalizedResource();
 
 		public bool IsExecutable => 
-			(_context.SelectedItem is not null ||
-			_context.Folder is not null) &&
+			_context.Folder is not null &&
 			!_context.IsGitRepository;
 
 		public GitInitAction()
@@ -29,7 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.InitializeRepository(_context.SelectedItem?.ItemPath ?? _context.Folder?.ItemPath);
+			GitHelpers.InitializeRepository(_context.Folder?.ItemPath);
 			return Task.CompletedTask;
 		}
 
@@ -38,7 +37,6 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.Folder):
-				case nameof(IContentPageContext.SelectedItem):
 				case nameof(IContentPageContext.IsGitRepository):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
