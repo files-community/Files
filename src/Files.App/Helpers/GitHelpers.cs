@@ -88,6 +88,15 @@ namespace Files.App.Helpers
 			}
 		}
 
+		public static string GetRepositoryName(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+				return string.Empty;
+
+			using var repository = new Repository(path);
+			return repository.Info.Path;
+		}
+
 		public static BranchItem[] GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
