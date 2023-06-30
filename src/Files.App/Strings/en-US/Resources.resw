@@ -3371,4 +3371,10 @@
   <data name="AuthorizationSucceded">
     <value>Great! You are now authorized.</value>
   </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
 </root>
