@@ -472,5 +472,12 @@
 		"SectionResource": "PropertySectionCore",
 		"IsReadOnly": true,
 		"ID": "filetag"
+	},
+	{
+		"NameResource": "GitBranch",
+		"SectionResource": "PropertySectionCore",
+		"Property": null,
+		"IsReadOnly": true,
+		"ID": null
 	}
 ]

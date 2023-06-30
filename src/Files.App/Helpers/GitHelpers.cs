@@ -88,13 +88,19 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static string GetRepositoryName(string? path)
+		public static string GetOriginRepositoryName(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return string.Empty;
 
 			using var repository = new Repository(path);
-			return repository.Info.Path;
+			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
+
+			if (string.IsNullOrEmpty(repositoryUrl))
+				return string.Empty;
+
+			var repositoryName = repositoryUrl.Split('/').Last();
+			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
 		public static BranchItem[] GetBranchesNames(string? path)

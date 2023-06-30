@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Previews
 			{
 				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
 				var branches = GitHelpers.GetBranchesNames(gitDirectory);
-				var repositoryName = GitHelpers.GetRepositoryName(gitDirectory);
+				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
 				Item.FileDetails.Add(GetFileProperty("GitRepositoryName", repositoryName));
 				Item.FileDetails.Add(GetFileProperty("GitBranch", branches.First()));
