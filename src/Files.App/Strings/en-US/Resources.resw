@@ -3374,4 +3374,10 @@
   <data name="AuthorizationSucceded">
     <value>Great! You are now authorized.</value>
   </data>
+  <data name="GitOriginRepositoryName">
+	<value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch">
+	<value>Current Branch</value>
+  </data>
 </root>

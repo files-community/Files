@@ -62,8 +62,11 @@ namespace Files.App.ViewModels.Previews
 				var branches = GitHelpers.GetBranchesNames(gitDirectory);
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
-				Item.FileDetails.Add(GetFileProperty("GitRepositoryName", repositoryName));
-				Item.FileDetails.Add(GetFileProperty("GitBranch", branches.First()));
+				if(!string.IsNullOrEmpty(gitDirectory))
+					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
+
+				if (branches.Length > 0)
+					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
 			}
 		}
 

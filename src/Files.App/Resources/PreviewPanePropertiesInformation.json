@@ -468,15 +468,14 @@
 		"ID": null
 	},
 	{
-		"NameResource": "FileTags",
+		"NameResource": "GitOriginRepositoryName",
 		"SectionResource": "PropertySectionCore",
 		"IsReadOnly": true,
-		"ID": "filetag"
+		"ID": null
 	},
 	{
-		"NameResource": "GitBranch",
+		"NameResource": "GitCurrentBranch",
 		"SectionResource": "PropertySectionCore",
-		"Property": null,
 		"IsReadOnly": true,
 		"ID": null
 	}
