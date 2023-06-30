@@ -158,6 +158,7 @@ namespace Files.App.Commands
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
+		public IRichCommand GitInit => commands[CommandCodes.GitInit];
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
 		public IRichCommand GitPush => commands[CommandCodes.GitPush];
 		public IRichCommand GitSync => commands[CommandCodes.GitSync];
@@ -313,6 +314,7 @@ namespace Files.App.Commands
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
+			[CommandCodes.GitInit] = new GitInitAction(),
 			[CommandCodes.GitPull] = new GitPullAction(),
 			[CommandCodes.GitPush] = new GitPushAction(),
 			[CommandCodes.GitSync] = new GitSyncAction(),
