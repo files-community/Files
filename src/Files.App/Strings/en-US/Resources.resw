@@ -2433,9 +2433,6 @@
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
-  </data>
   <data name="NewTag" xml:space="preserve">
     <value>New tag</value>
   </data>
