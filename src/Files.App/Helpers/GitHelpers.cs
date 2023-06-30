@@ -584,10 +584,14 @@ namespace Files.App.Helpers
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
+			
+			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
+			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+				return;
 
-			var discriminator = 0;
-			while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
-				uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+			//var discriminator = 0;
+			//while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+			//	uniqueName = $"{branch.FriendlyName}_{++discriminator}";
 
 			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
