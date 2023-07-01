@@ -547,6 +547,14 @@ namespace Files.App.Helpers
 			return gitItemModel;
 		}
 
+		public static void InitializeRepository(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			Repository.Init(path);
+		}
+
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
 		{
 			foreach (var currentCommit in repository.Commits)

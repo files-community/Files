@@ -3371,10 +3371,16 @@
   <data name="AuthorizationSucceded">
     <value>Great! You are now authorized.</value>
   </data>
-  <data name="GitOriginRepositoryName">
-	<value>Remote Repository Name</value>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+    <data name="GitOriginRepositoryName">
+	  <value>Remote Repository Name</value>
   </data>
   <data name="GitCurrentBranch">
-	<value>Current Branch</value>
+	  <value>Current Branch</value>
   </data>
 </root>
