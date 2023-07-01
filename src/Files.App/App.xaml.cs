@@ -165,17 +165,19 @@ namespace Files.App
 
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			var appActivationEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+			// Initialize MainWindow contents
+			EnsureWindowIsInitialized();
 
-			// Get app log path
-			var logPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log");
+			Window.ShowSplashScreen();
+
+			var appActivationEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
 			// Start tracking app usage
 			if (appActivationEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activatedEventArgs)
 				SystemInformation.Instance.TrackAppUse(activatedEventArgs);
 
-			// Initialize MainWindow contents
-			EnsureWindowIsInitialized();
+			// Get app log path
+			var logPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log");
 
 			// Configure dependency injection service.
 			host = Host.CreateDefaultBuilder()
@@ -255,6 +257,7 @@ namespace Files.App
 			Window = new MainWindow();
 			Window.Activated += Window_Activated;
 			Window.Closed += Window_Closed;
+			Window.Activate();
 			WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(Window);
 		}
 
@@ -270,7 +273,7 @@ namespace Files.App
 
 		public void OnActivated(AppActivationArguments activatedEventArgs)
 		{
-			App.Logger.LogInformation($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
+			Logger.LogInformation($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread

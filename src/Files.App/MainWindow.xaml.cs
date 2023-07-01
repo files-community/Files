@@ -16,13 +16,11 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
-		private readonly MainPageViewModel _mainPageViewModel;
+		private MainPageViewModel _mainPageViewModel;
 
 		public MainWindow()
 		{
 			InitializeComponent();
-
-			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			EnsureEarlyWindow();
 		}
@@ -41,12 +39,24 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 		}
 
+		public void ShowSplashScreen()
+		{
+			var rootFrame = new Frame() { CacheSize = 1 };
+			App.Window.Content = rootFrame;
+
+			rootFrame.Navigate(typeof(Views.SplashScreen), null, new SuppressNavigationTransitionInfo());
+		}
+
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
 			// Get an initialized frame
-			var rootFrame = EnsureWindowIsInitialized();
+			var rootFrame = (Frame)App.Window.Content;
+			rootFrame.NavigationFailed += OnNavigationFailed;
 
-			Activate();
+			// Set system backdrop
+			SystemBackdrop = new AppSystemBackdrop();
+
+			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			switch (activatedEventArgs)
 			{
@@ -60,7 +70,8 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
-					else if (rootFrame.Content is null)
+					else if (rootFrame.Content is null ||
+						rootFrame.Content as Views.SplashScreen is not null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -139,29 +150,7 @@ namespace Files.App
 					break;
 			}
 
-			if (rootFrame.Content is null)
-				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-		}
-
-		private Frame EnsureWindowIsInitialized()
-		{
-			// NOTE:
-			//  Do not repeat app initialization when the Window already has content,
-			//  just ensure that the window is active
-			if (App.Window.Content is not Frame rootFrame)
-			{
-				// Set system backdrop
-				SystemBackdrop = new AppSystemBackdrop();
-
-				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new() { CacheSize = 1 };
-				rootFrame.NavigationFailed += OnNavigationFailed;
-
-				// Place the frame in the current Window
-				App.Window.Content = rootFrame;
-			}
-
-			return rootFrame;
+			rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
 		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

@@ -77,6 +77,7 @@
     </ItemGroup>
     <ItemGroup>
       <None Remove="UserControls\OpacityIcon.xaml" />
+      <None Remove="Views\SplashScreen.xaml" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
@@ -135,6 +136,11 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Views\SplashScreen.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="UserControls\OpacityIcon.xaml">
