@@ -1348,19 +1348,6 @@ namespace Files.App.Data.Models
 				IsLoadingItems = false;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders);
-
-				if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().IsEnabled)
-				{
-					// Find and select README file
-					foreach (var item in filesAndFolders)
-					{
-						if (item.PrimaryItemAttribute == StorageItemTypes.File && item.Name.Contains("readme", StringComparison.OrdinalIgnoreCase))
-						{
-							OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
-							break;
-						}
-					}
-				}
 			}
 			finally
 			{

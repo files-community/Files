@@ -100,6 +100,17 @@ jobs:
         }
       failOnStderr: true
 
+# Injects the GitHub token to the project
+  - task: PowerShell@2
+    displayName: 'Inject AppCenter token'
+    inputs:
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "githubclientid.secret", "$(githubclientid.secret)"}) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
+
   - task: UseDotNet@2
     inputs:
       packageType: sdk
@@ -212,6 +223,17 @@ jobs:
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
         (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$(appcenter.secret)"}) | Set-Content $_ -NoNewline
+        }
+      failOnStderr: true
+
+# Injects the GitHub token to the project
+  - task: PowerShell@2
+    displayName: 'Inject AppCenter token'
+    inputs:
+      targetType: 'inline'
+      script: |
+        gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process {
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "githubclientid.secret", "$(githubclientid.secret)"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 

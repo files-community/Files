@@ -3,15 +3,21 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
 namespace Files.App.Helpers
 {
 	public static class DynamicDialogFactory
 	{
+		public static readonly SolidColorBrush _transparentBrush = new SolidColorBrush(Colors.Transparent);
+
 		public static DynamicDialog GetFor_PropertySaveErrorDialog()
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -260,6 +266,18 @@ namespace Files.App.Helpers
 				}
 			});
 
+			return dialog;
+		}
+
+		public static DynamicDialog GetFor_GitHubConnectionError()
+		{
+			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "Error".GetLocalizedResource(),
+				SubtitleText = "CannotReachGitHubError".GetLocalizedResource(),
+				PrimaryButtonText = "Close".GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
 			return dialog;
 		}
 	}
