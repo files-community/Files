@@ -1677,12 +1677,7 @@ namespace Files.App.Data.Models
 			var dialogResult = await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 				dialogService.ShowDialogAsync(credentialDialogViewModel));
 
-			if (dialogResult != DialogResult.Primary)
-			{
-				e.TrySetResult(new());
-				return;
-			}
-			if (credentialDialogViewModel.IsAnonymous)
+			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
 			{
 				e.TrySetResult(new());
 				return;

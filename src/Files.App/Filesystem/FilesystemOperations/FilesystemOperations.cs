@@ -926,12 +926,7 @@ namespace Files.App.Filesystem
 
 			var dialogResult = await dialogService.ShowDialogAsync(credentialDialogViewModel);
 
-			if (dialogResult != DialogResult.Primary)
-			{
-				e.TrySetResult(new());
-				return;
-			}
-			if (credentialDialogViewModel.IsAnonymous)
+			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
 			{
 				e.TrySetResult(new());
 				return;
