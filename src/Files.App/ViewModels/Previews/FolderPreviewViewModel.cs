@@ -5,6 +5,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.IO;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
@@ -47,9 +48,24 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
 				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
-				GetFileProperty("FileTags",
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null)
 			};
+
+			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
+			{
+				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
+				var branches = GitHelpers.GetBranchesNames(gitDirectory);
+				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
+
+				if(!string.IsNullOrEmpty(gitDirectory))
+					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
+
+				if (branches.Length > 0)
+					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
+			}
+
+			var tags = Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
+			Item.FileDetails.Add(GetFileProperty("FileTags", tags));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

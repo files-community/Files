@@ -202,6 +202,7 @@
 												Glyph="&#xE8EC;" />
 											<TextBlock
 												x:Name="TagName"
+												MaxWidth="200"
 												Padding="8,0,0,0"
 												VerticalAlignment="Center"
 												FontSize="12"
@@ -341,7 +342,7 @@
 											<Button
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
-												Content="{helpers:ResourceString Name=SaveChanges}"
+												Content="{helpers:ResourceString Name=Save}"
 												IsEnabled="{x:Bind CanCommit, Mode=OneWay}"
 												Style="{StaticResource AccentButtonStyle}" />
 										</StackPanel>

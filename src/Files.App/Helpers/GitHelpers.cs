@@ -88,6 +88,21 @@ namespace Files.App.Helpers
 			}
 		}
 
+		public static string GetOriginRepositoryName(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+				return string.Empty;
+
+			using var repository = new Repository(path);
+			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
+
+			if (string.IsNullOrEmpty(repositoryUrl))
+				return string.Empty;
+
+			var repositoryName = repositoryUrl.Split('/').Last();
+			return repositoryName[..repositoryName.LastIndexOf(".git")];
+		}
+
 		public static BranchItem[] GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
@@ -532,6 +547,14 @@ namespace Files.App.Helpers
 			return gitItemModel;
 		}
 
+		public static void InitializeRepository(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			Repository.Init(path);
+		}
+
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
 		{
 			foreach (var currentCommit in repository.Commits)
@@ -569,10 +592,14 @@ namespace Files.App.Helpers
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
+			
+			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
+			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+				return;
 
-			var discriminator = 0;
-			while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
-				uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+			//var discriminator = 0;
+			//while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+			//	uniqueName = $"{branch.FriendlyName}_{++discriminator}";
 
 			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);

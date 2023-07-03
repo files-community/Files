@@ -15,6 +15,10 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
@@ -142,7 +146,7 @@
 								<!--  Algorithm Name  -->
 								<TextBlock
 									VerticalAlignment="Center"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource PropertyName}"
 									Text="{x:Bind Algorithm}" />
 
 								<!--  Calculating  -->
