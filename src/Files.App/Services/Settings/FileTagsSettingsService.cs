@@ -78,9 +78,11 @@ namespace Files.App.Services.Settings
 			return tag;
 		}
 
-		public IList<TagViewModel> GetTagsByIds(string[] uids)
+		public IList<TagViewModel>? GetTagsByIds(string[] uids)
 		{
-			return uids?.Select(x => GetTagById(x)).Where(x => x is not null).ToList();
+			return uids is null || uids.Length == 0
+				? null
+				: uids.Select(x => GetTagById(x)).Where(x => x is not null).ToList();
 		}
 
 		public IEnumerable<TagViewModel> GetTagsByName(string tagName)
