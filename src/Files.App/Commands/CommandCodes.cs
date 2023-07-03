@@ -182,6 +182,9 @@ namespace Files.App.Commands
 
 		// Git
 		GitFetch,
+		GitInit,
 		GitPull,
+		GitPush,
+		GitSync,
 	}
 }

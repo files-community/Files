@@ -23,6 +23,8 @@
 	<Style x:Key="PropertyName" TargetType="TextBlock">
 		<Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
 		<Setter Property="FontSize" Value="14" />
+		<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+		<Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
 		<Setter Property="FontWeight" Value="SemiBold" />
 	</Style>
 

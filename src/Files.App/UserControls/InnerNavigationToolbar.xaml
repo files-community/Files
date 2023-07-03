@@ -145,11 +145,11 @@
 					MinWidth="40"
 					AccessKey="V"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
-					Command="{x:Bind Commands.PasteItem}"
-					Label="{x:Bind Commands.PasteItem.Label}"
+					Command="{x:Bind ModifiableCommands.PasteItem}"
+					Label="{x:Bind ModifiableCommands.PasteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.PasteItem.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.PasteItem.OpacityStyle}" />
+					ToolTipService.ToolTip="{x:Bind ModifiableCommands.PasteItem.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind ModifiableCommands.PasteItem.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  Rename  -->
@@ -187,11 +187,11 @@
 					Width="Auto"
 					MinWidth="40"
 					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
-					Command="{x:Bind Commands.DeleteItem}"
-					Label="{x:Bind Commands.DeleteItem.Label}"
+					Command="{x:Bind ModifiableCommands.DeleteItem}"
+					Label="{x:Bind ModifiableCommands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
-					<local:OpacityIcon Style="{x:Bind Commands.DeleteItem.OpacityStyle}" />
+					ToolTipService.ToolTip="{x:Bind ModifiableCommands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
+					<local:OpacityIcon Style="{x:Bind ModifiableCommands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 
 				<!--  Properties  -->
@@ -266,23 +266,23 @@
 						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
-								x:Load="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchive.Label}" />
+								Text="{x:Bind Commands.DecompressArchive.Label}"
+								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
-								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind Commands.DecompressArchiveHere.Label}" />
+								Text="{x:Bind Commands.DecompressArchiveHere.Label}"
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractTo"
-								x:Load="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
-								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}" />
+								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}"
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 

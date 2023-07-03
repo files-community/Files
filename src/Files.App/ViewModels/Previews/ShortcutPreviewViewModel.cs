@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Previews
 			var item = Item as ShortcutItem;
 			var details = new List<FileProperty>
 			{
-				GetFileProperty("PropertyItemPathDisplay", item.ItemPath),
+				GetFileProperty("PropertyParsingPath", item.ItemPath),
 				GetFileProperty("PropertyItemName", item.Name),
 				GetFileProperty("PropertyItemTypeText", item.ItemType),
 				GetFileProperty("PropertyItemTarget", item.TargetPath),

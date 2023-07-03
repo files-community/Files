@@ -80,7 +80,7 @@ namespace Files.App.Services.Settings
 
 		public IList<TagViewModel> GetTagsByIds(string[] uids)
 		{
-			return uids?.Select(x => GetTagById(x)).ToList();
+			return uids?.Select(x => GetTagById(x)).Where(x => x is not null).ToList();
 		}
 
 		public IEnumerable<TagViewModel> GetTagsByName(string tagName)

@@ -161,6 +161,9 @@ namespace Files.App.Commands
 		IRichCommand PlayAll { get; }
 
 		IRichCommand GitFetch { get; }
+		IRichCommand GitInit { get; }
 		IRichCommand GitPull { get; }
+		IRichCommand GitPush { get; }
+		IRichCommand GitSync { get; }
 	}
 }
