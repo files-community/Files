@@ -99,7 +99,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj" />
+        <ProjectReference Include="..\Files.App.BackgroundTasks\Files.App.BackgroundTasks.csproj" />
         <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
         <ProjectReference Include="..\Files.Core\Files.Core.csproj" />
         <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
@@ -108,7 +108,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <TrimmerRootAssembly Include="BackgroundTasks" />
+        <TrimmerRootAssembly Include="Files.App.BackgroundTasks" />
         <TrimmerRootAssembly Include="Files" />
         <TrimmerRootAssembly Include="Files.App.Storage" />
         <TrimmerRootAssembly Include="Files.Core" />
