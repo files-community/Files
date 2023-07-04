@@ -4,7 +4,7 @@
 using Files.App.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;

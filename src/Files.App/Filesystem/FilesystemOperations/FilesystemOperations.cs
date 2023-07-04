@@ -3,9 +3,9 @@
 
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.Helpers;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;

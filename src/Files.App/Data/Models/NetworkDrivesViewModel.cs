@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Items;
-using Files.Backend.Services;
+using Files.Core.Services;
 using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.App.Data.Models

@@ -5,7 +5,7 @@ using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Services;
+using Files.Core.Services;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;

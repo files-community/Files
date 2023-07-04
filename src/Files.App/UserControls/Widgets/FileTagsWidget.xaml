@@ -89,6 +89,7 @@
 					</Grid>
 
 					<!--  Contents  -->
+					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
 					<controls:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
@@ -98,6 +99,7 @@
 						ItemClick="FileTagItem_ItemClick"
 						ItemsSource="{x:Bind Tags}"
 						RightTapped="AdaptiveGridView_RightTapped"
+						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
 						<controls:AdaptiveGridView.ItemContainerStyle>
