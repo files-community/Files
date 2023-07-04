@@ -1,17 +1,17 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Enums;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.ModifiableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.Enums;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.ModifiableStorage;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using CreationCollisionOption = Files.Sdk.Storage.Enums.CreationCollisionOption;
+using CreationCollisionOption = Files.Core.Storage.Enums.CreationCollisionOption;
 
 namespace Files.App.Storage.WindowsStorage
 {

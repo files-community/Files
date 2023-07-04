@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Sdk.Storage
+namespace Files.Core.Storage
 {
 	/// <summary>
 	/// Represents a base storage object on the file system.

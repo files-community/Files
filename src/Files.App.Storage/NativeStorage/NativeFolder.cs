@@ -1,12 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Enums;
-using Files.Sdk.Storage.Extensions;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.ModifiableStorage;
-using Files.Sdk.Storage.MutableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.Enums;
+using Files.Core.Storage.Extensions;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.ModifiableStorage;
+using Files.Core.Storage.MutableStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
