@@ -484,6 +484,8 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
 		public bool ShouldPreviewPaneBeDisplayed
@@ -501,6 +503,7 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
+			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
