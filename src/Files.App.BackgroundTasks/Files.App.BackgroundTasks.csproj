@@ -3,7 +3,6 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
-        <AssemblyName>BackgroundTasks</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <IsTrimmable>true</IsTrimmable>
