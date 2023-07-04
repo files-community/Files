@@ -120,8 +120,8 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Новое окно</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
-    <value>Копировать местоположение</value>
+  <data name="CopyPath" xml:space="preserve">
+    <value>Copy path</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Обзор</value>
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Рейтинг</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Путь элемента</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Облачные хранилища</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Экспортировать Коллекцию папок</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Импортировать Коллекцию папок</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Коллекция папок с таким именем уже существует</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Открыть расположение элемента</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Удалить из Коллекции</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Удалить Коллекцию</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Коллекции папок</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Перетащите сюда любой файл или папку, чтобы быстро получить к ним доступ</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Введите название Коллекции папок</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Введите новое имя</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>Изменить "{0}"</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Создать Коллекцию</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Создать</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Добавить Коллекцию папок</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Переименовать Коллекцию</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Имя Коллекции</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Подключить сетевой диск</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Опции Коллекций</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Избранное</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Аргументы</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>Открыть на новой панели</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>По умолчанию</value>
@@ -1359,7 +1311,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Имя:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Добавить файл</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Добавить папку</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Добавить элемент</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Доступны обновления</value>
   </data>
@@ -1887,9 +1833,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Виджет Коллекции папок</value>
-  </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Виджет Диски</value>
   </data>
@@ -1898,9 +1841,6 @@
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Не найдено</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Показать только предпросмотр</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Перейти к расположению журнала отладки</value>
@@ -2283,6 +2223,9 @@
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Сжатие архива</value>
   </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Compress</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Выделение файлов и папок при наведении на них курсора мыши</value>
   </data>
@@ -2330,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Сортировка и группировка</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Архивировать</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Создать архив</value>
@@ -2448,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Показать еще</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Но не волнуйтесь, мы построили фантическую замену, которая является более надежной и имеет больше функций. Вы можете включить виджет Метки из Настройки &gt; Предпочтения &gt; Виджеты. Включение виджета Меток будет автоматически отключать виджет Коллекции папок.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Коллекции папок будут удалены в будущих обновлениях📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Показывать опцию редактирования Меток</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Show Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показывать опцию открытия папок в новой вкладке</value>
@@ -2595,8 +2532,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Видео</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Запустить QuickLook</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Запустить предпросмотр</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Включить компактный режим</value>
@@ -2727,6 +2664,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Установить драйвер(ы) с помощью выбранного inf файла(ов)</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+    <value>Install selected certificate(s)</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Запустить от имени администратора</value>
   </data>
@@ -2736,8 +2676,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Запустить выбранный скрипт PowerShell</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>Запустить QuickLook с выбранным элементом</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Запустить предпросмотр во всплывающем окне</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Создать архив с выбранными элементами</value>
@@ -2954,7 +2894,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Return</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3151,9 +3091,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Edit path</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
   </data>
@@ -3275,7 +3212,7 @@
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Switch Branch</value>
+    <value>Switch Branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3286,7 +3223,122 @@
   <data name="NewBranch" xml:space="preserve">
     <value>New branch</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Invalid branch name</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Create branch</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Create Branch</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Based on</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Switch to new branch</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Create a folder with the currently selected item(s)</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Open properties</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Open properties window</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Locals</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remotes</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Translate on Crowdin</value>
+  </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Run git fetch</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Run git pull</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git status</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git Error</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull failed due to a timeout error</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(multiple values)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Date committed</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit message</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Backdrop Material</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solid</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Manage branches</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Added</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Untracked</value>
   </data>
 </root>

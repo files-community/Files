@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -42,11 +42,13 @@ namespace Files.App.UserControls
 			{
 				Position = PreviewPanePositions.Right;
 				(MinWidth, MinHeight) = (150, 0);
+				VisualStateManager.GoToState(this, "Vertical", true);
 			}
 			else
 			{
 				Position = PreviewPanePositions.Bottom;
 				(MinWidth, MinHeight) = (0, 140);
+				VisualStateManager.GoToState(this, "Horizontal", true);
 			}
 		}
 

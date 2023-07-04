@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Settings;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

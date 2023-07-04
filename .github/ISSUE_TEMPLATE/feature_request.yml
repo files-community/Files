@@ -2,18 +2,24 @@ name: Feature Request
 description: This project thrives from differentiation from competing apps. Suggest an idea for Files
 labels: [feature request]
 body:
+
+  # Description
   - type: textarea
     attributes:
       label: What feature or improvement do you think would benefit Files?
       description: Please include your use case
     validations:
       required: true
+
+  # Tooltip about Requirements
   - type: markdown
     attributes:
       value: |
         ---
 
         Please include a list changes required to make this improvement. A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
+
+  # Requirements
   - type: textarea
     attributes:
       label: Requirements
@@ -24,21 +30,28 @@ body:
         - This proposal will accomplish Z
     validations:
       required: true
+
+  # Files Version
   - type: input
-    id: files-version
+    id: files_version
     attributes:
       label: Files Version
-      description: Which version of Files are you currently using?
-      placeholder: 'Version: 2.0.36.0'
+      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
+      placeholder: 'e.g. 2.0.36.0'
     validations:
       required: true
+
+  # Windows Version
   - type: input
+    id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you currently using? Press <kbd>Win</kbd> + <kbd>Pause/Break</kbd> and copy.
-      placeholder: e.g. Windows 11 21H2 22000.194
+      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
+      placeholder: "e.g. 10.0.22621.1848"
     validations:
       required: true
+
+  # Additional Comments
   - type: textarea
     attributes:
       label: Comments

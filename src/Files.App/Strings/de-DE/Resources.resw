@@ -120,7 +120,7 @@
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
     <value>Neues Fenster</value>
   </data>
-  <data name="CopyLocation" xml:space="preserve">
+  <data name="CopyPath" xml:space="preserve">
     <value>Pfad kopieren</value>
   </data>
   <data name="Browse" xml:space="preserve">
@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Bewertung</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Dateipfad</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1053,50 +1053,8 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloudspeicher</value>
   </data>
-  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Sammlung exportieren</value>
-  </data>
-  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
-    <value>Sammlung importieren</value>
-  </data>
-  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
-    <value>Eine Gruppe mit dem gleichen Namen existiert bereits!"</value>
-  </data>
-  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
-    <value>Dateispeicherort öffnen</value>
-  </data>
-  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
-    <value>Aus Sammlung entfernen</value>
-  </data>
-  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
-    <value>Sammlung entfernen</value>
-  </data>
-  <data name="Bundles" xml:space="preserve">
-    <value>Sammlungen</value>
-  </data>
-  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
-    <value>Füge Dateien und Ordner durch Ziehen und Ablegen hinzu, um schnell darauf zuzugreifen</value>
-  </data>
-  <data name="EnterBundleName" xml:space="preserve">
-    <value>Sammlungsnamen eingeben</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
-    <value>Neuen Namen eingeben</value>
-  </data>
-  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
-    <value>"{0}" umbenennen</value>
-  </data>
-  <data name="CreateBundle" xml:space="preserve">
-    <value>Sammlung erstellen</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Bestätigen</value>
-  </data>
-  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
-    <value>Gruppe hinzufügen</value>
-  </data>
-  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
-    <value>Sammlung umbenennen</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Gewünschter Name</value>
@@ -1197,9 +1155,6 @@
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Netzlaufwerk hinzufügen</value>
   </data>
-  <data name="BundlesWidgetMoreOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Mehr Sammlungsoptionen</value>
-  </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favoriten</value>
   </data>
@@ -1214,9 +1169,6 @@
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Argumente</value>
-  </data>
-  <data name="BundlesOpenInNewPane.Text" xml:space="preserve">
-    <value>In neuem Panel öffnen</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Standard</value>
@@ -1359,7 +1311,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Typ:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
@@ -1800,12 +1752,6 @@
   <data name="AddFile" xml:space="preserve">
     <value>Datei hinzufügen</value>
   </data>
-  <data name="BundleOptionsFlyoutAddFolderMenuItem.Text" xml:space="preserve">
-    <value>Ordner hinzufügen</value>
-  </data>
-  <data name="BundleOptionsFlyoutAddItemMenuItem.Text" xml:space="preserve">
-    <value>Element hinzufügen</value>
-  </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates verfügbar</value>
   </data>
@@ -1887,9 +1833,6 @@
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Benutzername</value>
   </data>
-  <data name="BundlesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Sammlungs-Widget</value>
-  </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Laufwerks-Widget</value>
   </data>
@@ -1898,9 +1841,6 @@
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Keine Objekte gefunden</value>
-  </data>
-  <data name="PreviewPaneShowPreviewOnly.Text" xml:space="preserve">
-    <value>Nur Vorschau anzeigen</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Ordner mit Protokolldateien öffnen</value>
@@ -2260,7 +2200,7 @@
     <value>Typspalte</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Detail-Layoutspalten</value>
+    <value>Detail-Layout-Spalten</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
@@ -2282,6 +2222,9 @@
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Archiv wird komprimiert</value>
+  </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Komprimieren</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Dateien und Ordner beim Überfahren auswählen</value>
@@ -2330,9 +2273,6 @@
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sortierung und Gruppierung</value>
-  </data>
-  <data name="Archive" xml:space="preserve">
-    <value>Archiv</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Archiv erstellen</value>
@@ -2448,14 +2388,11 @@
   <data name="ViewMore" xml:space="preserve">
     <value>Mehr anzeigen</value>
   </data>
-  <data name="BundlesBeingRemovedMessage" xml:space="preserve">
-    <value>Aber keine Angst, wir haben einen fantastischen Ersatz, der zuverlässiger ist und mehr Funktionen hat. Du kannst das Tag-Widget in den Einstellungen unter Präferenzen &gt; Widgets aktivieren. Die Aktivierung des Tag-Widgets wird das Sammlungen-Widget automatisch deaktivieren.</value>
-  </data>
-  <data name="BundlesBeingRemovedTitle" xml:space="preserve">
-    <value>Sammlungen werden in einem zukünftigen Update eingestellt📎</value>
-  </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
     <value>Zeige Tags bearbeiten im Kontextmenü</value>
+  </data>
+  <data name="ShowSendToMenu" xml:space="preserve">
+    <value>Sende an Menü anzeigen</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Option anzeigen, um Ordner in einem neuen Tab zu öffnen</value>
@@ -2595,8 +2532,8 @@
   <data name="Videos" xml:space="preserve">
     <value>Videos</value>
   </data>
-  <data name="LaunchQuickLook" xml:space="preserve">
-    <value>Schnellansicht öffnen</value>
+  <data name="LaunchPreviewPopup" xml:space="preserve">
+    <value>Vorschau-Popup starten</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Kompakte Ansicht umschalten</value>
@@ -2727,6 +2664,9 @@
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Treiber mit ausgewählter/n INF-Datei(en) installieren</value>
   </data>
+  <data name="InstallCertificateDescription" xml:space="preserve">
+    <value>Ausgewählte(s) Zertifikat(e) installieren</value>
+  </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ausgewählte Anwendung als Administrator ausführen</value>
   </data>
@@ -2736,8 +2676,8 @@
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Ausgewähltes PowerShell-Skript ausführen</value>
   </data>
-  <data name="LaunchQuickLookDescription" xml:space="preserve">
-    <value>QuickLook mit ausgewähltem Element öffnen</value>
+  <data name="LaunchPreviewPopupDescription" xml:space="preserve">
+    <value>Vorschau in Popup-Fenster starten</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Archiv mit ausgewählten/r Element(en) erstellen</value>
@@ -2954,7 +2894,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Eingabe</value>
+    <value>Enter</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3151,9 +3091,6 @@
   <data name="EditPath" xml:space="preserve">
     <value>Pfad bearbeiten</value>
   </data>
-  <data name="Branch" xml:space="preserve">
-    <value>Branch: {0}</value>
-  </data>
   <data name="Redo" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
@@ -3275,7 +3212,7 @@
     <value>Du hast uncommitete Änderungen in dieser Branch. Was willst Du mit ihnen tun?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-     <value>Branch wechseln</value>
+    <value>Branch wechseln</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3286,7 +3223,122 @@
   <data name="NewBranch" xml:space="preserve">
     <value>Neuer Branch</value>
   </data>
+  <data name="InvalidBranchName" xml:space="preserve">
+    <value>Ungültiger Branch-Name</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Branch erstellen</value>
+  </data>
+  <data name="CreateNewBranch" xml:space="preserve">
+    <value>Branch erstellen</value>
+  </data>
+  <data name="BasedOn" xml:space="preserve">
+    <value>Basierend auf</value>
+  </data>
+  <data name="SwitchToNewBranch" xml:space="preserve">
+    <value>Zu neuem Zweig wechseln</value>
+  </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Einen Ordner mit den aktuell ausgewählten Elementen erstellen</value>
+  </data>
+  <data name="OpenProperties" xml:space="preserve">
+    <value>Eigenschaften öffnen</value>
+  </data>
+  <data name="OpenPropertiesDescription" xml:space="preserve">
+    <value>Eigenschaften-Fenster öffnen</value>
+  </data>
+  <data name="Locals" xml:space="preserve">
+    <value>Lokale</value>
+  </data>
+  <data name="Remotes" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="ImproveTranslation" xml:space="preserve">
+    <value>Auf Crowdin übersetzen</value>
+  </data>
+  <data name="GitFetch" xml:space="preserve">
+    <value>Abrufen</value>
+  </data>
+  <data name="GitPull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="GitFetchDescription" xml:space="preserve">
+    <value>Git fetch ausführen</value>
+  </data>
+  <data name="GitPullDescription" xml:space="preserve">
+    <value>Git pull ausführen</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Vorschau</value>
+  </data>
+  <data name="GitStatus" xml:space="preserve">
+    <value>Git-Status</value>
+  </data>
+  <data name="GitError" xml:space="preserve">
+    <value>Git-Fehler</value>
+  </data>
+  <data name="PullTimeoutError" xml:space="preserve">
+    <value>git pull wegen eines Timeout-Fehlers fehlgeschlagen</value>
+  </data>
+  <data name="MultipleValues" xml:space="preserve">
+    <value>(mehrere Werte)</value>
+    <comment>Text indicating that multiple selected files have different metadata values.</comment>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="DateCommitted" xml:space="preserve">
+    <value>Veröffentlichungsdatum</value>
+  </data>
+  <data name="CommitMessage" xml:space="preserve">
+    <value>Commit-Nachricht</value>
+  </data>
+  <data name="CommitSha" xml:space="preserve">
+    <value>Commit SHA</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
+  </data>
+  <data name="Acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="MicaAlt" xml:space="preserve">
+    <value>Mica Alt</value>
+  </data>
+  <data name="BackdropMaterial" xml:space="preserve">
+    <value>Hintergrundmaterial</value>
+  </data>
+  <data name="Solid" xml:space="preserve">
+    <value>Solide</value>
+  </data>
+  <data name="ManageBranches" xml:space="preserve">
+    <value>Branches verwalten</value>
+  </data>
+  <data name="OpenInVS" xml:space="preserve">
+    <value>Visual Studio</value>
+  </data>
+  <data name="OpenInVSDescription" xml:space="preserve">
+    <value>Aktuelles Verzeichnis in Visual Studio öffnen</value>
+  </data>
+  <data name="OpenInVSCode" xml:space="preserve">
+    <value>VS Code</value>
+  </data>
+  <data name="OpenInVSCodeDescription" xml:space="preserve">
+    <value>Aktuelles Verzeichnis in Visual Studio Code öffnen</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Hinzugefügt</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Gelöscht</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Bearbeitet</value>
+  </data>
+  <data name="Untracked" xml:space="preserve">
+    <value>Nicht verfolgt</value>
   </data>
 </root>

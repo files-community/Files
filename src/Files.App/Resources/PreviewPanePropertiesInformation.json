@@ -358,9 +358,9 @@
 		"ID": null
 	},
 	{
-		"NameResource": "PropertyItemPathDisplay",
+		"NameResource": "PropertyParsingPath",
 		"SectionResource": "PropertySectionCore",
-		"Property": "System.ItemPathDisplay",
+		"Property": "System.ParsingPath",
 		"IsReadOnly": true,
 		"ID": null
 	},
@@ -465,6 +465,18 @@
 			"14": "CloudDriveSyncStatus_Offline",
 			"15": "CloudDriveSyncStatus_Offline"
 		},
+		"ID": null
+	},
+	{
+		"NameResource": "GitOriginRepositoryName",
+		"SectionResource": "PropertySectionCore",
+		"IsReadOnly": true,
+		"ID": null
+	},
+	{
+		"NameResource": "GitCurrentBranch",
+		"SectionResource": "PropertySectionCore",
+		"IsReadOnly": true,
 		"ID": null
 	},
 	{

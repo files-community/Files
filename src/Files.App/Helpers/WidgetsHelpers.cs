@@ -3,7 +3,7 @@
 
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using System.Collections.Generic;
 
 namespace Files.App.Helpers
@@ -51,10 +51,6 @@ namespace Files.App.Helpers
 			if (typeof(TWidget) == typeof(FileTagsWidget))
 			{
 				return generalSettingsService.ShowFileTagsWidget;
-			}
-			if (typeof(TWidget) == typeof(BundlesWidget))
-			{
-				return generalSettingsService.ShowBundlesWidget;
 			}
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
 			{

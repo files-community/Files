@@ -12,12 +12,46 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizeable = false,
 		};
-
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
 			get => iconColumn;
 			set => SetProperty(ref iconColumn, value);
+		}
+
+		private ColumnViewModel _GitStatusColumn = new();
+		public ColumnViewModel GitStatusColumn
+		{
+			get => _GitStatusColumn;
+			set => SetProperty(ref _GitStatusColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitDateColumn = new();
+		public ColumnViewModel GitLastCommitDateColumn
+		{
+			get => _GitLastCommitDateColumn;
+			set => SetProperty(ref _GitLastCommitDateColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitMessageColumn = new();
+		public ColumnViewModel GitLastCommitMessageColumn
+		{
+			get => _GitLastCommitMessageColumn;
+			set => SetProperty(ref _GitLastCommitMessageColumn, value);
+		}
+
+		private ColumnViewModel _GitCommitAuthorColumn = new();
+		public ColumnViewModel GitCommitAuthorColumn
+		{
+			get => _GitCommitAuthorColumn;
+			set => SetProperty(ref _GitCommitAuthorColumn, value);
+		}
+
+		private ColumnViewModel _GitLastCommitShaColumn = new();
+		public ColumnViewModel GitLastCommitShaColumn
+		{
+			get => _GitLastCommitShaColumn;
+			set => SetProperty(ref _GitLastCommitShaColumn, value);
 		}
 
 		private ColumnViewModel tagColumn = new();
@@ -31,7 +65,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 1000d
 		};
-
 		public ColumnViewModel NameColumn
 		{
 			get => nameColumn;
@@ -43,7 +76,6 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(50),
 			NormalMaxLength = 80,
 		};
-
 		public ColumnViewModel StatusColumn
 		{
 			get => statusColumn;
@@ -61,7 +93,6 @@ namespace Files.App.Data.Models
 		{
 			NormalMaxLength = 500,
 		};
-
 		public ColumnViewModel OriginalPathColumn
 		{
 			get => originalPathColumn;
@@ -86,7 +117,6 @@ namespace Files.App.Data.Models
 		{
 			UserCollapsed = true
 		};
-
 		public ColumnViewModel DateCreatedColumn
 		{
 			get => dateCreatedColumn;
@@ -103,13 +133,20 @@ namespace Files.App.Data.Models
 		[LiteDB.BsonIgnore]
 		public double TotalWidth =>
 			IconColumn.Length.Value +
+			GitStatusColumn.Length.Value +
+			GitLastCommitDateColumn.Length.Value +
+			GitLastCommitMessageColumn.Length.Value +
+			GitCommitAuthorColumn.Length.Value +
+			GitLastCommitShaColumn.Length.Value +
 			TagColumn.Length.Value +
 			NameColumn.Length.Value +
-			DateModifiedColumn.Length.Value + OriginalPathColumn.Length.Value +
+			DateModifiedColumn.Length.Value +
+			OriginalPathColumn.Length.Value +
 			ItemTypeColumn.Length.Value +
 			DateDeletedColumn.Length.Value +
 			DateCreatedColumn.Length.Value +
-			SizeColumn.Length.Value + StatusColumn.Length.Value;
+			SizeColumn.Length.Value +
+			StatusColumn.Length.Value;
 
 		public void SetDesiredSize(double width)
 		{
@@ -128,6 +165,11 @@ namespace Files.App.Data.Models
 		private void SetColumnSizeProportionally(double factor)
 		{
 			NameColumn.TryMultiplySize(factor);
+			GitStatusColumn.TryMultiplySize(factor);
+			GitLastCommitDateColumn.TryMultiplySize(factor);
+			GitLastCommitMessageColumn.TryMultiplySize(factor);
+			GitCommitAuthorColumn.TryMultiplySize(factor);
+			GitLastCommitShaColumn.TryMultiplySize(factor);
 			TagColumn.TryMultiplySize(factor);
 			DateModifiedColumn.TryMultiplySize(factor);
 			OriginalPathColumn.TryMultiplySize(factor);
@@ -157,7 +199,12 @@ namespace Files.App.Data.Models
 					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
 					model.SizeColumn.Equals(SizeColumn) &&
 					model.StatusColumn.Equals(StatusColumn) &&
-					model.TagColumn.Equals(TagColumn);
+					model.TagColumn.Equals(TagColumn) &&
+					model.GitStatusColumn.Equals(GitStatusColumn) &&
+					model.GitLastCommitDateColumn.Equals(GitLastCommitDateColumn) &&
+					model.GitLastCommitMessageColumn.Equals(GitLastCommitMessageColumn) &&
+					model.GitCommitAuthorColumn.Equals(GitCommitAuthorColumn) &&
+					model.GitLastCommitShaColumn.Equals(GitLastCommitShaColumn);
 			}
 
 			return base.Equals(obj);
@@ -174,6 +221,11 @@ namespace Files.App.Data.Models
 			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitStatusColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitDateColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitMessageColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitCommitAuthorColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
 
 			return hashCode;
 		}

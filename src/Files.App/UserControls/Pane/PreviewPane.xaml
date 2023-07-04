@@ -43,41 +43,36 @@
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="RadioButton">
-									<Grid x:Name="RootGrid" Margin="0">
-										<Grid.RowDefinitions>
-											<RowDefinition Height="Auto" />
-											<RowDefinition Height="4" />
-										</Grid.RowDefinitions>
-										<ContentPresenter
-											x:Name="ContentPresenter"
-											Grid.Row="0"
-											Padding="12,4,12,4"
-											HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											AutomationProperties.AccessibilityView="Raw"
-											Content="{TemplateBinding Content}"
-											ContentTemplate="{TemplateBinding ContentTemplate}"
-											ContentTransitions="{TemplateBinding ContentTransitions}"
-											Foreground="{TemplateBinding Foreground}"
-											TextWrapping="Wrap" />
-										<Border
-											x:Name="SelectionPill"
-											Grid.Row="1"
-											Height="2"
-											Margin="16,0,16,0"
+									<Grid x:Name="RootGrid">
+										<Grid
+											x:Name="ContainerGrid"
+											Height="32"
 											Background="Transparent"
-											CornerRadius="2" />
+											BorderThickness="1"
+											CornerRadius="4">
+											<ContentPresenter
+												x:Name="ContentPresenter"
+												Padding="16,0,16,0"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Center"
+												AutomationProperties.AccessibilityView="Raw"
+												Content="{TemplateBinding Content}"
+												ContentTemplate="{TemplateBinding ContentTemplate}"
+												ContentTransitions="{TemplateBinding ContentTransitions}"
+												TextWrapping="Wrap" />
+											<Border
+												x:Name="SelectionPill"
+												Width="16"
+												Height="3"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Bottom"
+												Background="Transparent"
+												CornerRadius="1" />
+										</Grid>
 										<VisualStateManager.VisualStateGroups>
 											<VisualStateGroup x:Name="CommonStates">
 												<VisualState x:Name="Normal" />
 												<VisualState x:Name="PointerOver">
-													<Storyboard>
-														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
-														</ObjectAnimationUsingKeyFrames>
-													</Storyboard>
-												</VisualState>
-												<VisualState x:Name="Pressed">
 													<Storyboard>
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
@@ -95,8 +90,14 @@
 											<VisualStateGroup x:Name="CheckStates">
 												<VisualState x:Name="Checked">
 													<Storyboard>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="Background">
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource ControlFillColorDefaultBrush}" />
+														</ObjectAnimationUsingKeyFrames>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContainerGrid" Storyboard.TargetProperty="BorderBrush">
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource ControlElevationBorderBrush}" />
+														</ObjectAnimationUsingKeyFrames>
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionPill" Storyboard.TargetProperty="Background">
-															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:00.3" Value="{ThemeResource SystemAccentColor}" />
 														</ObjectAnimationUsingKeyFrames>
 														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 															<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
@@ -113,6 +114,20 @@
 						</Setter>
 					</Style>
 
+					<Style
+						x:Key="Local.FileDetailsHeaderTextBlockStyle"
+						BasedOn="{StaticResource CaptionTextBlockStyle}"
+						TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="SemiBold" />
+						<Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+					</Style>
+
+					<Style x:Key="Local.FileDetailsTextBlockStyle" TargetType="TextBlock">
+						<Setter Property="FontWeight" Value="Normal" />
+						<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+					</Style>
+
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
@@ -127,13 +142,24 @@
 			<RowDefinition Height="2*" MinHeight="100" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" MinWidth="100" />
+			<ColumnDefinition x:Name="PropertiesColumn" Width="3*" />
+		</Grid.ColumnDefinitions>
 
 		<!--  Panes  -->
 		<StackPanel
 			Grid.Row="0"
-			Padding="12"
-			HorizontalAlignment="Left"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Margin="12"
+			Padding="-1"
+			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
+			Background="{ThemeResource SubtleFillColorTertiaryBrush}"
+			BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4"
 			Orientation="Horizontal">
 			<!--  Details  -->
 			<RadioButton
@@ -141,12 +167,17 @@
 				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 			<!--  Preview  -->
-			<RadioButton Content="{helpers:ResourceString Name=Preview}" Style="{StaticResource Local.RadioButtonStyle}" />
+			<RadioButton
+				Content="{helpers:ResourceString Name=Preview}"
+				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
+				Style="{StaticResource Local.RadioButtonStyle}" />
 		</StackPanel>
 
 		<Grid
 			x:Name="RootPreviewGrid"
 			Grid.Row="1"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
 			Margin="8"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
@@ -155,10 +186,10 @@
 				<MenuFlyout>
 					<MenuFlyoutItem
 						HorizontalAlignment="Stretch"
+						IsEnabled="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}"
 						Tapped="MenuFlyoutItem_Tapped"
 						Text="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/Text}"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}"
-						Visibility="{x:Bind ViewModel.ShowCloudItemButton, Mode=OneWay}" />
+						ToolTipService.ToolTip="{helpers:ResourceString Name=PreviewPaneLoadCloudItemButton/ToolTipService/ToolTip}" />
 				</MenuFlyout>
 			</Grid.ContextFlyout>
 			<Grid.RowDefinitions>
@@ -186,12 +217,15 @@
 		<ScrollViewer
 			x:Name="RootPropertiesScrollViewer"
 			Grid.Row="2"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
 			AutomationProperties.Name="{helpers:ResourceString Name=PreviewPaneFileDetails/AutomationProperties/Name}"
 			Visibility="Visible">
 			<StackPanel Orientation="Vertical">
 				<TextBlock
 					x:Name="DetailsListHeader"
 					HorizontalAlignment="Center"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					FontSize="20"
 					FontWeight="Bold"
 					IsTextSelectionEnabled="True"
@@ -199,7 +233,6 @@
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed" />
-
 				<ItemsControl
 					x:Name="FileDetailsRepeater"
 					Margin="12"
@@ -207,33 +240,32 @@
 					Visibility="Collapsed">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate x:DataType="properties:FileProperty">
-							<Grid
+							<StackPanel
+								Padding="0,8,0,8"
 								HorizontalAlignment="Stretch"
 								AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
-								ColumnSpacing="12">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="1*" />
-									<ColumnDefinition Width="2*" />
-								</Grid.ColumnDefinitions>
+								Orientation="Vertical"
+								Spacing="4">
+
 								<!--  Property  -->
 								<TextBlock
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									MaxLines="2"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
 								<!--  Value  -->
-								<TextBox
+								<TextBlock
 									x:Name="PropertyValueTemplateTextBox"
 									Grid.Column="1"
-									MaxHeight="50"
 									HorizontalAlignment="Stretch"
-									Background="Transparent"
-									BorderBrush="Transparent"
+									IsTextSelectionEnabled="True"
+									MaxLines="2"
+									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
 									Text="{x:Bind ValueText, Mode=TwoWay}"
 									TextWrapping="Wrap" />
-							</Grid>
+							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
@@ -300,6 +332,11 @@
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Visible" />
+						<Setter Target="PropertiesRow.Height" Value="3*" />
+						<Setter Target="PropertiesColumn.Width" Value="3*" />
+					</VisualState.Setters>
 				</VisualState>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -308,6 +345,31 @@
 					<VisualState.Setters>
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="PropertiesRow.Height" Value="0" />
+						<Setter Target="PropertiesColumn.Width" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
+			<!--  Orientations  -->
+			<VisualStateGroup x:Name="Orientation">
+				<VisualState x:Name="Vertical">
+					<VisualState.Setters>
+						<Setter Target="RootPreviewGrid.(Grid.Column)" Value="0" />
+						<Setter Target="RootPropertiesScrollViewer.Column" Value="0" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.RowSpan)" Value="1" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="RootPreviewGrid.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="RootPreviewGrid.(Grid.RowSpan)" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Horizontal">
+					<VisualState.Setters>
+						<Setter Target="RootPropertiesScrollViewer.(Grid.Column)" Value="1" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.RowSpan)" Value="2" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.ColumnSpan)" Value="1" />
+						<Setter Target="RootPreviewGrid.(Grid.ColumnSpan)" Value="1" />
+						<Setter Target="RootPreviewGrid.(Grid.RowSpan)" Value="2" />
+						<Setter Target="RootPropertiesScrollViewer.(Grid.Row)" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

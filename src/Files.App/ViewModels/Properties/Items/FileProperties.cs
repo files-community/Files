@@ -1,26 +1,14 @@
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Filesystem;
+// Copyright(c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.Devices.Geolocation;
-using Windows.Services.Maps;
-using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
 {
-	public class FileProperties : BaseProperties
+	public class FileProperties : BaseProperties, IFileProperties
 	{
 		public ListedItem Item { get; }
 
@@ -155,7 +143,7 @@ namespace Files.App.ViewModels.Properties
 				GetOtherProperties(file.Properties);
 		}
 
-		public async Task GetSystemFileProperties()
+		public async Task GetSystemFilePropertiesAsync()
 		{
 			BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(Item.ItemPath));
 			if (file is null)
@@ -167,7 +155,7 @@ namespace Files.App.ViewModels.Properties
 			var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
 			list.Find(x => x.ID == "address").Value =
-				await GetAddressFromCoordinatesAsync((double?)list.Find(
+				await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
 					x => x.Property == "System.GPS.LatitudeDecimal").Value,
 					(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
@@ -190,34 +178,6 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 			ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value is not null));
-		}
-
-		public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
-		{
-			if (!Lat.HasValue || !Lon.HasValue)
-				return null;
-
-			try
-			{
-				StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
-				var lines = await FileIO.ReadTextAsync(file);
-				using var obj = JsonDocument.Parse(lines);
-				MapService.ServiceToken = obj.RootElement.GetProperty("key").GetString();
-			}
-			catch (Exception)
-			{
-				return null;
-			}
-
-			BasicGeoposition location = new BasicGeoposition();
-			location.Latitude = Lat.Value;
-			location.Longitude = Lon.Value;
-			Geopoint pointToReverseGeocode = new Geopoint(location);
-
-			// Reverse geocode the specified geographic location.
-
-			var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-			return result?.Locations?.FirstOrDefault()?.DisplayName;
 		}
 
 		public async Task SyncPropertyChangesAsync()
@@ -260,10 +220,6 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		/// <summary>
-		/// This function goes through ever read-write property saved, then syncs it
-		/// </summary>
-		/// <returns></returns>
 		public async Task ClearPropertiesAsync()
 		{
 			var failedProperties = new List<string>();
@@ -296,7 +252,7 @@ namespace Files.App.ViewModels.Properties
 				}
 			}
 
-			GetSystemFileProperties();
+			_ = GetSystemFilePropertiesAsync();
 		}
 
 		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

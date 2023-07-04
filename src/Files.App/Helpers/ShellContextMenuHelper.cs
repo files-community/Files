@@ -9,8 +9,8 @@ using Files.App.Extensions;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Shell;
 using Files.App.ViewModels;
-using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Core.Helpers;
+using Files.Core.Services.Settings;
 using Files.Shared;
 using Files.Shared.Extensions;
 using Microsoft.UI.Input;
@@ -264,9 +264,12 @@ namespace Files.App.Helpers
 				if (openWithItem is not null)
 					shellMenuItems.Remove(openWithItem);
 
-				var sendToItem = showSendToMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault() : null;
-				if (sendToItem is not null)
+				var sendToItem = shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "sendto").ToList().FirstOrDefault();
+				if (sendToItem is not null &&
+					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
+
+				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{

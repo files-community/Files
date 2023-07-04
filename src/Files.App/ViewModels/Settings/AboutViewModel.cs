@@ -58,12 +58,12 @@ namespace Files.App.ViewModels.Settings
 
 		public Task DoSubmitFeatureRequest()
 		{
-			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.FeatureRequestUrl)).AsTask();
+			return Launcher.LaunchUriAsync(new Uri($"{Constants.GitHub.FeatureRequestUrl}&{GetVersionsQueryString()}")).AsTask();
 		}
 
 		public Task DoSubmitBugReport()
 		{
-			return Launcher.LaunchUriAsync(new Uri(Constants.GitHub.BugReportUrl)).AsTask();
+			return Launcher.LaunchUriAsync(new Uri($"{Constants.GitHub.BugReportUrl}&{GetVersionsQueryString()}")).AsTask();
 		}
 
 		public Task DoOpenGitHubRepo()
@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}"));
+				dataPackage.SetText(GetAppVersion());
 				Clipboard.SetContent(dataPackage);
 			});
 		}
@@ -99,7 +99,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(SystemInformation.Instance.OperatingSystemVersion.ToString());
+				dataPackage.SetText(GetWindowsVersion());
 				Clipboard.SetContent(dataPackage);
 			});
 		}
@@ -113,6 +113,24 @@ namespace Files.App.ViewModels.Settings
 		{
 			StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///NOTICE.md"));
 			ThirdPartyNotices = await FileIO.ReadTextAsync(file);
+		}
+
+		public string GetAppVersion()
+		{
+			return string.Format($"{AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+		}
+
+		public string GetWindowsVersion()
+		{
+			return SystemInformation.Instance.OperatingSystemVersion.ToString();
+		}
+
+		public string GetVersionsQueryString()
+		{
+			var query = System.Web.HttpUtility.ParseQueryString(string.Empty);
+			query["files_version"] = GetAppVersion();
+			query["windows_version"] = GetWindowsVersion();
+			return query.ToString() ?? string.Empty;
 		}
 
 		public string Version

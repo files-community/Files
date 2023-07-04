@@ -8,11 +8,11 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
-using Files.App.UserControls;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Services;
-using Files.Backend.Services.SizeProvider;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.Helpers;
+using Files.Core.Services;
+using Files.Core.Services.SizeProvider;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Shared.Services;
@@ -34,7 +34,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using static Files.App.Helpers.NativeDirectoryChangesHelper;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -74,6 +74,13 @@ namespace Files.App.Data.Models
 		{
 			get => currentFolder;
 			private set => SetProperty(ref currentFolder, value);
+		}
+
+		private string? _SolutionFilePath;
+		public string? SolutionFilePath
+		{
+			get => _SolutionFilePath;
+			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
 		public CollectionViewSource viewSource;
@@ -539,12 +546,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private bool IsLoadingCancelled { get; set; }
+
 		public void CancelLoadAndClearFiles()
 		{
 			Debug.WriteLine("CancelLoadAndClearFiles");
 			CloseWatcher();
 			if (IsLoadingItems)
+			{
+				IsLoadingCancelled = true;
 				addFilesCTS.Cancel();
+				addFilesCTS = new CancellationTokenSource();
+			}
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
@@ -852,7 +865,7 @@ namespace Files.App.Data.Models
 			FilesAndFolders.GetExtendedGroupHeaderInfo = groupInfoSelector.Item2;
 		}
 
-		public Dictionary<string, BitmapImage> DefaultIcons = new ();
+		public Dictionary<string, BitmapImage> DefaultIcons = new();
 
 		private uint currentDefaultIconSize = 0;
 
@@ -1193,6 +1206,33 @@ namespace Files.App.Data.Models
 									gp.InitializeExtendedGroupHeaderInfoAsync();
 								}));
 						}
+
+						if (item.IsGitItem &&
+							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
+							!string.IsNullOrEmpty(repoPath))
+						{
+							cts.Token.ThrowIfCancellationRequested();
+							await SafetyExtensions.IgnoreExceptions(() =>
+							{
+								var repo = new LibGit2Sharp.Repository(repoPath);
+								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+
+								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+								{
+									var gitItem = item.AsGitItem;
+									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusSymbol;
+									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+
+									repo.Dispose();
+								},
+								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+							});
+						}
 					}
 				}, cts.Token);
 			}
@@ -1308,19 +1348,6 @@ namespace Files.App.Data.Models
 				IsLoadingItems = false;
 
 				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders);
-
-				if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().IsEnabled)
-				{
-					// Find and select README file
-					foreach (var item in filesAndFolders)
-					{
-						if (item.PrimaryItemAttribute == StorageItemTypes.File && item.Name.Contains("readme", StringComparison.OrdinalIgnoreCase))
-						{
-							OnSelectionRequestedEvent?.Invoke(this, new List<ListedItem>() { item });
-							break;
-						}
-					}
-				}
 			}
 			finally
 			{
@@ -1339,8 +1366,6 @@ namespace Files.App.Data.Models
 
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
-
-			await GetDefaultItemIcons(folderSettings.GetIconSize());
 
 			if (FtpHelpers.IsFtpPath(path))
 			{
@@ -1363,8 +1388,14 @@ namespace Files.App.Data.Models
 					case 0:
 						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown });
+						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+						{
+							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
+							IsTypeGitRepository = GitDirectory is not null
+						});
 						WatchForDirectoryChanges(path, syncStatus);
+						if (GitDirectory is not null)
+							WatchForGitChanges();
 						break;
 
 					// Enumerated with StorageFolder
@@ -1387,9 +1418,11 @@ namespace Files.App.Data.Models
 				}
 			}
 
-			if (addFilesCTS.IsCancellationRequested)
+			await GetDefaultItemIcons(folderSettings.GetIconSize());
+
+			if (IsLoadingCancelled)
 			{
-				addFilesCTS = new CancellationTokenSource();
+				IsLoadingCancelled = false;
 				IsLoadingItems = false;
 				return;
 			}
@@ -1695,6 +1728,8 @@ namespace Files.App.Data.Models
 						}, defaultIconPairs: DefaultIcons);
 
 						filesAndFolders.AddRange(fileList);
+
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
@@ -1730,6 +1765,20 @@ namespace Files.App.Data.Models
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			}, cancellationToken);
+		}
+
+		private void CheckForSolutionFile()
+		{
+			for (int i = 0; i < filesAndFolders.Count; i++)
+			{
+				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
+				{
+					SolutionFilePath = filesAndFolders[i].ItemPath;
+					return;
+				}
+			}
+
+			SolutionFilePath = null;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
@@ -1936,9 +1985,6 @@ namespace Files.App.Data.Models
 				Debug.WriteLine("aWatcherAction done: {0}", rand);
 			});
 
-			if (GitDirectory is not null)
-				WatchForGitChanges(hasSyncStatus);
-
 			watcherCTS.Token.Register(() =>
 			{
 				if (aWatcherAction is not null)
@@ -1956,7 +2002,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private void WatchForGitChanges(bool hasSyncStatus)
+		private void WatchForGitChanges()
 		{
 			var hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(
 				GitDirectory!,
@@ -1978,9 +2024,6 @@ namespace Files.App.Data.Models
 				var buff = new byte[4096];
 				var rand = Guid.NewGuid();
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
-
-				if (hasSyncStatus)
-					notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
 
 				var overlapped = new OVERLAPPED();
 				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
@@ -2255,9 +2298,9 @@ namespace Files.App.Data.Models
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
 
 			await AddFileOrFolderAsync(listedItem);
 
@@ -2446,6 +2489,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeCloudDrive { get; set; }
 
 		public bool IsTypeRecycleBin { get; set; }
+
+		public bool IsTypeGitRepository { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs

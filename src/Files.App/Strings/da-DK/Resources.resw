@@ -843,7 +843,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Bedømmelse</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Element-sti</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
@@ -1719,7 +1719,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Navn:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>Filtype:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">

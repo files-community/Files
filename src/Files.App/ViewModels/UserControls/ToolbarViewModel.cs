@@ -6,8 +6,8 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
+using Files.Core.Helpers;
+using Files.Core.Services;
 using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -233,7 +233,6 @@ namespace Files.App.ViewModels.UserControls
 				// TODO: Move this to the widget page, it doesn't belong here.
 				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
-				case nameof(UserSettingsService.GeneralSettingsService.ShowBundlesWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);

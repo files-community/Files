@@ -21,7 +21,6 @@ namespace Files.App.Views
 
 		private QuickAccessWidget quickAccessWidget;
 		private DrivesWidget drivesWidget;
-		private BundlesWidget bundlesWidget;
 		private FileTagsWidget fileTagsWidget;
 		private RecentFilesWidget recentFilesWidget;
 
@@ -55,7 +54,6 @@ namespace Files.App.Views
 		{
 			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
 			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			bundlesWidget =     WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadBundles, bundlesWidget);
 			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
 			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
@@ -101,13 +99,6 @@ namespace Files.App.Views
 				fileTagsWidget.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;
 				fileTagsWidget.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
 				_ = fileTagsWidget.ViewModel.InitAsync();
-			}
-
-			// Reload BundlesWidget
-			if (shouldReloadBundles && bundlesWidget is not null)
-			{
-				Widgets.ViewModel.InsertWidget(new(bundlesWidget, (value) => UserSettingsService.GeneralSettingsService.BundlesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.BundlesWidgetExpanded), 3);
-				ViewModel.LoadBundlesCommand.Execute(bundlesWidget.ViewModel);
 			}
 
 			// Reload RecentFilesWidget
@@ -175,9 +166,6 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-
-			// Show controls that were hidden on the home page
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		private void WidgetCardNewPaneInvoked(object sender, QuickAccessCardInvokedEventArgs e)
@@ -209,9 +197,6 @@ namespace Files.App.Views
 			{
 				NavPathParam = e.Path
 			});
-
-			// Show controls that were hidden on the home page
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = true;
 		}
 
 		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)

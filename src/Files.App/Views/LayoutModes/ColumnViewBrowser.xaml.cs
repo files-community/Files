@@ -184,7 +184,7 @@ namespace Files.App.Views.LayoutModes
 			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
 		}
 
-		private void DismissOtherBlades(int index)
+		public void DismissOtherBlades(int index)
 		{
 			if (index >= 0)
 			{
@@ -324,7 +324,12 @@ namespace Files.App.Views.LayoutModes
 
 			var activeBladeColumnViewBase = RetrieveBladeColumnViewBase(activeBlade);
 			if (activeBladeColumnViewBase is not null)
+			{
 				activeBladeColumnViewBase.FileList.SelectedIndex = 0;
+				var selectedItem = activeBladeColumnViewBase.FileList.Items.FirstOrDefault() as ListedItem;
+				if (selectedItem is not null)
+					UpdatePreviewPaneSelection(new List<ListedItem>() { selectedItem });
+			}
 		}
 
 		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
@@ -457,7 +462,7 @@ namespace Files.App.Views.LayoutModes
 			if (relativeIndex is -1)
 			{
 				// Get the index of the blade with the same path as the requested
-				var blade = ColumnHost.ActiveBlades.FirstOrDefault(b => 
+				var blade = ColumnHost.ActiveBlades.FirstOrDefault(b =>
 					column.NavPathParam.Equals(((b.Content as Frame)?.Content as ColumnShellPage)?.FilesystemViewModel?.WorkingDirectory));
 
 				if (blade is not null)

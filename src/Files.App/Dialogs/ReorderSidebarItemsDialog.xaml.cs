@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

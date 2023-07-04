@@ -37,6 +37,7 @@
 		<FlipView
 			x:Name="PageList"
 			Background="Transparent"
+			FlowDirection="LeftToRight"
 			ItemTemplate="{StaticResource PageTemplate}"
 			ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
 		<PipsPager

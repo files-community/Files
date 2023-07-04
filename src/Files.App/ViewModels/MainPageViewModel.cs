@@ -5,8 +5,10 @@ using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.Views;
-using Files.Backend.Services;
+using Files.Core.Services;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
@@ -187,16 +189,16 @@ namespace Files.App.ViewModels
 			}
 		}
 
-		public async Task<(string tabLocationHeader, Microsoft.UI.Xaml.Controls.IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
+		public async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
-			var iconSource = new Microsoft.UI.Xaml.Controls.ImageIconSource();
+			var iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = "Home".GetLocalizedResource();
-				iconSource.ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -224,12 +226,18 @@ namespace Files.App.ViewModels
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
+			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			{
+				tabLocationHeader = wslDistro.Text;
+				iconSource.ImageSource = new BitmapImage(wslDistro.Logo);
+			}
 			else
 			{
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
 				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
+					iconSource.ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Items;
-using Files.App.ServicesImplementation;
+using Files.App.Services;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs

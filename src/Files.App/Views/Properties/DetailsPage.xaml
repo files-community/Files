@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
 	Tag="Details"
@@ -16,16 +17,33 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
 
 	<ScrollViewer>
 		<Grid Padding="12">
 
+			<!--  Loading  -->
+			<StackPanel
+				x:Name="LoadingStatePanel"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ViewModel.IsPropertiesLoaded, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Spacing="8">
+				<ProgressRing HorizontalAlignment="Center" IsIndeterminate="True" />
+				<TextBlock
+					x:Name="LoadingTextBlock"
+					HorizontalAlignment="Center"
+					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Text="{helpers:ResourceString Name=Loading}" />
+			</StackPanel>
+
 			<!--  Details Expander List  -->
 			<ListView
 				x:Name="MainList"
 				HorizontalAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsPropertiesLoaded, Mode=OneWay}"
 				ItemsSource="{x:Bind ViewModel.PropertySections, Mode=OneWay}"
 				SelectionMode="None">
 
@@ -57,10 +75,7 @@
 									<DataTemplate x:DataType="vm:FileProperty">
 										<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
 											<Grid.ColumnDefinitions>
-												<ColumnDefinition
-													Width="Auto"
-													MinWidth="100"
-													MaxWidth="240" />
+												<ColumnDefinition Width="140" />
 												<ColumnDefinition Width="*" />
 											</Grid.ColumnDefinitions>
 
@@ -78,6 +93,7 @@
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
 												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />
 

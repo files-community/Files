@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -20,6 +18,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static readonly IModifiableCommandManager modifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
@@ -329,11 +328,17 @@ namespace Files.App.Helpers
 					ShowInZipPage = true,
 					ShowItem = !itemsSelected
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(commands.AddItem)
+				new ContextMenuFlyoutItemViewModel()
 				{
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = commands.AddItem.Glyph.OpacityStyle
+					},
+					Text = commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
-					IsVisible = !itemsSelected
-				}.Build(),
+					ShowItem = !itemsSelected,
+					ShowInFtpPage = true
+				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
 				{
@@ -478,7 +483,7 @@ namespace Files.App.Helpers
 				{
 					IsPrimary = true
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
+				new ContextMenuFlyoutItemViewModelBuilder(modifiableCommands.DeleteItem)
 				{
 					IsVisible = itemsSelected,
 					IsPrimary = true,
@@ -509,7 +514,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "Archive".GetLocalizedResource(),
+					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
 					OpacityIcon = new OpacityIconModel()
 					{
@@ -517,37 +522,27 @@ namespace Files.App.Helpers
 					},
 					Items = new List<ContextMenuFlyoutItemViewModel>
 					{
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder)
-						{
-							IsVisible = ArchiveHelpers.CanDecompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModel
-						{
-							ShowItem = canDecompress && canCompress,
-							ItemType = ContextMenuFlyoutItemType.Separator,
-						},
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip)
-						{
-							IsVisible = ArchiveHelpers.CanCompress(selectedItems)
-						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && ArchiveHelpers.CanCompress(selectedItems)
+				},
+				new ContextMenuFlyoutItemViewModel
+				{
+					Text = "Extract".GetLocalizedResource(),
+					ShowInSearchPage = true,
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconZip",
+					},
+					Items = new List<ContextMenuFlyoutItemViewModel>
+					{
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
+					},
+					ShowItem = ArchiveHelpers.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -555,7 +550,7 @@ namespace Files.App.Helpers
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -571,7 +566,7 @@ namespace Files.App.Helpers
 						}
 					},
 					ShowInSearchPage = true,
-					ShowItem = itemsSelected
+					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

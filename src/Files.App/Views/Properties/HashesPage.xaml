@@ -4,9 +4,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.Core.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:models="using:Files.Backend.Models"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
@@ -15,6 +15,10 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<toolkitconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 		</ResourceDictionary>
@@ -129,7 +133,7 @@
 
 				<!--  Template  -->
 				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="models:HashInfoItem">
+					<DataTemplate x:DataType="datamodels:HashInfoItem">
 						<ListViewItem IsSelected="{x:Bind IsSelected, Mode=TwoWay}" Visibility="{x:Bind IsEnabled, Mode=OneWay}">
 							<Grid ColumnSpacing="12">
 								<Grid.ColumnDefinitions>
@@ -142,13 +146,33 @@
 								<!--  Algorithm Name  -->
 								<TextBlock
 									VerticalAlignment="Center"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource PropertyName}"
 									Text="{x:Bind Algorithm}" />
+
+								<!--  Calculating  -->
+								<StackPanel
+									x:Name="CalculatingPanel"
+									Grid.Column="2"
+									x:Load="{x:Bind IsCalculating, Mode=OneWay}"
+									Orientation="Horizontal">
+									<TextBlock
+										VerticalAlignment="Center"
+										Style="{StaticResource BodyTextBlockStyle}"
+										Text="{helpers:ResourceString Name=Calculating}" />
+
+									<ProgressBar
+										Width="100"
+										Margin="16,0,0,0"
+										HorizontalAlignment="Left"
+										IsIndeterminate="True" />
+								</StackPanel>
 
 								<!--  Hash Value  -->
 								<TextBlock
+									x:Name="HashValueText"
 									Grid.Column="2"
 									VerticalAlignment="Center"
+									x:Load="{x:Bind IsCalculating, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind HashValue, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"

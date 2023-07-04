@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
@@ -10,9 +13,9 @@ using Files.App.Filesystem;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Helpers;
-using Files.App.ServicesImplementation;
-using Files.App.ServicesImplementation.DateTimeFormatter;
-using Files.App.ServicesImplementation.Settings;
+using Files.App.Services;
+using Files.App.Services.DateTimeFormatter;
+using Files.App.Services.Settings;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
@@ -20,10 +23,7 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
-using Files.Backend.Enums;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
-using Files.Backend.Services.SizeProvider;
+using Files.Core.Services.SizeProvider;
 using Files.Sdk.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
@@ -192,7 +192,6 @@ namespace Files.App
 						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IBundlesSettingsService, BundlesSettingsService>()
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
@@ -205,6 +204,7 @@ namespace Files.App
 						.AddSingleton<ICloudDetector, CloudDetector>()
 						.AddSingleton<IFileTagsService, FileTagsService>()
 						.AddSingleton<ICommandManager, CommandManager>()
+						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 #if UWP
 						.AddSingleton<IStorageService, WindowsStorageService>()
 #else
@@ -217,7 +217,7 @@ namespace Files.App
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
 #endif
-						.AddSingleton<IPreviewPopupService, QuickLookPreviewPopupService>()
+						.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
@@ -329,6 +329,10 @@ namespace Files.App
 			},
 			Logger);
 
+			// Destroy cached properties windows
+			FilePropertiesHelpers.DestroyCachedWindows();
+			AppModel.IsMainWindowClosed = true;
+
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
 		}
@@ -339,9 +343,6 @@ namespace Files.App
 		public static void SaveSessionTabs() 
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			IBundlesSettingsService bundlesSettingsService = Ioc.Default.GetRequiredService<IBundlesSettingsService>();
-
-			bundlesSettingsService.FlushSettings();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{

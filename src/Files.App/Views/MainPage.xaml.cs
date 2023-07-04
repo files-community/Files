@@ -10,7 +10,7 @@ using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Backend.Extensions;
+using Files.Core.Extensions;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -155,6 +155,9 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
+
+			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.DirectoryPropertiesViewModel is not null)
+				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
 
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
@@ -481,6 +484,8 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
 		public bool ShouldPreviewPaneBeDisplayed
@@ -489,7 +494,7 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 400;
+				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && App.Window.Bounds.Height > 360;
 				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
 				return isEnabled;
@@ -498,6 +503,7 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
+			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();

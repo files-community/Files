@@ -5,7 +5,6 @@ using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.Globalization;
-using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -23,7 +22,6 @@ namespace Files.App.ViewModels.Settings
 
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
-		public AsyncRelayCommand OpenFilesAtStartupCommand { get; }
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
@@ -93,7 +91,6 @@ namespace Files.App.ViewModels.Settings
 
 		public GeneralViewModel()
 		{
-			OpenFilesAtStartupCommand = new AsyncRelayCommand(OpenFilesAtStartup);
 			ChangePageCommand = new AsyncRelayCommand(ChangePage);
 			RemovePageCommand = new RelayCommand(RemovePage);
 			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
@@ -115,7 +112,6 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			_ = InitStartupSettingsRecentFoldersFlyout();
-			_ = DetectOpenFilesAtStartup();
 		}
 
 		private async void DoRestart()
@@ -391,79 +387,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private bool openInLogin;
-		public bool OpenInLogin
-		{
-			get => openInLogin;
-			set => SetProperty(ref openInLogin, value);
-		}
-
-		private bool canOpenInLogin;
-		public bool CanOpenInLogin
-		{
-			get => canOpenInLogin;
-			set => SetProperty(ref canOpenInLogin, value);
-		}
-
-		public async Task OpenFilesAtStartup()
-		{
-			var stateMode = await ReadState();
-
-			bool state = stateMode switch
-			{
-				StartupTaskState.Enabled => true,
-				StartupTaskState.EnabledByPolicy => true,
-				StartupTaskState.DisabledByPolicy => false,
-				StartupTaskState.DisabledByUser => false,
-				_ => false,
-			};
-
-			if (state != OpenInLogin)
-			{
-				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-				if (OpenInLogin)
-					await startupTask.RequestEnableAsync();
-				else
-					startupTask.Disable();
-				await DetectOpenFilesAtStartup();
-			}
-		}
-
-		public async Task DetectOpenFilesAtStartup()
-		{
-			var stateMode = await ReadState();
-
-			switch (stateMode)
-			{
-				case StartupTaskState.Disabled:
-					CanOpenInLogin = true;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.Enabled:
-					CanOpenInLogin = true;
-					OpenInLogin = true;
-					break;
-				case StartupTaskState.DisabledByPolicy:
-					CanOpenInLogin = false;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.DisabledByUser:
-					CanOpenInLogin = false;
-					OpenInLogin = false;
-					break;
-				case StartupTaskState.EnabledByPolicy:
-					CanOpenInLogin = false;
-					OpenInLogin = true;
-					break;
-			}
-		}
-
-		public async Task<StartupTaskState> ReadState()
-		{
-			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-			return state.State;
-		}
-
 		public bool SearchUnindexedItems
 		{
 			get => UserSettingsService.GeneralSettingsService.SearchUnindexedItems;
@@ -498,32 +421,16 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowBundlesWidget
-		{
-			get => UserSettingsService.GeneralSettingsService.ShowBundlesWidget;
-			set
-			{
-				if (value != UserSettingsService.GeneralSettingsService.ShowBundlesWidget)
-					UserSettingsService.GeneralSettingsService.ShowBundlesWidget = value;
-
-				if (value & ShowFileTagsWidget)
-					ShowFileTagsWidget = false;
-
-				OnPropertyChanged();
-			}
-		}
 		public bool ShowFileTagsWidget
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 			set
 			{
 				if (value != UserSettingsService.GeneralSettingsService.ShowFileTagsWidget)
+				{
 					UserSettingsService.GeneralSettingsService.ShowFileTagsWidget = value;
-
-				if (value & ShowBundlesWidget)
-					ShowBundlesWidget = false;
-
-				OnPropertyChanged();
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -571,6 +478,19 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewTab)
 				{
 					UserSettingsService.GeneralSettingsService.ShowOpenInNewTab = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowSendToMenu
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowSendToMenu;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowSendToMenu)
+				{
+					UserSettingsService.GeneralSettingsService.ShowSendToMenu = value;
 					OnPropertyChanged();
 				}
 			}

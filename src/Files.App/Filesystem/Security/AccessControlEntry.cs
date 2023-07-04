@@ -45,8 +45,8 @@ namespace Files.App.Filesystem.Security
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
 			{
-				AccessControlEntryType.Allow => "Allow",
-				_ => "Deny" // AccessControlType.Deny
+				AccessControlEntryType.Allow => "Allow".GetLocalizedResource(),
+				_ => "Deny".GetLocalizedResource() // AccessControlType.Deny
 			};
 
 		/// <summary>

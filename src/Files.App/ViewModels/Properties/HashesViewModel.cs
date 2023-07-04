@@ -1,11 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Filesystem;
-using Files.Backend.Models;
-using Files.Backend.Services.Settings;
 using Files.Shared.Extensions;
 using Files.Shared.Helpers;
 using System;
@@ -81,7 +82,7 @@ namespace Files.App.ViewModels.Properties
 
 			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
 			{
-				hashInfoItem.HashValue = "Calculating".GetLocalizedResource();
+				hashInfoItem.IsCalculating = true;
 
 				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
@@ -110,6 +111,10 @@ namespace Files.App.ViewModels.Properties
 					catch (Exception)
 					{
 						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
+					}
+					finally
+					{
+						hashInfoItem.IsCalculating = false;
 					}
 				});
 			}

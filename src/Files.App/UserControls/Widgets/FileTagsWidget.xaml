@@ -89,6 +89,7 @@
 					</Grid>
 
 					<!--  Contents  -->
+					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
 					<controls:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
@@ -97,6 +98,8 @@
 						IsItemClickEnabled="True"
 						ItemClick="FileTagItem_ItemClick"
 						ItemsSource="{x:Bind Tags}"
+						RightTapped="AdaptiveGridView_RightTapped"
+						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
 						<controls:AdaptiveGridView.ItemContainerStyle>
@@ -108,13 +111,18 @@
 
 						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
-								<StackPanel
+								<Grid
+									ColumnSpacing="8"
 									DataContext="{x:Bind}"
-									Orientation="Horizontal"
-									RightTapped="Item_RightTapped"
-									Spacing="8">
+									ToolTipService.ToolTip="{x:Bind Path}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+
 									<!--  Icon  -->
 									<Image
+										Grid.Column="0"
 										Width="20"
 										Height="20"
 										VerticalAlignment="Center"
@@ -122,10 +130,11 @@
 
 									<!--  Name  -->
 									<TextBlock
+										Grid.Column="1"
 										VerticalAlignment="Center"
 										Text="{x:Bind Name, Mode=OneWay}"
 										TextTrimming="CharacterEllipsis" />
-								</StackPanel>
+								</Grid>
 							</DataTemplate>
 						</controls:AdaptiveGridView.ItemTemplate>
 					</controls:AdaptiveGridView>

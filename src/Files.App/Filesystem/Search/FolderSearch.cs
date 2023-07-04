@@ -8,7 +8,7 @@ using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,9 +21,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using WIN32_FIND_DATA = Files.Backend.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
+using WIN32_FIND_DATA = Files.Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
 namespace Files.App.Filesystem.Search
 {
@@ -432,6 +432,8 @@ namespace Files.App.Filesystem.Search
 						ItemDateCreatedReal = folder.DateCreated,
 						NeedsPlaceholderGlyph = false,
 						Opacity = 1,
+						FileSize = props.Size.ToSizeString(),
+						FileSizeBytes = (long)props.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
 						ItemOriginalPath = binFolder.OriginalPath
 					};

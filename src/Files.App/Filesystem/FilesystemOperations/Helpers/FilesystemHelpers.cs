@@ -2,14 +2,17 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem.FilesystemHistory;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.App.Filesystem.StorageItems;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Files.Sdk.Storage;
 using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -733,6 +736,7 @@ namespace Files.App.Filesystem
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
+			var hasVirtualItems = false;
 
 			if (packageView.Contains(StandardDataFormats.StorageItems))
 			{
@@ -743,12 +747,30 @@ namespace Files.App.Filesystem
 				}
 				catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
 				{
-					// continue
+					hasVirtualItems = true;
 				}
 				catch (Exception ex)
 				{
 					App.Logger.LogWarning(ex, ex.Message);
 					return itemsList;
+				}
+			}
+
+			// workaround for pasting folders from remote desktop (#12318)
+			if (hasVirtualItems && packageView.Contains("FileContents"))
+			{
+				var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
+				for (var ii = 0; ii < descriptor.cItems; ii++)
+				{
+					if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
+					{
+						itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
+					}
+					else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
+					{
+						var streamContent = new ComStreamWrapper(stream);
+						itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
+					}
 				}
 			}
 

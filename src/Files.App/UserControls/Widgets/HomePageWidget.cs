@@ -4,9 +4,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ServicesImplementation;
+using Files.App.Services;
 using Files.App.ViewModels;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Files.Sdk.Storage;
 using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;

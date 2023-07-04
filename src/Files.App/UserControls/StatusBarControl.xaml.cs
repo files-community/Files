@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Commands;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -8,7 +9,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class StatusBarControl : UserControl
 	{
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
 		{
 			get => (DirectoryPropertiesViewModel)GetValue(DirectoryPropertiesViewModelProperty);
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
@@ -44,6 +47,9 @@ namespace Files.App.UserControls
 
 		private void BranchesFlyout_Opening(object sender, object e)
 		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
 			DirectoryPropertiesViewModel.ShowLocals = true;
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}

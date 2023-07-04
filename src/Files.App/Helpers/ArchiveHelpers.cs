@@ -1,25 +1,13 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Dialogs;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Filesystem.Archive;
 using Files.App.Filesystem.StorageItems;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Helpers;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Helpers
@@ -30,8 +18,9 @@ namespace Files.App.Helpers
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
-			return selectedItems.Any() && selectedItems.All(x => x.IsArchive)
-				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension));
+			return selectedItems.Any() &&
+				(selectedItems.All(x => x.IsArchive)
+				|| selectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File && FileExtensionHelpers.IsZipFile(x.FileExtension)));
 		}
 
 		public static bool CanCompress(IReadOnlyList<ListedItem> selectedItems)
@@ -137,23 +126,16 @@ namespace Files.App.Helpers
 				FileOperationType.Extract,
 				extractCancellation);
 
-			Stopwatch sw = new();
-			sw.Start();
-
 			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
-			sw.Stop();
 			banner.Remove();
-
-			if (sw.Elapsed.TotalSeconds >= 6)
-			{
-				OngoingTasksViewModel.PostBanner(
-					"ExtractingCompleteText".GetLocalizedResource(),
-					"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
-					0,
-					ReturnResult.Success,
-					FileOperationType.Extract);
-			}
+			
+			OngoingTasksViewModel.PostBanner(
+				"ExtractingCompleteText".GetLocalizedResource(),
+				"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
+				0,
+				ReturnResult.Success,
+				FileOperationType.Extract);
 		}
 
 		public static async Task DecompressArchive(IShellPage associatedInstance)

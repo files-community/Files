@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
+using Files.Core.Helpers;
+using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -202,8 +202,8 @@ namespace Files.App.Filesystem.StorageEnumerators
 						FileImage = null,
 						LoadFileIcon = false,
 						ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
-						FileSize = null,
-						FileSizeBytes = 0,
+						FileSize = basicProperties.Size.ToSizeString(),
+						FileSizeBytes = (long)basicProperties.Size,
 						ItemDateDeletedReal = binFolder.DateDeleted,
 						ItemOriginalPath = binFolder.OriginalPath,
 					};
@@ -258,6 +258,7 @@ namespace Files.App.Filesystem.StorageEnumerators
 			{
 				return new LibraryItem(library)
 				{
+					Opacity = 1,
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 				};

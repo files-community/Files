@@ -69,10 +69,11 @@ namespace Files.App.Commands
 		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
 		public IRichCommand InstallFont => commands[CommandCodes.InstallFont];
 		public IRichCommand InstallInfDriver => commands[CommandCodes.InstallInfDriver];
+		public IRichCommand InstallCertificate => commands[CommandCodes.InstallCertificate];
 		public IRichCommand RunAsAdmin => commands[CommandCodes.RunAsAdmin];
 		public IRichCommand RunAsAnotherUser => commands[CommandCodes.RunAsAnotherUser];
 		public IRichCommand RunWithPowershell => commands[CommandCodes.RunWithPowershell];
-		public IRichCommand LaunchQuickLook => commands[CommandCodes.LaunchQuickLook];
+		public IRichCommand LaunchPreviewPopup => commands[CommandCodes.LaunchPreviewPopup];
 		public IRichCommand CompressIntoArchive => commands[CommandCodes.CompressIntoArchive];
 		public IRichCommand CompressIntoSevenZip => commands[CommandCodes.CompressIntoSevenZip];
 		public IRichCommand CompressIntoZip => commands[CommandCodes.CompressIntoZip];
@@ -84,6 +85,8 @@ namespace Files.App.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
+		public IRichCommand OpenInVS => commands[CommandCodes.OpenInVS];
+		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
@@ -154,6 +157,11 @@ namespace Files.App.Commands
 		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
+		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
+		public IRichCommand GitInit => commands[CommandCodes.GitInit];
+		public IRichCommand GitPull => commands[CommandCodes.GitPull];
+		public IRichCommand GitPush => commands[CommandCodes.GitPush];
+		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 
 		public CommandManager()
 		{
@@ -217,10 +225,11 @@ namespace Files.App.Commands
 			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
 			[CommandCodes.InstallFont] = new InstallFontAction(),
 			[CommandCodes.InstallInfDriver] = new InstallInfDriverAction(),
+			[CommandCodes.InstallCertificate] = new InstallCertificateAction(),
 			[CommandCodes.RunAsAdmin] = new RunAsAdminAction(),
 			[CommandCodes.RunAsAnotherUser] = new RunAsAnotherUserAction(),
 			[CommandCodes.RunWithPowershell] = new RunWithPowershellAction(),
-			[CommandCodes.LaunchQuickLook] = new LaunchQuickLookAction(),
+			[CommandCodes.LaunchPreviewPopup] = new LaunchPreviewPopupAction(),
 			[CommandCodes.CompressIntoArchive] = new CompressIntoArchiveAction(),
 			[CommandCodes.CompressIntoSevenZip] = new CompressIntoSevenZipAction(),
 			[CommandCodes.CompressIntoZip] = new CompressIntoZipAction(),
@@ -232,6 +241,8 @@ namespace Files.App.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
+			[CommandCodes.OpenInVS] = new OpenInVSAction(),
+			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
@@ -302,6 +313,11 @@ namespace Files.App.Commands
 			[CommandCodes.ClosePane] = new ClosePaneAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
+			[CommandCodes.GitFetch] = new GitFetchAction(),
+			[CommandCodes.GitInit] = new GitInitAction(),
+			[CommandCodes.GitPull] = new GitPullAction(),
+			[CommandCodes.GitPush] = new GitPushAction(),
+			[CommandCodes.GitSync] = new GitSyncAction(),
 		};
 
 		private void UpdateHotKeys()
@@ -352,48 +368,8 @@ namespace Files.App.Commands
 				UpdateHotKeys();
 		}
 
-		[DebuggerDisplay("Command None")]
-		private class NoneCommand : IRichCommand
-		{
-			public event EventHandler? CanExecuteChanged { add {} remove {} }
-			public event PropertyChangingEventHandler? PropertyChanging { add {} remove {} }
-			public event PropertyChangedEventHandler? PropertyChanged { add {} remove {} }
-
-			public CommandCodes Code => CommandCodes.None;
-
-			public string Label => string.Empty;
-			public string LabelWithHotKey => string.Empty;
-			public string AutomationName => string.Empty;
-
-			public string Description => string.Empty;
-
-			public RichGlyph Glyph => RichGlyph.None;
-			public object? Icon => null;
-			public FontIcon? FontIcon => null;
-			public Style? OpacityStyle => null;
-
-			public bool IsCustomHotKeys => false;
-			public string? HotKeyText => null;
-			public HotKeyCollection HotKeys
-			{
-				get => HotKeyCollection.Empty;
-				set => throw new InvalidOperationException("This command is readonly.");
-			}
-
-			public bool IsToggle => false;
-			public bool IsOn { get => false; set {} }
-			public bool IsExecutable => false;
-
-			public bool CanExecute(object? parameter) => false;
-			public void Execute(object? parameter) {}
-			public Task ExecuteAsync() => Task.CompletedTask;
-			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
-
-			public void ResetHotKeys() {}
-		}
-
 		[DebuggerDisplay("Command {Code}")]
-		private class ActionCommand : ObservableObject, IRichCommand
+		internal class ActionCommand : ObservableObject, IRichCommand
 		{
 			public event EventHandler? CanExecuteChanged;
 

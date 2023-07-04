@@ -1,12 +1,9 @@
-using Files.App.Data.Items;
-using Files.App.Data.Parameters;
-using Files.App.Filesystem;
+// Copyright(c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -37,7 +34,14 @@ namespace Files.App.ViewModels.Properties
 				BaseProperties = new DriveProperties(ViewModel, drive, AppInstance);
 			// Storage objects (multi-selected)
 			else if (np.Parameter is List<ListedItem> items)
-				BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+			{
+				// Selection only contains files
+				if (items.All(item => item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive))
+					BaseProperties = new CombinedFileProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+				// Selection includes folders
+				else
+					BaseProperties = new CombinedProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, items, AppInstance);
+			}
 			// A storage object
 			else if (np.Parameter is ListedItem item)
 			{

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 
 namespace Files.App.Data.Models
 {
@@ -612,6 +612,13 @@ namespace Files.App.Data.Models
 		{
 			get => runAsAdminEnabled;
 			set => SetProperty(ref runAsAdminEnabled, value);
+		}
+
+		private bool isPropertiesLoaded;
+		public bool IsPropertiesLoaded
+		{
+			get => isPropertiesLoaded;
+			set => SetProperty(ref isPropertiesLoaded, value);
 		}
 	}
 }

@@ -768,7 +768,7 @@
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଅଧିକ ବିକଳ୍ପଗୁଡିକ...</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>ଆଇଟମ୍ ପଥ</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
@@ -885,7 +885,7 @@
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>ନାମ:</value>
   </data>
-  <data name="ToolTipDescriptionType" xml:space="preserve">
+  <data name="ItemType" xml:space="preserve">
     <value>ପ୍ରକାର:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">

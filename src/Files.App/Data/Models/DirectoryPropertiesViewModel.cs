@@ -38,7 +38,8 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _SelectedBranchIndex, value) && 
 					value != -1 && 
-					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals))
+					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals) &&
+					value < BranchesNames.Count)
 				{
 					CheckoutRequested?.Invoke(this, BranchesNames[value]);
 				}
@@ -61,6 +62,20 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		private string _StatusInfo = "0 / 0";
+		public string StatusInfo
+		{
+			get => _StatusInfo;
+			set => SetProperty(ref _StatusInfo, value);
+		}
+
+		private string _ExtendedStatusInfo = string.Format("CommitsNumber".GetLocalizedResource(), 0);
+		public string ExtendedStatusInfo
+		{
+			get => _ExtendedStatusInfo;
+			set => SetProperty(ref _ExtendedStatusInfo, value);
+		}
+
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
@@ -78,11 +93,17 @@ namespace Files.App.Data.Models
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
 		{
 			GitBranchDisplayName = isGitRepository && branches.Any()
-				? string.Format("Branch".GetLocalizedResource(), branches[ACTIVE_BRANCH_INDEX].Name)
+				? branches[ACTIVE_BRANCH_INDEX].Name
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
 			ShowLocals = true;
+
+			var behind = branches.Any() ? branches[0].BehindBy ?? 0 : 0;
+			var ahead = branches.Any() ? branches[0].AheadBy ?? 0 : 0;
+
+			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
+			StatusInfo = $"{ahead} / {behind}";
 
 			if (isGitRepository)
 			{

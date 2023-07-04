@@ -1,27 +1,18 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
 using Files.App.Filesystem.Cloud;
 using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Backend.Helpers;
-using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.FileTags;
-using Files.Shared.Extensions;
+using Files.Core.Helpers;
+using Files.Core.ViewModels.FileTags;
 using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -53,7 +44,7 @@ namespace Files.App.Filesystem
 			{
 				var tooltipBuilder = new StringBuilder();
 				tooltipBuilder.AppendLine($"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}");
-				tooltipBuilder.AppendLine($"{"ToolTipDescriptionType".GetLocalizedResource()} {itemType}");
+				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if(!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
@@ -142,7 +133,7 @@ namespace Files.App.Filesystem
 			}
 		}
 
-		public IList<TagViewModel> FileTagsUI
+		public IList<TagViewModel>? FileTagsUI
 		{
 			get => fileTagsSettingsService.GetTagsByIds(FileTags);
 		}
@@ -434,6 +425,7 @@ namespace Files.App.Filesystem
 		public bool IsFtpItem => this is FtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
+		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
@@ -448,6 +440,8 @@ namespace Files.App.Filesystem
 
 		// This is a hack used because x:Bind casting did not work properly
 		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
+
+		public GitItem AsGitItem => this as GitItem;
 
 		public string Key { get; set; }
 
@@ -632,6 +626,71 @@ namespace Files.App.Filesystem
 				}
 				return $"{MainStreamName}:{ItemNameRaw}";
 			}
+		}
+	}
+
+	public class GitItem : ListedItem
+	{
+		private string? _UnmergedGitStatusLabel;
+		public string? UnmergedGitStatusLabel
+		{
+			get => _UnmergedGitStatusLabel;
+			set => SetProperty(ref _UnmergedGitStatusLabel, value);
+		}
+
+		private string? _UnmergedGitStatusName;
+		public string? UnmergedGitStatusName
+		{
+			get => _UnmergedGitStatusName;
+			set => SetProperty(ref _UnmergedGitStatusName, value);
+		}
+
+		public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
+
+		private DateTimeOffset? _GitLastCommitDate;
+		public DateTimeOffset? GitLastCommitDate
+		{
+			get => _GitLastCommitDate;
+			set
+			{
+				SetProperty(ref _GitLastCommitDate, value);
+				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
+			}
+		}
+
+		private string? _GitLastCommitDateHumanized;
+		public string? GitLastCommitDateHumanized
+		{
+			get => _GitLastCommitDateHumanized;
+			set => SetProperty(ref _GitLastCommitDateHumanized, value);
+		}
+
+		private string? _GitLastCommitMessage;
+		public string? GitLastCommitMessage
+		{
+			get => _GitLastCommitMessage;
+			set => SetProperty(ref _GitLastCommitMessage, value);
+		}
+
+		private string? _GitCommitAuthor;
+		public string? GitLastCommitAuthor
+		{
+			get => _GitCommitAuthor;
+			set => SetProperty(ref _GitCommitAuthor, value);
+		}
+
+		private string? _GitLastCommitSha;
+		public string? GitLastCommitSha
+		{
+			get => _GitLastCommitSha;
+			set => SetProperty(ref _GitLastCommitSha, value);
+		}
+
+		private string? _GitLastCommitFullSha;
+		public string? GitLastCommitFullSha
+		{
+			get => _GitLastCommitFullSha;
+			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
 	}
 }
