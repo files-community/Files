@@ -17,7 +17,7 @@ namespace Files.Backend.Services.Settings
 
 		TagViewModel GetTagById(string uid);
 
-		IList<TagViewModel> GetTagsByIds(string[] uids);
+		IList<TagViewModel>? GetTagsByIds(string[] uids);
 
 		IEnumerable<TagViewModel> GetTagsByName(string tagName);
 

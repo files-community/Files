@@ -1079,6 +1079,7 @@
 																Tapped="TagIcon_Tapped"
 																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
 															<TextBlock
+																MaxWidth="200"
 																Padding="8,0,0,0"
 																VerticalAlignment="Center"
 																FontSize="12"
