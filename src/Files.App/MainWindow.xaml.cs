@@ -16,7 +16,7 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
-		private MainPageViewModel _mainPageViewModel;
+		private MainPageViewModel mainPageViewModel;
 
 		public MainWindow()
 		{
@@ -28,7 +28,7 @@ namespace Files.App
 		private void EnsureEarlyWindow()
 		{
 			PersistenceId = "FilesMainWindow";
-			MinHeight = 328;
+			MinHeight = 416;
 			MinWidth = 516;
 
 			// Initialize AppWindow
@@ -56,7 +56,7 @@ namespace Files.App
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
 
-			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			switch (activatedEventArgs)
 			{
@@ -81,7 +81,7 @@ namespace Files.App
 					{
 						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 						{
-							await _mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 						}
 					}
 					break;
@@ -145,7 +145,7 @@ namespace Files.App
 					}
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await _mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 			}
@@ -177,7 +177,7 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is not null)
-					await _mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
+					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}

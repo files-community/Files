@@ -54,34 +54,28 @@ using Windows.UI.Notifications;
 
 namespace Files.App
 {
-	/// <summary>
-	/// Represents an entry point of the Files App UI.
-	/// </summary>
-	/// <remarks>
-	/// The app is going to be activated in following order:
-	/// <see cref="Program"/> -> <see cref="App"/> -> <see cref="MainWindow"/>.
-	/// </remarks>
 	public partial class App : Application
 	{
-		private static bool ShowErrorNotification;
-		private IHost host;
-
+		private static bool ShowErrorNotification = false;
+		private IHost host { get; set; }
+		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = new();
-		public static AppModel? AppModel { get; private set; }
-		public static RecentItems? RecentItemsManager { get; private set; }
-		public static QuickAccessManager? QuickAccessManager { get; private set; }
-		public static CloudDrivesManager? CloudDrivesManager { get; private set; }
-		public static WSLDistroManager? WSLDistroManager { get; private set; }
-		public static LibraryManager? LibraryManager { get; private set; }
-		public static FileTagsManager? FileTagsManager { get; private set; }
-		public static ILogger? Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
+		public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
+		public static AppModel AppModel { get; private set; }
+		public static RecentItems RecentItemsManager { get; private set; }
+		public static QuickAccessManager QuickAccessManager { get; private set; }
+		public static CloudDrivesManager CloudDrivesManager { get; private set; }
+		public static WSLDistroManager WSLDistroManager { get; private set; }
+		public static LibraryManager LibraryManager { get; private set; }
+		public static FileTagsManager FileTagsManager { get; private set; }
 
-		public static readonly string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-		public static string? LogoPath;
+		public static ILogger Logger { get; private set; }
+		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
+
+		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
+		public static string LogoPath;
 		public static AppEnvironment AppEnv;
-		public static string? OutputPath { get; set; }
+
 		public static MainWindow Window { get; set; } = null!;
 		public static IntPtr WindowHandle { get; private set; }
 
@@ -178,16 +172,19 @@ namespace Files.App
 				Window.ShowSplashScreen();
 
 				// Wait for the UI to update
-				await Task.Delay(1000);
+				await Task.Delay(500);
 
-				var appActivationEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+				var activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-				// Start tracking app usage
-				if (appActivationEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activatedEventArgs)
-					SystemInformation.Instance.TrackAppUse(activatedEventArgs);
+				//start tracking app usage
+				if (activatedEventArgs.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs iaea)
+					SystemInformation.Instance.TrackAppUse(iaea);
 
 				// Get app log path
 				var logPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log");
+
+				// Initialize MainWindow here
+				EnsureWindowIsInitialized();
 
 				// Configure dependency injection service.
 				host = Host.CreateDefaultBuilder()
@@ -197,13 +194,13 @@ namespace Files.App
 						.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information))
 					.ConfigureServices(services => services
 						.AddSingleton<IUserSettingsService, UserSettingsService>()
-						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>(sp => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>((sp) => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IGeneralSettingsService, GeneralSettingsService>((sp) => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>((sp) => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>((sp) => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>((sp) => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>((sp) => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+						.AddSingleton<IAppSettingsService, AppSettingsService>((sp) => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 						.AddSingleton<IPageContext, PageContext>()
 						.AddSingleton<IContentPageContext, ContentPageContext>()
@@ -219,14 +216,14 @@ namespace Files.App
 						.AddSingleton<ICommandManager, CommandManager>()
 						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 #if UWP
-						.AddSingleton<IStorageService, WindowsStorageService>()
+					.AddSingleton<IStorageService, WindowsStorageService>()
 #else
 						.AddSingleton<IStorageService, NativeStorageService>()
 #endif
 						.AddSingleton<IFtpStorageService, FtpStorageService>()
 						.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
-						.AddSingleton<IUpdateService, SideloadUpdateService>()
+					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
 						.AddSingleton<IUpdateService, UpdateService>()
 #endif
@@ -250,16 +247,15 @@ namespace Files.App
 						.AddSingleton<AppearanceViewModel>())
 					.Build();
 
-				// Get logger dependency
 				Logger = host.Services.GetRequiredService<ILogger<App>>();
-				Logger.LogInformation($"App launched. Launch args type: {appActivationEventArgs.Data.GetType().Name}");
+				App.Logger.LogInformation($"App launched. Launch args type: {activatedEventArgs.Data.GetType().Name}");
 
 				Ioc.Default.ConfigureServices(host.Services);
 
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
 				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-				_ = Window.InitializeApplication(appActivationEventArgs.Data);
+				_ = Window.InitializeApplication(activatedEventArgs.Data);
 			}
 		}
 
