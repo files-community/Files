@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Extensions;
+using Files.Core.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using static Files.Backend.Helpers.NativeFindStorageItemHelper;
+using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.Backend.Services.SizeProvider
+namespace Files.Core.Services.SizeProvider
 {
 	public class CachedSizeProvider : ISizeProvider
 	{

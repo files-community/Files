@@ -3,7 +3,7 @@
 
 using System.Drawing;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
 	/// <summary>
 	/// Contains methods related to modifying various app theme resources

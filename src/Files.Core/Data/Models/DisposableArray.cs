@@ -3,7 +3,7 @@
 
 using Files.Shared.Extensions;
 
-namespace Files.Backend.Data.Models
+namespace Files.Core.Data.Models
 {
 	public sealed class DisposableArray : FreeableStore<DisposableArray>
 	{

@@ -5,7 +5,7 @@ using Files.Shared.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Files.Backend.Services.Settings
+namespace Files.Core.Services.Settings
 {
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{

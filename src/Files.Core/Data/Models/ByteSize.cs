@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace Files.Backend.Data.Models
+namespace Files.Core.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{

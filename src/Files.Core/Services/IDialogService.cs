@@ -1,10 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Enums;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
 	/// <summary>
 	/// A service to manage dialogs.

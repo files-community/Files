@@ -3,7 +3,7 @@
 
 using Files.Sdk.Storage;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
     /// <summary>
     /// Represents a service used for data to image conversion.

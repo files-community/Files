@@ -1,10 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.ViewModels.FileTags;
+using Files.Core.ViewModels.FileTags;
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
 	/// <summary>
 	/// Represents a service used to manage file tags.

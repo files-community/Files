@@ -4,7 +4,7 @@
 using Files.Shared.Enums;
 using System.IO;
 
-namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
+namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
 	{

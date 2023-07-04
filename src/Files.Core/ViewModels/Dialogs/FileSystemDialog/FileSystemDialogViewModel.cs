@@ -4,7 +4,7 @@
 using Files.Shared.Enums;
 using Files.Shared.Extensions;
 
-namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
+namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
 	{

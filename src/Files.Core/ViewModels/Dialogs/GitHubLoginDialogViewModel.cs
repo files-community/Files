@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.Backend.ViewModels.Dialogs
+namespace Files.Core.ViewModels.Dialogs
 {
 	public sealed class GitHubLoginDialogViewModel : ObservableObject
 	{

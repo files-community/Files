@@ -3,7 +3,7 @@
 
 using Files.Shared.Utils;
 
-namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
+namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 {
 	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
 	{

@@ -3,7 +3,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Files.Backend.ViewModels.FileTags
+namespace Files.Core.ViewModels.FileTags
 {
 	[Serializable]
 	public sealed partial class TagViewModel : ObservableObject

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
+namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed class AddItemDialogListItemViewModel : ObservableObject
 	{

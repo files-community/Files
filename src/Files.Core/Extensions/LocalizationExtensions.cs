@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Services;
+using Files.Core.Services;
 
-namespace Files.Backend.Extensions
+namespace Files.Core.Extensions
 {
 	/// <summary>
 	/// Provides static extension for localization.

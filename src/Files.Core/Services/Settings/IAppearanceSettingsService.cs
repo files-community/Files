@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.Services.Settings
+namespace Files.Core.Services.Settings
 {
 	public interface IAppearanceSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{

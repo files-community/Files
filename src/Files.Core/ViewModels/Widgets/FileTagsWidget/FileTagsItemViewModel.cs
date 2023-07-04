@@ -4,7 +4,7 @@
 using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.Backend.ViewModels.Widgets.FileTagsWidget
+namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 {
 	public sealed partial class FileTagsItemViewModel : ObservableObject
 	{

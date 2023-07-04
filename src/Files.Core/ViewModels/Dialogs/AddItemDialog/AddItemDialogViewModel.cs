@@ -3,7 +3,7 @@
 
 using Files.Shared;
 
-namespace Files.Backend.ViewModels.Dialogs.AddItemDialog
+namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 {
 	public sealed class AddItemDialogViewModel : ObservableObject
 	{

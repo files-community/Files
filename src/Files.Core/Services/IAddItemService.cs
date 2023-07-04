@@ -3,7 +3,7 @@
 
 using Files.Shared;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
 	/// <summary>
 	/// A service to retrieve available item types

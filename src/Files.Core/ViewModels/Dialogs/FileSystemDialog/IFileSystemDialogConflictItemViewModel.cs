@@ -3,7 +3,7 @@
 
 using Files.Shared.Enums;
 
-namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
+namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
 {
 	public interface IFileSystemDialogConflictItemViewModel
 	{

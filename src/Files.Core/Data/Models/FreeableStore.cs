@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.Data.Models
+namespace Files.Core.Data.Models
 {
 	public abstract class FreeableStore<TImplementation>
 		: IDisposable, IEquatable<TImplementation> where TImplementation : class

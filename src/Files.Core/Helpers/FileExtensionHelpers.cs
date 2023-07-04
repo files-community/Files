@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.Helpers
+namespace Files.Core.Helpers
 {
 	/// <summary>
 	/// Provides static extension for path extension.

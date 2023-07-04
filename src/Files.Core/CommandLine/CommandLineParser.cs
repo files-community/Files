@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.Backend.CommandLine
+namespace Files.Core.CommandLine
 {
 	/// <summary>
 	/// Provides static helper for parsing of command line arguments on Windows.

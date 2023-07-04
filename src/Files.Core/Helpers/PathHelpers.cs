@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.Backend.Helpers
+namespace Files.Core.Helpers
 {
 	public static class PathHelpers
 	{

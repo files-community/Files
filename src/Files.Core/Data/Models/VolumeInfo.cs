@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Backend.Data.Models
+namespace Files.Core.Data.Models
 {
 	/// <summary>
 	/// Represents an item for volume info on Windows.

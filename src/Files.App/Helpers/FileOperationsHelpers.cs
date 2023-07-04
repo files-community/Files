@@ -3,7 +3,7 @@
 
 using Files.App.Filesystem.Security;
 using Files.App.Shell;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Collections.Concurrent;

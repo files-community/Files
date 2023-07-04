@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Data.Items;
-using Files.Backend.Services.Settings;
+using Files.Core.Services.Settings;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

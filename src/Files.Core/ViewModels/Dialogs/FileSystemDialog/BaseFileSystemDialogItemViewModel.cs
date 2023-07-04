@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Files.Backend.ViewModels.Dialogs.FileSystemDialog
+namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
 {
 	public abstract class BaseFileSystemDialogItemViewModel : ObservableObject
 	{

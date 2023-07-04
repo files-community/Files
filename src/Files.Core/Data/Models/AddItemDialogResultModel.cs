@@ -3,7 +3,7 @@
 
 using Files.Shared;
 
-namespace Files.Backend.Data.Models
+namespace Files.Core.Data.Models
 {
 	/// <summary>
 	/// Represents a model for AddItemDialog result.

@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace Files.Backend.ViewModels.Dialogs
+namespace Files.Core.ViewModels.Dialogs
 {
 	/// <summary>
 	/// Serves as the base dialog view model containing reusable,

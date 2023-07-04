@@ -3,7 +3,7 @@
 
 using Files.Shared.Enums;
 
-namespace Files.Backend.ViewModels.Dialogs
+namespace Files.Core.ViewModels.Dialogs
 {
 	public interface IDialog<TViewModel>
 		where TViewModel : class, INotifyPropertyChanged

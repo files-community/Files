@@ -3,7 +3,7 @@
 
 using Files.Sdk.Storage.LocatableStorage;
 
-namespace Files.Backend.Services
+namespace Files.Core.Services
 {
 	public interface INetworkDrivesService
 	{

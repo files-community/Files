@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.Backend.Services.SizeProvider
+namespace Files.Core.Services.SizeProvider
 {
 	public class SizeChangedEventArgs : EventArgs
 	{

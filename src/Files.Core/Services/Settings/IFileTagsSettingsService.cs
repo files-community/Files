@@ -1,11 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.ViewModels.FileTags;
+using Files.Core.ViewModels.FileTags;
 using System;
 using System.Collections.Generic;
 
-namespace Files.Backend.Services.Settings
+namespace Files.Core.Services.Settings
 {
 	public interface IFileTagsSettingsService : IBaseSettingsService
 	{
