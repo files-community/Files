@@ -27,9 +27,7 @@ namespace Files.App.Filesystem.StorageItems
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { get; set; }
-
-		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
+		public StorageCredentialsHolder StorageCredentialsHolder { get; init; }
 
 		public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -37,6 +35,7 @@ namespace Files.App.Filesystem.StorageItems
 			Name = name;
 			FtpPath = FtpHelpers.GetFtpPath(path);
 			DateCreated = dateCreated;
+			StorageCredentialsHolder = new(this);
 		}
 		public FtpStorageFolder(string folder, FtpListItem ftpItem)
 		{
@@ -44,12 +43,14 @@ namespace Files.App.Filesystem.StorageItems
 			Name = ftpItem.Name;
 			FtpPath = FtpHelpers.GetFtpPath(Path);
 			DateCreated = ftpItem.RawCreated < DateTime.FromFileTimeUtc(0) ? DateTimeOffset.MinValue : ftpItem.RawCreated;
+			StorageCredentialsHolder = new(this);
 		}
 		public FtpStorageFolder(IStorageItemWithPath item)
 		{
 			Path = item.Path;
 			Name = System.IO.Path.GetFileName(item.Path);
 			FtpPath = FtpHelpers.GetFtpPath(item.Path);
+			StorageCredentialsHolder = new(this);
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)
@@ -98,15 +99,19 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						return new FtpStorageFile(Path, item).InitFromParent(Credentials, PasswordRequested);
+						var file = new FtpStorageFile(Path, item);
+						file.StorageCredentialsHolder.CopyFrom(StorageCredentialsHolder);
+						return file;
 					}
 					if (item.Type is FtpObjectType.Directory)
 					{
-						return new FtpStorageFolder(Path, item).InitFromParent(Credentials, PasswordRequested);
+						var folder = new FtpStorageFolder(Path, item);
+						folder.StorageCredentialsHolder.CopyFrom(StorageCredentialsHolder);
+						return folder;
 					}
 				}
 				return null;
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
@@ -138,15 +143,19 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						items.Add(new FtpStorageFile(Path, item).InitFromParent(Credentials, PasswordRequested));
+						var file = new FtpStorageFile(Path, item);
+						file.StorageCredentialsHolder.CopyFrom(this.StorageCredentialsHolder);
+						items.Add(file);
 					}
 					else if (item.Type is FtpObjectType.Directory)
 					{
-						items.Add(new FtpStorageFolder(Path, item).InitFromParent(Credentials, PasswordRequested));
+						var folder = new FtpStorageFolder(Path, item);
+						folder.StorageCredentialsHolder.CopyFrom(this.StorageCredentialsHolder);
+						items.Add(folder);
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -205,7 +214,11 @@ namespace Files.App.Filesystem.StorageItems
 				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
 
 				if (result is FtpStatus.Success)
-					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}")).InitFromParent(Credentials, PasswordRequested);
+				{
+					var file = new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
+					file.StorageCredentialsHolder.CopyFrom(StorageCredentialsHolder);
+					return file;
+				}
 
 				if (result is FtpStatus.Skipped)
 				{
@@ -216,7 +229,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				throw new IOException($"Failed to create file {remotePath}.");
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName)
@@ -234,7 +247,9 @@ namespace Files.App.Filesystem.StorageItems
 				string fileName = $"{FtpPath}/{desiredName}";
 				if (await ftpClient.DirectoryExists(fileName))
 				{
-					return new FtpStorageFolder(new StorageFileWithPath(null, fileName)).InitFromParent(Credentials, PasswordRequested);
+					var item = new FtpStorageFolder(new StorageFileWithPath(null, fileName));
+					item.StorageCredentialsHolder.CopyFrom(StorageCredentialsHolder);
+					return item;
 				}
 
 				bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
@@ -244,8 +259,10 @@ namespace Files.App.Filesystem.StorageItems
 					throw new IOException($"Failed to create folder {desiredName}.");
 				}
 
-				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}")).InitFromParent(Credentials, PasswordRequested);
-			}, RetryWithCredentials));
+				var folder = new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
+				folder.StorageCredentialsHolder.CopyFrom(StorageCredentialsHolder);
+				return folder;
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncAction RenameAsync(string desiredName)
@@ -267,7 +284,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					// TODO: handle name generation
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncAction DeleteAsync()
@@ -279,7 +296,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await ftpClient.DeleteDirectory(FtpPath, cancellationToken);
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
@@ -309,44 +326,11 @@ namespace Files.App.Filesystem.StorageItems
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
-			var credentials = Credentials is not null ?
-				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
+			var credentials = StorageCredentialsHolder.Credentials is not null ?
+				new NetworkCredential(StorageCredentialsHolder.Credentials.UserName, StorageCredentialsHolder.Credentials.SecurePassword) :
 				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
-		}
-
-		private async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
-		{
-			if (exception is not FtpAuthenticationException || PasswordRequested is null)
-				throw exception;
-
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(this, tcs);
-			Credentials = await tcs.Task;
-			return await func();
-		}
-		private async Task RetryWithCredentials(Func<Task> func, Exception exception)
-		{
-			if (exception is not FtpAuthenticationException || PasswordRequested is null)
-				throw exception;
-
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(this, tcs);
-			Credentials = await tcs.Task;
-			await func();
-		}
-
-		public FtpStorageFolder InitFromParent(StorageCredential credentials, EventHandler<TaskCompletionSource<StorageCredential>> passwordRequested)
-		{
-			if (passwordRequested is not null)
-			{
-				foreach (var handler in passwordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
-					this.PasswordRequested += handler;
-			}
-			this.Credentials = credentials;
-
-			return this;
 		}
 
 		private class FtpFolderBasicProperties : BaseBasicProperties

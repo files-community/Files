@@ -196,7 +196,7 @@ namespace Files.App.Filesystem
 			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath);
 
 			if (parentFolder is not null && parentFolder.Item is IPasswordProtectedItem ppis && item is IPasswordProtectedItem ppid)
-				ppid.Credentials = ppis.Credentials;
+				ppid.StorageCredentialsHolder.Credentials = ppis.StorageCredentialsHolder.Credentials;
 
 			return new StorageFileWithPath(item);
 		}
@@ -250,7 +250,7 @@ namespace Files.App.Filesystem
 			var item = await BaseStorageFolder.GetFolderFromPathAsync(fullPath);
 
 			if (parentFolder is not null && parentFolder.Item is IPasswordProtectedItem ppis && item is IPasswordProtectedItem ppid)
-				ppid.Credentials = ppis.Credentials;
+				ppid.StorageCredentialsHolder.Credentials = ppis.StorageCredentialsHolder.Credentials;
 
 			return new StorageFolderWithPath(item);
 		}

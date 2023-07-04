@@ -7,26 +7,19 @@ using Files.App.Filesystem.StorageEnumerators;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
-using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
 using Files.Backend.Services.SizeProvider;
-using Files.Backend.ViewModels.Dialogs;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Shared.Services;
-using FluentFTP;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
@@ -1638,7 +1631,7 @@ namespace Files.App.Data.Models
 				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
-				ppis.PasswordRequested += RequestPassword;
+				ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
 
 			await Task.Run(async () =>
 			{
@@ -1663,37 +1656,7 @@ namespace Files.App.Data.Models
 			}, cancellationToken);
 
 			if (rootFolder is IPasswordProtectedItem ppiu)
-				ppiu.PasswordRequested -= RequestPassword;
-		}
-
-		private async void RequestPassword(object? sender, TaskCompletionSource<StorageCredential> e)
-		{
-			var path = ((IStorageItem)sender).Path;
-
-			var isFtp = FtpHelpers.IsFtpPath(path);
-
-			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-
-			var dialogResult = await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-				dialogService.ShowDialogAsync(credentialDialogViewModel));
-
-			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
-			{
-				e.TrySetResult(new());
-				return;
-			}
-
-			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-			credentialDialogViewModel.Password?.Dispose();
-
-			if (isFtp)
-			{
-				var host = FtpHelpers.GetFtpHost(path);
-				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
-			}
-
-			e.TrySetResult(credentials);
+				ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
 		}
 
 		private void CheckForSolutionFile()

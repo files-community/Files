@@ -50,14 +50,13 @@ namespace Files.App.Filesystem.StorageItems
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredential Credentials { get; set; } = new();
-
-		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
+		public StorageCredentialsHolder StorageCredentialsHolder { get; init; }
 
 		public ZipStorageFile(string path, string containerPath)
 		{
 			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
 			Path = path;
+			StorageCredentialsHolder = new(this, new());
 			this.containerPath = containerPath;
 		}
 		public ZipStorageFile(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
@@ -139,7 +138,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				throw new NotSupportedException("Can't open zip file as RW");
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
@@ -180,7 +179,7 @@ namespace Files.App.Filesystem.StorageItems
 					DisposeCallback = () => zipFile.Dispose()
 				};
 				return new StreamWithContentType(nsStream);
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
@@ -217,7 +216,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
@@ -267,7 +266,7 @@ namespace Files.App.Filesystem.StorageItems
 					});
 					return destFile;
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
@@ -290,7 +289,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
@@ -333,7 +332,7 @@ namespace Files.App.Filesystem.StorageItems
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, StorageCredentialsHolder.Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -344,7 +343,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
@@ -380,7 +379,7 @@ namespace Files.App.Filesystem.StorageItems
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, StorageCredentialsHolder.Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -391,7 +390,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}, RetryWithCredentials));
+			}, StorageCredentialsHolder.RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
@@ -465,7 +464,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials.Password) : null;
+				return zipFile is not null ? new SevenZipExtractor(zipFile, StorageCredentialsHolder.Credentials.Password) : null;
 			});
 		}
 
@@ -488,43 +487,6 @@ namespace Files.App.Filesystem.StorageItems
 					return new FileStream(hFile, readWrite ? FileAccess.ReadWrite : FileAccess.Read);
 				}
 			});
-		}
-
-		private async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
-		{
-			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
-				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
-			if (!handled || PasswordRequested is null)
-				throw exception;
-
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(this, tcs);
-			Credentials = await tcs.Task;
-			return await func();
-		}
-		private async Task RetryWithCredentials(Func<Task> func, Exception exception)
-		{
-			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
-				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword;
-			if (!handled || PasswordRequested is null)
-				throw exception;
-
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(this, tcs);
-			Credentials = await tcs.Task;
-			await func();
-		}
-
-		public ZipStorageFile InitFromParent(StorageCredential credentials, EventHandler<TaskCompletionSource<StorageCredential>> passwordRequested)
-		{
-			if (passwordRequested is not null)
-			{
-				foreach (var handler in passwordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
-					this.PasswordRequested += handler;
-			}
-			this.Credentials = credentials;
-
-			return this;
 		}
 
 		private StreamedFileDataRequestedHandler ZipDataStreamingHandler(string name)
