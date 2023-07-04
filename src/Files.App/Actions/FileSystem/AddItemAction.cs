@@ -3,8 +3,8 @@
 
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.AddItemDialog;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs.AddItemDialog;
 
 namespace Files.App.Actions
 {

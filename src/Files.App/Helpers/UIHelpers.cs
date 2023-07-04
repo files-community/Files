@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Extensions;
 using Files.App.Shell;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
