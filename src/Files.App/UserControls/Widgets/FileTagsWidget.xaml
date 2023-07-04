@@ -98,6 +98,7 @@
 						ItemClick="FileTagItem_ItemClick"
 						ItemsSource="{x:Bind Tags}"
 						RightTapped="AdaptiveGridView_RightTapped"
+						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
 						<controls:AdaptiveGridView.ItemContainerStyle>
