@@ -146,7 +146,7 @@ namespace Files.App.Helpers
 			if (returnedItem.Result is null && item.Item is not null)
 				returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
 			if (returnedItem.Result is IPasswordProtectedItem ppid && item.Item is IPasswordProtectedItem ppis)
-				ppid.StorageCredentialsHolder.Credentials = ppis.StorageCredentialsHolder.Credentials;
+				ppid.Credentials = ppis.Credentials;
 			return returnedItem;
 		}
 

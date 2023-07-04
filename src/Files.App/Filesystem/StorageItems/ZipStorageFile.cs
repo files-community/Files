@@ -50,13 +50,14 @@ namespace Files.App.Filesystem.StorageItems
 		private IStorageItemExtraProperties properties;
 		public override IStorageItemExtraProperties Properties => properties ??= new BaseBasicStorageItemExtraProperties(this);
 
-		public StorageCredentialsHolder StorageCredentialsHolder { get; init; }
+		public StorageCredential Credentials { get; set; } = new();
+
+		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
 		public ZipStorageFile(string path, string containerPath)
 		{
 			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
 			Path = path;
-			StorageCredentialsHolder = new(this, new());
 			this.containerPath = containerPath;
 		}
 		public ZipStorageFile(string path, string containerPath, BaseStorageFile backingFile) : this(path, containerPath)
@@ -138,7 +139,7 @@ namespace Files.App.Filesystem.StorageItems
 				}
 
 				throw new NotSupportedException("Can't open zip file as RW");
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
@@ -179,7 +180,7 @@ namespace Files.App.Filesystem.StorageItems
 					DisposeCallback = () => zipFile.Dispose()
 				};
 				return new StreamWithContentType(nsStream);
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
@@ -216,7 +217,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
@@ -266,7 +267,7 @@ namespace Files.App.Filesystem.StorageItems
 					});
 					return destFile;
 				}
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
@@ -289,7 +290,7 @@ namespace Files.App.Filesystem.StorageItems
 				{
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
@@ -332,7 +333,7 @@ namespace Files.App.Filesystem.StorageItems
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, StorageCredentialsHolder.Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -343,7 +344,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
@@ -379,7 +380,7 @@ namespace Files.App.Filesystem.StorageItems
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, StorageCredentialsHolder.Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
@@ -390,7 +391,7 @@ namespace Files.App.Filesystem.StorageItems
 						}
 					}
 				}
-			}, StorageCredentialsHolder.RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
@@ -464,7 +465,7 @@ namespace Files.App.Filesystem.StorageItems
 			return AsyncInfo.Run<SevenZipExtractor>(async (cancellationToken) =>
 			{
 				var zipFile = await OpenZipFileAsync(FileAccessMode.Read);
-				return zipFile is not null ? new SevenZipExtractor(zipFile, StorageCredentialsHolder.Credentials.Password) : null;
+				return zipFile is not null ? new SevenZipExtractor(zipFile, Credentials.Password) : null;
 			});
 		}
 

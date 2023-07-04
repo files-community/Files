@@ -1631,7 +1631,7 @@ namespace Files.App.Data.Models
 				return;
 
 			if (rootFolder is IPasswordProtectedItem ppis)
-				ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
+				ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 			await Task.Run(async () =>
 			{
@@ -1656,7 +1656,7 @@ namespace Files.App.Data.Models
 			}, cancellationToken);
 
 			if (rootFolder is IPasswordProtectedItem ppiu)
-				ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
+				ppiu.PasswordRequestedCallback = null;
 		}
 
 		private void CheckForSolutionFile()

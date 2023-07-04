@@ -418,7 +418,7 @@ namespace Files.App.Helpers
 			item.RunAsAdmin = runAsAdmin;
 		}
 
-		public async static void RequestPassword(object? sender, TaskCompletionSource<StorageCredential> e)
+		public async static Task<StorageCredential> RequestPassword(IPasswordProtectedItem sender)
 		{
 			var path = ((IStorageItem)sender).Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
@@ -429,10 +429,7 @@ namespace Files.App.Helpers
 				dialogService.ShowDialogAsync(credentialDialogViewModel));
 
 			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
-			{
-				e.TrySetResult(new());
-				return;
-			}
+				return new();
 
 			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
 			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
@@ -444,7 +441,7 @@ namespace Files.App.Helpers
 				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
 			}
 
-			e.TrySetResult(credentials);
+			return credentials;
 		}
 	}
 }

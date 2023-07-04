@@ -7,59 +7,38 @@ namespace Files.App.Filesystem.StorageItems
 {
 	public interface IPasswordProtectedItem
 	{
-		StorageCredentialsHolder StorageCredentialsHolder { get; init; }
-	}
+		StorageCredential Credentials { get; set; }
 
-	public class StorageCredentialsHolder
-	{
-		public StorageCredentialsHolder(IStorageItem item)
-			=> Item = item;
+		Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
-		public StorageCredentialsHolder(IStorageItem item, StorageCredential credential)
-			=> (Item, Credentials) = (item, credential);
-
-		public void CopyFrom(StorageCredentialsHolder parent)
-		{
-			if (parent.PasswordRequested is not null)
-			{
-				foreach (var handler in parent.PasswordRequested.GetInvocationList().Cast<EventHandler<TaskCompletionSource<StorageCredential>>>())
-					this.PasswordRequested += handler;
-			}
-			this.Credentials = parent.Credentials;
-		}
-
-		public StorageCredential Credentials { get; set; }
-
-		public event EventHandler<TaskCompletionSource<StorageCredential>> PasswordRequested;
-
-		public IStorageItem Item { get; }
-
-		public async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
+		async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
-			if (!handled || PasswordRequested is null)
+			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
 
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(Item, tcs);
-			Credentials = await tcs.Task;
+			Credentials = await PasswordRequestedCallback(this);
 			return await func();
 		}
 
-		public async Task RetryWithCredentials(Func<Task> func, Exception exception)
+		async Task RetryWithCredentials(Func<Task> func, Exception exception)
 		{
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
-			if (!handled || PasswordRequested is null)
+			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
 
-			var tcs = new TaskCompletionSource<StorageCredential>();
-			PasswordRequested?.Invoke(Item, tcs);
-			Credentials = await tcs.Task;
+			Credentials = await PasswordRequestedCallback(this);
 			await func();
+		}
+
+		void CopyFrom(IPasswordProtectedItem parent)
+		{
+			Credentials = parent.Credentials;
+			PasswordRequestedCallback = parent.PasswordRequestedCallback;
 		}
 	}
 }

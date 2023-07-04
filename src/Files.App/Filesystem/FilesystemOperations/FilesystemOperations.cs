@@ -166,12 +166,12 @@ namespace Files.App.Filesystem
 					if (fsResult)
 					{
 						if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
-							ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
+							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 
 						if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
-							ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
+							ppiu.PasswordRequestedCallback = null;
 
 						if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
 						{
@@ -220,7 +220,7 @@ namespace Files.App.Filesystem
 					if (fsResult)
 					{
 						if (sourceResult.Result is IPasswordProtectedItem ppis)
-							ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
+							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var file = (BaseStorageFile)sourceResult;
 						var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
@@ -246,7 +246,7 @@ namespace Files.App.Filesystem
 						}
 
 						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
+							ppiu.PasswordRequestedCallback = null;
 
 						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
 						{
@@ -368,7 +368,7 @@ namespace Files.App.Filesystem
 						if (fsResult)
 						{
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
-								ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
+								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 							// Moving folders using Storage API can result in data loss, copy instead
 							//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
@@ -378,7 +378,7 @@ namespace Files.App.Filesystem
 								fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
-								ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
+								ppiu.PasswordRequestedCallback = null;
 
 							if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 							{
@@ -423,13 +423,13 @@ namespace Files.App.Filesystem
 					if (fsResult)
 					{
 						if (sourceResult.Result is IPasswordProtectedItem ppis)
-							ppis.StorageCredentialsHolder.PasswordRequested += UIFilesystemHelpers.RequestPassword;
+							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var file = (BaseStorageFile)sourceResult;
 						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
 
 						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.StorageCredentialsHolder.PasswordRequested -= UIFilesystemHelpers.RequestPassword;
+							ppiu.PasswordRequestedCallback = null;
 
 						if (fsResultMove == FileSystemStatusCode.AlreadyExists)
 						{
