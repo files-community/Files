@@ -8,11 +8,24 @@
 	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
+	<Page.Resources>
+		<ImageBrush
+			x:Name="LogoSplash"
+			AlignmentX="Center"
+			AlignmentY="Center"
+			ImageSource="/Assets/SplashScreen.png"
+			Stretch="None" />
+	</Page.Resources>
+
 	<Grid>
-		<TextBlock
-			HorizontalAlignment="Center"
-			VerticalAlignment="Center"
-			Style="{StaticResource SubtitleTextBlockStyle}"
-			Text="Files" />
+
+		<Grid Background="{StaticResource LogoSplash}" />
+
+		<ProgressRing
+			Margin="0,0,0,120"
+			VerticalAlignment="Bottom"
+			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+			IsIndeterminate="True" />
+
 	</Grid>
 </Page>

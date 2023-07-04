@@ -163,7 +163,7 @@ namespace Files.App
 			}
 		}
 
-		protected override async void OnLaunched(LaunchActivatedEventArgs e)
+		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
 			_ = ActivateAsync();
 
@@ -178,7 +178,7 @@ namespace Files.App
 				Window.ShowSplashScreen();
 
 				// Wait for the UI to update
-				await Task.Delay(35);
+				await Task.Delay(1000);
 
 				var appActivationEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
