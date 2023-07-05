@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App", "src\Files.App\
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Files.Package", "src\Files.App (Package)\Files.Package.wapproj", "{8F60FD8E-1921-47D6-97B0-D26D7B3A4999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.SourceGenerator", "src\Files.SourceGenerator\Files.SourceGenerator.csproj", "{6FA07816-DE0A-4D49-84E8-38E953A33C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Core.SourceGenerator", "src\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj", "{6FA07816-DE0A-4D49-84E8-38E953A33C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

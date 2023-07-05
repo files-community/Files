@@ -4,9 +4,9 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using static Files.SourceGenerator.Utilities.SourceGeneratorHelper;
+using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
 
-namespace Files.SourceGenerator
+namespace Files.Core.SourceGenerator
 {
 	public abstract class TypeWithAttributeGenerator : IIncrementalGenerator
 	{
