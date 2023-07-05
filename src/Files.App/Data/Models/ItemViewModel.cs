@@ -9,10 +9,7 @@ using Files.App.Helpers.FileListCache;
 using Files.App.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
-using Files.Core.Helpers;
-using Files.Core.Services;
 using Files.Core.Services.SizeProvider;
-using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Shared.Services;
@@ -990,7 +987,7 @@ namespace Files.App.Data.Models
 						var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 						// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
-						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask()); 
+						using StorageItemThumbnail Thumbnail = await FilesystemTasks.Wrap(() => matchingStorageFolder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask());
 						if (!(Thumbnail is null || Thumbnail.Size == 0 || Thumbnail.OriginalHeight == 0 || Thumbnail.OriginalWidth == 0))
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
