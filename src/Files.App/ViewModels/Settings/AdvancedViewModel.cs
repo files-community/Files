@@ -244,7 +244,7 @@ namespace Files.App.ViewModels.Settings
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
 
-			return !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
+			return !string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe");
 		}
 
 		private bool DetectIsSetAsOpenFileDialog()

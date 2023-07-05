@@ -83,7 +83,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{25fd5045-6d4c-4dd0-b3ac-613ab59cbb07}</ProjectGuid>
-    <RootNamespace>FilesLauncher</RootNamespace>
+    <RootNamespace>FilesAppLauncher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
 
@@ -118,11 +118,12 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(OutDir)FilesLauncher$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
-certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
+      <Command>
+        xcopy /s /y "$(ProjectDir)$(OutDir)*.exe" "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog"
+        certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName)" SHA256|findstr /R /V "^SHA256 ^CertUtil"&gt;"$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$(TargetFileName).sha256"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
 

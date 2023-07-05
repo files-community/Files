@@ -62,7 +62,7 @@
         <Content Update="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Update="Assets\FilesOpenDialog\FilesLauncher.exe">
+        <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Remove="Assets\FilesHome.png" />
