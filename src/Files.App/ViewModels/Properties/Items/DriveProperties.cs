@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (diskRoot is not null)
 				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
+					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
 				}
 				else
 				{

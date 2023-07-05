@@ -507,7 +507,7 @@ namespace Files.App.Filesystem.Search
 			}
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView);
+				var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(item, ThumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail);
 				if (iconData is not null)
 				{
 					listedItem.FileImage = await iconData.ToBitmapAsync();
