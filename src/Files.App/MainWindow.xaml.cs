@@ -1,13 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.Settings;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
@@ -104,11 +101,15 @@ namespace Files.App
 						switch (parsedArgs[0])
 						{
 							case "tab":
-								rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+								rootFrame.Navigate(typeof(MainPage),
+									new MainPageNavigationArguments() { Parameter = TabItemArguments.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new SuppressNavigationTransitionInfo());
 								break;
 
 							case "folder":
-								rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+								rootFrame.Navigate(typeof(MainPage),
+									new MainPageNavigationArguments() { Parameter = unescapedValue, IgnoreStartupSettings = true },
+									new SuppressNavigationTransitionInfo());
 								break;
 
 							case "cmd":
