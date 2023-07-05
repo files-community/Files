@@ -49,7 +49,7 @@ steps:
       /t:restore
       /p:Configuration="$(CONFIGURATION)"
       /p:Platform="$(PLATFORM)"
-      /p:PublishReadyToRun=true'
+      /p:PublishReadyToRun=true
     maximumCpuCount: true
 
 - task: MSBuild@1
