@@ -44,7 +44,7 @@ namespace Files.App
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 
-		public static StorageHistoryWrapper HistoryWrapper { get; private set; }
+		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
@@ -54,14 +54,10 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new SecondaryTileHelper();
-
-		public static string AppVersion = $"{Package.Current.Id.Version.Major}.{Package.Current.Id.Version.Minor}.{Package.Current.Id.Version.Build}.{Package.Current.Id.Version.Revision}";
-		public static string LogoPath;
-		public static AppEnvironment AppEnv;
+		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
-		/// Initializes the singleton application object.  This is the first line of authored code
+		/// Initializes the singleton application object. This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App()
@@ -76,8 +72,6 @@ namespace Files.App
 			UnhandledException += App_UnhandledException;
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 			TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-
-			(AppEnv, LogoPath) = EnvHelpers.GetAppEnvironmentAndLogo(); // TODO(s)
 
 #if STORE || STABLE || PREVIEW
 			try
@@ -96,7 +90,7 @@ namespace Files.App
 		private IHost ConfigureHost()
 		{
 			return Host.CreateDefaultBuilder()
-				.UseEnvironment(AppEnv.ToString())
+				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
 				.ConfigureLogging(builder =>
 					builder
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
@@ -126,6 +120,7 @@ namespace Files.App
 						.AddSingleton<IFileTagsService, FileTagsService>()
 						.AddSingleton<ICommandManager, CommandManager>()
 						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
+						.AddSingleton<IApplicationService, ApplicationService>()
 #if UWP
 						.AddSingleton<IStorageService, WindowsStorageService>()
 #else

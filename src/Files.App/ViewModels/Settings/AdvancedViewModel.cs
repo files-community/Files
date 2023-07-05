@@ -199,9 +199,11 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettings()
 		{
+			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
 			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
-			filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
+			filePicker.SuggestedFileName = $"Files_{applicationService.AppVersion}";
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
 			if (file is not null)

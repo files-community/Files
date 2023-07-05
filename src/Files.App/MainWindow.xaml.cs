@@ -25,6 +25,8 @@ namespace Files.App
 
 		private MainPageViewModel mainPageViewModel;
 
+		private IApplicationService ApplicationService { get; } = Ioc.Default.GetRequiredService<IApplicationService>();
+
 		private MainWindow()
 		{
 			WindowHandle = this.GetWindowHandle();
@@ -42,7 +44,7 @@ namespace Files.App
 			AppWindow.Title = "Files";
 
 			// Set logo
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppLogoPath));
 
 			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
