@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.App.Storage", "src\Fi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Backend", "src\Files.Backend\Files.Backend.csproj", "{74704E22-9A09-4675-AE35-7896DE81EC4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Sdk.Storage", "src\Files.Sdk.Storage\Files.Sdk.Storage.csproj", "{53371D77-7AC1-4975-9A2A-5E0EB0B37CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Files.Core.Storage", "src\Files.Core.Storage\Files.Core.Storage.csproj", "{53371D77-7AC1-4975-9A2A-5E0EB0B37CE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundTasks", "src\BackgroundTasks\BackgroundTasks.csproj", "{BB1DA0B0-4E5B-4336-961E-DF389482C094}"
 EndProject

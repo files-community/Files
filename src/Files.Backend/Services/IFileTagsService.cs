@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Backend.ViewModels.FileTags;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage.LocatableStorage;
 
 namespace Files.Backend.Services
 {
