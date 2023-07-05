@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.Core.Storage.Enums
+namespace Files.Sdk.Storage.Enums
 {
 	[Flags]
 	public enum StorableKind : byte

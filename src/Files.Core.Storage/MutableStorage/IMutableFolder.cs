@@ -4,7 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Core.Storage.MutableStorage
+namespace Files.Sdk.Storage.MutableStorage
 {
 	/// <summary>
 	/// Represents a folder whose content can change.

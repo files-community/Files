@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.WindowsStorage;
-using Files.Core.Storage.LocatableStorage;
+using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;

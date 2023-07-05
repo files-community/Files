@@ -3,7 +3,7 @@
 
 using Files.App.Data.Items;
 using Files.Backend.Services;
-using Files.Core.Storage.LocatableStorage;
+using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.App.Data.Models
 {
