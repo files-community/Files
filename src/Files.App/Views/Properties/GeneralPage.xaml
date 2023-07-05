@@ -220,7 +220,7 @@
 								Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
 						</Grid>
 
-						<!--  Item Size on disk -->
+						<!--  Item Size on disk  -->
 						<TextBlock
 							Grid.Row="2"
 							Grid.Column="0"
