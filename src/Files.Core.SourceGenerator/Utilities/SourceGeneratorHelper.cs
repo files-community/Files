@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Files.SourceGenerator.Utilities
+namespace Files.Core.SourceGenerator.Utilities
 {
 	internal static class SourceGeneratorHelper
 	{
