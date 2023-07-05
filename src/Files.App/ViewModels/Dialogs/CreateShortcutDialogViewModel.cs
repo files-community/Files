@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Extensions;
+using Files.Core.Extensions;
 using System.IO;
 using System.Windows.Input;
 using Windows.Storage.Pickers;

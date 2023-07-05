@@ -7,7 +7,7 @@ using Files.App.Commands;
 using Files.App.Contexts;
 using Files.App.Extensions;
 using Files.App.Shell;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions

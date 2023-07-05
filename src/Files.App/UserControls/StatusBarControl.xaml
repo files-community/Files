@@ -113,7 +113,8 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Orientation="Horizontal"
-			Spacing="8">
+			Spacing="8"
+			Visibility="{x:Bind ShowInfoText, Mode=OneWay}">
 
 			<TextBlock
 				x:Name="DirectoryItemCount"
@@ -122,21 +123,35 @@
 				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
 
+			<!--  Divider  -->
+			<Border
+				x:Name="SelectedItemsCountDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+			<!--  Selected Items Count  -->
 			<TextBlock
 				x:Name="SelectedItemsCountString"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
 				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}"
-				Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+				Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" />
 
+			<!--  Divider  -->
+			<Border
+				x:Name="ItemSizeDivider"
+				Width="1"
+				Height="18"
+				x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+			<!--  Item Size  -->
 			<TextBlock
 				x:Name="ItemSize"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind ShowInfoText, Mode=OneWay}"
+				x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
 				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}"
-				Visibility="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}" />
+				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
 		</StackPanel>
 
 		<StackPanel
@@ -174,7 +189,7 @@
 				Width="1"
 				Height="18"
 				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
-				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<!--  Open in VS Button  -->
 			<Button
@@ -203,7 +218,7 @@
 				Width="1"
 				Height="18"
 				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
-				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Button
 				x:Name="GitNetworkActions"
@@ -267,7 +282,7 @@
 			<Border
 				Width="1"
 				Height="18"
-				Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 		</StackPanel>
 
 		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->

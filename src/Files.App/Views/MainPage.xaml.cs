@@ -10,7 +10,7 @@ using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Backend.Extensions;
+using Files.Core.Extensions;
 using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -484,6 +484,8 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
+		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
 		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
 
 		public bool ShouldPreviewPaneBeDisplayed
@@ -501,6 +503,7 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
+			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();

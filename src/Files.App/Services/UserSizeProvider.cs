@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Services.SizeProvider;
+using Files.Core.Services.SizeProvider;
 
 namespace Files.App.Services
 {
