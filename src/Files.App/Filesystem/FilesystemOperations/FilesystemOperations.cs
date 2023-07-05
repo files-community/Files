@@ -3,7 +3,7 @@
 
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using Windows.Storage;

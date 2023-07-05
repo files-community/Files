@@ -666,7 +666,7 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Xếp loại</value>
   </data>
-  <data name="PropertyItemPathDisplay" xml:space="preserve">
+  <data name="PropertyParsingPath" xml:space="preserve">
     <value>Hướng mục</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">

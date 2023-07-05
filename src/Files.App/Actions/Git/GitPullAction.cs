@@ -1,4 +1,7 @@
-﻿using Files.App.Commands;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.App.Commands;
 using Files.App.Contexts;
 
 namespace Files.App.Actions
@@ -25,9 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
-
-			return Task.CompletedTask;
+			return GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

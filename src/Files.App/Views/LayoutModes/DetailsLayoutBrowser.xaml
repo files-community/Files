@@ -7,7 +7,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:filesystem="using:Files.App.Filesystem"
-	xmlns:filetags="using:Files.Backend.ViewModels.FileTags"
+	xmlns:filetags="using:Files.Core.ViewModels.FileTags"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -675,7 +675,7 @@
 								x:Name="OriginalPathHeader"
 								Grid.Column="16"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
-								CommandParameter="OriginalPath"
+								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
@@ -1072,6 +1072,7 @@
 																Tapped="TagIcon_Tapped"
 																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
 															<TextBlock
+																MaxWidth="200"
 																Padding="8,0,0,0"
 																VerticalAlignment="Center"
 																FontSize="12"

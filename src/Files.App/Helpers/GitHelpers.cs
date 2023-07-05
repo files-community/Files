@@ -4,10 +4,12 @@
 using Files.App.Dialogs;
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Dialogs;
-using Files.Backend.Services;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Files.App.Helpers
@@ -16,9 +18,17 @@ namespace Files.App.Helpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";
 
+		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
+
+		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
+
+		private const string CLIENT_ID_SECRET = "githubclientid.secret";
+
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
+		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private static readonly FetchOptions _fetchOptions = new()
 		{
@@ -26,6 +36,11 @@ namespace Files.App.Helpers
 		};
 
 		private static readonly PullOptions _pullOptions = new();
+
+		private static readonly string _clientId =
+			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+				? CLIENT_ID_SECRET
+				: string.Empty;
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -71,6 +86,21 @@ namespace Files.App.Helpers
 
 				return null;
 			}
+		}
+
+		public static string GetOriginRepositoryName(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+				return string.Empty;
+
+			using var repository = new Repository(path);
+			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
+
+			if (string.IsNullOrEmpty(repositoryUrl))
+				return string.Empty;
+
+			var repositoryName = repositoryUrl.Split('/').Last();
+			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
 		public static BranchItem[] GetBranchesNames(string? path)
@@ -162,7 +192,7 @@ namespace Files.App.Helpers
 			Analytics.TrackEvent("Triggered create git branch");
 
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
-			var dialog = Ioc.Default.GetRequiredService<IDialogService>().GetDialog(viewModel);
+			var dialog = _dialogService.GetDialog(viewModel);
 
 			var result = await dialog.TryShowAsync();
 
@@ -204,9 +234,21 @@ namespace Files.App.Helpers
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
 
-			IsExecutingGitAction = true;
 			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 
+			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			if (signature is not null && !string.IsNullOrWhiteSpace(token))
+			{
+				_fetchOptions.CredentialsProvider = (url, user, cred)
+					=> new UsernamePasswordCredentials
+					{
+						Username = signature.Name,
+						Password = token
+					};
+			}
+
+			IsExecutingGitAction = true;
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -231,7 +273,7 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static async void PullOrigin(string? repositoryPath)
+		public static async Task PullOrigin(string? repositoryPath)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -240,6 +282,18 @@ namespace Files.App.Helpers
 			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 			if (signature is null)
 				return;
+
+			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			if (!string.IsNullOrWhiteSpace(token))
+			{
+				_pullOptions.FetchOptions ??= _fetchOptions;
+				_pullOptions.FetchOptions.CredentialsProvider = (url, user, cred)
+					=> new UsernamePasswordCredentials
+					{
+						Username = signature.Name,
+						Password = token
+					};
+			}
 
 			IsExecutingGitAction = true;
 
@@ -252,20 +306,167 @@ namespace Files.App.Helpers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogWarning(ex.Message);
-
-				var viewModel = new DynamicDialogViewModel()
+				if (IsAuthorizationException(ex))
 				{
-					TitleText = "GitError".GetLocalizedResource(),
-					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
-					CloseButtonText = "Close".GetLocalizedResource(),
-					DynamicButtons = DynamicDialogButtons.Cancel
-				};
-				var dialog = new DynamicDialog(viewModel);
-				await dialog.TryShowAsync();
+					await RequireGitAuthentication();
+				}
+				else
+				{
+					_logger.LogWarning(ex.Message);
+
+					var viewModel = new DynamicDialogViewModel()
+					{
+						TitleText = "GitError".GetLocalizedResource(),
+						SubtitleText = "PullTimeoutError".GetLocalizedResource(),
+						CloseButtonText = "Close".GetLocalizedResource(),
+						DynamicButtons = DynamicDialogButtons.Cancel
+					};
+					var dialog = new DynamicDialog(viewModel);
+					await dialog.TryShowAsync();
+				}
 			}
 
 			IsExecutingGitAction = false;
+		}
+
+		public static async Task PushToOrigin(string? repositoryPath, string? branchName)
+		{
+			if (string.IsNullOrWhiteSpace(repositoryPath) || string.IsNullOrWhiteSpace(branchName))
+				return;
+
+			using var repository = new Repository(repositoryPath);
+			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
+			if (signature is null)
+				return;
+
+			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			if (string.IsNullOrWhiteSpace(token))
+			{
+				await RequireGitAuthentication();
+				token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+			}
+
+			var options = new PushOptions()
+			{
+				CredentialsProvider = (url, user, cred)
+					=> new UsernamePasswordCredentials
+					{
+						Username = signature.Name,
+						Password = token
+					}
+			};
+
+			IsExecutingGitAction = true;
+
+			try
+			{
+				var branch = repository.Branches[branchName];
+				if (!branch.IsTracking)
+				{
+					var origin = repository.Network.Remotes["origin"];
+					repository.Branches.Update(
+						branch,
+						b => b.Remote = origin.Name,
+						b => b.UpstreamBranch = branch.CanonicalName);
+				}
+
+				repository.Network.Push(branch, options);
+			}
+			catch (Exception ex)
+			{
+				if (IsAuthorizationException(ex))
+					await RequireGitAuthentication();
+				else
+					_logger.LogWarning(ex.Message);
+			}
+
+			IsExecutingGitAction = false;
+		}
+
+		public static async Task RequireGitAuthentication()
+		{
+			var pending = true;
+			var client = new HttpClient();
+			client.DefaultRequestHeaders.Add("Accept", "application/json");
+			client.DefaultRequestHeaders.Add("User-Agent", "Files App");
+
+			var codeResponse = await client.PostAsync(
+				$"https://github.com/login/device/code?client_id={_clientId}&scope=repo",
+				new StringContent(""));
+
+			if (!codeResponse.IsSuccessStatusCode)
+			{
+				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+				return;
+			}
+
+			var codeJsonContent = await codeResponse.Content.ReadFromJsonAsync<JsonDocument>();
+			if (codeJsonContent is null)
+			{
+				await DynamicDialogFactory.GetFor_GitHubConnectionError().TryShowAsync();
+				return;
+			}
+
+			var userCode = codeJsonContent.RootElement.GetProperty("user_code").GetString() ?? string.Empty;
+			var deviceCode = codeJsonContent.RootElement.GetProperty("device_code").GetString() ?? string.Empty;
+			var interval = codeJsonContent.RootElement.GetProperty("interval").GetInt32();
+			var expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
+
+			var loginCTS = new CancellationTokenSource();
+			var viewModel = new GitHubLoginDialogViewModel(userCode, "ConnectGitHubDescription".GetLocalizedResource(), loginCTS);
+
+			var dialog = _dialogService.GetDialog(viewModel);
+			var loginDialogTask = dialog.TryShowAsync();
+
+			while (!loginCTS.Token.IsCancellationRequested && pending && expiresIn > 0)
+			{
+				var loginResponse = await client.PostAsync(
+					$"https://github.com/login/oauth/access_token?client_id={_clientId}&device_code={deviceCode}&grant_type=urn:ietf:params:oauth:grant-type:device_code",
+					new StringContent(""));
+
+				expiresIn -= interval;
+
+				if (!loginResponse.IsSuccessStatusCode)
+				{
+					dialog.Hide();
+					break;
+				}
+
+				var loginJsonContent = await loginResponse.Content.ReadFromJsonAsync<JsonDocument>();
+				if (loginJsonContent is null)
+				{
+					dialog.Hide();
+					break;
+				}
+
+				if (loginJsonContent.RootElement.TryGetProperty("error", out var error))
+				{
+					if (error.GetString() == "authorization_pending")
+					{
+						await Task.Delay(TimeSpan.FromSeconds(interval));
+						continue;
+					}
+
+					dialog.Hide();
+					break;
+				}
+
+				var token = loginJsonContent.RootElement.GetProperty("access_token").GetString();
+				if (token is null)
+					continue;
+
+				pending = false;
+
+				CredentialsHelpers.SavePassword(
+					GIT_RESOURCE_NAME,
+					GIT_RESOURCE_USERNAME,
+					token);
+
+				viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+				viewModel.LoginConfirmed = true;
+			}
+
+			await loginDialogTask;
 		}
 
 		public static bool IsRepositoryEx(string path, out string repoRootPath)
@@ -346,6 +547,14 @@ namespace Files.App.Helpers
 			return gitItemModel;
 		}
 
+		public static void InitializeRepository(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			Repository.Init(path);
+		}
+
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
 		{
 			foreach (var currentCommit in repository.Commits)
@@ -364,7 +573,7 @@ namespace Files.App.Helpers
 					var parentCommit = currentCommit.Parents.Single();
 
 					// Does not consider renames
-					var parentPath = currentPath; 
+					var parentPath = currentPath;
 
 					var parentTreeEntry = parentCommit.Tree[parentPath];
 
@@ -383,15 +592,26 @@ namespace Files.App.Helpers
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
+			
+			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
+			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+				return;
 
-			var discriminator = 0;
-			while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
-				uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+			//var discriminator = 0;
+			//while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+			//	uniqueName = $"{branch.FriendlyName}_{++discriminator}";
 
 			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
 
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
+		}
+
+		private static bool IsAuthorizationException(Exception ex)
+		{
+			return
+				ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
+				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

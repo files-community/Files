@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Services.Settings;
-using Files.Backend.Helpers;
-using Files.Backend.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -21,6 +18,7 @@ namespace Files.App.Helpers
 	{
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static readonly IModifiableCommandManager modifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
 		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
@@ -485,7 +483,7 @@ namespace Files.App.Helpers
 				{
 					IsPrimary = true
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.DeleteItem)
+				new ContextMenuFlyoutItemViewModelBuilder(modifiableCommands.DeleteItem)
 				{
 					IsVisible = itemsSelected,
 					IsPrimary = true,

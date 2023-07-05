@@ -26,7 +26,7 @@ namespace Files.App.Filesystem
 		public static string[] ReadFileTag(string filePath)
 		{
 			var tagString = NativeFileOperationsHelper.ReadStringFromFile($"{filePath}:files");
-			return tagString?.Split(',');
+			return tagString?.Split(',', StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public static void WriteFileTag(string filePath, string[] tag)
