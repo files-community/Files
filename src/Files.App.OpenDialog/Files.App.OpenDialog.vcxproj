@@ -97,7 +97,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
     <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
+    <TargetName>Files.App.OpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">
@@ -105,7 +105,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\..\artifacts\$(Configuration)\$(Platform)\$(MSBuildProjectName)\</OutDir>
     <IntermediateOutputPath>..\..\..\artifacts\intermediates\$(Platform)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <TargetName>CustomOpenDialog$(PlatformArchitecture)</TargetName>
+    <TargetName>Files.App.OpenDialog$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
