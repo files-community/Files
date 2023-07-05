@@ -134,7 +134,7 @@
       <ModuleDefinitionFile>.\CustomOpenDialog.def</ModuleDefinitionFile>
       <RegisterOutput>false</RegisterOutput>
       <PerUserRedirection>true</PerUserRedirection>
-      <OutputFile>$(OutDir)CustomOpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)Files.App.OpenDialog$(PlatformArchitecture)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /s /y "$(ProjectDir)$(OutDir)*.dll" "$(ProjectDir)..\..\src\Files.App\Assets\FilesOpenDialog"</Command>
@@ -453,9 +453,11 @@
     <ClCompile Include="CustomOpenDialog.cpp" />
     <ClCompile Include="CustomOpenDialog_i.c">
       <CompileAsManaged>false</CompileAsManaged>
+      <PrecompiledHeader></PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged>false</CompileAsManaged>
+      <PrecompiledHeader></PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FilesOpenDialog.cpp" />
     <ClCompile Include="pch.cpp">
