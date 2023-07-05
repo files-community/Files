@@ -126,11 +126,6 @@ certutil -hashfile "$(ProjectDir)..\..\..\src\Files.App\Assets\FilesOpenDialog\$
     </PostBuildEvent>
   </ItemDefinitionGroup>
 
-
-
-
-
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
