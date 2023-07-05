@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs;
 using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;

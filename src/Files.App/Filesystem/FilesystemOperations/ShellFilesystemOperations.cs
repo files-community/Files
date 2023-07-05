@@ -4,8 +4,8 @@
 using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using System.IO;
 using Windows.Storage;
 
