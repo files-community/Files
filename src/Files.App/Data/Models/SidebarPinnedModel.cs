@@ -105,7 +105,7 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res)
 				{
-					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.SingleItem, ThumbnailOptions.UseCurrentScale);
+					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.DocumentsView, ThumbnailOptions.UseCurrentScale);
 					locationItem.IconData = iconData;
 
 					if (locationItem.IconData is not null)
