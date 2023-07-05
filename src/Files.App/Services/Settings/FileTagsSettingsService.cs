@@ -6,8 +6,8 @@ using Files.App.Filesystem;
 using Files.App.Helpers;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
-using Files.Backend.Services.Settings;
-using Files.Backend.ViewModels.FileTags;
+using Files.Core.Services.Settings;
+using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -78,9 +78,11 @@ namespace Files.App.Services.Settings
 			return tag;
 		}
 
-		public IList<TagViewModel> GetTagsByIds(string[] uids)
+		public IList<TagViewModel>? GetTagsByIds(string[] uids)
 		{
-			return uids?.Select(x => GetTagById(x)).ToList();
+			return uids is null || uids.Length == 0
+				? null
+				: uids.Select(x => GetTagById(x)).Where(x => x is not null).ToList();
 		}
 
 		public IEnumerable<TagViewModel> GetTagsByName(string tagName)

@@ -10,27 +10,11 @@ namespace Files.App.Helpers
 		public static bool IsVSCodeInstalled()
 		{
 			string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
+			string vsCodeName = "Microsoft Visual Studio Code";
 
-			var key = Registry.CurrentUser.OpenSubKey(registryKey);
-			if (key is null)
-				return false;
-
-			string? displayName;
-
-			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
-			{
-				displayName = subKey?.GetValue("DisplayName") as string;
-				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith("Microsoft Visual Studio Code"))
-				{
-					key.Close();
-
-					return true;
-				}
-			}
-
-			key.Close();
-
-			return false;
+			return
+				ContainsName(Registry.CurrentUser.OpenSubKey(registryKey), vsCodeName) ||
+				ContainsName(Registry.LocalMachine.OpenSubKey(registryKey), vsCodeName);
 		}
 
 		public static bool IsVSInstalled()
@@ -44,6 +28,27 @@ namespace Files.App.Helpers
 			key.Close();
 
 			return true;
+		}
+
+		private static bool ContainsName(RegistryKey? key, string find)
+		{
+			if (key is null)
+				return false;
+
+			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
+			{
+				var displayName = subKey?.GetValue("DisplayName") as string;
+				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith(find))
+				{
+					key.Close();
+
+					return true;
+				}
+			}
+
+			key.Close();
+
+			return false;
 		}
 	}
 }

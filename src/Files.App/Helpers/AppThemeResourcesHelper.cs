@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.Backend.Services;
-using Files.Backend.Services.Settings;
+using Files.Core.Services;
+using Files.Core.Services.Settings;
 using System;
 
 namespace Files.App.Helpers

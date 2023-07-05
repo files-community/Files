@@ -102,7 +102,7 @@ namespace Files.App.Actions
 			=> "SortByOriginalFolderDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
-			=> pageType is ContentPageTypes.CloudDrive;
+			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
 	internal class SortByDateDeletedAction : SortByAction

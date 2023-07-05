@@ -636,23 +636,23 @@
 				TextWrapping="Wrap" />
 
 			<!--  (Divider)  -->
-			<Border
+			<!--<Border
 				Grid.Row="3"
 				Height="1"
 				Margin="-12,0,-12,8"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />-->
 
 			<!--  Inheritance Actions  -->
-			<Grid
+			<!--<Grid
 				Grid.Row="4"
 				Margin="0,4,0,0"
 				ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+				</Grid.ColumnDefinitions>-->
 
-				<!--<SplitButton
+			<!--<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
 					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
@@ -694,7 +694,7 @@
 					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
 				</Button>-->
 
-			</Grid>
+			<!--</Grid>-->
 
 		</Grid>
 

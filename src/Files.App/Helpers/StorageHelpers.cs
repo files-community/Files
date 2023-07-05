@@ -3,7 +3,7 @@
 
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using Files.Shared.Enums;
 using System;
 using System.Diagnostics;
