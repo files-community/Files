@@ -266,7 +266,7 @@ namespace Files.App.Helpers
 				_logger.LogWarning(ex.Message);
 			}
 
-			App.Window.DispatcherQueue.TryEnqueue(() =>
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);

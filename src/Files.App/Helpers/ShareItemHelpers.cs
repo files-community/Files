@@ -23,12 +23,12 @@ namespace Files.App.Helpers
 		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
 		{
 			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(App.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
+			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, InteropHelpers.DataTransferManagerInteropIID);
 
 			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
 			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
-			interop.ShowShareUIForWindow(App.WindowHandle);
+			interop.ShowShareUIForWindow(MainWindow.Instance.WindowHandle);
 
 			async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
 			{

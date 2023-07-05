@@ -61,7 +61,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemArgumentsVisibility = false;
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
 							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
 					},
 					() =>

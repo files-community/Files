@@ -178,7 +178,7 @@ namespace Files.App.Data.Items
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
 
 			return item;
 		}

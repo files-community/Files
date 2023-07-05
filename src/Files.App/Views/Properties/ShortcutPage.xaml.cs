@@ -29,7 +29,7 @@ namespace Files.App.Views.Properties
 			if (shortcutItem is null)
 				return true;
 
-			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				UIFilesystemHelpers.UpdateShortcutItemProperties(shortcutItem,
 				ViewModel.ShortcutItemPath,
 				ViewModel.ShortcutItemArguments,

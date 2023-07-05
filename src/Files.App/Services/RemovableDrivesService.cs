@@ -57,7 +57,7 @@ namespace Files.App.Services
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
-				_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
 					matchingDriveEjected.Root = rootModified.Result;
 					matchingDriveEjected.Text = rootModified.Result.DisplayName;

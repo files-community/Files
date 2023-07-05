@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
 			},

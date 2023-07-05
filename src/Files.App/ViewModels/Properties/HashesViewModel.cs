@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				hashInfoItem.IsCalculating = true;
 
-				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{

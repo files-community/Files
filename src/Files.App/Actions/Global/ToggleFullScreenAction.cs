@@ -2,9 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Extensions;
 using Microsoft.UI.Windowing;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
@@ -20,21 +18,19 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				var window = App.GetAppWindow(App.Window);
-				return window.Presenter.Kind is AppWindowPresenterKind.FullScreen;
+				var appWindow = MainWindow.Instance.AppWindow;
+				return appWindow.Presenter.Kind is AppWindowPresenterKind.FullScreen;
 			}
 		}
 
 		public Task ExecuteAsync()
 		{
-			var window = App.GetAppWindow(App.Window);
-
-			var newKind = window.Presenter.Kind is AppWindowPresenterKind.FullScreen
+			var appWindow = MainWindow.Instance.AppWindow;
+			var newKind = appWindow.Presenter.Kind is AppWindowPresenterKind.FullScreen
 				? AppWindowPresenterKind.Overlapped
 				: AppWindowPresenterKind.FullScreen;
 
-			window.SetPresenter(newKind);
-
+			appWindow.SetPresenter(newKind);
 			return Task.CompletedTask;
 		}
 	}

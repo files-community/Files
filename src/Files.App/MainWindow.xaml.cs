@@ -18,19 +18,26 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
+		private static MainWindow? _Instance;
+		public static MainWindow Instance => _Instance ??= new();
+
+		public IntPtr WindowHandle { get; }
+
 		private MainPageViewModel mainPageViewModel;
 
-		public MainWindow()
+		private MainWindow()
 		{
+			WindowHandle = this.GetWindowHandle();
+
 			InitializeComponent();
-
-			PersistenceId = "FilesMainWindow";
-
 			EnsureEarlyWindow();
 		}
 
 		private void EnsureEarlyWindow()
 		{
+			// Set PersistenceId
+			PersistenceId = "FilesMainWindow";
+
 			// Set title
 			AppWindow.Title = "Files";
 
@@ -160,7 +167,7 @@ namespace Files.App
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
 			//  just ensure that the window is active
-			if (!(App.Window.Content is Frame rootFrame))
+			if (!(MainWindow.Instance.Content is Frame rootFrame))
 			{
 				// Set system backdrop
 				this.SystemBackdrop = new AppSystemBackdrop();
@@ -171,7 +178,7 @@ namespace Files.App
 				rootFrame.NavigationFailed += OnNavigationFailed;
 
 				// Place the frame in the current Window
-				App.Window.Content = rootFrame;
+				MainWindow.Instance.Content = rootFrame;
 			}
 
 			return rootFrame;

@@ -270,14 +270,14 @@ namespace Files.App.ViewModels.Settings
 
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}
 
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}

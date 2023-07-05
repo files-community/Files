@@ -36,7 +36,7 @@ namespace Files.App.Dialogs
 		{
 			InitializeComponent();
 
-			App.Window.SizeChanged += Current_SizeChanged;
+			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await SetContentDialogRoot(this).ShowAsync();
@@ -46,7 +46,7 @@ namespace Files.App.Dialogs
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 			}
 			return contentDialog;
 		}
@@ -59,7 +59,7 @@ namespace Files.App.Dialogs
 		private void UpdateDialogLayout()
 		{
 			if (ViewModel.FileSystemDialogMode.ConflictsExist)
-				ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
+				ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 700 ? MainWindow.Instance.Bounds.Width - 50 : 650;
 		}
 
 		protected override void OnApplyTemplate()
@@ -87,7 +87,7 @@ namespace Files.App.Dialogs
 			if (args.Result == ContentDialogResult.Primary)
 				ViewModel.SaveConflictResolveOption();
 
-			App.Window.SizeChanged -= Current_SizeChanged;
+			MainWindow.Instance.SizeChanged -= Current_SizeChanged;
 			ViewModel.CancelCts();
 		}
 

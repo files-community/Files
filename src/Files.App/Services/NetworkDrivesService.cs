@@ -66,7 +66,7 @@ namespace Files.App.Services
 
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
-			var handle = NativeWinApiHelper.CoreWindowHandle.ToInt64();
+			var handle = MainWindow.Instance.WindowHandle.ToInt64();
 			return NetworkDrivesAPI.OpenMapNetworkDriveDialog(handle);
 		}
 	}

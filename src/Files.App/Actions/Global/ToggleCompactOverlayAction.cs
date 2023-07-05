@@ -1,14 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Extensions;
 using Microsoft.UI.Windowing;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using Windows.Graphics;
 
 namespace Files.App.Actions
@@ -32,16 +27,16 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var window = App.GetAppWindow(App.Window);
+			var appWindow = MainWindow.Instance.AppWindow;
 
 			if (windowContext.IsCompactOverlay)
 			{
-				window.SetPresenter(AppWindowPresenterKind.Overlapped);
+				appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
 			}
 			else
 			{
-				window.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-				window.Resize(new SizeInt32(400, 350));
+				appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+				appWindow.Resize(new SizeInt32(400, 350));
 			}
 
 			return Task.CompletedTask;

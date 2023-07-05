@@ -49,7 +49,7 @@ namespace Files.App.Filesystem.Cloud
 				{
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
 
-					_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
 				}
 				catch (Exception ex)
 				{
@@ -69,7 +69,7 @@ namespace Files.App.Filesystem.Cloud
 				{
 					cloudProviderItem.IconData = iconData;
 
-					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async ()
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
 						=> cloudProviderItem.Icon = await iconData.ToBitmapAsync());
 				}
 

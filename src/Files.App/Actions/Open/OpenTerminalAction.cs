@@ -42,7 +42,7 @@ namespace Files.App.Actions
 			var terminalStartInfo = GetProcessStartInfo();
 			if (terminalStartInfo is not null)
 			{
-				App.Window.DispatcherQueue.TryEnqueue(() =>
+				MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 				{
 					try
 					{
