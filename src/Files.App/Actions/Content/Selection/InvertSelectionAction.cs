@@ -1,23 +1,20 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class InvertSelectionAction : IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "InvertSelection".GetLocalizedResource();
+		public string Label
+			=> "InvertSelection".GetLocalizedResource();
 
-		public string Description => "InvertSelectionDescription".GetLocalizedResource();
+		public string Description
+			=> "InvertSelectionDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE746");
+		public RichGlyph Glyph
+			=> new("\uE746");
 
 		public bool IsExecutable
 		{
@@ -40,9 +37,15 @@ namespace Files.App.Actions
 			}
 		}
 
+		public InvertSelectionAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		}
+
 		public Task ExecuteAsync()
 		{
 			context?.ShellPage?.SlimContentPage?.ItemManipulationModel?.InvertSelection();
+
 			return Task.CompletedTask;
 		}
 	}

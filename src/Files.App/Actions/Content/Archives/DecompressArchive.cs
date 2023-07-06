@@ -1,36 +1,33 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.Core.Helpers;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class DecompressArchive : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "ExtractFiles".GetLocalizedResource();
+		public string Label
+			=> "ExtractFiles".GetLocalizedResource();
 
-		public string Description => "DecompressArchiveDescription".GetLocalizedResource();
+		public string Description
+			=> "DecompressArchiveDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.E, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.E, KeyModifiers.Ctrl);
 
 		public override bool IsExecutable => 
 			(IsContextPageTypeAdaptedToCommand() &&
-			ArchiveHelpers.CanDecompress(context.SelectedItems)
-			|| CanDecompressInsideArchive()) &&
+			ArchiveHelpers.CanDecompress(context.SelectedItems) ||
+			CanDecompressInsideArchive()) &&
 			UIHelpers.CanShowDialog;
 
 		public DecompressArchive()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -41,14 +38,16 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private bool CanDecompressInsideArchive()
 		{
-			return context.PageType is ContentPageTypes.ZipFolder &&
+			return
+				context.PageType == ContentPageTypes.ZipFolder &&
 				!context.HasSelection &&
 				context.Folder is not null &&
 				FileExtensionHelpers.IsZipFile(Path.GetExtension(context.Folder.ItemPath));

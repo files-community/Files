@@ -12,9 +12,11 @@ namespace Files.App.Actions
 
 		private readonly bool _isVSInstalled;
 
-		public string Label { get; } = "OpenInVS".GetLocalizedResource();
+		public string Label
+			=> "OpenInVS".GetLocalizedResource();
 
-		public string Description { get; } = "OpenInVSDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenInVSDescription".GetLocalizedResource();
 
 		public bool IsExecutable => 
 			_isVSInstalled &&
@@ -29,17 +31,17 @@ namespace Files.App.Actions
 				_context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(IContentPageContext.SolutionFilePath))
-				OnPropertyChanged(nameof(IsExecutable));
-		}
-
 		public Task ExecuteAsync()
 		{
 			Win32API.RunPowershellCommand($"start \'{_context.SolutionFilePath}\'", false);
 
 			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IContentPageContext.SolutionFilePath))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

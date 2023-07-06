@@ -1,28 +1,30 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
 	internal class CopyPathAction : IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "CopyPath".GetLocalizedResource();
+		public string Label
+			=> "CopyPath".GetLocalizedResource();
 
-		public string Description => "CopyPathDescription".GetLocalizedResource();
+		public string Description
+			=> "CopyPathDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconCopyPath");
+		public RichGlyph Glyph
+			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
 
-		public HotKey HotKey { get; } = new(Keys.C, KeyModifiers.CtrlShift);
+		public HotKey HotKey
+			=> new(Keys.C, KeyModifiers.CtrlShift);
+
+		public CopyPathAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		}
 
 		public Task ExecuteAsync()
 		{

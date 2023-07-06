@@ -1,33 +1,35 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Extensions;
-using Files.Core.Services.Settings;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
 	{
-		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly IFoldersSettingsService settings;
 
-		public string Label { get; } = "ShowHiddenItems".GetLocalizedResource();
+		public string Label
+			=> "ShowHiddenItems".GetLocalizedResource();
 
-		public string Description => "ToggleShowHiddenItemsDescription".GetLocalizedResource();
+		public string Description
+			=> "ToggleShowHiddenItemsDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.H, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.H, KeyModifiers.Ctrl);
 
-		public bool IsOn => settings.ShowHiddenItems;
+		public bool IsOn
+			=> settings.ShowHiddenItems;
 
-		public ToggleShowHiddenItemsAction() => settings.PropertyChanged += Settings_PropertyChanged;
+		public ToggleShowHiddenItemsAction()
+		{
+			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
+			settings.PropertyChanged += Settings_PropertyChanged;
+		}
 
 		public Task ExecuteAsync()
 		{
 			settings.ShowHiddenItems = !settings.ShowHiddenItems;
+
 			return Task.CompletedTask;
 		}
 
