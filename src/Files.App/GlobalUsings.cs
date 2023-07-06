@@ -20,6 +20,8 @@ global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files Front-end
+global using global::Files.App.Commands;
+global using global::Files.App.Contexts;
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Filesystem;

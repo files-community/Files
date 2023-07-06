@@ -8,15 +8,19 @@ namespace Files.App.Actions
 {
 	internal class OpenPropertiesAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "OpenProperties".GetLocalizedResource();
+		public string Label
+			=> "OpenProperties".GetLocalizedResource();
 
-		public string Description { get; } = "OpenPropertiesDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenPropertiesDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconProperties");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconProperties");
 
-		public HotKey HotKey { get; } = new(Keys.Enter, KeyModifiers.Menu);
+		public HotKey HotKey
+			=> new(Keys.Enter, KeyModifiers.Menu);
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
@@ -25,6 +29,8 @@ namespace Files.App.Actions
 
 		public OpenPropertiesAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -40,18 +46,6 @@ namespace Files.App.Actions
 				FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 
 			return Task.CompletedTask;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.PageType):
-				case nameof(IContentPageContext.HasSelection):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
 		}
 
 		private void OpenPropertiesFromItemContextMenuFlyout(object? _, object e)
@@ -70,6 +64,18 @@ namespace Files.App.Actions
 				page.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
 			
 			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.HasSelection):
+				case nameof(IContentPageContext.Folder):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }

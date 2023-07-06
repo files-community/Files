@@ -1,22 +1,15 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Helpers;
-using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
 	internal abstract class BaseRotateAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
+
+		private readonly PreviewPaneViewModel _previewPaneViewModel;
 
 		public abstract string Label { get; }
 
@@ -26,11 +19,15 @@ namespace Files.App.Actions
 
 		protected abstract BitmapRotation Rotation { get; }
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand() &&
+		public bool IsExecutable =>
+			IsContextPageTypeAdaptedToCommand() &&
 			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false);
 
 		public BaseRotateAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			_previewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -40,14 +37,16 @@ namespace Files.App.Actions
 				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
-			Ioc.Default.GetRequiredService<PreviewPaneViewModel>().UpdateSelectedItemPreview();
+
+			await _previewPaneViewModel.UpdateSelectedItemPreview();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

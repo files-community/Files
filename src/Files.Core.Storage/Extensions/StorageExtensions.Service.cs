@@ -1,12 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage.LocatableStorage;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage.Extensions
+namespace Files.Core.Storage.Extensions
 {
 	public static partial class StorageExtensions
 	{

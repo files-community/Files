@@ -1,36 +1,35 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class NextTabAction : ObservableObject, IAction
 	{
-		private readonly IMultitaskingContext multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext multitaskingContext;
 
-		public string Label { get; } = "NextTab".GetLocalizedResource();
+		public string Label
+			=> "NextTab".GetLocalizedResource();
 
-		public string Description { get; } = "NextTabDescription".GetLocalizedResource();
+		public string Description
+			=> "NextTabDescription".GetLocalizedResource();
 
-		public bool IsExecutable => multitaskingContext.TabCount > 1;
+		public bool IsExecutable
+			=> multitaskingContext.TabCount > 1;
 
-		public HotKey HotKey { get; } = new(Keys.Tab, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.Tab, KeyModifiers.Ctrl);
 
 		public NextTabAction()
 		{
+			multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
 			multitaskingContext.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			App.AppModel.TabStripSelectedIndex = (App.AppModel.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
+
 			return Task.CompletedTask;
 		}
 

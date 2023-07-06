@@ -1,12 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage.Enums;
+using Files.Core.Storage.Enums;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage
+namespace Files.Core.Storage
 {
 	/// <summary>
 	/// Represents a folder on the file system.

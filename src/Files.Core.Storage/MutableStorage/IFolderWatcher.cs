@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace Files.Sdk.Storage.MutableStorage
+namespace Files.Core.Storage.MutableStorage
 {
 	/// <summary>
 	/// A disposable object which can notify of changes to the folder.

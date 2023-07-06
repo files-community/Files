@@ -1,22 +1,28 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class EditPathAction : IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "EditPath".GetLocalizedResource();
+		public string Label
+			=> "EditPath".GetLocalizedResource();
 
-		public string Description { get; } = "EditPathDescription".GetLocalizedResource();
+		public string Description
+			=> "EditPathDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.L, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.L, KeyModifiers.Ctrl);
 
-		public HotKey SecondHotKey { get; } = new(Keys.D, KeyModifiers.Menu);
+		public HotKey SecondHotKey
+			=> new(Keys.D, KeyModifiers.Menu);
+
+		public EditPathAction()
+		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		}
 
 		public Task ExecuteAsync()
 		{

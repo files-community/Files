@@ -1,38 +1,38 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class NavigateUpAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Up".GetLocalizedResource();
+		public string Label
+			=> "Up".GetLocalizedResource();
 
-		public string Description { get; } = "NavigateUpDescription".GetLocalizedResource();
+		public string Description
+			=> "NavigateUpDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.Up, KeyModifiers.Menu);
+		public HotKey HotKey
+			=> new(Keys.Up, KeyModifiers.Menu);
 
-		public RichGlyph Glyph { get; } = new("\uE74A");
+		public RichGlyph Glyph
+			=> new("\uE74A");
 
-		public bool IsExecutable => context.CanNavigateToParent;
+		public bool IsExecutable
+			=> context.CanNavigateToParent;
 
 		public NavigateUpAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			context.ShellPage!.Up_Click();
+
 			return Task.CompletedTask;
 		}
 
