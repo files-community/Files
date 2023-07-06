@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage
+namespace Files.Core.Storage
 {
 	/// <summary>
 	/// Represents a file on the file system.
