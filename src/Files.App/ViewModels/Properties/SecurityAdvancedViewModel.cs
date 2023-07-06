@@ -157,7 +157,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			string imageres = System.IO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 
-			var imageResList = Shell.Win32API.ExtractSelectedIconsFromDLL(
+			var imageResList = Utils.Shell.Win32API.ExtractSelectedIconsFromDLL(
 				imageres,
 				new List<int>() { Constants.ImageRes.ShieldIcon },
 				16);

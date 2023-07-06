@@ -4,7 +4,7 @@
 using Files.App.Utils;
 using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.Shared;
 using Files.Shared.Extensions;
 using System;

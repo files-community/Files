@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.StorageItems;
-using Files.App.Helpers.FileListCache;
+using Files.App.Helpers.StorageCache;
 using Files.Core.Extensions;
 using Files.Core.Helpers;
 using Files.Core.Services.SizeProvider;

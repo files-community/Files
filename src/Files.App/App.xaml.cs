@@ -16,7 +16,7 @@ using Files.App.Helpers;
 using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;

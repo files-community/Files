@@ -6,7 +6,7 @@ using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Utils;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.App.ViewModels.Properties;
 using Files.Shared;
 using Files.Shared.Enums;

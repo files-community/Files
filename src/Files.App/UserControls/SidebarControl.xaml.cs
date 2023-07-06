@@ -11,7 +11,7 @@ using Files.App.Extensions;
 using Files.App.Utils.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Services;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
 using Files.Core.Services;

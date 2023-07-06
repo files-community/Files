@@ -3,7 +3,7 @@
 
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;

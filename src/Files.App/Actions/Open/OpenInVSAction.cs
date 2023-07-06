@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Contexts;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {

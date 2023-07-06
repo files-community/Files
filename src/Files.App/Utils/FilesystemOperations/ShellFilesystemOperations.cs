@@ -3,7 +3,7 @@
 
 using Files.App.Utils.FilesystemHistory;
 using Files.App.Utils.StorageItems;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.Core.Services;
 using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using System.IO;
