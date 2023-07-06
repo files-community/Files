@@ -1,30 +1,28 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class CompressIntoZipAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
+		public string Label
+			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{ArchiveHelpers.DetermineArchiveNameFromSelection(context.SelectedItems)}.zip");
 
-		public string Description => "CompressIntoZipDescription".GetLocalizedResource();
+		public string Description
+			=> "CompressIntoZipDescription".GetLocalizedResource();
 
-		public bool IsExecutable => IsContextPageTypeAdaptedToCommand()
-									&& ArchiveHelpers.CanCompress(context.SelectedItems);
+		public bool IsExecutable =>
+			IsContextPageTypeAdaptedToCommand() &&
+			ArchiveHelpers.CanCompress(context.SelectedItems);
 
 		public CompressIntoZipAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -45,9 +43,10 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

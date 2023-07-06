@@ -1,23 +1,15 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using Files.Backend.Services.Settings;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
 	internal abstract class BaseDeleteAction : BaseUIAction
 	{
-		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private readonly IFoldersSettingsService settings;
 
-		protected readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		protected readonly IContentPageContext context;
 
 		public override bool IsExecutable =>
 			context.HasSelection &&
@@ -26,15 +18,24 @@ namespace Files.App.Actions
 
 		public BaseDeleteAction()
 		{
+			settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		protected async Task DeleteItems(bool permanently)
 		{
-			var items = context.SelectedItems.Select(item => StorageHelpers.FromPathAndType(item.ItemPath,
-					item.PrimaryItemAttribute is StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+			var items =
+				context.SelectedItems.Select(item =>
+					StorageHelpers.FromPathAndType(
+						item.ItemPath,
+						item.PrimaryItemAttribute is StorageItemTypes.File
+							? FilesystemItemType.File
+							: FilesystemItemType.Directory));
 
 			await context.ShellPage!.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
+
 			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 

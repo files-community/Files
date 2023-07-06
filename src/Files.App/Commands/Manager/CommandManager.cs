@@ -161,7 +161,10 @@ namespace Files.App.Commands
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
+		public IRichCommand GitInit => commands[CommandCodes.GitInit];
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
+		public IRichCommand GitPush => commands[CommandCodes.GitPush];
+		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 
 		public CommandManager()
 		{
@@ -317,7 +320,10 @@ namespace Files.App.Commands
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
+			[CommandCodes.GitInit] = new GitInitAction(),
 			[CommandCodes.GitPull] = new GitPullAction(),
+			[CommandCodes.GitPush] = new GitPushAction(),
+			[CommandCodes.GitSync] = new GitSyncAction(),
 		};
 
 		private void UpdateHotKeys()
@@ -368,48 +374,8 @@ namespace Files.App.Commands
 				UpdateHotKeys();
 		}
 
-		[DebuggerDisplay("Command None")]
-		private class NoneCommand : IRichCommand
-		{
-			public event EventHandler? CanExecuteChanged { add {} remove {} }
-			public event PropertyChangingEventHandler? PropertyChanging { add {} remove {} }
-			public event PropertyChangedEventHandler? PropertyChanged { add {} remove {} }
-
-			public CommandCodes Code => CommandCodes.None;
-
-			public string Label => string.Empty;
-			public string LabelWithHotKey => string.Empty;
-			public string AutomationName => string.Empty;
-
-			public string Description => string.Empty;
-
-			public RichGlyph Glyph => RichGlyph.None;
-			public object? Icon => null;
-			public FontIcon? FontIcon => null;
-			public Style? OpacityStyle => null;
-
-			public bool IsCustomHotKeys => false;
-			public string? HotKeyText => null;
-			public HotKeyCollection HotKeys
-			{
-				get => HotKeyCollection.Empty;
-				set => throw new InvalidOperationException("This command is readonly.");
-			}
-
-			public bool IsToggle => false;
-			public bool IsOn { get => false; set {} }
-			public bool IsExecutable => false;
-
-			public bool CanExecute(object? parameter) => false;
-			public void Execute(object? parameter) {}
-			public Task ExecuteAsync() => Task.CompletedTask;
-			public void ExecuteTapped(object sender, TappedRoutedEventArgs e) {}
-
-			public void ResetHotKeys() {}
-		}
-
 		[DebuggerDisplay("Command {Code}")]
-		private class ActionCommand : ObservableObject, IRichCommand
+		internal class ActionCommand : ObservableObject, IRichCommand
 		{
 			public event EventHandler? CanExecuteChanged;
 

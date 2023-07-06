@@ -1,5 +1,5 @@
-﻿using Files.App.Commands;
-using Files.App.Contexts;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
@@ -7,11 +7,14 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitPull".GetLocalizedResource();
+		public string Label
+			=> "GitPull".GetLocalizedResource();
 
-		public string Description { get; } = "GitPullDescription".GetLocalizedResource();
+		public string Description
+			=> "GitPullDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE74B");
+		public RichGlyph Glyph
+			=> new("\uE74B");
 
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;
@@ -25,9 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
-
-			return Task.CompletedTask;
+			return GitHelpers.PullOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

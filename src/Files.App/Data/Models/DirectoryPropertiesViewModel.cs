@@ -62,11 +62,18 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private string _PullInfo = "0";
-		public string PullInfo
+		private string _StatusInfo = "0 / 0";
+		public string StatusInfo
 		{
-			get => _PullInfo;
-			set => SetProperty(ref _PullInfo, value);
+			get => _StatusInfo;
+			set => SetProperty(ref _StatusInfo, value);
+		}
+
+		private string _ExtendedStatusInfo = string.Format("CommitsNumber".GetLocalizedResource(), 0);
+		public string ExtendedStatusInfo
+		{
+			get => _ExtendedStatusInfo;
+			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
 		public ObservableCollection<string> BranchesNames => _ShowLocals 
@@ -92,9 +99,11 @@ namespace Files.App.Data.Models
 			_gitRepositoryPath = repositoryPath;
 			ShowLocals = true;
 
-			PullInfo = branches.Any() 
-				? branches[0].BehindBy.ToString() ?? "0"
-				: "0";
+			var behind = branches.Any() ? branches[0].BehindBy ?? 0 : 0;
+			var ahead = branches.Any() ? branches[0].AheadBy ?? 0 : 0;
+
+			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
+			StatusInfo = $"{ahead} / {behind}";
 
 			if (isGitRepository)
 			{

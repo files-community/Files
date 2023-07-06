@@ -1,4 +1,5 @@
-﻿using Files.App.Contexts;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Actions
 {
@@ -6,9 +7,11 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitFetch".GetLocalizedResource();
+		public string Label
+			=> "GitFetch".GetLocalizedResource();
 
-		public string Description { get; } = "GitFetchDescription".GetLocalizedResource();
+		public string Description
+			=> "GitFetchDescription".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;

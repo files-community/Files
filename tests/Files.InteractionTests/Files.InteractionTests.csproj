@@ -1,8 +1,8 @@
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <RootNamespace>Files.InteractionTests</RootNamespace>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
@@ -12,7 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
         <PackageReference Include="Axe.Windows" Version="2.1.3" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
         <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
         <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
     </ItemGroup>

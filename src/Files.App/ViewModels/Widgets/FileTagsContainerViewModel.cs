@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Services;
+using Files.Core.Services;
 using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Widgets

@@ -3,6 +3,11 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs;
+using Files.Core.ViewModels.Dialogs.AddItemDialog;
+using Files.Core.ViewModels.Dialogs.FileSystemDialog;
+using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
@@ -26,7 +31,8 @@ namespace Files.App.Services
 				{ typeof(SettingsDialogViewModel), () => new SettingsDialog() },
 				{ typeof(CreateShortcutDialogViewModel), () => new CreateShortcutDialog() },
 				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() },
-				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() }
+				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() },
+				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
 			};
 		}
 

@@ -3,7 +3,7 @@
 	x:Class="Files.App.Views.Properties.SecurityAdvancedPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -636,23 +636,23 @@
 				TextWrapping="Wrap" />
 
 			<!--  (Divider)  -->
-			<Border
+			<!--<Border
 				Grid.Row="3"
 				Height="1"
 				Margin="-12,0,-12,8"
-				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />-->
 
 			<!--  Inheritance Actions  -->
-			<Grid
+			<!--<Grid
 				Grid.Row="4"
 				Margin="0,4,0,0"
 				ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
+				</Grid.ColumnDefinitions>-->
 
-				<!--<SplitButton
+			<!--<SplitButton
 					x:Name="SplitButton"
 					MaxWidth="196"
 					Command="{x:Bind SecurityAdvancedViewModel.DisableInheritanceCommand, Mode=OneWay}"
@@ -694,7 +694,7 @@
 					<TextBlock Text="{helpers:ResourceString Name=SecurityAdvancedReplaceChildPermissions/Text}" TextTrimming="CharacterEllipsis" />
 				</Button>-->
 
-			</Grid>
+			<!--</Grid>-->
 
 		</Grid>
 

@@ -3,7 +3,7 @@
 
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.Backend.Helpers;
+using Files.Core.Helpers;
 using SevenZip;
 using System;
 using System.Collections.Generic;

@@ -5,6 +5,7 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.IO;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
@@ -33,7 +34,7 @@ namespace Files.App.ViewModels.Previews
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 			var items = await Folder.GetItemsAsync();
 
-			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem);
+			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem, ThumbnailOptions.UseCurrentScale);
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256, true);
 
 			if (iconData is not null)
@@ -46,10 +47,25 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("PropertyItemCount", items.Count),
 				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
 				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
-				GetFileProperty("PropertyItemPathDisplay", Folder.Path),
-				GetFileProperty("FileTags",
-				Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null)
+				GetFileProperty("PropertyParsingPath", Folder.Path),
 			};
+
+			if (GitHelpers.IsRepositoryEx(Item.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
+			{
+				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
+				var branches = GitHelpers.GetBranchesNames(gitDirectory);
+				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
+
+				if(!string.IsNullOrEmpty(gitDirectory))
+					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
+
+				if (branches.Length > 0)
+					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
+			}
+
+			var tags = Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
+			Item.FileDetails.Add(GetFileProperty("FileTags", tags));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

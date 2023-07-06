@@ -1,30 +1,29 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class CreateFolderAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Folder".GetLocalizedResource();
+		public string Label
+			=> "Folder".GetLocalizedResource();
 
-		public string Description => "CreateFolderDescription".GetLocalizedResource();
+		public string Description
+			=> "CreateFolderDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(baseGlyph: "\uE8B7");
+		public RichGlyph Glyph
+			=> new(baseGlyph: "\uE8B7");
 
-		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
+		public override bool IsExecutable =>
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateFolderAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -32,6 +31,7 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage is not null)
 				UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null!, context.ShellPage);
+
 			return Task.CompletedTask;
 		}
 

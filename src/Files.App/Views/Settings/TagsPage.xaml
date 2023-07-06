@@ -176,7 +176,7 @@
 							ReorderMode="Enabled"
 							SelectionMode="None">
 							<ListView.ItemTemplate>
-								<DataTemplate xmlns:vm="using:Files.Backend.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
+								<DataTemplate xmlns:vm="using:Files.Core.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
 									<Grid ColumnSpacing="16">
 										<Grid.KeyboardAccelerators>
 											<KeyboardAccelerator Key="Escape" Invoked="KeyboardAccelerator_Invoked" />
@@ -202,6 +202,7 @@
 												Glyph="&#xE8EC;" />
 											<TextBlock
 												x:Name="TagName"
+												MaxWidth="200"
 												Padding="8,0,0,0"
 												VerticalAlignment="Center"
 												FontSize="12"
@@ -341,7 +342,7 @@
 											<Button
 												x:Name="SaveChangesButton"
 												Click="CommitRenameTag_Click"
-												Content="{helpers:ResourceString Name=SaveChanges}"
+												Content="{helpers:ResourceString Name=Save}"
 												IsEnabled="{x:Bind CanCommit, Mode=OneWay}"
 												Style="{StaticResource AccentButtonStyle}" />
 										</StackPanel>

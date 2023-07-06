@@ -23,8 +23,8 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
-using Files.Backend.Services.SizeProvider;
-using Files.Sdk.Storage;
+using Files.Core.Services.SizeProvider;
+using Files.Core.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
@@ -204,6 +204,7 @@ namespace Files.App
 						.AddSingleton<ICloudDetector, CloudDetector>()
 						.AddSingleton<IFileTagsService, FileTagsService>()
 						.AddSingleton<ICommandManager, CommandManager>()
+						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 #if UWP
 						.AddSingleton<IStorageService, WindowsStorageService>()
 #else

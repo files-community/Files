@@ -1,0 +1,34 @@
+﻿using System.Runtime.InteropServices;
+using Windows.Security.Credentials;
+
+namespace Files.App.Helpers
+{
+	internal class CredentialsHelpers
+	{
+		public static void SavePassword(string resourceName, string username, string password)
+		{
+			var vault = new PasswordVault();
+			var credential = new PasswordCredential(resourceName, username, password);
+
+			vault.Add(credential);
+		}
+
+		public static string GetPassword(string resourceName, string username)
+		{
+			try
+			{
+				var vault = new PasswordVault();
+				var credential = vault.Retrieve(resourceName, username);
+
+				credential.RetrievePassword();
+
+				return credential.Password;
+			}
+			// Thrown if the resource does not exist
+			catch (COMException)
+			{
+				return string.Empty;
+			}
+		}
+	}
+}

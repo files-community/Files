@@ -1,32 +1,34 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class RefreshItemsAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Refresh".GetLocalizedResource();
-		public string Description { get; } = "RefreshItemsDescription".GetLocalizedResource();
+		public string Label
+			=> "Refresh".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE72C");
+		public string Description
+			=> "RefreshItemsDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.R, KeyModifiers.Ctrl);
-		public HotKey SecondHotKey { get; } = new(Keys.F5);
+		public RichGlyph Glyph
+			=> new("\uE72C");
 
-		public bool IsExecutable => context.CanRefresh;
+		public HotKey HotKey
+			=> new(Keys.R, KeyModifiers.Ctrl);
+
+		public HotKey SecondHotKey
+			=> new(Keys.F5);
+
+		public bool IsExecutable
+			=> context.CanRefresh;
 
 		public RefreshItemsAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

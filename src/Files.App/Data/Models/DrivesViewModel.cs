@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Backend.Services.SizeProvider;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Services.SizeProvider;
+using Files.Core.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System.IO;
 
