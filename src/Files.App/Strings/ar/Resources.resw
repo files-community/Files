@@ -607,7 +607,7 @@
     <value>يحتاج التطبيق إلى إعادة التشغيل من أجل تطبيق إعداد اللغة ، هل ترغب في إعادة تشغيل التطبيق؟</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>ادعمنا على Github</value>
+    <value>ادعمنا على GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>لم نتمكن من إنشاء هذا العنصر</value>

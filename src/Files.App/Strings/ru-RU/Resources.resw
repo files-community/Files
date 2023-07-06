@@ -184,7 +184,7 @@
     <value>Убрать из списка</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>Репозиторий Github</value>
+    <value>Репозиторий GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>О приложении</value>
