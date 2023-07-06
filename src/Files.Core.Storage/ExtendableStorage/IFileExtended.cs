@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Sdk.Storage.ExtendableStorage
+namespace Files.Core.Storage.ExtendableStorage
 {
 	/// <summary>
 	/// Represents a file that provides additional options for its manipulation.

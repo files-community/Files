@@ -24,7 +24,7 @@ using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
 using Files.Core.Services.SizeProvider;
-using Files.Sdk.Storage;
+using Files.Core.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Extensions;
