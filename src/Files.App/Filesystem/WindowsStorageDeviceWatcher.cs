@@ -4,7 +4,7 @@
 using Files.App.Data.Items;
 using Files.App.Helpers;
 using Files.App.Helpers.MMI;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage.LocatableStorage;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;

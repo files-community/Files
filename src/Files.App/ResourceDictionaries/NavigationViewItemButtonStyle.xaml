@@ -7,6 +7,30 @@
 	xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
 
 	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPointerOver" ResourceKey="ControlFillColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBackgroundSelectedPressed" ResourceKey="ControlFillColorDefaultBrush" />
+
+			<StaticResource x:Key="NavigationViewItemForeground" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundPressed" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelected" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="NavigationViewItemForegroundSelectedPressed" ResourceKey="TextFillColorPrimaryBrush" />
+
+			<StaticResource x:Key="NavigationViewItemBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushSelected" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushSelectedPointerOver" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushSelectedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="NavigationViewItemBorderBrushSelectedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+		</ResourceDictionary>
+
 		<ResourceDictionary x:Key="Dark">
 			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
@@ -31,7 +55,7 @@
 			<StaticResource x:Key="NavigationViewItemBorderBrushSelectedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 
-		<ResourceDictionary x:Key="Light">
+		<ResourceDictionary x:Key="HighContrast">
 			<StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundPressed" ResourceKey="ControlFillColorTertiaryBrush" />
 			<StaticResource x:Key="NavigationViewItemBackgroundSelected" ResourceKey="ControlFillColorDefaultBrush" />
