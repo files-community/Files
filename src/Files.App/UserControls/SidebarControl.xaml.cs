@@ -787,7 +787,7 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any())
 			{
@@ -820,7 +820,7 @@ namespace Files.App.UserControls
 
 			var deferral = e.GetDeferral();
 
-			var storageItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
 				var listedItem = new ListedItem(null)
