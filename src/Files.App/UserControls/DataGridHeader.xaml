@@ -8,6 +8,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<Style
 			x:Name="HeaderButtonStyle"
@@ -43,6 +44,7 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
+
 				<TextBlock
 					x:Name="HeaderTextBlock"
 					Grid.ColumnSpan="2"
@@ -51,6 +53,7 @@
 					Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
 					Text="{x:Bind Header, Mode=OneWay}"
 					TextTrimming="CharacterEllipsis" />
+
 				<FontIcon
 					x:Name="SortIcon"
 					Grid.Column="1"
@@ -66,6 +69,7 @@
 						<RotateTransform />
 					</FontIcon.RenderTransform>
 				</FontIcon>
+
 			</Grid>
 		</Button>
 
@@ -101,4 +105,5 @@
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
+
 </UserControl>

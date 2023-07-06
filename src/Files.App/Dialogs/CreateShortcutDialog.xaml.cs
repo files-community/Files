@@ -2,12 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Dialogs
 {
@@ -36,6 +32,9 @@ namespace Files.App.Dialogs
 			InvalidPathWarning.IsOpen = false;
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 	}
 }

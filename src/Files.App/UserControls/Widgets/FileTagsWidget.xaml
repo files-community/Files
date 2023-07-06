@@ -21,6 +21,7 @@
 
 	<!--  Collection of containers  -->
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
+
 		<ItemsRepeater.Layout>
 			<UniformGridLayout
 				ItemsStretch="Fill"
@@ -141,5 +142,6 @@
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
+
 	</ItemsRepeater>
 </local:HomePageWidget>

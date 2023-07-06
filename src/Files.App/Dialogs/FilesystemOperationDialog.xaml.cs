@@ -12,8 +12,6 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Threading.Tasks;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.App.Dialogs
 {
 	public sealed partial class FilesystemOperationDialog : ContentDialog, IDialog<FileSystemDialogViewModel>
@@ -39,15 +37,17 @@ namespace Files.App.Dialogs
 			App.Window.SizeChanged += Current_SizeChanged;
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		}
 
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 
@@ -65,20 +65,19 @@ namespace Files.App.Dialogs
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
 			var primaryButton = this.FindDescendant("PrimaryButton") as Button;
 			if (primaryButton is not null)
-			{
 				primaryButton.GotFocus += PrimaryButton_GotFocus;
-			}
 		}
 
 		private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
 		{
 			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
+
 			if (chkPermanentlyDelete is not null)
-			{
 				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
-			}
+
 			DetailsGrid.IsEnabled = true;
 		}
 
@@ -93,9 +92,9 @@ namespace Files.App.Dialogs
 
 		private void NameStackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
-			if (sender is FrameworkElement element
-				&& element.DataContext is FileSystemDialogConflictItemViewModel conflictItem
-				&& conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
+			if (sender is FrameworkElement element &&
+				element.DataContext is FileSystemDialogConflictItemViewModel conflictItem &&
+				conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
 			{
 				conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
 				conflictItem.CustomName = conflictItem.DestinationDisplayName;

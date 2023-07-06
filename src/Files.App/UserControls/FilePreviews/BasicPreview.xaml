@@ -14,6 +14,7 @@
 		HorizontalAlignment="Center"
 		VerticalAlignment="Center"
 		CornerRadius="{StaticResource ControlCornerRadius}">
+
 		<Viewbox
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
@@ -23,5 +24,6 @@
 				VerticalAlignment="Stretch"
 				Source="{x:Bind Model.FileImage}" />
 		</Viewbox>
+
 	</Border>
 </UserControl>

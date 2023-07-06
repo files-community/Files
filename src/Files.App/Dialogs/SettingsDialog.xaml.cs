@@ -27,7 +27,9 @@ namespace Files.App.Dialogs
 		}
 
 		public new async Task<DialogResult> ShowAsync()
-			=> (DialogResult)await base.ShowAsync();
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
