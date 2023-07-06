@@ -1676,7 +1676,7 @@ namespace Files.App.Data.Models
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
+					ItemNameRaw = rootFolder?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 					ItemType = folderTypeTextLocalized,
@@ -1730,6 +1730,10 @@ namespace Files.App.Data.Models
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
+
+					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					if (rootFolder?.DisplayName is not null)
+						currentFolder.ItemNameRaw = rootFolder.DisplayName;
 
 					return 0;
 				}
