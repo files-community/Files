@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Files.Core.Storage.StorageEnumeration
+namespace Files.Sdk.Storage.StorageEnumeration
 {
 	/// <summary>
 	/// Enumerates storage objects of a given directory.

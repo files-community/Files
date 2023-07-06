@@ -5,7 +5,7 @@ using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.Backend.Services;
 using Files.Backend.ViewModels.Dialogs.FileSystemDialog;
-using Files.Core.Storage;
+using Files.Sdk.Storage;
 using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;

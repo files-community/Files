@@ -1,11 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.Enums;
+using Files.Sdk.Storage.Enums;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Core.Storage.ModifiableStorage
+namespace Files.Sdk.Storage.ModifiableStorage
 {
 	/// <summary>
 	/// Represents a folder that can be modified.

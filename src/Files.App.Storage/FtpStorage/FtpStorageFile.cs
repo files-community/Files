@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
-using Files.Core.Storage.ModifiableStorage;
+using Files.Sdk.Storage.LocatableStorage;
+using Files.Sdk.Storage.ModifiableStorage;
 using System;
 using System.IO;
 using System.Threading;

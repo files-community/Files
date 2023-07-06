@@ -4,7 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.Core.Storage.LocatableStorage
+namespace Files.Sdk.Storage.LocatableStorage
 {
 	/// <summary>
 	/// Represents a file or folder that resides within a folder structure.

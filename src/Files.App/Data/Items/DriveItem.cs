@@ -3,9 +3,9 @@
 
 using ByteSizeLib;
 using Files.App.Storage.WindowsStorage;
-using Files.Core.Storage;
-using Files.Core.Storage.Enums;
-using Files.Core.Storage.LocatableStorage;
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.Enums;
+using Files.Sdk.Storage.LocatableStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;

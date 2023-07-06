@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.LocatableStorage;
+using Files.Sdk.Storage.LocatableStorage;
 
 namespace Files.Backend.Data.Models
 {
