@@ -12,9 +12,11 @@ namespace Files.App.Actions
 
 		private readonly bool _isVSCodeInstalled;
 
-		public string Label { get; } = "OpenInVSCode".GetLocalizedResource();
+		public string Label
+			=> "OpenInVSCode".GetLocalizedResource();
 
-		public string Description { get; } = "OpenInVSCodeDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenInVSCodeDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&

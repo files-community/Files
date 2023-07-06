@@ -1,20 +1,20 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class GitPullAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitPull".GetLocalizedResource();
+		public string Label
+			=> "GitPull".GetLocalizedResource();
 
-		public string Description { get; } = "GitPullDescription".GetLocalizedResource();
+		public string Description
+			=> "GitPullDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE74B");
+		public RichGlyph Glyph
+			=> new("\uE74B");
 
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;

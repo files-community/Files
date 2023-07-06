@@ -1,25 +1,21 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
 using Files.App.Dialogs;
-using Files.App.Extensions;
 using Files.App.Filesystem.Archive;
-using Files.App.Helpers;
 using Microsoft.UI.Xaml.Controls;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class CompressIntoArchiveAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "CreateArchive".GetLocalizedResource();
+		public string Label
+			=> "CreateArchive".GetLocalizedResource();
 
-		public string Description => "CompressIntoArchiveDescription".GetLocalizedResource();
+		public string Description
+			=> "CompressIntoArchiveDescription".GetLocalizedResource();
 
 		public override bool IsExecutable => 
 			IsContextPageTypeAdaptedToCommand() &&
@@ -28,6 +24,8 @@ namespace Files.App.Actions
 
 		public CompressIntoArchiveAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -39,6 +37,7 @@ namespace Files.App.Actions
 			{
 				FileName = fileName,
 			};
+
 			var result = await dialog.TryShowAsync();
 
 			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
@@ -60,9 +59,10 @@ namespace Files.App.Actions
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
-			return context.PageType is not ContentPageTypes.RecycleBin
-				and not ContentPageTypes.ZipFolder
-				and not ContentPageTypes.None;
+			return
+				context.PageType != ContentPageTypes.RecycleBin &&
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.None;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
