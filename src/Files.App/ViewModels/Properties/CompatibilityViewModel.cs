@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.Shared;
 using System;
 using System.Collections.Generic;
