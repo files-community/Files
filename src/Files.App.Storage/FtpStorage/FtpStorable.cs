@@ -1,37 +1,43 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Sdk.Storage;
 using Files.Sdk.Storage.LocatableStorage;
-using Files.Shared.Helpers;
+using Files.Sdk.Storage.NestedStorage;
 using FluentFTP;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
-	public abstract class FtpStorable : ILocatableStorable
+	public abstract class FtpStorable : ILocatableStorable, INestedStorable
 	{
-		private string? _computedId;
+		/// <inheritdoc/>
+		public virtual string Path { get; protected set; }
 
 		/// <inheritdoc/>
-		public string Path { get; protected set; }
+		public virtual string Name { get; protected set; }
 
 		/// <inheritdoc/>
-		public string Name { get; protected set; }
+		public virtual string Id { get; }
 
-		/// <inheritdoc/>
-		public virtual string Id => _computedId ??= ChecksumHelpers.CalculateChecksumForPath(Path);
+		/// <summary>
+		/// Gets the parent folder of the storable, if any.
+		/// </summary>
+	 	protected virtual IFolder? Parent { get; }
 
-		protected internal FtpStorable(string path, string name)
+		protected internal FtpStorable(string path, string name, IFolder? parent)
 		{
 			Path = FtpHelpers.GetFtpPath(path);
 			Name = name;
+			Id = Path;
+			Parent = parent;
 		}
 
 		/// <inheritdoc/>
-		public virtual Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
-			return Task.FromResult<ILocatableFolder?>(null);
+			return Task.FromResult<IFolder?>(Parent);
 		}
 
 		protected AsyncFtpClient GetFtpClient()

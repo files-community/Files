@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage.Extensions;
-using Files.Sdk.Storage.LocatableStorage;
 using Files.App.UserControls.Widgets;
+using Files.Sdk.Storage;
+using Files.Sdk.Storage.Extensions;
 
 namespace Files.App.ViewModels.Widgets
 {
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
-		private readonly ILocatableStorable _associatedStorable;
+		private readonly IStorable _associatedStorable;
 
 		// A workaround for lack of MVVM-compliant navigation support.
 		// This workaround must be kept until further refactor of navigation code is completed.
@@ -28,14 +28,14 @@ namespace Files.App.ViewModels.Widgets
 			set => SetProperty(ref path, value); 
 		}
 
-		public bool IsFolder => _associatedStorable is ILocatableFolder;
+		public bool IsFolder => _associatedStorable is IFolder;
 
-		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
+		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
 			_Icon = icon;
-			_Name = PathHelpers.FormatName(associatedStorable.Path);
+			_Name = PathHelpers.FormatName(associatedStorable.Id);
 			Path = associatedStorable.TryGetPath();
 			Item = this;
 		}
@@ -43,7 +43,7 @@ namespace Files.App.ViewModels.Widgets
 		[RelayCommand]
 		private Task ClickAsync(CancellationToken cancellationToken)
 		{
-			return _openAction(_associatedStorable.Path);
+			return _openAction(_associatedStorable.Id);
 		}
 	}
 }

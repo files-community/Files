@@ -17,6 +17,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Files.Sdk.Storage.Extensions;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Filesystem
@@ -673,7 +674,7 @@ namespace Files.App.Filesystem
 					// Same item names in both directories
 					if (StorageHelpers.Exists(item.dest) || 
 						(FtpHelpers.IsFtpPath(item.dest) && 
-						await Ioc.Default.GetRequiredService<IFtpStorageService>().FileExistsAsync(item.dest)))
+						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(item.dest) is not null))
 					{
 						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
 						conflictingItems.Add(incomingItems.ElementAt(item.index));

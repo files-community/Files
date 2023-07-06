@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Files.Sdk.Storage.NestedStorage;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
@@ -268,25 +269,25 @@ namespace Files.App.Data.Items
 				MaxSpace.ToSizeString());
 		}
 
-		public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFileAsync(fileName, cancellationToken);
 		}
 
-		public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFolderAsync(folderName, cancellationToken);
 		}
 
-		public IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
+		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetItemsAsync(kind, cancellationToken);
 		}
 
-		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetParentAsync(cancellationToken);
