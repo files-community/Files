@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
 using Files.App.Filesystem.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.Views;
-using Files.Backend.Services;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -279,7 +276,15 @@ namespace Files.App.ViewModels
 			//to handle theme changes without restarting the app
 			ThemeHelper.Initialize();
 
-			if (e.Parameter is null || (e.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
+			var parameter = e.Parameter;
+			var ignoreStartupSettings = false;
+			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
+			{
+				parameter = mainPageNavigationArguments.Parameter;
+				ignoreStartupSettings = mainPageNavigationArguments.IgnoreStartupSettings;
+			}
+
+			if (parameter is null || (parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
 			{
 				try
 				{
@@ -332,42 +337,45 @@ namespace Files.App.ViewModels
 						await AddNewTabAsync();
 					}
 				}
-				catch (Exception)
+				catch
 				{
 					await AddNewTabAsync();
 				}
 			}
 			else
 			{
-				try
+				if (!ignoreStartupSettings)
 				{
-					if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
-							userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+					try
 					{
-						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
-							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-					}
-					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-						userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
-					{
-						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+						if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
+								userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
 						{
-							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
+								await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 						}
+						else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
+							userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+						{
+							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+							{
+								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							}
 
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+							var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
 
-						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+							userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						}
 					}
+					catch { }
 				}
-				catch (Exception) { }
 
-				if (e.Parameter is string navArgs)
+				if (parameter is string navArgs)
 					await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
-				else if (e.Parameter is PaneNavigationArguments paneArgs)
+				else if (parameter is PaneNavigationArguments paneArgs)
 					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
-				else if (e.Parameter is TabItemArguments tabArgs)
+				else if (parameter is TabItemArguments tabArgs)
 					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
 			}
 

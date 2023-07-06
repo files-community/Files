@@ -23,7 +23,7 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Settings;
 using Files.App.Views;
-using Files.Backend.Services.SizeProvider;
+using Files.Core.Services.SizeProvider;
 using Files.Sdk.Storage;
 using Files.Shared;
 using Files.Shared.Cloud;

@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Commands;
 using Files.App.Extensions;
 using Files.App.Helpers;
-using Files.Backend.Services;
-using Files.Backend.ViewModels.Dialogs;
+using Files.Core.Services;
+using Files.Core.ViewModels.Dialogs;
 using System.Threading.Tasks;
 
 namespace Files.App.Actions
