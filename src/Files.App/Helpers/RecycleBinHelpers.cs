@@ -8,7 +8,6 @@ using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.Core.Services.Settings;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,6 @@
 
 using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage.FileProperties;

@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.EventArguments;
-using Files.Shared.Services.DateTimeFormatter;
-
 namespace Files.App.Services.DateTimeFormatter
 {
 	internal class UserDateTimeFormatter : IDateTimeFormatter

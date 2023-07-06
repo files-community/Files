@@ -3,7 +3,6 @@ using Files.App.Extensions;
 using Files.App.Filesystem;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Helpers;
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using System;

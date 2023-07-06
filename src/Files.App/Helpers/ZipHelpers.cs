@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 			int entriesFinished = 0;
 			var minimumTime = new DateTime(1);
 
-			FileSystemProgress fsProgress = new(progress, true, Shared.Enums.FileSystemStatusCode.InProgress, entriesAmount);
+			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, entriesAmount);
 			fsProgress.Report();
 
 			foreach (var entry in fileEntries)

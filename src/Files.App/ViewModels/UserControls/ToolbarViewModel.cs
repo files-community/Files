@@ -8,7 +8,6 @@ using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
 using Files.Core.Helpers;
 using Files.Core.Services;
-using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

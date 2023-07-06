@@ -1,5 +1,4 @@
 using Files.Core.Extensions;
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;

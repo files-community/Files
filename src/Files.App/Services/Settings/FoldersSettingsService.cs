@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Serialization;
-using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
 
 namespace Files.App.Services.Settings

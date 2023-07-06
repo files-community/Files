@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Filesystem;
-using Files.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

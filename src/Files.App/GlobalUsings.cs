@@ -13,13 +13,13 @@ global using global::System.ComponentModel;
 global using global::System.Diagnostics;
 global using SystemIO = global::System.IO;
 
-// Windows Community Toolkit
+// CommunityToolkit.Mvvm
 global using global::CommunityToolkit.Mvvm.ComponentModel;
 global using global::CommunityToolkit.Mvvm.DependencyInjection;
 global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
-// Files Front-end
+// Files.App
 global using global::Files.App.Commands;
 global using global::Files.App.Contexts;
 global using global::Files.App.Helpers;
@@ -39,28 +39,25 @@ global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;
 
 // Files.Core
-global using global::Files.Core.CommandLine;
 global using global::Files.Core.Data.Enums;
+global using global::Files.Core.Data.EventArguments;
+global using global::Files.Core.Data.Items;
 global using global::Files.Core.Data.Messages;
 global using global::Files.Core.Data.Models;
 global using global::Files.Core.Extensions;
 global using global::Files.Core.Helpers;
 global using global::Files.Core.Services;
+global using global::Files.Core.Services.DateTimeFormatter;
 global using global::Files.Core.Services.Settings;
-//global using global::Files.Core.Services.SizeProvider;
 global using global::Files.Core.ViewModels;
 global using global::Files.Core.ViewModels.Dialogs;
 global using global::Files.Core.ViewModels.Dialogs.AddItemDialog;
 global using global::Files.Core.ViewModels.Dialogs.FileSystemDialog;
 global using global::Files.Core.ViewModels.FileTags;
 global using global::Files.Core.ViewModels.Widgets;
+global using global::Files.Core.Utils;
+global using global::Files.Core.Utils.CommandLine;
 
 // Files.Shared
 global using global::Files.Shared;
-global using global::Files.Shared.Enums;
 global using global::Files.Shared.Extensions;
-
-// Files Back-end
-
-// Vanara
-//global using global::Vanara.PInvoke;

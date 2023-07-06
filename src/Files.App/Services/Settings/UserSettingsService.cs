@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Serialization;
 using Files.App.Serialization.Implementation;
 using Files.Core.Services.Settings;
-using Files.Shared.EventArguments;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.IO;

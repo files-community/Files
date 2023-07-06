@@ -18,6 +18,7 @@ namespace Files.Shared.Helpers
 			var buffer = Encoding.UTF8.GetBytes(path);
 			Span<byte> hash = stackalloc byte[MD5.HashSizeInBytes];
 			MD5.HashData(buffer, hash);
+
 			return Convert.ToHexString(hash);
 		}
 

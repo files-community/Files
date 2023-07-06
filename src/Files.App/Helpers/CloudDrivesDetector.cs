@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Shell;
-using Files.Shared.Cloud;
+using Files.Core.Utils.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;

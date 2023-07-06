@@ -9,7 +9,6 @@ using Files.App.Helpers;
 using Files.App.Shell;
 using Files.App.ViewModels.Properties;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Generic;

@@ -3,7 +3,6 @@
 
 using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;

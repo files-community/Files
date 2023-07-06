@@ -5,6 +5,7 @@ using Files.App.Filesystem.FilesystemHistory;
 using Files.App.Filesystem.StorageItems;
 using Files.App.Shell;
 using Files.Core.Services;
+using Files.Core.Utils.CommandLine;
 using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using System.IO;
 using Windows.Storage;

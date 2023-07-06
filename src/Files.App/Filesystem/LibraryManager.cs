@@ -7,7 +7,6 @@ using Files.App.Extensions;
 using Files.App.Shell;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared;
-using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;

@@ -3,6 +3,7 @@
 
 using Files.App.Shell;
 using Files.Core.Helpers;
+using Files.Core.Utils.CommandLine;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;

@@ -6,7 +6,6 @@ using Files.App.Extensions;
 using Files.App.Shell;
 using Files.Core.ViewModels.Dialogs;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;

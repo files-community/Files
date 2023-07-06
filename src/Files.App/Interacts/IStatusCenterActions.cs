@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels;
-using Files.Shared.Enums;
 using System;
 using System.Threading;
 

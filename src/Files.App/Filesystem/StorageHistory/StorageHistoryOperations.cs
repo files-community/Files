@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers;
-using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System;
 using System.Collections.Generic;
