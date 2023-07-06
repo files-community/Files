@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class RecentItems : IDisposable
 	{

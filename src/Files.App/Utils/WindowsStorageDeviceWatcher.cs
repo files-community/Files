@@ -12,7 +12,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{

@@ -11,7 +11,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using IO = System.IO;
 
-namespace Files.App.Filesystem.StorageItems
+namespace Files.App.Utils.StorageItems
 {
 	public sealed class FtpStorageFile : BaseStorageFile
 	{

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 
-namespace Files.App.Filesystem.StorageItems
+namespace Files.App.Utils.StorageItems
 {
 	public class InputStreamWithDisposeCallback : IInputStream
 	{

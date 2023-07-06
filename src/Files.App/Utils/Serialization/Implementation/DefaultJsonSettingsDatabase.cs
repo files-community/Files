@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 
-namespace Files.App.Serialization.Implementation
+namespace Files.App.Utils.Serialization.Implementation
 {
 	internal class DefaultJsonSettingsDatabase : IJsonSettingsDatabase
 	{

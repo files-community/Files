@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class FileTagsManager
 	{

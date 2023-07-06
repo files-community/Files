@@ -10,7 +10,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
 
-namespace Files.App.Filesystem.StorageItems
+namespace Files.App.Utils.StorageItems
 {
 	public class BaseStorageItemQueryResult
 	{

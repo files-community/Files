@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using static Files.App.Helpers.NativeFileOperationsHelper;
 
-namespace Files.App.Serialization.Implementation
+namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultSettingsSerializer : ISettingsSerializer
 	{

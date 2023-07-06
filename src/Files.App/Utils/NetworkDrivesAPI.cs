@@ -16,7 +16,7 @@ using static Vanara.PInvoke.AdvApi32;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.Mpr;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class NetworkDrivesAPI
 	{

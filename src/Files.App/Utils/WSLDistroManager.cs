@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 using static Files.App.Constants;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class WSLDistroManager
 	{

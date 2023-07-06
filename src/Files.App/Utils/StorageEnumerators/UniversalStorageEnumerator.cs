@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.Core.Helpers;
 using Files.Core.Services.Settings;
@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.StorageEnumerators
+namespace Files.App.Utils.StorageEnumerators
 {
 	public static class UniversalStorageEnumerator
 	{

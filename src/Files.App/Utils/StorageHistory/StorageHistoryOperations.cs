@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.FilesystemHistory
+namespace Files.App.Utils.FilesystemHistory
 {
 	public class StorageHistoryOperations : IStorageHistoryOperations
 	{

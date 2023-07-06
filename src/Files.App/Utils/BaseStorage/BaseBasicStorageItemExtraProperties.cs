@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace Files.App.Filesystem.StorageItems
+namespace Files.App.Utils.StorageItems
 {
 	public class BaseBasicStorageItemExtraProperties : BaseStorageItemExtraProperties
 	{

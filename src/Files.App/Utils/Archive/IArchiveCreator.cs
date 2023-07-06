@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem.Archive
+namespace Files.App.Utils.Archive
 {
 	/// <summary>
 	/// Represents an interface for archive creation support.

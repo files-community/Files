@@ -3,8 +3,8 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
+using Files.App.Utils.StorageItems;
 using Files.App.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;

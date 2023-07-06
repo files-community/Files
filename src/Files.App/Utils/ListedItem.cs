@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.Cloud;
+using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Properties;
 using Files.Core.Helpers;
 using Files.Core.ViewModels.FileTags;
@@ -17,7 +17,7 @@ using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class ListedItem : ObservableObject, IGroupableItem
 	{

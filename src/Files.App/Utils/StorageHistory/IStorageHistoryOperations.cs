@@ -5,7 +5,7 @@ using Files.Shared.Enums;
 using System;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem.FilesystemHistory
+namespace Files.App.Utils.FilesystemHistory
 {
 	public interface IStorageHistoryOperations : IDisposable
 	{

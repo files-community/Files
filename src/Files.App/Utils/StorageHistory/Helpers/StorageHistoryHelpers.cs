@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem.FilesystemHistory
+namespace Files.App.Utils.FilesystemHistory
 {
 	public class StorageHistoryHelpers : IDisposable
 	{

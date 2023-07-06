@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Contexts;
 using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.App.Views;
@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public static class StorageFileExtensions
 	{

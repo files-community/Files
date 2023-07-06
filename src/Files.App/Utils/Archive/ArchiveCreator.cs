@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 
-namespace Files.App.Filesystem.Archive
+namespace Files.App.Utils.Archive
 {
 	/// <summary>
 	/// Provides an archive creation support.

@@ -22,7 +22,7 @@ using Vanara.Windows.Shell;
 using Windows.System;
 using Visibility = Microsoft.UI.Xaml.Visibility;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class LibraryManager : IDisposable
 	{

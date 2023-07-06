@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Windows.Storage;
 using IO = System.IO;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class StorageFileWithPath : IStorageItemWithPath
 	{

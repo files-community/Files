@@ -5,7 +5,7 @@ using Files.Shared.EventArguments;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Files.App.Serialization
+namespace Files.App.Utils.Serialization
 {
 	/// <summary>
 	/// A base class to easily manage all application's settings.

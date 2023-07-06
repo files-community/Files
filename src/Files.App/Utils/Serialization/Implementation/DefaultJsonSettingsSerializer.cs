@@ -3,7 +3,7 @@
 
 using System.Text.Json;
 
-namespace Files.App.Serialization.Implementation
+namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
 	{

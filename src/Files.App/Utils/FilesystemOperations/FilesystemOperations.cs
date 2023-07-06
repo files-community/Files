@@ -1,14 +1,14 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.FilesystemHistory;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.FilesystemHistory;
+using Files.App.Utils.StorageItems;
 using Files.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using Windows.Storage;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	/// <summary>
 	/// Provides group of file system operation for given page instance.

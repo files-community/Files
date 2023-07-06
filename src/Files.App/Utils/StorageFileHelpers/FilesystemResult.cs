@@ -3,7 +3,7 @@
 
 using Files.Shared.Enums;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class FilesystemResult
 	{

@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public sealed class QuickAccessManager
 	{

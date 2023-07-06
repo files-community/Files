@@ -5,7 +5,7 @@ using Files.Shared.Enums;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 
-namespace Files.App.Filesystem.FilesystemHistory
+namespace Files.App.Utils.FilesystemHistory
 {
 	public class StorageHistory : IStorageHistory
 	{

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Files.App.Filesystem.Security
+namespace Files.App.Utils.Security
 {
 	/// <summary>
 	/// Represents an access control entry (ACE).

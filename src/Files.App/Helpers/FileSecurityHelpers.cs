@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Security;
+using Files.App.Utils.Security;
 using Files.App.Shell;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;

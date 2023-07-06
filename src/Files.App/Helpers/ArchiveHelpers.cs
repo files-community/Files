@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Filesystem.Archive;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.Archive;
+using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;

@@ -7,7 +7,7 @@ using Files.Shared;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class LibraryLocationItem : LocationItem
 	{

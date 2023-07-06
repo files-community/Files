@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.App.UserControls.Widgets;
 using Files.Shared;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{

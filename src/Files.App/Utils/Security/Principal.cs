@@ -5,7 +5,7 @@ using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 
-namespace Files.App.Filesystem.Security
+namespace Files.App.Utils.Security
 {
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.

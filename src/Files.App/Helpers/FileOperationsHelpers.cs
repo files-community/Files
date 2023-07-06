@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Security;
+using Files.App.Utils.Security;
 using Files.App.Shell;
 using Files.Core.Helpers;
 using Microsoft.Extensions.Logging;

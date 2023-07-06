@@ -5,7 +5,7 @@ using Files.Shared.Cloud;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Files.App.Filesystem.Cloud
+namespace Files.App.Utils.Cloud
 {
 	public abstract class AbstractCloudDetector : ICloudDetector
 	{

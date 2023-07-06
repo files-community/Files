@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Files.App.Filesystem.FilesystemHistory
+namespace Files.App.Utils.FilesystemHistory
 {
 	public class StorageHistoryWrapper : IDisposable
 	{

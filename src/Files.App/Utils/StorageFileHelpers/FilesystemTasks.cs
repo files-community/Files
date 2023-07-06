@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public static class FilesystemTasks
 	{

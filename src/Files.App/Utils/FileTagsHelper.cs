@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Common;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.App.Shell;
 using Files.Shared.Extensions;
@@ -13,7 +13,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using IO = System.IO;
 
-namespace Files.App.Filesystem
+namespace Files.App.Utils
 {
 	public static class FileTagsHelper
 	{

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Files.App.Serialization.Implementation
+namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class CachingJsonSettingsDatabase : DefaultJsonSettingsDatabase
 	{
