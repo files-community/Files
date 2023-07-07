@@ -899,7 +899,7 @@
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}">
 									<i:Interaction.Behaviors>
-										<icore:EventTriggerBehavior EventName="Loaded">
+										<icore:EventTriggerBehavior EventName="Toggled">
 											<icore:InvokeCommandAction Command="{x:Bind Commands.LayoutAdaptive}" />
 										</icore:EventTriggerBehavior>
 									</i:Interaction.Behaviors>
