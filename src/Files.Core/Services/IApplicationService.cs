@@ -19,6 +19,6 @@
 		/// Gets the path at which the App Logo is located.
 		/// </summary>
 		[Obsolete("This is a bad way of accessing the logo. Use something more abstract instead, and ideally move it out of this interface.")]
-		string AppLogoPath { get; }
+		string AppIcoPath { get; }
 	}
 }

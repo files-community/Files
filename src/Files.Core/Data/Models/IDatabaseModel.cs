@@ -1,6 +1,6 @@
 ﻿using Files.Shared.Utils;
 
-namespace Files.Core.Models
+namespace Files.Core.Data.Models
 {
 	/// <summary>
 	/// Represents a database to store data identified by <typeparamref name="TKey"/>.

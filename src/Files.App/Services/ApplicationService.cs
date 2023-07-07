@@ -28,7 +28,7 @@ namespace Files.App.Services
 			Package.Current.Id.Version.Revision);
 
 		/// <inheritdoc/>
-		public string AppLogoPath { get; } = AppEnvironment switch
+		public string AppIcoPath { get; } = AppEnvironment switch
 		{
 			AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
 			AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,

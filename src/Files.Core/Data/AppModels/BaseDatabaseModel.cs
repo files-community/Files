@@ -1,9 +1,8 @@
-﻿using Files.Core.Models;
-using Files.Shared.Utils;
+﻿using Files.Shared.Utils;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Files.Core.AppModels
+namespace Files.Core.Data.AppModels
 {
 	/// <summary>
 	/// Represents a dictionary-based database model.

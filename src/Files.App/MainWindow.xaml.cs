@@ -44,7 +44,7 @@ namespace Files.App
 			AppWindow.Title = "Files";
 
 			// Set logo
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppLogoPath));
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
 
 			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;

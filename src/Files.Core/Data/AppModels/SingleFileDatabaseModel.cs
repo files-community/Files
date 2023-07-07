@@ -1,12 +1,11 @@
-﻿using Files.Core.Models;
-using Files.Core.Storage;
+﻿using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Core.Storage.ModifiableStorage;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System.IO;
 
-namespace Files.Core.AppModels
+namespace Files.Core.Data.AppModels
 {
 	/// <inheritdoc cref="BaseDatabaseModel{TDictionaryValue}"/>
 	public sealed class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>
@@ -15,7 +14,7 @@ namespace Files.Core.AppModels
 		private readonly IModifiableFolder _settingsFolder;
 		private IFile? _databaseFile;
 
-		public SingleFileDatabaseModel(string fileName, IModifiableFolder settingsFolder, IAsyncSerializer<SystemIO.Stream> serializer)
+		public SingleFileDatabaseModel(string fileName, IModifiableFolder settingsFolder, IAsyncSerializer<Stream> serializer)
 			: base(serializer)
 		{
 			_fileName = fileName;

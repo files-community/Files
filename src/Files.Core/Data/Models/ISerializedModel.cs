@@ -1,4 +1,4 @@
-﻿namespace Files.Core.Models
+﻿namespace Files.Core.Data.Models
 {
 	/// <summary>
 	/// Represents a model that holds serialized data.

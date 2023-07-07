@@ -116,7 +116,7 @@ namespace Files.App.Helpers
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(applicationService.AppLogoPath);
+			appWindow.SetIcon(applicationService.AppIcoPath);
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

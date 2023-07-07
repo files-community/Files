@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.FilesystemHistory;
-using Files.App.Utils.StorageItems;
-using Files.Core.Services;
-using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
 using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -17,7 +14,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Files.Sdk.Storage.Extensions;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils
