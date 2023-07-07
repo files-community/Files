@@ -5,8 +5,14 @@ namespace Files.Core.Data.Enums
 {
 	public enum IconPersistenceOptions
 	{
+		/// <summary>
+		/// Load icon once.
+		/// </summary>
 		LoadOnce,
 
+		/// <summary>
+		/// Persist icon loading.
+		/// </summary>
 		Persist
 	}
 }

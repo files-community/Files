@@ -5,22 +5,58 @@ namespace Files.Core.Data.Enums
 {
 	public enum SortOption : byte
 	{
+		/// <summary>
+		/// Sort by name.
+		/// </summary>
 		Name,
 
+		/// <summary>
+		/// Sort by date modified.
+		/// </summary>
 		DateModified,
 
+		/// <summary>
+		/// Sort by date created.
+		/// </summary>
 		DateCreated,
 
+		/// <summary>
+		/// Sort by size.
+		/// </summary>
 		Size,
 
+		/// <summary>
+		/// Sort by file type.
+		/// </summary>
 		FileType,
 
-		SyncStatus, // Cloud drive
+		/// <summary>
+		/// Sort by sync status.
+		/// </summary>
+		/// <remarks>
+		/// Reserved for cloud drives.
+		/// </remarks>
+		SyncStatus,
 
+		/// <summary>
+		/// Sort by file tags.
+		/// </summary>
 		FileTag,
 
-		OriginalFolder, // Recycle bin
+		/// <summary>
+		/// Sort by original folder.
+		/// </summary>
+		/// <remarks>
+		/// Preserved for recycle bin.
+		/// </remarks>
+		OriginalFolder,
 
-		DateDeleted // Recycle bin
+		/// <summary>
+		/// Sort by date deleted.
+		/// </summary>
+		/// <remarks>
+		/// Preserved for recycle bin.
+		/// </remarks>
+		DateDeleted
 	}
 }

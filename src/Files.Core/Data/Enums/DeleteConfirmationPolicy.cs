@@ -5,10 +5,19 @@ namespace Files.Core.Data.Enums
 {
 	public enum DeleteConfirmationPolicies : byte
 	{
+		/// <summary>
+		/// Always ask to confirm.
+		/// </summary>
 		Always,
 
+		/// <summary>
+		/// Permanent deletion only.
+		/// </summary>
 		PermanentOnly,
 
+		/// <summary>
+		/// Never ask to confirm.
+		/// </summary>
 		Never,
 	}
 }

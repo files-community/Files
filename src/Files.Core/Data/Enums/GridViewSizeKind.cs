@@ -5,10 +5,19 @@ namespace Files.Core.Data.Enums
 {
 	public enum GridViewSizeKind
 	{
+		/// <summary>
+		/// Small grid view layout.
+		/// </summary>
 		Small,
 
+		/// <summary>
+		/// Medium grid view layout.
+		/// </summary>
 		Medium,
 
+		/// <summary>
+		/// Large grid view layout.
+		/// </summary>
 		Large
 	}
 }
