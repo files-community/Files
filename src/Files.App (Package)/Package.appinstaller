@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller Uri="{AppInstallerUri}"
+              Version="{Version}"
+              xmlns="http://schemas.microsoft.com/appx/appinstaller/2018">
+
+  <MainBundle Name="{Name}"
+              Version="{Version}"
+              Publisher="{Publisher}"
+              Uri="{MainPackageUri}"/>
+</AppInstaller>
