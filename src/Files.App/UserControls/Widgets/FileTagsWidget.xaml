@@ -62,10 +62,10 @@
 							Padding="12,8,12,8"
 							Orientation="Horizontal"
 							Spacing="8">
-							<Ellipse
-								Width="12"
-								Height="12"
-								Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+							<!--  Tag Color  -->
+							<PathIcon Data="{StaticResource ColorIconTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+
+							<!--  Tag Name  -->
 							<TextBlock
 								Margin="0,-2,0,0"
 								FontWeight="SemiBold"
