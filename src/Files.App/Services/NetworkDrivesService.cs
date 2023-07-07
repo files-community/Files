@@ -12,7 +12,7 @@ namespace Files.App.Services
 	{
 		public bool DisconnectNetworkDrive(ILocatableFolder drive)
 		{
-			return NetworkDrivesAPI.DisconnectNetworkDrive(drive.Path);    
+			return NetworkDrivesManager.DisconnectNetworkDrive(drive.Path);    
 		}
 
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
@@ -67,7 +67,7 @@ namespace Files.App.Services
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
 			var handle = NativeWinApiHelper.CoreWindowHandle.ToInt64();
-			return NetworkDrivesAPI.OpenMapNetworkDriveDialog(handle);
+			return NetworkDrivesManager.OpenMapNetworkDriveDialog(handle);
 		}
 	}
 }

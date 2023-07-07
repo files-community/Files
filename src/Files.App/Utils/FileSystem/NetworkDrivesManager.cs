@@ -1,24 +1,18 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanara.Extensions;
 using Vanara.InteropServices;
-using static Vanara.PInvoke.AdvApi32;
 using Vanara.PInvoke;
+using static Vanara.PInvoke.AdvApi32;
 using static Vanara.PInvoke.Mpr;
 
 namespace Files.App.Utils.FileSystem
 {
-	public class NetworkDrivesAPI
+	public class NetworkDrivesManager
 	{
 		/// <summary>
 		/// A dialog box that allows the user to browse and connect to network resources.

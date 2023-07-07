@@ -1546,7 +1546,7 @@ namespace Files.App.Data.Models
 
 			if (isNetwork)
 			{
-				var auth = await NetworkDrivesAPI.AuthenticateNetworkShare(path);
+				var auth = await NetworkDrivesManager.AuthenticateNetworkShare(path);
 				if (!auth)
 					return -1;
 			}
