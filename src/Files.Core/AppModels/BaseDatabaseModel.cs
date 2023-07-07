@@ -28,10 +28,10 @@ namespace Files.Core.AppModels
 		public abstract bool SetValue<TValue>(string key, TValue? value);
 
 		/// <inheritdoc/>
-		public abstract Task<bool> LoadAsync(CancellationToken cancellationToken = default);
+		public abstract Task LoadAsync(CancellationToken cancellationToken = default);
 
 		/// <inheritdoc/>
-		public abstract Task<bool> SaveAsync(CancellationToken cancellationToken = default);
+		public abstract Task SaveAsync(CancellationToken cancellationToken = default);
 
 		/// <inheritdoc/>
 		public virtual void Dispose()

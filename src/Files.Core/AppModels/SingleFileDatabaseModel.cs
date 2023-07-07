@@ -4,6 +4,7 @@ using Files.Sdk.Storage.Extensions;
 using Files.Sdk.Storage.ModifiableStorage;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
+using System.IO;
 
 namespace Files.Core.AppModels
 {
@@ -43,25 +44,23 @@ namespace Files.Core.AppModels
 		}
 
 		/// <inheritdoc/>
-		public override async Task<bool> LoadAsync(CancellationToken cancellationToken = default)
+		public override async Task LoadAsync(CancellationToken cancellationToken = default)
 		{
 			try
 			{
 				await storageSemaphore.WaitAsync(cancellationToken);
-				if (!await EnsureSettingsFileAsync(cancellationToken))
-					return false;
+				await EnsureSettingsFileAsync(cancellationToken);
 
-				_ = _databaseFile!;
+				_ = _databaseFile ?? throw new InvalidOperationException("The database file was not properly initialized.");
 
-				await using var stream = await _databaseFile!.TryOpenStreamAsync(SystemIO.FileAccess.Read, SystemIO.FileShare.Read, cancellationToken);
-				if (stream is null)
-					return false;
+				await using var stream = await _databaseFile!.OpenStreamAsync(FileAccess.Read, FileShare.Read, cancellationToken);
+				var settings = await serializer.DeserializeAsync<Stream, IDictionary>(stream, cancellationToken);
 
-				var settings = await serializer.DeserializeAsync<SystemIO.Stream, IDictionary>(stream, cancellationToken);
+				// Reset the cache
 				settingsCache.Clear();
 
-				if (settings is null) // No settings saved, set cache to empty and return true.
-					return true;
+				if (settings is null) // No settings saved, set cache to empty and return
+					return;
 
 				foreach (DictionaryEntry item in settings)
 				{
@@ -73,12 +72,6 @@ namespace Files.Core.AppModels
 					else
 						settingsCache[key] = new NonSerializedData(item.Value);
 				}
-
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
 			}
 			finally
 			{
@@ -92,16 +85,12 @@ namespace Files.Core.AppModels
 			try
 			{
 				await storageSemaphore.WaitAsync(cancellationToken);
-				if (!await EnsureSettingsFileAsync(cancellationToken))
-					return false;
+				await EnsureSettingsFileAsync(cancellationToken);
 
-				_ = _databaseFile!;
+				_ = _databaseFile ?? throw new InvalidOperationException("The database file was not properly initialized.");
 
-				await using var dataStream = await _databaseFile!.TryOpenStreamAsync(SystemIO.FileAccess.ReadWrite, SystemIO.FileShare.Read, cancellationToken);
-				if (dataStream is null)
-					return false;
-
-				await using var settingsStream = await serializer.SerializeAsync<SystemIO.Stream, IDictionary>(settingsCache, cancellationToken);
+				await using var dataStream = await _databaseFile.TryOpenStreamAsync(FileAccess.ReadWrite, FileShare.Read, cancellationToken);
+				await using var settingsStream = await serializer.SerializeAsync<Stream, IDictionary>(settingsCache, cancellationToken);
 
 				// Overwrite existing content
 				dataStream.Position = 0L;
