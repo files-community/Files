@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Contexts;
 using Files.App.Utils.Shell;
 
 namespace Files.App.Actions

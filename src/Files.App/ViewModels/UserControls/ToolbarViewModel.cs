@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.Contexts;
 using Files.App.Utils.StorageItems;
 using Files.App.Utils.Shell;
 using Files.Core.Helpers;

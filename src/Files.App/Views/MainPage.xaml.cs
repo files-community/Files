@@ -4,8 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Commands;
-using Files.App.Data.Contexts;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;

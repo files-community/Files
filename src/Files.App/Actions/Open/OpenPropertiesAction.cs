@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
-using Files.App.Data.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class OpenPropertiesAction : ObservableObject, IAction
