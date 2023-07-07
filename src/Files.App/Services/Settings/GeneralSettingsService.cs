@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Serialization;
+using Files.App.Utils.Serialization;
 using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
 using System.Collections.Generic;

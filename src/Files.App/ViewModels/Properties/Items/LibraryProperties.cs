@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;

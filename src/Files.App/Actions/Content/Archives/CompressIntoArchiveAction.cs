@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Filesystem.Archive;
+using Files.App.Utils.Archives;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
