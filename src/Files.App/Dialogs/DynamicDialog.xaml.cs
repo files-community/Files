@@ -21,7 +21,7 @@ namespace Files.App.Dialogs
 
 		public new Task<ContentDialogResult> ShowAsync()
 		{
-			return TryShowAsync();
+			return this.TryShowAsync();
 		}
 
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
