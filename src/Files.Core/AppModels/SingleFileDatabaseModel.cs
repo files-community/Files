@@ -89,7 +89,7 @@ namespace Files.Core.AppModels
 
 				_ = _databaseFile ?? throw new InvalidOperationException("The database file was not properly initialized.");
 
-				await using var dataStream = await _databaseFile.TryOpenStreamAsync(FileAccess.ReadWrite, FileShare.Read, cancellationToken);
+				await using var dataStream = await _databaseFile.OpenStreamAsync(FileAccess.ReadWrite, FileShare.Read, cancellationToken);
 				await using var settingsStream = await serializer.SerializeAsync<Stream, IDictionary>(settingsCache, cancellationToken);
 
 				// Overwrite existing content
