@@ -107,6 +107,7 @@ namespace Files.App.Commands
 		public IRichCommand SortByType => commands[CommandCodes.SortByType];
 		public IRichCommand SortBySyncStatus => commands[CommandCodes.SortBySyncStatus];
 		public IRichCommand SortByTag => commands[CommandCodes.SortByTag];
+		public IRichCommand SortByPath => commands[CommandCodes.SortByPath];
 		public IRichCommand SortByOriginalFolder => commands[CommandCodes.SortByOriginalFolder];
 		public IRichCommand SortByDateDeleted => commands[CommandCodes.SortByDateDeleted];
 		public IRichCommand SortAscending => commands[CommandCodes.SortAscending];
@@ -263,6 +264,7 @@ namespace Files.App.Commands
 			[CommandCodes.SortByType] = new SortByTypeAction(),
 			[CommandCodes.SortBySyncStatus] = new SortBySyncStatusAction(),
 			[CommandCodes.SortByTag] = new SortByTagAction(),
+			[CommandCodes.SortByPath] = new SortByPathAction(),
 			[CommandCodes.SortByOriginalFolder] = new SortByOriginalFolderAction(),
 			[CommandCodes.SortByDateDeleted] = new SortByDateDeletedAction(),
 			[CommandCodes.SortAscending] = new SortAscendingAction(),

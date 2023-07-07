@@ -1,41 +1,47 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class NavigateBackAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Back".GetLocalizedResource();
+		public string Label
+			=> "Back".GetLocalizedResource();
 
-		public string Description { get; } = "NavigateBackDescription".GetLocalizedResource();
+		public string Description
+			=> "NavigateBackDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.Left, KeyModifiers.Menu);
-		public HotKey SecondHotKey { get; } = new(Keys.Back);
-		public HotKey ThirdHotKey { get; } = new(Keys.Mouse4);
-		public HotKey MediaHotKey { get; } = new(Keys.GoBack, false);
+		public HotKey HotKey
+			=> new(Keys.Left, KeyModifiers.Menu);
 
-		public RichGlyph Glyph { get; } = new("\uE72B");
+		public HotKey SecondHotKey
+			=> new(Keys.Back);
 
-		public bool IsExecutable => context.CanGoBack;
+		public HotKey ThirdHotKey
+			=> new(Keys.Mouse4);
+
+		public HotKey MediaHotKey
+			=> new(Keys.GoBack, false);
+
+		public RichGlyph Glyph
+			=> new("\uE72B");
+
+		public bool IsExecutable
+			=> context.CanGoBack;
 
 		public NavigateBackAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			context.ShellPage!.Back_Click();
+
 			return Task.CompletedTask;
 		}
 

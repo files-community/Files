@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers.FileListCache;
-using Files.App.Shell;
+using Files.App.Utils.Cloud;
+using Files.App.Utils.Search;
+using Files.App.Utils.StorageEnumerators;
+using Files.App.Utils.StorageItems;
+using Files.App.Helpers.StorageCache;
+using Files.App.Utils.Shell;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Cloud;
@@ -176,6 +176,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -209,6 +210,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -228,6 +230,20 @@ namespace Files.App.Data.Models
 				{
 					folderSettings.DirectorySortOption = SortOption.Name;
 					OnPropertyChanged(nameof(IsSortedByName));
+				}
+			}
+		}
+
+		public bool IsSortedByPath
+		{
+			get => folderSettings.DirectorySortOption == SortOption.Path;
+			set
+			{
+				if (value)
+				{
+					folderSettings.DirectorySortOption = SortOption.Path;
+
+					OnPropertyChanged(nameof(IsSortedByPath));
 				}
 			}
 		}
@@ -1565,7 +1581,7 @@ namespace Files.App.Data.Models
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
+					ItemNameRaw = rootFolder?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 					ItemType = folderTypeTextLocalized,
@@ -1619,6 +1635,10 @@ namespace Files.App.Data.Models
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
+
+					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					if (rootFolder?.DisplayName is not null)
+						currentFolder.ItemNameRaw = rootFolder.DisplayName;
 
 					return 0;
 				}
@@ -2383,6 +2403,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeRecycleBin { get; set; }
 
 		public bool IsTypeGitRepository { get; set; }
+
+		public bool IsTypeSearchResults { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs

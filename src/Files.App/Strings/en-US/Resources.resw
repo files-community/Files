@@ -133,7 +133,7 @@
     <value>Created:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path:</value>
+    <value>Path</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Size:</value>
@@ -3336,7 +3336,7 @@
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>	
+    <value>Files cannot access GitHub right now.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3368,7 +3368,7 @@
   <data name="UnableToDisplayOwner" xml:space="preserve">
     <value>Unable to display current owner.</value>
   </data>
-  <data name="AuthorizationSucceded">
+  <data name="AuthorizationSucceded" xml:space="preserve">
     <value>Great! You are now authorized.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
@@ -3377,10 +3377,16 @@
   <data name="InitRepoDescription" xml:space="preserve">
     <value>Initialize a Git repository</value>
   </data>
-    <data name="GitOriginRepositoryName">
-	  <value>Remote Repository Name</value>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
   </data>
-  <data name="GitCurrentBranch">
-	  <value>Current Branch</value>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>

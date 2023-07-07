@@ -1,28 +1,26 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Extensions;
-using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class TogglePreviewPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly PreviewPaneViewModel viewModel;
 
-		public string Label { get; } = "TogglePreviewPane".GetLocalizedResource();
+		public string Label
+			=> "TogglePreviewPane".GetLocalizedResource();
 
-		public string Description => "TogglePreviewPaneDescription".GetLocalizedResource();
+		public string Description
+			=> "TogglePreviewPaneDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconLeftPane");
-		public HotKey HotKey { get; } = new(Keys.P, KeyModifiers.Ctrl);
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconLeftPane");
 
-		public bool IsOn => viewModel.IsEnabled;
+		public HotKey HotKey
+			=> new(Keys.P, KeyModifiers.Ctrl);
+
+		public bool IsOn
+			=> viewModel.IsEnabled;
 
 		public TogglePreviewPaneAction()
 		{
@@ -33,6 +31,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			viewModel.IsEnabled = !IsOn;
+
 			return Task.CompletedTask;
 		}
 
