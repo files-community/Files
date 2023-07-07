@@ -4,8 +4,8 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Shell;
+using Files.App.Utils.StorageItems;
+using Files.App.Utils.Shell;
 using Files.Core.Helpers;
 using Files.Core.Services;
 using Files.Shared.EventArguments;

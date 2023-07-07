@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers.FileListCache;
-using Files.App.Shell;
+using Files.App.Utils.Cloud;
+using Files.App.Utils.Search;
+using Files.App.Utils.StorageEnumerators;
+using Files.App.Utils.StorageItems;
+using Files.App.Helpers.StorageCache;
+using Files.App.Utils.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
@@ -1676,7 +1676,7 @@ namespace Files.App.Data.Models
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
+					ItemNameRaw = rootFolder?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 					ItemType = folderTypeTextLocalized,
@@ -1730,6 +1730,10 @@ namespace Files.App.Data.Models
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
+
+					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					if (rootFolder?.DisplayName is not null)
+						currentFolder.ItemNameRaw = rootFolder.DisplayName;
 
 					return 0;
 				}

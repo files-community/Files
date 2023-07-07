@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
-using Files.App.Filesystem.Security;
+using Files.App.Utils.Security;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
