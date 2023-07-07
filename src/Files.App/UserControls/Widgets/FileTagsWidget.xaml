@@ -63,7 +63,7 @@
 							Orientation="Horizontal"
 							Spacing="8">
 							<!--  Tag Color  -->
-							<PathIcon Data="{StaticResource ColorIconTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+							<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 
 							<!--  Tag Name  -->
 							<TextBlock

@@ -303,7 +303,7 @@
 					Tag="{x:Bind Path}"
 					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<PathIcon Data="{StaticResource ColorIconTag}" Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+						<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 			</DataTemplate>
