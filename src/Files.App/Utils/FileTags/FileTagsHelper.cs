@@ -2,13 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Common;
-using Files.App.Utils.StorageItems;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using Files.Shared.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using IO = System.IO;
@@ -17,11 +10,13 @@ namespace Files.App.Utils.FileTags
 {
 	public static class FileTagsHelper
 	{
-		public static string FileTagsDbPath => IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+		public static string FileTagsDbPath
+			=> IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
 
 		private static readonly Lazy<FileTagsDb> dbInstance = new(() => new FileTagsDb(FileTagsDbPath, true));
 
-		public static FileTagsDb GetDbInstance() => dbInstance.Value;
+		public static FileTagsDb GetDbInstance()
+			=> dbInstance.Value;
 
 		public static string[] ReadFileTag(string filePath)
 		{
@@ -32,27 +27,19 @@ namespace Files.App.Utils.FileTags
 		public static void WriteFileTag(string filePath, string[] tag)
 		{
 			var isDateOk = NativeFileOperationsHelper.GetFileDateModified(filePath, out var dateModified); // Backup date modified
+
 			var isReadOnly = NativeFileOperationsHelper.HasFileAttribute(filePath, IO.FileAttributes.ReadOnly);
 			if (isReadOnly) // Unset read-only attribute (#7534)
-			{
 				NativeFileOperationsHelper.UnsetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			}
+
 			if (tag is null || !tag.Any())
-			{
 				NativeFileOperationsHelper.DeleteFileFromApp($"{filePath}:files");
-			}
 			else if (ReadFileTag(filePath) is not string[] arr || !tag.SequenceEqual(arr))
-			{
 				NativeFileOperationsHelper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
-			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
-			{
 				NativeFileOperationsHelper.SetFileAttribute(filePath, IO.FileAttributes.ReadOnly);
-			}
 			if (isDateOk)
-			{
 				NativeFileOperationsHelper.SetFileDateModified(filePath, dateModified); // Restore date modified
-			}
 		}
 
 		public static void UpdateTagsDb()
@@ -98,7 +85,8 @@ namespace Files.App.Utils.FileTags
 			}
 		}
 
-		public static ulong? GetFileFRN(string filePath) => NativeFileOperationsHelper.GetFileFRN(filePath);
+		public static ulong? GetFileFRN(string filePath)
+			=> NativeFileOperationsHelper.GetFileFRN(filePath);
 
 		public static Task<ulong?> GetFileFRN(IStorageItem item)
 		{

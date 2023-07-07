@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
@@ -14,6 +13,9 @@ using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Git
 {
+	/// <summary>
+	/// Provides static helper for Git support.
+	/// </summary>
 	internal static class GitHelpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";

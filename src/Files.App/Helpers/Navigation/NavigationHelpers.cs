@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.FileSystem;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;

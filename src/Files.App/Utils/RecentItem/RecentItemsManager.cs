@@ -8,11 +8,17 @@ namespace Files.App.Utils.RecentItem
 	public sealed class RecentItemsManager
 	{
 		private static readonly Lazy<RecentItemsManager> lazy = new(() => new RecentItemsManager());
+
 		private static readonly string recentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
 		private static readonly string automaticDestinationsPath = Path.Combine(recentItemsPath, "AutomaticDestinations");
+
 		private const string QuickAccessJumpListFileName = "5f7b5f1e01b83767.automaticDestinations-ms";
+
 		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
+
 		private DateTime quickAccessLastReadTime = DateTime.MinValue;
+
 		private FileSystemWatcher? quickAccessJumpListWatcher;
 
 		public event EventHandler? RecentItemsChanged;
@@ -38,16 +44,15 @@ namespace Files.App.Utils.RecentItem
 		private void StartQuickAccessJumpListWatcher()
 		{
 			if (quickAccessJumpListWatcher is not null)
-			{
 				return;
-			}
 
-			quickAccessJumpListWatcher = new FileSystemWatcher
+			quickAccessJumpListWatcher = new FileSystemWatcher()
 			{
 				Path = automaticDestinationsPath,
 				Filter = QuickAccessJumpListFileName,
 				NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite,
 			};
+
 			quickAccessJumpListWatcher.Changed += QuickAccessJumpList_Changed;
 			quickAccessJumpListWatcher.Deleted += QuickAccessJumpList_Changed;
 			quickAccessJumpListWatcher.EnableRaisingEvents = true;
@@ -55,7 +60,7 @@ namespace Files.App.Utils.RecentItem
 
 		private void QuickAccessJumpList_Changed(object sender, FileSystemEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine($"{nameof(QuickAccessJumpList_Changed)}: {e.ChangeType}, {e.FullPath}");
+			Debug.WriteLine($"{nameof(QuickAccessJumpList_Changed)}: {e.ChangeType}, {e.FullPath}");
 
 			// skip if multiple events occurred for singular change
 			var lastWriteTime = File.GetLastWriteTime(e.FullPath);

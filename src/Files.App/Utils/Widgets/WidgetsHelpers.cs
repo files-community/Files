@@ -3,11 +3,12 @@
 
 using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
-using Files.Core.Services.Settings;
-using System.Collections.Generic;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Widgets
 {
+	/// <summary>
+	/// Provides static helper for Home page Widgets.
+	/// </summary>
 	public static class WidgetsHelpers
 	{
 		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
@@ -41,24 +42,20 @@ namespace Files.App.Helpers
 		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetItemModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
-			{
 				return generalSettingsService.ShowQuickAccessWidget;
-			}
+
 			if (typeof(TWidget) == typeof(DrivesWidget))
-			{
 				return generalSettingsService.ShowDrivesWidget;
-			}
+
 			if (typeof(TWidget) == typeof(FileTagsWidget))
-			{
 				return generalSettingsService.ShowFileTagsWidget;
-			}
+
 			if (typeof(TWidget) == typeof(RecentFilesWidget))
-			{
 				return generalSettingsService.ShowRecentFilesWidget;
-			}
 
 			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			// Return true for custom widgets - they're always enabled
+			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget));
 		}
 	}
 }

@@ -8,7 +8,7 @@ using Files.App.Commands;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.Extensions;
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.FileSystem;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Services;
 using Files.App.Utils.Shell;
@@ -787,7 +787,7 @@ namespace Files.App.UserControls
 			var deferral = e.GetDeferral();
 			e.Handled = true;
 
-			var storageItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 			if (!storageItems.Any())
 			{
@@ -820,7 +820,7 @@ namespace Files.App.UserControls
 
 			var deferral = e.GetDeferral();
 
-			var storageItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+			var storageItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
 				var listedItem = new ListedItem(null)

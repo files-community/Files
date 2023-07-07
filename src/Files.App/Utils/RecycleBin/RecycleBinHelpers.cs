@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
 using Vanara.PInvoke;
@@ -11,15 +10,11 @@ namespace Files.App.Utils.RecycleBin
 {
 	public static class RecycleBinHelpers
 	{
-		#region Private Members
-
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly OngoingTasksViewModel _ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		#endregion Private Members
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
@@ -34,12 +29,14 @@ namespace Files.App.Utils.RecycleBin
 		public static async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
 		}
 
 		public static async Task<bool> IsRecycleBinItem(string path)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
 			return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
 		}
 
@@ -59,11 +56,12 @@ namespace Files.App.Utils.RecycleBin
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
-				|| await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
+			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never ||
+				await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
-				var banner = ongoingTasksViewModel.PostBanner(
+
+				var banner = _ongoingTasksViewModel.PostBanner(
 					bannerTitle,
 					"EmptyingRecycleBin".GetLocalizedResource(),
 					0,
@@ -71,21 +69,27 @@ namespace Files.App.Utils.RecycleBin
 					FileOperationType.Delete);
 
 				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
+	
 				banner.Remove();
+
 				if (opSucceded)
-					ongoingTasksViewModel.PostBanner(
+				{
+					_ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingSucceded".GetLocalizedResource(),
 						100,
 						ReturnResult.Success,
 						FileOperationType.Delete);
+				}
 				else
-					ongoingTasksViewModel.PostBanner(
+				{
+					_ongoingTasksViewModel.PostBanner(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
 						100,
 						ReturnResult.Failed,
 						FileOperationType.Delete);
+				}
 			}
 		}
 
@@ -103,9 +107,7 @@ namespace Files.App.Utils.RecycleBin
 			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
-			{
 				Vanara.Windows.Shell.RecycleBin.RestoreAll();
-			}
 		}
 
 		public static async Task RestoreSelectionRecycleBin(IShellPage associatedInstance)
@@ -149,6 +151,7 @@ namespace Files.App.Utils.RecycleBin
 					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
 				Dest = ((RecycleBinItem)item).ItemOriginalPath
 			});
+
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}
 
@@ -157,6 +160,7 @@ namespace Files.App.Utils.RecycleBin
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
 				item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
+
 			await associatedInstance.FilesystemHelpers.DeleteItemsAsync(items, userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy, false, true);
 		}
 	}

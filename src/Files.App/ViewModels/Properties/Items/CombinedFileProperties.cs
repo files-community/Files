@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.FileSystem;
 using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.Properties

@@ -1,14 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Cloud;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Properties;
-using Files.Core.Helpers;
-using Files.Core.ViewModels.FileTags;
 using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
-using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -17,7 +12,7 @@ using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace Files.App.Utils
+namespace Files.App.Data.Items
 {
 	public class ListedItem : ObservableObject, IGroupableItem
 	{

@@ -6,11 +6,12 @@
 	xmlns:cloud="using:Files.App.Utils.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:filesystem="using:Files.App.Utils"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:filesystem="using:Files.App.Utils.FileSystem"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
@@ -183,7 +184,7 @@
 					</ListView.ItemContainerTransitions>
 
 					<ListView.ItemTemplate>
-						<DataTemplate x:DataType="filesystem:ListedItem">
+						<DataTemplate x:DataType="items:ListedItem">
 							<Grid
 								x:Name="FilesRootGrid"
 								Height="30"
@@ -340,7 +341,7 @@
 					<ListView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
-								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+								<DataTemplate x:DataType="filesystem:IGroupedCollectionHeader">
 									<StackPanel
 										Margin="0,0,0,4"
 										VerticalAlignment="Top"
@@ -418,15 +419,15 @@
 								<!--  Group Image  -->
 								<Image
 									Height="36"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
 									Stretch="Uniform" />
 
 								<!--  Group Icon  -->
-								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<FontIcon FontSize="32" Glyph="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
 								<StackPanel
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 
@@ -435,7 +436,7 @@
 											VerticalAlignment="Center"
 											FontSize="16"
 											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+											Text="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
 										<!--  Count  -->
 										<TextBlock
@@ -443,8 +444,8 @@
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Text="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+											Visibility="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Subheader  -->
 										<TextBlock
@@ -452,16 +453,16 @@
 											FontSize="14"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+											Visibility="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</StackPanel>
 
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Text="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+										Visibility="{x:Bind ((filesystem:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								</StackPanel>
 

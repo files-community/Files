@@ -8,8 +8,9 @@ namespace Files.App.Utils.FileTags
 {
 	public class FileTagsManager
 	{
-		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetService<IFileTagsSettingsService>();
+		private readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
+		private readonly IFileTagsSettingsService _fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
@@ -19,21 +20,20 @@ namespace Files.App.Utils.FileTags
 			get
 			{
 				lock (fileTags)
-				{
 					return fileTags.ToList().AsReadOnly();
-				}
 			}
 		}
 
 		public FileTagsManager()
 		{
-			fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
+			_fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
 		}
 
 		private async void TagsUpdated(object? _, EventArgs e)
 		{
 			lock (fileTags)
 				fileTags.Clear();
+
 			DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 			await UpdateFileTagsAsync();
@@ -43,7 +43,7 @@ namespace Files.App.Utils.FileTags
 		{
 			try
 			{
-				foreach (var tag in fileTagsSettingsService.FileTagList)
+				foreach (var tag in _fileTagsSettingsService.FileTagList)
 				{
 					var tagItem = new FileTagItem
 					{
@@ -56,17 +56,17 @@ namespace Files.App.Utils.FileTags
 					lock (fileTags)
 					{
 						if (fileTags.Any(x => x.Path == $"tag:{tag.Name}"))
-						{
 							continue;
-						}
+
 						fileTags.Add(tagItem);
 					}
+
 					DataChanged?.Invoke(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, tagItem));
 				}
 			}
 			catch (Exception ex)
 			{
-				logger.LogWarning(ex, "Error loading tags section.");
+				_logger.LogWarning(ex, "Error loading tags section.");
 			}
 
 			return Task.CompletedTask;

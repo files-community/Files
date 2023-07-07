@@ -5,7 +5,7 @@ using Files.App.Extensions;
 using Files.App.Utils;
 using Files.App.Helpers;
 using Files.App.Utils.Serialization;
-using Files.App.Utils.Serialization.Implementation;
+using Files.App.Utils.Serialization;
 using Files.Core.Services.Settings;
 using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;

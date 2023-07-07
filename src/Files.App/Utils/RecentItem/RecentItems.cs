@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Collections.Specialized;
@@ -16,30 +15,29 @@ namespace Files.App.Utils.RecentItem
 		private const string QuickAccessGuid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFilesChanged;
+
 		public EventHandler<NotifyCollectionChangedEventArgs>? RecentFoldersChanged;
 
 		// recent files
-		private readonly List<RecentItem> recentFiles = new();
-		public IReadOnlyList<RecentItem> RecentFiles    // already sorted
+		private readonly List<RecentItem> _RecentFiles = new();
+		public IReadOnlyList<RecentItem> RecentFiles // Already sorted
 		{
 			get
 			{
-				lock (recentFiles)
-				{
-					return recentFiles.ToList().AsReadOnly();
-				}
+				lock (_RecentFiles)
+					return _RecentFiles.ToList().AsReadOnly();
 			}
 		}
 
 		// recent folders
-		private readonly List<RecentItem> recentFolders = new();
-		public IReadOnlyList<RecentItem> RecentFolders  // already sorted
+		private readonly List<RecentItem> _RecentFolders = new();
+		public IReadOnlyList<RecentItem> RecentFolders // Already sorted
 		{
 			get
 			{
-				lock (recentFolders)
+				lock (_RecentFolders)
 				{
-					return recentFolders.ToList().AsReadOnly();
+					return _RecentFolders.ToList().AsReadOnly();
 				}
 			}
 		}
@@ -55,20 +53,21 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		/// <summary>
-		/// Refetch recent files to `recentFiles`.
+		/// Re-fetches recent files to `recentFiles`.
 		/// </summary>
 		public async Task UpdateRecentFilesAsync()
 		{
-			// enumerate with fulltrust process
+			// Enumerate with full trust process
 			List<RecentItem> enumeratedFiles = await ListRecentFilesAsync();
+
 			if (enumeratedFiles is not null)
 			{
 				var recentFilesSnapshot = RecentFiles;
 
-				lock (recentFiles)
+				lock (_RecentFiles)
 				{
-					recentFiles.Clear();
-					recentFiles.AddRange(enumeratedFiles);
+					_RecentFiles.Clear();
+					_RecentFiles.AddRange(enumeratedFiles);
 					// do not sort here, enumeration order *is* the correct order since we get it from Quick Access
 				}
 
@@ -78,21 +77,21 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		/// <summary>
-		/// Refetch recent folders to `recentFolders`.
+		/// Re-fetches recent folders to `recentFolders`.
 		/// </summary>
 		public async Task UpdateRecentFoldersAsync()
 		{
 			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync);	// run off the UI thread
 			if (enumeratedFolders is not null)
 			{
-				lock (recentFolders)
+				lock (_RecentFolders)
 				{
-					recentFolders.Clear();
-					recentFolders.AddRange(enumeratedFolders);
+					_RecentFolders.Clear();
+					_RecentFolders.AddRange(enumeratedFolders);
 
 					// shortcut modifications in `Windows\Recent` consist of a delete + add operation;
 					// thus, last modify date is reset and we can sort off it
-					recentFolders.Sort((x, y) => y.LastModified.CompareTo(x.LastModified));
+					_RecentFolders.Sort((x, y) => y.LastModified.CompareTo(x.LastModified));
 				}
 
 				RecentFoldersChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -100,7 +99,7 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		/// <summary>
-		/// Enumerate recently accessed files via `Quick Access`.
+		/// Enumerates recently accessed files via `Quick Access`.
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFilesAsync()
 		{
@@ -110,7 +109,7 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		/// <summary>
-		/// Enumerate recently accessed folders via `Windows\Recent`.
+		/// Enumerates recently accessed folders via `Windows\Recent`.
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
@@ -192,7 +191,7 @@ namespace Files.App.Utils.RecentItem
 		}
 
 		/// <summary>
-		/// Unpin (or remove) a file from `recentFiles`.
+		/// Unpins or removes a file from `RecentFiles`.
 		/// This will also unpin the item from the Recent Files in File Explorer.
 		/// </summary>
 		/// <returns>Whether the action was successfully handled or not</returns>
@@ -211,16 +210,14 @@ namespace Files.App.Utils.RecentItem
 
 		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
 		{
-			// a single item was added
+			// A single item was added
 			if (newItems.Count == oldItems.Count + 1)
 			{
 				var differences = newItems.Except(oldItems);
 				if (differences.Take(2).Count() == 1)
-				{
 					return new(NotifyCollectionChangedAction.Add, newItems.First());
-				}
 			}
-			// a single item was removed
+			// A single item was removed
 			else if (newItems.Count == oldItems.Count - 1)
 			{
 				var differences = oldItems.Except(newItems);
@@ -229,29 +226,24 @@ namespace Files.App.Utils.RecentItem
 					for (int i = 0; i < oldItems.Count; i++)
 					{
 						if (i >= newItems.Count || !newItems[i].Equals(oldItems[i]))
-						{
 							return new(NotifyCollectionChangedAction.Remove, oldItems[i], index: i);
-						}
 					}
 				}
 			}
-			// a single item was moved
+			// A single item was moved
 			else if (newItems.Count == oldItems.Count)
 			{
 				var differences = oldItems.Except(newItems);
+
 				// desync due to skipped/batched calls, reset the list
 				if (differences.Any())
-				{
 					return new(NotifyCollectionChangedAction.Reset);
-				}
 
 				// first diff from reversed is the designated item
 				for (int i = oldItems.Count - 1; i >= 0; i--)
 				{
 					if (!oldItems[i].Equals(newItems[i]))
-					{
 						return new(NotifyCollectionChangedAction.Move, oldItems[i], index: 0, oldIndex: i);
-					}
 				}
 			}
 
@@ -270,9 +262,7 @@ namespace Files.App.Utils.RecentItem
 				// quick access: show recent files option
 				bool showRecentValue = Convert.ToBoolean(subkey.GetValue("ShowRecent", true)); // 1 by default
 				if (!showRecentValue)
-				{
 					return false;
-				}
 			}
 
 			if (advSubkey is not null)
@@ -280,9 +270,7 @@ namespace Files.App.Utils.RecentItem
 				// settings: personalization > start > show recently opened items
 				bool startTrackDocsValue = Convert.ToBoolean(advSubkey.GetValue("Start_TrackDocs", true)); // 1 by default
 				if (!startTrackDocsValue)
-				{
 					return false;
-				}
 			}
 
 			// for users in group policies
@@ -291,9 +279,7 @@ namespace Files.App.Utils.RecentItem
 			{
 				bool noRecentDocsHistoryValue = Convert.ToBoolean(policySubkey.GetValue("NoRecentDocsHistory", false)); // 0 by default
 				if (noRecentDocsHistoryValue)
-				{
 					return false;
-				}
 			}
 
 			return true;

@@ -1,20 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Files.Shared.Cloud;
-using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Versioning;
-using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Cloud
 {
-	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector
 	{
 		private readonly static string programFilesFolder = Environment.GetEnvironmentVariable("ProgramFiles");
@@ -142,9 +134,7 @@ namespace Files.App.Helpers
 		{
 			using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts");
 			if (oneDriveAccountsKey is null)
-			{
 				return Task.FromResult<IEnumerable<ICloudProvider>>(null);
-			}
 
 			var oneDriveAccounts = new List<ICloudProvider>();
 			foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
@@ -197,9 +187,7 @@ namespace Files.App.Helpers
 					{
 						var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
 						if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
-						{
 							sharePointSyncFolders.Add(value);
-						}
 					}
 				}
 

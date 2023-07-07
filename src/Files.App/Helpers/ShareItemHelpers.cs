@@ -3,7 +3,7 @@
 
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;

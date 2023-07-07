@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StorageItems;
 using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -11,22 +10,33 @@ namespace Files.App.Utils.RecentItem
 {
 	public class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{
-		private BitmapImage _fileImg;
+		private BitmapImage _FileImg;
 		public BitmapImage FileImg
 		{
-			get => _fileImg;
-			set => SetProperty(ref _fileImg, value);
+			get => _FileImg;
+			set => SetProperty(ref _FileImg, value);
 		}
+
 		public string LinkPath { get; set; }    // path of shortcut item (this is unique)
+
 		public string RecentPath { get; set; }  // path to target item
+
 		public string Name { get; set; }
+
 		public StorageItemTypes Type { get; set; }
+
 		public bool FolderImg { get; set; }
+
 		public bool EmptyImgVis { get; set; }
+
 		public bool FileIconVis { get; set; }
+
 		public bool IsFile { get => Type == StorageItemTypes.File; }
+
 		public DateTime LastModified { get; set; }
+
 		public byte[] PIDL { get; set; }
+
 		public string Path { get => RecentPath; }
 
 		public RecentItem()
@@ -99,26 +109,38 @@ namespace Files.App.Utils.RecentItem
 				return false;
 			}
 
-			// do not include LastModified or anything else here; otherwise, Remove(...) will fail since we lose metadata on deletion!
-			// when constructing a RecentItem from a deleted link, the only thing we have is the LinkPath (where the link use to be)
-			return LinkPath == other.LinkPath &&
-				   RecentPath == other.RecentPath;
+			// Do not include LastModified or anything else here; otherwise, Remove(...) will fail since we lose metadata on deletion.
+			// When constructing a RecentItem from a deleted link, the only thing we have is the LinkPath (where the link use to be)
+			return
+				LinkPath == other.LinkPath &&
+				RecentPath == other.RecentPath;
 		}
 
 		public override int GetHashCode() => (LinkPath, RecentPath).GetHashCode();
 		public override bool Equals(object? o) => o is RecentItem other && Equals(other);
 
-		/**
-		 * Strips a name from an extension while aware of some edge cases.
-		 *
-		 *   example.min.js => example.min
-		 *   example.js     => example
-		 *   .gitignore     => .gitignore
-		 */
+		/// <summary>
+		/// Strips a name from an extension while aware of some edge cases.
+		/// </summary>
+		/// <remarks>
+		/// Example:
+		/// <br/>
+		/// example.min.js => example.min
+		/// <br/>
+		/// example.js => example
+		/// <br/>
+		/// .gitignore => .gitignore
+		/// </remarks>
+		/// <param name="nameOrPath"></param>
+		/// <returns></returns>
 		private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
-			string strippedExtension = System.IO.Path.GetFileNameWithoutExtension(nameOrPath);
-			return string.IsNullOrEmpty(strippedExtension) ? System.IO.Path.GetFileName(nameOrPath) : strippedExtension;
+			string strippedExtension = SystemIO.Path.GetFileNameWithoutExtension(nameOrPath);
+
+			return
+				string.IsNullOrEmpty(strippedExtension)
+					? SystemIO.Path.GetFileName(nameOrPath)
+					: strippedExtension;
 		}
 	}
 }
