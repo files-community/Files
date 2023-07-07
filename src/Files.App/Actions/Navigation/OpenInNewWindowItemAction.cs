@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
 using Windows.System;
 
 namespace Files.App.Actions
@@ -20,10 +18,8 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
-		public bool IsExecutable =>
-			context.PageType == ContentPageTypes.SearchResults &&
-			context.PageType == ContentPageTypes.Ftp &&
-			context.PageType == ContentPageTypes.ZipFolder;
+		public bool IsExecutable
+			=> context.HasSelection;
 
 		public OpenInNewWindowItemAction()
 		{

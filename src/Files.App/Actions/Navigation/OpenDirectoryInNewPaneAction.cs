@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class OpenDirectoryInNewPaneAction : ObservableObject, IAction
@@ -15,10 +13,8 @@ namespace Files.App.Actions
 		public string Description
 			=> "OpenDirectoryInNewPaneDescription".GetLocalizedResource();
 
-		public bool IsExecutable =>
-			context.PageType == ContentPageTypes.SearchResults &&
-			context.PageType == ContentPageTypes.Ftp &&
-			context.PageType == ContentPageTypes.ZipFolder;
+		public bool IsExecutable
+			=> context.HasSelection;
 
 		public OpenDirectoryInNewPaneAction()
 		{

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class OpenDirectoryInNewTabAction : ObservableObject, IAction
@@ -21,10 +18,8 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable =>
-			context.PageType == ContentPageTypes.SearchResults &&
-			context.PageType == ContentPageTypes.Ftp &&
-			context.PageType == ContentPageTypes.ZipFolder;
+		public bool IsExecutable
+			=> context.HasSelection;
 
 		public OpenDirectoryInNewTabAction()
 		{
