@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.App.Helpers;
 using Files.Core.Services.Settings;
 using Files.Core.ViewModels.FileTags;

@@ -1,26 +1,22 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
 using Files.App.UserControls.MultitaskingControl;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class ReopenClosedTabAction : ObservableObject, IAction
 	{
-		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext context;
 
-		public string Label { get; } = "ReopenClosedTab".GetLocalizedResource();
+		public string Label
+			=> "ReopenClosedTab".GetLocalizedResource();
 
-		public string Description { get; } = "ReopenClosedTabDescription".GetLocalizedResource();
+		public string Description
+			=> "ReopenClosedTabDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.T, KeyModifiers.CtrlShift);
+		public HotKey HotKey
+			=> new(Keys.T, KeyModifiers.CtrlShift);
 
 		public bool IsExecutable =>
 			context.Control is not null &&
@@ -29,6 +25,8 @@ namespace Files.App.Actions
 
 		public ReopenClosedTabAction()
 		{
+			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 			BaseMultitaskingControl.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
@@ -36,6 +34,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			context.Control!.ReopenClosedTab();
+
 			return Task.CompletedTask;
 		}
 

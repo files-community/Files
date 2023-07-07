@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
@@ -406,6 +406,13 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name;
+
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath &&
+					!ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None;
+
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
 					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else
@@ -435,7 +442,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Filesystem.Search.FolderSearch
+					var searchInstance = new Utils.Search.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,

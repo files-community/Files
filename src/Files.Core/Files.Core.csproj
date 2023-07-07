@@ -12,11 +12,11 @@
 
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Files.Sdk.Storage\Files.Sdk.Storage.csproj" />
+        <ProjectReference Include="..\Files.Core.Storage\Files.Core.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>
 

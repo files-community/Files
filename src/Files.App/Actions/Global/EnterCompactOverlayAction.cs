@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 
@@ -10,20 +8,27 @@ namespace Files.App.Actions
 {
 	internal class EnterCompactOverlayAction : ObservableObject, IAction
 	{
-		private readonly IWindowContext windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+		private readonly IWindowContext windowContext;
 
-		public string Label { get; } = "EnterCompactOverlay".GetLocalizedResource();
+		public string Label
+			=> "EnterCompactOverlay".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "EnterCompactOverlay");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconEnterCompactOverlay");
 
-		public HotKey HotKey { get; } = new(Keys.Up, KeyModifiers.MenuCtrl);
+		public HotKey HotKey
+			=> new(Keys.Up, KeyModifiers.MenuCtrl);
 
-		public string Description => "EnterCompactOverlayDescription".GetLocalizedResource();
+		public string Description
+			=> "EnterCompactOverlayDescription".GetLocalizedResource();
 
-		public bool IsExecutable => !windowContext.IsCompactOverlay;
+		public bool IsExecutable
+			=> !windowContext.IsCompactOverlay;
 
 		public EnterCompactOverlayAction()
 		{
+			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 

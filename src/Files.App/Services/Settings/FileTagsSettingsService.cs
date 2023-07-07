@@ -1,8 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Serialization;
-using Files.App.Serialization.Implementation;
+using Files.App.Extensions;
+using Files.App.Utils;
+using Files.App.Helpers;
+using Files.App.Utils.Serialization;
+using Files.App.Utils.Serialization.Implementation;
+using Files.Core.Services.Settings;
+using Files.Core.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;

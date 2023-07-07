@@ -1,29 +1,33 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Shell;
-using Files.Core.Helpers;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
 	internal class InstallInfDriverAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "Install".GetLocalizedResource();
+		public string Label
+			=> "Install".GetLocalizedResource();
 		
-		public string Description => "InstallInfDriverDescription".GetLocalizedResource();
+		public string Description
+			=> "InstallInfDriverDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE9F5");
+		public RichGlyph Glyph
+			=> new("\uE9F5");
 
-		public bool IsExecutable => context.SelectedItems.Count == 1 &&
+		public bool IsExecutable =>
+			context.SelectedItems.Count == 1 &&
 			FileExtensionHelpers.IsInfFile(context.SelectedItems[0].FileExtension) &&
-			context.PageType is not ContentPageTypes.RecycleBin and not ContentPageTypes.ZipFolder;
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ZipFolder;
 
 		public InstallInfDriverAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

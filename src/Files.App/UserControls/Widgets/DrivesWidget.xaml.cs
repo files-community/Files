@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Data.Items;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

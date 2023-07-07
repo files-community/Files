@@ -1,30 +1,29 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Shortcut".GetLocalizedResource();
+		public string Label
+			=> "Shortcut".GetLocalizedResource();
 
-		public string Description => "CreateShortcutFromDialogDescription".GetLocalizedResource();
+		public string Description
+			=> "CreateShortcutFromDialogDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new("\uE71B");
+		public RichGlyph Glyph
+			=> new("\uE71B");
 
-		public override bool IsExecutable => context.CanCreateItem && UIHelpers.CanShowDialog;
+		public override bool IsExecutable =>
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateShortcutFromDialogAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

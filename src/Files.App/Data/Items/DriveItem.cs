@@ -1,16 +1,15 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using ByteSizeLib;
 using Files.App.Storage.WindowsStorage;
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Enums;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.Enums;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.NestedStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Files.Sdk.Storage.NestedStorage;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items

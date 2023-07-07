@@ -1,7 +1,7 @@
 // Copyright(c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.Core.Helpers;
 using Microsoft.UI.Dispatching;
 using System.IO;

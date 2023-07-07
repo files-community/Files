@@ -1,31 +1,29 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class RedoAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "Redo".GetLocalizedResource();
+		public string Label
+			=> "Redo".GetLocalizedResource();
 
-		public string Description { get; } = "RedoDescription".GetLocalizedResource();
+		public string Description
+			=> "RedoDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.Y, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.Y, KeyModifiers.Ctrl);
 
-		public bool IsExecutable => context.ShellPage is not null &&
+		public bool IsExecutable =>
+			context.ShellPage is not null &&
 			context.PageType is not ContentPageTypes.SearchResults;
 
 		public RedoAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

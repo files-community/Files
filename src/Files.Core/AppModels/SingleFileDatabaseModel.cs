@@ -1,7 +1,7 @@
 ﻿using Files.Core.Models;
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Extensions;
-using Files.Sdk.Storage.ModifiableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
+using Files.Core.Storage.ModifiableStorage;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System.IO;

@@ -1,28 +1,33 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Contexts;
 using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
 	internal class ExitCompactOverlayAction : ObservableObject, IAction
 	{
-		private readonly IWindowContext windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+		private readonly IWindowContext windowContext;
 
-		public string Label { get; } = "ExitCompactOverlay".GetLocalizedResource();
+		public string Label
+			=> "ExitCompactOverlay".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ExitCompactOverlay");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconExitCompactOverlay");
 
-		public HotKey HotKey { get; } = new(Keys.Down, KeyModifiers.MenuCtrl);
+		public HotKey HotKey
+			=> new(Keys.Down, KeyModifiers.MenuCtrl);
 
-		public string Description => "ExitCompactOverlayDescription".GetLocalizedResource();
+		public string Description
+			=> "ExitCompactOverlayDescription".GetLocalizedResource();
 
-		public bool IsExecutable => windowContext.IsCompactOverlay;
+		public bool IsExecutable
+			=> windowContext.IsCompactOverlay;
 
 		public ExitCompactOverlayAction()
 		{
+			windowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 

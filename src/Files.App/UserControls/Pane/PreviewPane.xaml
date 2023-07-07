@@ -251,7 +251,6 @@
 								<TextBlock
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
-									MaxLines="2"
 									Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 
@@ -261,7 +260,6 @@
 									Grid.Column="1"
 									HorizontalAlignment="Stretch"
 									IsTextSelectionEnabled="True"
-									MaxLines="2"
 									Style="{StaticResource Local.FileDetailsTextBlockStyle}"
 									Text="{x:Bind ValueText, Mode=TwoWay}"
 									TextWrapping="Wrap" />

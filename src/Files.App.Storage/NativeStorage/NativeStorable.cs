@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.NestedStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.NestedStorage;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
