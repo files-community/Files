@@ -6,7 +6,7 @@
 	xmlns:cloud="using:Files.App.Utils.Cloud"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:filesystem="using:Files.App.Utils.FileSystem"
+	xmlns:filesystem="using:Files.App.Utils.Storage"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"

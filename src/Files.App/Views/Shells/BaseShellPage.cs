@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Utils.FileSystem;
-using Files.App.Utils.FileSystem;
+using Files.App.Utils.Storage;
+using Files.App.Utils.Storage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Core.Services;
 using Microsoft.UI.Input;

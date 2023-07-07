@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.FileSystem;
+using Files.App.Utils.Storage;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Graphics.Imaging;

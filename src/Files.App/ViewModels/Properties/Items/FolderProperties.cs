@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using ByteSizeLib;
-using Files.App.Utils.FileSystem;
+using Files.App.Utils.Storage;
 using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
