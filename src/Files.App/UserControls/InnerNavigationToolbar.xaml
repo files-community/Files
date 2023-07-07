@@ -513,6 +513,10 @@
 								Text="{x:Bind Commands.SortBySyncStatus.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByTag.Label}" />
 							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind Commands.SortByPath.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.SortByPath.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.SortByPath.Label}" />
+							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.SortByOriginalFolder.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.SortByOriginalFolder.Label}" />

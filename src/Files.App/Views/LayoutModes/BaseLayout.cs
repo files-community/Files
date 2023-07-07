@@ -406,6 +406,13 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name;
+
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath &&
+					!ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None;
+
 				if (!navigationArguments.IsLayoutSwitch || previousDir != workingDir)
 					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else

@@ -186,6 +186,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -219,6 +220,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -238,6 +240,20 @@ namespace Files.App.Data.Models
 				{
 					folderSettings.DirectorySortOption = SortOption.Name;
 					OnPropertyChanged(nameof(IsSortedByName));
+				}
+			}
+		}
+
+		public bool IsSortedByPath
+		{
+			get => folderSettings.DirectorySortOption == SortOption.Path;
+			set
+			{
+				if (value)
+				{
+					folderSettings.DirectorySortOption = SortOption.Path;
+
+					OnPropertyChanged(nameof(IsSortedByPath));
 				}
 			}
 		}
@@ -2492,6 +2508,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeRecycleBin { get; set; }
 
 		public bool IsTypeGitRepository { get; set; }
+
+		public bool IsTypeSearchResults { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs
