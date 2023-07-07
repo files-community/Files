@@ -7,6 +7,8 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -647,6 +649,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutDetails.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutDetails.OpacityStyle}" />
 								</RadioButton>
 
@@ -677,6 +680,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutTiles.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutTiles.OpacityStyle}" />
 								</RadioButton>
 
@@ -707,6 +711,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutGridSmall.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutGridSmall.OpacityStyle}" />
 								</RadioButton>
 
@@ -737,6 +742,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutGridMedium.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutGridMedium.OpacityStyle}" />
 								</RadioButton>
 
@@ -777,6 +783,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutGridLarge.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutGridLarge.OpacityStyle}" />
 								</RadioButton>
 
@@ -807,6 +814,7 @@
 									<local:OpacityIcon
 										Width="20"
 										Height="20"
+										IsSelected="{x:Bind Commands.LayoutColumns.IsOn, Mode=OneWay}"
 										Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
 								</RadioButton>
 
@@ -889,7 +897,13 @@
 									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=OneWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}">
+									<i:Interaction.Behaviors>
+										<icore:EventTriggerBehavior EventName="Loaded">
+											<icore:InvokeCommandAction Command="{x:Bind Commands.LayoutAdaptive}" />
+										</icore:EventTriggerBehavior>
+									</i:Interaction.Behaviors>
+								</ToggleSwitch>
 
 							</Grid>
 

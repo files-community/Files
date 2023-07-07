@@ -1499,10 +1499,11 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1549,14 +1550,15 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1612,16 +1614,17 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
 												<Setter Target="Path3.Fill" Value="Transparent" />
 												<Setter Target="Path4.Fill" Value="Transparent" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path8.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path8.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1668,14 +1671,15 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1718,13 +1722,14 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
 												<Setter Target="Path1.Fill" Value="Transparent" />
 												<Setter Target="Path2.Fill" Value="Transparent" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -1778,16 +1783,17 @@
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
 										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled">
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected">
 											<VisualState.Setters>
-												<Setter Target="Path1.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path2.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path3.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path4.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path5.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path6.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path7.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
-												<Setter Target="Path8.Fill" Value="{ThemeResource ControlStrongFillColorDisabledBrush}" />
+												<Setter Target="Path1.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path2.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path3.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path4.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path5.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path6.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path7.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+												<Setter Target="Path8.Fill" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
