@@ -459,14 +459,7 @@ namespace Files.App.Commands
 			}
 
 			public bool CanExecute(object? parameter) => Action.IsExecutable;
-			public async void Execute(object? parameter) => await ExecuteAsync(parameter);
-
-			public Task ExecuteAsync(object? parameter)
-			{
-				if (parameter is RoutedEventArgs ev && ev.OriginalSource is ToggleSwitch tg && tg.IsOn == IsOn)
-					return Task.CompletedTask;
-				return ExecuteAsync();
-			}
+			public async void Execute(object? parameter) => await ExecuteAsync();
 
 			public Task ExecuteAsync()
 			{
