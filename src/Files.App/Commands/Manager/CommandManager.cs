@@ -459,17 +459,24 @@ namespace Files.App.Commands
 			}
 
 			public bool CanExecute(object? parameter) => Action.IsExecutable;
-			public async void Execute(object? parameter) => await ExecuteAsync();
+			public async void Execute(object? parameter) => await ExecuteAsync(parameter);
+
+			public Task ExecuteAsync(object? parameter)
+			{
+				if (parameter is RoutedEventArgs ev && ev.OriginalSource is ToggleSwitch tg && tg.IsOn == IsOn)
+					return Task.CompletedTask;
+				return ExecuteAsync();
+			}
 
 			public Task ExecuteAsync()
 			{
 				if (IsExecutable)
 				{
-                    Analytics.TrackEvent($"Triggered {Code} action");
-                    return Action.ExecuteAsync();
-                }
+					Analytics.TrackEvent($"Triggered {Code} action");
+					return Action.ExecuteAsync();
+				}
 
-                return Task.CompletedTask;
+				return Task.CompletedTask;
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
