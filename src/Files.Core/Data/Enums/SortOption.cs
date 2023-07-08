@@ -57,6 +57,14 @@ namespace Files.Core.Data.Enums
 		/// <remarks>
 		/// Preserved for recycle bin.
 		/// </remarks>
-		DateDeleted
+		DateDeleted,
+
+		/// <summary>
+		/// Sort by path.
+		/// </summary>
+		/// <remarks>
+		/// Preserved for search results.
+		/// </remarks>
+		Path
 	}
 }
