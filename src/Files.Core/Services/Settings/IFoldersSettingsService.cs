@@ -64,6 +64,11 @@ namespace Files.Core.Services.Settings
 		bool ShowDateDeletedColumn { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not the path column should be visible by default.
+		/// </summary>
+		bool ShowPathColumn { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not the original path column should be visible by default.
 		/// </summary>
 		bool ShowOriginalPathColumn { get; set; }
@@ -142,6 +147,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating sync status column's default width
 		/// </summary>
 		double SyncStatusColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating path column's default width
+		/// </summary>
+		double PathColumnWidth { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating original path column's default width

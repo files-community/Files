@@ -173,6 +173,10 @@ namespace Files.App.Helpers
 						{
 							IsToggle = true
 						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByPath)
+						{
+							IsToggle = true
+						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByOriginalFolder)
 						{
 							IsToggle = true
