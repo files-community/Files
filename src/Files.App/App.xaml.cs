@@ -25,6 +25,9 @@ using Files.Shared;
 using Files.Shared.Cloud;
 using Files.Shared.Services;
 using Files.Shared.Services.DateTimeFormatter;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -38,6 +41,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App
 {
