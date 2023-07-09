@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Utils.Storage;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
@@ -34,6 +33,8 @@ namespace Files.App.Views.LayoutModes
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
 		private readonly DispatcherQueueTimer jumpTimer;
+
+		private readonly DragEventHandler Item_DragOverEventHandler;
 
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
@@ -262,6 +263,8 @@ namespace Files.App.Views.LayoutModes
 			jumpTimer = DispatcherQueue.CreateTimer();
 			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
 			jumpTimer.Tick += JumpTimer_Tick;
+
+			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
 			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
@@ -944,7 +947,7 @@ namespace Files.App.Views.LayoutModes
 				dragOverItem = null;
 		}
 
-		protected async void Item_DragOver(object sender, DragEventArgs e)
+		private async void Item_DragOver(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
 			if (item is null)
@@ -955,23 +958,6 @@ namespace Files.App.Views.LayoutModes
 			try
 			{
 				deferral = e.GetDeferral();
-
-				if (dragOverItem != item)
-				{
-					dragOverItem = item;
-					dragOverTimer.Stop();
-					dragOverTimer.Debounce(() =>
-					{
-						if (dragOverItem is not null && !dragOverItem.IsExecutable)
-						{
-							dragOverTimer.Stop();
-							ItemManipulationModel.SetSelectedItem(dragOverItem);
-							dragOverItem = null;
-							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
-						}
-					},
-					TimeSpan.FromMilliseconds(1000), false);
-				}
 
 				if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 				{
@@ -1030,6 +1016,27 @@ namespace Files.App.Views.LayoutModes
 						}
 					}
 				}
+
+				if (dragOverItem != item)
+				{
+					dragOverItem = item;
+					dragOverTimer.Stop();
+
+					if (e.AcceptedOperation != DataPackageOperation.None)
+					{
+						dragOverTimer.Debounce(() =>
+						{
+							if (dragOverItem is not null && !dragOverItem.IsExecutable)
+							{
+								dragOverTimer.Stop();
+								ItemManipulationModel.SetSelectedItem(dragOverItem);
+								dragOverItem = null;
+								_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance!, false);
+							}
+						},
+						TimeSpan.FromMilliseconds(1000), false);
+					}
+				}
 			}
 			finally
 			{
@@ -1037,7 +1044,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		protected async void Item_Drop(object sender, DragEventArgs e)
+		private async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -1188,26 +1195,25 @@ namespace Files.App.Views.LayoutModes
 			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
-
-		protected void InitializeDrag(UIElement containter, ListedItem item)
+		protected void InitializeDrag(UIElement container, ListedItem item)
 		{
 			if (item is null)
 				return;
 
-			UninitializeDrag(containter);
+			UninitializeDrag(container);
 			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
 			{
-				containter.AllowDrop = true;
-				containter.DragOver += Item_DragOver;
-				containter.DragLeave += Item_DragLeave;
-				containter.Drop += Item_Drop;
+				container.AllowDrop = true;
+				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);
+				container.DragLeave += Item_DragLeave;
+				container.Drop += Item_Drop;
 			}
 		}
 
 		protected void UninitializeDrag(UIElement element)
 		{
 			element.AllowDrop = false;
-			element.DragOver -= Item_DragOver;
+			element.RemoveHandler(UIElement.DragOverEvent, Item_DragOverEventHandler);
 			element.DragLeave -= Item_DragLeave;
 			element.Drop -= Item_Drop;
 		}
