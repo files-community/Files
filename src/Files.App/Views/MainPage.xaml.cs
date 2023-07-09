@@ -82,7 +82,7 @@ namespace Files.App.Views
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
 					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
 
 					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
@@ -97,7 +97,7 @@ namespace Files.App.Views
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			return contentDialog;
 		}
@@ -127,7 +127,7 @@ namespace Files.App.Views
 		private void SetRectDragRegion()
 		{
 			DragZoneHelper.SetDragZones(
-				App.Window,
+				MainWindow.Instance,
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
@@ -494,7 +494,7 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && App.Window.Bounds.Height > 360;
+				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
 				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
 				return isEnabled;

@@ -46,7 +46,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool _WindowIsCompact = App.Window.Bounds.Width <= 750;
+		private bool _WindowIsCompact = MainWindow.Instance.Bounds.Width <= 750;
 		public bool WindowIsCompact
 		{
 			get => _WindowIsCompact;
@@ -78,7 +78,7 @@ namespace Files.App.Views
 			=> IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
-			=> !(App.Window.Bounds.Width <= 750);
+			=> !(MainWindow.Instance.Bounds.Width <= 750);
 
 		private NavigationParams _NavParamsLeft;
 		public NavigationParams NavParamsLeft
@@ -199,7 +199,7 @@ namespace Files.App.Views
 
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			App.Window.SizeChanged += Current_SizeChanged;
+			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 			ActivePane = PaneLeft;
 			IsRightPaneVisible = IsMultiPaneEnabled && UserSettingsService.GeneralSettingsService.AlwaysOpenDualPaneInNewTab;
 
@@ -208,7 +208,7 @@ namespace Files.App.Views
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
-			WindowIsCompact = App.Window.Bounds.Width <= 750;
+			WindowIsCompact = MainWindow.Instance.Bounds.Width <= 750;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -355,7 +355,7 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
-			App.Window.SizeChanged -= Current_SizeChanged;
+			MainWindow.Instance.SizeChanged -= Current_SizeChanged;
 			PaneLeft?.Dispose();
 			PaneRight?.Dispose();
 			PaneResizer.DoubleTapped -= PaneResizer_OnDoubleTapped;

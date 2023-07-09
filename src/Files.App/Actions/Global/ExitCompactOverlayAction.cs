@@ -33,8 +33,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var window = App.GetAppWindow(App.Window);
-			window.SetPresenter(AppWindowPresenterKind.Overlapped);
+			var appWindow = MainWindow.Instance.AppWindow;
+			appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
 
 			return Task.CompletedTask;
 		}

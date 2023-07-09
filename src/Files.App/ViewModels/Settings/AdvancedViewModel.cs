@@ -199,9 +199,11 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettings()
 		{
+			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
 			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
-			filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
+			filePicker.SuggestedFileName = $"Files_{applicationService.AppVersion}";
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
 			if (file is not null)
@@ -270,14 +272,14 @@ namespace Files.App.ViewModels.Settings
 
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}
 
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}

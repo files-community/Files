@@ -118,7 +118,7 @@ namespace Files.App.Services
 			{
 				_storeContext ??= await Task.Run(StoreContext.GetDefault);
 
-				InitializeWithWindow.Initialize(_storeContext, App.WindowHandle);
+				InitializeWithWindow.Initialize(_storeContext, MainWindow.Instance.WindowHandle);
 
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();

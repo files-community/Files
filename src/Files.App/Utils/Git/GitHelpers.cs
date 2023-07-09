@@ -30,6 +30,8 @@ namespace Files.App.Utils.Git
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
+		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
@@ -37,8 +39,7 @@ namespace Files.App.Utils.Git
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static readonly string _clientId =
-			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+		private static readonly string _clientId = _applicationService.Environment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
 				? CLIENT_ID_SECRET
 				: string.Empty;
 
@@ -266,7 +267,7 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 			}
 
-			App.Window.DispatcherQueue.TryEnqueue(() =>
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
