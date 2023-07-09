@@ -643,6 +643,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutDetails.AutomationName}"
 									Command="{x:Bind Commands.LayoutDetails}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutDetails.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey, Mode=OneWay}">
@@ -674,6 +675,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutTiles.AutomationName}"
 									Command="{x:Bind Commands.LayoutTiles}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutTiles.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutTiles.LabelWithHotKey, Mode=OneWay}">
@@ -705,6 +707,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridSmall.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridSmall}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutGridSmall.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridSmall.LabelWithHotKey, Mode=OneWay}">
@@ -736,6 +739,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridMedium.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridMedium}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutGridMedium.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridMedium.LabelWithHotKey, Mode=OneWay}">
@@ -777,6 +781,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridLarge.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridLarge}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutGridLarge.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridLarge.LabelWithHotKey, Mode=OneWay}">
@@ -808,6 +813,7 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutColumns.AutomationName}"
 									Command="{x:Bind Commands.LayoutColumns}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
 									IsChecked="{x:Bind Commands.LayoutColumns.IsOn, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
@@ -894,16 +900,10 @@
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
-									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=OneWay}"
+									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}">
-									<i:Interaction.Behaviors>
-										<icore:EventTriggerBehavior EventName="Toggled">
-											<icore:InvokeCommandAction Command="{x:Bind Commands.LayoutAdaptive}" />
-										</icore:EventTriggerBehavior>
-									</i:Interaction.Behaviors>
-								</ToggleSwitch>
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
 
 							</Grid>
 
