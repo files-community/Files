@@ -147,7 +147,7 @@ namespace Files.App.Helpers
 				if (string.IsNullOrEmpty(dosDevicePath))
 					return drive.VolumeLabel;
 				using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
-				var udf = new UdfReader(driveStream);
+				using var udf = new UdfReader(driveStream);
 				return udf.VolumeLabel;
 			}) ?? drive.VolumeLabel;
 		}
