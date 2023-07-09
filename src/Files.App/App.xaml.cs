@@ -41,6 +41,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Notifications;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App
 {
