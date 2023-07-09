@@ -4,7 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public class BlockingListEnumerator<T> : IEnumerator<T>
 	{

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.System;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	internal class StorageSenseHelper
 	{

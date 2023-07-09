@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Utils.FilesystemHistory;
-using Files.App.Utils.Search;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Core.Services;
 using Microsoft.UI.Input;

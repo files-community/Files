@@ -17,7 +17,7 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class DriveHelpers
 	{

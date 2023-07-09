@@ -11,7 +11,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Implements IStorageItem, allowing us to get an instance of IStorageItem for a ListedItem

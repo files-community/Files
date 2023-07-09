@@ -3,7 +3,7 @@
 
 using Files.Shared.Enums;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class ErrorCodeConverter
 	{

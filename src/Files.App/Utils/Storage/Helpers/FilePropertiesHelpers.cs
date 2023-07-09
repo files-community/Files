@@ -13,7 +13,7 @@ using System.IO;
 using Windows.ApplicationModel;
 using Windows.Graphics;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents a helper class that helps users open and handle item properties window

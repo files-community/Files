@@ -9,7 +9,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	public abstract class BaseStorageFile : IBaseStorageFile
 	{

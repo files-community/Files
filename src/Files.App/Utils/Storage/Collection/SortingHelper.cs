@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class SortingHelper
 	{

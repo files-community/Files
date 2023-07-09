@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents a model for file system operation progress.

@@ -13,7 +13,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	public class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{

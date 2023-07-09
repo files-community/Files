@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
 using Files.Core.Helpers;
 using Files.Shared.Enums;
 using System;

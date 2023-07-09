@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Security;
 using Files.App.Utils.Shell;
 using Files.Core.Helpers;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,7 @@ using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public class FileOperationsHelpers
 	{

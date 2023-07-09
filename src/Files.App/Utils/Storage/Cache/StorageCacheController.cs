@@ -5,18 +5,18 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers.StorageCache
+namespace Files.App.Utils.Storage
 {
-	internal class FileListCacheController : IFileListCache
+	internal class StorageCacheController : IStorageCacheController
 	{
-		private static FileListCacheController instance;
+		private static StorageCacheController instance;
 
-		public static FileListCacheController GetInstance()
+		public static StorageCacheController GetInstance()
 		{
-			return instance ??= new FileListCacheController();
+			return instance ??= new StorageCacheController();
 		}
 
-		private FileListCacheController()
+		private StorageCacheController()
 		{
 		}
 

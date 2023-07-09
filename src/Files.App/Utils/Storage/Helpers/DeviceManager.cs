@@ -5,7 +5,7 @@ using Files.Shared;
 using Microsoft.Management.Infrastructure;
 using System;
 
-namespace Files.App
+namespace Files.App.Utils.Storage
 {
 	public sealed class DeviceManager
 	{

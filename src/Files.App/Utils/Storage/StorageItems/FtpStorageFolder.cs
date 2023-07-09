@@ -11,7 +11,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	public sealed class FtpStorageFolder : BaseStorageFolder
 	{

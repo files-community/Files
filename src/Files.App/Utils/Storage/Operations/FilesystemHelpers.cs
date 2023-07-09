@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.FilesystemHistory;
-using Files.App.Utils.StorageItems;
 using Files.Core.Services;
 using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Files.Core.Storage;
@@ -19,7 +17,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Utils
+namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{

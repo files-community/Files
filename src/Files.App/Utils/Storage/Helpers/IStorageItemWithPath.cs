@@ -3,7 +3,7 @@
 
 using Windows.Storage;
 
-namespace Files.App.Utils
+namespace Files.App.Utils.Storage
 {
 	public interface IStorageItemWithPath
 	{

@@ -4,7 +4,7 @@
 using Files.Shared.Enums;
 using System.Collections.Generic;
 
-namespace Files.App.Utils.FilesystemHistory
+namespace Files.App.Utils.Storage
 {
 	public interface IStorageHistory
 	{

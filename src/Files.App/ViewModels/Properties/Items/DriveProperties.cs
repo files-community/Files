@@ -1,7 +1,6 @@
 using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using System;

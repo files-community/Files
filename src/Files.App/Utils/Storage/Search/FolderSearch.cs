@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.Storage;
 using Files.App.Helpers;
 using Files.App.ViewModels;
 using Files.Core.Services.Settings;
@@ -25,7 +25,7 @@ using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 using WIN32_FIND_DATA = Files.Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
-namespace Files.App.Utils.Search
+namespace Files.App.Utils.Storage
 {
 	public class FolderSearch
 	{

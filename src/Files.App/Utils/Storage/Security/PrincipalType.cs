@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Security
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents an ACL owner or an ACE principal type

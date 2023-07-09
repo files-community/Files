@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]

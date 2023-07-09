@@ -1,13 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Security;
 using Files.App.Utils.Shell;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 using SystemSecurity = System.Security.AccessControl;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents a helper for file security information.

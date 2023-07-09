@@ -6,7 +6,7 @@ using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	public class BaseStorageItemExtraProperties : IStorageItemExtraProperties
 	{

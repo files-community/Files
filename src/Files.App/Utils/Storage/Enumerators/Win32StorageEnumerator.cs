@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StorageItems;
+using Files.App.Utils.Storage;
 using Files.App.Helpers.StorageCache;
 using Files.Core.Extensions;
 using Files.Core.Helpers;
@@ -13,7 +13,7 @@ using Windows.Storage;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.App.Utils.StorageEnumerators
+namespace Files.App.Utils.Storage
 {
 	public static class Win32StorageEnumerator
 	{

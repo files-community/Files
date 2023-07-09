@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Cloud;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Properties;
 using Files.Core.Helpers;
 using Files.Core.ViewModels.FileTags;

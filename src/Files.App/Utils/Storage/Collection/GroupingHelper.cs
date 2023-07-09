@@ -4,7 +4,7 @@
 using Files.Shared.Services.DateTimeFormatter;
 using Windows.Storage;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class GroupingHelper
 	{

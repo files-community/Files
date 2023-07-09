@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.App.Utils.Security
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents access mask flags of an ACE.

@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.FilesystemHistory;
+using Files.App.Utils.Storage;
 using Windows.Storage;
 
-namespace Files.App.Utils
+namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents an interface for file system operations.

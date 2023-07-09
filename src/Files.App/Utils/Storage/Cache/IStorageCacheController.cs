@@ -4,9 +4,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers.StorageCache
+namespace Files.App.Utils.Storage
 {
-	internal interface IFileListCache
+	internal interface IStorageCacheController
 	{
 		public ValueTask<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken);
 

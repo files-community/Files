@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{

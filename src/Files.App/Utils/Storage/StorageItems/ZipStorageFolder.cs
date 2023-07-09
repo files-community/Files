@@ -20,7 +20,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using IO = System.IO;
 
-namespace Files.App.Utils.StorageItems
+namespace Files.App.Utils.Storage
 {
 	public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream
 	{

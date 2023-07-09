@@ -5,7 +5,7 @@ using FluentFTP;
 using System;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Storage
 {
 	public static class FtpHelpers
 	{

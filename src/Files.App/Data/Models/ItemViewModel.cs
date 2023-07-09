@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Cloud;
-using Files.App.Utils.Search;
-using Files.App.Utils.StorageEnumerators;
-using Files.App.Utils.StorageItems;
-using Files.App.Helpers.StorageCache;
 using Files.App.Utils.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
@@ -47,7 +43,7 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
