@@ -425,7 +425,7 @@ namespace Files.App.Helpers
 
 			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
 			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-			var dialogResult = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				dialogService.ShowDialogAsync(credentialDialogViewModel));
 
 			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
