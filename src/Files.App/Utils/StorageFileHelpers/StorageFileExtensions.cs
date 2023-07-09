@@ -190,13 +190,15 @@ namespace Files.App.Utils
 				}
 			}
 
-			if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
-			{
-				// Relative path
-				var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
-				return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(fullPath));
-			}
-			return new StorageFileWithPath(await BaseStorageFile.GetFileFromPathAsync(value));
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
+				: value;
+			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath);
+
+			if (parentFolder is not null && parentFolder.Item is IPasswordProtectedItem ppis && item is IPasswordProtectedItem ppid)
+				ppid.Credentials = ppis.Credentials;
+
+			return new StorageFileWithPath(item);
 		}
 		public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
@@ -242,16 +244,15 @@ namespace Files.App.Utils
 				}
 			}
 
-			if (parentFolder is not null && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
-			{
-				// Relative path
-				var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
-				return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(fullPath));
-			}
-			else
-			{
-				return new StorageFolderWithPath(await BaseStorageFolder.GetFolderFromPathAsync(value));
-			}
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
+				: value;
+			var item = await BaseStorageFolder.GetFolderFromPathAsync(fullPath);
+
+			if (parentFolder is not null && parentFolder.Item is IPasswordProtectedItem ppis && item is IPasswordProtectedItem ppid)
+				ppid.Credentials = ppis.Credentials;
+
+			return new StorageFolderWithPath(item);
 		}
 		public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync
 			(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
