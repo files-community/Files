@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 

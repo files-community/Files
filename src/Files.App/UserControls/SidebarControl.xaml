@@ -303,14 +303,7 @@
 					Tag="{x:Bind Path}"
 					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}">
-							<PathIcon.Data>
-								<EllipseGeometry
-									Center="24,24"
-									RadiusX="24"
-									RadiusY="24" />
-							</PathIcon.Data>
-						</PathIcon>
+						<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 			</DataTemplate>

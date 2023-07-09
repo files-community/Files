@@ -89,6 +89,16 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
+		private ColumnViewModel pathColumn = new()
+		{
+			NormalMaxLength = 500,
+		};
+		public ColumnViewModel PathColumn
+		{
+			get => pathColumn;
+			set => SetProperty(ref pathColumn, value);
+		}
+
 		private ColumnViewModel originalPathColumn = new()
 		{
 			NormalMaxLength = 500,
@@ -141,6 +151,7 @@ namespace Files.App.Data.Models
 			TagColumn.Length.Value +
 			NameColumn.Length.Value +
 			DateModifiedColumn.Length.Value +
+			PathColumn.Length.Value +
 			OriginalPathColumn.Length.Value +
 			ItemTypeColumn.Length.Value +
 			DateDeletedColumn.Length.Value +
@@ -172,6 +183,7 @@ namespace Files.App.Data.Models
 			GitLastCommitShaColumn.TryMultiplySize(factor);
 			TagColumn.TryMultiplySize(factor);
 			DateModifiedColumn.TryMultiplySize(factor);
+			PathColumn.TryMultiplySize(factor);
 			OriginalPathColumn.TryMultiplySize(factor);
 			ItemTypeColumn.TryMultiplySize(factor);
 			DateDeletedColumn.TryMultiplySize(factor);
@@ -196,6 +208,7 @@ namespace Files.App.Data.Models
 					model.DateModifiedColumn.Equals(DateModifiedColumn) &&
 					model.ItemTypeColumn.Equals(ItemTypeColumn) &&
 					model.NameColumn.Equals(NameColumn) &&
+					model.PathColumn.Equals(PathColumn) &&
 					model.OriginalPathColumn.Equals(OriginalPathColumn) &&
 					model.SizeColumn.Equals(SizeColumn) &&
 					model.StatusColumn.Equals(StatusColumn) &&
@@ -217,6 +230,7 @@ namespace Files.App.Data.Models
 			hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
+			hashCode = (hashCode * 397) ^ PathColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
 			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
