@@ -26,6 +26,7 @@ namespace Files.App.Utils.Storage
 				SortOption.Size => item => item.FileSizeBytes,
 				SortOption.SyncStatus => item => item.SyncStatusString,
 				SortOption.FileTag => item => item.FileTags?.FirstOrDefault(),
+				SortOption.Path => item => item.ItemPath,
 				SortOption.OriginalFolder => item => (item as RecycleBinItem)?.ItemOriginalFolder,
 				SortOption.DateDeleted => item => (item as RecycleBinItem)?.ItemDateDeletedReal,
 				_ => null,

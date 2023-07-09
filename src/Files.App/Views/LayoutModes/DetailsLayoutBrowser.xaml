@@ -315,6 +315,14 @@
 										Text="{helpers:ResourceString Name=Tag}"
 										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
+									<!--  Item Path  -->
+									<ToggleMenuFlyoutItem
+										x:Name="PathColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=PathColumn}"
+										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
 										x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
@@ -458,9 +466,18 @@
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
 
-								<!--  Item Original Path  -->
+								<!--  Item Path  -->
 								<ColumnDefinition
 									x:Name="Column5"
+									Width="{x:Bind ColumnsViewModel.PathColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.PathColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Original Path  -->
+								<ColumnDefinition
+									x:Name="Column6"
 									Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
 
@@ -469,7 +486,7 @@
 
 								<!--  Item Date Deleted  -->
 								<ColumnDefinition
-									x:Name="Column6"
+									x:Name="Column7"
 									Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
 
@@ -478,7 +495,7 @@
 
 								<!--  Item Date Modified  -->
 								<ColumnDefinition
-									x:Name="Column7"
+									x:Name="Column8"
 									Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
 
@@ -487,7 +504,7 @@
 
 								<!--  Item Date Created  -->
 								<ColumnDefinition
-									x:Name="Column8"
+									x:Name="Column9"
 									Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
 
@@ -496,7 +513,7 @@
 
 								<!--  Item Type  -->
 								<ColumnDefinition
-									x:Name="Column9"
+									x:Name="Column10"
 									Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
 
@@ -505,7 +522,7 @@
 
 								<!--  Item Size  -->
 								<ColumnDefinition
-									x:Name="Column10"
+									x:Name="Column11"
 									Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
 
@@ -514,7 +531,7 @@
 
 								<!--  Item Sync Status  -->
 								<ColumnDefinition
-									x:Name="Column11"
+									x:Name="Column12"
 									Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
 
@@ -678,10 +695,32 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Path  -->
+							<uc:DataGridHeader
+								x:Name="PathHeader"
+								Grid.Column="16"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="Path"
+								Header="{helpers:ResourceString Name=Path}"
+								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="17"
+								AutomationProperties.Name="PathColumnHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+
 							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="16"
+								Grid.Column="18"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
@@ -689,7 +728,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="17"
+								Grid.Column="19"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -703,7 +742,7 @@
 							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="18"
+								Grid.Column="20"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
@@ -711,7 +750,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="19"
+								Grid.Column="21"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -725,7 +764,7 @@
 							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="20"
+								Grid.Column="22"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
@@ -733,7 +772,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="21"
+								Grid.Column="23"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -747,7 +786,7 @@
 							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="22"
+								Grid.Column="24"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
@@ -755,7 +794,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="23"
+								Grid.Column="25"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -769,7 +808,7 @@
 							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="24"
+								Grid.Column="26"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
@@ -777,7 +816,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="25"
+								Grid.Column="27"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -791,7 +830,7 @@
 							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="26"
+								Grid.Column="28"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
@@ -799,7 +838,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="27"
+								Grid.Column="29"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -813,7 +852,7 @@
 							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="28"
+								Grid.Column="30"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -823,7 +862,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="29"
+								Grid.Column="31"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -983,6 +1022,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										FontWeight="SemiBold"
 										Foreground="{ThemeResource SystemFillColorSuccessBrush}"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -998,6 +1038,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1011,6 +1052,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1024,6 +1066,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1037,6 +1080,7 @@
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
 										ToolTipService.ToolTip="{x:Bind AsGitItem.GitLastCommitFullSha, Mode=OneWay}"
@@ -1106,6 +1150,19 @@
 											</ItemsRepeater.ItemTemplate>
 										</ItemsRepeater>
 									</Grid>
+
+									<!--  Item Path  -->
+									<TextBlock
+										x:Name="ItemPath"
+										Width="{Binding ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="10,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										DataContextChanged="TextBlock_DataContextChanged"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind ItemPath, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.PathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Original Path  -->
 									<TextBlock

@@ -13,6 +13,7 @@ namespace Files.Shared.Enums
 		SyncStatus, // Cloud drive
 		FileTag,
 		OriginalFolder, // Recycle bin
-		DateDeleted // Recycle bin
+		DateDeleted, // Recycle bin
+		Path // Search results
 	}
 }
