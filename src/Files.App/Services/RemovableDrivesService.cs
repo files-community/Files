@@ -38,7 +38,8 @@ namespace Files.App.Services
 
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(res.Result);
 				var type = DriveHelpers.GetDriveType(drive);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), type, thumbnail);
+				var label = DriveHelpers.GetExtendedDriveLabel(drive);
+				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 

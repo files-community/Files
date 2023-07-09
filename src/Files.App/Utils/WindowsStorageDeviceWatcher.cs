@@ -64,7 +64,8 @@ namespace Files.App.Utils
 			}
 			
 			var type = DriveHelpers.GetDriveType(driveAdded);
-			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, type);
+			var label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
+			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, label, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}
@@ -95,18 +96,21 @@ namespace Files.App.Utils
 			}
 
             Data.Items.DriveType type;
+			string label;
 			try
 			{
 				// Check if this drive is associated with a drive letter
 				var driveAdded = new DriveInfo(root.Path);
 				type = DriveHelpers.GetDriveType(driveAdded);
+				label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
 			}
 			catch (ArgumentException)
 			{
 				type = Data.Items.DriveType.Removable;
+				label = root.DisplayName;
 			}
 
-			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, type);
+			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, label, type);
 
 			DeviceAdded?.Invoke(this, driveItem);
 		}

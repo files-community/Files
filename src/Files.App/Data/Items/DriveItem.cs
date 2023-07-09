@@ -157,14 +157,19 @@ namespace Files.App.Data.Items
 			ItemType = NavigationControlItemType.CloudDrive;
 		}
 
-		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
+		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
 
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
-			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
+			item.Text = type switch
+			{
+				DriveType.Network => $"{root.DisplayName} ({deviceId})",
+				DriveType.CDRom => label,
+				_ => root.DisplayName
+			};
 			item.Type = type;
 			item.MenuOptions = new ContextMenuOptions
 			{
@@ -248,7 +253,7 @@ namespace Files.App.Data.Items
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-				
+
 				if (Root is not null)
 				{
 					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
