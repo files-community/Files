@@ -1,19 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Utils.Storage;
-using Files.App.Helpers;
-using Files.Core.Helpers;
-using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
@@ -26,8 +15,7 @@ namespace Files.App.Utils.Storage
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
-			Dictionary<string, BitmapImage> defaultIconPairs = null
-		)
+			Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
 			var sampler = new IntervalSampler(500);
 			var tempList = new List<ListedItem>();
@@ -161,7 +149,10 @@ namespace Files.App.Utils.Storage
 			return tempList;
 		}
 
-		public static async Task<ListedItem> AddFolderAsync(BaseStorageFolder folder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		public static async Task<ListedItem> AddFolderAsync(
+			BaseStorageFolder folder,
+			StorageFolderWithPath currentStorageFolder,
+			CancellationToken cancellationToken)
 		{
 			var basicProperties = await folder.GetBasicPropertiesAsync();
 			if (!cancellationToken.IsCancellationRequested)
@@ -233,8 +224,7 @@ namespace Files.App.Utils.Storage
 		public static async Task<ListedItem> AddFileAsync(
 			BaseStorageFile file,
 			StorageFolderWithPath currentStorageFolder,
-			CancellationToken cancellationToken
-		)
+			CancellationToken cancellationToken)
 		{
 			var basicProperties = await file.GetBasicPropertiesAsync();
 			// Display name does not include extension

@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-using System;
-using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.System;
 

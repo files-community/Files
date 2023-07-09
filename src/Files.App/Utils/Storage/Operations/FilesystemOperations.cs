@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Storage;
-using Files.App.Utils.Storage;
-using Files.Core.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using Windows.Storage;

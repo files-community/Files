@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Storage;
-using Files.App.Helpers.StorageCache;
-using Files.Core.Extensions;
-using Files.Core.Helpers;
 using Files.Core.Services.SizeProvider;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -20,12 +16,12 @@ namespace Files.App.Utils.Storage
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
-		private static readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+		private static readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
 			IntPtr hFile,
-			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			CancellationToken cancellationToken,
 			int countLimit,
 			Func<List<ListedItem>, Task> intermediateAction,
@@ -165,7 +161,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFolder(
-			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -178,10 +174,10 @@ namespace Files.App.Utils.Storage
 			DateTime itemCreatedDate;
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
 				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedTimeOutput);
 				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
 			catch (ArgumentException)
@@ -242,7 +238,7 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static async Task<ListedItem> GetFile(
-			Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
+			NativeFindStorageItemHelper.WIN32_FIND_DATA findData,
 			string pathRoot,
 			bool isGitRepo,
 			CancellationToken cancellationToken
@@ -254,13 +250,13 @@ namespace Files.App.Utils.Storage
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
 			try
 			{
-				FileTimeToSystemTime(ref findData.ftLastWriteTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
 				itemModifiedDate = systemModifiedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftCreationTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
+				FileTimeToSystemTime(ref findData.ftCreationTime, out NativeFindStorageItemHelper.SYSTEMTIME systemCreatedDateOutput);
 				itemCreatedDate = systemCreatedDateOutput.ToDateTime();
 
-				FileTimeToSystemTime(ref findData.ftLastAccessTime, out Core.Helpers.NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
+				FileTimeToSystemTime(ref findData.ftLastAccessTime, out NativeFindStorageItemHelper.SYSTEMTIME systemLastAccessOutput);
 				itemLastAccessDate = systemLastAccessOutput.ToDateTime();
 			}
 			catch (ArgumentException)

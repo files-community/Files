@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Files.App.Utils.Storage
 {
 	public class BlockingListEnumerator<T> : IEnumerator<T>
@@ -13,25 +10,24 @@ namespace Files.App.Utils.Storage
 		private T m_Current;
 		private int m_Pos;
 
+		public T Current
+		{
+			get
+			{
+				lock (m_Lock)
+					return m_Current;
+			}
+		}
+
+		object IEnumerator.Current
+			=> Current;
+
 		public BlockingListEnumerator(IList<T> inner, object @lock)
 		{
 			m_Inner = inner;
 			m_Lock = @lock;
 			m_Pos = -1;
 		}
-
-		public T Current
-		{
-			get
-			{
-				lock (m_Lock)
-				{
-					return m_Current;
-				}
-			}
-		}
-
-		object IEnumerator.Current => Current;
 
 		public void Dispose()
 		{

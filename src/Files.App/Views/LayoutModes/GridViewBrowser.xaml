@@ -12,6 +12,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:tui="using:CommunityToolkit.WinUI.UI"
 	xmlns:uc="using:Files.App.UserControls"
@@ -604,7 +605,7 @@
 					<toolkit:AdaptiveGridView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
-								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
 									<Grid
 										Padding="0,0,0,4"
 										AutomationProperties.Name="{x:Bind Model.Text}"
@@ -697,7 +698,7 @@
 							<Grid
 								Padding="8"
 								VerticalAlignment="Center"
-								AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+								AutomationProperties.Name="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
 								ColumnSpacing="12"
 								RowSpacing="4">
 								<Grid.ColumnDefinitions>
@@ -718,7 +719,7 @@
 									Height="24"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
 									Stretch="Uniform" />
 
 								<FontIcon
@@ -728,7 +729,7 @@
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									FontSize="24"
-									Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+									Glyph="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 
 								<TextBlock
 									Grid.Row="0"
@@ -736,7 +737,7 @@
 									VerticalAlignment="Center"
 									FontSize="16"
 									Style="{StaticResource SubtitleTextBlockStyle}"
-									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
 								<TextBlock
 									Grid.Row="0"
@@ -744,8 +745,8 @@
 									VerticalAlignment="Center"
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 								<TextBlock
 									Grid.Row="0"
@@ -754,8 +755,8 @@
 									FontSize="14"
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource SubheaderTextBlockStyle}"
-									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								<TextBlock
 									Grid.Row="1"
@@ -763,8 +764,8 @@
 									Grid.ColumnSpan="3"
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource BodyTextBlockStyle}"
-									Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-									Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 							</Grid>
 						</DataTemplate>

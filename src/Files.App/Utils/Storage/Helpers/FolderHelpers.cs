@@ -1,10 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.App.Utils.Storage

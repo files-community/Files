@@ -139,11 +139,11 @@ namespace Files.App.Interacts
 
 			itemManipulationModel.ClearSelection();
 
-			if (Utils.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.Handled = true;
 
-				var draggedItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
 				var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
@@ -208,7 +208,7 @@ namespace Files.App.Interacts
 		{
 			var deferral = e.GetDeferral();
 
-			if (Utils.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
 				e.Handled = true;

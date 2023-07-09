@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.Utils.Storage
 {
@@ -11,16 +9,16 @@ namespace Files.App.Utils.Storage
 	{
 		private static StorageCacheController instance;
 
-		public static StorageCacheController GetInstance()
-		{
-			return instance ??= new StorageCacheController();
-		}
+		private readonly ConcurrentDictionary<string, string> fileNamesCache = new();
 
 		private StorageCacheController()
 		{
 		}
 
-		private readonly ConcurrentDictionary<string, string> fileNamesCache = new();
+		public static StorageCacheController GetInstance()
+		{
+			return instance ??= new StorageCacheController();
+		}
 
 		public ValueTask<string> ReadFileDisplayNameFromCache(string path, CancellationToken cancellationToken)
 		{

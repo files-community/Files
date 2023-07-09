@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
-using System;
-using System.Threading.Tasks;
-
 namespace Files.App.Utils.Storage
 {
 	public interface IStorageHistoryOperations : IDisposable
