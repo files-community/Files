@@ -931,6 +931,13 @@
 			<!--  3 Dots Commands  -->
 			<CommandBar.SecondaryCommands>
 
+				<!--  Workaround to enable displaying OpacityIcons in the menu  -->
+				<AppBarButton Visibility="Collapsed">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE737;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
+
 				<!--  Open Pane  -->
 				<AppBarButton
 					x:Name="NavToolbarNewPane"
@@ -959,9 +966,7 @@
 					Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewWindow/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=NavigationToolbarNewWindow/Label}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE737;" />
-					</AppBarButton.Icon>
+					<local:OpacityIcon Style="{StaticResource ColorIconOpenNewWindow}" />
 					<AppBarButton.KeyboardAccelerators>
 						<KeyboardAccelerator
 							Key="N"

@@ -818,7 +818,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			var parent = (sender as FontIcon)?.Parent as StackPanel;
+			var parent = (sender as OpacityIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
 
 			if (tagName is null || parent?.DataContext is not ListedItem item)
