@@ -175,7 +175,7 @@ namespace Files.App.Actions
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IDisplayPageContext.LayoutType))
-				OnContextChanged(nameof(IsOn));
+				OnPropertyChanged(nameof(IsOn));
 
 			if (e.PropertyName is not null)
 				OnContextChanged(e.PropertyName);

@@ -86,11 +86,13 @@ namespace Files.App.Helpers
 						driveType = appName;
 					}
 
-					// iCloud specific
+					// Drive specific
 					if (driveType.StartsWith("iCloudDrive"))
 						driveType = "iCloudDrive";
 					if (driveType.StartsWith("iCloudPhotos"))
 						driveType = "iCloudPhotos";
+					if (driveType.StartsWith("ownCloud"))
+						driveType = "ownCloud";
 
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
 					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
@@ -109,6 +111,7 @@ namespace Files.App.Helpers
 						"iCloudDrive" => CloudProviders.AppleCloudDrive,
 						"iCloudPhotos" => CloudProviders.AppleCloudPhotos,
 						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
+						"ownCloud" => CloudProviders.ownCloud,
 						_ => null,
 					};
 					if (driveID is null)
@@ -117,6 +120,8 @@ namespace Files.App.Helpers
 					}
 
 					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
+					string ownCloudValue = (string)clsidSubKey?.GetValue(string.Empty);
+
 					results.Add(new CloudProvider(driveID.Value)
 					{
 						Name = driveID switch
@@ -128,6 +133,7 @@ namespace Files.App.Helpers
 							CloudProviders.AppleCloudDrive => $"iCloud Drive",
 							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
 							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
+							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
