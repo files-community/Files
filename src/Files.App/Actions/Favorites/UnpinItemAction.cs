@@ -1,37 +1,33 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
 using Files.App.Services;
 using Files.App.UserControls.Widgets;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IQuickAccessService service = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "UnpinFromFavorites".GetLocalizedResource();
+		private readonly IQuickAccessService service;
 
-		public string Description => "UnpinItemFromFavoritesDescription".GetLocalizedResource();
+		public string Label
+			=> "UnpinFromFavorites".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconUnpinFromFavorites");
+		public string Description
+			=> "UnpinItemFromFavoritesDescription".GetLocalizedResource();
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconUnpinFromFavorites");
+
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public UnpinItemAction()
 		{
-			isExecutable = GetIsExecutable();
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
@@ -63,10 +59,6 @@ namespace Files.App.Actions
 				return favorites.Contains(item.ItemPath);
 			}
 		}
-		private void UpdateIsExecutable()
-		{
-			SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
-		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -74,14 +66,14 @@ namespace Files.App.Actions
 			{
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItems):
-					UpdateIsExecutable();
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}
 
 		private void QuickAccessManager_DataChanged(object? sender, ModifyQuickAccessEventArgs e)
 		{
-			UpdateIsExecutable();
+			OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }

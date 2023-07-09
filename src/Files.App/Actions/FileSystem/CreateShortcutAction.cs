@@ -1,32 +1,32 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Helpers;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class CreateShortcutAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "CreateShortcut".GetLocalizedResource();
+		public string Label
+			=> "CreateShortcut".GetLocalizedResource();
 
-		public string Description => "CreateShortcutDescription".GetLocalizedResource();
+		public string Description
+			=> "CreateShortcutDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph { get; } = new RichGlyph(opacityStyle: "ColorIconShortcut");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconShortcut");
 
-		public override bool IsExecutable => context.HasSelection && context.CanCreateItem && UIHelpers.CanShowDialog;
+		public override bool IsExecutable =>
+			context.HasSelection &&
+			context.CanCreateItem &&
+			UIHelpers.CanShowDialog;
 
 		public CreateShortcutAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
@@ -35,9 +35,7 @@ namespace Files.App.Actions
 			var currentPath = context.ShellPage?.FilesystemViewModel.WorkingDirectory;
 
 			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
-			{
 				currentPath = library.DefaultSaveFolder;
-			}
 
 			foreach (ListedItem selectedItem in context.SelectedItems)
 			{

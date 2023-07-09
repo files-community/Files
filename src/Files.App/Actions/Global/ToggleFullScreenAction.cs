@@ -1,26 +1,27 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
-using Files.App.Extensions;
 using Microsoft.UI.Windowing;
-using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
 	internal class ToggleFullScreenAction : IToggleAction
 	{
-		public string Label { get; } = "FullScreen".GetLocalizedResource();
+		public string Label
+			=> "FullScreen".GetLocalizedResource();
 
-		public string Description => "ToggleFullScreenDescription".GetLocalizedResource();
+		public string Description
+			=> "ToggleFullScreenDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.F11);
+		public HotKey HotKey
+			=> new(Keys.F11);
 
 		public bool IsOn
 		{
 			get
 			{
 				var window = App.GetAppWindow(App.Window);
+
 				return window.Presenter.Kind is AppWindowPresenterKind.FullScreen;
 			}
 		}

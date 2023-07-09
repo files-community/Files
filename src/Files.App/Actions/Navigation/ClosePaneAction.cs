@@ -1,38 +1,38 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class ClosePaneAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "NavigationToolbarClosePane/Label".GetLocalizedResource();
+		public string Label
+			=> "NavigationToolbarClosePane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "ClosePaneDescription".GetLocalizedResource();
+		public string Description
+			=> "ClosePaneDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.W, KeyModifiers.CtrlShift);
+		public HotKey HotKey
+			=> new(Keys.W, KeyModifiers.CtrlShift);
 
-		public RichGlyph Glyph { get; } = new("\uE89F");
+		public RichGlyph Glyph
+			=> new("\uE89F");
 
-		public bool IsExecutable => context.IsMultiPaneActive;
+		public bool IsExecutable
+			=> context.IsMultiPaneActive;
 
 		public ClosePaneAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			context.ShellPage!.PaneHolder.CloseActivePane();
+
 			return Task.CompletedTask;
 		}
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Microsoft.UI.Xaml;
@@ -446,6 +446,13 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = _navigationArguments.NavPathParam ?? string.Empty;
 
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption = SortOption.Name;
+
+				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption == GroupOption.FolderPath &&
+					!ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary)
+					ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectoryGroupOption = GroupOption.None;
+
 				if (!_navigationArguments.IsLayoutSwitch || previousDir != workingDir)
 					ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir, SetSelectedItemsOnNavigation);
 				else
@@ -473,9 +480,10 @@ namespace Files.App.Views.LayoutModes
 
 				if (!_navigationArguments.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(_navigationArguments.SearchPathParam ?? string.Empty, out var lib) ? lib.Text : _navigationArguments.SearchPathParam;
+					var displayName = App.LibraryManager.TryGetLibrary(_navigationArguments.SearchPathParam, out var lib) ? lib.Text : _navigationArguments.SearchPathParam;
 					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), _navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Filesystem.Search.FolderSearch
+
+					var searchInstance = new Utils.Search.FolderSearch()
 					{
 						Query = _navigationArguments.SearchQuery,
 						Folder = _navigationArguments.SearchPathParam,

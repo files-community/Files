@@ -1,38 +1,33 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class CloseTabsToTheLeftCurrentAction : ObservableObject, IAction
 	{
-		private readonly IMultitaskingContext context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+		private readonly IMultitaskingContext context;
 
-		public string Label { get; } = "CloseTabsToTheLeft".GetLocalizedResource();
-		public string Description => "CloseTabsToTheLeftCurrentDescription".GetLocalizedResource();
+		public string Label
+			=> "CloseTabsToTheLeft".GetLocalizedResource();
 
-		private bool isExecutable;
-		public bool IsExecutable => isExecutable;
+		public string Description
+			=> "CloseTabsToTheLeftCurrentDescription".GetLocalizedResource();
+
+		public bool IsExecutable
+			=> GetIsExecutable();
 
 		public CloseTabsToTheLeftCurrentAction()
 		{
-			isExecutable = GetIsExecutable();
+			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			if (context.Control is not null)
-			{
 				MultitaskingTabsHelpers.CloseTabsToTheLeft(context.CurrentTabItem, context.Control);
-			}
+
 			return Task.CompletedTask;
 		}
 
@@ -47,7 +42,7 @@ namespace Files.App.Actions
 			{
 				case nameof(IMultitaskingContext.Control):
 				case nameof(IMultitaskingContext.SelectedTabIndex):
-					SetProperty(ref isExecutable, GetIsExecutable(), nameof(IsExecutable));
+					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
 		}

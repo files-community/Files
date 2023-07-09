@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
+using Files.App.Utils.StorageItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
