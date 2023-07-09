@@ -22,6 +22,7 @@ namespace Files.Shared.Cloud
 		AdobeCreativeCloud,
 		Nutstore,
 		Seadrive,
-		Autodesk
+		Autodesk,
+		ownCloud,
 	}
 }
