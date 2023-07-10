@@ -147,7 +147,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			if (Items.Count == 1)
 			{
-				App.CloseApp();
+				MainWindow.Instance.Close();
 			}
 			else if (Items.Count > 1)
 			{

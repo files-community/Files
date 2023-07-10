@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.FilesystemHistory;
-using Files.App.Utils.StorageItems;
-using Files.Core.Services;
-using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
 using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -673,7 +670,7 @@ namespace Files.App.Utils
 					// Same item names in both directories
 					if (StorageHelpers.Exists(item.dest) || 
 						(FtpHelpers.IsFtpPath(item.dest) && 
-						await Ioc.Default.GetRequiredService<IFtpStorageService>().FileExistsAsync(item.dest)))
+						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(item.dest) is not null))
 					{
 						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
 						conflictingItems.Add(incomingItems.ElementAt(item.index));

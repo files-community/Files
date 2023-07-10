@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
   <ItemGroup>
     <Filter Include="Headers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
@@ -10,6 +12,13 @@
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="OpenInFolder.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+
   <ItemGroup>
     <ClCompile Include="FilesLauncher.cpp">
       <Filter>Sources</Filter>
@@ -18,15 +27,10 @@
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="OpenInFolder.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
+
 </Project>
