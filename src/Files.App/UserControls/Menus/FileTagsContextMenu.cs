@@ -33,9 +33,9 @@ namespace Files.App.UserControls.Menus
 						Text = tag.Name,
 						Tag = tag
 					};
-					tagItem.Icon = new FontIcon()
+					tagItem.Icon = new PathIcon()
 					{
-						Glyph = "\uE8EC",
+						Data = (string)Application.Current.Resources["ColorIconFilledTag"],
 						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
 					};
 					tagItem.Click += TagItem_Click;
