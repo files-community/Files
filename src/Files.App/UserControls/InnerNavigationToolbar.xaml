@@ -604,9 +604,7 @@
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Layout}">
 
-				<AppBarButton.Icon>
-					<FontIcon Glyph="&#xE152;" />
-				</AppBarButton.Icon>
+				<local:OpacityIcon Style="{x:Bind ViewModel.LayoutOpacityIcon, Mode=OneWay}" />
 
 				<AppBarButton.Flyout>
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
