@@ -30,6 +30,7 @@ using static Files.App.Helpers.NativeDirectoryChangesHelper;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
+using LibGit2Sharp;
 
 namespace Files.App.Data.Models
 {
@@ -1223,7 +1224,14 @@ namespace Files.App.Data.Models
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusIcon = gitItemModel.StatusIcon;
+									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+									{
+										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+										_ => null,
+									};
 									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
 									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;

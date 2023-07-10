@@ -511,19 +511,6 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			Style? changeKindSymbol = null;
-			if (changeKind is not ChangeKind.Ignored)
-			{
-				changeKindSymbol = changeKind switch
-				{
-					ChangeKind.Added => (Style)Application.Current.Resources["ColorIconGitAdded"],
-					ChangeKind.Deleted => (Style)Application.Current.Resources["ColorIconGitDeleted"],
-					ChangeKind.Modified => (Style)Application.Current.Resources["ColorIconGitModified"],
-					ChangeKind.Untracked => (Style)Application.Current.Resources["ColorIconGitUntracked"],
-					_ => null,
-				};
-			}
-
 			string? changeKindHumanized = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
@@ -540,7 +527,6 @@ namespace Files.App.Utils.Git
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
-				StatusIcon = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,
