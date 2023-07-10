@@ -1023,6 +1023,9 @@
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}">
 										<uc:OpacityIcon
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Left"
 											Style="{x:Bind AsGitItem.UnmergedGitStatusIcon, Mode=OneWay}"
 											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
 											Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />

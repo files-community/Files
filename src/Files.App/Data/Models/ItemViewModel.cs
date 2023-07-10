@@ -1,17 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Cloud;
-using Files.App.Utils.Search;
-using Files.App.Utils.StorageEnumerators;
-using Files.App.Utils.StorageItems;
 using Files.App.Helpers.StorageCache;
-using Files.App.Utils.Shell;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Shared.Services;
+using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
@@ -30,7 +26,6 @@ using static Files.App.Helpers.NativeDirectoryChangesHelper;
 using static Files.Core.Helpers.NativeFindStorageItemHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
-using LibGit2Sharp;
 
 namespace Files.App.Data.Models
 {

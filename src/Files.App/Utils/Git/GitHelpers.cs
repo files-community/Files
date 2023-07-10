@@ -2,12 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -580,7 +578,7 @@ namespace Files.App.Utils.Git
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
-			
+
 			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
 				return;
