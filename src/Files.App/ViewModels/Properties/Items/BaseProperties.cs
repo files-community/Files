@@ -39,16 +39,17 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemAccessedTimestamp = dateTimeFormatter.ToShortLabel((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
 		}
 
-		public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
+		public async Task<(long size, long sizeOnDisk)> CalculateFolderSizeAsync(string path, CancellationToken token)
 		{
 			if (string.IsNullOrEmpty(path))
 			{
 				// In MTP devices calculating folder size would be too slow
 				// Also should use StorageFolder methods instead of FindFirstFileExFromApp
-				return 0;
+				return (0, 0);
 			}
 
 			long size = 0;
+			long sizeOnDisk = 0;
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 			int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
@@ -72,6 +73,8 @@ namespace Files.App.ViewModels.Properties
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
 						size += findData.GetSize();
+						var fileSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Path.Combine(path, findData.cFileName));
+						sizeOnDisk += fileSizeOnDisk ?? 0;
 						++count;
 						ViewModel.FilesCount++;
 					}
@@ -79,17 +82,21 @@ namespace Files.App.ViewModels.Properties
 					{
 						var itemPath = Path.Combine(path, findData.cFileName);
 
-						size += await CalculateFolderSizeAsync(itemPath, token);
+						var folderSize = await CalculateFolderSizeAsync(itemPath, token);
+						size += folderSize.size;
+						sizeOnDisk += folderSize.sizeOnDisk;
 						++count;
 						ViewModel.FoldersCount++;
 					}
 
-					if (size > ViewModel.ItemSizeBytes)
+					if (size > ViewModel.ItemSizeBytes || sizeOnDisk > ViewModel.ItemSizeOnDiskBytes)
 					{
 						await Dispatcher.EnqueueOrInvokeAsync(() =>
 						{
 							ViewModel.ItemSizeBytes = size;
 							ViewModel.ItemSize = size.ToSizeString();
+							ViewModel.ItemSizeOnDiskBytes = sizeOnDisk;
+							ViewModel.ItemSizeOnDisk = sizeOnDisk.ToSizeString();
 							SetItemsCountString();
 						},
 						DispatcherQueuePriority.Low);
@@ -102,11 +109,11 @@ namespace Files.App.ViewModels.Properties
 
 				FindClose(hFile);
 
-				return size;
+				return (size, sizeOnDisk);
 			}
 			else
 			{
-				return 0;
+				return (0, 0);
 			}
 		}
 
