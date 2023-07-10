@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Files.App.Helpers.MenuFlyoutHelper;
+using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.Menus
 {
@@ -35,7 +36,7 @@ namespace Files.App.UserControls.Menus
 					};
 					tagItem.Icon = new PathIcon()
 					{
-						Data = (string)Application.Current.Resources["ColorIconFilledTag"],
+						Data = (Geometry)Application.Current.Resources["ColorIconFilledTag"],
 						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
 					};
 					tagItem.Click += TagItem_Click;
