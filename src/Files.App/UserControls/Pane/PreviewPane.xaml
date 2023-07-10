@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
 	MinWidth="90"
 	HorizontalAlignment="Stretch"
@@ -267,6 +268,20 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
+				<Button
+					x:Name="DetailsOpenProperties"
+					Margin="0,0,0,8"
+					HorizontalAlignment="Center"
+					Command="{x:Bind Commands.OpenProperties}"
+					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<usercontrols:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
+							<TextBlock Text="{helpers:ResourceString Name=Properties}" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
 			</StackPanel>
 		</ScrollViewer>
 
