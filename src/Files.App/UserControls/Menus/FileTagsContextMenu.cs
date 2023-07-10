@@ -35,7 +35,7 @@ namespace Files.App.UserControls.Menus
 					};
 					tagItem.Icon = new FontIcon()
 					{
-						Glyph = "\uEA3B",
+						Glyph = "\uE8EC",
 						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
 					};
 					tagItem.Click += TagItem_Click;
