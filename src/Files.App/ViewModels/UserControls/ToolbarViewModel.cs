@@ -4,8 +4,8 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Commands;
 using Files.App.Contexts;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Shell;
+using Files.App.Utils.StorageItems;
+using Files.App.Utils.Shell;
 using Files.Core.Helpers;
 using Files.Core.Services;
 using Files.Shared.EventArguments;
@@ -477,7 +477,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
@@ -516,7 +516,7 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		public void CloseSearchBox()
 		{

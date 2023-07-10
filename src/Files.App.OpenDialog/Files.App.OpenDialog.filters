@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{abc5c222-f2d9-4149-b7c5-c26f1a437824}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="dllmain.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FilesOpenDialog.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UndefInterfaces.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="CustomOpenDialog.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomOpenDialog_i.c">
+      <Filter>Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesOpenDialog.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <Midl Include="CustomOpenDialog.idl">
+      <Filter>Sources</Filter>
+    </Midl>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ResourceCompile Include="CustomOpenDialog.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <None Include="CustomOpenDialog.rgs">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="CustomOpenDialog.def">
+      <Filter>Sources</Filter>
+    </None>
+    <None Include="FilesOpenDialog.rgs">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="CustomOpenDialog_i.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+
+</Project>

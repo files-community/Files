@@ -2,11 +2,14 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Storage;
+using Files.Core.Storage.DirectStorage;
 using Files.Core.Storage.Enums;
+using Files.Core.Storage.ExtendableStorage;
 using Files.Core.Storage.Extensions;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.ModifiableStorage;
 using Files.Core.Storage.MutableStorage;
+using Files.Core.Storage.NestedStorage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,65 +19,69 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.NativeStorage
 {
-    /// <inheritdoc cref="IFolder"/>
-    public sealed class NativeFolder : NativeStorable, ILocatableFolder, IModifiableFolder, IMutableFolder
+	/// <inheritdoc cref="IFolder"/>
+	public class NativeFolder : NativeStorable<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
     {
-        public NativeFolder(string path)
-            : base(path)
-        {
-        }
+		public NativeFolder(DirectoryInfo directoryInfo)
+		    : base(directoryInfo)
+	    {
+	    }
 
-        /// <inheritdoc/>
-        public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
-        {
-            var path = System.IO.Path.Combine(Path, fileName);
+	    public NativeFolder(string path)
+		    : this(new DirectoryInfo(path))
+	    {
+	    }
 
-            if (!File.Exists(path))
-                throw new FileNotFoundException();
+	    /// <inheritdoc/>
+	    public virtual Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+	    {
+		    var path = System.IO.Path.Combine(Path, fileName);
 
-            return Task.FromResult<IFile>(new NativeFile(path));
-        }
+		    if (!File.Exists(path))
+			    throw new FileNotFoundException();
 
-        /// <inheritdoc/>
-        public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
-        {
-            var path = System.IO.Path.Combine(Path, folderName);
+		    return Task.FromResult<INestedFile>(new NativeFile(path));
+	    }
 
-            if (!Directory.Exists(path))
-                throw new FileNotFoundException();
+	    /// <inheritdoc/>
+	    public virtual Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+	    {
+		    var path = System.IO.Path.Combine(Path, folderName);
+		    if (!Directory.Exists(path))
+			    throw new FileNotFoundException();
 
-            return Task.FromResult<IFolder>(new NativeFolder(path));
-        }
+		    return Task.FromResult<INestedFolder>(new NativeFolder(path));
+	    }
 
-        /// <inheritdoc/>
-        public async IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            if (kind == StorableKind.Files)
-            {
-                foreach (var item in Directory.EnumerateFiles(Path))
-                    yield return new NativeFile(item);
-            }
-            else if (kind == StorableKind.Folders)
-            {
-                foreach (var item in Directory.EnumerateDirectories(Path))
-                    yield return new NativeFolder(item);
-            }
-            else
-            {
-                foreach (var item in Directory.EnumerateFileSystemEntries(Path))
-                {
-                    if (File.Exists(item))
-                        yield return new NativeFile(item);
-                    else
-                        yield return new NativeFolder(item);
-                }
-            }
+	    /// <inheritdoc/>
+	    public virtual async IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+	    {
+		    if (kind == StorableKind.Files)
+		    {
+			    foreach (var item in Directory.EnumerateFiles(Path))
+				    yield return new NativeFile(item);
+		    }
+		    else if (kind == StorableKind.Folders)
+		    {
+			    foreach (var item in Directory.EnumerateDirectories(Path))
+				    yield return new NativeFolder(item);
+		    }
+		    else
+		    {
+			    foreach (var item in Directory.EnumerateFileSystemEntries(Path))
+			    {
+				    if (File.Exists(item))
+					    yield return new NativeFile(item);
+				    else
+					    yield return new NativeFolder(item);
+			    }
+		    }
 
-            await Task.CompletedTask;
-        }
+		    await Task.CompletedTask;
+	    }
 
-        /// <inheritdoc/>
-        public Task DeleteAsync(IStorable item, bool permanently = false, CancellationToken cancellationToken = default)
+		/// <inheritdoc/>
+		public virtual Task DeleteAsync(INestedStorable item, bool permanently = false, CancellationToken cancellationToken = default)
         {
             _ = permanently;
 
@@ -92,112 +99,86 @@ namespace Files.App.Storage.NativeStorage
             return Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
-        public async Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
-        {
-            var overwrite = collisionOption == CreationCollisionOption.ReplaceExisting;
+		/// <inheritdoc/>
+		public virtual async Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
+		{
+			if (itemToCopy is IFile sourceFile)
+			{
+				if (itemToCopy is ILocatableFile sourceLocatableFile)
+				{
+					var newPath = System.IO.Path.Combine(Path, itemToCopy.Name);
+					File.Copy(sourceLocatableFile.Path, newPath, overwrite);
 
-            if (itemToCopy is IFile sourceFile)
-            {
-                if (itemToCopy is ILocatableFile sourceLocatableFile)
-                {
-                    var newPath = System.IO.Path.Combine(Path, itemToCopy.Name);
-                    File.Copy(sourceLocatableFile.Path, newPath, overwrite);
+					return new NativeFile(newPath);
+				}
 
-                    return new NativeFile(newPath);
-                }
+				var copiedFile = await CreateFileAsync(itemToCopy.Name, overwrite, cancellationToken);
+				await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
 
-                var copiedFile = await CreateFileAsync(itemToCopy.Name, collisionOption, cancellationToken);
-                await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
+				return copiedFile;
+			}
+			else if (itemToCopy is IFolder sourceFolder)
+			{
+				// TODO: Implement folder copy
+				_ = sourceFolder;
+				throw new NotSupportedException();
+			}
 
-                return copiedFile;
-            }
-            else if (itemToCopy is IFolder sourceFolder)
-            {
-                // TODO: Implement folder copy
-                throw new NotSupportedException();
-            }
+			throw new ArgumentException($"Could not copy type {itemToCopy.GetType()}");
+		}
 
-            throw new ArgumentException($"Could not copy type {itemToCopy.GetType()}");
-        }
+		/// <inheritdoc/>
+		public virtual async Task<INestedStorable> MoveFromAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
+		{
+			if (itemToMove is IFile sourceFile)
+			{
+				if (itemToMove is ILocatableFile sourceLocatableFile)
+				{
+					var newPath = System.IO.Path.Combine(Path, itemToMove.Name);
+					File.Move(sourceLocatableFile.Path, newPath, overwrite);
 
-        /// <inheritdoc/>
-        public async Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
-        {
-            var overwrite = collisionOption == CreationCollisionOption.ReplaceExisting;
+					return new NativeFile(newPath);
+				}
+				else
+				{
+					var copiedFile = await CreateFileAsync(itemToMove.Name, overwrite, cancellationToken);
+					await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
+					await source.DeleteAsync(itemToMove, true, cancellationToken);
 
-            if (itemToMove is IFile sourceFile)
-            {
-	            if (itemToMove is ILocatableFile sourceLocatableFile)
-	            {
-		            var newPath = System.IO.Path.Combine(Path, itemToMove.Name);
-		            File.Move(sourceLocatableFile.Path, newPath, overwrite);
+					return copiedFile;
+				}
+			}
+			else if (itemToMove is IFolder sourceFolder)
+			{
+				throw new NotImplementedException();
+			}
 
-		            return new NativeFile(newPath);
-	            }
+			throw new ArgumentException($"Could not move type {itemToMove.GetType()}");
+		}
 
-	            var copiedFile = await CreateFileAsync(itemToMove.Name, collisionOption, cancellationToken);
-	            await sourceFile.CopyContentsToAsync(copiedFile, cancellationToken);
-	            await source.DeleteAsync(itemToMove, true, cancellationToken);
+		/// <inheritdoc/>
+		public virtual async Task<INestedFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
+		{
+			var path = System.IO.Path.Combine(Path, desiredName);
+			if (overwrite || !File.Exists(path))
+				await File.Create(path).DisposeAsync();
 
-	            return copiedFile;
-            }
-            else if (itemToMove is IFolder sourceFolder)
-            {
-                throw new NotImplementedException();
-            }
+			return new NativeFile(path);
+		}
 
-            throw new ArgumentException($"Could not move type {itemToMove.GetType()}");
-        }
+		/// <inheritdoc/>
+		public virtual Task<INestedFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
+		{
+			var path = System.IO.Path.Combine(Path, desiredName);
+			if (overwrite)
+				Directory.Delete(path, true);
 
-        /// <inheritdoc/>
-        public async Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
-        {
-            var path = System.IO.Path.Combine(Path, desiredName);
-            if (File.Exists(path))
-            {
-                switch (collisionOption)
-                {
-                    case CreationCollisionOption.GenerateUniqueName:
-                        return await CreateFileAsync($"{System.IO.Path.GetFileNameWithoutExtension(desiredName)} (1){System.IO.Path.GetExtension(desiredName)}", collisionOption, cancellationToken);
+			_ = Directory.CreateDirectory(path);
+			return Task.FromResult<INestedFolder>(new NativeFolder(path));
+		}
 
-                    case CreationCollisionOption.OpenIfExists:
-                        return new NativeFile(path);
-
-                    case CreationCollisionOption.FailIfExists:
-                        throw new IOException("File already exists with the same name.");
-                }
-            }
-
-            await File.Create(path).DisposeAsync();
-            return new NativeFile(path);
-        }
-
-        /// <inheritdoc/>
-        public Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default)
-        {
-            var path = System.IO.Path.Combine(Path, desiredName);
-            if (Directory.Exists(path))
-            {
-                switch (collisionOption)
-                {
-                    case CreationCollisionOption.GenerateUniqueName:
-                        return CreateFolderAsync($"{desiredName} (1)", collisionOption, cancellationToken);
-
-                    case CreationCollisionOption.OpenIfExists:
-                        return Task.FromResult<IFolder>(new NativeFolder(path));
-
-                    case CreationCollisionOption.FailIfExists:
-                        throw new IOException("Folder already exists with the same name.");
-                }
-            }
-
-            _ = Directory.CreateDirectory(path);
-            return Task.FromResult<IFolder>(new NativeFolder(path));
-        }
-
-        /// <inheritdoc/>
-        public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		/// <inheritdoc/>
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult<IFolderWatcher>(new NativeFolderWatcher(this));
         }

@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -160,7 +160,7 @@ namespace Files.App.ViewModels
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 
 			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
-				App.GetAppWindow(App.Window).Title = $"{windowTitle} - Files";
+				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
 		public async Task UpdateTabInfo(TabItem tabItem, object navigationArg)

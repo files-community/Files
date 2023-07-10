@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
-using Files.App.Filesystem.Security;
+using Files.App.Utils.Security;
 using Microsoft.UI.Xaml;
 using Vanara.PInvoke;
 using Windows.Storage;
@@ -117,7 +117,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Run Win32API
 				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
@@ -130,7 +130,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Get index of the ACE
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
