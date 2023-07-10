@@ -1,4 +1,5 @@
 ﻿using LibGit2Sharp;
+using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
@@ -21,7 +22,7 @@ namespace Files.App.Data.Models
 		/// <remarks>
 		/// This is often showed as A(Added), D(Deleted), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
-		public string? StatusSymbol { get; init; }
+		public Style? StatusIcon { get; init; }
 
 		/// <summary>
 		/// Gets or initializes file change kind humanized string

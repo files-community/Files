@@ -7,6 +7,7 @@ using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -510,15 +511,15 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			string? changeKindSymbol = null;
+			Style? changeKindSymbol = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
 				changeKindSymbol = changeKind switch
 				{
-					ChangeKind.Added => "A",
-					ChangeKind.Deleted => "D",
-					ChangeKind.Modified => "M",
-					ChangeKind.Untracked => "U",
+					ChangeKind.Added => (Style)Application.Current.Resources["ColorIconGitAdded"],
+					ChangeKind.Deleted => (Style)Application.Current.Resources["ColorIconGitDeleted"],
+					ChangeKind.Modified => (Style)Application.Current.Resources["ColorIconGitModified"],
+					ChangeKind.Untracked => (Style)Application.Current.Resources["ColorIconGitUntracked"],
 					_ => null,
 				};
 			}
@@ -539,7 +540,7 @@ namespace Files.App.Utils.Git
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
-				StatusSymbol = changeKindSymbol,
+				StatusIcon = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,

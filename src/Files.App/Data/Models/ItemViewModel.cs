@@ -1223,7 +1223,7 @@ namespace Files.App.Data.Models
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusSymbol;
+									gitItem.UnmergedGitStatusIcon = gitItemModel.StatusIcon;
 									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
 									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
