@@ -272,7 +272,7 @@
 				<!--  Open Properties Button  -->
 				<Button
 					x:Name="DetailsOpenProperties"
-					Margin="0,0,0,8"
+					Margin="8,0,8,8"
 					HorizontalAlignment="Left"
 					Command="{x:Bind Commands.OpenProperties}"
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
