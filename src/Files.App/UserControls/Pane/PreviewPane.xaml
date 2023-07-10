@@ -269,7 +269,7 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 
-				<!-- Open Properties Button -->
+				<!--  Open Properties Button  -->
 				<Button
 					x:Name="DetailsOpenProperties"
 					Margin="0,0,0,8"
