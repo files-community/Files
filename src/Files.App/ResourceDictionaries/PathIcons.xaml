@@ -2372,7 +2372,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconCloud" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2397,7 +2397,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconCloudUnavailable" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2422,7 +2422,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconCloudUnavailable" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2447,7 +2447,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconGitAdded" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2472,7 +2472,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconGitDeleted" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2497,7 +2497,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconGitModified" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
@@ -2522,7 +2522,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconGitUntracked" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
