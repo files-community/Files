@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
@@ -510,19 +509,6 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			string? changeKindSymbol = null;
-			if (changeKind is not ChangeKind.Ignored)
-			{
-				changeKindSymbol = changeKind switch
-				{
-					ChangeKind.Added => "A",
-					ChangeKind.Deleted => "D",
-					ChangeKind.Modified => "M",
-					ChangeKind.Untracked => "U",
-					_ => null,
-				};
-			}
-
 			string? changeKindHumanized = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
@@ -539,7 +525,6 @@ namespace Files.App.Utils.Git
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
-				StatusSymbol = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,
@@ -593,7 +578,7 @@ namespace Files.App.Utils.Git
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
-			
+
 			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
 				return;

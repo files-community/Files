@@ -9,6 +9,7 @@ using Files.Core.ViewModels.FileTags;
 using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
 using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -631,11 +632,11 @@ namespace Files.App.Utils
 
 	public class GitItem : ListedItem
 	{
-		private string? _UnmergedGitStatusLabel;
-		public string? UnmergedGitStatusLabel
+		private Style? _UnmergedGitStatusIcon;
+		public Style? UnmergedGitStatusIcon
 		{
-			get => _UnmergedGitStatusLabel;
-			set => SetProperty(ref _UnmergedGitStatusLabel, value);
+			get => _UnmergedGitStatusIcon;
+			set => SetProperty(ref _UnmergedGitStatusIcon, value);
 		}
 
 		private string? _UnmergedGitStatusName;
@@ -644,8 +645,6 @@ namespace Files.App.Utils
 			get => _UnmergedGitStatusName;
 			set => SetProperty(ref _UnmergedGitStatusName, value);
 		}
-
-		public SolidColorBrush UnmergedGitStatusLabelForeground { get; init; }
 
 		private DateTimeOffset? _GitLastCommitDate;
 		public DateTimeOffset? GitLastCommitDate
