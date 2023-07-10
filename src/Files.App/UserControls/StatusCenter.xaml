@@ -1,15 +1,16 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
-	x:Class="Files.App.UserControls.OngoingTasksFlyout"
+	x:Class="Files.App.UserControls.StatusCenter"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
+	DataContext="{x:Bind OngoingTasksViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -46,6 +47,7 @@
 			VerticalAlignment="Stretch"
 			ItemsSource="{x:Bind OngoingTasksViewModel.StatusBannersSource, Mode=OneWay}"
 			SelectionMode="None">
+
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 					<Setter Property="Padding" Value="0,2" />
@@ -54,7 +56,7 @@
 			</ListView.ItemContainerStyle>
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="dataitems:StatusBanner">
+				<DataTemplate x:DataType="statuscenter:StatusCenterItem">
 					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
 						<InfoBar
 							Title="{x:Bind FullTitle, Mode=OneWay}"
@@ -136,6 +138,7 @@
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
+
 		</ListView>
 
 	</Grid>

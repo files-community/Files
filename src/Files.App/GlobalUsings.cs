@@ -37,6 +37,7 @@ global using global::Files.App.Utils.Search;
 global using global::Files.App.Utils.Security;
 global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
+global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.StorageEnumerators;
 global using global::Files.App.Utils.StorageItems;
 global using global::Files.App.Data.EventArguments;

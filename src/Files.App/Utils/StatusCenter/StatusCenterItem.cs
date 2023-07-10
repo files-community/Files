@@ -4,53 +4,69 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
-namespace Files.App.Data.Items
+namespace Files.App.Utils.StatusCenter
 {
-	public class StatusBanner : ObservableObject
+	public class StatusCenterItem : ObservableObject
 	{
-		private readonly float initialProgress = 0.0f;
+		private readonly float _initialProgress = 0.0f;
 
-		private string fullTitle;
-
-		private bool isCancelled;
-
-		private int progress = 0;
+		private int _Progress;
 		public int Progress
 		{
-			get => progress;
-			set => SetProperty(ref progress, value);
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
 		}
 
-		private bool isProgressing = false;
+		private bool _IsProgressing;
 		public bool IsProgressing
 		{
-			get => isProgressing;
+			get => _IsProgressing;
 			set
 			{
-				if (SetProperty(ref isProgressing, value))
+				if (SetProperty(ref _IsProgressing, value))
 					OnPropertyChanged(nameof(Message));
 			}
 		}
 
-		public string Title { get; private set; }
-
-		private ReturnResult status = ReturnResult.InProgress;
+		private ReturnResult _Status;
 		public ReturnResult Status
 		{
-			get => status;
-			set => SetProperty(ref status, value);
+			get => _Status;
+			set => SetProperty(ref _Status, value);
 		}
+
+		private string _Message;
+		public string Message
+		{
+			// A workaround to avoid overlapping the progress bar (#12362)
+			get => _IsProgressing ? _Message + "\n" : _Message;
+			private set => SetProperty(ref _Message, value);
+		}
+
+		private string _FullTitle;
+		public string FullTitle
+		{
+			get => _FullTitle;
+			set => SetProperty(ref _FullTitle, value ?? string.Empty);
+		}
+
+		private bool _IsCancelled;
+		public bool IsCancelled
+		{
+			get => _IsCancelled;
+			set => SetProperty(ref _IsCancelled, value);
+		}
+
+		public string Title { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
 
-		private string message;
-		public string Message {
-			// A workaround to avoid overlapping the progress bar (#12362)
-			get => isProgressing ? message + "\n" : message;
-			private set => SetProperty(ref message, value);
-		}
+		public InfoBarSeverity InfoBarSeverity { get; private set; }
 
-		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
+		public bool SolutionButtonsVisible { get; }
+
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		public string PrimaryButtonText { get; set; }
 
@@ -60,31 +76,14 @@ namespace Files.App.Data.Items
 
 		public ICommand CancelCommand { get; }
 
-		public bool SolutionButtonsVisible { get; } = false;
-
-		public bool CancelButtonVisible
-			=> CancellationTokenSource is not null;
-
 		public CancellationTokenSource CancellationTokenSource { get; set; }
 
-		public string FullTitle
-		{
-			get => fullTitle;
-			set => SetProperty(ref fullTitle, value ?? string.Empty);
-		}
-
-		public bool IsCancelled
-		{
-			get => isCancelled;
-			set => SetProperty(ref isCancelled, value);
-		}
-
-		public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
 			Message = message;
 			Title = title;
 			FullTitle = title;
-			initialProgress = progress;
+			_initialProgress = progress;
 			Status = status;
 			Operation = operation;
 
@@ -124,7 +123,7 @@ namespace Files.App.Data.Items
 						}
 					}
 
-					FullTitle = $"{Title} ({initialProgress}%)";
+					FullTitle = $"{Title} ({_initialProgress}%)";
 
 					break;
 
@@ -159,7 +158,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public StatusBanner(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
+		public StatusCenterItem(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
 		{
 			Message = message;
 			Title = title;

@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly StatusCenterViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{

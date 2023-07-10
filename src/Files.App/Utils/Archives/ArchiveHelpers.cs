@@ -14,7 +14,7 @@ namespace Files.App.Utils.Archives
 {
 	public static class ArchiveHelpers
 	{
-		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
@@ -70,7 +70,7 @@ namespace Files.App.Utils.Archives
 			creator.ArchivePath = archivePath;
 
 			CancellationTokenSource compressionToken = new();
-			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner
+			StatusCenterPostedItem banner = OngoingTasksViewModel.PostOperationBanner
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
@@ -118,7 +118,7 @@ namespace Files.App.Utils.Archives
 
 			CancellationTokenSource extractCancellation = new();
 
-			PostedStatusBanner banner = OngoingTasksViewModel.PostOperationBanner(
+			StatusCenterPostedItem banner = OngoingTasksViewModel.PostOperationBanner(
 				"ExtractingArchiveText".GetLocalizedResource(),
 				archive.Path,
 				0,

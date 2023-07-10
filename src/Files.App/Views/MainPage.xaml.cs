@@ -40,8 +40,6 @@ namespace Files.App.Views
 
 		public MainPageViewModel ViewModel { get; }
 
-		public OngoingTasksViewModel OngoingTasksViewModel { get; }
-
 		public static AppModel AppModel
 			=> App.AppModel;
 
@@ -57,7 +55,6 @@ namespace Files.App.Views
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;

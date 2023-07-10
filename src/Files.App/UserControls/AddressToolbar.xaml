@@ -20,6 +20,7 @@
 	d:DesignWidth="800"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -199,6 +200,7 @@
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
+				<!--  Status Center  -->
 				<Button
 					x:Name="OngoingTasks"
 					Padding="0"
@@ -207,6 +209,7 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
 					Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
+
 					<Button.Content>
 						<Grid>
 							<FontIcon
@@ -226,12 +229,13 @@
 								Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
 						</Grid>
 					</Button.Content>
+
 					<Button.Flyout>
 						<Flyout
 							contract8Present:ShouldConstrainToRootBounds="False"
 							AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
 							Placement="Bottom">
-							<uc:OngoingTasksFlyout
+							<uc:StatusCenter
 								x:Name="OngoingTasksControl"
 								Width="400"
 								MinHeight="300"
@@ -241,6 +245,7 @@
 								OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
 						</Flyout>
 					</Button.Flyout>
+
 				</Button>
 
 				<!--  Install Update Notification  -->
