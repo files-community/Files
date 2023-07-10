@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.Previews
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 			var items = await Folder.GetItemsAsync();
 
-			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem);
+			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem, ThumbnailOptions.ReturnOnlyIfCached);
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256, true);
 
 			if (iconData is not null)
