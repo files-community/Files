@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Files.App.Helpers.MenuFlyoutHelper;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.UserControls.Menus
 {
@@ -33,9 +35,9 @@ namespace Files.App.UserControls.Menus
 						Text = tag.Name,
 						Tag = tag
 					};
-					tagItem.Icon = new FontIcon()
+					tagItem.Icon = new PathIcon()
 					{
-						Glyph = "\uE8EC",
+						Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
 						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
 					};
 					tagItem.Click += TagItem_Click;
