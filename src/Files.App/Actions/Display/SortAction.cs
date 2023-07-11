@@ -90,6 +90,21 @@ namespace Files.App.Actions
 			=> "SortByTagDescription".GetLocalizedResource();
 	}
 
+	internal class SortByPathAction : SortByAction
+	{
+		protected override SortOption SortOption
+			=> SortOption.Path;
+
+		public override string Label
+			=> "Path".GetLocalizedResource();
+
+		public override string Description
+			=> "SortByPathDescription".GetLocalizedResource();
+
+		protected override bool GetIsExecutable(ContentPageTypes pageType)
+			=> pageType is ContentPageTypes.SearchResults;
+	}
+
 	internal class SortByOriginalFolderAction : SortByAction
 	{
 		protected override SortOption SortOption

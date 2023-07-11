@@ -143,6 +143,16 @@ namespace Files.App.Services.Settings
 			}
 		}
 
+		public double PathColumnWidth
+		{
+			get => Get(200d);
+			set
+			{
+				if (ShowPathColumn)
+					Set(value);
+			}
+		}
+
 		public double OriginalPathColumnWidth
 		{
 			get => Get(200d);
@@ -224,6 +234,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool ShowDateDeletedColumn
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowPathColumn
 		{
 			get => Get(true);
 			set => Set(value);

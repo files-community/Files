@@ -333,8 +333,9 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.DefaultLayoutMode = prefs.LayoutMode;
 				userSettingsService.LayoutSettingsService.DefaultGridViewSize = prefs.GridViewSize;
 
-				// Do not save options which only work in recycle bin or cloud folders as global
-				if (prefs.DirectorySortOption != SortOption.OriginalFolder &&
+				// Do not save options which only work in recycle bin or cloud folders or search results as global
+				if (prefs.DirectorySortOption != SortOption.Path && 
+					prefs.DirectorySortOption != SortOption.OriginalFolder &&
 					prefs.DirectorySortOption != SortOption.DateDeleted &&
 					prefs.DirectorySortOption != SortOption.SyncStatus)
 				{
@@ -365,6 +366,7 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !prefs.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !prefs.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !prefs.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
+				userSettingsService.FoldersSettingsService.ShowPathColumn = !prefs.ColumnsViewModel.PathColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !prefs.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
 				userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !prefs.ColumnsViewModel.StatusColumn.UserCollapsed;
 
@@ -380,6 +382,7 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = prefs.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = prefs.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = prefs.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
+				userSettingsService.FoldersSettingsService.PathColumnWidth = prefs.ColumnsViewModel.PathColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = prefs.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
 				userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = prefs.ColumnsViewModel.StatusColumn.UserLengthPixels;
 			}
@@ -588,6 +591,7 @@ namespace Files.App.Data.Models
 			userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !columns.GitCommitAuthorColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !columns.GitLastCommitShaColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !columns.DateDeletedColumn.UserCollapsed;
+			userSettingsService.FoldersSettingsService.ShowPathColumn = !columns.PathColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !columns.OriginalPathColumn.UserCollapsed;
 			userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !columns.StatusColumn.UserCollapsed;
 
@@ -603,6 +607,7 @@ namespace Files.App.Data.Models
 			userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = columns.GitCommitAuthorColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = columns.GitLastCommitShaColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = columns.DateDeletedColumn.UserLengthPixels;
+			userSettingsService.FoldersSettingsService.PathColumnWidth = columns.PathColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = columns.OriginalPathColumn.UserLengthPixels;
 			userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = columns.StatusColumn.UserLengthPixels;
 		}

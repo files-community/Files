@@ -54,11 +54,11 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | SetAsLockscreenBackground           | Set as lockscreen background              | Set selected picture as lockscreen background            |                     |
 | Install            | InstallFont                         | Install                                   | Install selected font(s)                                 |                     |
 |                    | InstallInfDriver                    | Install                                   | Install driver(s) using selected inf file(s)             |                     |
+|                    | InstallCertificate                  | Install                                   | Install selected certificate(s)                          |                     |
 | Run                | RunAsAdmin                          | Run as administrator                      | Run selected application as administrator                |                     |
 |                    | RunAsAnotherUser                    | Run as another user                       | Run selected application as another user                 |                     |
 |                    | RunWithPowershell                   | Run with PowerShell                       | Run selected PowerShell script                           |                     |
-| Play               | PlayAll                             | Play all                                  | Play the selected media files                            |                     |
-| QuickLook          | LaunchQuickLook                     | Launch QuickLook                          | Launch QuickLook with selected item                      | Space               |
+| Preview Popup      | LaunchPreviewPopup                  | Launch preview popup                      | Launch preview in popup window                           | Space               |
 | Archives           | CompressIntoArchive                 | Create archive                            | Create archive with selected item(s)                     |                     |
 |                    | CompressIntoSevenZip                | Create _ArchiveName_.7z                   | Create 7z archive instantly with selected item(s)        |                     |
 |                    | CompressIntoZip                     | Create _ArchiveName_.zip                  | Create zip archive instantly with selected item(s)       |                     |
@@ -67,7 +67,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | DecompressArchiveToChildFolder      | Extract to _NewFolderName_                | Extract items from selected archive(s) to new folder     |                     |
 | Image Manipulation | RotateLeft                          | Rotate left                               | Rotate selected image(s) to the left                     |                     |
 |                    | RotateRight                         | Rotate right                              | Rotate selected image(s) to the right                    |                     |
-| Open               | OpenProperties                      | Open properties                           | Open properties window                                   | Alt+Enter           |
+| Open               | OpenInVS                            | Visual Studio                             | Open the current directory in Visual Studio              |                     |
+|                    | OpenInVSCode                        | VS Code                                   | Open the current directory in Visual Studio Code         |                     |
+|                    | OpenProperties                      | Open properties                           | Open properties window                                   | Alt+Enter           |
 |                    | OpenSettings                        | Settings                                  | Open settings page                                       | Ctrl+,              |
 |                    | OpenTerminal                        | Open in terminal                          | Open folder in terminal                                  | Ctrl+\`             |
 |                    | OpenTerminalAsAdmin                 | Open in terminal as administrator         | Open folder in terminal as administrator                 | Ctrl+Shift+\`       |
@@ -87,6 +89,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | SortByType                          | Type                                      | Sort items by type                                       |                     |
 |                    | SortBySyncStatus                    | Sync status                               | Sort items by sync status                                |                     |
 |                    | SortByTag                           | Tags                                      | Sort items by tags                                       |                     |
+|                    | SortByPath                          | Path                                      | Sort items by path                                       |                     |
 |                    | SortByOriginalFolder                | Original folder                           | Sort items by original folder                            |                     |
 |                    | SortByDateDeleted                   | Date deleted                              | Sort items by date deleted                               |                     |
 |                    | SortAscending                       | Ascending                                 | Sort items in ascending order                            |                     |
@@ -134,3 +137,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | CloseSelectedTab                    | Closes current tab                        | Close current tab                                        | Ctrl+W, Ctrl+F4     |
 |                    | OpenNewPane                         | New pane                                  | Open new pane                                            | Alt+Shift++         |
 |                    | ClosePane                           | Close pane                                | Close right pane                                         | Ctrl+Shift+W        |
+| Play               | PlayAll                             | Play all                                  | Play the selected media files                            |                     |
+| Git                | GitFetch                            | Fetch                                     | Run git fetch                                            |                     |
+|                    | GitInit                             | Initialize repo                           | Initialize a Git repository                              |                     |
+|                    | GitPull                             | Pull                                      | Run git pull                                             |                     |
+|                    | GitPush                             | Push                                      | Run git push                                             |                     |
+|                    | GitSync                             | Sync                                      | Run git pull and then git push                           |                     |

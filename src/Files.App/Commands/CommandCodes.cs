@@ -123,6 +123,7 @@ namespace Files.App.Commands
 		SortByType,
 		SortBySyncStatus,
 		SortByTag,
+		SortByPath,
 		SortByOriginalFolder,
 		SortByDateDeleted,
 		SortAscending,

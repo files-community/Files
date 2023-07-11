@@ -107,6 +107,7 @@ namespace Files.App.Commands
 		IRichCommand SortByType { get; }
 		IRichCommand SortBySyncStatus { get; }
 		IRichCommand SortByTag { get; }
+		IRichCommand SortByPath { get; }
 		IRichCommand SortByOriginalFolder { get; }
 		IRichCommand SortByDateDeleted { get; }
 		IRichCommand SortAscending { get; }

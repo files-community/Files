@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> "ExitCompactOverlay".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ExitCompactOverlay");
+			=> new(opacityStyle: "ColorIconExitCompactOverlay");
 
 		public HotKey HotKey
 			=> new(Keys.Down, KeyModifiers.MenuCtrl);
