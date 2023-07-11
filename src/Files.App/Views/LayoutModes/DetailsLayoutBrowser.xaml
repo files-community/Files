@@ -1018,7 +1018,7 @@
 									<Border
 										x:Name="ItemGitStatusTextBlock"
 										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}">
@@ -1155,7 +1155,7 @@
 									<TextBlock
 										x:Name="ItemPath"
 										Width="{Binding ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
@@ -1168,7 +1168,7 @@
 									<TextBlock
 										x:Name="ItemOriginalPath"
 										Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
@@ -1182,7 +1182,7 @@
 									<TextBlock
 										x:Name="ItemDateDeleted"
 										Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
@@ -1196,7 +1196,7 @@
 									<TextBlock
 										x:Name="ItemDateModified"
 										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
@@ -1209,7 +1209,7 @@
 									<TextBlock
 										x:Name="ItemDateCreated"
 										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
@@ -1222,7 +1222,7 @@
 									<TextBlock
 										x:Name="ItemType"
 										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
@@ -1235,7 +1235,7 @@
 									<TextBlock
 										x:Name="ItemSize"
 										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
@@ -1245,16 +1245,20 @@
 										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Sync Status Badge  -->
-									<FontIcon
+									<Border
 										x:Name="ItemStatus"
 										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Margin="10,0,0,0"
+										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-										FontSize="12"
-										Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										<uc:OpacityIcon
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Left"
+											Style="{x:Bind SyncStatusUI.OpacityIcon, Mode=OneWay}" />
+									</Border>
 
 									<!--  Visual Status Managing  -->
 									<VisualStateManager.VisualStateGroups>

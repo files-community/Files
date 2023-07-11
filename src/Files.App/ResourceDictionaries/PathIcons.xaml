@@ -2423,6 +2423,31 @@
 				</Setter>
 			</Style>
 
+			<Style x:Key="ColorIconCloudSynced" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M1.37371 8.16782C1.19025 7.96143 0.874215 7.94284 0.667823 8.1263C0.461432 8.30975 0.442842 8.62579 0.626301 8.83218L4.6263 13.3322C4.81743 13.5472 5.15013 13.557 5.35356 13.3536L15.8536 2.85355C16.0488 2.65829 16.0488 2.34171 15.8536 2.14645C15.6583 1.95118 15.3417 1.95118 15.1465 2.14645L5.02141 12.2715L1.37371 8.16782Z"
+										Fill="{ThemeResource SystemFillColorSuccessBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 			<Style x:Key="ColorIconGitAdded" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
