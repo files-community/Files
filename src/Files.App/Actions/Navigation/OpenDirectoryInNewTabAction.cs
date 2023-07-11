@@ -7,6 +7,8 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
+		private readonly IUserSettingsService userSettingsService;
+
 		private readonly MainPageViewModel _mainPageViewModel;
 
 		public string Label
@@ -18,12 +20,16 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable
-			=> context.HasSelection;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.SelectedItem is not null &&
+			context.SelectedItem.IsFolder &&
+			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 
 		public OpenDirectoryInNewTabAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;

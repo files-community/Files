@@ -9,6 +9,8 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
+		private readonly IUserSettingsService userSettingsService;
+
 		public string Label
 			=> "OpenInNewWindow".GetLocalizedResource();
 
@@ -18,12 +20,16 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
-		public bool IsExecutable
-			=> context.HasSelection;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.SelectedItem is not null &&
+			context.SelectedItem.IsFolder &&
+			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 
 		public OpenInNewWindowItemAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}

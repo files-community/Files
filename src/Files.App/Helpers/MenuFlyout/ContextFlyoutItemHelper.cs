@@ -383,30 +383,9 @@ namespace Files.App.Helpers
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewTabAction)
-				{
-					IsVisible =
-						itemsSelected &&
-						selectedItems.Count < 5 &&
-						areAllItemsFolders &&
-						userSettingsService.GeneralSettingsService.ShowOpenInNewTab,
-				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindowItemAction)
-				{
-					IsVisible =
-						itemsSelected &&
-						selectedItems.Count < 5 &&
-						areAllItemsFolders &&
-						userSettingsService.GeneralSettingsService.ShowOpenInNewWindow,
-				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewPaneAction)
-				{
-					IsVisible =
-						itemsSelected &&
-						selectedItems.Count == 1 &&
-						userSettingsService.GeneralSettingsService.ShowOpenInNewPane &&
-						areAllItemsFolders,
-				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewTabAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindowItemAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewPaneAction).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
