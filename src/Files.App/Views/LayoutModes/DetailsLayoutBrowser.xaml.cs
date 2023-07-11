@@ -588,6 +588,7 @@ namespace Files.App.Views.LayoutModes
 			if (!FileList.Items.Any())
 				return;
 
+			// Get max item length that is requested to resize to fit
 			var maxItemLength = columnToResize switch
 			{
 				1 => 40, // Check all items columns
@@ -612,6 +613,7 @@ namespace Files.App.Views.LayoutModes
 			if (maxItemLength == 0)
 				return;
 
+			// Estimate columns size to fit judging from max length item
 			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
 
 			if (columnSizeToFit > 1)
@@ -635,12 +637,14 @@ namespace Files.App.Views.LayoutModes
 					_ => ColumnsViewModel.StatusColumn
 				};
 
+				// Overestimate
 				if (columnToResize == 2) // file name column
 					columnSizeToFit += 20;
 
 				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
 				var maxFitLength = Math.Min(minFitLength + 36, column.NormalMaxLength); // 36 to account for SortIcon & padding
 
+				// Set size
 				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
 			}
 
