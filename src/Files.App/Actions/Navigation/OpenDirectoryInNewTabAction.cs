@@ -39,7 +39,7 @@ namespace Files.App.Actions
 		{
 			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await _mainPageViewModel.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
