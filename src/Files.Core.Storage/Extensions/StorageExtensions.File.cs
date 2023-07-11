@@ -11,6 +11,16 @@ namespace Files.Core.Storage.Extensions
 {
 	public static partial class StorageExtensions
 	{
+		/// <inheritdoc cref="IFileExtended.OpenStreamAsync(FileAccess, FileShare, CancellationToken)"/>
+		public static async Task<Stream> OpenStreamAsync(this IFile file, FileAccess access, FileShare share = FileShare.None, CancellationToken cancellationToken = default)
+		{
+			if (file is IFileExtended fileExtended)
+				return await fileExtended.OpenStreamAsync(access, share, cancellationToken);
+
+			// TODO: Check if the file inherits from ILockableStorable and ensure a disposable handle to it via Stream bridge
+			return await file.OpenStreamAsync(access, cancellationToken);
+		}
+
 		/// <returns>If successful, returns a <see cref="Stream"/>, otherwise null.</returns>
 		/// <inheritdoc cref="IFile.OpenStreamAsync"/>
 		public static async Task<Stream?> TryOpenStreamAsync(this IFile file, FileAccess access, CancellationToken cancellationToken = default)
@@ -31,11 +41,7 @@ namespace Files.Core.Storage.Extensions
 		{
 			try
 			{
-				if (file is IFileExtended fileExtended)
-					return await fileExtended.OpenStreamAsync(access, share, cancellationToken);
-
-				// TODO: Check if the file inherits from ILockableStorable and ensure a disposable handle to it via Stream bridge
-				return await file.OpenStreamAsync(access, cancellationToken);
+				return await OpenStreamAsync(file, access, share, cancellationToken);
 			}
 			catch (Exception)
 			{

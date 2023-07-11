@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using ByteSizeLib;
 using Files.App.Storage.WindowsStorage;
 using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.NestedStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -178,7 +178,7 @@ namespace Files.App.Data.Items
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
 
 			return item;
 		}
@@ -268,25 +268,25 @@ namespace Files.App.Data.Items
 				MaxSpace.ToSizeString());
 		}
 
-		public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFileAsync(fileName, cancellationToken);
 		}
 
-		public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFolderAsync(folderName, cancellationToken);
 		}
 
-		public IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
+		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetItemsAsync(kind, cancellationToken);
 		}
 
-		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetParentAsync(cancellationToken);

@@ -147,6 +147,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSize, value);
 		}
 
+		private string itemSizeOnDisk;
+		public string ItemSizeOnDisk
+		{
+			get => itemSizeOnDisk;
+			set => SetProperty(ref itemSizeOnDisk, value);
+		}
+
 		private string uncompresseditemSize;
 		public string UncompressedItemSize
 		{
@@ -179,6 +186,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSizeBytes, value);
 		}
 
+		private long itemSizeOnDiskBytes;
+		public long ItemSizeOnDiskBytes
+		{
+			get => itemSizeOnDiskBytes;
+			set => SetProperty(ref itemSizeOnDiskBytes, value);
+		}
+
 		private long uncompresseditemSizeBytes;
 		public long UncompressedItemSizeBytes
 		{
@@ -191,6 +205,13 @@ namespace Files.App.Data.Models
 		{
 			get => itemSizeProgressVisibility;
 			set => SetProperty(ref itemSizeProgressVisibility, value);
+		}
+
+		private bool itemSizeOnDiskProgressVisibility = false;
+		public bool ItemSizeOnDiskProgressVisibility
+		{
+			get => itemSizeOnDiskProgressVisibility;
+			set => SetProperty(ref itemSizeOnDiskProgressVisibility, value);
 		}
 
 		// For libraries

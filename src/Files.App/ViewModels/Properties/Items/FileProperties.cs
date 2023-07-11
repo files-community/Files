@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Properties
 				}
 				else
 				{
-					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
 						() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(ViewModel.ShortcutItemPath)));
 				}
 			},
@@ -97,6 +97,8 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
+			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
 			if (fileIconData is not null)
