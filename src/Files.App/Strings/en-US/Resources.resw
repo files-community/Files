@@ -1866,8 +1866,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Open folders in new tab</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Status center</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>

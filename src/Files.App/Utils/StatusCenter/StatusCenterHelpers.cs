@@ -7,7 +7,12 @@ namespace Files.App.Utils.StatusCenter
 	{
 		private readonly static StatusCenterViewModel _ongoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		public static StatusCenterPostedItem PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
+		public static StatusCenterPostedItem PostBanner_Delete(
+			IEnumerable<IStorageItemWithPath> source,
+			ReturnResult returnStatus,
+			bool permanently,
+			bool canceled,
+			int itemsDeleted)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 
@@ -15,7 +20,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusDeletionCancelled".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -33,7 +38,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusRecycleCancelled".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -55,7 +60,7 @@ namespace Files.App.Utils.StatusCenter
 				if (permanently)
 				{
 					// deleting items from <x>
-					return _ongoingTasksViewModel.PostOperationBanner(string.Empty,
+					return _ongoingTasksViewModel.AddCancellableItem(string.Empty,
 						string.Format(
 							source.Count() > 1
 								? "StatusDeletingItemsDetails_Plural".GetLocalizedResource()
@@ -70,7 +75,7 @@ namespace Files.App.Utils.StatusCenter
 				else
 				{
 					// "Moving items from <x> to recycle bin"
-					return _ongoingTasksViewModel.PostOperationBanner(string.Empty,
+					return _ongoingTasksViewModel.AddCancellableItem(string.Empty,
 						string.Format(
 							source.Count() > 1
 								? "StatusMovingItemsDetails_Plural".GetLocalizedResource()
@@ -88,7 +93,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusDeletionComplete".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -103,7 +108,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusRecycleComplete".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -121,7 +126,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusDeletionFailed".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -135,7 +140,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return _ongoingTasksViewModel.PostBanner(
+					return _ongoingTasksViewModel.AddItem(
 						"StatusRecycleFailed".GetLocalizedResource(),
 						string.Format(
 							source.Count() > 1
@@ -151,14 +156,19 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public static StatusCenterPostedItem PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
+		public static StatusCenterPostedItem PostBanner_Copy(
+			IEnumerable<IStorageItemWithPath> source,
+			IEnumerable<string> destination,
+			ReturnResult returnStatus,
+			bool canceled,
+			int itemsCopied)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
 			if (canceled)
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusCopyCanceled".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1
@@ -174,7 +184,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return _ongoingTasksViewModel.PostOperationBanner(
+				return _ongoingTasksViewModel.AddCancellableItem(
 					string.Empty,
 					string.Format(
 						source.Count() > 1
@@ -188,7 +198,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusCopyComplete".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1
@@ -202,7 +212,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusCopyFailed".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1
@@ -216,14 +226,19 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public static StatusCenterPostedItem PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
+		public static StatusCenterPostedItem PostBanner_Move(
+			IEnumerable<IStorageItemWithPath> source,
+			IEnumerable<string> destination,
+			ReturnResult returnStatus,
+			bool canceled,
+			int itemsMoved)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
 			if (canceled)
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusMoveCanceled".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1
@@ -239,7 +254,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return _ongoingTasksViewModel.PostOperationBanner(
+				return _ongoingTasksViewModel.AddCancellableItem(
 					string.Empty,
 					string.Format(
 						source.Count() > 1
@@ -254,7 +269,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusMoveComplete".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1
@@ -270,7 +285,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else
 			{
-				return _ongoingTasksViewModel.PostBanner(
+				return _ongoingTasksViewModel.AddItem(
 					"StatusMoveFailed".GetLocalizedResource(),
 					string.Format(
 						source.Count() > 1

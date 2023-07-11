@@ -6,9 +6,27 @@ using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
 {
+	/// <summary>
+	/// Represents an item for StatusCenter.
+	/// </summary>
 	public class StatusCenterItem : ObservableObject
 	{
 		private readonly float _initialProgress = 0.0f;
+
+		private string? _FullTitle;
+		public string? FullTitle
+		{
+			get => _FullTitle;
+			set => SetProperty(ref _FullTitle, value ?? string.Empty);
+		}
+
+		private string? _Message;
+		public string? Message
+		{
+			// A workaround to avoid overlapping the progress bar (#12362)
+			get => _IsProgressing ? _Message + "\n" : _Message;
+			private set => SetProperty(ref _Message, value);
+		}
 
 		private int _Progress;
 		public int Progress
@@ -28,28 +46,6 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		private ReturnResult _Status;
-		public ReturnResult Status
-		{
-			get => _Status;
-			set => SetProperty(ref _Status, value);
-		}
-
-		private string _Message;
-		public string Message
-		{
-			// A workaround to avoid overlapping the progress bar (#12362)
-			get => _IsProgressing ? _Message + "\n" : _Message;
-			private set => SetProperty(ref _Message, value);
-		}
-
-		private string _FullTitle;
-		public string FullTitle
-		{
-			get => _FullTitle;
-			set => SetProperty(ref _FullTitle, value ?? string.Empty);
-		}
-
 		private bool _IsCancelled;
 		public bool IsCancelled
 		{
@@ -59,137 +55,109 @@ namespace Files.App.Utils.StatusCenter
 
 		public string Title { get; private set; }
 
-		public FileOperationType Operation { get; private set; }
+		public InfoBarSeverity Status { get; private set; }
 
-		public InfoBarSeverity InfoBarSeverity { get; private set; }
+		public ReturnResult ReturnResult { get; set; }
 
-		public bool SolutionButtonsVisible { get; }
+		public CancellationTokenSource? CancellationTokenSource { get; set; }
+
+		public int StatusNumber
+			=> (int)Status;
+
+		public string StatusIcon =>
+			Status switch
+			{
+				InfoBarSeverity.Informational => "\uF13F",
+				InfoBarSeverity.Success => "\uF13D",
+				InfoBarSeverity.Error => "\uF13E",
+				_ => "\uF13F"
+			};
 
 		public bool CancelButtonVisible
 			=> CancellationTokenSource is not null;
 
-		public string PrimaryButtonText { get; set; }
-
-		public string SecondaryButtonText { get; set; } = "Cancel";
-
-		public Action PrimaryButtonClick { get; }
-
 		public ICommand CancelCommand { get; }
-
-		public CancellationTokenSource CancellationTokenSource { get; set; }
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
 			Message = message;
 			Title = title;
 			FullTitle = title;
+			ReturnResult = status;
 			_initialProgress = progress;
-			Status = status;
-			Operation = operation;
 
-			CancelCommand = new RelayCommand(CancelOperation);
+			CancelCommand = new RelayCommand(CancelItem);
 
-			switch (Status)
+			switch (ReturnResult)
 			{
 				case ReturnResult.InProgress:
-					IsProgressing = true;
-					if (string.IsNullOrWhiteSpace(Title))
 					{
-						switch (Operation)
+						IsProgressing = true;
+
+						if (string.IsNullOrWhiteSpace(Title))
 						{
-							case FileOperationType.Extract:
-								Title = "ExtractInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Copy:
-								Title = "CopyInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Move:
-								Title = "MoveInProgress".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Delete:
-								Title = "DeleteInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Recycle:
-								Title = "RecycleInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Prepare:
-								Title = "PrepareInProgress".GetLocalizedResource();
-								break;
+							Title = operation switch
+							{
+								FileOperationType.Extract => Title = "ExtractInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Copy => Title = "CopyInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Move => Title = "MoveInProgress".GetLocalizedResource(),
+								FileOperationType.Delete => Title = "DeleteInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Recycle => Title = "RecycleInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Prepare => Title = "PrepareInProgress".GetLocalizedResource(),
+								_ => Title = "",
+							};
 						}
+
+						FullTitle = $"{Title} ({_initialProgress}%)";
+
+						break;
 					}
-
-					FullTitle = $"{Title} ({_initialProgress}%)";
-
-					break;
-
 				case ReturnResult.Success:
-					IsProgressing = false;
-					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
-						throw new NotImplementedException();
-					}
-					else
-					{
-						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Success;
-					}
-					break;
+						IsProgressing = false;
 
+						if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
+						{
+							throw new NotImplementedException();
+						}
+						else
+						{
+							FullTitle = Title;
+							Status = InfoBarSeverity.Success;
+						}
+
+						break;
+					}
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
-					IsProgressing = false;
-					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
-						throw new NotImplementedException();
-					}
-					else
-					{
-						// Expanded banner
-						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Error;
-					}
+						IsProgressing = false;
 
-					break;
+						if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
+						{
+							throw new NotImplementedException();
+						}
+						else
+						{
+							// Expanded banner
+							FullTitle = Title;
+							Status = InfoBarSeverity.Error;
+						}
+
+						break;
+					}
 			}
 		}
 
-		public StatusCenterItem(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
-		{
-			Message = message;
-			Title = title;
-			PrimaryButtonText = primaryButtonText;
-			SecondaryButtonText = secondaryButtonText;
-			PrimaryButtonClick = primaryButtonClicked;
-			Status = ReturnResult.Failed;
-
-			CancelCommand = new RelayCommand(CancelOperation);
-
-			if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
-				throw new NotImplementedException();
-			else
-			{
-				if (!string.IsNullOrWhiteSpace(PrimaryButtonText))
-					SolutionButtonsVisible = true;
-
-				// Expanded banner
-				FullTitle = Title;
-				InfoBarSeverity = InfoBarSeverity.Error;
-			}
-		}
-
-		public void CancelOperation()
+		private void CancelItem()
 		{
 			if (CancelButtonVisible)
 			{
-				CancellationTokenSource.Cancel();
+				CancellationTokenSource?.Cancel();
 				IsCancelled = true;
 				FullTitle = $"{Title} ({"canceling".GetLocalizedResource()})";
 			}
 		}
 	}
 }
+ 

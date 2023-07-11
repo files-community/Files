@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Windows.Input;
+
 namespace Files.App.ViewModels.UserControls
 {
-	public class StatusCenterViewModel : ObservableObject, IStatusCenterViewModel
+	public class StatusCenterViewModel : ObservableObject
 	{
-		public ObservableCollection<StatusCenterItem> StatusBannersSource { get; private set; } = new();
-
 		private int _MedianOperationProgressValue = 0;
 		public int MedianOperationProgressValue
 		{
@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				int count = 0;
 
-				foreach (var item in StatusBannersSource)
+				foreach (var item in StatusCenterItems)
 				{
 					if (item.IsProgressing)
 						count++;
@@ -34,13 +34,13 @@ namespace Files.App.ViewModels.UserControls
 			=> OngoingOperationsCount > 0;
 
 		public bool AnyBannersPresent
-			=> StatusBannersSource.Any();
+			=> StatusCenterItems.Any();
 
 		public int InfoBadgeState
 		{
 			get
 			{
-				var anyFailure = StatusBannersSource.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
+				var anyFailure = StatusCenterItems.Any(i => i.ReturnResult != ReturnResult.InProgress && i.ReturnResult != ReturnResult.Success);
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
@@ -55,69 +55,71 @@ namespace Files.App.ViewModels.UserControls
 		public int InfoBadgeValue
 			=> OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
 
-		public event EventHandler<StatusCenterPostedItem> ProgressBannerPosted;
+		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; private set; } = new();
+
+		public event EventHandler<StatusCenterPostedItem>? ProgressBannerPosted;
+
+		public ICommand CloseItemCommand { get; }
+
+		public ICommand CloseAllCommand { get; }
 
 		public StatusCenterViewModel()
 		{
-			StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+
+			CloseItemCommand = new RelayCommand<StatusCenterItem>(RemoveItem);
+			CloseAllCommand = new RelayCommand(RemoveAll);
 		}
 
-		public StatusCenterPostedItem PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
+		public StatusCenterPostedItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
 		{
 			StatusCenterItem banner = new(message, title, initialProgress, status, operation);
-			StatusCenterPostedItem postedBanner = new(banner, this);
+			StatusCenterPostedItem postedBanner = new(banner);
 
-			StatusBannersSource.Insert(0, banner);
+			StatusCenterItems.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 
-			UpdateBanner(banner);
+			NotifyPropertyChanges();
 
 			return postedBanner;
 		}
 
-		public StatusCenterPostedItem PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
+		public StatusCenterPostedItem AddCancellableItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
 		{
 			StatusCenterItem banner = new(message, title, initialProgress, status, operation)
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
 
-			StatusCenterPostedItem postedBanner = new(banner, this, cancellationTokenSource);
+			StatusCenterPostedItem postedBanner = new(banner, cancellationTokenSource);
 
-			StatusBannersSource.Insert(0, banner);
+			StatusCenterItems.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 
-			UpdateBanner(banner);
+			NotifyPropertyChanges();
 
 			return postedBanner;
 		}
 
-		public StatusCenterPostedItem PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
+		public void RemoveItem(StatusCenterItem item)
 		{
-			StatusCenterItem banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
-			StatusCenterPostedItem postedBanner = new(banner, this);
+			if (!StatusCenterItems.Remove(item))
+				return;
 
-			StatusBannersSource.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, postedBanner);
-
-			UpdateBanner(banner);
-
-			return postedBanner;
+			NotifyPropertyChanges();
 		}
 
-		public bool CloseBanner(StatusCenterItem banner)
+		public void RemoveAll()
 		{
-			if (!StatusBannersSource.Contains(banner))
-				return false;
-
-			StatusBannersSource.Remove(banner);
-
-			UpdateBanner(banner);
-
-			return true;
+			for (int index = StatusCenterItems.Count - 1; index >= 0; index--)
+			{
+				var itemToDismiss = StatusCenterItems[index];
+				if (!itemToDismiss.IsProgressing)
+					RemoveItem(itemToDismiss);
+			}
 		}
 
-		public void UpdateBanner(StatusCenterItem banner)
+		public void NotifyPropertyChanges()
 		{
 			OnPropertyChanged(nameof(OngoingOperationsCount));
 			OnPropertyChanged(nameof(AnyOperationsOngoing));
@@ -128,7 +130,7 @@ namespace Files.App.ViewModels.UserControls
 		public void UpdateMedianProgress()
 		{
 			if (AnyOperationsOngoing)
-				MedianOperationProgressValue = (int)StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
+				MedianOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsProgressing).Average(x => x.Progress);
 		}
 	}
 }

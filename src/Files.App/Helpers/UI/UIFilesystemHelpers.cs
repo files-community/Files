@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? ongoingTasksViewModel.AddCancellableItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -139,7 +139,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? ongoingTasksViewModel.AddCancellableItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,

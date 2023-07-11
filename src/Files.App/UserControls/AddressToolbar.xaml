@@ -205,9 +205,9 @@
 					x:Name="OngoingTasks"
 					Padding="0"
 					AccessKey="T"
-					AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
 					Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
 
 					<Button.Content>
@@ -233,7 +233,7 @@
 					<Button.Flyout>
 						<Flyout
 							contract8Present:ShouldConstrainToRootBounds="False"
-							AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+							AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 							Placement="Bottom">
 							<uc:StatusCenter
 								x:Name="OngoingTasksControl"
@@ -241,8 +241,7 @@
 								MinHeight="300"
 								MaxHeight="500"
 								x:FieldModifier="public"
-								IsTabStop="True"
-								OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
+								IsTabStop="True" />
 						</Flyout>
 					</Button.Flyout>
 

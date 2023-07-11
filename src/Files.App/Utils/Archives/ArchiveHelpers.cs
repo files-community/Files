@@ -70,7 +70,7 @@ namespace Files.App.Utils.Archives
 			creator.ArchivePath = archivePath;
 
 			CancellationTokenSource compressionToken = new();
-			StatusCenterPostedItem banner = OngoingTasksViewModel.PostOperationBanner
+			StatusCenterPostedItem banner = OngoingTasksViewModel.AddCancellableItem
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
@@ -87,7 +87,7 @@ namespace Files.App.Utils.Archives
 
 			if (isSuccess)
 			{
-				OngoingTasksViewModel.PostBanner
+				OngoingTasksViewModel.AddItem
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
@@ -100,7 +100,7 @@ namespace Files.App.Utils.Archives
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
-				OngoingTasksViewModel.PostBanner
+				OngoingTasksViewModel.AddItem
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
@@ -118,7 +118,7 @@ namespace Files.App.Utils.Archives
 
 			CancellationTokenSource extractCancellation = new();
 
-			StatusCenterPostedItem banner = OngoingTasksViewModel.PostOperationBanner(
+			StatusCenterPostedItem banner = OngoingTasksViewModel.AddCancellableItem(
 				"ExtractingArchiveText".GetLocalizedResource(),
 				archive.Path,
 				0,
@@ -130,7 +130,7 @@ namespace Files.App.Utils.Archives
 
 			banner.Remove();
 			
-			OngoingTasksViewModel.PostBanner(
+			OngoingTasksViewModel.AddItem(
 				"ExtractingCompleteText".GetLocalizedResource(),
 				"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
 				0,

@@ -23,17 +23,15 @@ namespace Files.App.Utils
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
-		#region Private Members
-
 		private IShellPage associatedInstance;
+
 		private readonly IJumpListService jumpListService;
+
 		private IFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
 		private readonly CancellationToken cancellationToken;
-
-		#region Helpers Members
 
 		private static char[] RestrictedCharacters
 		{
@@ -57,17 +55,7 @@ namespace Files.App.Utils
 				"LPT6", "LPT7", "LPT8", "LPT9"
 		};
 
-		#endregion Helpers Members
-
-		#endregion Private Members
-
-		#region Properties
-
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		#endregion
-
-		#region Constructor
 
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
@@ -76,10 +64,6 @@ namespace Files.App.Utils
 			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
-
-		#endregion Constructor
-
-		#region IFilesystemHelpers
 
 		#region Create
 
@@ -240,12 +224,13 @@ namespace Files.App.Utils
 
 		#endregion Restore
 
-		public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
-																  DataPackageView packageView,
-																  string destination,
-																  bool showDialog,
-																  bool registerHistory,
-																  bool isTargetExecutable = false)
+		public async Task<ReturnResult> PerformOperationTypeAsync(
+			DataPackageOperation operation,
+			DataPackageView packageView,
+			string destination,
+			bool showDialog,
+			bool registerHistory,
+			bool isTargetExecutable = false)
 		{
 			try
 			{
@@ -643,8 +628,6 @@ namespace Files.App.Utils
 
 			return returnStatus;
 		}
-
-		#endregion IFilesystemHelpers
 
 		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);

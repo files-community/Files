@@ -8,9 +8,9 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
-	d:DesignHeight="300"
-	d:DesignWidth="300"
-	DataContext="{x:Bind OngoingTasksViewModel, Mode=OneWay}"
+	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	x:Name="ControlRoot"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -20,122 +20,193 @@
 	<Grid Margin="-16">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid Padding="12">
+		<Grid Padding="12" ColumnSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
 			<TextBlock
 				VerticalAlignment="Center"
-				FontSize="14"
-				Text="{helpers:ResourceString Name=OngoingTasks}" />
+				Style="{StaticResource BodyTextBlockStyle}"
+				Text="{helpers:ResourceString Name=StatusCenter}" />
 
 			<Button
-				x:Name="DismissAllBannersButton"
+				x:Name="CloseAllBannersButton"
+				Grid.Column="1"
 				Height="24"
 				Padding="8,0"
 				HorizontalAlignment="Right"
-				Click="DismissAllBannersButton_Click"
-				Content="{helpers:ResourceString Name=ClearAll}"
-				FontSize="12"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" />
+				Command="{x:Bind ViewModel.CloseAllCommand, Mode=OneWay}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}">
+				<TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{helpers:ResourceString Name=ClearAll}" />
+			</Button>
+
 		</Grid>
 
-		<ListView
-			x:Name="BannerList"
+		<Border
 			Grid.Row="1"
-			Padding="4,0"
+			Height="1"
+			Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+		<!--  List of status center items  -->
+		<ListView
+			x:Name="StatusCenterItemsListView"
+			Grid.Row="2"
+			Padding="4"
 			VerticalAlignment="Stretch"
-			ItemsSource="{x:Bind OngoingTasksViewModel.StatusBannersSource, Mode=OneWay}"
+			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"
 			SelectionMode="None">
 
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 					<Setter Property="Padding" Value="0,2" />
-					<Setter Property="MinHeight" Value="55" />
 				</Style>
 			</ListView.ItemContainerStyle>
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="statuscenter:StatusCenterItem">
-					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
-						<InfoBar
-							Title="{x:Bind FullTitle, Mode=OneWay}"
-							Background="{ThemeResource ControlFillColorDefault}"
-							IsClosable="False"
-							IsIconVisible="False"
-							IsOpen="True"
-							Message="{x:Bind Message, Mode=OneWay}"
-							Severity="{x:Bind InfoBarSeverity}">
+					<UserControl>
+						<Grid
+							x:Name="ContentRoot"
+							Padding="16"
+							HorizontalAlignment="Stretch"
+							AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
+							Background="{StaticResource InfoBarInformationalSeverityBackgroundBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							ColumnSpacing="12"
+							CornerRadius="{StaticResource ControlCornerRadius}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-							<ProgressBar
-								x:Name="ProgressBar"
-								Margin="0,-24,12,12"
-								IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-								Visibility="{x:Bind IsProgressing, Mode=OneWay}"
-								Value="{x:Bind Progress, Mode=OneWay}" />
-						</InfoBar>
+							<TextBlock
+								x:Name="SeverityBackgroundFontIcon"
+								Grid.Column="0"
+								VerticalAlignment="Center"
+								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+								FontSize="16"
+								Text="&#xF136;" />
 
-						<Button
-							x:Name="DismissBannerButton"
-							Height="24"
-							Margin="8"
-							Padding="8,0"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
-							x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-							AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
-							Background="Transparent"
-							BorderBrush="Transparent"
-							Click="DismissBanner"
-							DataContext="{x:Bind}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
-							<Button.Content>
-								<FontIcon FontSize="11" Glyph="&#xE711;" />
-							</Button.Content>
-						</Button>
+							<TextBlock
+								x:Name="SeverityForegroundFontIcon"
+								Grid.Column="0"
+								VerticalAlignment="Center"
+								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+								FontSize="16"
+								Foreground="{ThemeResource TextFillColorInverseBrush}"
+								Text="{x:Bind StatusIcon}" />
 
-						<Button
-							x:Name="CancelBannerButton"
-							Height="24"
-							Margin="8"
-							Padding="8,0"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
-							x:Load="{x:Bind CancelButtonVisible}"
-							AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-							Background="Transparent"
-							BorderBrush="Transparent"
-							Command="{x:Bind CancelCommand}"
-							DataContext="{x:Bind}"
-							IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-							<Button.Content>
-								<FontIcon FontSize="11" Glyph="&#xE711;" />
-							</Button.Content>
-						</Button>
+							<StackPanel Grid.Column="1">
 
-						<StackPanel
-							x:Name="solutionButtons"
-							Grid.Row="0"
-							Padding="0,4,0,0"
-							HorizontalAlignment="Right"
-							x:Load="{x:Bind SolutionButtonsVisible}"
-							Orientation="Horizontal"
-							Spacing="8">
-							<Button
-								Height="28"
-								Click="Button_Click_1"
-								Content="{x:Bind PrimaryButtonText}"
-								DataContext="{x:Bind}"
-								FontSize="10" />
-							<Button
-								Height="28"
-								Click="DismissBanner"
-								Content="{x:Bind SecondaryButtonText}"
-								DataContext="{x:Bind}"
-								FontSize="10" />
-						</StackPanel>
-					</Grid>
+								<TextBlock
+									MaxLines="1"
+									Style="{StaticResource BodyStrongTextBlockStyle}"
+									Text="{x:Bind FullTitle, Mode=OneWay}" />
+
+								<ProgressBar
+									x:Name="ProgressBar"
+									Margin="0,8"
+									IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+									Visibility="{x:Bind IsProgressing, Mode=OneWay}"
+									Value="{x:Bind Progress, Mode=OneWay}" />
+
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									MaxLines="1"
+									Style="{StaticResource CaptionTextBlockStyle}"
+									Text="{x:Bind Message, Mode=OneWay}" />
+
+							</StackPanel>
+
+							<Grid Grid.Column="2">
+
+								<Button
+									x:Name="CancelItemButton"
+									Width="32"
+									Height="32"
+									Padding="0"
+									x:Load="{x:Bind CancelButtonVisible}"
+									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
+									Background="Transparent"
+									BorderBrush="Transparent"
+									Command="{x:Bind CancelCommand}"
+									DataContext="{x:Bind}"
+									IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
+									<Button.Content>
+										<FontIcon FontSize="16" Glyph="&#xE711;" />
+									</Button.Content>
+								</Button>
+
+								<Button
+									x:Name="CloseItemButton"
+									Width="32"
+									Height="32"
+									Padding="0"
+									x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
+									AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
+									Background="Transparent"
+									BorderBrush="Transparent"
+									Command="{Binding ElementName=ControlRoot, Path=DataContext.CloseItemCommand}"
+									CommandParameter="{x:Bind}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
+									<Button.Content>
+										<FontIcon FontSize="16" Glyph="&#xE711;" />
+									</Button.Content>
+								</Button>
+
+							</Grid>
+
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup>
+									<VisualState x:Name="Normal">
+										<VisualState.StateTriggers>
+											<wcttriggers:CompareStateTrigger
+												Comparison="Equal"
+												Value="{x:Bind StatusNumber}"
+												To="0" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="ContentRoot.Background" Value="{ThemeResource InfoBarInformationalSeverityBackgroundBrush}" />
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarInformationalSeverityIconBackground}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Success">
+										<VisualState.StateTriggers>
+											<wcttriggers:CompareStateTrigger
+												Comparison="Equal"
+												Value="{x:Bind StatusNumber}"
+												To="1" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="ContentRoot.Background" Value="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}" />
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="Error">
+										<VisualState.StateTriggers>
+											<wcttriggers:CompareStateTrigger
+												Comparison="Equal"
+												Value="{x:Bind StatusNumber}"
+												To="3" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="ContentRoot.Background" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}" />
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</UserControl>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 

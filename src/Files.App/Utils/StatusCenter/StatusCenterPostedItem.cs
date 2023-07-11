@@ -3,13 +3,16 @@
 
 namespace Files.App.Utils.StatusCenter
 {
+	/// <summary>
+	/// Represents an item for StatusCenter to handle progress, such as cancelling.
+	/// </summary>
 	public class StatusCenterPostedItem
 	{
-		private readonly IStatusCenterViewModel _statusCenterViewModel;
+		private readonly StatusCenterViewModel _statusCenterViewModel;
 
-		private readonly StatusCenterItem __statusCenterItem;
+		private readonly StatusCenterItem _statusCenterItem;
 
-		private readonly CancellationTokenSource _cancellationTokenSource;
+		private readonly CancellationTokenSource? _cancellationTokenSource;
 
 		public readonly FileSystemProgress Progress;
 
@@ -18,20 +21,20 @@ namespace Files.App.Utils.StatusCenter
 		public CancellationToken CancellationToken
 			=> _cancellationTokenSource?.Token ?? default;
 
-		public StatusCenterPostedItem(StatusCenterItem banner, IStatusCenterViewModel OngoingTasksActions)
+		public StatusCenterPostedItem(StatusCenterItem item)
 		{
-			__statusCenterItem = banner;
-			this._statusCenterViewModel = OngoingTasksActions;
+			_statusCenterItem = item;
+			_statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
-		public StatusCenterPostedItem(StatusCenterItem banner, IStatusCenterViewModel OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
+		public StatusCenterPostedItem(StatusCenterItem item, CancellationTokenSource cancellationTokenSource)
 		{
-			__statusCenterItem = banner;
-			this._statusCenterViewModel = OngoingTasksActions;
-			this._cancellationTokenSource = cancellationTokenSource;
+			_statusCenterItem = item;
+			_statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+			_cancellationTokenSource = cancellationTokenSource;
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
@@ -44,14 +47,14 @@ namespace Files.App.Utils.StatusCenter
 				return;
 
 			if (value.Status is FileSystemStatusCode status)
-				__statusCenterItem.Status = status.ToStatus();
+				_statusCenterItem.ReturnResult = status.ToStatus();
 
-			__statusCenterItem.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+			_statusCenterItem.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is int p)
 			{
-				__statusCenterItem.Progress = p;
-				__statusCenterItem.FullTitle = $"{__statusCenterItem.Title} ({__statusCenterItem.Progress}%)";
+				_statusCenterItem.Progress = p;
+				_statusCenterItem.FullTitle = $"{_statusCenterItem.Title} ({_statusCenterItem.Progress}%)";
 
 				// TODO: Show detailed progress if Size/Count information available
 			}
@@ -60,43 +63,43 @@ namespace Files.App.Utils.StatusCenter
 				switch (value.TotalSize, value.ItemsCount)
 				{
 					case (not 0, not 0):
-						__statusCenterItem.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
-						__statusCenterItem.FullTitle = $"{__statusCenterItem.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {__statusCenterItem.Progress}%)";
+						_statusCenterItem.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						_statusCenterItem.FullTitle = $"{_statusCenterItem.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {_statusCenterItem.Progress}%)";
 						break;
 
 					case (not 0, _):
-						__statusCenterItem.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
-						__statusCenterItem.FullTitle = $"{__statusCenterItem.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {__statusCenterItem.Progress}%)";
+						_statusCenterItem.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						_statusCenterItem.FullTitle = $"{_statusCenterItem.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {_statusCenterItem.Progress}%)";
 						break;
 
 					case (_, not 0):
-						__statusCenterItem.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
-						__statusCenterItem.FullTitle = $"{__statusCenterItem.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {__statusCenterItem.Progress}%)";
+						_statusCenterItem.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						_statusCenterItem.FullTitle = $"{_statusCenterItem.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {_statusCenterItem.Progress}%)";
 						break;
 
 					default:
-						__statusCenterItem.FullTitle = $"{__statusCenterItem.Title} (...)";
+						_statusCenterItem.FullTitle = $"{_statusCenterItem.Title} (...)";
 						break;
 				}
 			}
 			else
 			{
-				__statusCenterItem.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
+				_statusCenterItem.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
 				{
-					(not 0, not 0) => $"{__statusCenterItem.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
-					(not 0, _) => $"{__statusCenterItem.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
-					(_, not 0) => $"{__statusCenterItem.Title} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{__statusCenterItem.Title} (...)",
+					(not 0, not 0) => $"{_statusCenterItem.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) => $"{_statusCenterItem.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) => $"{_statusCenterItem.Title} ({value.ProcessedItemsCount} / ...)",
+					_ => $"{_statusCenterItem.Title} (...)",
 				};
 			}
 
-			_statusCenterViewModel.UpdateBanner(__statusCenterItem);
+			_statusCenterViewModel.NotifyPropertyChanges();
 			_statusCenterViewModel.UpdateMedianProgress();
 		}
 
 		public void Remove()
 		{
-			_statusCenterViewModel.CloseBanner(__statusCenterItem);
+			_statusCenterViewModel.RemoveItem(_statusCenterItem);
 		}
 
 		public void RequestCancellation()
