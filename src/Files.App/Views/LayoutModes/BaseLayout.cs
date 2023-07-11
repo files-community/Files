@@ -96,7 +96,7 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		protected AddressToolbar? NavToolbar
-			=> (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private CollectionViewSource collectionViewSource = new()
 		{
@@ -734,7 +734,7 @@ namespace Files.App.Views.LayoutModes
 			var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(overflowShellMenuItems);
 			var mainItems = ItemModelListToContextFlyoutHelper.GetAppBarButtonsFromModelIgnorePrimary(mainShellMenuItems);
 
-			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(App.Window);
+			var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
 			var secondaryMenu = openedPopups.FirstOrDefault(popup => popup.Name == "OverflowPopup");
 
 			var itemsControl = secondaryMenu?.Child.FindDescendant<ItemsControl>();
@@ -742,11 +742,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				contextMenuFlyout.SetValue(ContextMenuExtensions.ItemsControlProperty, itemsControl);
 
-				var ttv = secondaryMenu.TransformToVisual(App.Window.Content);
+				var ttv = secondaryMenu.TransformToVisual(MainWindow.Instance.Content);
 				var cMenuPos = ttv.TransformPoint(new Point(0, 0));
 
 				var requiredHeight = contextMenuFlyout.SecondaryCommands.Concat(mainItems).Where(x => x is not AppBarSeparator).Count() * Constants.UI.ContextMenuSecondaryItemsHeight;
-				var availableHeight = App.Window.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
+				var availableHeight = MainWindow.Instance.Bounds.Height - cMenuPos.Y - Constants.UI.ContextMenuPrimaryItemsHeight;
 
 				// Set menu max height to current height (Avoid menu repositioning)
 				if (requiredHeight > availableHeight)
@@ -911,8 +911,8 @@ namespace Files.App.Views.LayoutModes
 		{
 			try
 			{
-				var shellItemList = e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray();
-				if (shellItemList[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
+				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
@@ -1391,7 +1391,7 @@ namespace Files.App.Views.LayoutModes
 				// Check if the preview pane is open before updating the model
 				if (PreviewPaneViewModel.IsEnabled)
 				{
-					var isPaneEnabled = ((App.Window.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
+					var isPaneEnabled = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 					if (isPaneEnabled)
 						_ = PreviewPaneViewModel.UpdateSelectedItemPreview();
 				}

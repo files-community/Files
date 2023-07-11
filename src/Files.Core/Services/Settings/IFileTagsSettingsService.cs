@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.ViewModels.FileTags;
-using System;
-using System.Collections.Generic;
 
 namespace Files.Core.Services.Settings
 {
@@ -21,8 +19,6 @@ namespace Files.Core.Services.Settings
 
 		IEnumerable<TagViewModel> GetTagsByName(string tagName);
 
-		IEnumerable<TagViewModel> SearchTagsByName(string tagName);
-		
 		void CreateNewTag(string newTagName, string color);
 
 		void EditTag(string uid, string name, string color);

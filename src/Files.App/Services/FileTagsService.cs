@@ -13,7 +13,7 @@ namespace Files.App.Services
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		private readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		/// <inheritdoc/>
 		public Task<bool> IsSupportedAsync()
@@ -45,7 +45,7 @@ namespace Files.App.Services
 				if (!item.Tags.Contains(tagUid))
 					continue;
 
-				var storable = await StorageService.TryGetStorableFromPathAsync(item.FilePath, cancellationToken);
+				var storable = await StorageService.TryGetStorableAsync(item.FilePath, cancellationToken);
 				if (storable is null)
 					continue;
 
@@ -60,7 +60,7 @@ namespace Files.App.Services
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
-				var storable = await StorageService.TryGetStorableFromPathAsync(item.FilePath, cancellationToken);
+				var storable = await StorageService.TryGetStorableAsync(item.FilePath, cancellationToken);
 				if (storable is null)
 					continue;
 

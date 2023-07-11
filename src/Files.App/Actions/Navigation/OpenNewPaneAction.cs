@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			=> new(Keys.Add, KeyModifiers.MenuShift);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRightPane");
+			=> new(opacityStyle: "ColorIconOpenNewPane");
 
 		public bool IsExecutable => 
 			context.IsMultiPaneEnabled &&

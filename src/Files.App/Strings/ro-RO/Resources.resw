@@ -133,10 +133,13 @@
     <value>Creat în:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Locație:</value>
+    <value>Path</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Mărime:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Mărime necomprimată:</value>
@@ -946,13 +949,13 @@
     <value>Mutați aici</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Safe to remove hardware</value>
+    <value>Sigur pentru a elimina hardware-ul</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>The device can now be safely removed from the computer.</value>
+    <value>Dispozitivul poate fi acum scos în siguranță din calculator.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem Ejecting Device</value>
+    <value>Problemă la scoaterea dispozitivului</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Acest dispozitiv este în prezent în uz. Închideți orice programe, ferestre sau file care ar putea utiliza dispozitivul și apoi încercați din nou.</value>
@@ -976,7 +979,7 @@
     <value>Ștergeți toate proprietățile</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>Check the status of file operations here</value>
+    <value>Verificați starea operațiunilor cu fișiere aici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>Centru de stare</value>
@@ -1000,7 +1003,7 @@
     <value>Include elementele neindexate în rezultatele căutării</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Sincronizați aspectul și preferințele de sortare între directoare</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalizați meniul contextual click dreapta</value>
@@ -1021,7 +1024,7 @@
     <value>Deschide filele în modul panou dublu</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Arată opțiunea pentru a deschide foldere într-un panou nou</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Panou nou</value>
@@ -1060,7 +1063,7 @@
     <value>Nume dorit</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Afișați sau ascundeți panoul de previzualizare</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -1138,7 +1141,7 @@
     <value>Unitate RAM disc</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Removable Storage Device</value>
+    <value>Dispozitiv de stocare amovil</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Necunoscut</value>
@@ -1153,7 +1156,7 @@
     <value>Mai multe opţiuni...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>Map network drive</value>
+    <value>Conectare unitate de rețea</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
     <value>Favorite</value>
@@ -1201,7 +1204,7 @@
     <value>Doriţi să continuaţi ca administrator?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>Columns (Ctrl+Shift+6)</value>
+    <value>Coloane (Ctrl + Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
     <value>Fixare la Start</value>
@@ -1306,7 +1309,7 @@
     <value>Există un nume de fișier contradictoriu.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Creare folder cu selecţie</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Nume:</value>
@@ -1516,7 +1519,7 @@
     <value>anulare</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Gol</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Widget-uri</value>
@@ -1534,7 +1537,7 @@
     <value>Permitere</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Refuzaţi</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Control total</value>
@@ -1543,10 +1546,10 @@
     <value>Listează conținutul directorului</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modificare</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Permisiuni pentru {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Citire și execuție</value>
@@ -1558,13 +1561,13 @@
     <value>Grup sau nume de utilizator</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Write</value>
+    <value>Scriere</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Cont Necunoscut</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
+    <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Faceți clic pe „Permisiuni avansate” pentru a continua.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Proprietar:</value>
@@ -1576,22 +1579,22 @@
     <value>Extrage Arhiva</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Open destination folder when complete</value>
+    <value>Deschideți folderul de destinație când se finalizează</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>Extragere în {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>Create new library</value>
+    <value>Creați o bibliotecă nouă</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>Restore default libraries</value>
+    <value>Restabilire biblioteci implicite</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
+    <value>Sigur doriți să restaurați bibliotecile implicite? Toate fișierele dvs. vor rămâne în spațiul de stocare.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restore Libraries</value>
+    <value>Restabilire biblioteci</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Proprietar</value>
@@ -1603,64 +1606,64 @@
     <value>Acces</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Se aplică la</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>files</value>
+    <value>fișiere</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>acest folder</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>subfolders</value>
+    <value>subfoldere</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Moștenite</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Permisiuni</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
+    <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Puteți încerca să preluați proprietatea asupra acestui obiect.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>This folder and files</value>
+    <value>Acest folder și fișiere</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>This folder, subfolders and files</value>
+    <value>Acest folder, subfoldere și fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>Doar fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Only subfolders</value>
+    <value>Doar subfoldere</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Only subfolders and files</value>
+    <value>Doar subfoldere şi fişiere</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Only this folder</value>
+    <value>Doar acest folder</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>This folder and subfolders</value>
+    <value>Acest folder și subfoldere</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Append data</value>
+    <value>Adăugați date</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Change permission</value>
+    <value>Schimbați permisiunea</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Create folders</value>
+    <value>Creați foldere</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
+    <value>Creați fișiere</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>Delete subdirectories and files</value>
+    <value>Ștergeți subdirectoarele și fișierele</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
     <value>Execută fişierele</value>
@@ -1702,10 +1705,10 @@
     <value>Eliminați toate permisiunile moștenite</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Reset child permissions</value>
+    <value>Resetare permisiuni copil</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+    <value>Înlocuiți toate intrările de permisiuni ale obiectului copil cu intrări de permisiuni moștenite de la acest obiect</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
     <value>Închidere panou</value>
@@ -1798,25 +1801,25 @@
     <value>Extragere completă!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Deschideți folderul părinte</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Necunoscut</value>
   </data>
   <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>Edit tags</value>
+    <value>Editare etichete</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>Part of set</value>
+    <value>Parte din set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open Drive</value>
+    <value>Deschide unitatea</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>Please insert a disc into drive {0}</value>
+    <value>Introduceți un disc în unitatea {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>Insert a disc</value>
+    <value>Introduceți un disc</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -1825,31 +1828,31 @@
     <value>Credential Required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>Anonymous</value>
+    <value>Anonim</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>Provide your credential:</value>
+    <value>Furnizați datele de autentificare:</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>UserName</value>
+    <value>Nume de utilizator</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives Widget</value>
+    <value>Widget Drive-uri</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files Widget</value>
+    <value>Widget Fișiere Recente</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>No items found</value>
+    <value>Niciun element găsit</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Open log location</value>
+    <value>Deschide locația jurnalului</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>Creează legătură în {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>Columns</value>
+    <value>Coloane</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
     <value>Pictograme mari</value>
@@ -1861,16 +1864,16 @@
     <value>Pictograme mici</value>
   </data>
   <data name="Tiles" xml:space="preserve">
-    <value>Tiles</value>
+    <value>Dale</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Deschide foldere în filă nouă</value>
   </data>
   <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+    <value>Activități în desfășurare</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>Coloană dată de creare</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Item size column</value>
@@ -2155,7 +2158,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive (Ctrl+Shift+7)</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Salvați modificări</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>New tag</value>
@@ -3317,6 +3317,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files cannot access GitHub right now.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Unable to display current owner.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Great! You are now authorized.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>

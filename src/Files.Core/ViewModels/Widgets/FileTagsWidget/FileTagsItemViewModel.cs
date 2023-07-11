@@ -1,14 +1,14 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
-using Files.Core.Storage.LocatableStorage;
 
 namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 {
 	public sealed partial class FileTagsItemViewModel : ObservableObject
 	{
-		private readonly ILocatableStorable _associatedStorable;
+		private readonly IStorable _associatedStorable;
 
 		// A workaround for lack of MVVM-compliant navigation support.
 		// This workaround must be kept until further refactor of navigation code is completed
@@ -35,19 +35,19 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 			set => SetProperty(ref _Path, value);
 		}
 
-		public FileTagsItemViewModel(ILocatableStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
+		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
 			_Icon = icon;
-			_Name = PathHelpers.FormatName(associatedStorable.Path);
+			_Name = PathHelpers.FormatName(associatedStorable.Id);
 			_Path = associatedStorable.TryGetPath();
 		}
 
 		[RelayCommand]
 		private Task ClickAsync(CancellationToken cancellationToken)
 		{
-			return _openAction(_associatedStorable.Path);
+			return _openAction(_associatedStorable.Id);
 		}
 	}
 }
