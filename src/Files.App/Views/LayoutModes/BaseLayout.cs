@@ -979,7 +979,7 @@ namespace Files.App.Views.LayoutModes
 
 						if (item.IsExecutable)
 						{
-							e.DragUIOverride.Caption = $"{"OpenItemsWithCaptionText".GetLocalizedResource()} {item.Name}";
+							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
 						}
 						// Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
