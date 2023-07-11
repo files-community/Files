@@ -133,10 +133,13 @@
     <value>建立日期：</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>路徑：</value>
+    <value>路徑</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>大小：</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>壓縮前的大小：</value>
@@ -2155,7 +2158,7 @@
     <value>調整欄位至合適寬度</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自動調整</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>自動調整 (Ctrl+Shift+7)</value>
@@ -2224,7 +2227,7 @@
     <value>壓縮檔案</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>壓縮</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>當游標停留於檔案與資料夾上時，選取它們</value>
@@ -2392,7 +2395,7 @@
     <value>顯示編輯標籤選單</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>顯示「傳送到」選單</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>顯示在新索引標籤開啟資料夾選項</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>標籤顏色</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>儲存變更</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>新標籤</value>
@@ -2662,10 +2662,10 @@
     <value>安裝選取的字型</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>使用選取的 inf 檔案安裝驅動程式</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>安裝選取的憑證</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>以系統管理員身分執行</value>
@@ -2782,34 +2782,34 @@
     <value>List items without grouping</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>按名稱對項目分組</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>按修改日期對項目分組</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>按建立日期對項目分組</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>按大小對項目分組</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>按類型對項目分組</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>按同步狀態對項目分組</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>按標籤對項目分組</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>按原始資料夾對項目分組</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>按刪除日期對項目分組</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>按資料夾路徑對項目分組</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
     <value>遞增排列分類</value>
@@ -2833,10 +2833,10 @@
     <value>Navigate up one directory</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>複製目前的索引標籤</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>複製選定的索引標籤</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
     <value>Close tabs to the left of current tab</value>
@@ -3068,7 +3068,7 @@
     <value>Toggle Selection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>修改副檔名時顯示警告</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>我的電腦</value>
@@ -3080,16 +3080,16 @@
     <value>Untagged</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>移到上一索引標籤</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>移到下一索引標籤</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>關閉目前標籤</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>編輯路徑</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>重做</value>
@@ -3098,43 +3098,43 @@
     <value>復原</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>無效位置</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>您確定要在不保留屬性的情況下複製這些檔案嗎？</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>這些檔案包含無法複製到新位置的屬性</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>這些檔案包含無法移動到新位置的屬性</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>您確定要在不保留屬性的情況下移動這些檔案嗎？</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>選擇項目時顯示核取方塊</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>搜尋未索引的項目</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>移動焦點至路徑欄</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>建立新項目</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>開啟項目位置</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>永久刪除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>永久刪除項目</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>播放所選取的媒體檔</value>
@@ -3146,16 +3146,16 @@
     <value>重做上次檔案的動作</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>位置:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>按月對項目分組</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>按年對項目分組</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>月</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
@@ -3170,22 +3170,22 @@
     <value>Group by month instead of year</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>按建立日期之月對項目分組</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>按建立日期之年對項目分組</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>按刪除日期之月對項目分組</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>按刪除日期之年對項目分組</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>按修改日期之月對項目分組</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>按修改日期之年對項目分組</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
@@ -3242,10 +3242,10 @@
     <value>Create a folder with the currently selected item(s)</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>打開屬性</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>打開屬性視窗</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3254,7 +3254,7 @@
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>在 Crowdin 上進行翻譯</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3285,7 +3285,7 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>作者</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
@@ -3309,13 +3309,37 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>背景材質</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>純色</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
+  </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files cannot access GitHub right now.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>複製代碼</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Unable to display current owner.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Great! You are now authorized.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>
