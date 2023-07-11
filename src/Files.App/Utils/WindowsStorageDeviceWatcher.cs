@@ -107,7 +107,7 @@ namespace Files.App.Utils
 			catch (ArgumentException)
 			{
 				type = Data.Items.DriveType.Removable;
-				label = root.DisplayName;
+				label = string.Empty;
 			}
 
 			var driveItem = await DriveItem.CreateFromPropertiesAsync(root, deviceId, label, type);
