@@ -465,11 +465,11 @@ namespace Files.App.Commands
 			{
 				if (IsExecutable)
 				{
-                    Analytics.TrackEvent($"Triggered {Code} action");
-                    return Action.ExecuteAsync();
-                }
+					Analytics.TrackEvent($"Triggered {Code} action");
+					return Action.ExecuteAsync();
+				}
 
-                return Task.CompletedTask;
+				return Task.CompletedTask;
 			}
 
 			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();

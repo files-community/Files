@@ -133,10 +133,13 @@
     <value>Създаден:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Път:</value>
+    <value>Път</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Размер:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Некомпресиран размер:</value>
@@ -478,7 +481,7 @@
     <value>Различни типове</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Всичко в {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Използвано място:</value>
@@ -1408,7 +1411,7 @@
     <value>{0} елементи</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Отвори отново затворения раздел</value>
+    <value>Отворяне пак на затворения раздел</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Преименуване</value>
@@ -1516,7 +1519,7 @@
     <value>анулиране</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>Изчисти</value>
+    <value>Изчистване</value>
   </data>
   <data name="Widgets" xml:space="preserve">
     <value>Джаджи</value>
@@ -2155,7 +2158,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Адаптивно</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Адаптивно (Ctrl+Shift+7)</value>
@@ -2341,7 +2344,7 @@
     <value>Групиране по</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Сортирай по</value>
+    <value>Сортиране по</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
     <value>Групиране низходящо</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Цвят на етикета</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Запазване на промените</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Нов етикет</value>
@@ -2584,7 +2584,7 @@
     <value>Поставяне на елемент(и) от буферната памет в избраната папка</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Изтрий елемент/и</value>
+    <value>Изтриване на елемент(ите)</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Създаване на нова папка</value>
@@ -2665,7 +2665,7 @@
     <value>Инсталиране на драйвер(и) посредством избран(и) inf файл(ове)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>Инсталиране на избрани удостоверения</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Пускане на избраното приложение като администратор</value>
@@ -2677,7 +2677,7 @@
     <value>Пускане на избрания скрипт PowerShell</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Онагледяване на стартиране в изскачащ прозорец</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Сътворяване на архив с избраните елементи</value>
@@ -3089,7 +3089,7 @@
     <value>Затваря текущия раздел</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Редактиране на пътя</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Повтаряне</value>
@@ -3116,13 +3116,13 @@
     <value>Показване на поле за отметки при избор на елементи</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Търсене на неиндексирани елементи</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Фокус на лентата за път</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Създаване на нов елемент</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>Няма групи или потребители, които да имат достъп до този обект. Въпреки това собственикът на този обект може да дава разрешения.</value>
@@ -3146,7 +3146,7 @@
     <value>Повтаряне на последната операция с файла</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Местоположение:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
     <value>Групирай елементите по месец</value>
@@ -3197,7 +3197,7 @@
     <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Невъзможно онагледяване на позволенията.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
     <value>Leave my changes on '{0}'</value>
@@ -3209,52 +3209,52 @@
     <value>Bring my changes to '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Имате незавършени промени в този клон. Какво бихте желали да правите с тях?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Превключвател на клон</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Клонове</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Превключване</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Нов клон</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Невалидно име на клон</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Създаване на клон</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Създаване на клон</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Въз основа на</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Превключване към нов клон</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Създаване на папка с текущите избрани елементи</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Отваряне на свойствата</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Отваряне на прозореца със свойствата</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Локални</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Отдалечени</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Превеждане в Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3269,23 +3269,23 @@
     <value>Run git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Онагледяване</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Състояние на Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Грешка на Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(няколко стойности)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>Автор</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
@@ -3315,30 +3315,81 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Управление на клоните</value>
+  </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Синхр.</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Свързване към GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files в момента няма достъп до GitHub.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Отваряне на текущата директория във Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Отваряне на текущата директория във Visual Studio Code</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Копиране на кода</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Добавено</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Изтрито</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Променено</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Непроследявано</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Невъзможно онагледяване на текущия собственик.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Страхотно! Сега сте упълномощени.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>

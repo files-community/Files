@@ -55,7 +55,7 @@
 				TargetType="toolkit:GridSplitter">
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Width" Value="12" />
-				<Setter Property="Margin" Value="0,4,0,4" />
+				<Setter Property="Margin" Value="0" />
 				<Setter Property="Opacity" Value="0.8" />
 				<Setter Property="Canvas.ZIndex" Value="1" />
 			</Style>
@@ -1015,20 +1015,21 @@
 									</Grid>
 
 									<!--  Item Git Status  -->
-									<TextBlock
+									<Border
 										x:Name="ItemGitStatusTextBlock"
 										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										x:Load="{x:Bind IsGitItem}"
-										FontWeight="SemiBold"
-										Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										x:Load="{x:Bind IsGitItem}">
+										<uc:OpacityIcon
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Left"
+											Style="{x:Bind AsGitItem.UnmergedGitStatusIcon, Mode=OneWay}"
+											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
+											Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+									</Border>
 
 									<!--  Item Git Last Commit Date  -->
 									<TextBlock

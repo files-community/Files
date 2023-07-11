@@ -11,42 +11,29 @@ namespace Files.Core.Storage.Extensions
 	public static partial class StorageExtensions
 	{
 		/// <summary>
-		/// Checks whether the directory exists at a given path and retrieves the folder, otherwise retrieves the file.
-		/// </summary>
-		/// <param name="storageService">The service.</param>
-		/// <param name="path">Path to get the storable at.</param>
-		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
-		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. Value is <see cref="ILocatableStorable"/> that represents the item.</returns>
-		public static async Task<ILocatableStorable> GetStorableFromPathAsync(this IStorageService storageService, string path, CancellationToken cancellationToken = default)
-		{
-			if (await storageService.DirectoryExistsAsync(path, cancellationToken))
-			{
-				return await storageService.GetFolderFromPathAsync(path, cancellationToken);
-			}
-			else
-			{
-				return await storageService.GetFileFromPathAsync(path, cancellationToken);
-			}
-		}
-
-		/// <summary>
 		/// Checks whether the directory exists at a given path and tries to retrieve the folder, otherwise tries to retrieve the file.
 		/// </summary>
 		/// <param name="storageService">The service.</param>
-		/// <param name="path">Path to get the storable at.</param>
+		/// <param name="id">The unique ID of the storable to retrieve.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
-		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="ILocatableStorable"/> that represents the item, otherwise null.</returns>
-		public static async Task<ILocatableStorable?> TryGetStorableFromPathAsync(this IStorageService storageService, string path, CancellationToken cancellationToken = default)
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="IStorable"/> that represents the item, otherwise null.</returns>
+		public static async Task<IStorable?> TryGetStorableAsync(this IStorageService storageService, string id, CancellationToken cancellationToken = default)
 		{
-			return (ILocatableStorable?)await storageService.TryGetFolderFromPathAsync(path, cancellationToken) ?? await storageService.TryGetFileFromPathAsync(path, cancellationToken);
+			return (IStorable?)await storageService.TryGetFolderAsync(id, cancellationToken) ?? await storageService.TryGetFileAsync(id, cancellationToken);
 		}
 
-		/// <inheritdoc cref="IStorageService.GetFolderFromPathAsync"/>
-		public static async Task<ILocatableFolder?> TryGetFolderFromPathAsync(this IStorageService storageService, string path, CancellationToken cancellationToken = default)
+		/// <summary>
+		/// Tries to retrieve a folder associated with <paramref name="id"/>.
+		/// </summary>
+		/// <param name="storageService">The service.</param>
+		/// <param name="id">The unique ID of the folder to retrieve.</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="IFolder"/> that represents the folder, otherwise null.</returns>
+		public static async Task<IFolder?> TryGetFolderAsync(this IStorageService storageService, string id, CancellationToken cancellationToken = default)
 		{
 			try
 			{
-				return await storageService.GetFolderFromPathAsync(path, cancellationToken);
+				return await storageService.GetFolderAsync(id, cancellationToken);
 			}
 			catch (Exception)
 			{
@@ -54,12 +41,18 @@ namespace Files.Core.Storage.Extensions
 			}
 		}
 
-		/// <inheritdoc cref="IStorageService.GetFileFromPathAsync"/>
-		public static async Task<ILocatableFile?> TryGetFileFromPathAsync(this IStorageService storageService, string path, CancellationToken cancellationToken = default)
+		/// <summary>
+		/// Tries to retrieve a file associated with <paramref name="id"/>.
+		/// </summary>
+		/// <param name="storageService">The service.</param>
+		/// <param name="id">The unique ID of the file to retrieve.</param>
+		/// <param name="cancellationToken">A <see cref="CancellationToken"/> that cancels this action.</param>
+		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. If successful, value is <see cref="IFile"/> that represents the file, otherwise null.</returns>
+		public static async Task<IFile?> TryGetFileAsync(this IStorageService storageService, string id, CancellationToken cancellationToken = default)
 		{
 			try
 			{
-				return await storageService.GetFileFromPathAsync(path, cancellationToken);
+				return await storageService.GetFileAsync(id, cancellationToken);
 			}
 			catch (Exception)
 			{

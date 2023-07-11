@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Files.Core.Storage.LocatableStorage
 {
 	/// <summary>
@@ -15,10 +12,5 @@ namespace Files.Core.Storage.LocatableStorage
 		/// Gets the path where the item resides.
 		/// </summary>
 		string Path { get; }
-
-		/// <summary>
-		/// Gets the containing folder for this item, if any.
-		/// </summary>
-		Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default);
 	}
 }

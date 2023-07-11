@@ -48,7 +48,7 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				if (App.Window.Content is Frame rootFrame)
+				if (MainWindow.Instance.Content is Frame rootFrame)
 				{
 					await dialog.ShowAsync();
 					return dialog.DynamicResult;

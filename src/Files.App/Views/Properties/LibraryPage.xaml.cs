@@ -118,7 +118,7 @@ namespace Files.App.Views.Properties
 		// WINUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 			return obj;
 		}
 

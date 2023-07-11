@@ -2,12 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Utils.StorageItems;
-using Files.App.Utils.Shell;
-using Files.Core.Helpers;
-using Files.Core.Services;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -177,7 +171,29 @@ namespace Files.App.ViewModels.UserControls
 		public CurrentInstanceViewModel InstanceViewModel
 		{
 			get => instanceViewModel;
-			set => SetProperty(ref instanceViewModel, value);
+			set
+			{
+				if (instanceViewModel?.FolderSettings is not null)
+					instanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+
+				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
+				{
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
+					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+				}
+			}
+		}
+
+		private Style _LayoutOpacityIcon;
+		public Style LayoutOpacityIcon
+		{
+			get => _LayoutOpacityIcon;
+			set
+			{
+				if (SetProperty(ref _LayoutOpacityIcon, value))
+				{
+				}
+			}
 		}
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
@@ -476,7 +492,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
@@ -515,7 +531,7 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		public void CloseSearchBox()
 		{
@@ -815,6 +831,30 @@ namespace Files.App.ViewModels.UserControls
 						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 					});
 				}
+			}
+		}
+
+		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(FolderSettingsViewModel.GridViewSize):
+				case nameof(FolderSettingsViewModel.LayoutMode):
+					{
+						LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+						{
+							FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
+							FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
+							FolderLayoutModes.GridView =>
+								instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
+									? Commands.LayoutGridSmall.OpacityStyle!
+									: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
+										? Commands.LayoutGridMedium.OpacityStyle!
+										: Commands.LayoutGridLarge.OpacityStyle!,
+							_ => Commands.LayoutDetails.OpacityStyle!
+						};
+					}
+					break;
 			}
 		}
 

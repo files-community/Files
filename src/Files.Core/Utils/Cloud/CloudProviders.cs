@@ -39,6 +39,8 @@ namespace Files.Core.Utils.Cloud
 
 		Seadrive,
 
-		Autodesk
+		Autodesk,
+
+		ownCloud,
 	}
 }

@@ -136,11 +136,11 @@ namespace Files.App.ViewModels.Settings
 
 			try
 			{
-				using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog32.dll")}""");
+				using var regProc32 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog32.dll")}""");
 				await regProc32.WaitForExitAsync();
-				using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialog64.dll")}""");
+				using var regProc64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialog64.dll")}""");
 				await regProc64.WaitForExitAsync();
-				using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "CustomOpenDialogARM64.dll")}""");
+				using var regProcARM64 = Process.Start("regsvr32.exe", @$"/s /n {(!IsSetAsOpenFileDialog ? "/u" : "")} /i:user ""{Path.Combine(destFolder, "Files.App.OpenDialogARM64.dll")}""");
 				await regProcARM64.WaitForExitAsync();
 			}
 			catch
@@ -199,9 +199,11 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettings()
 		{
+			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 			FileSavePicker filePicker = InitializeWithWindow(new FileSavePicker());
 			filePicker.FileTypeChoices.Add("Zip File", new[] { ".zip" });
-			filePicker.SuggestedFileName = $"Files_{App.AppVersion}";
+			filePicker.SuggestedFileName = $"Files_{applicationService.AppVersion}";
 
 			StorageFile file = await filePicker.PickSaveFileAsync();
 			if (file is not null)
@@ -244,7 +246,7 @@ namespace Files.App.ViewModels.Settings
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
 
-			return !string.IsNullOrEmpty(command) && command.Contains("FilesLauncher.exe");
+			return !string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe");
 		}
 
 		private bool DetectIsSetAsOpenFileDialog()
@@ -270,14 +272,14 @@ namespace Files.App.ViewModels.Settings
 
 		private FileSavePicker InitializeWithWindow(FileSavePicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}
 
 		private FileOpenPicker InitializeWithWindow(FileOpenPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}
