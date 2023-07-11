@@ -1320,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>วันที่ปรับเปลี่ยน:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>เปิดด้วย</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
