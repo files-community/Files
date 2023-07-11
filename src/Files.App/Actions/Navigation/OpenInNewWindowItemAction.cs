@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "OpenInNewWindow".GetLocalizedResource();
 
 		public string Description
-			=> "OpenInNewWindowItemActionDescription".GetLocalizedResource();
+			=> "OpenInNewWindowDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
