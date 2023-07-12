@@ -478,6 +478,21 @@ namespace Files.App.Helpers
 			return null;
 		}
 
+		public static long? GetFileSizeOnDisk(string filePath)
+		{
+			using var handle = OpenFileForRead(filePath);
+			if (!handle.IsInvalid)
+			{
+				try
+				{
+					var fileAllocationInfo = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_STANDARD_INFO>(handle, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileStandardInfo);
+					return fileAllocationInfo.AllocationSize;
+				}
+				catch { }
+			}
+			return null;
+		}
+
 		// https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
 		public static string ParseSymLink(string path)
 		{

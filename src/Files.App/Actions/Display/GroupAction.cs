@@ -144,7 +144,7 @@ namespace Files.App.Actions
 			=> "GroupByFolderPathDescription".GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
-			=> pageType is ContentPageTypes.Library;
+			=> pageType is ContentPageTypes.Library or ContentPageTypes.SearchResults;
 	}
 
 	internal abstract class GroupByAction : ObservableObject, IToggleAction

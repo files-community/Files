@@ -118,7 +118,7 @@ namespace Files.App.Services
 			{
 				_storeContext ??= await Task.Run(StoreContext.GetDefault);
 
-				InitializeWithWindow.Initialize(_storeContext, App.WindowHandle);
+				InitializeWithWindow.Initialize(_storeContext, MainWindow.Instance.WindowHandle);
 
 				var updateList = await _storeContext.GetAppAndOptionalStorePackageUpdatesAsync();
 				_updatePackages = updateList?.ToList();
@@ -178,13 +178,13 @@ namespace Files.App.Services
 		public async Task CheckAndUpdateFilesLauncherAsync()
 		{
 			var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
-			var destExeFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe");
+			var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
 
 			if (Path.Exists(destExeFilePath))
 			{
 				var hashEqual = false;
-				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe.sha256"));
-				var destHashFilePath = Path.Combine(destFolderPath, "FilesLauncher.exe.sha256");
+				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256"));
+				var destHashFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe.sha256");
 
 				if (Path.Exists(destHashFilePath))
 				{
@@ -196,13 +196,13 @@ namespace Files.App.Services
 
 				if (!hashEqual)
 				{
-					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/FilesLauncher.exe"));
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
 					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-					await srcExeFile.CopyAsync(destFolder, "FilesLauncher.exe", NameCollisionOption.ReplaceExisting);
-					await srcHashFile.CopyAsync(destFolder, "FilesLauncher.exe.sha256", NameCollisionOption.ReplaceExisting);
+					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
+					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting);
 
-					App.Logger.LogInformation("FilesLauncher updated.");
+					App.Logger.LogInformation("Files.App.Launcher updated.");
 				}
 			}
 

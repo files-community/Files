@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Data.Commands;
 using Files.App.Extensions;
@@ -10,7 +9,6 @@ using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
-using System;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -33,8 +31,8 @@ namespace Files.App.UserControls.MultitaskingControl
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
 			tabHoverTimer.Tick += TabHoverSelected;
 
-			var appWindowTitleBar = App.GetAppWindow(App.Window).TitleBar;
-			double rightPaddingColumnWidth = FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft ? appWindowTitleBar.LeftInset : appWindowTitleBar.RightInset;
+			var appWindow = MainWindow.Instance.AppWindow;
+			double rightPaddingColumnWidth = FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft ? appWindow.TitleBar.LeftInset : appWindow.TitleBar.RightInset;
 			RightPaddingColumn.Width = new GridLength(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 

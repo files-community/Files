@@ -160,6 +160,7 @@ namespace Files.App.Data.Contexts
 			{
 				case nameof(FolderSettingsViewModel.LayoutMode):
 				case nameof(FolderSettingsViewModel.GridViewSize):
+				case nameof(FolderSettingsViewModel.IsAdaptiveLayoutEnabled):
 					SetProperty(ref _LayoutType, GetLayoutType(), nameof(LayoutType));
 					break;
 				case nameof(FolderSettingsViewModel.DirectorySortOption):

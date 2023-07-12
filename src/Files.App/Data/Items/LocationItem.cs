@@ -92,7 +92,7 @@ namespace Files.App.Data.Items
 			{
 				SetProperty(ref spaceUsed, value);
 
-				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 

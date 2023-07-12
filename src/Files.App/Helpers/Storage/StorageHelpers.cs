@@ -144,9 +144,9 @@ namespace Files.App.Helpers
 						await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path, rootItem)));
 			}
 			if (returnedItem.Result is null && item.Item is not null)
-			{
 				returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
-			}
+			if (returnedItem.Result is IPasswordProtectedItem ppid && item.Item is IPasswordProtectedItem ppis)
+				ppid.Credentials = ppis.Credentials;
 			return returnedItem;
 		}
 

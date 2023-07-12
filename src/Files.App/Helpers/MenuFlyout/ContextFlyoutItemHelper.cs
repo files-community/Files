@@ -173,6 +173,10 @@ namespace Files.App.Helpers
 						{
 							IsToggle = true
 						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByPath)
+						{
+							IsToggle = true
+						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByOriginalFolder)
 						{
 							IsToggle = true
@@ -359,7 +363,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
+					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconOpenWith"

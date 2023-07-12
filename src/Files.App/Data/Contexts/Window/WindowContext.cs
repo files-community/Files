@@ -13,7 +13,7 @@ namespace Files.App.Data.Contexts
 
 		public WindowContext()
 		{
-			App.Window.PresenterChanged += Window_PresenterChanged;
+			MainWindow.Instance.PresenterChanged += Window_PresenterChanged;
 		}
 
 		private void Window_PresenterChanged(object? sender, AppWindowPresenter e)

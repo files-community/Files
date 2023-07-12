@@ -133,10 +133,13 @@
     <value>Створено:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Шлях:</value>
+    <value>Шлях</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Розмір:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Розмір на диску:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Нестиснутий розмір:</value>
@@ -157,7 +160,7 @@
     <value>Виділити все</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Обернути виділення</value>
+    <value>Інвертувати виділення</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Очистити виділення</value>
@@ -217,7 +220,7 @@
     <value>Розширені</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Продовжити, де ви зупинилися</value>
+    <value>Продовжити з місця, де Ви зупинилися</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Відкрити нову вкладку</value>
@@ -244,7 +247,7 @@
     <value>Вставити</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>Нові</value>
+    <value>Створити</value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>Властивості</value>
@@ -280,7 +283,7 @@
     <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Відображати</value>
+    <value>Відображення</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Введіть назву елемента</value>
@@ -466,7 +469,7 @@
     <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} файлів, {1:#,##0} папок з {2:#,##0} місць</value>
+    <value>{0:#,##0} файлів, {1:#,##0} папок з {2:#,##0} розташувать</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Запуск від імені іншого користувача</value>
@@ -607,7 +610,7 @@
     <value>Додаток потрібно перезапустити, щоб застосувати налаштування мови. Чи хочете ви перезапустити програму?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Підтримайте нас на GitHub</value>
+    <value>Підтримати нас на GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Елемент не може бути створений</value>
@@ -667,7 +670,7 @@
     <value>Рейтинг</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>Шлях елемента</value>
+    <value>Шлях до елемента</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Тип файлу</value>
@@ -790,7 +793,7 @@
     <value>Тип захисту</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Url автора</value>
+    <value>URL-адреса автора</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Дистриб'ютор контенту</value>
@@ -811,7 +814,7 @@
     <value>Продюсер</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Url-адреса реклами</value>
+    <value>URL-адреса реклами</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
     <value>Стиль постачальника</value>
@@ -829,7 +832,7 @@
     <value>Шлях до Малої Мініатюри</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Uri Малої Мініатюри</value>
+    <value>URL-адреса Малої Мініатюри</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Url Користувача</value>
@@ -988,7 +991,7 @@
     <value>Сортувати файли та папки разом</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Детальний</value>
+    <value>Подробиці</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Ні</value>
@@ -1006,7 +1009,7 @@
     <value>Налаштування контекстного меню</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Початковий шлях</value>
+    <value>Вихідний шлях</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Додати</value>
@@ -1033,7 +1036,7 @@
     <value>Папки</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Список</value>
+    <value>Подробиці (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarLargeIcons.ToolTipService.ToolTip" xml:space="preserve">
     <value>Величезні піктограми</value>
@@ -1072,7 +1075,7 @@
     <value>Відкріпити з Уподобань</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Мережні диски</value>
+    <value>Мережеві диски</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Мережа</value>
@@ -1087,7 +1090,7 @@
     <value>Панель попереднього перегляду файлу</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Зворотний зв'язок</value>
+    <value>Зворотній зв'язок</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Доступно за наявності підключення до мережі</value>
@@ -1156,7 +1159,7 @@
     <value>Підключити диск</value>
   </data>
   <data name="SidebarFavorites" xml:space="preserve">
-    <value>Вибране</value>
+    <value>Уподобання</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Бібліотеки</value>
@@ -1177,7 +1180,7 @@
     <value>Кількість елементів</value>
   </data>
   <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Помилка видалення</value>
+    <value>Не вдалося видалити</value>
   </data>
   <data name="StatusDeletionComplete" xml:space="preserve">
     <value>Видалення завершено</value>
@@ -1240,7 +1243,7 @@
     <value>Копіювати</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Буде скопійовано {0} елемент(ів)</value>
+    <value>{0} елемент(ів) буде скопійовано</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Копіювати елемент(и)</value>
@@ -1317,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Дата змінення</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Відкрити за допомогою</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1444,10 +1447,10 @@
     <value>{0} елементів успішно переміщено з {1} до {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Не вдалося перемістити {0} елемент з {1} у {2}</value>
+    <value>Не вдалося перемістити {0} елемент із {1} у {2}</value>
   </data>
   <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Не вдалося перемістити {0} елементів з {1} у {2}</value>
+    <value>Не вдалося перемістити {0} елементів із {1} у {2}</value>
   </data>
   <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
     <value>Копіювання {0} елемента в {1} скасовано</value>
@@ -1507,7 +1510,7 @@
     <value>Копіювання елементів</value>
   </data>
   <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Не вдалося видалити</value>
+    <value>Не вдалося перемістити елемент(и) до кошика</value>
   </data>
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Видалення скасовано</value>
@@ -1588,7 +1591,7 @@
     <value>Відновити бібліотеки за замовчуванням</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>Ви впевнені, що бажаєте відновити стандартні бібліотеки? Усі Ваші файли залишаться у Вашому сховищі.</value>
+    <value>Ви впевнені, що бажаєте відновити стандартні бібліотеки? Усі ваші файли залишаться у вашому сховищі.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
     <value>Відновлення Бібліотек</value>
@@ -1606,7 +1609,7 @@
     <value>Застосовується до</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Головний</value>
+    <value>Принципал</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>файли</value>
@@ -1621,7 +1624,7 @@
     <value>Успадковано</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Повноваження</value>
+    <value>Дозволи</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Ви не маєте прав на перегляд властивостей безпеки цього об’єкта. Ви можете спробувати отримати цей об'єкт у власність.</value>
@@ -1651,7 +1654,7 @@
     <value>Додати дані</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>Змінити права доступу</value>
+    <value>Змінити дозволи</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
     <value>Створити теки</value>
@@ -1714,7 +1717,7 @@
     <value>Компактний режим</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Вийти з компактного оверлею</value>
+    <value>Вийти з компактного режиму</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Опис файлу</value>
@@ -1834,7 +1837,7 @@
     <value>Ім’я користувача</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Віджет диску</value>
+    <value>Віджет Диски</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Віджет Останні файли</value>
@@ -1888,7 +1891,7 @@
     <value>Повідомити про несправність</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Встановити Files, як файловий менеджер за замовчуванням</value>
+    <value>Встановити Files в якості файлового менеджера за замовчуванням</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Використовувати Files як діалог для відкриття файлів</value>
@@ -1903,10 +1906,10 @@
     <value>Шлях до папки</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Настройки експорту</value>
+    <value>Налаштування експорту</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Настройки імпорту</value>
+    <value>Налаштування імпорту</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Не вдалося імпортувати налаштування. Файл налаштувань пошкоджений.</value>
@@ -1924,7 +1927,7 @@
     <value>Виберіть власну піктограму папки</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>Настроювання</value>
+    <value>Персоналізація</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
     <value>Відновити значення за замовчуванням</value>
@@ -2101,7 +2104,7 @@
     <value>Зображення</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Оновити Файли</value>
+    <value>Оновити Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Підготовка {0} елементів</value>
@@ -2113,10 +2116,10 @@
     <value>Не вдалося скопіювати</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Не вдалося скопіювати {0} елементи з {1} до {2}</value>
+    <value>Не вдалося скопіювати {0} елементів із {1} у {2}</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Не вдалося скопіювати {0} елемент з {1} до {2}</value>
+    <value>Не вдалося скопіювати {0} елементів із {1} у {2}</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Не вдалося перемістити.</value>
@@ -2125,7 +2128,7 @@
     <value>Теги</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Використовувати компактний стиль в бічній панелі</value>
+    <value>Використовувати компактний стиль бічної панелі</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Універсальний</value>
@@ -2155,7 +2158,7 @@
     <value>Стовпці по розміру вмісту</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Адаптивний</value>
+    <value>Автовибір найкращого макета</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Адаптивний (Ctrl+Shift+7)</value>
@@ -2170,7 +2173,7 @@
     <value>Поведінки</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Переглянути файли</value>
+    <value>Оцінити Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Бажаєте залишити відгук про Files?</value>
@@ -2200,7 +2203,7 @@
     <value>Стовпчик типів</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Стовпчик деталей макета</value>
+    <value>Стовпці макета подробиць</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Екран блокування</value>
@@ -2209,7 +2212,7 @@
     <value>Відкрити папки одним натисканням по Макету Стовпчиків</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Елементи відкриття</value>
+    <value>Відкриття елементів</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Стиснення завершено</value>
@@ -2329,7 +2332,7 @@
     <value>Шифрування</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Пароль:</value>
+    <value>Пароль</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>Формат</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Колір мітки</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Зберегти зміни</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Нова мітка</value>
@@ -2548,7 +2548,7 @@
     <value>Компактний режим</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Вийти з компактного оверлею</value>
+    <value>Вийти з компактного режиму</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Увімкнути компактний оверлей</value>
@@ -2934,7 +2934,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Вгору (Alt + Стрілка вгору)</value>
+    <value>Вгору</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -3026,7 +3026,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
-    <value>Вподобання</value>
+    <value>Уподобання</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
@@ -3278,7 +3278,7 @@
     <value>Git Помилка</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull не виконався через помилку тайм-ауту</value>
+    <value>Не вдалося виконати git pull через помилку часу очікування</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(кілька значень)</value>
@@ -3317,6 +3317,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Керувати гілками</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Пуш</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Запустити git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Синхронізувати</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Запустити git pull, а потім git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} вихідних / {1} вхідних комітів</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Під'єднати GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Введіть вказаний код за посиланням нижче, щоб почати працювати з репозиторіями GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Наразі Files не може отримати доступ до GitHub.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Відкрити каталог у Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Скопіювати код</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Додано</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Не відстежується</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Не вдалося відобразити поточного власника.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Чудово! Ви успішно авторизовані.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Ініціалізувати репозиторій</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Ініціалізувати репозиторій Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Назва віддаленого репозиторія</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Поточна гілка</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Стовпчик шляху</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Впорядкувати елементи за шляхом</value>
   </data>
 </root>

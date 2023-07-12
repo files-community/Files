@@ -174,15 +174,16 @@
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
 
-						<FontIcon
+						<uc:OpacityIcon
 							x:Name="CloudDriveSyncStatusGlyph"
 							Grid.Column="0"
+							Width="16"
+							Height="16"
 							Margin="0,0,4,0"
-							VerticalAlignment="Stretch"
+							HorizontalAlignment="Left"
 							x:Load="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
 							x:Phase="2"
-							FontSize="12"
-							Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+							Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}" />
 
 						<Ellipse
 							Grid.Column="1"
@@ -284,11 +285,13 @@
 							Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
 							ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
 							Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
-						<FontIcon
+
+						<uc:OpacityIcon
 							x:Name="CloudDriveSyncStatusGlyph"
+							Width="16"
+							Height="16"
 							x:Phase="2"
-							FontSize="12"
-							Glyph="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+							Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).OpacityIcon, Mode=OneWay}"
 							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 					</StackPanel>
 

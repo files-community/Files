@@ -220,14 +220,6 @@ namespace Files.App.Utils.Shell
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", index, menuItemInfo.wID, menuItemInfo.dwTypeData);
 
-					// A workaround to avoid an AccessViolationException on some items,
-					// notably the "Run with graphic processor" menu item of NVIDIA cards
-					if (menuItemInfo.wID - 1 > 5000)
-					{
-						container.Dispose();
-						continue;
-					}
-
 					menuItem.Label = menuItemInfo.dwTypeData;
 					menuItem.CommandString = GetCommandString(_cMenu, menuItemInfo.wID - 1);
 
@@ -314,6 +306,13 @@ namespace Files.App.Utils.Shell
 
 		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
 		{
+			// A workaround to avoid an AccessViolationException on some items,
+			// notably the "Run with graphic processor" menu item of NVIDIA cards
+			if (offset > 5000)
+			{
+				return null;
+			}
+
 			SafeCoTaskMemString? commandString = null;
 
 			try
@@ -331,7 +330,6 @@ namespace Files.App.Utils.Shell
 
 				return null;
 			}
-
 			catch (Exception ex) when (ex is COMException or NotImplementedException)
 			{
 				// Not every item has an associated verb

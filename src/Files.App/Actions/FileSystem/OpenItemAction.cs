@@ -54,7 +54,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
+			=> "OpenWith".GetLocalizedResource();
 
 		public string Description
 			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
