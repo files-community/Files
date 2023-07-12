@@ -1,4 +1,7 @@
-﻿using FluentFTP;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using FluentFTP;
 using SevenZip;
 using System;
 using Windows.Storage;
@@ -16,10 +19,12 @@ namespace Files.App.Utils.Storage
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
+
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
 
 			Credentials = await PasswordRequestedCallback(this);
+
 			return await func();
 		}
 
@@ -28,10 +33,12 @@ namespace Files.App.Utils.Storage
 			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
 				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
+
 			if (!handled || PasswordRequestedCallback is null)
 				throw exception;
 
 			Credentials = await PasswordRequestedCallback(this);
+
 			await func();
 		}
 

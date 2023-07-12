@@ -28,6 +28,7 @@ namespace Files.App.Utils.Storage
 			while (true)
 			{
 				IReadOnlyList<IStorageItem> items;
+
 				uint maxItemsToRetrieve = 300;
 
 				if (intermediateAction is null)
@@ -40,6 +41,7 @@ namespace Files.App.Utils.Storage
 					maxItemsToRetrieve = 32;
 					firstRound = false;
 				}
+
 				try
 				{
 					items = await rootFolder.GetItemsAsync(count, maxItemsToRetrieve);
@@ -53,9 +55,9 @@ namespace Files.App.Utils.Storage
 					break;
 				}
 				catch (Exception ex) when (
-					ex is UnauthorizedAccessException
-					|| ex is FileNotFoundException
-					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+					ex is UnauthorizedAccessException ||
+					ex is FileNotFoundException ||
+					(uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
 				{
 					// If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
 					items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
@@ -63,8 +65,10 @@ namespace Files.App.Utils.Storage
 				catch (Exception ex)
 				{
 					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
+
 					break;
 				}
+
 				foreach (var item in items)
 				{
 					var startWithDot = item.Name.StartsWith('.');
@@ -76,9 +80,8 @@ namespace Files.App.Utils.Storage
 							if (folder is not null)
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
-								{
 									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-								}
+
 								tempList.Add(folder);
 							}
 						}
@@ -93,60 +96,59 @@ namespace Files.App.Utils.Storage
 									{
 										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
 										if (defaultIconPairs.ContainsKey(lowercaseExtension))
-										{
 											fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
-										}
 									}
 								}
+
 								tempList.Add(fileEntry);
 							}
 						}
 					}
+
 					if (cancellationToken.IsCancellationRequested)
-					{
 						break;
-					}
 				}
+
 				count += maxItemsToRetrieve;
 
 				if (countLimit > -1 && count >= countLimit)
-				{
 					break;
-				}
 
 				if (intermediateAction is not null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
+
 					// clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
 			}
+
 			return tempList;
 		}
 
 		private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
 		{
 			var tempList = new List<IStorageItem>();
+
 			for (var i = startFrom; i < startFrom + itemsToIterate; i++)
 			{
 				IStorageItem item;
 				try
 				{
 					var results = await rootFolder.GetItemsAsync(i, 1);
+
 					item = results?.FirstOrDefault();
 					if (item is null)
-					{
 						break;
-					}
 				}
 				catch (NotImplementedException)
 				{
 					break;
 				}
 				catch (Exception ex) when (
-					ex is UnauthorizedAccessException
-					|| ex is FileNotFoundException
-					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+					ex is UnauthorizedAccessException ||
+					ex is FileNotFoundException ||
+					(uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
 				{
 					continue;
 				}
@@ -155,8 +157,10 @@ namespace Files.App.Utils.Storage
 					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
 					break;
 				}
+
 				tempList.Add(item);
 			}
+
 			return tempList;
 		}
 
@@ -229,6 +233,7 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
+
 			return null;
 		}
 
@@ -250,9 +255,7 @@ namespace Files.App.Utils.Storage
 			var itemThumbnailImgVis = false;
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			// TODO: is this needed to be handled here?
 			if (App.LibraryManager.TryGetLibrary(file.Path, out LibraryLocationItem library))
@@ -333,6 +336,7 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
+
 			return null;
 		}
 	}

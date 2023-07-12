@@ -167,9 +167,4 @@ namespace Files.App.Utils.Storage
 			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		};
 	}
-
-	public interface IGroupableItem
-	{
-		public string Key { get; set; }
-	}
 }

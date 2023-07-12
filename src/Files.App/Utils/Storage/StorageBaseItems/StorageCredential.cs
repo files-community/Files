@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Runtime.InteropServices;
 using System.Security;
 
 namespace Files.App.Utils.Storage
@@ -7,29 +10,28 @@ namespace Files.App.Utils.Storage
 	public class StorageCredential
 	{
 		private string _userName = string.Empty;
-		private object? _password;
-
 		public string UserName
 		{
-			get { return _userName; }
-			set { _userName = value ?? string.Empty; }
+			get => _userName;
+			set => _userName = value ?? string.Empty;
 		}
 
+		private object? _password;
 		public string Password
 		{
 			get
 			{
 				SecureString? sstr = _password as SecureString;
 				if (sstr != null)
-				{
 					return MarshalToString(sstr);
-				}
+
 				return (string?)_password ?? string.Empty;
 			}
 			set
 			{
 				SecureString? old = _password as SecureString;
 				_password = value;
+
 				old?.Dispose();
 			}
 		}
@@ -40,9 +42,8 @@ namespace Files.App.Utils.Storage
 			{
 				string? str = _password as string;
 				if (str != null)
-				{
 					return MarshalToSecureString(str);
-				}
+
 				SecureString? sstr = _password as SecureString;
 				return sstr != null ? sstr.Copy() : new SecureString();
 			}
@@ -50,6 +51,7 @@ namespace Files.App.Utils.Storage
 			{
 				SecureString? old = _password as SecureString;
 				_password = value?.Copy();
+
 				old?.Dispose();
 			}
 		}
@@ -74,12 +76,11 @@ namespace Files.App.Utils.Storage
 		private static string MarshalToString(SecureString sstr)
 		{
 			if (sstr == null || sstr.Length == 0)
-			{
 				return string.Empty;
-			}
 
 			IntPtr ptr = IntPtr.Zero;
 			string result = string.Empty;
+
 			try
 			{
 				ptr = Marshal.SecureStringToGlobalAllocUnicode(sstr);
@@ -88,24 +89,19 @@ namespace Files.App.Utils.Storage
 			finally
 			{
 				if (ptr != IntPtr.Zero)
-				{
 					Marshal.ZeroFreeGlobalAllocUnicode(ptr);
-				}
 			}
+
 			return result;
 		}
 
 		private unsafe SecureString MarshalToSecureString(string str)
 		{
 			if (string.IsNullOrEmpty(str))
-			{
 				return new SecureString();
-			}
 
 			fixed (char* ptr = str)
-			{
 				return new SecureString(ptr, str.Length);
-			}
 		}
 	}
 }

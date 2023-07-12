@@ -6,8 +6,11 @@ namespace Files.App.Utils.Storage
 	public class BlockingListEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IList<T> m_Inner;
+
 		private readonly object m_Lock;
+
 		private T m_Current;
+
 		private int m_Pos;
 
 		public T Current

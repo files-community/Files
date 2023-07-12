@@ -16,6 +16,7 @@ namespace Files.App.Utils.Storage
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 
 		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
+
 		private static readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 
 		public static async Task<List<ListedItem>> ListEntries(
@@ -43,9 +44,9 @@ namespace Files.App.Utils.Storage
 				var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 				var startWithDot = findData.cFileName.StartsWith('.');
 				if ((!isHidden ||
-				   (userSettingsService.FoldersSettingsService.ShowHiddenItems &&
-				   (!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
-				   (!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
+					(userSettingsService.FoldersSettingsService.ShowHiddenItems &&
+					(!isSystem || userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles))) &&
+					(!startWithDot || userSettingsService.FoldersSettingsService.ShowDotFiles))
 				{
 					if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
 					{
@@ -63,6 +64,7 @@ namespace Files.App.Utils.Storage
 									}
 								}
 							}
+
 							tempList.Add(file);
 							++count;
 
@@ -84,13 +86,12 @@ namespace Files.App.Utils.Storage
 									// Set folder icon (found by empty extension string)
 									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
 								}
+
 								tempList.Add(folder);
 								++count;
 
 								if (userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
-								{
 									tempList.AddRange(EnumAdsForPath(folder.ItemPath, folder));
-								}
 
 								if (CalculateFolderSizes)
 								{
@@ -99,46 +100,48 @@ namespace Files.App.Utils.Storage
 										folder.FileSizeBytes = (long)size;
 										folder.FileSize = size.ToSizeString();
 									}
+
 									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
 								}
 							}
 						}
 					}
 				}
+
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
-				{
 					break;
-				}
 
 				if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
+
 					// clear the temporary list every time we do an intermediate action
 					tempList.Clear();
 				}
 			} while (FindNextFile(hFile, out findData));
 
 			FindClose(hFile);
+
 			return tempList;
 		}
 
 		private static IEnumerable<ListedItem> EnumAdsForPath(string itemPath, ListedItem main)
 		{
 			foreach (var ads in NativeFileOperationsHelper.GetAlternateStreams(itemPath))
-			{
 				yield return GetAlternateStream(ads, main);
-			}
 		}
 
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
 			string itemType = "File".GetLocalizedResource();
 			string itemFileExtension = null;
+
 			if (ads.Name.Contains('.'))
 			{
 				itemFileExtension = Path.GetExtension(ads.Name);
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
+
 			string adsName = ads.Name.Substring(1, ads.Name.Length - 7); // Remove ":" and ":$DATA"
 
 			return new AlternateStreamItem()
@@ -172,6 +175,7 @@ namespace Files.App.Utils.Storage
 
 			DateTime itemModifiedDate;
 			DateTime itemCreatedDate;
+
 			try
 			{
 				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedTimeOutput);
@@ -185,19 +189,18 @@ namespace Files.App.Utils.Storage
 				// Invalid date means invalid findData, do not add to list
 				return null;
 			}
+
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
+
 			string itemName = await fileListCache.ReadFileDisplayNameFromCache(itemPath, cancellationToken);
 			if (string.IsNullOrEmpty(itemName))
-			{
 				itemName = findData.cFileName;
-			}
+
 			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			double opacity = 1;
 
 			if (isHidden)
-			{
 				opacity = Constants.UI.DimItemOpacity;
-			}
 
 			if (isGitRepo)
 			{
@@ -248,6 +251,7 @@ namespace Files.App.Utils.Storage
 			var itemName = findData.cFileName;
 
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
+
 			try
 			{
 				FileTimeToSystemTime(ref findData.ftLastWriteTime, out NativeFindStorageItemHelper.SYSTEMTIME systemModifiedDateOutput);
@@ -280,9 +284,7 @@ namespace Files.App.Utils.Storage
 			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)
-			{
 				return null;
-			}
 
 			bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			double opacity = isHidden ? Constants.UI.DimItemOpacity : 1;
@@ -294,6 +296,7 @@ namespace Files.App.Utils.Storage
 			if (isSymlink)
 			{
 				var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = StorageItemTypes.File,
@@ -318,11 +321,11 @@ namespace Files.App.Utils.Storage
 			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
 				var isUrl = FileExtensionHelpers.IsWebLinkFile(findData.cFileName);
+
 				var shInfo = await FileOperationsHelpers.ParseLinkAsync(itemPath);
 				if (shInfo is null)
-				{
 					return null;
-				}
+
 				return new ShortcutItem(null)
 				{
 					PrimaryItemAttribute = shInfo.IsFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
@@ -419,6 +422,7 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
+
 			return null;
 		}
 	}
