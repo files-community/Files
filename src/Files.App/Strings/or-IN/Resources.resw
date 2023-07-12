@@ -903,7 +903,7 @@
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଟାବ୍‍ ବନ୍ଦ କରିବା (Ctrl+W)</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>ଏଥିରେ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
