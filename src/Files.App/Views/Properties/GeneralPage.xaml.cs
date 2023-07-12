@@ -4,9 +4,9 @@
 using CommunityToolkit.WinUI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.App.ViewModels.Properties;
 using Files.Shared;
 using Files.Shared.Enums;
@@ -86,7 +86,7 @@ namespace Files.App.Views.Properties
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
 				Win32API.SetVolumeLabel(drive.Path, newName);
-				_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
 					await fsVM.SetWorkingDirectoryAsync(drive.Path);
@@ -107,7 +107,7 @@ namespace Files.App.Views.Properties
 				if (renamed is ReturnResult.Success)
 				{
 					var newPath = Path.Combine(Path.GetDirectoryName(library.ItemPath)!, newName);
-					_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
 						await fsVM.SetWorkingDirectoryAsync(newPath);
 					});
@@ -125,7 +125,7 @@ namespace Files.App.Views.Properties
 				{
 					foreach (var fileOrFolder in fileOrFolders)
 					{
-						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 							UIFilesystemHelpers.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden, itemMM)
 						);
 					}
@@ -139,7 +139,7 @@ namespace Files.App.Views.Properties
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null) // null on homepage
 				{
-					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 						UIFilesystemHelpers.SetHiddenAttributeItem(item, ViewModel.IsHidden, itemMM)
 					);
 				}
@@ -147,7 +147,7 @@ namespace Files.App.Views.Properties
 				if (!GetNewName(out var newName))
 					return true;
 
-				return await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				return await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					UIFilesystemHelpers.RenameFileItemAsync(item, ViewModel.ItemName, AppInstance, false)
 				);
 			}

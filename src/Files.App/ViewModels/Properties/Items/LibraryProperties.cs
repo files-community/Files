@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
+using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
@@ -112,16 +112,22 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;
+			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			try
 			{
 				long librarySize = 0;
+				long librarySizeOnDisk = 0;
 				foreach (var folder in storageFolders)
 				{
-					librarySize += await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
+					var foldersSize = await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
+					librarySize += foldersSize.size;
+					librarySizeOnDisk += foldersSize.sizeOnDisk;
 				}
 				ViewModel.ItemSizeBytes = librarySize;
 				ViewModel.ItemSize = librarySize.ToLongSizeString();
+				ViewModel.ItemSizeOnDiskBytes = librarySize;
+				ViewModel.ItemSizeOnDisk = librarySize.ToLongSizeString();
 			}
 			catch (Exception ex)
 			{
@@ -129,6 +135,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			ViewModel.ItemSizeProgressVisibility = false;
+			ViewModel.ItemSizeOnDiskProgressVisibility = false;
 
 			SetItemsCountString();
 		}

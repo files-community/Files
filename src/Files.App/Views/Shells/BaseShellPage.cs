@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Commands;
-using Files.App.Filesystem.FilesystemHistory;
-using Files.App.Filesystem.Search;
+using Files.App.Utils.FilesystemHistory;
+using Files.App.Utils.Search;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Core.Services;
 using Microsoft.UI.Input;
@@ -690,7 +690,7 @@ namespace Files.App.Views.Shells
 
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
 		{
-			var multitaskingControls = ((App.Window.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+			var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
@@ -700,7 +700,7 @@ namespace Files.App.Views.Shells
 		protected static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 			return contentDialog;
 		}
 

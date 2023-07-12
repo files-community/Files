@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Security;
+using Files.App.Utils.Security;
 using Microsoft.UI.Xaml;
 using Vanara.PInvoke;
 using Windows.Storage;
@@ -157,7 +157,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			string imageres = System.IO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 
-			var imageResList = Shell.Win32API.ExtractSelectedIconsFromDLL(
+			var imageResList = Utils.Shell.Win32API.ExtractSelectedIconsFromDLL(
 				imageres,
 				new List<int>() { Constants.ImageRes.ShieldIcon },
 				16);
@@ -202,7 +202,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Set owner
 				FileSecurityHelpers.SetOwner(_path, sid);
@@ -219,7 +219,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Run Win32API
 				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
@@ -235,7 +235,7 @@ namespace Files.App.ViewModels.Properties
 			if (SelectedAccessControlEntry is null)
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Get index of the ACE
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);

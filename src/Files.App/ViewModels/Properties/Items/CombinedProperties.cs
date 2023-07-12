@@ -1,5 +1,5 @@
 using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -72,8 +72,13 @@ namespace Files.App.ViewModels.Properties
 			long totalSize = 0;
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
 			long foldersSize = 0;
+			long totalSizeOnDisk = 0;
+			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File)
+				.Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
+			long foldersSizeOnDisk = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
+			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			foreach (var item in List)
 			{
@@ -88,7 +93,9 @@ namespace Files.App.ViewModels.Properties
 
 					try
 					{
-						foldersSize += await fileSizeTask;
+						var folderSize = await fileSizeTask;
+						foldersSize += folderSize.size;
+						foldersSizeOnDisk += folderSize.sizeOnDisk;
 					}
 					catch (Exception ex)
 					{
@@ -98,9 +105,12 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			ViewModel.ItemSizeProgressVisibility = false;
+			ViewModel.ItemSizeOnDiskProgressVisibility = false;
 
 			totalSize = filesSize + foldersSize;
 			ViewModel.ItemSize = totalSize.ToLongSizeString();
+			totalSizeOnDisk = filesSizeOnDisk + foldersSizeOnDisk;
+			ViewModel.ItemSizeOnDisk = totalSizeOnDisk.ToLongSizeString();
 
 			SetItemsCountString();
 		}

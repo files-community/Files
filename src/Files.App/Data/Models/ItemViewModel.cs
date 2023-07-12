@@ -1,29 +1,21 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.Cloud;
-using Files.App.Filesystem.Search;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Helpers.FileListCache;
-using Files.App.Shell;
-using Files.App.Storage.FtpStorage;
+using Files.App.Helpers.StorageCache;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Cloud;
 using Files.Shared.EventArguments;
 using Files.Shared.Services;
-using FluentFTP;
+using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
@@ -144,20 +136,14 @@ namespace Files.App.Data.Models
 
 			WorkingDirectory = value;
 
-			string? pathRoot;
-			if (FtpHelpers.IsFtpPath(WorkingDirectory))
-			{
-				var rootIndex = FtpHelpers.GetRootIndex(WorkingDirectory);
-				pathRoot = rootIndex is -1
-					? WorkingDirectory
-					: WorkingDirectory.Substring(0, rootIndex);
-			}
-			else
+			string? pathRoot = null;
+			if (!FtpHelpers.IsFtpPath(WorkingDirectory))
 			{
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
 			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
 
@@ -186,6 +172,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -219,6 +206,7 @@ namespace Files.App.Data.Models
 			OnPropertyChanged(nameof(IsSortedByDate));
 			OnPropertyChanged(nameof(IsSortedByType));
 			OnPropertyChanged(nameof(IsSortedBySize));
+			OnPropertyChanged(nameof(IsSortedByPath));
 			OnPropertyChanged(nameof(IsSortedByOriginalPath));
 			OnPropertyChanged(nameof(IsSortedByDateDeleted));
 			OnPropertyChanged(nameof(IsSortedByDateCreated));
@@ -238,6 +226,20 @@ namespace Files.App.Data.Models
 				{
 					folderSettings.DirectorySortOption = SortOption.Name;
 					OnPropertyChanged(nameof(IsSortedByName));
+				}
+			}
+		}
+
+		public bool IsSortedByPath
+		{
+			get => folderSettings.DirectorySortOption == SortOption.Path;
+			set
+			{
+				if (value)
+				{
+					folderSettings.DirectorySortOption = SortOption.Path;
+
+					OnPropertyChanged(nameof(IsSortedByPath));
 				}
 			}
 		}
@@ -1217,7 +1219,14 @@ namespace Files.App.Data.Models
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
 									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusLabel = gitItemModel.StatusSymbol;
+									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+									{
+										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+										_ => null,
+									};
 									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
 									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
 									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
@@ -1364,55 +1373,46 @@ namespace Files.App.Data.Models
 			var stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			if (FtpHelpers.IsFtpPath(path))
+			var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
+			var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
+
+			// Hide progressbar after enumeration
+			IsLoadingItems = false;
+
+			switch (enumerated)
 			{
-				// Recycle bin and network are enumerated by the fulltrust process
-				PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-				await EnumerateItemsFromSpecialFolderAsync(path);
-			}
-			else
-			{
-				var isRecycleBin = path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
-				var enumerated = await EnumerateItemsFromStandardFolderAsync(path, addFilesCTS.Token, library);
+				// Enumerated with FindFirstFileExFromApp
+				// Is folder synced to cloud storage?
+				case 0:
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
+					{
+						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
+						IsTypeGitRepository = GitDirectory is not null
+					});
+					WatchForDirectoryChanges(path, syncStatus);
+					if (GitDirectory is not null)
+						WatchForGitChanges();
+					break;
 
-				// Hide progressbar after enumeration
-				IsLoadingItems = false;
+				// Enumerated with StorageFolder
+				case 1:
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
+					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+					WatchForStorageFolderChanges(currentStorageFolder?.Item);
+					break;
 
-				switch (enumerated)
-				{
-					// Enumerated with FindFirstFileExFromApp
-					// Is folder synced to cloud storage?
-					case 0:
-						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-						var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
-						{
-							IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
-							IsTypeGitRepository = GitDirectory is not null
-						});
-						WatchForDirectoryChanges(path, syncStatus);
-						if (GitDirectory is not null)
-							WatchForGitChanges();
-						break;
+				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
+				case 2:
+					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
+					WatchForWin32FolderChanges(path);
+					break;
 
-					// Enumerated with StorageFolder
-					case 1:
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
-						currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-						WatchForStorageFolderChanges(currentStorageFolder?.Item);
-						break;
-
-					// Watch for changes using FTP in Box Drive folder (#7428) and network drives (#5869)
-					case 2:
-						PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-						WatchForWin32FolderChanges(path);
-						break;
-
-					// Enumeration failed
-					case -1:
-					default:
-						break;
-				}
+				// Enumeration failed
+				case -1:
+				default:
+					break;
 			}
 
 			await GetDefaultItemIcons(folderSettings.GetIconSize());
@@ -1439,99 +1439,6 @@ namespace Files.App.Data.Models
 			watcherCTS = new CancellationTokenSource();
 		}
 
-		public async Task EnumerateItemsFromSpecialFolderAsync(string path)
-		{
-			var isFtp = FtpHelpers.IsFtpPath(path);
-
-			CurrentFolder = new ListedItem(null!)
-			{
-				PrimaryItemAttribute = StorageItemTypes.Folder,
-				ItemPropertiesInitialized = true,
-				ItemNameRaw =
-							path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ? "RecycleBin".GetLocalizedResource() :
-							path.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ? "Network".GetLocalizedResource() :
-							path.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase) ? "ThisPC".GetLocalizedResource() :
-							isFtp ? "FTP" : "Unknown",
-				ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
-				ItemDateCreatedReal = DateTimeOffset.Now,  // Fake for now
-				ItemType = "Folder".GetLocalizedResource(),
-				FileImage = null,
-				LoadFileIcon = false,
-				ItemPath = path,
-				FileSize = null,
-				FileSizeBytes = 0
-			};
-
-			if (!isFtp || !FtpHelpers.VerifyFtpPath(path))
-				return;
-
-			// TODO: Show invalid path dialog
-
-			using var client = new AsyncFtpClient();
-			client.Host = FtpHelpers.GetFtpHost(path);
-			client.Port = FtpHelpers.GetFtpPort(path);
-			client.Credentials = FtpManager.Credentials.Get(client.Host, FtpManager.Anonymous);
-
-			static async Task<FtpProfile?> WrappedAutoConnectFtpAsync(AsyncFtpClient client)
-			{
-				try
-				{
-					return await client.AutoConnect();
-				}
-				catch (FtpAuthenticationException)
-				{
-					return null;
-				}
-
-				throw new InvalidOperationException();
-			}
-
-			await Task.Run(async () =>
-			{
-				try
-				{
-					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							var credentialDialogViewModel = new CredentialDialogViewModel();
-
-							if (await dialogService.ShowDialogAsync(credentialDialogViewModel) != DialogResult.Primary)
-								return;
-
-							// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
-							if (!credentialDialogViewModel.IsAnonymous)
-								client.Credentials = new NetworkCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
-						});
-					}
-
-					if (!client.IsConnected && await WrappedAutoConnectFtpAsync(client) is null)
-						throw new InvalidOperationException();
-
-					FtpManager.Credentials[client.Host] = client.Credentials;
-
-					var sampler = new IntervalSampler(500);
-					var list = await client.GetListing(FtpHelpers.GetFtpPath(path));
-
-					for (var i = 0; i < list.Length; i++)
-					{
-						filesAndFolders.Add(new FtpItem(list[i], path));
-
-						if (i == list.Length - 1 || sampler.CheckNow())
-						{
-							await OrderFilesAndFoldersAsync();
-							await ApplyFilesAndFoldersChangesAsync();
-						}
-					}
-				}
-				catch
-				{
-					// Network issue
-					FtpManager.Credentials.Remove(client.Host);
-				}
-			});
-		}
-
 		public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
@@ -1541,7 +1448,8 @@ namespace Files.App.Data.Models
 				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
 				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
 				!isWslDistro;
-			bool enumFromStorageFolder = isBoxFolder;
+			bool isFtp = FtpHelpers.IsFtpPath(path);
+			bool enumFromStorageFolder = isBoxFolder || isFtp;
 
 			BaseStorageFolder? rootFolder = null;
 
@@ -1569,7 +1477,7 @@ namespace Files.App.Data.Models
 			}
 			else
 			{
-				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
+				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
 				if (res)
 				{
 					currentStorageFolder = res.Result;
@@ -1676,7 +1584,7 @@ namespace Files.App.Data.Models
 				{
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemPropertiesInitialized = true,
-					ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
+					ItemNameRaw = rootFolder?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
 					ItemDateModifiedReal = itemModifiedDate,
 					ItemDateCreatedReal = itemCreatedDate,
 					ItemType = folderTypeTextLocalized,
@@ -1731,17 +1639,24 @@ namespace Files.App.Data.Models
 						await ApplyFilesAndFoldersChangesAsync();
 					});
 
+					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+					if (rootFolder?.DisplayName is not null)
+						currentFolder.ItemNameRaw = rootFolder.DisplayName;
+
 					return 0;
 				}
 			}
 		}
 
-		private Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
+		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
 		{
 			if (rootFolder is null)
-				return Task.CompletedTask;
+				return;
 
-			return Task.Run(async () =>
+			if (rootFolder is IPasswordProtectedItem ppis)
+				ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+
+			await Task.Run(async () =>
 			{
 				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
 					rootFolder,
@@ -1762,6 +1677,9 @@ namespace Files.App.Data.Models
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			}, cancellationToken);
+
+			if (rootFolder is IPasswordProtectedItem ppiu)
+				ppiu.PasswordRequestedCallback = null;
 		}
 
 		private void CheckForSolutionFile()
@@ -2488,6 +2406,8 @@ namespace Files.App.Data.Models
 		public bool IsTypeRecycleBin { get; set; }
 
 		public bool IsTypeGitRepository { get; set; }
+
+		public bool IsTypeSearchResults { get; set; }
 	}
 
 	public class WorkingDirectoryModifiedEventArgs : EventArgs

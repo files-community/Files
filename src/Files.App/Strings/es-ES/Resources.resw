@@ -133,10 +133,13 @@
     <value>Creado:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Ubicación:</value>
+    <value>Ruta</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Tamaño:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir:</value>
@@ -310,13 +313,13 @@
     <value>Esta carpeta está vacía.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Atrás (Alt+Flecha Izquierda)</value>
+    <value>Atrás</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Adelante (Alt+Flecha Derecha)</value>
+    <value>Adelante</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Arriba (Alt+Flecha Arriba)</value>
+    <value>Arriba</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Actualizar</value>
@@ -343,22 +346,22 @@
     <value>Unidad no conectada</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Es posible que el archivo al que intenta acceder haya sido movido o eliminado.</value>
+    <value>El archivo al que intenta acceder puede haber sido movido o eliminado.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Archivo no encontrado</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Es posible que la carpeta a la que intenta acceder haya sido movida o eliminada.</value>
+    <value>La carpeta a la que intenta acceder puede haber sido movida o eliminada.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>¿Eliminó esta carpeta?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>El archivo al que intenta acceder está siendo utilizado por {0}</value>
+    <value>El archivo al que intenta acceder está siendo utilizado actualmente por {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>El archivo al que está intentando acceder está siendo utilizado actualmente por otra aplicación</value>
+    <value>El archivo al que intenta acceder está siendo utilizado actualmente por otra aplicación</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>El archivo está en uso</value>
@@ -583,7 +586,7 @@
     <value>Compartiendo {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>El elemento al que está intentando cambiar el nombre ya no existe. Verifique la ubicación correcta del elemento al que necesita cambiar el nombre.</value>
+    <value>El elemento al que intenta cambiar el nombre ya no existe. Verifique la ubicación correcta del elemento al que necesita cambiar el nombre.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>El elemento ya no existe</value>
@@ -1317,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Fecha de modificación:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Abrir con</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1870,7 +1873,7 @@
     <value>Tareas en curso</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Columna de fecha de creación</value>
+    <value>Fecha de creación</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Tamaño</value>
@@ -2155,7 +2158,7 @@
     <value>Ajustar el tamaño de todas las columnas</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptativo</value>
+    <value>Seleccionar automáticamente el mejor diseño</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptatiivo (Ctrl+Mayús+7)</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Color de la etiqueta</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Guardar cambios</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nueva etiqueta</value>
@@ -2830,7 +2830,7 @@
     <value>Navegar hacia adelante en el historial de navegación</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navegar hacia arriba un directorio</value>
+    <value>Subir un directorio</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>Duplicar pestaña actual</value>
@@ -2922,11 +2922,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Izquierda</value>
+    <value>Flecha izquierda</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Derecha</value>
+    <value>Flecha derecha</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
@@ -2934,7 +2934,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Arriba (Alt+Flecha Arriba)</value>
+    <value>Flecha arriba</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -3194,7 +3194,7 @@
     <value>Debe tener permisos de lectura para ver las propiedades de este elemento.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>Para intentar tomar posesión del elemento, lo que incluye el permiso para ver sus propiedades, haga clic arriba en Cambiar.</value>
+    <value>Para tratar de tomar posesión del elemento, incluido el permiso para ver sus propiedades, hacer clic arriba en Cambiar.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>No se pueden mostrar los permisos.</value>
@@ -3209,7 +3209,7 @@
     <value>Traer mis cambios a '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
+    <value>Tiene cambios sin confirmar en esta rama. ¿Qué desea hacer con ellos?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Cambiar rama</value>
@@ -3233,7 +3233,7 @@
     <value>Crear Rama</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Basado en</value>
+    <value>Basada en</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
     <value>Cambiar a nueva rama</value>
@@ -3260,13 +3260,13 @@
     <value>Guardar (Fetch)</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Fusionar (Pull)</value>
+    <value>Actualizar (Pull)</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Ejecutar guardar git (git fetch)</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Ejecutar fusionar git (git pull)</value>
+    <value>Ejecutar git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Vista previa</value>
@@ -3278,7 +3278,7 @@
     <value>Error de git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>Fusionar git (git pull) ha fallado debido a un error de tiempo de espera</value>
+    <value>git pull ha fallado debido a un error de tiempo de espera</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(varios valores)</value>
@@ -3317,6 +3317,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Administrar ramas</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Enviar (Push)</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Ejecutar git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sincronizar</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Ejecutar git pull y luego git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>Confirmaciones salientes {0} / entrantes {1}</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Conectarse a GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Introducir el siguiente código en el enlace inferior para empezar a trabajar con repositorios GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Los archivos no tienen acceso a GitHub en este momento.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Abrir el directorio actual en Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copiar código</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Añadido</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>No rastreado</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>No se puede mostrar el propietario actual.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>¡Genial! Ahora está autorizado.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Inicializar repositorio</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Inicializar un repositorio Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Nombre del repositorio remoto</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Rama actual</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Columna de ruta</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Ordenar elementos por ruta</value>
   </data>
 </root>

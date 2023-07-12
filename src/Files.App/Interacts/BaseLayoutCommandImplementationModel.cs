@@ -3,7 +3,7 @@
 
 #nullable disable warnings
 
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils.StorageItems;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
@@ -62,7 +62,7 @@ namespace Files.App.Interacts
 		{
 			foreach (ListedItem listedItem in SlimContentPage.SelectedItems)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},
@@ -140,11 +140,11 @@ namespace Files.App.Interacts
 
 			itemManipulationModel.ClearSelection();
 
-			if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (Utils.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.Handled = true;
 
-				var draggedItems = await Filesystem.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				var draggedItems = await Utils.FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				var pwd = associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
 				var folderName = (Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd) ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
@@ -209,7 +209,7 @@ namespace Files.App.Interacts
 		{
 			var deferral = e.GetDeferral();
 
-			if (Filesystem.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (Utils.FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
 				e.Handled = true;

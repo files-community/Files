@@ -133,10 +133,13 @@
     <value>Créé :</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Chemin :</value>
+    <value>Chemin</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Taille :</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Taille sur le disque :</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Taille décompressée :</value>
@@ -166,7 +169,7 @@
     <value>Modifié :</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Dernier accès le :</value>
+    <value>Accédé</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Supprimer tous les éléments</value>
@@ -406,7 +409,7 @@
     <value>Ouvrir avec</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Envoyer à</value>
+    <value>Envoyer vers</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Le nom de l'élément ne doit pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
@@ -898,7 +901,7 @@
     <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Cœur</value>
+    <value>Noyau</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Image</value>
@@ -1317,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date de modification :</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Ouvrir avec</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -2155,7 +2158,7 @@
     <value>Adapter la largeur des colonnes</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptatif</value>
+    <value>Choisir automatiquement la meilleure disposition</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptatif (Ctrl+Maj+7)</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Couleur de l'étiquette</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Enregistrer les changements</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nouvelle étiquette</value>
@@ -3291,10 +3291,10 @@
     <value>Date de validation</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Message de validation</value>
+    <value>Message de révision</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>SHA de validation</value>
+    <value>SHA de révision</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3317,6 +3317,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Gérer les branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Exécuter git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Synchroniser</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Exécuter git pull puis git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} révisions sortantes / {1} révisions entrantes</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connectez-vous à GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Entrez le code suivant dans le lien ci-dessous pour commencer à travailler avec des dépôts GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files ne peut pas accéder à GitHub pour le moment.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Ouvrir le répertoire actuel dans Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copier le code</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Ajouté</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Non suivi</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Impossible d'afficher le propriétaire actuel.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Super ! Vous êtes maintenant autorisé.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialiser le dépôt</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialise un dépôt Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Nom du dépôt distant</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Branche actuelle</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Colonne chemin</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Trier les éléments par chemin</value>
   </data>
 </root>
