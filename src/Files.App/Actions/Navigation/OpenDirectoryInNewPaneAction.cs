@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.HasSelection &&
-			context.SelectedItem is not null &&
+			context.SelectedItems.Count <= 5 &&
 			context.SelectedItem.IsFolder &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 
