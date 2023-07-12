@@ -6,11 +6,11 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using static Files.App.Helpers.NativeIoDeviceControlHelper;
 
-namespace Files.App.Interacts
+namespace Files.App.Data.Models
 {
 	public class RemovableDevice
 	{
-		private IntPtr handle;
+		private nint handle;
 		private char driveLetter;
 
 		public RemovableDevice(string letter)
@@ -22,7 +22,7 @@ namespace Files.App.Interacts
 			handle = CreateFileFromAppW(filename,
 				GENERIC_READ | GENERIC_WRITE,
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
-				IntPtr.Zero, OPEN_EXISTING, 0, IntPtr.Zero);
+				nint.Zero, OPEN_EXISTING, 0, nint.Zero);
 		}
 
 		public async Task<bool> EjectAsync()
@@ -52,7 +52,7 @@ namespace Files.App.Interacts
 
 			for (int i = 0; i < 5; i++)
 			{
-				if (DeviceIoControl(handle, FSCTL_LOCK_VOLUME, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero))
+				if (DeviceIoControl(handle, FSCTL_LOCK_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero))
 				{
 					Debug.WriteLine("Lock successful!");
 					result = true;
@@ -72,7 +72,7 @@ namespace Files.App.Interacts
 
 		private bool DismountVolume()
 		{
-			return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
+			return DeviceIoControl(handle, FSCTL_DISMOUNT_VOLUME, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool PreventRemovalOfVolume(bool prevent)
@@ -80,12 +80,12 @@ namespace Files.App.Interacts
 			byte[] buf = new byte[1];
 			buf[0] = prevent ? (byte)1 : (byte)0;
 
-			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, IntPtr.Zero, 0, out _, IntPtr.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_MEDIA_REMOVAL, buf, 1, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool AutoEjectVolume()
 		{
-			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, IntPtr.Zero, 0, IntPtr.Zero, 0, out _, IntPtr.Zero);
+			return DeviceIoControl(handle, IOCTL_STORAGE_EJECT_MEDIA, nint.Zero, 0, nint.Zero, 0, out _, nint.Zero);
 		}
 
 		private bool CloseVolume()

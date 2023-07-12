@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Interacts;
 using Files.App.ViewModels;
 using Microsoft.Management.Infrastructure;
 using System;
