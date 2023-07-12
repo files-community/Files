@@ -7,6 +7,7 @@ using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using DiscUtils.Udf;
 
 namespace Files.App.Utils.Storage
 {
@@ -125,6 +126,21 @@ namespace Files.App.Utils.Storage
 				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
 				_ => Data.Items.DriveType.Unknown,
 			};
+		}
+
+		public static string GetExtendedDriveLabel(DriveInfo drive)
+		{
+			if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
+				return drive.VolumeLabel;
+			return SafetyExtensions.IgnoreExceptions(() =>
+			{
+				var dosDevicePath = Vanara.PInvoke.Kernel32.QueryDosDevice(drive.Name).FirstOrDefault();
+				if (string.IsNullOrEmpty(dosDevicePath))
+					return drive.VolumeLabel;
+				using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
+				using var udf = new UdfReader(driveStream);
+				return udf.VolumeLabel;
+			}) ?? drive.VolumeLabel;
 		}
 
 		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)

@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemArgumentsVisibility = false;
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
-						await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
 							() => NavigationHelpers.OpenPathInNewTab(Path.GetDirectoryName(Environment.ExpandEnvironmentVariables(ViewModel.ShortcutItemPath))));
 					},
 					() =>
@@ -88,6 +88,11 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemSizeVisibility = true;
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
+				var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
+				if (sizeOnDisk is not null)
+				{
+					ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
+				}
 				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
 				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
@@ -122,6 +127,7 @@ namespace Files.App.ViewModels.Properties
 				{
 					ViewModel.ItemSizeVisibility = false;
 				}
+				ViewModel.ItemSizeOnDisk = string.Empty;
 				if (recycleBinQuery.NumItems is long numItems)
 				{
 					ViewModel.FilesCount = (int)numItems;
@@ -155,6 +161,7 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;
+			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			var fileSizeTask = Task.Run(async () =>
 			{
@@ -165,8 +172,10 @@ namespace Files.App.ViewModels.Properties
 			try
 			{
 				var folderSize = await fileSizeTask;
-				ViewModel.ItemSizeBytes = folderSize;
-				ViewModel.ItemSize = folderSize.ToLongSizeString();
+				ViewModel.ItemSizeBytes = folderSize.size;
+				ViewModel.ItemSize = folderSize.size.ToLongSizeString();
+				ViewModel.ItemSizeOnDiskBytes = folderSize.sizeOnDisk;
+				ViewModel.ItemSizeOnDisk = folderSize.sizeOnDisk.ToLongSizeString();
 			}
 			catch (Exception ex)
 			{
@@ -174,6 +183,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			ViewModel.ItemSizeProgressVisibility = false;
+			ViewModel.ItemSizeOnDiskProgressVisibility = false;
 
 			SetItemsCountString();
 		}

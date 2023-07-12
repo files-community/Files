@@ -8,8 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
-using System.IO;
-using Windows.ApplicationModel;
 using Windows.Graphics;
 
 namespace Files.App.Utils.Storage
@@ -24,12 +22,6 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		public static readonly bool FlowDirectionSettingIsRightToLeft =
 			new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
-
-		/// <summary>
-		/// App logo location to use as window popup icon and title bar icon
-		/// </summary>
-		public static string LogoPath
-			=> Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath);
 
 		/// <summary>
 		/// Get window handle (hWnd) of the given properties window instance
@@ -92,6 +84,8 @@ namespace Files.App.Utils.Storage
 		/// <param name="associatedInstance">Associated main window instance</param>
 		public static void OpenPropertiesWindow(object item, IShellPage associatedInstance)
 		{
+			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 			if (item is null)
 				return;
 
@@ -122,7 +116,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(LogoPath);
+			appWindow.SetIcon(applicationService.AppIcoPath);
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

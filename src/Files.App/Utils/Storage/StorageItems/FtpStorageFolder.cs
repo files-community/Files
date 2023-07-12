@@ -5,6 +5,7 @@ using Files.App.Data.Exceptions;
 using Files.App.Storage.FtpStorage;
 using FluentFTP;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
@@ -13,7 +14,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FtpStorageFolder : BaseStorageFolder
+	public sealed class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -25,6 +26,10 @@ namespace Files.App.Utils.Storage
 		public override DateTimeOffset DateCreated { get; }
 		public override Windows.Storage.FileAttributes Attributes { get; } = Windows.Storage.FileAttributes.Directory;
 		public override IStorageItemExtraProperties Properties => new BaseBasicStorageItemExtraProperties(this);
+
+		public StorageCredential Credentials { get; set; }
+
+		public Func<IPasswordProtectedItem, Task<StorageCredential>> PasswordRequestedCallback { get; set; }
 
 		public FtpStorageFolder(string path, string name, DateTimeOffset dateCreated)
 		{
@@ -65,7 +70,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<BaseBasicProperties> GetBasicPropertiesAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -75,12 +80,12 @@ namespace Files.App.Utils.Storage
 
 				var item = await ftpClient.GetObjectInfo(FtpPath);
 				return item is null ? new BaseBasicProperties() : new FtpFolderBasicProperties(item);
-			});
+			}, (_, _) => Task.FromResult(new BaseBasicProperties())));
 		}
 
 		public override IAsyncOperation<IStorageItem> GetItemAsync(string name)
 		{
-			return AsyncInfo.Run<IStorageItem>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IStorageItem>(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -93,15 +98,19 @@ namespace Files.App.Utils.Storage
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						return new FtpStorageFile(Path, item);
+						var file = new FtpStorageFile(Path, item);
+						((IPasswordProtectedItem)file).CopyFrom(this);
+						return file;
 					}
 					if (item.Type is FtpObjectType.Directory)
 					{
-						return new FtpStorageFolder(Path, item);
+						var folder = new FtpStorageFolder(Path, item);
+						((IPasswordProtectedItem)folder).CopyFrom(this);
+						return folder;
 					}
 				}
 				return null;
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
@@ -119,7 +128,7 @@ namespace Files.App.Utils.Storage
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<IReadOnlyList<IStorageItem>>(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -133,15 +142,19 @@ namespace Files.App.Utils.Storage
 				{
 					if (item.Type is FtpObjectType.File)
 					{
-						items.Add(new FtpStorageFile(Path, item));
+						var file = new FtpStorageFile(Path, item);
+						((IPasswordProtectedItem)file).CopyFrom(this);
+						items.Add(file);
 					}
 					else if (item.Type is FtpObjectType.Directory)
 					{
-						items.Add(new FtpStorageFolder(Path, item));
+						var folder = new FtpStorageFolder(Path, item);
+						((IPasswordProtectedItem)folder).CopyFrom(this);
+						items.Add(folder);
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -171,7 +184,7 @@ namespace Files.App.Utils.Storage
 			=> CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
 		{
-			return AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -200,7 +213,11 @@ namespace Files.App.Utils.Storage
 				while (result is FtpStatus.Skipped && ++attempt < 1024 && options == CreationCollisionOption.GenerateUniqueName);
 
 				if (result is FtpStatus.Success)
-					return new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
+				{
+					var file = new FtpStorageFile(new StorageFileWithPath(null, $"{Path}/{finalName}"));
+					((IPasswordProtectedItem)file).CopyFrom(this);
+					return file;
+				}
 
 				if (result is FtpStatus.Skipped)
 				{
@@ -211,14 +228,14 @@ namespace Files.App.Utils.Storage
 				}
 
 				throw new IOException($"Failed to create file {remotePath}.");
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName)
 			=> CreateFolderAsync(desiredName, CreationCollisionOption.FailIfExists);
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
 		{
-			return AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -229,7 +246,9 @@ namespace Files.App.Utils.Storage
 				string fileName = $"{FtpPath}/{desiredName}";
 				if (await ftpClient.DirectoryExists(fileName))
 				{
-					return new FtpStorageFolder(new StorageFileWithPath(null, fileName));
+					var item = new FtpStorageFolder(new StorageFileWithPath(null, fileName));
+					((IPasswordProtectedItem)item).CopyFrom(this);
+					return item;
 				}
 
 				bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
@@ -239,15 +258,17 @@ namespace Files.App.Utils.Storage
 					throw new IOException($"Failed to create folder {desiredName}.");
 				}
 
-				return new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
-			});
+				var folder = new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
+				((IPasswordProtectedItem)folder).CopyFrom(this);
+				return folder;
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncAction RenameAsync(string desiredName)
 			=> RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -262,19 +283,19 @@ namespace Files.App.Utils.Storage
 				{
 					// TODO: handle name generation
 				}
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
 		public override IAsyncAction DeleteAsync()
 		{
-			return AsyncInfo.Run(async (cancellationToken) =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (await ftpClient.EnsureConnectedAsync())
 				{
 					await ftpClient.DeleteDirectory(FtpPath, cancellationToken);
 				}
-			});
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 
@@ -304,7 +325,9 @@ namespace Files.App.Utils.Storage
 		{
 			string host = FtpHelpers.GetFtpHost(Path);
 			ushort port = FtpHelpers.GetFtpPort(Path);
-			var credentials = FtpManager.Credentials.Get(host, FtpManager.Anonymous);
+			var credentials = Credentials is not null ?
+				new NetworkCredential(Credentials.UserName, Credentials.SecurePassword) :
+				FtpManager.Credentials.Get(host, FtpManager.Anonymous);
 
 			return new(host, credentials, port);
 		}

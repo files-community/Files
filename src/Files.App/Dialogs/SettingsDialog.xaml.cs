@@ -16,13 +16,13 @@ namespace Files.App.Dialogs
 		public SettingsDialogViewModel ViewModel { get; set; }
 
 		private FrameworkElement RootAppElement
-			=> (FrameworkElement)App.Window.Content;
+			=> (FrameworkElement)MainWindow.Instance.Content;
 
 		public SettingsDialog()
 		{
 			InitializeComponent();
 
-			App.Window.SizeChanged += Current_SizeChanged;
+			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 			UpdateDialogLayout();
 		}
 
@@ -36,9 +36,9 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.Height = App.Window.Bounds.Height <= 760 ? App.Window.Bounds.Height - 70 : 690;
-			ContainerGrid.Width = App.Window.Bounds.Width <= 1100 ? App.Window.Bounds.Width : 1100;
-			MainSettingsNavigationView.PaneDisplayMode = App.Window.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+			ContainerGrid.Height = MainWindow.Instance.Bounds.Height <= 760 ? MainWindow.Instance.Bounds.Height - 70 : 690;
+			ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 1100 ? MainWindow.Instance.Bounds.Width : 1100;
+			MainSettingsNavigationView.PaneDisplayMode = MainWindow.Instance.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
 		}
 
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -60,7 +60,7 @@ namespace Files.App.Dialogs
 
 		private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
 		{
-			App.Window.SizeChanged -= Current_SizeChanged;
+			MainWindow.Instance.SizeChanged -= Current_SizeChanged;
 		}
 
 		private void CloseSettingsDialogButton_Click(object sender, RoutedEventArgs e)

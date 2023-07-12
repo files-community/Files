@@ -123,14 +123,14 @@ namespace Files.App.Helpers
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 			}
 			return contentDialog;
 		}
 
 		public static void CloseAllDialogs()
 		{
-			var openedDialogs = VisualTreeHelper.GetOpenPopups(App.Window);
+			var openedDialogs = VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
 
 			foreach (var item in openedDialogs)
 			{

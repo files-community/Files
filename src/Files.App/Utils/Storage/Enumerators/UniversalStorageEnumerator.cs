@@ -59,6 +59,11 @@ namespace Files.App.Utils.Storage
 					// If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
 					items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
 				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
+					break;
+				}
 				foreach (var item in items)
 				{
 					var startWithDot = item.Name.StartsWith('.');
@@ -143,6 +148,11 @@ namespace Files.App.Utils.Storage
 					|| (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
 				{
 					continue;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error enumerating directory contents.");
+					break;
 				}
 				tempList.Add(item);
 			}

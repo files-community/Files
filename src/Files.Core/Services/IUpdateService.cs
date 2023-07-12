@@ -39,7 +39,7 @@ namespace Files.Core.Services
 		Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Replace FilesLauncher.exe if it is used and has been updated
+		/// Replace Files.App.Launcher.exe if it is used and has been updated
 		/// </summary>
 		Task CheckAndUpdateFilesLauncherAsync();
 	}

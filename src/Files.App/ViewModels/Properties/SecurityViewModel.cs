@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Run Win32API
 				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task ExecuteRemoveAccessControlEntryCommand()
 		{
-			await App.Window.DispatcherQueue.EnqueueAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Get index of the ACE
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);

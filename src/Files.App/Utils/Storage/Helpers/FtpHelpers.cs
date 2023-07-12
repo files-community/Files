@@ -11,14 +11,7 @@ namespace Files.App.Utils.Storage
 		{
 			if (!ftpClient.IsConnected)
 			{
-				try
-				{
-					await ftpClient.Connect();
-				}
-				catch
-				{
-					return false;
-				}
+				await ftpClient.Connect();
 			}
 
 			return true;

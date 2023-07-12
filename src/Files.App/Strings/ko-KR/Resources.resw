@@ -133,10 +133,13 @@
     <value>만든 날짜:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>경로:</value>
+    <value>경로</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>크기:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>압축 해제 크기:</value>
@@ -652,7 +655,7 @@
     <value>셸 확장을 '추가 옵션 표시'로 이동</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>항목을 삭제할 때 확인 대화 상자 표시</value>
+    <value>항목을 삭제할 때 한 번 더 확인</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>일부 속성을 저장하던 중 문제가 발생했습니다.</value>
@@ -667,10 +670,10 @@
     <value>등급</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>항목 경로</value>
+    <value>파일 위치</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>항목 유형</value>
+    <value>유형</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>제목</value>
@@ -1066,7 +1069,7 @@
     <value>가능한 미리보기가 없습니다</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>항목명</value>
+    <value>이름</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
     <value>즐겨찾기에서 고정 해제</value>
@@ -1317,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>수정한 날짜</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>다른 프로그램으로 열기</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -2155,7 +2158,7 @@
     <value>모든 열의 크기 맞추기</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>적응형</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>적응형 (Ctrl+Shift+7)</value>
@@ -2224,7 +2227,7 @@
     <value>압축하는 중</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>압축</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>파일과 폴더에 마우스를 올려 선택하기</value>
@@ -2266,7 +2269,7 @@
     <value>휴지통을 비우는 데 실패했습니다.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>보관 파일 비밀번호</value>
+    <value>압축 파일 비밀번호</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>경로</value>
@@ -2275,7 +2278,7 @@
     <value>정렬 및 분류 방법</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>보관 파일 만들기</value>
+    <value>압축 파일 만들기</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>만들기</value>
@@ -2392,7 +2395,7 @@
     <value>'태그 편집' 표시</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>'보내기' 옵션 표시</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>'새 탭에서 폴더 열기' 옵션 표시</value>
@@ -2432,9 +2435,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>태그 색상</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>변경사항 저장</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>새 태그</value>
@@ -2506,7 +2506,7 @@
     <value>값</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>표시할 해시 선택</value>
+    <value>표시할 해시 알고리즘</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>계산 중...</value>
@@ -3260,13 +3260,13 @@
     <value>패치</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>풀</value>
+    <value>끌어오기</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>패치</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>풀</value>
+    <value>끌어오기</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>미리보기</value>
@@ -3278,7 +3278,7 @@
     <value>Git 오류</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>풀 요청이 시간초과로 실패했습니다</value>
+    <value>끌어오기 요청이 시간초과로 실패했습니다</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(여러 값)</value>
@@ -3317,28 +3317,79 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>분기 관리</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>푸시</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>푸시</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>동기화</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>끌어온 후 푸시</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>발신 {0}개/수신 {1}개</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>GitHub에 연결</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>GitHub 리포지토리 작업을 시작하려면 아래 링크에 다음 코드를 입력하십시오.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>현재 GitHub에 액세스할 수 없습니다.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
+    <value>Visual Studio로 열기</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Visual Studio로 열기</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Visual Studio Code로 열기</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>코드 복사</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>추가됨</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>삭제됨</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>수정됨</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>추적되지 않음</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>현재 소유자를 표시할 수 없음</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>권한이 부여되었습니다.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>리포지토리 초기화</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>리포지토리 초기화</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>원격 리포지토리 이름</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>현재 분기</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>

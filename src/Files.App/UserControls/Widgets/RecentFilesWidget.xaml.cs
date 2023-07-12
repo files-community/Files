@@ -146,7 +146,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
+					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconOpenWith",

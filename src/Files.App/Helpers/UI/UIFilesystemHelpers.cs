@@ -6,6 +6,8 @@ using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Net;
+using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -412,6 +414,32 @@ namespace Files.App.Helpers
 			item.Arguments = arguments;
 			item.WorkingDirectory = workingDir;
 			item.RunAsAdmin = runAsAdmin;
+		}
+
+		public async static Task<StorageCredential> RequestPassword(IPasswordProtectedItem sender)
+		{
+			var path = ((IStorageItem)sender).Path;
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
+			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				dialogService.ShowDialogAsync(credentialDialogViewModel));
+
+			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
+				return new();
+
+			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+			credentialDialogViewModel.Password?.Dispose();
+
+			if (isFtp)
+			{
+				var host = FtpHelpers.GetFtpHost(path);
+				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
+			}
+
+			return credentials;
 		}
 	}
 }

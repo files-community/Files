@@ -4,9 +4,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Custom files
-CustomOpenDialog*.dll
-CustomSaveDialog*.dll
-FilesLauncher.exe
+Files.App.OpenDialog*.dll
+Files.App.SaveDialog*.dll
+Files.App.Launcher.exe
 
 # User-specific files
 *.suo

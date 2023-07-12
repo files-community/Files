@@ -133,10 +133,13 @@
     <value>Δημιουργήθηκε:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Διαδρομή:</value>
+    <value>Διαδρομή</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Μέγεθος:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Μη συμπιεσμένο μέγεθος:</value>
@@ -1317,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Ημερομηνία τροποποίησης:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Άνοιγμα με</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1885,7 +1888,7 @@
     <value>Submit feature request</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Υποβολή αναφοράς σφάλματος</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Ορισμός του Files ως το προεπιλεγμένο πρόγραμμα διαχείρησης αρχείων</value>
@@ -1900,7 +1903,7 @@
     <value>Άνοιγμα αρχείων με ένα κλικ</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Διαδρομή φακέλου</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Εξαγωγή ρυθμίσεων</value>
@@ -2020,7 +2023,7 @@
     <value>Υπολογισμός μεγέθους φακέλων</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Πρόσφατα αρχεία</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
     <value>Άνοιγμα του Files κατά την εκκίνηση των Windows</value>
@@ -2125,7 +2128,7 @@
     <value>Ετικέτες</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Χρήση συμπαγούς διαστήματος στη διάταξη λεπτομερειών</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Διεθνής</value>
@@ -2155,7 +2158,7 @@
     <value>Αυτόματη Ρύθμιση Όλων Των Στηλών 'Ώστε Να Χωράνε</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Προσαρμοστικό</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Προσαρμόσιμο (Ctrl+Shift+7)</value>
@@ -2167,7 +2170,7 @@
     <value>Show alternate data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Συμπεριφορές</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
     <value>Αξιολογήστε το Files</value>
@@ -2224,7 +2227,7 @@
     <value>Συμπίεση αρχείου</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Συμπίεση</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Να επιλέγονται τα αρχεία όταν το ποντίκι είναι πάνω τους</value>
@@ -2245,7 +2248,7 @@
     <value>Επαναφορά Όλων των Αντικειμένων</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Επαναφορά</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
     <value>Η συντόμευση δεν μπορεί να ανοιχθεί</value>
@@ -2344,163 +2347,160 @@
     <value>Ταξινόμηση κατά</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Ομαδοποίηση κατά φθίνουσα σειρά</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Ταξινόμηση κατά φθίνουσα σειρά</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Δημιουργία συντόμευσης</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Δημιουργία συντομεύσεων σε τοπικά ή δικτυακά προγράμματα, αρχεία, φακέλους, υπολογιστές ή διευθύνσεις Διαδικτύου.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Εισάγετε τη θέση του στοιχείου:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Δημιουργεί μία συντόμευση</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Τα πρόσφατα χρησιμοποιούμενα αρχεία είναι απενεργοποιημένα στον Εξερευνητή αρχείων των Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Επεξεργασία Αρχείου Ρυθμίσεων</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Σημειώσεις έκδοσης</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Η δημιουργία μιας συντόμευσης σε αυτήν την τοποθεσία απαιτεί δικαιώματα διαχειριστή</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Θέλετε να δημιουργήσετε τη συντόμευση στην επιφάνεια εργασίας;</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Το καθορισμένο όνομα στοιχείου δεν είναι έγκυρο</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Ρυθμίσεις</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Κάντε διπλό κλικ σε έναν κενό χώρο για να ανεβείτε κατά έναν κατάλογο</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Εμφάνιση περισσοτέρων</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Εμφάνιση επεξεργασίας ετικετών</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Εμφάνιση μενού Αποστολή Σε</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Εμφάνιση επιλογής ανοίγματος φακέλων σε νέα καρτέλα</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Εμφάνιση επιλογής ανοίγματος φακέλων σε νέο παράθυρο</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Γρήγορη πρόσβαση</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Εισάγετε τα διαπιστευτήριά σας για να συνδεθείτε στο: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Εισάγετε Διαπιστευτήρια Δικτύου</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Απομνημόνευση των διαπιστευτηρίων μου</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Σφάλμα φακέλου δικτύου</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Έκδοση εφαρμογής</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Έκδοση των Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Πάντα</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Μόνο μόνιμη διαγραφή</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Ποτέ</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
+    <value>Χρώμα ετικέτας</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Νέα ετικέτα</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>Δημιουργία νέας ετικέτας</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Φόρτωση...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Context menu options</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Εμφάνιση επεκτάσεων αρχείων</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Εμφάνιση κρυφών στοιχείων</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Διαμόρφωση...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Βοήθεια</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Εναλλαγή πλήρους οθόνης</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την ετικέτα;</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Αναπαραγωγή όλων</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Ύψος</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Πλάτος</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Εφαρμογή αυτής της ενέργειας σε όλα τα αντικρουόμενα αντικείμενα</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Άνοιγμα στο τερματικό</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Άνοιγμα στο τερματικό ως διαχειριστής</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Αποθήκευση</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Πολλαπλή επιλογή</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Αναδιάταξη στοιχείων πλευρικής μπάρας</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>Παρουσιάστηκε σφάλμα κατά τον υπολογισμό</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Αλγόριθμος</value>
   </data>
   <data name="HashValue" xml:space="preserve">
     <value>Hash value</value>
@@ -2509,25 +2509,25 @@
     <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Γίνεται υπολογισμός...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Καρφιτσωμένα στοιχεία</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Μείωση μεγέθους</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Αύξηση μεγέθους</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Εναλλαγή κατεύθυνσης ταξινόμησης</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Μη έγκυρο όνομα</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>Το όνομα δεν πρέπει να είναι κενό ή να ξεκινά ή να τελειώνει με τελεία.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Βίντεο</value>
@@ -2539,10 +2539,10 @@
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Άνοιγμα online σελίδας βοήθειας στο πρόγραμμα περιήγησης</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Εναλλαγή πλήρους οθόνης</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Εισαγωγή συμπαγούς επικάλυψης</value>
@@ -2554,73 +2554,73 @@
     <value>Toggle compact overlay</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Μετάβαση στο πλαίσιο αναζήτησης</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Εναλλαγή εμφάνισης κρυφών στοιχείων</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Εναλλαγή εμφάνισης επεκτάσεων αρχείων</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Εναλλαγή εμφάνισης παραθύρου προεπισκόπησης</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Εναλλαγή εμφάνισης πλευρικής μπάρας</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Αντιγραφή στοιχείου(ων) στο πρόχειρο</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Αντιγραφή διαδρομής του στοιχείου στο πρόχειρο</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Αποκοπή στοιχείου(ων) στο πρόχειρο</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Επικόλληση στοιχείου(ων) από το πρόχειρο στον τρέχοντα φάκελο</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Επικόλληση στοιχείου(ων) από το πρόχειρο στον επιλεγμένο φάκελο</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Διαγραφή στοιχείου(ων)</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Δημιουργία νέου φακέλου</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Δημιουργία νέων συντομεύσεων στα επιλεγμένα αντικείμενα</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Δημιουργία νέας συντόμευσης σε οποιοδήποτε στοιχείο</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Άδειασμα του κάδου ανακύκλωσης</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Άνοιγμα μενού "Διαμόρφωση Δίσκου" για το επιλεγμένο στοιχείο</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Επαναφορά επιλεγμένου στοιχείου(ων) από τον κάδο ανακύκλωσης</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Επαναφορά όλων των στοιχείων από τον κάδο ανακύκλωσης</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Άνοιγμα στοιχείου(ων)</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Άνοιγμα στοιχείου(ων) με επιλεγμένη εφαρμογή</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Άνοιγμα γονικού φακέλου του αναζητηθέντος στοιχείου</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Ανανέωση περιεχομένων σελίδας</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Μετονομασία του επιλεγμένου στοιχείου</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>Select all items</value>
@@ -2743,73 +2743,73 @@
     <value>Sort items by name</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Ταξινόμηση στοιχείων κατά ημερομηνία τροποποίησης</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Ταξινόμηση στοιχείων κατά ημερομηνία δημιουργίας</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Ταξινόμηση στοιχείων κατά μέγεθος</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Ταξινόμηση στοιχείων κατά τύπο</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Ταξινόμηση στοιχείων με βάση την κατάσταση συγχρονισμού</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Ταξινόμηση στοιχείων κατά ετικέτες</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Ταξινόμηση στοιχείων κατά τον αρχικό φάκελο</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Ταξινόμηση στοιχείων κατά ημερομηνία διαγραφής</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Ταξινόμηση κατά αύξουσα σειρά</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Ταξινόμηση κατά φθίνουσα σειρά</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Εναλλαγή κατεύθυνσης ταξινόμησης</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Απαρίθμηση και ταξινόμηση φακέλων μαζί με αρχεία</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Εμφάνιση στοιχείων χωρίς ομαδοποίηση</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Ομαδοποίηση στοιχείων ανά όνομα</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία τροποποίησης</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία δημιουργίας</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Ομαδοποίηση στοιχείων ανά μέγεθος</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Ομαδοποίηση στοιχείων ανά τύπο</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Ομαδοποίηση στοιχείων ανά κατάσταση συγχρονισμού</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Ομαδοποίηση στοιχείων ανά ετικέτα</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Ομαδοποίηση στοιχείων ανά αρχικό φάκελο</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Ομαδοποίηση στοιχείων ανά ημερομηνία διαγραφής</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Ομαδοποίηση στοιχείων ανά διαδρομή φακέλου</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
     <value>Sort groups in ascending order</value>
@@ -2974,7 +2974,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Βοήθεια</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -3317,6 +3317,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files cannot access GitHub right now.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3353,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
   </data>
@@ -3340,5 +3367,29 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Unable to display current owner.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Great! You are now authorized.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
   </data>
 </root>

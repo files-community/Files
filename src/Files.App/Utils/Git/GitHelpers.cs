@@ -29,6 +29,8 @@ namespace Files.App.Utils.Git
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
+		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
@@ -36,8 +38,7 @@ namespace Files.App.Utils.Git
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static readonly string _clientId =
-			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+		private static readonly string _clientId = _applicationService.Environment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
 				? CLIENT_ID_SECRET
 				: string.Empty;
 
@@ -265,7 +266,7 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 			}
 
-			App.Window.DispatcherQueue.TryEnqueue(() =>
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
@@ -508,19 +509,6 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			string? changeKindSymbol = null;
-			if (changeKind is not ChangeKind.Ignored)
-			{
-				changeKindSymbol = changeKind switch
-				{
-					ChangeKind.Added => "A",
-					ChangeKind.Deleted => "D",
-					ChangeKind.Modified => "M",
-					ChangeKind.Untracked => "U",
-					_ => null,
-				};
-			}
-
 			string? changeKindHumanized = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
@@ -537,7 +525,6 @@ namespace Files.App.Utils.Git
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
-				StatusSymbol = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,
@@ -591,7 +578,7 @@ namespace Files.App.Utils.Git
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
-			
+
 			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
 				return;
