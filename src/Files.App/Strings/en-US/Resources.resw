@@ -255,7 +255,7 @@
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
-  <data name="OpenDirectoryInNewTab" xml:space="preserve">
+  <data name="OpenInNewTab" xml:space="preserve">
     <value>Open in new tab</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
@@ -1026,7 +1026,7 @@
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>New pane</value>
   </data>
-  <data name="OpenDirectoryInNewPane" xml:space="preserve">
+  <data name="OpenInNewPane" xml:space="preserve">
     <value>Open in new pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
@@ -3396,6 +3396,6 @@
     <value>Open directory in new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Open directory in new window</value>
   </data>
 </root>

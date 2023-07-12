@@ -12,7 +12,7 @@ namespace Files.App.Actions
 		private readonly MainPageViewModel _mainPageViewModel;
 
 		public string Label
-			=> "OpenDirectoryInNewTab".GetLocalizedResource();
+			=> "OpenInNewTab".GetLocalizedResource();
 
 		public string Description
 			=> "OpenDirectoryInNewTabDescription".GetLocalizedResource();
@@ -21,9 +21,8 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
 		public bool IsExecutable =>
-			context.HasSelection &&
 			context.SelectedItems.Count <= 5 &&
-			context.SelectedItem.IsFolder &&
+			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 
 		public OpenDirectoryInNewTabAction()

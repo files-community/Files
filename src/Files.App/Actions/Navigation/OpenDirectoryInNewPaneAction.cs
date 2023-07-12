@@ -10,14 +10,13 @@ namespace Files.App.Actions
 		private readonly IUserSettingsService userSettingsService;
 
 		public string Label
-			=> "OpenDirectoryInNewPane".GetLocalizedResource();
+			=> "OpenInNewPane".GetLocalizedResource();
 
 		public string Description
 			=> "OpenDirectoryInNewPaneDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
-			context.HasSelection &&
-			context.SelectedItems.Count <= 5 &&
+			context.SelectedItem is not null &&
 			context.SelectedItem.IsFolder &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewPane;
 

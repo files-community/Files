@@ -21,9 +21,8 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 
 		public bool IsExecutable =>
-			context.HasSelection &&
 			context.SelectedItems.Count <= 5 &&
-			context.SelectedItem.IsFolder &&
+			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
 
 		public OpenInNewWindowItemAction()
