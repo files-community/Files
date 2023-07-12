@@ -2,12 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Utils.Cloud;
+using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud
 {
 	public class CloudDriveSyncStatusUI : ObservableObject
 	{
 		public string Glyph { get; }
+
+		public Style OpacityIcon { get; }
 
 		public CloudDriveSyncStatus SyncStatus { get; }
 
@@ -24,10 +27,11 @@ namespace Files.App.Utils.Cloud
 			SyncStatus = syncStatus;
 		}
 
-		private CloudDriveSyncStatusUI(string glyph, CloudDriveSyncStatus syncStatus, string SyncStatusStringKey)
+		private CloudDriveSyncStatusUI(string glyph, Style opacityIcon, CloudDriveSyncStatus syncStatus, string SyncStatusStringKey)
 		{
 			SyncStatus = syncStatus;
 			Glyph = glyph;
+			OpacityIcon = opacityIcon;
 			LoadSyncStatus = true;
 			SyncStatusString = SyncStatusStringKey.GetLocalizedResource();
 		}
@@ -36,19 +40,19 @@ namespace Files.App.Utils.Cloud
 		{
 			// File
 			CloudDriveSyncStatus.FileOnline
-				=> new CloudDriveSyncStatusUI("\uE753", syncStatus, "CloudDriveSyncStatus_Online"),
+				=> new CloudDriveSyncStatusUI("\uE753", (Style)Application.Current.Resources["ColorIconCloud"], syncStatus, "CloudDriveSyncStatus_Online"),
 			CloudDriveSyncStatus.FileOffline or CloudDriveSyncStatus.FileOfflinePinned
-				=> new CloudDriveSyncStatusUI("\uE73E", syncStatus, "CloudDriveSyncStatus_Offline"),
+				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FileSync
-				=> new CloudDriveSyncStatusUI("\uE895", syncStatus, "CloudDriveSyncStatus_Sync"),
+				=> new CloudDriveSyncStatusUI("\uE895", (Style)Application.Current.Resources["ColorIconCloudSyncing"], syncStatus, "CloudDriveSyncStatus_Sync"),
 
 			// Folder
 			CloudDriveSyncStatus.FolderOnline or CloudDriveSyncStatus.FolderOfflinePartial
-				=> new CloudDriveSyncStatusUI("\uE753", syncStatus, "CloudDriveSyncStatus_PartialOffline"),
+				=> new CloudDriveSyncStatusUI("\uE753", (Style)Application.Current.Resources["ColorIconCloud"], syncStatus, "CloudDriveSyncStatus_PartialOffline"),
 			CloudDriveSyncStatus.FolderOfflineFull or CloudDriveSyncStatus.FolderOfflinePinned or CloudDriveSyncStatus.FolderEmpty
-				=> new CloudDriveSyncStatusUI("\uE73E", syncStatus, "CloudDriveSyncStatus_Offline"),
+				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FolderExcluded
-				=> new CloudDriveSyncStatusUI("\uF140", syncStatus, "CloudDriveSyncStatus_Excluded"),
+				=> new CloudDriveSyncStatusUI("\uF140", (Style)Application.Current.Resources["ColorIconCloudUnavailable"], syncStatus, "CloudDriveSyncStatus_Excluded"),
 
 			// Unknown
 			_ => new CloudDriveSyncStatusUI(syncStatus),

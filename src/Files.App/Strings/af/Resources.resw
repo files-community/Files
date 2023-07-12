@@ -1321,7 +1321,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Datum gewysig:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Maak oop met</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
