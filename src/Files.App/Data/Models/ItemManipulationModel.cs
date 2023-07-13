@@ -5,7 +5,7 @@ using Files.App.Utils;
 using System;
 using System.Collections.Generic;
 
-namespace Files.App.Interacts
+namespace Files.App.Data.Models
 {
 	public class ItemManipulationModel
 	{

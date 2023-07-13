@@ -152,6 +152,9 @@ namespace Files.App.Commands
 		IRichCommand CloseTabsToTheRightSelected { get; }
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
+		IRichCommand OpenDirectoryInNewPaneAction { get; }
+		IRichCommand OpenDirectoryInNewTabAction { get; }
+		IRichCommand OpenInNewWindowItemAction { get; }
 		IRichCommand ReopenClosedTab { get; }
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
