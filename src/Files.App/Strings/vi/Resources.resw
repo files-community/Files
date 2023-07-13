@@ -1806,7 +1806,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Không xác định</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Chỉnh sửa các thẻ tệp</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">

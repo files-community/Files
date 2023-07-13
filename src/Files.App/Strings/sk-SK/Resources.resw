@@ -1808,7 +1808,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Neznámy</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Upraviť značky súboru</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">

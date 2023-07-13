@@ -46,7 +46,11 @@ namespace Files.App.ViewModels.UserControls
 		public ListedItem SelectedItem
 		{
 			get => selectedItem;
-			set => SetProperty(ref selectedItem, value);
+			set
+			{
+				if (SetProperty(ref selectedItem, value))
+					OnPropertyChanged(nameof(TagsFlyout));
+			}
 		}
 
 		private PreviewPaneStates previewPaneState;
@@ -69,6 +73,10 @@ namespace Files.App.ViewModels.UserControls
 			get => previewPaneContent;
 			set => SetProperty(ref previewPaneContent, value);
 		}
+
+		public MenuFlyout TagsFlyout =>
+			new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+
 
 		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{

@@ -269,6 +269,22 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 
+				<!--  Edit Tags Button  -->
+				<Button
+					x:Name="DetailsEditTags"
+					Margin="8,0,8,8"
+					HorizontalAlignment="Left"
+					Flyout="{x:Bind ViewModel.TagsFlyout, Mode=OneWay}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<FontIcon Glyph="&#xE8EC;" />
+							<TextBlock Text="{helpers:ResourceString Name=EditTags}" />
+							<FontIcon Glyph="&#xE70D;" />
+						</StackPanel>
+					</Button.Content>
+				</Button>
+
 				<!--  Open Properties Button  -->
 				<Button
 					x:Name="DetailsOpenProperties"
