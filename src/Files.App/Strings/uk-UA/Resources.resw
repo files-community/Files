@@ -1320,7 +1320,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Дата змінення</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Відкрити за допомогою</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">

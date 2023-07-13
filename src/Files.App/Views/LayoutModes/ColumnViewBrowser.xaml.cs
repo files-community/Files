@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -135,7 +136,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
