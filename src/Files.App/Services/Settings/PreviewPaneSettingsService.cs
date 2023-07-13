@@ -3,7 +3,6 @@
 
 using Files.App.Utils.Serialization;
 using Files.Core.Services.Settings;
-using Files.Shared.EventArguments;
 using Microsoft.AppCenter.Analytics;
 using System;
 

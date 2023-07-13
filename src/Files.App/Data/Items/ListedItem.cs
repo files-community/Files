@@ -5,7 +5,6 @@ using Files.App.Utils.Cloud;
 using Files.App.ViewModels.Properties;
 using Files.Core.Helpers;
 using Files.Core.ViewModels.FileTags;
-using Files.Shared.Services.DateTimeFormatter;
 using FluentFTP;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;

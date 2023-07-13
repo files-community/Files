@@ -10,7 +10,6 @@ using Files.App.Views;
 using Files.Core.Helpers;
 using Files.Core.Services.Settings;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

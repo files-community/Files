@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Utils;
 using Files.App.Helpers;
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using System;

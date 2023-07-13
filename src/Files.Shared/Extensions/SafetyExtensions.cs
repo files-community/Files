@@ -19,6 +19,7 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -28,11 +29,13 @@ namespace Files.Shared.Extensions
 			try
 			{
 				await action();
+
 				return true;
 			}
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -46,6 +49,7 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return default;
 			}
 		}
@@ -59,6 +63,7 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return default;
 			}
 		}

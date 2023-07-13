@@ -14,7 +14,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Core;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Shells
 {
@@ -480,12 +480,12 @@ namespace Files.App.Views.Shells
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.CommandsModel.DragOver(e);
+			return SlimContentPage?.CommandsViewModel.DragOver(e);
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.CommandsModel.Drop(e);
+			return SlimContentPage?.CommandsViewModel.Drop(e);
 		}
 
 		public async Task Refresh_Click()

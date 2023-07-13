@@ -2,12 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Utils.Shell;
-using Files.Core.Helpers;
-using Files.Core.Services;
-using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

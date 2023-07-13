@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Cloud;
+using Files.Core.Utils.Cloud;
 
 namespace Files.App.Utils.Cloud
 {

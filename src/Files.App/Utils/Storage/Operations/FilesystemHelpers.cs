@@ -3,7 +3,6 @@
 
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
-using Files.Shared.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Runtime.InteropServices;
