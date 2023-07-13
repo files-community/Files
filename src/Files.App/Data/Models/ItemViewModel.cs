@@ -4,9 +4,7 @@
 using Files.App.Helpers.StorageCache;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
-using Files.Shared.Cloud;
-using Files.Shared.EventArguments;
-using Files.Shared.Services;
+using FluentFTP;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;

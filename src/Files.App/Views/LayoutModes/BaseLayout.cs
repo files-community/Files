@@ -23,7 +23,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.LayoutModes

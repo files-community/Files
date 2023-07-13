@@ -10,6 +10,7 @@ namespace Files.Shared.Extensions
 		public static ILoggerFactory AddFile(this ILoggerFactory factory, string filePath)
 		{
 			factory.AddProvider(new FileLoggerProvider(filePath));
+
 			return factory;
 		}
 	}

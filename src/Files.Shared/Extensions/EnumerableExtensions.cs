@@ -18,27 +18,28 @@ namespace Files.Shared.Extensions
 		/// <typeparam name="T">The item type</typeparam>
 		/// <param name="item">The item</param>
 		/// <returns><see cref="IEnumerable{T}"/> with <paramref name="item"/></returns>
-		public static IEnumerable<T> CreateEnumerable<T>(this T item) =>
-			new[] { item };
+		public static IEnumerable<T> CreateEnumerable<T>(this T item)
+		{
+			return new[] { item };
+		}
 
-		public static List<T> CreateList<T>(this T item) =>
-			new() { item };
+		public static List<T> CreateList<T>(this T item)
+		{
+			return new() { item };
+		}
 
 		public static IList<T> AddIfNotPresent<T>(this IList<T> list, T element)
 		{
 			if (!list.Contains(element))
-			{
 				list.Add(element);
-			}
+
 			return list;
 		}
 
 		public static ICollection<T> EnumeratedAdd<T>(this ICollection<T> collection, IEnumerable<T> source)
 		{
 			foreach (var item in source)
-			{
 				collection.Add(item);
-			}
 
 			return collection;
 		}
@@ -46,9 +47,8 @@ namespace Files.Shared.Extensions
 		public static IDictionary<TKey, TValue> AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
 		{
 			if (!dictionary.ContainsKey(key))
-			{
 				dictionary.Add(key, value);
-			}
+
 			return dictionary;
 		}
 
@@ -72,16 +72,12 @@ namespace Files.Shared.Extensions
 			};
 
 			if (scheduler is not null)
-			{
 				options.TaskScheduler = scheduler;
-			}
 
 			var block = new ActionBlock<T>(body, options);
 
 			foreach (var item in source)
-			{
 				block.Post(item);
-			}
 
 			block.Complete();
 
@@ -89,20 +85,19 @@ namespace Files.Shared.Extensions
 		}
 
 		public static Task<IList<T>> ToListAsync<T>(this IEnumerable<T> source)
-			=> Task.Run(() => (IList<T>)source.ToList());
-
-		public static IEnumerable<TResult> Zip<T1, T2, TResult>(
-			this IEnumerable<T1> source,
-			IEnumerable<T2> second,
-			Func<T1, T2, int, TResult> func)
 		{
-			using (var e1 = source.GetEnumerator())
-			using (var e2 = second.GetEnumerator())
-			{
-				var index = 0;
-				while (e1.MoveNext() && e2.MoveNext())
-					yield return func(e1.Current, e2.Current, index++);
-			}
+			return Task.Run(() => (IList<T>)source.ToList());
+		}
+
+		public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> source, IEnumerable<T2> second, Func<T1, T2, int, TResult> func)
+		{
+			using var e1 = source.GetEnumerator();
+			using var e2 = second.GetEnumerator();
+
+			var index = 0;
+
+			while (e1.MoveNext() && e2.MoveNext())
+				yield return func(e1.Current, e2.Current, index++);
 		}
 	}
 }
