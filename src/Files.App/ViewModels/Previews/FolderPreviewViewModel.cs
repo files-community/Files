@@ -59,10 +59,6 @@ namespace Files.App.ViewModels.Previews
 				if (branches.Length > 0)
 					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
 			}
-
-			var tags = Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
-			
-			Item.FileDetails.Add(GetFileProperty("FileTags", tags));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

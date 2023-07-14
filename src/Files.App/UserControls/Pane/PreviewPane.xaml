@@ -8,6 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
+	xmlns:tags="using:Files.Core.ViewModels.FileTags"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
@@ -236,7 +237,7 @@
 					Visibility="Collapsed" />
 				<ItemsControl
 					x:Name="FileDetailsRepeater"
-					Margin="12"
+					Margin="12,12,12,0"
 					ItemsSource="{x:Bind ViewModel.SelectedItem.FileDetails, Mode=OneWay}"
 					Visibility="Collapsed">
 					<ItemsControl.ItemTemplate>
@@ -269,18 +270,50 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 
+				<!--  Tags List  -->
+				<StackPanel
+					x:Name="DetailsTagsList"
+					Margin="12,8,12,12"
+					Spacing="4"
+					Visibility="Collapsed">
+					<TextBlock
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Center"
+						Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
+						Text="{helpers:ResourceString Name=FileTags}" />
+
+					<ItemsControl ItemsSource="{x:Bind ViewModel.SelectedItem.FileTagsUI, Mode=OneWay}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate x:DataType="tags:TagViewModel">
+								<StackPanel
+									Margin="0,4,0,4"
+									Orientation="Horizontal"
+									Spacing="8">
+									<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay}" />
+									<TextBlock
+										HorizontalAlignment="Stretch"
+										Style="{StaticResource Local.FileDetailsTextBlockStyle}"
+										Text="{x:Bind Name, Mode=OneWay}"
+										TextWrapping="Wrap" />
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+
 				<!--  Edit Tags Button  -->
 				<Button
 					x:Name="DetailsEditTags"
 					Margin="8,0,8,8"
 					HorizontalAlignment="Left"
 					Flyout="{x:Bind ViewModel.TagsFlyout, Mode=OneWay}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}"
+					Visibility="Collapsed">
 					<Button.Content>
 						<StackPanel Orientation="Horizontal" Spacing="8">
-							<FontIcon Glyph="&#xE8EC;" />
+							<FontIcon FontSize="12" Glyph="&#xE8EC;" />
 							<TextBlock Text="{helpers:ResourceString Name=EditTags}" />
-							<FontIcon Glyph="&#xE70D;" />
+							<FontIcon FontSize="12" Glyph="&#xE70D;" />
 						</StackPanel>
 					</Button.Content>
 				</Button>
@@ -319,6 +352,8 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -331,6 +366,8 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
@@ -341,6 +378,8 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 					</VisualState.Setters>
@@ -352,6 +391,8 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
@@ -377,6 +418,24 @@
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="PropertiesRow.Height" Value="0" />
 						<Setter Target="PropertiesColumn.Width" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.SelectedItem.FileTagsUI.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" To="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="DetailsTagsList.Margin" Value="12,8,12,0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<triggers:IsNotEqualStateTrigger Value="{x:Bind ViewModel.SelectedItem.FileTagsUI.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" To="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="DetailsTagsList.Margin" Value="12,8,12,12" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
