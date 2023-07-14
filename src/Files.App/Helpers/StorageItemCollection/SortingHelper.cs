@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public static IEnumerable<ListedItem> OrderFileList(List<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection, bool sortDirectoriesAlongsideFiles)
+		public static IEnumerable<ListedItem> OrderFileList(IList<ListedItem> filesAndFolders, SortOption directorySortOption, SortDirection directorySortDirection, bool sortDirectoriesAlongsideFiles)
 		{
 			var orderFunc = GetSortFunc(directorySortOption);
 			var naturalStringComparer = NaturalStringComparer.GetForProcessor();
