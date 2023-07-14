@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.Attributes
+namespace Files.App.Data.Attributes
 {
 	/// <summary>
 	/// Provides an attribute for generation of <see cref="DependencyProperty"/> and its Property.
@@ -21,9 +21,9 @@ namespace Files.App.Attributes
 	/// <br/>
 	/// <see langword="public"/> <typeparamref name="T"/> Field
 	/// {
-	///		<see langword="get"/> => (<typeparamref name="T"/>)GetValue(Property);
-	///		<see langword="set"/> => SetValue(Property, <see langword="value"/>);
-	///	}
+	/// 	<see langword="get"/> => (<typeparamref name="T"/>)GetValue(Property);
+	/// 	<see langword="set"/> => SetValue(Property, <see langword="value"/>);
+	/// }
 	/// </code>
 	/// <typeparam name="T">property type (nullable value type are not allowed)</typeparam>
 	/// </remarks>
