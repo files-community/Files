@@ -14,7 +14,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {

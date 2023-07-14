@@ -9,7 +9,6 @@ using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Core.Extensions;
-using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;

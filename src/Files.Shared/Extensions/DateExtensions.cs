@@ -13,6 +13,7 @@ namespace Files.Shared.Extensions
 			uint low = (uint)time.dwLowDateTime;
 			ulong high = (ulong)time.dwHighDateTime;
 			long fileTime = (long)((high << 32) + low);
+
 			try
 			{
 				return DateTime.FromFileTimeUtc(fileTime);

@@ -4,7 +4,6 @@
 using Files.App.Utils;
 using Files.App.Utils.StorageItems;
 using Files.Core.Helpers;
-using Files.Shared.Enums;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;

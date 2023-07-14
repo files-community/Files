@@ -4,6 +4,8 @@
 using Files.App.Dialogs;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels.Dialogs;
+using Files.Shared;
+using Files.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
