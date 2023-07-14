@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;

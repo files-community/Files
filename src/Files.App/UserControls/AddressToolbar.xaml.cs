@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
+using Files.App.Data.Commands;
 using Files.App.ViewModels;
 using Files.Core.Services.Settings;
 using Microsoft.UI.Input;
