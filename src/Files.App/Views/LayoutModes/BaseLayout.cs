@@ -190,7 +190,7 @@ namespace Files.App.Views.LayoutModes
 
 		public bool LockPreviewPaneContent { get; set; }
 
-		private List<ListedItem>? selectedItems = new List<ListedItem>();
+		private List<ListedItem>? selectedItems = new();
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;

@@ -3,13 +3,13 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.UserControls.Selection;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -18,47 +18,51 @@ using SortDirection = Files.Core.Data.Enums.SortDirection;
 namespace Files.App.Views.LayoutModes
 {
 	/// <summary>
-	/// Represents the browser page of Details View
+	/// Represents the browser page of details page layout.
 	/// </summary>
 	public sealed partial class DetailsLayoutBrowser : StandardViewBase
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
-		private uint currentIconSize;
+		private uint _currentIconSize;
 
 		private ListedItem? _nextItemToSelect;
 
-		protected override uint IconSize => currentIconSize;
+		protected override uint IconSize
+			=> _currentIconSize;
 
-		protected override ListViewBase ListViewBase => FileList;
+		protected override ListViewBase ListViewBase
+			=> FileList;
 
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		protected override SemanticZoom RootZoom
+			=> RootGridZoom;
 
-		public ColumnsViewModel ColumnsViewModel { get; } = new();
-
-		private double maxWidthForRenameTextbox;
-
+		private double _MaxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
-			get => maxWidthForRenameTextbox;
+			get => _MaxWidthForRenameTextbox;
 			set
 			{
-				if (value != maxWidthForRenameTextbox)
+				if (value != _MaxWidthForRenameTextbox)
 				{
-					maxWidthForRenameTextbox = value;
+					_MaxWidthForRenameTextbox = value;
 					NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
 				}
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
+		private DetailsLayoutBrowserViewModel ViewModel { get; set; }
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
+		#region Overrides
 		public DetailsLayoutBrowser() : base()
 		{
 			InitializeComponent();
-			DataContext = this;
+
+			ViewModel = new();
+			ViewModel.ListViewBase = FileList;
+
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
@@ -104,25 +108,25 @@ namespace Files.App.Views.LayoutModes
 
 			if (FolderSettings.ColumnsViewModel is not null)
 			{
-				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-				ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
-				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
-				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
-				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
-				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
+				ViewModel.ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
+				ViewModel.ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
+				ViewModel.ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
+				ViewModel.ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
+				ViewModel.ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
+				ViewModel.ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
+				ViewModel.ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
+				ViewModel.ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
+				ViewModel.ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
+				ViewModel.ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
+				ViewModel.ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
+				ViewModel.ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
+				ViewModel.ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
+				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
+				ViewModel.ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
+				ViewModel.ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
-			currentIconSize = FolderSettings.GetIconSize();
+			_currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
@@ -133,21 +137,6 @@ namespace Files.App.Views.LayoutModes
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
 				ReloadItemIcons();
-
-			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
-			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
-					return;
-				if (FolderSettings.DirectorySortOption == val)
-				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
-				}
-				else
-				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
-				}
-			});
 
 			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{
@@ -169,129 +158,6 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-		}
-
-		private void FileList_LayoutUpdated(object? sender, object e)
-		{
-			FileList.LayoutUpdated -= FileList_LayoutUpdated;
-			TryStartRenameNextItem(_nextItemToSelect!);
-			_nextItemToSelect = null;
-		}
-
-		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
-		{
-			UpdateSortIndicator();
-		}
-
-		private void FolderSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
-		{
-			UpdateSortIndicator();
-		}
-
-		private void UpdateSortIndicator()
-		{
-			NameHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
-		}
-
-		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
-		{
-			// Show original path and date deleted columns in Recycle Bin
-			if (e.IsTypeRecycleBin)
-			{
-				ColumnsViewModel.OriginalPathColumn.Show();
-				ColumnsViewModel.DateDeletedColumn.Show();
-			}
-			else
-			{
-				ColumnsViewModel.OriginalPathColumn.Hide();
-				ColumnsViewModel.DateDeletedColumn.Hide();
-			}
-
-			// Show cloud drive item status column
-			if (e.IsTypeCloudDrive)
-				ColumnsViewModel.StatusColumn.Show();
-			else
-				ColumnsViewModel.StatusColumn.Hide();
-
-			// Show git columns in git repository
-			if (e.IsTypeGitRepository)
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Show();
-				ColumnsViewModel.GitLastCommitDateColumn.Show();
-				ColumnsViewModel.GitLastCommitMessageColumn.Show();
-				ColumnsViewModel.GitLastCommitShaColumn.Show();
-				ColumnsViewModel.GitStatusColumn.Show();
-			}
-			else
-			{
-				ColumnsViewModel.GitCommitAuthorColumn.Hide();
-				ColumnsViewModel.GitLastCommitDateColumn.Hide();
-				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
-				ColumnsViewModel.GitLastCommitShaColumn.Hide();
-				ColumnsViewModel.GitStatusColumn.Hide();
-			}
-
-			// Show path columns in git repository
-			if (e.IsTypeSearchResults)
-				ColumnsViewModel.PathColumn.Show();
-			else
-				ColumnsViewModel.PathColumn.Hide();
-
-			UpdateSortIndicator();
-		}
-
-		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
-		{
-
-		}
-
-		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
-		}
-
-		override public void StartRenameItem()
-		{
-			StartRenameItem("ItemNameTextBox");
-
-			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
-				return;
-
-			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-			if (textBox is null || textBox.FindParent<Grid>() is null)
-				return;
-
-			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
-		}
-
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-		{
-			if (IsRenamingItem)
-			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
-				{
-					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-					FileNameTeachingTip.IsOpen = showError;
-				});
-			}
 		}
 
 		protected override void EndRename(TextBox textBox)
@@ -399,26 +265,89 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
+		public override void StartRenameItem()
+		{
+			StartRenameItem("ItemNameTextBox");
+
+			if (FileList.ContainerFromItem(RenamingItem) is not ListViewItem listViewItem)
+				return;
+
+			var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+			if (textBox is null || textBox.FindParent<Grid>() is null)
+				return;
+
+			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+		}
+		#endregion
+
+		#region Folder settings
+		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
+		{
+			UpdateSortIndicator();
+		}
+
+		private void FolderSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
+		{
+			UpdateSortIndicator();
+		}
+
+		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		{
+		}
+
 		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
 			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
+			if (requestedIconSize != _currentIconSize)
 			{
-				currentIconSize = requestedIconSize; // Update icon size before refreshing
+				_currentIconSize = requestedIconSize; // Update icon size before refreshing
 				ReloadItemIcons();
 			}
 		}
+		#endregion
 
-		private async Task ReloadItemIcons()
+		#region FileList ListView
+		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+
+			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+
+			base.FileList_ContainerContentChanging(sender, args);
+			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
+
+			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+		}
+
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+		}
+
+		private void FileList_LayoutUpdated(object? sender, object e)
+		{
+			FileList.LayoutUpdated -= FileList_LayoutUpdated;
+			TryStartRenameNextItem(_nextItemToSelect!);
+			_nextItemToSelect = null;
+		}
+
+		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (e != null)
 			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+				foreach (var item in e.AddedItems)
+					SetCheckboxSelectionState(item);
+
+				foreach (var item in e.RemovedItems)
+					SetCheckboxSelectionState(item);
 			}
 		}
 
@@ -432,12 +361,9 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if
-			(
-				ctrlPressed ||
+			if (ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
-			)
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle)
 			{
 				e.Handled = true;
 				return;
@@ -481,24 +407,9 @@ namespace Files.App.Views.LayoutModes
 			}
 			ResetRenameDoubleClick();
 		}
+		#endregion
 
-		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-		{
-			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
-			// because you can't use bindings in the setters
-			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
-			while (item is not ListViewItem)
-				item = VisualTreeHelper.GetParent(item);
-			if (item is ListViewItem itemContainer)
-				itemContainer.ContextFlyout = ItemContextMenuFlyout;
-		}
-
-		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			// This prevents the drag selection rectangle from appearing when resizing the columns
-			e.Handled = true;
-		}
-
+		#region GridSplitter
 		private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			UpdateColumnLayout();
@@ -509,37 +420,9 @@ namespace Files.App.Views.LayoutModes
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
 				UpdateColumnLayout();
-				FolderSettings.ColumnsViewModel = ColumnsViewModel;
+
+				FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
 			}
-		}
-
-		private void UpdateColumnLayout()
-		{
-			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-
-			// Git
-			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
-
-			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.PathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column12.ActualWidth, GridUnitType.Pixel);
-		}
-
-		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
-		{
-			ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
-			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
 		}
 
 		private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -549,7 +432,8 @@ namespace Files.App.Views.LayoutModes
 
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
+
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -558,248 +442,17 @@ namespace Files.App.Views.LayoutModes
 			(sender as UIElement)?.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 		}
 
-		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-		{
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-		}
-
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
-			ResizeColumnToFit(columnToResize);
+
+			ViewModel.ResizeColumnToFit(columnToResize);
 
 			e.Handled = true;
 		}
+		#endregion
 
-		private void SizeAllColumnsToFit_Click(object sender, RoutedEventArgs e)
-		{
-			// If there aren't items, do not make columns fit
-			if (!FileList.Items.Any())
-				return;
-
-			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
-			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
-			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
-				ResizeColumnToFit(columnIndex);
-		}
-
-		private void ResizeColumnToFit(int columnToResize)
-		{
-			if (!FileList.Items.Any())
-				return;
-
-			// Get max item length that is requested to resize to fit
-			var maxItemLength = columnToResize switch
-			{
-				1 => 40, // Check all items columns
-				2 => FileList.Items.Cast<ListedItem>().Select(x => x.Name?.Length ?? 0).Max(), // file name column
-				4 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitDateHumanized?.Length ?? 0).Max(), // git
-				5 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitMessage?.Length ?? 0).Max(), // git
-				6 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitAuthor?.Length ?? 0).Max(), // git
-				7 => FileList.Items.Cast<ListedItem>().Select(x => (x as GitItem)?.GitLastCommitSha?.Length ?? 0).Max(), // git
-				8 => FileList.Items.Cast<ListedItem>().Select(x => x.FileTagsUI?.Sum(x => x?.Name?.Length ?? 0) ?? 0).Max(), // file tag column
-				9 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemPath?.Length ?? 0).Max(), // path column
-				10 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemOriginalPath?.Length ?? 0).Max(), // original path column
-				11 => FileList.Items.Cast<ListedItem>().Select(x => (x as RecycleBinItem)?.ItemDateDeleted?.Length ?? 0).Max(), // date deleted column
-				12 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateModified?.Length ?? 0).Max(), // date modified column
-				13 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemDateCreated?.Length ?? 0).Max(), // date created column
-				14 => FileList.Items.Cast<ListedItem>().Select(x => x.ItemType?.Length ?? 0).Max(), // item type column
-				15 => FileList.Items.Cast<ListedItem>().Select(x => x.FileSize?.Length ?? 0).Max(), // item size column
-				_ => 20 // cloud status column
-			};
-
-			// if called programmatically, the column could be hidden
-			// in this case, resizing doesn't need to be done at all
-			if (maxItemLength == 0)
-				return;
-
-			// Estimate columns size to fit judging from max length item
-			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
-
-			if (columnSizeToFit > 1)
-			{
-				var column = columnToResize switch
-				{
-					2 => ColumnsViewModel.NameColumn,
-					3 => ColumnsViewModel.GitStatusColumn,
-					4 => ColumnsViewModel.GitLastCommitDateColumn,
-					5 => ColumnsViewModel.GitLastCommitMessageColumn,
-					6 => ColumnsViewModel.GitCommitAuthorColumn,
-					7 => ColumnsViewModel.GitLastCommitShaColumn,
-					8 => ColumnsViewModel.TagColumn,
-					9 => ColumnsViewModel.PathColumn,
-					10 => ColumnsViewModel.OriginalPathColumn,
-					11 => ColumnsViewModel.DateDeletedColumn,
-					12 => ColumnsViewModel.DateModifiedColumn,
-					13 => ColumnsViewModel.DateCreatedColumn,
-					14 => ColumnsViewModel.ItemTypeColumn,
-					15 => ColumnsViewModel.SizeColumn,
-					_ => ColumnsViewModel.StatusColumn
-				};
-
-				// Overestimate
-				if (columnToResize == 2) // file name column
-					columnSizeToFit += 20;
-
-				var minFitLength = Math.Max(columnSizeToFit, column.NormalMinLength);
-				var maxFitLength = Math.Min(minFitLength + 36, column.NormalMaxLength); // 36 to account for SortIcon & padding
-
-				// Set size
-				column.UserLength = new GridLength(maxFitLength, GridUnitType.Pixel);
-			}
-
-			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-		}
-
-		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
-		{
-			if (columnIndex == 15) // sync status
-				return maxItemLength;
-
-			if (columnIndex == 8) // file tag
-				return MeasureTagColumnEstimate(columnIndex);
-
-			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
-		}
-
-		private double MeasureTagColumnEstimate(int columnIndex)
-		{
-			var grids = DependencyObjectHelpers
-				.FindChildren<Grid>(FileList.ItemsPanelRoot)
-				.Where(grid => IsCorrectColumn(grid, columnIndex));
-
-			// Get the list of stack panels with the most letters
-			var stackPanels = grids
-				.Select(DependencyObjectHelpers.FindChildren<StackPanel>)
-				.OrderByDescending(sps => sps.Select(sp => DependencyObjectHelpers.FindChildren<TextBlock>(sp).Select(tb => tb.Text.Length).Sum()).Sum())
-				.First()
-				.ToArray();
-
-			var mesuredSize = stackPanels.Select(x =>
-			{
-				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-				return x.DesiredSize.Width;
-			}).Sum();
-
-			if (stackPanels.Length >= 2)
-				mesuredSize += 4 * (stackPanels.Length - 1); // The spacing between the tags
-
-			return mesuredSize;
-		}
-
-		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
-		{
-			var tbs = DependencyObjectHelpers
-				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
-				.Where(tb => IsCorrectColumn(tb, columnIndex));
-
-			// heuristic: usually, text with more letters are wider than shorter text with wider letters
-			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
-			var widthPerLetter = tbs
-				.OrderByDescending(x => x.Text.Length)
-				.Where(tb => !string.IsNullOrEmpty(tb.Text))
-				.Take(measureItemsCount)
-				.Select(tb =>
-				{
-					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
-					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
-				});
-
-			if (!widthPerLetter.Any())
-				return 0;
-
-			// Take weighted avg between mean and max since width is an estimate
-			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
-			return weightedAvg * maxItemLength;
-		}
-
-		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
-		{
-			int columnIndexFromName = element.Name switch
-			{
-				"ItemName" => 2,
-				"ItemGitStatusTextBlock" => 3,
-				"ItemGitLastCommitDateTextBlock" => 4,
-				"ItemGitLastCommitMessageTextBlock" => 5,
-				"ItemGitCommitAuthorTextBlock" => 6,
-				"ItemGitLastCommitShaTextBlock" => 7,
-				"ItemTagGrid" => 8,
-				"ItemPath" => 9,
-				"ItemOriginalPath" => 10,
-				"ItemDateDeleted" => 11,
-				"ItemDateModified" => 12,
-				"ItemDateCreated" => 13,
-				"ItemType" => 14,
-				"ItemSize" => 15,
-				"ItemStatus" => 16,
-				_ => -1,
-			};
-
-			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
-		}
-
-		private void FileList_Loaded(object sender, RoutedEventArgs e)
-		{
-			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-		}
-
-		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
-		{
-			FolderSettings.SetDefaultLayoutPreferences(ColumnsViewModel);
-		}
-
-		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Add(item);
-		}
-
-		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
-		{
-			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
-				FileList.SelectedItems.Remove(item);
-		}
-
-		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
-
-			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
-
-			base.FileList_ContainerContentChanging(sender, args);
-			SetCheckboxSelectionState(args.Item, args.ItemContainer as ListViewItem);
-
-			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
-		}
-
-		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
-		{
-			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
-			if (container is not null)
-			{
-				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
-				if (checkbox is not null)
-				{
-					// Temporarily disable events to avoid selecting wrong items
-					checkbox.Checked -= ItemSelected_Checked;
-					checkbox.Unchecked -= ItemSelected_Unchecked;
-
-					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
-
-					checkbox.Checked += ItemSelected_Checked;
-					checkbox.Unchecked += ItemSelected_Unchecked;
-				}
-				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
-			}
-		}
-
+		#region Tags
 		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var tagName = ((sender as StackPanel)?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
@@ -835,7 +488,9 @@ namespace Files.App.Views.LayoutModes
 
 			e.Handled = true;
 		}
+		#endregion
 
+		#region Selection CheckBox
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<ListViewItem>()!, true);
@@ -866,6 +521,29 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		private void SetCheckboxSelectionState(object item, ListViewItem? lviContainer = null)
+		{
+			var container = lviContainer ?? FileList.ContainerFromItem(item) as ListViewItem;
+			if (container is not null)
+			{
+				var checkbox = container.FindDescendant("SelectionCheckbox") as CheckBox;
+				if (checkbox is not null)
+				{
+					// Temporarily disable events to avoid selecting wrong items
+					checkbox.Checked -= ItemSelected_Checked;
+					checkbox.Unchecked -= ItemSelected_Unchecked;
+
+					checkbox.IsChecked = FileList.SelectedItems.Contains(item);
+
+					checkbox.Checked += ItemSelected_Checked;
+					checkbox.Unchecked += ItemSelected_Unchecked;
+				}
+				UpdateCheckboxVisibility(container, checkbox?.IsPointerOver ?? false);
+			}
+		}
+		#endregion
+
+		#region Name TextBlock
 		// Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/170
 		private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs e)
 		{
@@ -881,6 +559,151 @@ namespace Files.App.Views.LayoutModes
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+		#endregion
+
+		#region Other events
+		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
+		{
+			// Show original path and date deleted columns in Recycle Bin
+			if (e.IsTypeRecycleBin)
+			{
+				ViewModel.ColumnsViewModel.OriginalPathColumn.Show();
+				ViewModel.ColumnsViewModel.DateDeletedColumn.Show();
+			}
+			else
+			{
+				ViewModel.ColumnsViewModel.OriginalPathColumn.Hide();
+				ViewModel.ColumnsViewModel.DateDeletedColumn.Hide();
+			}
+
+			// Show cloud drive item status column
+			if (e.IsTypeCloudDrive)
+				ViewModel.ColumnsViewModel.StatusColumn.Show();
+			else
+				ViewModel.ColumnsViewModel.StatusColumn.Hide();
+
+			// Show git columns in git repository
+			if (e.IsTypeGitRepository)
+			{
+				ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Show();
+				ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Show();
+				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Show();
+				ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Show();
+				ViewModel.ColumnsViewModel.GitStatusColumn.Show();
+			}
+			else
+			{
+				ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Hide();
+				ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Hide();
+				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Hide();
+				ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Hide();
+				ViewModel.ColumnsViewModel.GitStatusColumn.Hide();
+			}
+
+			// Show path columns in git repository
+			if (e.IsTypeSearchResults)
+				ViewModel.ColumnsViewModel.PathColumn.Show();
+			else
+				ViewModel.ColumnsViewModel.PathColumn.Hide();
+
+			UpdateSortIndicator();
+		}
+
+		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (IsRenamingItem)
+			{
+				ValidateItemNameInputText(textBox, args, (showError) =>
+				{
+					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+					FileNameTeachingTip.IsOpen = showError;
+				});
+			}
+		}
+
+		private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+		{
+			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
+			// because you can't use bindings in the setters
+			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
+			while (item is not ListViewItem)
+				item = VisualTreeHelper.GetParent(item);
+			if (item is ListViewItem itemContainer)
+				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			// This prevents the drag selection rectangle from appearing when resizing the columns
+			e.Handled = true;
+		}
+
+		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
+		{
+			ViewModel.ColumnsViewModel.SetDesiredSize(Math.Max(0, RootGrid.ActualWidth - 80));
+			MaxWidthForRenameTextbox = Math.Max(0, RootGrid.ActualWidth - 80);
+		}
+
+		private void ItemSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && !FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Add(item);
+		}
+
+		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
+		{
+			if (sender is CheckBox checkBox && checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Remove(item);
+		}
+		#endregion
+
+		private void UpdateSortIndicator()
+		{
+			NameHeader.ColumnSortOption =         FolderSettings.DirectorySortOption == SortOption.Name ?           FolderSettings.DirectorySortDirection : null;
+			TagHeader.ColumnSortOption =          FolderSettings.DirectorySortOption == SortOption.FileTag ?        FolderSettings.DirectorySortDirection : null;
+			PathHeader.ColumnSortOption =         FolderSettings.DirectorySortOption == SortOption.Path ?           FolderSettings.DirectorySortDirection : null;
+			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
+			DateDeletedHeader.ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.DateDeleted ?    FolderSettings.DirectorySortDirection : null;
+			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ?   FolderSettings.DirectorySortDirection : null;
+			DateCreatedHeader.ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.DateCreated ?    FolderSettings.DirectorySortDirection : null;
+			FileTypeHeader.ColumnSortOption =     FolderSettings.DirectorySortOption == SortOption.FileType ?       FolderSettings.DirectorySortDirection : null;
+			ItemSizeHeader.ColumnSortOption =     FolderSettings.DirectorySortOption == SortOption.Size ?           FolderSettings.DirectorySortDirection : null;
+			SyncStatusHeader.ColumnSortOption =   FolderSettings.DirectorySortOption == SortOption.SyncStatus ?     FolderSettings.DirectorySortDirection : null;
+		}
+
+		public void UpdateColumnLayout()
+		{
+			ViewModel.ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+
+			// Git
+			ViewModel.ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
+
+			ViewModel.ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.PathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
+			ViewModel.ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column12.ActualWidth, GridUnitType.Pixel);
+		}
+
+		private async Task ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, _currentIconSize);
+			}
 		}
 	}
 }

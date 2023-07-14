@@ -3,6 +3,7 @@
 
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -22,6 +23,8 @@ namespace Files.App.Views.LayoutModes
 		List<ListedItem>? SelectedItems { get; }
 
 		ListedItem? SelectedItem { get; }
+
+		CollectionViewSource CollectionViewSource { get; }
 
 		ItemManipulationModel ItemManipulationModel { get; }
 
