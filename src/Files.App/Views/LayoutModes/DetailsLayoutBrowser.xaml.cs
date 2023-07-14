@@ -51,7 +51,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private DetailsLayoutBrowserViewModel ViewModel { get; set; }
+		private DetailsLayoutBrowserViewModel ViewModel;
 
 		public ScrollViewer? ContentScroller { get; private set; }
 

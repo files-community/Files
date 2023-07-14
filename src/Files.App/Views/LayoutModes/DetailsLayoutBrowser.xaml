@@ -18,6 +18,7 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
@@ -37,7 +38,10 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DetailsLayoutModeStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
@@ -46,9 +50,6 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
-			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 		</ResourceDictionary>
 	</local:StandardViewBase.Resources>
