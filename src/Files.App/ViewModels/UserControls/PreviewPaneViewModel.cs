@@ -169,6 +169,9 @@ namespace Files.App.ViewModels.UserControls
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
 
+				if (!isItemSelected)
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
+
 				return new FolderPreview(model);
 			}
 
