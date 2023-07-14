@@ -20,8 +20,6 @@ namespace Files.App.ViewModels.LayoutModes
 {
 	public class DetailsLayoutBrowserViewModel
 	{
-		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
-
 		private readonly IContentPageContext context = Ioc.Default.GetService<IContentPageContext>();
 
 		private FolderSettingsViewModel? FolderSettings
@@ -65,29 +63,40 @@ namespace Files.App.ViewModels.LayoutModes
 			});
 		}
 
-		public static IList<ContextMenuFlyoutItemViewModel> GetColumnsHeaderContextMenuFlyout()
+		public IList<ContextMenuFlyoutItemViewModel> GetColumnsHeaderContextMenuFlyout()
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModel()
+				new()
 				{
-					//Text = "File".GetLocalizedResource(),
-					//Command = commandsViewModel.CreateNewFileCommand,
-					//ShowInFtpPage = true,
-					//ShowInZipPage = true,
-					//IsEnabled = canCreateFileInPage
+					Text = "SizeAllColumnsToFit".GetLocalizedResource(),
+					Command = ResizeAllColumnsToFitCommand,
+					IsEnabled = true,
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
+				},
+				new()
+				{
+					Text = "Git".GetLocalizedResource(),
+					ShowItem = context.ShellPage.InstanceViewModel.IsGitRepository,
+					Items = new()
+					{
+						new()
+						{
+							Text = "GitStatus".GetLocalizedResource(),
+							Command = ToggleColumnCommand,
+							CommandParameter = ColumnsViewModel.GitStatusColumn,
+							ShowItem = ColumnsViewModel.GitStatusColumn.IsHidden,
+						},
+					}
 				}
-
 			};
 		}
 
 		private void ToggleColumn()
 		{
-			// Chainging is done by binding. Update viewmodel here.
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 

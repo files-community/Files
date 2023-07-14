@@ -51,7 +51,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private DetailsLayoutBrowserViewModel ViewModel;
+		private readonly DetailsLayoutBrowserViewModel ViewModel;
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
@@ -187,6 +187,20 @@ namespace Files.App.Views.LayoutModes
 			listViewItem?.Focus(FocusState.Programmatic);
 		}
 
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
+
+			if (e != null)
+			{
+				foreach (var item in e.AddedItems)
+					SetCheckboxSelectionState(item);
+
+				foreach (var item in e.RemovedItems)
+					SetCheckboxSelectionState(item);
+			}
+		}
+
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
@@ -309,6 +323,33 @@ namespace Files.App.Views.LayoutModes
 		#endregion
 
 		#region FileList ListView
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+		}
+
+		private void FileList_LayoutUpdated(object? sender, object e)
+		{
+			FileList.LayoutUpdated -= FileList_LayoutUpdated;
+			TryStartRenameNextItem(_nextItemToSelect!);
+			_nextItemToSelect = null;
+		}
+
+		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Skip opening selected items if the double tap doesn't capture an item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
+				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			{
+				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+			}
+			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			{
+				ParentShellPageInstance?.Up_Click();
+			}
+			ResetRenameDoubleClick();
+		}
+
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
@@ -323,32 +364,6 @@ namespace Files.App.Views.LayoutModes
 			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
 			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
-		}
-
-		private void FileList_Loaded(object sender, RoutedEventArgs e)
-		{
-			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-		}
-
-		private void FileList_LayoutUpdated(object? sender, object e)
-		{
-			FileList.LayoutUpdated -= FileList_LayoutUpdated;
-			TryStartRenameNextItem(_nextItemToSelect!);
-			_nextItemToSelect = null;
-		}
-
-		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
-
-			if (e != null)
-			{
-				foreach (var item in e.AddedItems)
-					SetCheckboxSelectionState(item);
-
-				foreach (var item in e.RemovedItems)
-					SetCheckboxSelectionState(item);
-			}
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -391,21 +406,6 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 			}
-		}
-
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-		{
-			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
-			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-			{
-				ParentShellPageInstance?.Up_Click();
-			}
-			ResetRenameDoubleClick();
 		}
 		#endregion
 
