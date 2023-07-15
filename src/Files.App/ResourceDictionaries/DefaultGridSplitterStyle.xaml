@@ -2,9 +2,35 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls">
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls">
 
-	<Style x:Key="DefaultGridSplitterStyle" TargetType="controls:GridSplitter">
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
+			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Style
+		x:Name="HeaderGridSplitterStyle"
+		BasedOn="{StaticResource DefaultGridSplitterStyle}"
+		TargetType="toolkit:GridSplitter">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Width" Value="12" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Opacity" Value="0.8" />
+		<Setter Property="Canvas.ZIndex" Value="1" />
+	</Style>
+
+	<Style x:Key="DefaultGridSplitterStyle" TargetType="toolkit:GridSplitter">
 		<Setter Property="IsTabStop" Value="True" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -17,7 +43,7 @@
 		<Setter Property="GripperForeground" Value="Transparent" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="controls:GridSplitter">
+				<ControlTemplate TargetType="toolkit:GridSplitter">
 					<Grid
 						x:Name="RootGrid"
 						Background="Transparent"
@@ -57,22 +83,8 @@
 	<Style
 		x:Key="InvisibleGridSplitterStyle"
 		BasedOn="{StaticResource DefaultGridSplitterStyle}"
-		TargetType="controls:GridSplitter">
+		TargetType="toolkit:GridSplitter">
 		<Setter Property="BorderBrush" Value="{ThemeResource TransparentSplitterBorderBrush}" />
 	</Style>
 
-	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Light">
-			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
-			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-		</ResourceDictionary>
-		<ResourceDictionary x:Key="Dark">
-			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="Transparent" />
-			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource ControlStrokeColorDefault}" />
-		</ResourceDictionary>
-		<ResourceDictionary x:Key="HighContrast">
-			<SolidColorBrush x:Key="TransparentSplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-			<SolidColorBrush x:Key="SplitterBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-		</ResourceDictionary>
-	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

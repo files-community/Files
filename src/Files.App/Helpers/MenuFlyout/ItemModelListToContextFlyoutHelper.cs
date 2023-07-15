@@ -1,23 +1,16 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls;
-using Files.App.ViewModels;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Files.App.Helpers.ContextFlyouts
 {
 	/// <summary>
-	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
+	/// Provides static helperfor conversion of ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
 	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
+	/// <see cref="ViewModels.ContextMenuFlyoutItemViewModel"/>
 	/// </summary>
 	public static class ItemModelListToContextFlyoutHelper
 	{

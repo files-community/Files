@@ -28,9 +28,11 @@ namespace Files.App.ViewModels.LayoutModes
 		public ListViewBase ListViewBase { get; set; } = null!;
 
 		private IList<ListedItem> ListedItems
-			=> (List<ListedItem>)context.ShellPage?.SlimContentPage.CollectionViewSource.Source;
+			=> ListViewBase.Items.Cast<ListedItem>().ToList();
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
+
+		public IList<MenuFlyoutItemBase> ColumnHeadersMenuFlyoutItems { get; private set; }
 
 		public ICommand ToggleColumnCommand { get; set; }
 
@@ -42,36 +44,22 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public DetailsLayoutBrowserViewModel()
 		{
-			ToggleColumnCommand = new RelayCommand(ToggleColumn);
+			ColumnHeadersMenuFlyoutItems = GetColumnsHeaderContextMenuFlyout();
+
+			ToggleColumnCommand = new RelayCommand<ColumnViewModel>(ToggleColumn);
 			SetColumnsAsDefaultCommand = new RelayCommand(SetColumnsAsDefault);
 			ResizeAllColumnsToFitCommand = new RelayCommand(ResizeAllColumnsToFit);
-
-			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
-			{
-				if (!Enum.TryParse<SortOption>(x, out var val))
-					return;
-
-				if (FolderSettings.DirectorySortOption == val)
-				{
-					FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
-				}
-				else
-				{
-					FolderSettings.DirectorySortOption = val;
-					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
-				}
-			});
+			UpdateSortOptionsCommand = new RelayCommand<string>(UpdateSortOptions);
 		}
 
-		public IList<ContextMenuFlyoutItemViewModel> GetColumnsHeaderContextMenuFlyout()
+		public IList<MenuFlyoutItemBase> GetColumnsHeaderContextMenuFlyout()
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
+			var contextMenuFlyoutItemModels = new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new()
 				{
 					Text = "SizeAllColumnsToFit".GetLocalizedResource(),
 					Command = ResizeAllColumnsToFitCommand,
-					IsEnabled = true,
 				},
 				new()
 				{
@@ -90,13 +78,121 @@ namespace Files.App.ViewModels.LayoutModes
 							CommandParameter = ColumnsViewModel.GitStatusColumn,
 							ShowItem = ColumnsViewModel.GitStatusColumn.IsHidden,
 						},
+						new()
+						{
+							Text = "DateCommitted".GetLocalizedResource(),
+							Command = ToggleColumnCommand,
+							CommandParameter = ColumnsViewModel.GitLastCommitDateColumn,
+							ShowItem = ColumnsViewModel.GitLastCommitDateColumn.IsHidden,
+						},
+						new()
+						{
+							Text = "CommitMessage".GetLocalizedResource(),
+							Command = ToggleColumnCommand,
+							CommandParameter = ColumnsViewModel.GitLastCommitMessageColumn,
+							ShowItem = ColumnsViewModel.GitLastCommitMessageColumn.IsHidden,
+						},
+						new()
+						{
+							Text = "Author".GetLocalizedResource(),
+							Command = ToggleColumnCommand,
+							CommandParameter = ColumnsViewModel.GitCommitAuthorColumn,
+							ShowItem = ColumnsViewModel.GitCommitAuthorColumn.IsHidden,
+						},
+						new()
+						{
+							Text = "CommitSha".GetLocalizedResource(),
+							Command = ToggleColumnCommand,
+							CommandParameter = ColumnsViewModel.GitLastCommitShaColumn,
+							ShowItem = ColumnsViewModel.GitLastCommitShaColumn.IsHidden,
+						},
 					}
-				}
+				},
+				new()
+				{
+					Text = "Tag".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.TagColumn,
+					ShowItem = ColumnsViewModel.TagColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "PathColumn".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.PathColumn,
+					ShowItem = ColumnsViewModel.PathColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowOriginalPath/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.OriginalPathColumn,
+					ShowItem = ColumnsViewModel.OriginalPathColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowDateDeleted/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.DateDeletedColumn,
+					ShowItem = ColumnsViewModel.DateDeletedColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowDateModified/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.DateModifiedColumn,
+					ShowItem = ColumnsViewModel.DateModifiedColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowDateCreated/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.DateCreatedColumn,
+					ShowItem = ColumnsViewModel.DateCreatedColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowItemType/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.ItemTypeColumn,
+					ShowItem = ColumnsViewModel.ItemTypeColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowItemSize/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.SizeColumn,
+					ShowItem = ColumnsViewModel.SizeColumn.IsHidden,
+				},
+				new()
+				{
+					Text = "DetailsViewHeaderFlyout_ShowSyncStatus/Text".GetLocalizedResource(),
+					Command = ToggleColumnCommand,
+					CommandParameter = ColumnsViewModel.StatusColumn,
+					ShowItem = ColumnsViewModel.StatusColumn.IsHidden,
+				},
+				new()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+				},
+				new()
+				{
+					Text = "SetAsDefault".GetLocalizedResource(),
+					Command = SetColumnsAsDefaultCommand,
+				},
 			};
+
+			var list = Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(contextMenuFlyoutItemModels);
+
+			return list;
 		}
 
-		private void ToggleColumn()
+		private void ToggleColumn(ColumnViewModel? item)
 		{
+			// Toggle the column
+			item.UserCollapsed = !item.UserCollapsed;
+
+			// Update settings
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
@@ -120,6 +216,22 @@ namespace Files.App.ViewModels.LayoutModes
 
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
+		}
+
+		private void UpdateSortOptions(string? option)
+		{
+			if (!Enum.TryParse<SortOption>(option, out var val))
+				return;
+
+			if (FolderSettings.DirectorySortOption == val)
+			{
+				FolderSettings.DirectorySortDirection = (SortDirection)(((int)FolderSettings.DirectorySortDirection + 1) % 2);
+			}
+			else
+			{
+				FolderSettings.DirectorySortOption = val;
+				FolderSettings.DirectorySortDirection = SortDirection.Ascending;
+			}
 		}
 
 		public void ResizeColumnToFit(int columnToResize)
