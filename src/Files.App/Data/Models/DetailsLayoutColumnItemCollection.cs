@@ -5,136 +5,117 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public class ColumnsViewModel : ObservableObject
+	// TODO: Must be drive from IList
+	public class DetailsLayoutColumnItemCollection : ObservableObject
 	{
-		private ColumnViewModel iconColumn = new()
-		{
-			UserLength = new GridLength(24, GridUnitType.Pixel),
-			IsResizeable = false,
-		};
+		private DetailsLayoutColumnItem _IconColumn = new() { UserLength = new(24), IsResizable = false };
 		[LiteDB.BsonIgnore]
-		public ColumnViewModel IconColumn
+		public DetailsLayoutColumnItem IconColumn
 		{
-			get => iconColumn;
-			set => SetProperty(ref iconColumn, value);
+			get => _IconColumn;
+			set => SetProperty(ref _IconColumn, value);
 		}
 
-		private ColumnViewModel _GitStatusColumn = new();
-		public ColumnViewModel GitStatusColumn
+		private DetailsLayoutColumnItem _GitStatusColumn = new();
+		public DetailsLayoutColumnItem GitStatusColumn
 		{
 			get => _GitStatusColumn;
 			set => SetProperty(ref _GitStatusColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitDateColumn = new();
-		public ColumnViewModel GitLastCommitDateColumn
+		private DetailsLayoutColumnItem _GitLastCommitDateColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitDateColumn
 		{
 			get => _GitLastCommitDateColumn;
 			set => SetProperty(ref _GitLastCommitDateColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitMessageColumn = new();
-		public ColumnViewModel GitLastCommitMessageColumn
+		private DetailsLayoutColumnItem _GitLastCommitMessageColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitMessageColumn
 		{
 			get => _GitLastCommitMessageColumn;
 			set => SetProperty(ref _GitLastCommitMessageColumn, value);
 		}
 
-		private ColumnViewModel _GitCommitAuthorColumn = new();
-		public ColumnViewModel GitCommitAuthorColumn
+		private DetailsLayoutColumnItem _GitCommitAuthorColumn = new();
+		public DetailsLayoutColumnItem GitCommitAuthorColumn
 		{
 			get => _GitCommitAuthorColumn;
 			set => SetProperty(ref _GitCommitAuthorColumn, value);
 		}
 
-		private ColumnViewModel _GitLastCommitShaColumn = new();
-		public ColumnViewModel GitLastCommitShaColumn
+		private DetailsLayoutColumnItem _GitLastCommitShaColumn = new();
+		public DetailsLayoutColumnItem GitLastCommitShaColumn
 		{
 			get => _GitLastCommitShaColumn;
 			set => SetProperty(ref _GitLastCommitShaColumn, value);
 		}
 
-		private ColumnViewModel tagColumn = new();
-		public ColumnViewModel TagColumn
+		private DetailsLayoutColumnItem tagColumn = new();
+		public DetailsLayoutColumnItem TagColumn
 		{
 			get => tagColumn;
 			set => SetProperty(ref tagColumn, value);
 		}
 
-		private ColumnViewModel nameColumn = new()
-		{
-			NormalMaxLength = 1000d
-		};
-		public ColumnViewModel NameColumn
+		private DetailsLayoutColumnItem nameColumn = new() { NormalMaxLength = 1000d };
+		public DetailsLayoutColumnItem NameColumn
 		{
 			get => nameColumn;
 			set => SetProperty(ref nameColumn, value);
 		}
 
-		private ColumnViewModel statusColumn = new()
-		{
-			UserLength = new GridLength(50),
-			NormalMaxLength = 80,
-		};
-		public ColumnViewModel StatusColumn
+		private DetailsLayoutColumnItem statusColumn = new() { UserLength = new GridLength(50), NormalMaxLength = 80, };
+		public DetailsLayoutColumnItem StatusColumn
 		{
 			get => statusColumn;
 			set => SetProperty(ref statusColumn, value);
 		}
 
-		private ColumnViewModel dateModifiedColumn = new();
-		public ColumnViewModel DateModifiedColumn
+		private DetailsLayoutColumnItem dateModifiedColumn = new();
+		public DetailsLayoutColumnItem DateModifiedColumn
 		{
 			get => dateModifiedColumn;
 			set => SetProperty(ref dateModifiedColumn, value);
 		}
 
-		private ColumnViewModel pathColumn = new()
-		{
-			NormalMaxLength = 500,
-		};
-		public ColumnViewModel PathColumn
+		private DetailsLayoutColumnItem pathColumn = new() { NormalMaxLength = 500, };
+		public DetailsLayoutColumnItem PathColumn
 		{
 			get => pathColumn;
 			set => SetProperty(ref pathColumn, value);
 		}
 
-		private ColumnViewModel originalPathColumn = new()
-		{
-			NormalMaxLength = 500,
-		};
-		public ColumnViewModel OriginalPathColumn
+		private DetailsLayoutColumnItem originalPathColumn = new() { NormalMaxLength = 500, };
+		public DetailsLayoutColumnItem OriginalPathColumn
 		{
 			get => originalPathColumn;
 			set => SetProperty(ref originalPathColumn, value);
 		}
 
-		private ColumnViewModel itemTypeColumn = new();
-		public ColumnViewModel ItemTypeColumn
+		private DetailsLayoutColumnItem itemTypeColumn = new();
+		public DetailsLayoutColumnItem ItemTypeColumn
 		{
 			get => itemTypeColumn;
 			set => SetProperty(ref itemTypeColumn, value);
 		}
 
-		private ColumnViewModel dateDeletedColumn = new();
-		public ColumnViewModel DateDeletedColumn
+		private DetailsLayoutColumnItem dateDeletedColumn = new();
+		public DetailsLayoutColumnItem DateDeletedColumn
 		{
 			get => dateDeletedColumn;
 			set => SetProperty(ref dateDeletedColumn, value);
 		}
 
-		private ColumnViewModel dateCreatedColumn = new()
-		{
-			UserCollapsed = true
-		};
-		public ColumnViewModel DateCreatedColumn
+		private DetailsLayoutColumnItem dateCreatedColumn = new() { UserCollapsed = true };
+		public DetailsLayoutColumnItem DateCreatedColumn
 		{
 			get => dateCreatedColumn;
 			set => SetProperty(ref dateCreatedColumn, value);
 		}
 
-		private ColumnViewModel sizeColumn = new();
-		public ColumnViewModel SizeColumn
+		private DetailsLayoutColumnItem sizeColumn = new();
+		public DetailsLayoutColumnItem SizeColumn
 		{
 			get => sizeColumn;
 			set => SetProperty(ref sizeColumn, value);
@@ -200,7 +181,7 @@ namespace Files.App.Data.Models
 			if (obj == this)
 				return true;
 
-			if (obj is ColumnsViewModel model)
+			if (obj is DetailsLayoutColumnItemCollection model)
 			{
 				return
 					model.DateCreatedColumn.Equals(DateCreatedColumn) &&
@@ -225,23 +206,24 @@ namespace Files.App.Data.Models
 
 		public override int GetHashCode()
 		{
-			var hashCode = DateCreatedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateDeletedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ DateModifiedColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ ItemTypeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ NameColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ PathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ OriginalPathColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ SizeColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ StatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ TagColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitStatusColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitDateColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitMessageColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitCommitAuthorColumn.GetHashCode();
-			hashCode = (hashCode * 397) ^ GitLastCommitShaColumn.GetHashCode();
+			var hash = new HashCode();
+			hash.Add(DateCreatedColumn);
+			hash.Add(DateDeletedColumn);
+			hash.Add(DateModifiedColumn);
+			hash.Add(ItemTypeColumn);
+			hash.Add(NameColumn);
+			hash.Add(PathColumn);
+			hash.Add(OriginalPathColumn);
+			hash.Add(SizeColumn);
+			hash.Add(StatusColumn);
+			hash.Add(TagColumn);
+			hash.Add(GitStatusColumn);
+			hash.Add(GitLastCommitDateColumn);
+			hash.Add(GitLastCommitMessageColumn);
+			hash.Add(GitCommitAuthorColumn);
+			hash.Add(GitLastCommitShaColumn);
 
-			return hashCode;
+			return hash.ToHashCode();
 		}
 	}
 }

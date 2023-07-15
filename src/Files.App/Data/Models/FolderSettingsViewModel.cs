@@ -294,7 +294,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public ColumnsViewModel ColumnsViewModel
+		public DetailsLayoutColumnItemCollection ColumnsViewModel
 		{
 			get => LayoutPreference.ColumnsViewModel;
 			set
@@ -576,7 +576,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		public void SetDefaultLayoutPreferences(ColumnsViewModel columns)
+		public void SetDefaultLayoutPreferences(DetailsLayoutColumnItemCollection columns)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

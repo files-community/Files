@@ -5,10 +5,11 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public class ColumnViewModel : ObservableObject
+	public class DetailsLayoutColumnItem : ObservableObject
 	{
-		private bool isHidden;
+		private const int gridSplitterWidth = 12;
 
+		private bool isHidden;
 		[LiteDB.BsonIgnore]
 		public bool IsHidden
 		{
@@ -23,7 +24,6 @@ namespace Files.App.Data.Models
 		}
 
 		private double normalMaxLength = 800;
-
 		public double NormalMaxLength
 		{
 			get => normalMaxLength;
@@ -31,7 +31,6 @@ namespace Files.App.Data.Models
 		}
 
 		private double normalMinLength = 50;
-
 		[LiteDB.BsonIgnore]
 		public double NormalMinLength
 		{
@@ -52,7 +51,6 @@ namespace Files.App.Data.Models
 			=> UserCollapsed || IsHidden ? Visibility.Collapsed : Visibility.Visible;
 
 		private bool userCollapsed;
-
 		public bool UserCollapsed
 		{
 			get => userCollapsed;
@@ -65,25 +63,18 @@ namespace Files.App.Data.Models
 
 		[LiteDB.BsonIgnore]
 		public GridLength Length
-		{
-			get => UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
-		}
-
-		private const int gridSplitterWidth = 12;
+			=> UserCollapsed || IsHidden ? new GridLength(0) : UserLength;
 
 		[LiteDB.BsonIgnore]
 		public GridLength LengthIncludingGridSplitter
-		{
-			get => UserCollapsed || IsHidden
+			=> UserCollapsed || IsHidden
 				? new(0)
-				: new(UserLength.Value + (IsResizeable ? gridSplitterWidth : 0));
-		}
+				: new(UserLength.Value + (IsResizable ? gridSplitterWidth : 0));
 
 		[LiteDB.BsonIgnore]
-		public bool IsResizeable { get; set; } = true;
+		public bool IsResizable { get; init; } = true;
 
 		private GridLength userLength = new(200, GridUnitType.Pixel);
-
 		[LiteDB.BsonIgnore]
 		public GridLength UserLength
 		{
@@ -107,12 +98,14 @@ namespace Files.App.Data.Models
 		public void Hide()
 		{
 			IsHidden = true;
+
 			UpdateVisibility();
 		}
 
 		public void Show()
 		{
 			IsHidden = false;
+
 			UpdateVisibility();
 		}
 
@@ -148,7 +141,7 @@ namespace Files.App.Data.Models
 			if (obj == this)
 				return true;
 
-			if (obj is ColumnViewModel model)
+			if (obj is DetailsLayoutColumnItem model)
 			{
 				return
 					model.UserCollapsed == UserCollapsed &&
@@ -162,12 +155,13 @@ namespace Files.App.Data.Models
 
 		public override int GetHashCode()
 		{
-			var hashCode = UserCollapsed.GetHashCode();
-			hashCode = (hashCode * 397) ^ Length.Value.GetHashCode();
-			hashCode = (hashCode * 397) ^ LengthIncludingGridSplitter.Value.GetHashCode();
-			hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
+			var hash = new HashCode();
+			hash.Add(UserCollapsed);
+			hash.Add(Length.Value);
+			hash.Add(LengthIncludingGridSplitter.Value);
+			hash.Add(UserLength.Value);
 
-			return hashCode;
+			return hash.ToHashCode();
 		}
 	}
 }

@@ -1,19 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls.Selection;
-using Microsoft.UI.Input;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.Foundation;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.ViewModels.LayoutModes
@@ -30,9 +22,13 @@ namespace Files.App.ViewModels.LayoutModes
 		private IList<ListedItem> ListedItems
 			=> ListViewBase.Items.Cast<ListedItem>().ToList();
 
-		public ColumnsViewModel ColumnsViewModel { get; } = new();
+		public DetailsLayoutColumnItemCollection ColumnsViewModel { get; } = new();
 
-		public IList<MenuFlyoutItemBase> ColumnHeadersMenuFlyoutItems { get; private set; }
+		public MenuFlyout ColumnHeadersMenuFlyout { get; private set; }
+
+		public IList<ColumnDefinition> ColumnHeaderDefinitionItems { get; private set; }
+
+		public IList<FrameworkElement> ColumnHeaderItems{ get; private set; }
 
 		public ICommand ToggleColumnCommand { get; set; }
 
@@ -44,15 +40,23 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public DetailsLayoutBrowserViewModel()
 		{
-			ColumnHeadersMenuFlyoutItems = GetColumnsHeaderContextMenuFlyout();
+			ColumnHeadersMenuFlyout = new();
+			var columnHeadersMenuFlyoutItems = GetColumnsHeaderContextMenuFlyout();
+			columnHeadersMenuFlyoutItems.ForEach(ColumnHeadersMenuFlyout.Items.Add);
 
-			ToggleColumnCommand = new RelayCommand<ColumnViewModel>(ToggleColumn);
+			ColumnHeaderDefinitionItems = GetColumnHeaderDefinitions();
+
+			ColumnHeaderItems = GetColumnHeaderItems();
+
+			SetGridColumnForColumnHeaders();
+
+			ToggleColumnCommand = new RelayCommand<DetailsLayoutColumnItem>(ToggleColumn);
 			SetColumnsAsDefaultCommand = new RelayCommand(SetColumnsAsDefault);
 			ResizeAllColumnsToFitCommand = new RelayCommand(ResizeAllColumnsToFit);
 			UpdateSortOptionsCommand = new RelayCommand<string>(UpdateSortOptions);
 		}
 
-		public IList<MenuFlyoutItemBase> GetColumnsHeaderContextMenuFlyout()
+		private IList<MenuFlyoutItemBase> GetColumnsHeaderContextMenuFlyout()
 		{
 			var contextMenuFlyoutItemModels = new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -73,103 +77,131 @@ namespace Files.App.ViewModels.LayoutModes
 					{
 						new()
 						{
+							ItemType = ContextMenuFlyoutItemType.Toggle,
+							IsChecked = !ColumnsViewModel.GitStatusColumn.UserCollapsed,
 							Text = "GitStatus".GetLocalizedResource(),
 							Command = ToggleColumnCommand,
 							CommandParameter = ColumnsViewModel.GitStatusColumn,
-							ShowItem = ColumnsViewModel.GitStatusColumn.IsHidden,
+							IsHidden = ColumnsViewModel.GitStatusColumn.IsHidden,
 						},
 						new()
 						{
+							ItemType = ContextMenuFlyoutItemType.Toggle,
+							IsChecked = !ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed,
 							Text = "DateCommitted".GetLocalizedResource(),
 							Command = ToggleColumnCommand,
 							CommandParameter = ColumnsViewModel.GitLastCommitDateColumn,
-							ShowItem = ColumnsViewModel.GitLastCommitDateColumn.IsHidden,
+							IsHidden = ColumnsViewModel.GitLastCommitDateColumn.IsHidden,
 						},
 						new()
 						{
+							ItemType = ContextMenuFlyoutItemType.Toggle,
+							IsChecked = !ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed,
 							Text = "CommitMessage".GetLocalizedResource(),
 							Command = ToggleColumnCommand,
 							CommandParameter = ColumnsViewModel.GitLastCommitMessageColumn,
-							ShowItem = ColumnsViewModel.GitLastCommitMessageColumn.IsHidden,
+							IsHidden = ColumnsViewModel.GitLastCommitMessageColumn.IsHidden,
 						},
 						new()
 						{
+							ItemType = ContextMenuFlyoutItemType.Toggle,
+							IsChecked = !ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed,
 							Text = "Author".GetLocalizedResource(),
 							Command = ToggleColumnCommand,
 							CommandParameter = ColumnsViewModel.GitCommitAuthorColumn,
-							ShowItem = ColumnsViewModel.GitCommitAuthorColumn.IsHidden,
+							IsHidden = ColumnsViewModel.GitCommitAuthorColumn.IsHidden,
 						},
 						new()
 						{
+							ItemType = ContextMenuFlyoutItemType.Toggle,
+							IsChecked = !ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed,
 							Text = "CommitSha".GetLocalizedResource(),
 							Command = ToggleColumnCommand,
 							CommandParameter = ColumnsViewModel.GitLastCommitShaColumn,
-							ShowItem = ColumnsViewModel.GitLastCommitShaColumn.IsHidden,
+							IsHidden = ColumnsViewModel.GitLastCommitShaColumn.IsHidden,
 						},
 					}
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.TagColumn.UserCollapsed,
 					Text = "Tag".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.TagColumn,
-					ShowItem = ColumnsViewModel.TagColumn.IsHidden,
+					IsHidden = ColumnsViewModel.TagColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.PathColumn.UserCollapsed,
 					Text = "PathColumn".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.PathColumn,
-					ShowItem = ColumnsViewModel.PathColumn.IsHidden,
+					IsHidden = ColumnsViewModel.PathColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.OriginalPathColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowOriginalPath/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.OriginalPathColumn,
-					ShowItem = ColumnsViewModel.OriginalPathColumn.IsHidden,
+					IsHidden = ColumnsViewModel.OriginalPathColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.DateDeletedColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowDateDeleted/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.DateDeletedColumn,
-					ShowItem = ColumnsViewModel.DateDeletedColumn.IsHidden,
+					IsHidden = ColumnsViewModel.DateDeletedColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.DateModifiedColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowDateModified/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.DateModifiedColumn,
-					ShowItem = ColumnsViewModel.DateModifiedColumn.IsHidden,
+					IsHidden = ColumnsViewModel.DateModifiedColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.DateCreatedColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowDateCreated/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.DateCreatedColumn,
-					ShowItem = ColumnsViewModel.DateCreatedColumn.IsHidden,
+					IsHidden = ColumnsViewModel.DateCreatedColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.TagColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowItemType/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.ItemTypeColumn,
-					ShowItem = ColumnsViewModel.ItemTypeColumn.IsHidden,
+					IsHidden = ColumnsViewModel.ItemTypeColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.SizeColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowItemSize/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.SizeColumn,
-					ShowItem = ColumnsViewModel.SizeColumn.IsHidden,
+					IsHidden = ColumnsViewModel.SizeColumn.IsHidden,
 				},
 				new()
 				{
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = !ColumnsViewModel.StatusColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowSyncStatus/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.StatusColumn,
-					ShowItem = ColumnsViewModel.StatusColumn.IsHidden,
+					IsHidden = ColumnsViewModel.StatusColumn.IsHidden,
 				},
 				new()
 				{
@@ -187,7 +219,343 @@ namespace Files.App.ViewModels.LayoutModes
 			return list;
 		}
 
-		private void ToggleColumn(ColumnViewModel? item)
+		public IList<ColumnDefinition> GetColumnHeaderDefinitions()
+		{
+			var collection = new List<ColumnDefinition>()
+			{
+				new()
+				{
+					Width = ColumnsViewModel.IconColumn.Length,
+					MaxWidth = ColumnsViewModel.IconColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.NameColumn.Length,
+					MaxWidth = ColumnsViewModel.NameColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.GitStatusColumn.Length,
+					MaxWidth = ColumnsViewModel.GitStatusColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.GitLastCommitDateColumn.Length,
+					MaxWidth = ColumnsViewModel.GitLastCommitDateColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.GitLastCommitMessageColumn.Length,
+					MaxWidth = ColumnsViewModel.GitLastCommitMessageColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.GitCommitAuthorColumn.Length,
+					MaxWidth = ColumnsViewModel.GitCommitAuthorColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.GitLastCommitShaColumn.Length,
+					MaxWidth = ColumnsViewModel.GitLastCommitShaColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.TagColumn.Length,
+					MaxWidth = ColumnsViewModel.TagColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.PathColumn.Length,
+					MaxWidth = ColumnsViewModel.PathColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.OriginalPathColumn.Length,
+					MaxWidth = ColumnsViewModel.OriginalPathColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.DateDeletedColumn.Length,
+					MaxWidth = ColumnsViewModel.DateDeletedColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.DateModifiedColumn.Length,
+					MaxWidth = ColumnsViewModel.DateModifiedColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.DateCreatedColumn.Length,
+					MaxWidth = ColumnsViewModel.DateCreatedColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.ItemTypeColumn.Length,
+					MaxWidth = ColumnsViewModel.ItemTypeColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.SizeColumn.Length,
+					MaxWidth = ColumnsViewModel.SizeColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+				new()
+				{
+					Width = ColumnsViewModel.StatusColumn.Length,
+					MaxWidth = ColumnsViewModel.StatusColumn.MaxLength,
+				},
+				new()
+				{
+					Width = new GridLength(0, GridUnitType.Auto),
+				},
+			};
+
+			return collection;
+		}
+
+		public IList<FrameworkElement> GetColumnHeaderItems()
+		{
+			var collection = new List<FrameworkElement>()
+			{
+				new DataGridHeader()
+				{
+					Margin = new(4, 0, -4, 0),
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "Name",
+					Header = "Name".GetLocalizedResource(),
+				},
+				new GridSplitter()
+				{
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="GitStatus",
+					Header="GitStatus".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.GitStatusColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.GitStatusColumn.Visibility
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="ItemLastCommitDate",
+					Header="DateCommitted".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.GitLastCommitDateColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.GitLastCommitDateColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="ItemLastCommitMessage",
+					Header="CommitMessage".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="ItemLastCommitAuthor",
+					Header="Author".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.GitCommitAuthorColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.GitCommitAuthorColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="ItemLastCommitSha",
+					Header="CommitSha".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.GitLastCommitShaColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.GitLastCommitShaColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="FileTag",
+					Header="Tag".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.TagColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.TagColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="Path",
+					Header="Path".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.PathColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.PathColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="OriginalFolder",
+					Header="OriginalPath".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.OriginalPathColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.OriginalPathColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="DateDeleted",
+					Header="DateDeleted".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.DateDeletedColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.DateDeletedColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="DateModified",
+					Header="DateModifiedLowerCase".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.DateModifiedColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.DateModifiedColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="DateCreated",
+					Header="DateCreated".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.DateCreatedColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.DateCreatedColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="FileType",
+					Header="Type".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.ItemTypeColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.ItemTypeColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					Command=UpdateSortOptionsCommand,
+					CommandParameter="Size",
+					Header="Size".GetLocalizedResource(),
+					Visibility=ColumnsViewModel.SizeColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.SizeColumn.Visibility,
+				},
+				new DataGridHeader()
+				{
+					CommandParameter="SyncStatus",
+					Command=UpdateSortOptionsCommand,
+					Header="syncStatusColumn/Header".GetLocalizedResource(),
+					HorizontalAlignment=HorizontalAlignment.Stretch,
+					HorizontalContentAlignment=HorizontalAlignment.Left,
+					Visibility=ColumnsViewModel.StatusColumn.Visibility,
+				},
+				new GridSplitter()
+				{
+					Visibility=ColumnsViewModel.StatusColumn.Visibility,
+				},
+			};
+
+			return collection;
+		}
+
+		private void SetGridColumnForColumnHeaders()
+		{
+			for (int index = 0; index < ColumnHeaderItems.Count; index++)
+			{
+				Grid.SetColumn(ColumnHeaderItems[index], index + 2);
+			}
+		}
+
+		private void ToggleColumn(DetailsLayoutColumnItem? item)
 		{
 			// Toggle the column
 			item.UserCollapsed = !item.UserCollapsed;
@@ -212,7 +580,7 @@ namespace Files.App.ViewModels.LayoutModes
 				ColumnsViewModel
 					.GetType()
 					.GetProperties()
-					.Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+					.Count(prop => prop.PropertyType == typeof(DetailsLayoutColumnItem));
 
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
@@ -232,6 +600,26 @@ namespace Files.App.ViewModels.LayoutModes
 				FolderSettings.DirectorySortOption = val;
 				FolderSettings.DirectorySortDirection = SortDirection.Ascending;
 			}
+		}
+
+		public void UpdateColumnLayout()
+		{
+			ColumnsViewModel.IconColumn.UserLength = new(ColumnHeaderDefinitionItems[0].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.NameColumn.UserLength = new(ColumnHeaderDefinitionItems[2].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitStatusColumn.UserLength = new(ColumnHeaderDefinitionItems[4].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new(ColumnHeaderDefinitionItems[6].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new(ColumnHeaderDefinitionItems[8].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitCommitAuthorColumn.UserLength = new(ColumnHeaderDefinitionItems[10].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new(ColumnHeaderDefinitionItems[12].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.TagColumn.UserLength = new(ColumnHeaderDefinitionItems[14].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.PathColumn.UserLength = new(ColumnHeaderDefinitionItems[16].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.OriginalPathColumn.UserLength = new(ColumnHeaderDefinitionItems[18].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateDeletedColumn.UserLength = new(ColumnHeaderDefinitionItems[20].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateModifiedColumn.UserLength = new(ColumnHeaderDefinitionItems[22].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.DateCreatedColumn.UserLength = new(ColumnHeaderDefinitionItems[24].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.ItemTypeColumn.UserLength = new(ColumnHeaderDefinitionItems[26].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.SizeColumn.UserLength = new(ColumnHeaderDefinitionItems[28].ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.StatusColumn.UserLength = new(ColumnHeaderDefinitionItems[30].ActualWidth, GridUnitType.Pixel);
 		}
 
 		public void ResizeColumnToFit(int columnToResize)
@@ -367,6 +755,20 @@ namespace Files.App.ViewModels.LayoutModes
 			// Take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
 			return weightedAvg * maxItemLength;
+		}
+
+		public void UpdateSortIndicator()
+		{
+			ColumnHeaderItems[0].TryCast<DataGridHeader>().ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[12].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[14].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[16].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[18].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[20].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[22].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[24].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[26].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[28].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
 		}
 
 		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)

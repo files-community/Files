@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.UserControls.Selection;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -56,18 +57,34 @@ namespace Files.App.Views.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		#region Overrides
 		public DetailsLayoutBrowser() : base()
 		{
 			InitializeComponent();
 
 			ViewModel = new();
 			ViewModel.ListViewBase = FileList;
+			ViewModel.ColumnHeaderDefinitionItems.ForEach(ListViewHeaderGrid.ColumnDefinitions.Add);
+			ViewModel.ColumnHeaderItems.ForEach(ListViewHeaderGrid.Children.Add);
+
+			foreach (var item in ListViewHeaderGrid.Children)
+			{
+				if (item is GridSplitter splitter)
+				{
+					//AutomationProperties.SetName(splitter, "AutomationPropertiesName");
+					splitter.DoubleTapped += GridSplitter_DoubleTapped;
+					splitter.Loaded += GridSplitter_Loaded;
+					splitter.ManipulationCompleted += GridSplitter_ManipulationCompleted;
+					splitter.ManipulationDelta += GridSplitter_ManipulationDelta;
+					splitter.ManipulationStarted += GridSplitter_ManipulationStarted;
+					splitter.PreviewKeyUp += GridSplitter_PreviewKeyUp;
+				}
+			}
 
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
+		#region Overrides
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
@@ -298,12 +315,12 @@ namespace Files.App.Views.LayoutModes
 		#region Folder settings
 		private void FolderSettings_SortOptionPreferenceUpdated(object? sender, SortOption e)
 		{
-			UpdateSortIndicator();
+			ViewModel.UpdateSortIndicator();
 		}
 
 		private void FolderSettings_SortDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
-			UpdateSortIndicator();
+			ViewModel.UpdateSortIndicator();
 		}
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -413,14 +430,14 @@ namespace Files.App.Views.LayoutModes
 		#region GridSplitter
 		private void GridSplitter_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
-			UpdateColumnLayout();
+			ViewModel.UpdateColumnLayout();
 		}
 
 		private void GridSplitter_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right)
 			{
-				UpdateColumnLayout();
+				ViewModel.UpdateColumnLayout();
 
 				FolderSettings.ColumnsViewModel = ViewModel.ColumnsViewModel;
 			}
@@ -514,11 +531,16 @@ namespace Files.App.Views.LayoutModes
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering of the thumbnail (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems &&
+					control.IsSelected ||
+					isPointerOver)
+				{
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
+				}
 				else
+				{
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);
+				}
 			}
 		}
 
@@ -608,7 +630,7 @@ namespace Files.App.Views.LayoutModes
 			else
 				ViewModel.ColumnsViewModel.PathColumn.Hide();
 
-			UpdateSortIndicator();
+			ViewModel.UpdateSortIndicator();
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
@@ -659,46 +681,10 @@ namespace Files.App.Views.LayoutModes
 		}
 		#endregion
 
-		private void UpdateSortIndicator()
-		{
-			NameHeader.ColumnSortOption =         FolderSettings.DirectorySortOption == SortOption.Name ?           FolderSettings.DirectorySortDirection : null;
-			TagHeader.ColumnSortOption =          FolderSettings.DirectorySortOption == SortOption.FileTag ?        FolderSettings.DirectorySortDirection : null;
-			PathHeader.ColumnSortOption =         FolderSettings.DirectorySortOption == SortOption.Path ?           FolderSettings.DirectorySortDirection : null;
-			OriginalPathHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			DateDeletedHeader.ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.DateDeleted ?    FolderSettings.DirectorySortDirection : null;
-			DateModifiedHeader.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ?   FolderSettings.DirectorySortDirection : null;
-			DateCreatedHeader.ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.DateCreated ?    FolderSettings.DirectorySortDirection : null;
-			FileTypeHeader.ColumnSortOption =     FolderSettings.DirectorySortOption == SortOption.FileType ?       FolderSettings.DirectorySortDirection : null;
-			ItemSizeHeader.ColumnSortOption =     FolderSettings.DirectorySortOption == SortOption.Size ?           FolderSettings.DirectorySortDirection : null;
-			SyncStatusHeader.ColumnSortOption =   FolderSettings.DirectorySortOption == SortOption.SyncStatus ?     FolderSettings.DirectorySortDirection : null;
-		}
-
-		public void UpdateColumnLayout()
-		{
-			ViewModel.ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
-
-			// Git
-			ViewModel.ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
-
-			ViewModel.ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.PathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
-			ViewModel.ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column12.ActualWidth, GridUnitType.Pixel);
-		}
-
 		private async Task ReloadItemIcons()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
