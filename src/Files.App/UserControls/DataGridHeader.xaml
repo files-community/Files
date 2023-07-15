@@ -8,6 +8,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<Style
 			x:Name="HeaderButtonStyle"

@@ -290,9 +290,6 @@
 									<TextBlock
 										x:Name="ItemGitLastCommitDateTextBlock"
 										Width="{Binding Path=DataContext.ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -304,9 +301,6 @@
 									<TextBlock
 										x:Name="ItemGitLastCommitMessageTextBlock"
 										Width="{Binding Path=DataContext.ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -318,9 +312,6 @@
 									<TextBlock
 										x:Name="ItemGitCommitAuthorTextBlock"
 										Width="{Binding Path=DataContext.ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -332,9 +323,6 @@
 									<TextBlock
 										x:Name="ItemGitLastCommitShaTextBlock"
 										Width="{Binding Path=DataContext.ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
@@ -410,9 +398,6 @@
 									<TextBlock
 										x:Name="ItemPath"
 										Width="{Binding Path=DataContext.ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -427,9 +412,6 @@
 									<TextBlock
 										x:Name="ItemOriginalPath"
 										Width="{Binding Path=DataContext.ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -441,9 +423,6 @@
 									<TextBlock
 										x:Name="ItemDateDeleted"
 										Width="{Binding Path=DataContext.ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										x:Load="{x:Bind IsRecycleBinItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
@@ -455,9 +434,6 @@
 									<TextBlock
 										x:Name="ItemDateModified"
 										Width="{Binding Path=DataContext.ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -468,9 +444,6 @@
 									<TextBlock
 										x:Name="ItemDateCreated"
 										Width="{Binding Path=DataContext.ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -481,9 +454,6 @@
 									<TextBlock
 										x:Name="ItemType"
 										Width="{Binding Path=DataContext.ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -494,9 +464,6 @@
 									<TextBlock
 										x:Name="ItemSize"
 										Width="{Binding Path=DataContext.ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="10,0,0,0"
-										HorizontalAlignment="Stretch"
-										VerticalAlignment="Center"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
