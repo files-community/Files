@@ -1,11 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Storage;
+
 namespace Files.App.Actions
 {
 	internal class UnpinFromStartAction : IAction
 	{
 		public IContentPageContext context;
+
+		private ISystemPinService SystemPinService { get; } = Ioc.Default.GetRequiredService<ISystemPinService>();
+
+		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
 		public string Label
 			=> "UnpinItemFromStart/Text".GetLocalizedResource();
@@ -26,11 +32,15 @@ namespace Files.App.Actions
 			if (context.SelectedItems.Count > 0)
 			{
 				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
-					await App.SecondaryTileHelper.UnpinFromStartAsync(listedItem.ItemPath);
+				{
+					var folder = await StorageService.GetFolderAsync(listedItem.ItemPath);
+					await SystemPinService.UnpinAsync(folder);
+				}
 			}
 			else
 			{
-				await App.SecondaryTileHelper.UnpinFromStartAsync(context.ShellPage?.FilesystemViewModel.CurrentFolder.ItemPath);
+				var folder = await StorageService.GetFolderAsync(context.ShellPage?.FilesystemViewModel.CurrentFolder.ItemPath);
+				await SystemPinService.UnpinAsync(folder);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Utils.Cloud;
 using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Properties;
@@ -22,6 +23,8 @@ namespace Files.App.Utils
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private ISystemPinService SystemPinService { get; } = Ioc.Default.GetRequiredService<ISystemPinService>();
 
 		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -228,7 +231,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public bool IsItemPinnedToStart => App.SecondaryTileHelper.CheckFolderPinned(ItemPath);
+		public bool IsItemPinnedToStart => SystemPinService.IsPinned(ItemPath);
 
 		private BitmapImage iconOverlay;
 		public BitmapImage IconOverlay

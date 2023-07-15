@@ -53,7 +53,6 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
 		/// Initializes the singleton application object. This is the first line of authored code
@@ -120,6 +119,8 @@ namespace Files.App
 						.AddSingleton<ICommandManager, CommandManager>()
 						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 						.AddSingleton<IApplicationService, ApplicationService>()
+						.AddSingleton<ISystemPinService, SystemPinService>()
+
 #if UWP
 						.AddSingleton<IStorageService, WindowsStorageService>()
 #else
