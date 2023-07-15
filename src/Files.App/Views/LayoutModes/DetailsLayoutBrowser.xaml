@@ -27,6 +27,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DetailsLayoutModeStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DataGridHeader.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
@@ -43,6 +44,8 @@
 				NotEmptyValue="Visible" />
 
 			<Style BasedOn="{StaticResource HeaderGridSplitterStyle}" TargetType="toolkit:GridSplitter" />
+
+			<Style BasedOn="{StaticResource DefaultDataGridHeaderStyle}" TargetType="uc:DataGridHeader" />
 
 		</ResourceDictionary>
 	</local:StandardViewBase.Resources>
@@ -127,6 +130,7 @@
 					<ListView.Header>
 						<Grid
 							x:Name="ListViewHeaderGrid"
+							Height="40"
 							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
 							ContextFlyout="{x:Bind ViewModel.ColumnHeadersMenuFlyout, Mode=OneWay}"

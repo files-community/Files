@@ -79,7 +79,7 @@
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
 			<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-			<Setter Property="Padding" Value="0" />
+			<Setter Property="Padding" Value="{StaticResource DataGridHeaderPadding}" />
 			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			<Setter Property="FontWeight" Value="Normal" />
 			<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -96,8 +96,7 @@
 
 							<!--  Header  -->
 							<TextBlock
-								x:Name="HeaderTextBlock"
-								Grid.ColumnSpan="2"
+								Grid.Column="0"
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								FontSize="12"
 								FontWeight="SemiBold"
@@ -106,19 +105,19 @@
 								TextTrimming="CharacterEllipsis" />
 
 							<!--  Chevron  -->
-							<TextBlock
+							<FontIcon
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								FontFamily="{ThemeResource SymbolThemeFontFamily}"
 								FontSize="8"
 								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+								Glyph="{StaticResource DataGridHeaderSortIconAscending}"
 								RenderTransformOrigin="0.5, 0.5"
-								Text="{StaticResource DataGridHeaderSortIconAscending}"
 								Visibility="Collapsed">
-								<TextBlock.RenderTransform>
+								<FontIcon.RenderTransform>
 									<RotateTransform />
-								</TextBlock.RenderTransform>
-							</TextBlock>
+								</FontIcon.RenderTransform>
+							</FontIcon>
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="SortStates">
@@ -126,12 +125,11 @@
 									<VisualState x:Name="SortAscending">
 										<VisualState.Setters>
 											<Setter Target="SortIcon.Visibility" Value="Visible" />
-											<Setter Target="HeaderTextBlock.(Grid.ColumnSpan)" Value="1" />
 										</VisualState.Setters>
 										<Storyboard>
 											<DoubleAnimation
 												Storyboard.TargetName="SortIcon"
-												Storyboard.TargetProperty="(TextBlock.RenderTransform).(RotateTransform.Angle)"
+												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
 												To="0"
 												Duration="0:0:0.2" />
 										</Storyboard>
@@ -139,12 +137,11 @@
 									<VisualState x:Name="SortDescending">
 										<VisualState.Setters>
 											<Setter Target="SortIcon.Visibility" Value="Visible" />
-											<Setter Target="HeaderTextBlock.(Grid.ColumnSpan)" Value="1" />
 										</VisualState.Setters>
 										<Storyboard>
 											<DoubleAnimation
 												Storyboard.TargetName="SortIcon"
-												Storyboard.TargetProperty="(TextBlock.RenderTransform).(RotateTransform.Angle)"
+												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
 												To="-180"
 												Duration="0:0:0.2" />
 										</Storyboard>
