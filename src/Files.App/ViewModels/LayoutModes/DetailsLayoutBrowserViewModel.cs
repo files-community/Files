@@ -388,159 +388,159 @@ namespace Files.App.ViewModels.LayoutModes
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="GitStatus",
-					Header="GitStatus".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.GitStatusColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "GitStatus",
+					Header = "GitStatus".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.GitStatusColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.GitStatusColumn.Visibility
+					Visibility = ColumnsViewModel.GitStatusColumn.Visibility
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="ItemLastCommitDate",
-					Header="DateCommitted".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.GitLastCommitDateColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "ItemLastCommitDate",
+					Header = "DateCommitted".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.GitLastCommitDateColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.GitLastCommitDateColumn.Visibility,
+					Visibility = ColumnsViewModel.GitLastCommitDateColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="ItemLastCommitMessage",
-					Header="CommitMessage".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "ItemLastCommitMessage",
+					Header = "CommitMessage".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
+					Visibility = ColumnsViewModel.GitLastCommitMessageColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="ItemLastCommitAuthor",
-					Header="Author".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.GitCommitAuthorColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "ItemLastCommitAuthor",
+					Header = "Author".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.GitCommitAuthorColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.GitCommitAuthorColumn.Visibility,
+					Visibility = ColumnsViewModel.GitCommitAuthorColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="ItemLastCommitSha",
-					Header="CommitSha".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.GitLastCommitShaColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "ItemLastCommitSha",
+					Header = "CommitSha".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.GitLastCommitShaColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.GitLastCommitShaColumn.Visibility,
+					Visibility = ColumnsViewModel.GitLastCommitShaColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="FileTag",
-					Header="Tag".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.TagColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "FileTag",
+					Header = "Tag".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.TagColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.TagColumn.Visibility,
+					Visibility = ColumnsViewModel.TagColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="Path",
-					Header="Path".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.PathColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "Path",
+					Header = "Path".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.PathColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.PathColumn.Visibility,
+					Visibility = ColumnsViewModel.PathColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="OriginalFolder",
-					Header="OriginalPath".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.OriginalPathColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "OriginalFolder",
+					Header = "OriginalPath".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.OriginalPathColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.OriginalPathColumn.Visibility,
+					Visibility = ColumnsViewModel.OriginalPathColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="DateDeleted",
-					Header="DateDeleted".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.DateDeletedColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "DateDeleted",
+					Header = "DateDeleted".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.DateDeletedColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.DateDeletedColumn.Visibility,
+					Visibility = ColumnsViewModel.DateDeletedColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="DateModified",
-					Header="DateModifiedLowerCase".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.DateModifiedColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "DateModified",
+					Header = "DateModifiedLowerCase".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.DateModifiedColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.DateModifiedColumn.Visibility,
+					Visibility = ColumnsViewModel.DateModifiedColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="DateCreated",
-					Header="DateCreated".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.DateCreatedColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "DateCreated",
+					Header = "DateCreated".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.DateCreatedColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.DateCreatedColumn.Visibility,
+					Visibility = ColumnsViewModel.DateCreatedColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="FileType",
-					Header="Type".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.ItemTypeColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "FileType",
+					Header = "Type".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.ItemTypeColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.ItemTypeColumn.Visibility,
+					Visibility = ColumnsViewModel.ItemTypeColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					Command=UpdateSortOptionsCommand,
-					CommandParameter="Size",
-					Header="Size".GetLocalizedResource(),
-					Visibility=ColumnsViewModel.SizeColumn.Visibility,
+					Command = UpdateSortOptionsCommand,
+					CommandParameter = "Size",
+					Header = "Size".GetLocalizedResource(),
+					Visibility = ColumnsViewModel.SizeColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.SizeColumn.Visibility,
+					Visibility = ColumnsViewModel.SizeColumn.Visibility,
 				},
 				new DataGridHeader()
 				{
-					CommandParameter="SyncStatus",
-					Command=UpdateSortOptionsCommand,
-					Header="syncStatusColumn/Header".GetLocalizedResource(),
+					CommandParameter = "SyncStatus",
+					Command = UpdateSortOptionsCommand,
+					Header = "syncStatusColumn/Header".GetLocalizedResource(),
 					HorizontalAlignment=HorizontalAlignment.Stretch,
 					HorizontalContentAlignment=HorizontalAlignment.Left,
-					Visibility=ColumnsViewModel.StatusColumn.Visibility,
+					Visibility = ColumnsViewModel.StatusColumn.Visibility,
 				},
 				new GridSplitter()
 				{
-					Visibility=ColumnsViewModel.StatusColumn.Visibility,
+					Visibility = ColumnsViewModel.StatusColumn.Visibility,
 				},
 			};
 

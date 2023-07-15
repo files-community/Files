@@ -127,7 +127,6 @@
 					<ListView.Header>
 						<Grid
 							x:Name="ListViewHeaderGrid"
-							Height="40"
 							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
 							ContextFlyout="{x:Bind ViewModel.ColumnHeadersMenuFlyout, Mode=OneWay}"
