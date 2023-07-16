@@ -10,11 +10,12 @@
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="PageRoot"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -28,7 +29,7 @@
 		</Style>
 	</local:BaseLayout.Resources>
 
-	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
+	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout}">
 		<controls:BladeView.ItemContainerTransitions>
 			<TransitionCollection />
 		</controls:BladeView.ItemContainerTransitions>

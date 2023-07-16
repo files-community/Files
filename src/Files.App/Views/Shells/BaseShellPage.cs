@@ -80,14 +80,14 @@ namespace Files.App.Views.Shells
 				if (value != _ContentPage)
 				{
 					if (_ContentPage is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+						_ContentPage.BaseViewModel.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
 
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 					if (value is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
+						_ContentPage.BaseViewModel.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}

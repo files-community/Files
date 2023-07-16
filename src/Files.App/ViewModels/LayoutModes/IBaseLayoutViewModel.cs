@@ -1,12 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels.LayoutModes
 {
-	internal interface IBaseLayoutViewModel
+	public interface IBaseLayoutViewModel
 	{
+		ItemManipulationModel ItemManipulationModel { get; }
+
+		PreviewPaneViewModel PreviewPaneViewModel { get; }
+
+		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
+		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
+		bool IsRenamingItem { get; }
+
+		bool IsItemSelected { get; }
+
+		bool IsMiddleClickToScrollEnabled { get; set; }
+
+		/// <summary>
+		/// If true, the preview pane is not updated when the selected item is changed.
+		/// </summary>
+		bool LockPreviewPaneContent { get; set; }
+
+		List<ListedItem>? SelectedItems { get; }
+
+		ListedItem? SelectedItem { get; }
+
+		CommandBarFlyout ItemContextMenuFlyout { get; set; }
+
+		CommandBarFlyout BaseContextMenuFlyout { get; set; }
 	}
 }

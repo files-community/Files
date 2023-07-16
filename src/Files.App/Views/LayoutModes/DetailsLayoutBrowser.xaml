@@ -1,5 +1,5 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:StandardViewBase
+<local:BaseLayout
 	x:Class="Files.App.Views.LayoutModes.DetailsLayoutBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,19 +18,20 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
+	DataContext="{x:Bind ViewModel}"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.PointerWheelChangedCommand}" />
 		</icore:EventTriggerBehavior>
 		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
-	<local:StandardViewBase.Resources>
+	<local:BaseLayout.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
@@ -165,11 +166,11 @@
 			</Style>
 
 		</ResourceDictionary>
-	</local:StandardViewBase.Resources>
+	</local:BaseLayout.Resources>
 
 	<Grid
 		x:Name="RootGrid"
-		ContextFlyout="{x:Bind BaseContextMenuFlyout}"
+		ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout}"
 		SizeChanged="RootGrid_SizeChanged">
 
 		<!--  Empty Indicator  -->
@@ -179,7 +180,7 @@
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			Canvas.ZIndex="0"
-			EmptyTextType="{x:Bind ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
+			EmptyTextType="{x:Bind ViewModel.ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
 		<!--  Invalid Item Name Tip  -->
 		<TeachingTip
@@ -192,9 +193,9 @@
 		<!--  Semantic Zooming  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
-			CanChangeViews="{x:Bind CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
+			CanChangeViews="{x:Bind ViewModel.CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
-			Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+			Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
 			<!--  Main View  -->
 			<SemanticZoom.ZoomedInView>
@@ -203,9 +204,9 @@
 					Padding="8,0,8,12"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
+					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
-					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
 					CanDragItems="True"
 					ContainerContentChanging="FileList_ContainerContentChanging"
@@ -217,7 +218,7 @@
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
-					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
+					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -225,7 +226,7 @@
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
-					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
+					Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 					<!--  ListView Item Transitions  -->
 					<ListView.ItemContainerTransitions>
@@ -262,47 +263,47 @@
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}">
+										Visibility="{x:Bind ViewModel.InstanceViewModel.IsGitRepository, Mode=OneWay}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem
 											x:Name="GitStatusColumnVisibilityToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											IsChecked="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitStatus}"
-											Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit Date  -->
 										<ToggleMenuFlyoutItem
 											x:Name="GitCommitDateColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											IsChecked="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=DateCommitted}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit Message  -->
 										<ToggleMenuFlyoutItem
 											x:Name="GitCommititMessageColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											IsChecked="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitMessage}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit Author  -->
 										<ToggleMenuFlyoutItem
 											x:Name="GitCommitAuthorColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											IsChecked="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=Author}"
-											Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
 											x:Name="GitCommitShaColumnToggleMenuFlyoutItem"
 											Click="ToggleMenuFlyoutItem_Click"
-											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+											IsChecked="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitSha}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									</MenuFlyoutSubItem>
 
@@ -310,73 +311,73 @@
 									<ToggleMenuFlyoutItem
 										x:Name="FileTagColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=Tag}"
-										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Path  -->
 									<ToggleMenuFlyoutItem
 										x:Name="PathColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=PathColumn}"
-										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
 										x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
-										Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Date Deleted  -->
 									<ToggleMenuFlyoutItem
 										x:Name="DateDeletedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Date Modified  -->
 									<ToggleMenuFlyoutItem
 										x:Name="DateModifiedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Date Created  -->
 									<ToggleMenuFlyoutItem
 										x:Name="DateCreatedColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Type  -->
 									<ToggleMenuFlyoutItem
 										x:Name="TypeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
-										Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Item Size  -->
 									<ToggleMenuFlyoutItem
 										x:Name="SizeColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
-										Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  Cloud Sync Status  -->
 									<ToggleMenuFlyoutItem
 										x:Name="CloudSyncStatusColumnVisibilityToggleMenuFlyoutItem"
 										Click="ToggleMenuFlyoutItem_Click"
-										IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										IsChecked="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
-										Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
@@ -396,8 +397,8 @@
 								<!--  Item Icon  -->
 								<ColumnDefinition
 									x:Name="Column2"
-									Width="{x:Bind ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.IconColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.IconColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -405,8 +406,8 @@
 								<!--  Item Name  -->
 								<ColumnDefinition
 									x:Name="Column3"
-									Width="{x:Bind ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.NameColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.NameColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -414,8 +415,8 @@
 								<!--  Item Git Status  -->
 								<ColumnDefinition
 									x:Name="GitStatusColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitStatusColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitStatusColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -423,8 +424,8 @@
 								<!--  Item Git Last Commit Date  -->
 								<ColumnDefinition
 									x:Name="GitLastCommitDateColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -432,8 +433,8 @@
 								<!--  Item Git Last Commit Message  -->
 								<ColumnDefinition
 									x:Name="GitLastCommitMessageColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -441,8 +442,8 @@
 								<!--  Item Git Last Commit Author  -->
 								<ColumnDefinition
 									x:Name="GitCommitAuthorColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -450,8 +451,8 @@
 								<!--  Item Git Last Commit SHA  -->
 								<ColumnDefinition
 									x:Name="GitLastCommitShaColumnDefinition"
-									Width="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -459,8 +460,8 @@
 								<!--  Item Tags  -->
 								<ColumnDefinition
 									x:Name="Column4"
-									Width="{x:Bind ColumnsViewModel.TagColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.TagColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.TagColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.TagColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -468,8 +469,8 @@
 								<!--  Item Path  -->
 								<ColumnDefinition
 									x:Name="Column5"
-									Width="{x:Bind ColumnsViewModel.PathColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.PathColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.PathColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.PathColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -477,8 +478,8 @@
 								<!--  Item Original Path  -->
 								<ColumnDefinition
 									x:Name="Column6"
-									Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -486,8 +487,8 @@
 								<!--  Item Date Deleted  -->
 								<ColumnDefinition
 									x:Name="Column7"
-									Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -495,8 +496,8 @@
 								<!--  Item Date Modified  -->
 								<ColumnDefinition
 									x:Name="Column8"
-									Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -504,8 +505,8 @@
 								<!--  Item Date Created  -->
 								<ColumnDefinition
 									x:Name="Column9"
-									Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -513,8 +514,8 @@
 								<!--  Item Type  -->
 								<ColumnDefinition
 									x:Name="Column10"
-									Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -522,8 +523,8 @@
 								<!--  Item Size  -->
 								<ColumnDefinition
 									x:Name="Column11"
-									Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -531,8 +532,8 @@
 								<!--  Item Sync Status  -->
 								<ColumnDefinition
 									x:Name="Column12"
-									Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
-									MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
+									Width="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
 
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
@@ -546,7 +547,7 @@
 								x:Name="NameHeader"
 								Grid.Column="2"
 								Margin="4,0,-4,0"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=Name}" />
 
@@ -566,10 +567,10 @@
 							<uc:DataGridHeader
 								x:Name="GitStatusHeader"
 								Grid.Column="4"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="GitStatus"
 								Header="{helpers:ResourceString Name=GitStatus}"
-								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -582,16 +583,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Date  -->
 							<uc:DataGridHeader
 								x:Name="GitLastCommitDateHeader"
 								Grid.Column="6"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitDate"
 								Header="{helpers:ResourceString Name=DateCommitted}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -604,16 +605,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Message  -->
 							<uc:DataGridHeader
 								x:Name="GitLastCommitMessageHeader"
 								Grid.Column="8"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitMessage"
 								Header="{helpers:ResourceString Name=CommitMessage}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -626,16 +627,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit Author  -->
 							<uc:DataGridHeader
 								x:Name="GitCommitAuthorHeader"
 								Grid.Column="10"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitAuthor"
 								Header="{helpers:ResourceString Name=Author}"
-								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -648,16 +649,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Last Commit SHA  -->
 							<uc:DataGridHeader
 								x:Name="GitLastCommitShaHeader"
 								Grid.Column="12"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="ItemLastCommitSha"
 								Header="{helpers:ResourceString Name=CommitSha}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -670,16 +671,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Tags  -->
 							<uc:DataGridHeader
 								x:Name="TagHeader"
 								Grid.Column="14"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileTag"
 								Header="{helpers:ResourceString Name=Tag}"
-								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -692,16 +693,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Path  -->
 							<uc:DataGridHeader
 								x:Name="PathHeader"
 								Grid.Column="16"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Path"
 								Header="{helpers:ResourceString Name=Path}"
-								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -714,16 +715,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
 								Grid.Column="18"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
-								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -736,16 +737,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
 								Grid.Column="20"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
-								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -758,16 +759,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
 								Grid.Column="22"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
-								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -780,16 +781,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
 								Grid.Column="24"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
-								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -802,16 +803,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
 								Grid.Column="26"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
-								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -824,16 +825,16 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
 								Grid.Column="28"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
-								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -846,7 +847,7 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
@@ -854,10 +855,10 @@
 								Grid.Column="30"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
-								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								Command="{x:Bind ViewModel.UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="SyncStatus"
 								Header="{helpers:ResourceString Name=syncStatusColumn/Header}"
-								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
@@ -870,7 +871,7 @@
 								ManipulationStarted="GridSplitter_ManipulationStarted"
 								PreviewKeyUp="GridSplitter_PreviewKeyUp"
 								Style="{StaticResource HeaderGridSplitterStyle}"
-								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
+								Visibility="{x:Bind ViewModel.ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 						</Grid>
 					</ListView.Header>
@@ -980,7 +981,7 @@
 
 									<!--  Item Name  -->
 									<Grid
-										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
@@ -1017,7 +1018,7 @@
 									<!--  Item Git Status  -->
 									<Border
 										x:Name="ItemGitStatusTextBlock"
-										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1028,13 +1029,13 @@
 											HorizontalAlignment="Left"
 											Style="{x:Bind AsGitItem.UnmergedGitStatusIcon, Mode=OneWay}"
 											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
-											Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+											Visibility="{Binding ViewModel.ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 									</Border>
 
 									<!--  Item Git Last Commit Date  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitDateTextBlock"
-										Width="{Binding ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1043,12 +1044,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitDateHumanized, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitLastCommitDateColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit Message  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitMessageTextBlock"
-										Width="{Binding ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1057,12 +1058,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitMessage, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitLastCommitMessageColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit Author  -->
 									<TextBlock
 										x:Name="ItemGitCommitAuthorTextBlock"
-										Width="{Binding ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1071,12 +1072,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitAuthor, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Git Last Commit SHA  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitShaTextBlock"
-										Width="{Binding ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1084,16 +1085,16 @@
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
 										ToolTipService.ToolTip="{x:Bind AsGitItem.GitLastCommitFullSha, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitLastCommitShaColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Tags That Item Is Labeled  -->
 									<Grid
 										x:Name="ItemTagGrid"
-										Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="12,0,12,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										Visibility="{Binding ViewModel.ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<ItemsRepeater
 											x:Name="TagsRepeater"
 											x:Load="{x:Bind HasTags, Mode=OneWay}"
@@ -1154,7 +1155,7 @@
 									<!--  Item Path  -->
 									<TextBlock
 										x:Name="ItemPath"
-										Width="{Binding ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1162,12 +1163,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemPath, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.PathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.PathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Original Path  -->
 									<TextBlock
 										x:Name="ItemOriginalPath"
-										Width="{Binding ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.OriginalPathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1176,12 +1177,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsRecycleBinItem.ItemOriginalPath, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.OriginalPathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Deleted Date  -->
 									<TextBlock
 										x:Name="ItemDateDeleted"
-										Width="{Binding ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.DateDeletedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1190,12 +1191,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsRecycleBinItem.ItemDateDeleted, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.DateDeletedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Modified Date  -->
 									<TextBlock
 										x:Name="ItemDateModified"
-										Width="{Binding ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.DateModifiedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1203,12 +1204,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemDateModified, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.DateModifiedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Created Date  -->
 									<TextBlock
 										x:Name="ItemDateCreated"
-										Width="{Binding ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.DateCreatedColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1216,12 +1217,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemDateCreated, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.DateCreatedColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Type  -->
 									<TextBlock
 										x:Name="ItemType"
-										Width="{Binding ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.ItemTypeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1229,12 +1230,12 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind ItemType, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.ItemTypeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Size  -->
 									<TextBlock
 										x:Name="ItemSize"
-										Width="{Binding ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.SizeColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
@@ -1242,17 +1243,17 @@
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind FileSize, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ViewModel.ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Sync Status Badge  -->
 									<Border
 										x:Name="ItemStatus"
-										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Width="{Binding ViewModel.ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										Visibility="{Binding ViewModel.ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<uc:OpacityIcon
 											Width="16"
 											Height="16"
@@ -1438,7 +1439,7 @@
 			<SemanticZoom.ZoomedOutView>
 				<ListView
 					HorizontalAlignment="Stretch"
-					ItemsSource="{x:Bind CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
+					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View.CollectionGroups, Mode=OneWay}"
 					SelectionMode="None">
 
 					<ListView.ItemContainerTransitions>
@@ -1538,4 +1539,4 @@
 		</Canvas>
 
 	</Grid>
-</local:StandardViewBase>
+</local:BaseLayout>
