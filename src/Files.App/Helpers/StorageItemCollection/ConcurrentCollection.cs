@@ -112,11 +112,9 @@ namespace Files.App.Helpers
 			if (item is null)
 				return false;
 
-			int index;
-
 			lock (syncRoot)
 			{
-				index = collection.IndexOf(item);
+				var index = collection.IndexOf(item);
 
 				if (index == -1)
 					return false;
@@ -161,11 +159,8 @@ namespace Files.App.Helpers
 
 		public void RemoveAt(int index)
 		{
-			T item;
-
 			lock (syncRoot)
 			{
-				item = collection[index];
 				collection.RemoveAt(index);
 			}
 		}
@@ -197,11 +192,8 @@ namespace Files.App.Helpers
 			if (count <= 0)
 				return;
 
-			List<T> items;
-
 			lock (syncRoot)
 			{
-				items = collection.Skip(index).Take(count).ToList();
 				collection.RemoveRange(index, count);
 			}
 		}
@@ -213,15 +205,10 @@ namespace Files.App.Helpers
 			if (count == 0)
 				return;
 
-			List<T> oldItems;
-			List<T> newItems;
-
 			lock (syncRoot)
 			{
-				oldItems = collection.Skip(index).Take(count).ToList();
-				newItems = items.ToList();
-				collection.InsertRange(index, newItems);
-				collection.RemoveRange(index + count, count);
+				collection.RemoveRange(index, count);
+				collection.InsertRange(index, items.ToList());
 			}
 		}
 
@@ -281,14 +268,28 @@ namespace Files.App.Helpers
 			return index;
 		}
 
-		bool IList.Contains(object? value) => Contains((T?)value);
+		bool IList.Contains(object? value)
+		{
+			return Contains((T?)value);
+		}
 
-		int IList.IndexOf(object? value) => IndexOf((T?)value);
+		int IList.IndexOf(object? value) {
+			return IndexOf((T?)value);
+		}
 
-		void IList.Insert(int index, object? value) => Insert(index, (T?)value);
+		void IList.Insert(int index, object? value)
+		{
+			Insert(index, (T?)value);
+		}
 
-		void IList.Remove(object? value) => Remove((T?)value);
+		void IList.Remove(object? value)
+		{ 
+			Remove((T?)value);
+		}
 
-		void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
+		void ICollection.CopyTo(Array array, int index)
+		{
+			CopyTo((T[])array, index);
+		}
 	}
 }

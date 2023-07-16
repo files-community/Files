@@ -403,8 +403,8 @@ namespace Files.App.Helpers
 			{
 				oldItems = collection.Skip(index).Take(count).ToList();
 				newItems = items.ToList();
+				collection.RemoveRange(index, count);
 				collection.InsertRange(index, newItems);
-				collection.RemoveRange(index + count, count);
 			}
 
 			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems, index), false);
@@ -467,15 +467,30 @@ namespace Files.App.Helpers
 			return index;
 		}
 
-		bool IList.Contains(object? value) => Contains((T?)value);
+		bool IList.Contains(object? value)
+		{
+			return Contains((T?)value);
+		}
 
-		int IList.IndexOf(object? value) => IndexOf((T?)value);
+		int IList.IndexOf(object? value)
+		{
+			return IndexOf((T?)value);
+		}
 
-		void IList.Insert(int index, object? value) => Insert(index, (T?)value);
+		void IList.Insert(int index, object? value)
+		{
+			Insert(index, (T?)value);
+		}
 
-		void IList.Remove(object? value) => Remove((T?)value);
+		void IList.Remove(object? value)
+		{
+			Remove((T?)value);
+		}
 
-		void ICollection.CopyTo(Array array, int index) => CopyTo((T[])array, index);
+		void ICollection.CopyTo(Array array, int index)
+		{
+			CopyTo((T[])array, index);
+		}
 
 		private static class EventArgsCache
 		{
