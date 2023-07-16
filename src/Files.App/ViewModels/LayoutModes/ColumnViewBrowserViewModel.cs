@@ -64,41 +64,6 @@ namespace Files.App.ViewModels.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> false;
 
-		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
-		{
-			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this)
-				return;
-
-			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
-			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
-			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
-
-			if (nextBlade is null || arePathsDifferent)
-			{
-				DismissOtherBlades(column.ListView);
-
-				var (frame, newblade) = CreateAndAddNewBlade();
-
-				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
-				{
-					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
-					NavPathParam = column.NavPathParam
-				});
-				navigationArguments.NavPathParam = column.NavPathParam;
-				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
-			}
-			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-			{
-				CloseUnnecessaryColumns(column);
-			}
-		}
-
-		private void ContentChanged(IShellPage p)
-		{
-			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
-		}
-
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
@@ -153,43 +118,39 @@ namespace Files.App.ViewModels.LayoutModes
 			Dispose();
 		}
 
-		public override void Dispose()
+		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
-			base.Dispose();
+			var column = sender as ColumnParam;
+			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this)
+				return;
 
-			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame);
-			foreach (var frame in columnHostItems)
+			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
+			var nextBlade = ColumnHost.ActiveBlades.ElementAtOrDefault(nextBladeIndex);
+			var arePathsDifferent = ((nextBlade?.Content as Frame)?.Content as IShellPage)?.FilesystemViewModel?.WorkingDirectory != column.NavPathParam;
+
+			if (nextBlade is null || arePathsDifferent)
 			{
-				if (frame?.Content is ColumnShellPage shPage)
+				DismissOtherBlades(column.ListView);
+
+				var (frame, newblade) = CreateAndAddNewBlade();
+
+				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
 				{
-					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
-					if (shPage.SlimContentPage is ColumnViewBase viewBase)
-					{
-						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
-						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
-						viewBase.KeyUp -= ColumnViewBase_KeyUp;
-					}
-				}
-
-				if (frame?.Content is UIElement element)
-					element.GotFocus -= ColumnViewBrowser_GotFocus;
-
-				if (frame?.Content is IDisposable disposable)
-					disposable.Dispose();
+					Column = ColumnHost.ActiveBlades.IndexOf(newblade),
+					NavPathParam = column.NavPathParam
+				});
+				navigationArguments.NavPathParam = column.NavPathParam;
+				ParentShellPageInstance.TabItemArguments.NavigationArg = column.NavPathParam;
 			}
-
-			UnhookEvents();
-			CommandsViewModel?.Dispose();
+			else if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+			{
+				CloseUnnecessaryColumns(column);
+			}
 		}
 
-		private void DismissOtherBlades(ListView listView)
+		private void ContentChanged(IShellPage p)
 		{
-			DismissOtherBlades(listView.FindAscendant<BladeItem>());
-		}
-
-		private void DismissOtherBlades(BladeItem blade)
-		{
-			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
+			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
 		}
 
 		public void DismissOtherBlades(int index)
@@ -228,6 +189,16 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 
 			ContentChanged(ActiveColumnShellPage);
+		}
+
+		private void DismissOtherBlades(ListView listView)
+		{
+			DismissOtherBlades(listView.FindAscendant<BladeItem>());
+		}
+
+		private void DismissOtherBlades(BladeItem blade)
+		{
+			DismissOtherBlades(ColumnHost.ActiveBlades.IndexOf(blade));
 		}
 
 		private void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -494,6 +465,35 @@ namespace Files.App.ViewModels.LayoutModes
 
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame);
+			foreach (var frame in columnHostItems)
+			{
+				if (frame?.Content is ColumnShellPage shPage)
+				{
+					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
+					if (shPage.SlimContentPage is ColumnViewBase viewBase)
+					{
+						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
+						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
+						viewBase.KeyUp -= ColumnViewBase_KeyUp;
+					}
+				}
+
+				if (frame?.Content is UIElement element)
+					element.GotFocus -= ColumnViewBrowser_GotFocus;
+
+				if (frame?.Content is IDisposable disposable)
+					disposable.Dispose();
+			}
+
+			UnhookEvents();
+			CommandsViewModel?.Dispose();
 		}
 	}
 }

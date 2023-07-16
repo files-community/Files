@@ -50,30 +50,28 @@ namespace Files.App.ViewModels.LayoutModes
 			doubleClickTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
 		}
 
-		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
+		#region protected overrides
+		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			if (FileList.SelectedItem == null && openedFolderPresenter != null)
+			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				openedFolderPresenter.Focus(FocusState.Programmatic);
-				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
+				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
+
+				if (index < columnsOwner?.FocusIndex)
+					FileList.ContainerContentChanging += HighlightPathDirectory;
 			}
+
+			base.OnNavigatedTo(eventArgs);
+
+			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
+			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 		}
 
-		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
-			ClearOpenedFolderSelectionIndicator();
-			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
-		}
-
-		internal void ClearOpenedFolderSelectionIndicator()
-		{
-			if (openedFolderPresenter is null)
-				return;
-
-			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
-			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			openedFolderPresenter = null;
+			base.OnNavigatingFrom(e);
 		}
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
@@ -110,69 +108,6 @@ namespace Files.App.ViewModels.LayoutModes
 			FileList?.SelectedItems.Remove(e);
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-		{
-			if (eventArgs.Parameter is NavigationArguments navArgs)
-			{
-				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
-				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
-				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
-
-				if (index < columnsOwner?.FocusIndex)
-					FileList.ContainerContentChanging += HighlightPathDirectory;
-			}
-
-			base.OnNavigatedTo(eventArgs);
-
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-		}
-
-		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
-		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
-				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
-			{
-				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
-				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
-				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
-				FileList.ContainerContentChanging -= HighlightPathDirectory;
-			}
-		}
-
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-			}
-		}
-
-		override public void StartRenameItem()
-		{
-			StartRenameItem("ListViewTextBoxItemName");
-		}
-
-		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
-		{
-			if (IsRenamingItem)
-			{
-				await ValidateItemNameInputText(textBox, args, (showError) =>
-				{
-					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
-					FileNameTeachingTip.IsOpen = showError;
-				});
-			}
-		}
-
 		protected override void EndRename(TextBox textBox)
 		{
 			if (textBox is not null && textBox.Parent is not null)
@@ -192,13 +127,58 @@ namespace Files.App.ViewModels.LayoutModes
 			IsRenamingItem = false;
 		}
 
+		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		{
+			var parent = this.FindAscendant<ModernShellPage>();
+
+			if (parent is null)
+				return;
+
+			switch (e.LayoutMode)
+			{
+				case FolderLayoutModes.ColumnView:
+					break;
+				case FolderLayoutModes.DetailsView:
+					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
+					break;
+				case FolderLayoutModes.TilesView:
+					parent.FolderSettings.ToggleLayoutModeTiles(true);
+					break;
+				case FolderLayoutModes.GridView:
+					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
+					break;
+				case FolderLayoutModes.Adaptive:
+					parent.FolderSettings.ToggleLayoutModeAdaptive();
+					break;
+			}
+		}
+
+		protected override bool CanGetItemFromElement(object element)
+		{
+			return element is ListViewItem;
+		}
+		#endregion
+
+		public override void StartRenameItem()
+		{
+			StartRenameItem("ListViewTextBoxItemName");
+		}
+
+		public void ClearOpenedFolderSelectionIndicator()
+		{
+			if (openedFolderPresenter is null)
+				return;
+
+			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			openedFolderPresenter = null;
+		}
+
 		public override void ResetItemOpacity()
 		{
 			// throw new NotImplementedException();
 		}
-
-		protected override bool CanGetItemFromElement(object element)
-			=> element is ListViewItem;
 
 		public override void Dispose()
 		{
@@ -206,6 +186,7 @@ namespace Files.App.ViewModels.LayoutModes
 			columnsOwner = null;
 		}
 
+		#region FileList
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			base.FileList_SelectionChanged(sender, e);
@@ -235,24 +216,6 @@ namespace Files.App.ViewModels.LayoutModes
 			{
 				CloseFolder();
 			}
-		}
-
-		private void CloseFolder()
-		{
-			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
-			ClearOpenedFolderSelectionIndicator();
-		}
-
-		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			if (!IsRenamingItem)
-				HandleRightClick(sender, e);
-		}
-
-		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
-		{
-			HandleRightClick(e.OriginalSource);
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -337,6 +300,12 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
+		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (!IsRenamingItem)
+				HandleRightClick(sender, e);
+		}
+
 		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			doubleClickTimer.Stop();
@@ -372,23 +341,6 @@ namespace Files.App.ViewModels.LayoutModes
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
 			HandleRightClick(sender, e);
-		}
-
-		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
-		{
-			HandleRightClick(e.OriginalSource);
-		}
-
-		private void HandleRightClick(object pressed)
-		{
-			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
-
-			// Check if RightTapped row is currently selected
-			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
-				return;
-
-			// The following code is only reachable when a user RightTapped an unselected row
-			ItemManipulationModel.SetSelectedItem(objectPressed);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -442,6 +394,86 @@ namespace Files.App.ViewModels.LayoutModes
 				}
 			}
 		}
+		#endregion
+
+		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (FileList.SelectedItem == null && openedFolderPresenter != null)
+			{
+				openedFolderPresenter.Focus(FocusState.Programmatic);
+				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
+			}
+		}
+
+		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
+		{
+			ClearOpenedFolderSelectionIndicator();
+			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+		}
+
+		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
+				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
+			{
+				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
+				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
+				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
+				FileList.ContainerContentChanging -= HighlightPathDirectory;
+			}
+		}
+
+		private async Task ReloadItemIcons()
+		{
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
+			}
+		}
+
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		{
+			if (IsRenamingItem)
+			{
+				await ValidateItemNameInputText(textBox, args, (showError) =>
+				{
+					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
+					FileNameTeachingTip.IsOpen = showError;
+				});
+			}
+		}
+
+		private void CloseFolder()
+		{
+			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			ClearOpenedFolderSelectionIndicator();
+		}
+
+		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
+		{
+			HandleRightClick(e.OriginalSource);
+		}
+
+		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
+		{
+			HandleRightClick(e.OriginalSource);
+		}
+
+		private void HandleRightClick(object pressed)
+		{
+			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
+
+			// Check if RightTapped row is currently selected
+			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
+				return;
+
+			// The following code is only reachable when a user RightTapped an unselected row
+			ItemManipulationModel.SetSelectedItem(objectPressed);
+		}
 
 		private void CheckDoubleClick(ListedItem item)
 		{
@@ -468,32 +500,6 @@ namespace Files.App.ViewModels.LayoutModes
 				return;
 
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
-		}
-
-		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
-		{
-			var parent = this.FindAscendant<ModernShellPage>();
-
-			if (parent is null)
-				return;
-
-			switch (e.LayoutMode)
-			{
-				case FolderLayoutModes.ColumnView:
-					break;
-				case FolderLayoutModes.DetailsView:
-					parent.FolderSettings.ToggleLayoutModeDetailsView(true);
-					break;
-				case FolderLayoutModes.TilesView:
-					parent.FolderSettings.ToggleLayoutModeTiles(true);
-					break;
-				case FolderLayoutModes.GridView:
-					parent.FolderSettings.ToggleLayoutModeGridView(e.GridViewSize);
-					break;
-				case FolderLayoutModes.Adaptive:
-					parent.FolderSettings.ToggleLayoutModeAdaptive();
-					break;
-			}
 		}
 
 		internal void ClearSelectionIndicator()
