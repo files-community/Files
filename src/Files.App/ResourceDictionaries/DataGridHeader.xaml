@@ -67,15 +67,14 @@
 
 	<Style x:Key="DefaultDataGridHeaderStyle" TargetType="uc:DataGridHeader">
 		<Style.Setters>
-			<Setter Property="Background">
-				<Setter.Value>
-					<SolidColorBrush Opacity="0" />
-				</Setter.Value>
-			</Setter>
+			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="CornerRadius" Value="{StaticResource DataGridHeaderCornerRadius}" />
 			<Setter Property="BorderThickness" Value="{StaticResource DataGridHeaderCornerRadius}" />
 			<Setter Property="IsTabStop" Value="False" />
+			<Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
+			<Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="Height" Value="40" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
 			<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -88,31 +87,45 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="uc:DataGridHeader">
-						<Grid>
+						<Grid
+							x:Name="ContentRoot"
+							Padding="{TemplateBinding Padding}"
+							AutomationProperties.AccessibilityView="Raw"
+							Background="{TemplateBinding Background}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
+							<Grid.BackgroundTransition>
+								<BrushTransition Duration="0:0:0.083" />
+							</Grid.BackgroundTransition>
+
 							<!--  Header  -->
-							<TextBlock
+							<ContentPresenter
+								x:Name="HeaderContentPresenter"
 								Grid.Column="0"
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="Center"
+								Content="{TemplateBinding Header}"
 								FontSize="12"
 								FontWeight="SemiBold"
-								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-								Text="{TemplateBinding Header}"
-								TextTrimming="CharacterEllipsis" />
+								Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
 
 							<!--  Chevron  -->
 							<FontIcon
+								x:Name="SortChevronFontIcon"
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								FontFamily="{ThemeResource SymbolThemeFontFamily}"
 								FontSize="8"
 								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 								Glyph="{StaticResource DataGridHeaderSortIconAscending}"
-								RenderTransformOrigin="0.5, 0.5"
+								RenderTransformOrigin="0.5,0.5"
 								Visibility="Collapsed">
 								<FontIcon.RenderTransform>
 									<RotateTransform />
@@ -120,15 +133,33 @@
 							</FontIcon>
 
 							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="SortStates">
+								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Pressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Disabled" />
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="SortStates">
+									<VisualState x:Name="Unsorted" />
 									<VisualState x:Name="SortAscending">
 										<VisualState.Setters>
-											<Setter Target="SortIcon.Visibility" Value="Visible" />
+											<Setter Target="SortChevronFontIcon.Visibility" Value="Visible" />
 										</VisualState.Setters>
 										<Storyboard>
 											<DoubleAnimation
-												Storyboard.TargetName="SortIcon"
+												Storyboard.TargetName="SortChevronFontIcon"
 												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
 												To="0"
 												Duration="0:0:0.2" />
@@ -136,11 +167,11 @@
 									</VisualState>
 									<VisualState x:Name="SortDescending">
 										<VisualState.Setters>
-											<Setter Target="SortIcon.Visibility" Value="Visible" />
+											<Setter Target="SortChevronFontIcon.Visibility" Value="Visible" />
 										</VisualState.Setters>
 										<Storyboard>
 											<DoubleAnimation
-												Storyboard.TargetName="SortIcon"
+												Storyboard.TargetName="SortChevronFontIcon"
 												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
 												To="-180"
 												Duration="0:0:0.2" />

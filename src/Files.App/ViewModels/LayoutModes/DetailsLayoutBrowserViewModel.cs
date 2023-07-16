@@ -10,25 +10,33 @@ using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.ViewModels.LayoutModes
 {
-	public class DetailsLayoutBrowserViewModel
+	public class DetailsLayoutBrowserViewModel : ObservableObject
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetService<IContentPageContext>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private FolderSettingsViewModel? FolderSettings
 			=> context.ShellPage?.InstanceViewModel.FolderSettings;
+
+		private CurrentInstanceViewModel? InstanceViewModel
+			=> context.ShellPage?.InstanceViewModel;
 
 		public ListViewBase ListViewBase { get; set; } = null!;
 
 		private IList<ListedItem> ListedItems
 			=> ListViewBase.Items.Cast<ListedItem>().ToList();
 
-		public DetailsLayoutColumnItemCollection ColumnsViewModel { get; } = new();
+		public DetailsLayoutColumnItemCollection ColumnsViewModel { get; }
 
-		public MenuFlyout ColumnHeadersMenuFlyout { get; private set; }
+		private MenuFlyout _ColumnHeadersMenuFlyout;
+		public MenuFlyout ColumnHeadersMenuFlyout
+		{
+			get => _ColumnHeadersMenuFlyout;
+			private set => SetProperty(ref _ColumnHeadersMenuFlyout, value);
+		}
 
 		public IList<ColumnDefinition> ColumnHeaderDefinitionItems { get; private set; }
 
-		public IList<FrameworkElement> ColumnHeaderItems{ get; private set; }
+		public IList<FrameworkElement> ColumnHeaderItems { get; private set; }
 
 		public ICommand ToggleColumnCommand { get; set; }
 
@@ -40,6 +48,22 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public DetailsLayoutBrowserViewModel()
 		{
+			ColumnsViewModel = new();
+			InitializeColumns();
+
+			SetColumnsVisibility(new PageTypeUpdatedEventArgs()
+			{
+				IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
+				IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin,
+				IsTypeGitRepository = InstanceViewModel.IsGitRepository,
+				IsTypeSearchResults = InstanceViewModel.IsPageTypeSearchResults
+			});
+
+			ToggleColumnCommand = new RelayCommand<DetailsLayoutColumnItem>(ToggleColumn);
+			SetColumnsAsDefaultCommand = new RelayCommand(SetColumnsAsDefault);
+			ResizeAllColumnsToFitCommand = new RelayCommand(ResizeAllColumnsToFit);
+			UpdateSortOptionsCommand = new RelayCommand<string>(UpdateSortOptions);
+
 			ColumnHeadersMenuFlyout = new();
 			var columnHeadersMenuFlyoutItems = GetColumnsHeaderContextMenuFlyout();
 			columnHeadersMenuFlyoutItems.ForEach(ColumnHeadersMenuFlyout.Items.Add);
@@ -49,11 +73,74 @@ namespace Files.App.ViewModels.LayoutModes
 			ColumnHeaderItems = GetColumnHeaderItems();
 
 			SetGridColumnForColumnHeaders();
+		}
 
-			ToggleColumnCommand = new RelayCommand<DetailsLayoutColumnItem>(ToggleColumn);
-			SetColumnsAsDefaultCommand = new RelayCommand(SetColumnsAsDefault);
-			ResizeAllColumnsToFitCommand = new RelayCommand(ResizeAllColumnsToFit);
-			UpdateSortOptionsCommand = new RelayCommand<string>(UpdateSortOptions);
+		private void InitializeColumns()
+		{
+			if (FolderSettings.ColumnsViewModel is not null)
+			{
+				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
+				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
+				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
+				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
+				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
+				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
+				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
+				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
+				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
+				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
+				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
+				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
+				ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
+				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
+				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
+				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
+			}
+		}
+		
+		public void SetColumnsVisibility(PageTypeUpdatedEventArgs e)
+		{
+			// Show original path and date deleted columns in Recycle Bin
+			if (e.IsTypeRecycleBin)
+			{
+				ColumnsViewModel.OriginalPathColumn.Show();
+				ColumnsViewModel.DateDeletedColumn.Show();
+			}
+			else
+			{
+				ColumnsViewModel.OriginalPathColumn.Hide();
+				ColumnsViewModel.DateDeletedColumn.Hide();
+			}
+
+			// Show cloud drive item status column
+			if (e.IsTypeCloudDrive)
+				ColumnsViewModel.StatusColumn.Show();
+			else
+				ColumnsViewModel.StatusColumn.Hide();
+
+			// Show git columns in git repository
+			if (e.IsTypeGitRepository)
+			{
+				ColumnsViewModel.GitCommitAuthorColumn.Show();
+				ColumnsViewModel.GitLastCommitDateColumn.Show();
+				ColumnsViewModel.GitLastCommitMessageColumn.Show();
+				ColumnsViewModel.GitLastCommitShaColumn.Show();
+				ColumnsViewModel.GitStatusColumn.Show();
+			}
+			else
+			{
+				ColumnsViewModel.GitCommitAuthorColumn.Hide();
+				ColumnsViewModel.GitLastCommitDateColumn.Hide();
+				ColumnsViewModel.GitLastCommitMessageColumn.Hide();
+				ColumnsViewModel.GitLastCommitShaColumn.Hide();
+				ColumnsViewModel.GitStatusColumn.Hide();
+			}
+
+			// Show path columns in git repository
+			if (e.IsTypeSearchResults)
+				ColumnsViewModel.PathColumn.Show();
+			else
+				ColumnsViewModel.PathColumn.Hide();
 		}
 
 		private IList<MenuFlyoutItemBase> GetColumnsHeaderContextMenuFlyout()
@@ -72,7 +159,7 @@ namespace Files.App.ViewModels.LayoutModes
 				new()
 				{
 					Text = "Git".GetLocalizedResource(),
-					ShowItem = context.ShellPage.InstanceViewModel.IsGitRepository,
+					IsHidden = !InstanceViewModel.IsGitRepository,
 					Items = new()
 					{
 						new()
@@ -179,7 +266,7 @@ namespace Files.App.ViewModels.LayoutModes
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Toggle,
-					IsChecked = !ColumnsViewModel.TagColumn.UserCollapsed,
+					IsChecked = !ColumnsViewModel.ItemTypeColumn.UserCollapsed,
 					Text = "DetailsViewHeaderFlyout_ShowItemType/Text".GetLocalizedResource(),
 					Command = ToggleColumnCommand,
 					CommandParameter = ColumnsViewModel.ItemTypeColumn,
@@ -759,16 +846,16 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public void UpdateSortIndicator()
 		{
-			ColumnHeaderItems[0].TryCast<DataGridHeader>().ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[12].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[14].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[16].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[18].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[20].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[22].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[24].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[26].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
-			ColumnHeaderItems[28].TryCast<DataGridHeader>().ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[0].TryCast<DataGridHeader>()!.ColumnSortOption =  FolderSettings.DirectorySortOption == SortOption.Name ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[12].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileTag ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[14].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Path ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[16].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.OriginalFolder ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[18].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateDeleted ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[20].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateModified ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[22].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.DateCreated ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[24].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.FileType ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[26].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.Size ? FolderSettings.DirectorySortDirection : null;
+			ColumnHeaderItems[28].TryCast<DataGridHeader>()!.ColumnSortOption = FolderSettings.DirectorySortOption == SortOption.SyncStatus ? FolderSettings.DirectorySortDirection : null;
 		}
 
 		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)

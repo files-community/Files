@@ -33,13 +33,42 @@ namespace Files.App.Views.LayoutModes
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{
+		protected IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		protected IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+
+		private readonly DispatcherQueueTimer dragOverTimer;
+
+		private readonly DispatcherQueueTimer tapDebounceTimer;
+
+		private readonly DispatcherQueueTimer hoverTimer;
+
 		private readonly DispatcherQueueTimer jumpTimer;
+
+		private ListedItem? dragOverItem = null;
+
+		private ListedItem? hoveredItem = null;
+
+		private ListedItem? preRenamingItem = null;
 
 		private readonly DragEventHandler Item_DragOverEventHandler;
 
-		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		private CancellationTokenSource? groupingCancellationToken;
 
-		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
+		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+
+		protected abstract uint IconSize { get; }
+
+		protected abstract ItemsControl ItemsControl { get; }
+
+		protected NavigationArguments? navigationArguments;
+
+		protected AddressToolbar? NavToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
+
+		public readonly VirtualKey PlusKey = (VirtualKey)187;
+
+		public readonly VirtualKey MinusKey = (VirtualKey)189;
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
@@ -49,10 +78,14 @@ namespace Files.App.Views.LayoutModes
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
-
 		public AppModel AppModel
 			=> App.AppModel;
+
+		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+
+		public ItemManipulationModel ItemManipulationModel { get; private set; }
+
+		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
@@ -70,15 +103,17 @@ namespace Files.App.Views.LayoutModes
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
-
 		public IShellPage? ParentShellPageInstance { get; private set; } = null;
-
-		public bool IsRenamingItem { get; set; } = false;
 
 		public ListedItem? RenamingItem { get; set; } = null;
 
+		public ListedItem? SelectedItem { get; private set; }
+
 		public string? OldItemName { get; set; } = null;
+
+		public bool IsRenamingItem { get; set; } = false;
+
+		public bool LockPreviewPaneContent { get; set; }
 
 		private bool isMiddleClickToScrollEnabled = true;
 		public bool IsMiddleClickToScrollEnabled
@@ -94,9 +129,6 @@ namespace Files.App.Views.LayoutModes
 				}
 			}
 		}
-
-		protected AddressToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private CollectionViewSource collectionViewSource = new()
 		{
@@ -121,8 +153,6 @@ namespace Files.App.Views.LayoutModes
 					collectionViewSource.View.VectorChanged += View_VectorChanged;
 			}
 		}
-
-		protected NavigationArguments? navigationArguments;
 
 		private bool isItemSelected = false;
 		public bool IsItemSelected
@@ -188,8 +218,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public bool LockPreviewPaneContent { get; set; }
-
 		private List<ListedItem>? selectedItems = new();
 		public List<ListedItem>? SelectedItems
 		{
@@ -245,14 +273,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public ListedItem? SelectedItem { get; private set; }
-
-		private readonly DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
-
-		protected abstract uint IconSize { get; }
-
-		protected abstract ItemsControl ItemsControl { get; }
-
 		public BaseLayout()
 		{
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
@@ -279,6 +299,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract void UnhookEvents();
 
+		protected abstract void InitializeCommandsViewModel();
+
+		protected abstract bool CanGetItemFromElement(object element);
+
 		private void HookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
@@ -289,15 +313,11 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
 		}
 
-		public ItemManipulationModel ItemManipulationModel { get; private set; }
-
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			jumpString = string.Empty;
 			jumpTimer.Stop();
 		}
-
-		protected abstract void InitializeCommandsViewModel();
 
 		protected IEnumerable<ListedItem>? GetAllItems()
 		{
@@ -328,8 +348,6 @@ namespace Files.App.Views.LayoutModes
 
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
 		}
-
-		protected abstract bool CanGetItemFromElement(object element);
 
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
@@ -497,8 +515,6 @@ namespace Files.App.Views.LayoutModes
 			catch (Exception) { }
 		}
 
-		private CancellationTokenSource? groupingCancellationToken;
-
 		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
 		{
 			await GroupPreferenceUpdated();
@@ -564,8 +580,6 @@ namespace Files.App.Views.LayoutModes
 				Debug.WriteLine(error);
 			}
 		}
-
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
 
 		public async void BaseContextFlyout_Opening(object? sender, object e)
 		{
@@ -937,8 +951,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? dragOverItem = null;
-
 		private void Item_DragLeave(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
@@ -1132,8 +1144,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? hoveredItem = null;
-
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
@@ -1196,6 +1206,7 @@ namespace Files.App.Views.LayoutModes
 			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
+
 		protected void InitializeDrag(UIElement container, ListedItem item)
 		{
 			if (item is null)
@@ -1218,11 +1229,6 @@ namespace Files.App.Views.LayoutModes
 			element.DragLeave -= Item_DragLeave;
 			element.Drop -= Item_Drop;
 		}
-
-		// VirtualKey doesn't support or accept plus and minus by default.
-		public readonly VirtualKey PlusKey = (VirtualKey)187;
-
-		public readonly VirtualKey MinusKey = (VirtualKey)189;
 
 		public virtual void Dispose()
 		{
@@ -1319,8 +1325,6 @@ namespace Files.App.Views.LayoutModes
 		virtual public void StartRenameItem()
 		{
 		}
-
-		private ListedItem? preRenamingItem = null;
 
 		public void CheckRenameDoubleClick(object clickedItem)
 		{

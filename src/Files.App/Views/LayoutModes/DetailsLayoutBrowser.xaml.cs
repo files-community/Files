@@ -124,26 +124,6 @@ namespace Files.App.Views.LayoutModes
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings.ColumnsViewModel is not null)
-			{
-				ViewModel.ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-				ViewModel.ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-				ViewModel.ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-				ViewModel.ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-				ViewModel.ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-				ViewModel.ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-				ViewModel.ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
-				ViewModel.ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-				ViewModel.ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-				ViewModel.ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-				ViewModel.ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-				ViewModel.ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
-				ViewModel.ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
-				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ViewModel.ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
-				ViewModel.ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
-			}
-
 			_currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
@@ -588,56 +568,16 @@ namespace Files.App.Views.LayoutModes
 		#region Other events
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			// Show original path and date deleted columns in Recycle Bin
-			if (e.IsTypeRecycleBin)
-			{
-				ViewModel.ColumnsViewModel.OriginalPathColumn.Show();
-				ViewModel.ColumnsViewModel.DateDeletedColumn.Show();
-			}
-			else
-			{
-				ViewModel.ColumnsViewModel.OriginalPathColumn.Hide();
-				ViewModel.ColumnsViewModel.DateDeletedColumn.Hide();
-			}
-
-			// Show cloud drive item status column
-			if (e.IsTypeCloudDrive)
-				ViewModel.ColumnsViewModel.StatusColumn.Show();
-			else
-				ViewModel.ColumnsViewModel.StatusColumn.Hide();
-
-			// Show git columns in git repository
-			if (e.IsTypeGitRepository)
-			{
-				ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Show();
-				ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Show();
-				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Show();
-				ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Show();
-				ViewModel.ColumnsViewModel.GitStatusColumn.Show();
-			}
-			else
-			{
-				ViewModel.ColumnsViewModel.GitCommitAuthorColumn.Hide();
-				ViewModel.ColumnsViewModel.GitLastCommitDateColumn.Hide();
-				ViewModel.ColumnsViewModel.GitLastCommitMessageColumn.Hide();
-				ViewModel.ColumnsViewModel.GitLastCommitShaColumn.Hide();
-				ViewModel.ColumnsViewModel.GitStatusColumn.Hide();
-			}
-
-			// Show path columns in git repository
-			if (e.IsTypeSearchResults)
-				ViewModel.ColumnsViewModel.PathColumn.Show();
-			else
-				ViewModel.ColumnsViewModel.PathColumn.Hide();
+			ViewModel.SetColumnsVisibility(e);
 
 			ViewModel.UpdateSortIndicator();
 		}
 
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputText(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
