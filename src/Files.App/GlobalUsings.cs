@@ -49,6 +49,7 @@ global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
 global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.UserControls;
+global using global::Files.App.UserControls.MultitaskingControl;
 global using global::Files.App.UserControls.Selection;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.LayoutModes;

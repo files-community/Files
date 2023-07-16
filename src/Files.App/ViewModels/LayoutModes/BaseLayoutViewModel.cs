@@ -280,7 +280,9 @@ namespace Files.App.ViewModels.LayoutModes
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(Drop);
 
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
-			ItemManipulationModel = new ItemManipulationModel();
+			ItemManipulationModel = new();
+			SelectedItemsPropertiesViewModel = new();
+			DirectoryPropertiesViewModel = new();
 
 			HookBaseEvents();
 			HookEvents();
@@ -290,9 +292,6 @@ namespace Files.App.ViewModels.LayoutModes
 			jumpTimer.Tick += JumpTimer_Tick;
 
 			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
-
-			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
-			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
 			dragOverTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
 			tapDebounceTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
@@ -487,6 +486,23 @@ namespace Files.App.ViewModels.LayoutModes
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
 
+		internal void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			// Remove item jumping handler
+			CharacterReceived -= Page_CharacterReceived;
+
+			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
+			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
+			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
+			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
+
+			var parameter = e.Parameter as NavigationArguments;
+			if (parameter is not null && !parameter.IsLayoutSwitch)
+				ParentShellPageInstance!.FilesystemViewModel.CancelLoadAndClearFiles();
+		}
+
 		public void SetSelectedItemsOnNavigation()
 		{
 			try
@@ -540,23 +556,6 @@ namespace Files.App.ViewModels.LayoutModes
 			UpdateCollectionViewSource();
 
 			await ParentShellPageInstance.FilesystemViewModel.ReloadItemGroupHeaderImagesAsync();
-		}
-
-		internal void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			// Remove item jumping handler
-			CharacterReceived -= Page_CharacterReceived;
-
-			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
-			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
-			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
-			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
-			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
-
-			var parameter = e.Parameter as NavigationArguments;
-			if (parameter is not null && !parameter.IsLayoutSwitch)
-				ParentShellPageInstance!.FilesystemViewModel.CancelLoadAndClearFiles();
 		}
 
 		public async void ItemContextFlyout_Opening(object? sender, object e)

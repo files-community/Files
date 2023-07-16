@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -13,15 +12,32 @@ using static Files.App.Helpers.PathNormalization;
 
 namespace Files.App.ViewModels.LayoutModes
 {
-	public class ColumnViewBrowserViewModel : StandardLayoutModeViewModel
+	public class ColumnViewBrowserViewModel : BaseLayoutViewModel
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override uint IconSize
+			=> Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
-		protected override ItemsControl ItemsControl => ColumnHost;
+		protected override ItemsControl ItemsControl
+			=> ColumnHost;
 
 		public string? OwnerPath { get; private set; }
 
 		public int FocusIndex { get; private set; }
+
+		public IShellPage ActiveColumnShellPage
+		{
+			get
+			{
+				if (ColumnHost.ActiveBlades?.Count > 0)
+				{
+					var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
+					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
+					return activeInstance ?? shellPages.Last();
+				}
+
+				return ParentShellPageInstance;
+			}
+		}
 
 		public ColumnViewBrowserViewModel() : base()
 		{
@@ -242,7 +258,7 @@ namespace Files.App.ViewModels.LayoutModes
 			ContentChanged(shPage);
 		}
 
-		private void ColumnViewBrowser_ContentChanged(object sender, UserControls.MultitaskingControl.TabItemArguments e)
+		private void ColumnViewBrowser_ContentChanged(object sender, TabItemArguments e)
 		{
 			var c = sender as IShellPage;
 			var columnView = c?.SlimContentPage as ColumnViewBase;
@@ -407,21 +423,6 @@ namespace Files.App.ViewModels.LayoutModes
 			else
 			{
 				DismissOtherBlades(0);
-			}
-		}
-
-		public IShellPage ActiveColumnShellPage
-		{
-			get
-			{
-				if (ColumnHost.ActiveBlades?.Count > 0)
-				{
-					var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
-					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
-					return activeInstance ?? shellPages.Last();
-				}
-
-				return ParentShellPageInstance;
 			}
 		}
 

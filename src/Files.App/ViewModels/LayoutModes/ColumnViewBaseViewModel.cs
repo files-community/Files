@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.UserControls.Selection;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,17 +15,19 @@ using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.ViewModels.LayoutModes
 {
 	public class ColumnViewBaseViewModel : StandardLayoutModeViewModel
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override uint IconSize
+			=> Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
-		protected override ListViewBase ListViewBase => FileList;
+		protected override ListViewBase ListViewBase
+			=> FileList;
 
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		protected override SemanticZoom RootZoom
+			=> RootGridZoom;
 
 		private readonly DispatcherQueueTimer doubleClickTimer;
 
@@ -34,14 +35,19 @@ namespace Files.App.ViewModels.LayoutModes
 
 		private ListViewItem? openedFolderPresenter;
 
+		public event EventHandler? ItemInvoked;
+
+		public event EventHandler? ItemTapped;
+
 		public ColumnViewBaseViewModel() : base()
 		{
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
 
-			doubleClickTimer = DispatcherQueue.CreateTimer();
+			doubleClickTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -104,10 +110,6 @@ namespace Files.App.ViewModels.LayoutModes
 			FileList?.SelectedItems.Remove(e);
 		}
 
-		public event EventHandler? ItemInvoked;
-
-		public event EventHandler? ItemTapped;
-
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
@@ -126,6 +128,11 @@ namespace Files.App.ViewModels.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 		}
 
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			base.OnNavigatingFrom(e);
+		}
+
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
@@ -136,11 +143,6 @@ namespace Files.App.ViewModels.LayoutModes
 				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
 		}
 
 		private async Task ReloadItemIcons()
@@ -159,11 +161,11 @@ namespace Files.App.ViewModels.LayoutModes
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputText(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;

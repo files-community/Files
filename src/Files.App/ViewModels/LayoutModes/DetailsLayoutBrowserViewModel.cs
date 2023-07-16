@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,16 +25,18 @@ namespace Files.App.ViewModels.LayoutModes
 
 		private ListedItem? _nextItemToSelect;
 
-		protected override uint IconSize => currentIconSize;
+		protected override uint IconSize
+			=> currentIconSize;
 
-		protected override ListViewBase ListViewBase => FileList;
+		protected override ListViewBase ListViewBase
+			=> FileList;
 
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		protected override SemanticZoom RootZoom
+			=> RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
 		private double maxWidthForRenameTextbox;
-
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;

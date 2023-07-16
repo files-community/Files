@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.EventArguments;
-using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -22,25 +19,31 @@ namespace Files.App.ViewModels.LayoutModes
 	{
 		private uint currentIconSize;
 
-		protected override uint IconSize => currentIconSize;
+		protected override uint IconSize
+			=> currentIconSize;
 
-		protected override ListViewBase ListViewBase => FileList;
+		protected override ListViewBase ListViewBase
+			=> FileList;
 
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		protected override SemanticZoom RootZoom
+			=> RootGridZoom;
 
-		/// <summary>
-		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
-		/// </summary>
-		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+		// The minimum item width for items. Used in the StretchedGridViewItems behavior.
+		public int GridViewItemMinWidth
+			=> FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
 
 		public bool IsPointerOver
 		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
+			get => (bool)GetValue(IsPointerOverProperty);
+			set => SetValue(IsPointerOverProperty, value);
 		}
 
 		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewBrowser), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(IsPointerOver),
+				typeof(bool),
+				typeof(GridViewBrowser),
+				new PropertyMetadata(false));
 
 		public GridViewBrowserViewModel() : base()
 		{
