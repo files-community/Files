@@ -282,21 +282,25 @@
 						Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
 						Text="{helpers:ResourceString Name=FileTags}" />
 
-					<ItemsControl HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.SelectedItem.FileTagsUI, Mode=OneWay}">
-						<ItemsControl.ItemsPanel>
+					<GridView
+						HorizontalAlignment="Stretch"
+						ItemsSource="{x:Bind ViewModel.SelectedItem.FileTagsUI, Mode=OneWay}"
+						SelectionMode="None">
+						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
 								<ItemsWrapGrid
 									HorizontalAlignment="Stretch"
-									ItemWidth="100"
 									MaximumRowsOrColumns="2"
 									Orientation="Horizontal" />
 							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
+						</GridView.ItemsPanel>
 
-						<ItemsControl.ItemTemplate>
-							<DataTemplate x:DataType="tags:TagViewModel">
+						<GridView.ItemTemplate>
+							<DataTemplate x:Name="TagTemplate" x:DataType="tags:TagViewModel">
 								<StackPanel
-									Margin="8,4,8,4"
+									Width="96"
+									Padding="12,4,12,4"
+									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									Orientation="Horizontal"
 									Spacing="8"
 									ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
@@ -308,8 +312,8 @@
 										TextTrimming="CharacterEllipsis" />
 								</StackPanel>
 							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
+						</GridView.ItemTemplate>
+					</GridView>
 				</StackPanel>
 
 				<!--  Edit Tags Button  -->
