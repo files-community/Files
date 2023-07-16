@@ -3,6 +3,7 @@
 	x:Class="Files.App.UserControls.PreviewPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -273,7 +274,6 @@
 				<!--  Tags List  -->
 				<StackPanel
 					x:Name="DetailsTagsList"
-					Margin="12,8,12,12"
 					Spacing="4"
 					Visibility="Collapsed">
 					<TextBlock
@@ -288,18 +288,13 @@
 						SelectionMode="None">
 						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
-								<ItemsWrapGrid
-									HorizontalAlignment="Stretch"
-									MaximumRowsOrColumns="2"
-									Orientation="Horizontal" />
+								<controls:WrapPanel HorizontalSpacing="12" Orientation="Horizontal" />
 							</ItemsPanelTemplate>
 						</GridView.ItemsPanel>
 
 						<GridView.ItemTemplate>
 							<DataTemplate x:Name="TagTemplate" x:DataType="tags:TagViewModel">
 								<StackPanel
-									Width="96"
-									Padding="12,4,12,4"
 									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 									Orientation="Horizontal"
 									Spacing="8"
@@ -433,24 +428,6 @@
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="PropertiesRow.Height" Value="0" />
 						<Setter Target="PropertiesColumn.Width" Value="0" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-			<VisualStateGroup>
-				<VisualState>
-					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.SelectedItem.FileTagsUI.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" To="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="DetailsTagsList.Margin" Value="12,8,12,0" />
-					</VisualState.Setters>
-				</VisualState>
-				<VisualState>
-					<VisualState.StateTriggers>
-						<triggers:IsNotEqualStateTrigger Value="{x:Bind ViewModel.SelectedItem.FileTagsUI.Count, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" To="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="DetailsTagsList.Margin" Value="12,8,12,12" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
