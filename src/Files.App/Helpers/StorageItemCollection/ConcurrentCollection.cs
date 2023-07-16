@@ -273,7 +273,8 @@ namespace Files.App.Helpers
 			return Contains((T?)value);
 		}
 
-		int IList.IndexOf(object? value) {
+		int IList.IndexOf(object? value)
+		{
 			return IndexOf((T?)value);
 		}
 
@@ -283,7 +284,7 @@ namespace Files.App.Helpers
 		}
 
 		void IList.Remove(object? value)
-		{ 
+		{
 			Remove((T?)value);
 		}
 
