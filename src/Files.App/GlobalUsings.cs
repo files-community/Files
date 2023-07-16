@@ -19,9 +19,7 @@ global using global::CommunityToolkit.Mvvm.DependencyInjection;
 global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
-// Files.App
-global using global::Files.App.Commands;
-global using global::Files.App.Contexts;
+// Files Front-end
 global using global::Files.App.Helpers;
 global using global::Files.App.Extensions;
 global using global::Files.App.Utils;
@@ -39,11 +37,17 @@ global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
 global using global::Files.App.Utils.StorageEnumerators;
 global using global::Files.App.Utils.StorageItems;
+global using global::Files.App.Data.Attributes;
+global using global::Files.App.Data.Behaviors;
+global using global::Files.App.Data.Commands;
+global using global::Files.App.Data.Contexts;
 global using global::Files.App.Data.EventArguments;
+global using global::Files.App.Data.Exceptions;
 global using global::Files.App.Data.Factories;
 global using global::Files.App.Data.Items;
 global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
+global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.UserControls;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
