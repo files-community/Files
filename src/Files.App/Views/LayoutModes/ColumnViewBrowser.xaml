@@ -3,14 +3,14 @@
 	x:Class="Files.App.Views.LayoutModes.ColumnViewBrowser"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	x:Name="PageRoot"
-	DataContext="{x:Bind ViewModel}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
@@ -20,7 +20,7 @@
 	</i:Interaction.Behaviors>
 
 	<local:BaseLayout.Resources>
-		<Style TargetType="controls:BladeItem">
+		<Style TargetType="toolkit:BladeItem">
 			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="TitleBarVisibility" Value="Collapsed" />
 			<Setter Property="BorderThickness" Value="0,0,1,0" />
@@ -29,14 +29,14 @@
 		</Style>
 	</local:BaseLayout.Resources>
 
-	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout}">
-		<controls:BladeView.ItemContainerTransitions>
+	<toolkit:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout, Mode=OneWay}">
+		<toolkit:BladeView.ItemContainerTransitions>
 			<TransitionCollection />
-		</controls:BladeView.ItemContainerTransitions>
+		</toolkit:BladeView.ItemContainerTransitions>
 
-		<controls:BladeItem>
+		<toolkit:BladeItem>
 			<Frame x:Name="MainPageFrame" />
-		</controls:BladeItem>
-	</controls:BladeView>
+		</toolkit:BladeItem>
+	</toolkit:BladeView>
 
 </local:BaseLayout>

@@ -36,8 +36,6 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public ColumnViewBaseViewModel() : base()
 		{
-			InitializeComponent();
-
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;

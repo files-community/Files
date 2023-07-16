@@ -18,7 +18,7 @@
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	x:Name="PageRoot"
-	DataContext="{x:Bind ViewModel}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
@@ -37,7 +37,10 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
@@ -46,9 +49,6 @@
 				x:Key="EmptyObjectToObjectConverter"
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
-			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
-			<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
-			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<Style
 				x:Name="HeaderGridSplitterStyle"
@@ -170,15 +170,13 @@
 
 	<Grid
 		x:Name="RootGrid"
-		ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout}"
+		ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout, Mode=OneWay}"
 		SizeChanged="RootGrid_SizeChanged">
 
 		<!--  Empty Indicator  -->
 		<uc:FolderEmptyIndicator
-			Grid.Row="3"
-			Margin="0,125,0,0"
 			HorizontalAlignment="Center"
-			VerticalAlignment="Top"
+			VerticalAlignment="Center"
 			Canvas.ZIndex="0"
 			EmptyTextType="{x:Bind ViewModel.ParentShellPageInstance.FilesystemViewModel.EmptyTextType, Mode=OneWay}" />
 
@@ -190,14 +188,14 @@
 			Subtitle="{helpers:ResourceString Name=FileNameTeachingTip/Subtitle}"
 			Visibility="Collapsed" />
 
-		<!--  Semantic Zooming  -->
+		<!--  Ungrouped/Grouped View Host (SemanticZoom)  -->
 		<SemanticZoom
 			x:Name="RootGridZoom"
 			CanChangeViews="{x:Bind ViewModel.CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 
-			<!--  Main View  -->
+			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
@@ -1525,7 +1523,7 @@
 		</StackPanel>
 
 		<!--  Selector  -->
-		<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Canvas>
 			<Rectangle
 				Name="SelectionRectangle"
 				Canvas.Left="0"

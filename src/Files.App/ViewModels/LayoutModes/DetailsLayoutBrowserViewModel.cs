@@ -56,8 +56,6 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public DetailsLayoutBrowserViewModel() : base()
 		{
-			InitializeComponent();
-			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}

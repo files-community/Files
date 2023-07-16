@@ -25,7 +25,6 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public ColumnViewBrowserViewModel() : base()
 		{
-			InitializeComponent();
 		}
 
 		public void HandleSelectionChange(ColumnViewBase initiator)

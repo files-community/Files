@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -330,7 +328,6 @@ namespace Files.App.ViewModels.LayoutModes
 		{
 			base.Dispose();
 			UnhookEvents();
-			CommandsViewModel?.Dispose();
 		}
 
 		[DllImport("User32.dll")]
