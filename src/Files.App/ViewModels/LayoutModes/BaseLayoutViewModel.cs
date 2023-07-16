@@ -117,15 +117,7 @@ namespace Files.App.ViewModels.LayoutModes
 		public bool IsMiddleClickToScrollEnabled
 		{
 			get => isMiddleClickToScrollEnabled;
-			set
-			{
-				if (isMiddleClickToScrollEnabled != value)
-				{
-					isMiddleClickToScrollEnabled = value;
-
-					NotifyPropertyChanged(nameof(IsMiddleClickToScrollEnabled));
-				}
-			}
+			set => SetProperty(ref isMiddleClickToScrollEnabled, value);
 		}
 
 		private CollectionViewSource collectionViewSource = new()
@@ -137,18 +129,14 @@ namespace Files.App.ViewModels.LayoutModes
 			get => collectionViewSource;
 			set
 			{
-				if (collectionViewSource == value)
-					return;
-
 				if (collectionViewSource.View is not null)
 					collectionViewSource.View.VectorChanged -= View_VectorChanged;
 
-				collectionViewSource = value;
+				if(!SetProperty(ref collectionViewSource, value))
+					return;
 
-				NotifyPropertyChanged(nameof(CollectionViewSource));
-
-				if (collectionViewSource.View is not null)
-					collectionViewSource.View.VectorChanged += View_VectorChanged;
+				if (value.View is not null)
+					value.View.VectorChanged += View_VectorChanged;
 			}
 		}
 
@@ -156,15 +144,7 @@ namespace Files.App.ViewModels.LayoutModes
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
-			internal set
-			{
-				if (value != isItemSelected)
-				{
-					isItemSelected = value;
-
-					NotifyPropertyChanged(nameof(IsItemSelected));
-				}
-			}
+			internal set => setSetProperty(ref isItemSelected, value);
 		}
 
 		private string jumpString = string.Empty;
@@ -177,6 +157,7 @@ namespace Files.App.ViewModels.LayoutModes
 				// search for next file that starts with "a" (a.k.a. _jumpString = "a")
 				if (jumpString.Length == 1 && value == jumpString + jumpString)
 					value = jumpString;
+
 				if (value != string.Empty)
 				{
 					ListedItem? jumpedToItem = null;
@@ -212,7 +193,7 @@ namespace Files.App.ViewModels.LayoutModes
 					jumpTimer.Start();
 				}
 
-				jumpString = value;
+				SetProperty(ref jumpString, value);
 			}
 		}
 
@@ -222,50 +203,50 @@ namespace Files.App.ViewModels.LayoutModes
 			get => selectedItems;
 			internal set
 			{
-				if (value != selectedItems)
+				if (value == selectedItems)
+					return;
+
+				UpdatePreviewPaneSelection(value);
+
+				selectedItems = value;
+
+				if (selectedItems?.Count == 0 || selectedItems?[0] is null)
 				{
-					UpdatePreviewPaneSelection(value);
+					IsItemSelected = false;
+					SelectedItem = null;
+					SelectedItemsPropertiesViewModel.IsItemSelected = false;
 
-					selectedItems = value;
-
-					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
-					{
-						IsItemSelected = false;
-						SelectedItem = null;
-						SelectedItemsPropertiesViewModel.IsItemSelected = false;
-
-						ResetRenameDoubleClick();
-						UpdateSelectionSize();
-					}
-					else if (selectedItems is not null)
-					{
-						IsItemSelected = true;
-						SelectedItem = selectedItems.First();
-						SelectedItemsPropertiesViewModel.IsItemSelected = true;
-
-						UpdateSelectionSize();
-
-						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
-
-						if (selectedItems.Count == 1)
-						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
-							MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								// Tapped event must be executed first
-								await Task.Delay(50);
-								preRenamingItem = SelectedItem;
-							});
-						}
-						else
-						{
-							SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems!.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
-							ResetRenameDoubleClick();
-						}
-					}
-
-					NotifyPropertyChanged(nameof(SelectedItems));
+					ResetRenameDoubleClick();
+					UpdateSelectionSize();
 				}
+				else if (selectedItems is not null)
+				{
+					IsItemSelected = true;
+					SelectedItem = selectedItems.First();
+					SelectedItemsPropertiesViewModel.IsItemSelected = true;
+
+					UpdateSelectionSize();
+
+					SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
+
+					if (selectedItems.Count == 1)
+					{
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems.Count} {"ItemSelected/Text".GetLocalizedResource()}";
+						MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							// Tapped event must be executed first
+							await Task.Delay(50);
+							preRenamingItem = SelectedItem;
+						});
+					}
+					else
+					{
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{selectedItems!.Count} {"ItemsSelected/Text".GetLocalizedResource()}";
+						ResetRenameDoubleClick();
+					}
+				}
+
+				SetProperty(ref selectedItems, value);
 
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
@@ -385,7 +366,7 @@ namespace Files.App.ViewModels.LayoutModes
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		internal async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		protected virtual async void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			// Add item jumping handler
 			CharacterReceived += Page_CharacterReceived;
@@ -486,7 +467,7 @@ namespace Files.App.ViewModels.LayoutModes
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
 
-		internal void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
