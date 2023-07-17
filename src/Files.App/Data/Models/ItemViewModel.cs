@@ -4,7 +4,6 @@
 using Files.App.Helpers.StorageCache;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
-using FluentFTP;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
@@ -44,7 +43,7 @@ namespace Files.App.Data.Models
 		private Task? gitProcessQueueAction;
 
 		// Files and folders list for manipulating
-		private List<ListedItem> filesAndFolders;
+		private ConcurrentCollection<ListedItem> filesAndFolders;
 		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -386,7 +385,7 @@ namespace Files.App.Data.Models
 		public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
-			filesAndFolders = new List<ListedItem>();
+			filesAndFolders = new ConcurrentCollection<ListedItem>();
 			FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
@@ -425,18 +424,10 @@ namespace Files.App.Data.Models
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
-			// Get the item that immediately follows matching item to be removed
-			// If the matching item is the last item, try to get the previous item; otherwise, null
-			// Case must be ignored since $Recycle.Bin != $RECYCLE.BIN
-			var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
-			var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 			var removedItem = await RemoveFileOrFolderAsync(e.FullPath);
 
 			if (removedItem is not null)
 				await ApplySingleFileChangeAsync(removedItem);
-
-			if (nextOfMatchingItem is not null)
-				await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
 		}
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
@@ -735,7 +726,7 @@ namespace Files.App.Data.Models
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
+				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
 			}
 
 			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -2362,14 +2353,14 @@ namespace Files.App.Data.Models
 			var results = new List<ListedItem>();
 			search.SearchTick += async (s, e) =>
 			{
-				filesAndFolders = new List<ListedItem>(results);
+				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			};
 
 			await search.SearchAsync(results, searchCTS.Token);
 
-			filesAndFolders = new List<ListedItem>(results);
+			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
 
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();
