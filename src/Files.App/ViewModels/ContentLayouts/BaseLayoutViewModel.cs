@@ -67,6 +67,7 @@ namespace Files.App.ViewModels.ContentLayouts
 		public ICommand PointerWheelChangedCommand { get; private set; }
 		public ICommand DragOverCommand { get; private set; }
 		public ICommand DropCommand { get; private set; }
+		public ICommand SemanticZoomViewChangeStartedCommand { get; private set; }
 
 		public FolderSettingsViewModel? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -255,6 +256,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(Drop);
+			SemanticZoomViewChangeStartedCommand = new RelayCommand<SemanticZoomViewChangedEventArgs>(SemanticZoomViewChangeStarted);
 
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			ItemManipulationModel = new();
@@ -1248,7 +1250,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			}
 		}
 
-		public void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+		private void SemanticZoomViewChangeStarted(SemanticZoomViewChangedEventArgs e)
 		{
 			if (e.IsSourceZoomedInView)
 				return;

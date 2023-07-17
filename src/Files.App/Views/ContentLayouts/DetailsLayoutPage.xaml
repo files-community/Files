@@ -84,11 +84,11 @@
 			CanChangeViews="{x:Bind ViewModel.CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
 			Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
-			<!--<i:Interaction.Behaviors>
+			<i:Interaction.Behaviors>
 				<icore:EventTriggerBehavior EventName="ViewChangeStarted">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.ViewChangeStartedCommand}" />
+					<icore:InvokeCommandAction Command="{x:Bind ViewModel.SemanticZoomViewChangeStartedCommand}" />
 				</icore:EventTriggerBehavior>
-			</i:Interaction.Behaviors>-->
+			</i:Interaction.Behaviors>
 
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
@@ -105,8 +105,6 @@
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
-					DragOver="ItemsLayout_DragOver"
-					Drop="ItemsLayout_Drop"
 					FocusVisualPrimaryThickness="0"
 					FocusVisualSecondaryThickness="0"
 					IsDoubleTapEnabled="True"
@@ -120,6 +118,16 @@
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
+
+					<i:Interaction.Behaviors>
+						<behaviors:StickyHeaderBehavior />
+						<icore:EventTriggerBehavior EventName="DragOver">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand}" />
+						</icore:EventTriggerBehavior>
+						<icore:EventTriggerBehavior EventName="Drop">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}" />
+						</icore:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
 
 					<!--  ListView Item Transitions  -->
 					<ListView.ItemContainerTransitions>
@@ -1170,11 +1178,6 @@
 							</UserControl>
 						</DataTemplate>
 					</ListView.ItemTemplate>
-
-					<!--  ListView Sticky Header  -->
-					<i:Interaction.Behaviors>
-						<behaviors:StickyHeaderBehavior />
-					</i:Interaction.Behaviors>
 
 					<!--  ListView Control Styles  -->
 					<ListView.Resources>

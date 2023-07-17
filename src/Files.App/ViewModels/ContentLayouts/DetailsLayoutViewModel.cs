@@ -347,12 +347,9 @@ namespace Files.App.ViewModels.ContentLayouts
 				return;
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if
-			(
-				ctrlPressed ||
+			if (ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
-			)
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle)
 			{
 				e.Handled = true;
 				return;
