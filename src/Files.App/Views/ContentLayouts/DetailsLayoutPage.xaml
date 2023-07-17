@@ -93,29 +93,19 @@
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
 				<ListView
-					x:Name="FileList"
+					x:Name="StorageObjectListView"
 					Padding="8,0,8,12"
-					HorizontalAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					AutomationProperties.AccessibilityView="Raw"
-					CanDragItems="True"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
-					FocusVisualPrimaryThickness="0"
-					FocusVisualSecondaryThickness="0"
-					IsDoubleTapEnabled="True"
-					IsTabStop="True"
 					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					PreviewKeyDown="FileList_PreviewKeyDown"
-					ScrollViewer.HorizontalScrollBarVisibility="Auto"
-					ScrollViewer.HorizontalScrollMode="Auto"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="Extended"
+					Style="{StaticResource DetailsLayoutListViewStyle}"
 					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
@@ -128,13 +118,6 @@
 							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
-
-					<!--  ListView Item Transitions  -->
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
 
 					<!--  ListView Header  -->
 					<ListView.Header>
@@ -1179,95 +1162,7 @@
 						</DataTemplate>
 					</ListView.ItemTemplate>
 
-					<!--  ListView Control Styles  -->
-					<ListView.Resources>
-						<ResourceDictionary>
-							<Style TargetType="ListView">
-								<Setter Property="IsTabStop" Value="False" />
-								<Setter Property="TabNavigation" Value="Once" />
-								<Setter Property="IsSwipeEnabled" Value="True" />
-								<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-								<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-								<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
-								<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
-								<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
-								<Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
-								<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-								<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-								<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-								<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-								<Setter Property="ItemContainerTransitions">
-									<Setter.Value>
-										<TransitionCollection>
-											<AddDeleteThemeTransition />
-										</TransitionCollection>
-									</Setter.Value>
-								</Setter>
-								<Setter Property="ItemsPanel">
-									<Setter.Value>
-										<ItemsPanelTemplate>
-											<ItemsStackPanel Orientation="Vertical" />
-										</ItemsPanelTemplate>
-									</Setter.Value>
-								</Setter>
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="ListView">
-											<Border
-												Background="{TemplateBinding Background}"
-												BorderBrush="{TemplateBinding BorderBrush}"
-												BorderThickness="{TemplateBinding BorderThickness}"
-												CornerRadius="{TemplateBinding CornerRadius}">
-												<ScrollViewer
-													x:Name="ScrollViewer"
-													HorizontalContentAlignment="Stretch"
-													AutomationProperties.AccessibilityView="Raw"
-													BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-													HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-													HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-													IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-													IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-													IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-													IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-													IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-													TabNavigation="{TemplateBinding TabNavigation}"
-													VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-													VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-													ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-													<Grid>
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition Width="Auto" />
-															<ColumnDefinition Width="*" />
-														</Grid.ColumnDefinitions>
-
-														<ItemsPresenter
-															Margin="0,0,12,0"
-															Padding="{TemplateBinding Padding}"
-															HorizontalAlignment="Stretch"
-															Footer="{TemplateBinding Footer}"
-															FooterTemplate="{TemplateBinding FooterTemplate}"
-															FooterTransitions="{TemplateBinding FooterTransitions}"
-															Header="{TemplateBinding Header}"
-															HeaderTemplate="{TemplateBinding HeaderTemplate}"
-															HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-
-													</Grid>
-												</ScrollViewer>
-											</Border>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-
-							<ResourceDictionary.ThemeDictionaries>
-								<ResourceDictionary x:Key="Default">
-									<SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
-								</ResourceDictionary>
-							</ResourceDictionary.ThemeDictionaries>
-						</ResourceDictionary>
-					</ListView.Resources>
-
-					<!--  ListView Grouping Styles  -->
+					<!--  ListView Group Header Template  -->
 					<ListView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
@@ -1320,6 +1215,13 @@
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 						</Style>
 					</ListView.ItemContainerStyle>
+
+					<!--  ListView Item Transitions  -->
+					<ListView.ItemContainerTransitions>
+						<TransitionCollection>
+							<AddDeleteThemeTransition />
+						</TransitionCollection>
+					</ListView.ItemContainerTransitions>
 
 					<!--  ListView Item Displaying Style  -->
 					<ListView.ItemsPanel>

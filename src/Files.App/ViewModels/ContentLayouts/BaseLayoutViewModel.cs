@@ -1217,16 +1217,6 @@ namespace Files.App.ViewModels.ContentLayouts
 			UnhookBaseEvents();
 		}
 
-		protected void ItemsLayout_DragOver(object sender, DragEventArgs e)
-		{
-			DragOverCommand.Execute(e);
-		}
-
-		protected void ItemsLayout_Drop(object sender, DragEventArgs e)
-		{
-			DropCommand.Execute(e);
-		}
-
 		private void UpdateCollectionViewSource()
 		{
 			if (ParentShellPageInstance is null)

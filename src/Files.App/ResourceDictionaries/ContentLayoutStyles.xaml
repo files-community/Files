@@ -4,6 +4,12 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls">
 
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="GridViewItemCheckBoxBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
 	<Style x:Key="ColumnBaseLayoutListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
@@ -213,6 +219,91 @@
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="Opacity" Value="0.6" />
+	</Style>
+
+	<Style x:Key="DetailsLayoutListViewStyle" TargetType="ListView">
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="IsDoubleTapEnabled" Value="True" />
+		<Setter Property="TabNavigation" Value="Once" />
+		<Setter Property="IsSwipeEnabled" Value="True" />
+		<Setter Property="FocusVisualPrimaryThickness" Value="0" />
+		<Setter Property="FocusVisualSecondaryThickness" Value="0" />
+		<Setter Property="CanDragItems" Value="True" />
+		<Setter Property="SelectionMode" Value="Extended" />
+		<Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+		<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+		<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
+		<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+		<Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+		<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<Setter Property="ItemContainerTransitions">
+			<Setter.Value>
+				<TransitionCollection>
+					<AddDeleteThemeTransition />
+				</TransitionCollection>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<ItemsStackPanel Orientation="Vertical" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ListView">
+					<Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+						<ScrollViewer
+							x:Name="ScrollViewer"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.AccessibilityView="Raw"
+							BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+							HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+							HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+							IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+							IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+							IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+							IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+							IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+							TabNavigation="{TemplateBinding TabNavigation}"
+							VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+							VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+							ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<ItemsPresenter
+									Margin="0,0,12,0"
+									Padding="{TemplateBinding Padding}"
+									HorizontalAlignment="Stretch"
+									Footer="{TemplateBinding Footer}"
+									FooterTemplate="{TemplateBinding FooterTemplate}"
+									FooterTransitions="{TemplateBinding FooterTransitions}"
+									Header="{TemplateBinding Header}"
+									HeaderTemplate="{TemplateBinding HeaderTemplate}"
+									HeaderTransitions="{TemplateBinding HeaderTransitions}" />
+
+							</Grid>
+						</ScrollViewer>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
 	</Style>
 
 	<Style x:Key="GridViewLayoutGridViewHeaderItemStyle" TargetType="GridViewHeaderItem">
