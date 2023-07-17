@@ -15,9 +15,9 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
-	public class DetailsLayoutBrowserViewModel : StandardLayoutModeViewModel
+	public class DetailsLayoutViewModel : GroupableLayoutViewModel
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
@@ -54,13 +54,13 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		public DetailsLayoutBrowserViewModel() : base()
+		public DetailsLayoutViewModel() : base()
 		{
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		public override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 				navArgs.FocusOnNavigation = true;
@@ -125,7 +125,7 @@ namespace Files.App.ViewModels.LayoutModes
 			RootGrid_SizeChanged(null, null);
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		public override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;

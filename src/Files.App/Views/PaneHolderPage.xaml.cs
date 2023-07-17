@@ -141,7 +141,7 @@ namespace Files.App.Views
 			get
 			{
 				if (ActivePane is not null && ActivePane.IsColumnView)
-					return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
+					return (ActivePane.SlimContentPage as ColumnsLayoutPage).ActiveColumnShellPage;
 
 				return ActivePane ?? PaneLeft;
 			}

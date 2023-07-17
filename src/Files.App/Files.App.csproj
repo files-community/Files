@@ -69,6 +69,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ResourceDictionaries\ContentLayoutStyles.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
@@ -128,6 +132,12 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="ResourceDictionaries\ContentLayoutStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
 </Project>

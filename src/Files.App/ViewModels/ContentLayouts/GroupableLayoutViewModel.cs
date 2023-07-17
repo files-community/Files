@@ -11,9 +11,9 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
-	public abstract class StandardLayoutModeViewModel : BaseLayoutViewModel
+	public abstract class GroupableLayoutViewModel : BaseLayoutViewModel
 	{
 		private const int KEY_DOWN_MASK = 0x8000;
 
@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.LayoutModes
 
 		protected abstract SemanticZoom RootZoom { get; }
 
-		public StandardLayoutModeViewModel() : base()
+		public GroupableLayoutViewModel() : base()
 		{
 		}
 
@@ -78,16 +78,16 @@ namespace Files.App.ViewModels.LayoutModes
 		protected virtual async Task ReloadSelectedItemIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
+			ParentShellPageInstance.SlimContentPage.BaseViewModel.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
+			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.BaseViewModel.SelectedItem, IconSize);
 		}
 
 		protected virtual async Task ReloadSelectedItemsIcon()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
-			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
+			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.BaseViewModel.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
 				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
@@ -299,7 +299,7 @@ namespace Files.App.ViewModels.LayoutModes
 			return false;
 		}
 
-		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		public override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance is null ||
 				ParentShellPageInstance.CurrentPageType != this.GetType() ||

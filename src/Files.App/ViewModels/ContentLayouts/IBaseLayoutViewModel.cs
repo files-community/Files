@@ -3,8 +3,11 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
+	/// <summary>
+	/// Represents an interface for <see cref="BaseLayoutViewModel"/>.
+	/// </summary>
 	public interface IBaseLayoutViewModel
 	{
 		ItemManipulationModel ItemManipulationModel { get; }

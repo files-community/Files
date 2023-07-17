@@ -21,6 +21,7 @@ global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files Front-end
 global using global::Files.App.Helpers;
+global using global::Files.App.Helpers.ContextFlyouts;
 global using global::Files.App.Extensions;
 global using global::Files.App.Utils;
 global using global::Files.App.Utils.Archives;
@@ -49,13 +50,14 @@ global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
 global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.UserControls;
+global using global::Files.App.UserControls.Menus;
 global using global::Files.App.UserControls.MultitaskingControl;
 global using global::Files.App.UserControls.Selection;
 global using global::Files.App.ViewModels;
-global using global::Files.App.ViewModels.LayoutModes;
+global using global::Files.App.ViewModels.ContentLayouts;
 global using global::Files.App.ViewModels.UserControls;
 global using global::Files.App.Views;
-global using global::Files.App.Views.LayoutModes;
+global using global::Files.App.Views.ContentLayouts;
 global using global::Files.App.Views.Shells;
 
 // Files.Core

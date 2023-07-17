@@ -13,9 +13,9 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
-	public class GridViewBrowserViewModel : StandardLayoutModeViewModel
+	public class GridViewLayoutViewModel : GroupableLayoutViewModel
 	{
 		private uint currentIconSize;
 
@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.LayoutModes
 			DependencyProperty.Register(
 				nameof(IsPointerOver),
 				typeof(bool),
-				typeof(GridViewBrowser),
+				typeof(GridViewLayoutPage),
 				new PropertyMetadata(false));
 
 		public bool IsPointerOver
@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.LayoutModes
 			set => SetValue(IsPointerOverProperty, value);
 		}
 
-		public GridViewBrowserViewModel() : base()
+		public GridViewLayoutViewModel() : base()
 		{
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -79,7 +79,7 @@ namespace Files.App.ViewModels.LayoutModes
 				FileList.SelectedItems.Remove(e);
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		public override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 				navArgs.FocusOnNavigation = true;
@@ -101,7 +101,7 @@ namespace Files.App.ViewModels.LayoutModes
 				ReloadItemIcons();
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		public override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 

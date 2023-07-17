@@ -16,10 +16,12 @@ using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
-	public class ColumnViewBaseViewModel : StandardLayoutModeViewModel
+	public class ColumnBaseLayoutViewModel : GroupableLayoutViewModel
 	{
+		public override Page PageInstance { get; set; }
+
 		protected override uint IconSize
 			=> Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -31,7 +33,7 @@ namespace Files.App.ViewModels.LayoutModes
 
 		private readonly DispatcherQueueTimer doubleClickTimer;
 
-		private ColumnViewBrowser? columnsOwner;
+		private ColumnsLayoutPage? columnsOwner;
 
 		private ListViewItem? openedFolderPresenter;
 
@@ -39,7 +41,7 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public event EventHandler? ItemTapped;
 
-		public ColumnViewBaseViewModel() : base()
+		public ColumnBaseLayoutViewModel() : base()
 		{
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -51,11 +53,11 @@ namespace Files.App.ViewModels.LayoutModes
 		}
 
 		#region protected overrides
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		public override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnsLayoutPage>();
 				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
 				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
 
@@ -69,7 +71,7 @@ namespace Files.App.ViewModels.LayoutModes
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		public override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 		}
@@ -284,7 +286,7 @@ namespace Files.App.ViewModels.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
 				e.Handled = true;
@@ -295,7 +297,7 @@ namespace Files.App.ViewModels.LayoutModes
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
 		}
@@ -449,7 +451,7 @@ namespace Files.App.ViewModels.LayoutModes
 		private void CloseFolder()
 		{
 			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
 		}
 

@@ -153,10 +153,10 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<OngoingTasksViewModel>()
 					.AddSingleton<AppearanceViewModel>()
-					.AddTransient<ColumnViewBaseViewModel>()
-					.AddTransient<ColumnViewBrowserViewModel>()
-					.AddTransient<DetailsLayoutBrowserViewModel>()
-					.AddTransient<GridViewBrowserViewModel>())
+					.AddTransient<ColumnBaseLayoutViewModel>()
+					.AddTransient<ColumnsLayoutViewModel>()
+					.AddTransient<DetailsLayoutViewModel>()
+					.AddTransient<GridViewLayoutViewModel>())
 				.Build();
 		}
 

@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.Menus;
-using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,15 +19,14 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
-using VanaraWindowsShell = Vanara.Windows.Shell;
+using VanaraShell = Vanara.Windows.Shell;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
 	/// <summary>
-	/// Represents ViewModel for <see cref="BaseLayout"/>.
+	/// Represents abstract class for layout page ViewModels.
 	/// </summary>
 	public abstract class BaseLayoutViewModel : ObservableObject, IDisposable, IBaseLayoutViewModel
 	{
@@ -144,7 +140,7 @@ namespace Files.App.ViewModels.LayoutModes
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
-			internal set => setSetProperty(ref isItemSelected, value);
+			internal set => SetProperty(ref isItemSelected, value);
 		}
 
 		private string jumpString = string.Empty;
@@ -366,11 +362,8 @@ namespace Files.App.ViewModels.LayoutModes
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected virtual async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		public virtual async void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
-			// Add item jumping handler
-			CharacterReceived += Page_CharacterReceived;
-
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 
@@ -391,7 +384,7 @@ namespace Files.App.ViewModels.LayoutModes
 
 				// pathRoot will be empty on recycle bin path
 				var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory ?? string.Empty;
-				var pathRoot = GetPathRoot(workingDir);
+				var pathRoot = PathNormalization.GetPathRoot(workingDir);
 
 				var isRecycleBin = workingDir.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = isRecycleBin;
@@ -467,11 +460,8 @@ namespace Files.App.ViewModels.LayoutModes
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
 
-		protected virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		public virtual void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
-			// Remove item jumping handler
-			CharacterReceived -= Page_CharacterReceived;
-
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
@@ -901,7 +891,7 @@ namespace Files.App.ViewModels.LayoutModes
 				overflowSeparator.Visibility = Visibility.Collapsed;
 		}
 
-		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		public virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance!.IsCurrentInstance)
 			{
@@ -914,7 +904,7 @@ namespace Files.App.ViewModels.LayoutModes
 		{
 			try
 			{
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraShell.ShellItem(x.ItemPath)).ToArray());
 				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -1258,7 +1248,7 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
-		protected void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+		public void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
 		{
 			if (e.IsSourceZoomedInView)
 				return;

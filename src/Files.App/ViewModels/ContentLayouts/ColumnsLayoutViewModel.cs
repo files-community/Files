@@ -10,9 +10,9 @@ using Windows.Storage;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
-	public class ColumnViewBrowserViewModel : BaseLayoutViewModel
+	public class ColumnsLayoutViewModel : BaseLayoutViewModel
 	{
 		protected override uint IconSize
 			=> Browser.ColumnViewBrowser.ColumnViewSizeSmall;
@@ -39,15 +39,15 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
-		public ColumnViewBrowserViewModel() : base()
+		public ColumnsLayoutViewModel() : base()
 		{
 		}
 
-		public void HandleSelectionChange(ColumnViewBase initiator)
+		public void HandleSelectionChange(ColumnBaseLayoutPage initiator)
 		{
 			foreach (var blade in ColumnHost.ActiveBlades)
 			{
-				var columnView = blade.FindDescendant<ColumnViewBase>();
+				var columnView = blade.FindDescendant<ColumnBaseLayoutPage>();
 				if (columnView != null && columnView != initiator)
 					columnView.ClearSelectionIndicator();
 			}
@@ -64,7 +64,7 @@ namespace Files.App.ViewModels.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> false;
 
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		public override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
 
@@ -111,7 +111,7 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		public override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
 
@@ -121,7 +121,7 @@ namespace Files.App.ViewModels.LayoutModes
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this)
+			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this)
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
@@ -166,7 +166,7 @@ namespace Files.App.ViewModels.LayoutModes
 						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
 
-						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewBase columnLayout)
+						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnBaseLayoutPage columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -232,7 +232,7 @@ namespace Files.App.ViewModels.LayoutModes
 		private void ColumnViewBrowser_ContentChanged(object sender, TabItemArguments e)
 		{
 			var c = sender as IShellPage;
-			var columnView = c?.SlimContentPage as ColumnViewBase;
+			var columnView = c?.SlimContentPage as ColumnBaseLayoutPage;
 			if (columnView is not null)
 			{
 				columnView.ItemInvoked -= ColumnViewBase_ItemInvoked;
@@ -311,20 +311,20 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
-		private ColumnViewBase? RetrieveBladeColumnViewBase(BladeItem blade)
+		private ColumnBaseLayoutPage? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
 			if (blade.Content is not Frame activeBladeFrame ||
 				activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
 
-			return activeBladePage.SlimContentPage as ColumnViewBase;
+			return activeBladePage.SlimContentPage as ColumnBaseLayoutPage;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
-				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutBrowser), navArgs);
+				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}
 
@@ -400,7 +400,7 @@ namespace Files.App.ViewModels.LayoutModes
 		private void ColumnViewBase_ItemTapped(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnViewBrowser>() != this || string.IsNullOrEmpty(column.NavPathParam))
+			if (column?.ListView.FindAscendant<ColumnsLayoutPage>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
 			CloseUnnecessaryColumns(column);
@@ -417,7 +417,7 @@ namespace Files.App.ViewModels.LayoutModes
 			{
 				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
 				{
-					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewBase>();
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnBaseLayoutPage>();
 					if (bladeColumn is not null && bladeColumn == column.Source)
 						relativeIndex = i;
 				}
@@ -435,7 +435,7 @@ namespace Files.App.ViewModels.LayoutModes
 
 			if (relativeIndex >= 0)
 			{
-				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewBase>()?.ClearOpenedFolderSelectionIndicator();
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnBaseLayoutPage>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
 			}
 		}
@@ -477,7 +477,7 @@ namespace Files.App.ViewModels.LayoutModes
 				if (frame?.Content is ColumnShellPage shPage)
 				{
 					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
-					if (shPage.SlimContentPage is ColumnViewBase viewBase)
+					if (shPage.SlimContentPage is ColumnBaseLayoutPage viewBase)
 					{
 						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;

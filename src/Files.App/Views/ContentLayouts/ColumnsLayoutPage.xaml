@@ -1,12 +1,12 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseLayout
-	x:Class="Files.App.Views.LayoutModes.ColumnViewBrowser"
+	x:Class="Files.App.Views.ContentLayouts.ColumnsLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
-	xmlns:local="using:Files.App.Views.LayoutModes"
+	xmlns:local="using:Files.App.Views.ContentLayouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	x:Name="PageRoot"
@@ -20,16 +20,18 @@
 	</i:Interaction.Behaviors>
 
 	<local:BaseLayout.Resources>
-		<Style TargetType="toolkit:BladeItem">
-			<Setter Property="Background" Value="Transparent" />
-			<Setter Property="TitleBarVisibility" Value="Collapsed" />
-			<Setter Property="BorderThickness" Value="0,0,1,0" />
-			<Setter Property="BorderBrush" Value="{ThemeResource ControlStrokeColorDefault}" />
-			<Setter Property="Width" Value="300" />
-		</Style>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ContentLayoutStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<Style BasedOn="{StaticResource CustomBladeItem}" TargetType="toolkit:BladeItem" />
+
+		</ResourceDictionary>
 	</local:BaseLayout.Resources>
 
-	<toolkit:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout, Mode=OneWay}">
+	<toolkit:BladeView x:Name="MainBladeView" ContextFlyout="{x:Bind ViewModel.BaseContextMenuFlyout, Mode=OneWay}">
+
 		<toolkit:BladeView.ItemContainerTransitions>
 			<TransitionCollection />
 		</toolkit:BladeView.ItemContainerTransitions>
@@ -37,6 +39,7 @@
 		<toolkit:BladeItem>
 			<Frame x:Name="MainPageFrame" />
 		</toolkit:BladeItem>
+
 	</toolkit:BladeView>
 
 </local:BaseLayout>
