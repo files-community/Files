@@ -1806,7 +1806,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Necunoscut</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Editare etichete</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">

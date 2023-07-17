@@ -710,7 +710,7 @@ namespace Files.App.Views.LayoutModes
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
-				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
+				Label = "EditTags".GetLocalizedResource(),
 				Content = new OpacityIcon()
 				{
 					Style = (Style)Application.Current.Resources["ColorIconTag"],

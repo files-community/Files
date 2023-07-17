@@ -1806,7 +1806,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>不明</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>ファイル タグを編集</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">

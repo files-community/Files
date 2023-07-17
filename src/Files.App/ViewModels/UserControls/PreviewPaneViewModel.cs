@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Data.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
-using Files.Core.Helpers;
-using Files.Core.Utils.Cloud;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
@@ -43,14 +42,31 @@ namespace Files.App.ViewModels.UserControls
 		public ListedItem SelectedItem
 		{
 			get => selectedItem;
-			set => SetProperty(ref selectedItem, value);
+			set
+			{
+				if (selectedItem is not null)
+					selectedItem.PropertyChanged -= SelectedItem_PropertyChanged;
+
+				if (SetProperty(ref selectedItem, value))
+				{
+					OnPropertyChanged(nameof(TagsFlyout));
+					OnPropertyChanged(nameof(LoadTagsList));
+
+					if (value is not null)
+						value.PropertyChanged += SelectedItem_PropertyChanged;
+				}
+			}
 		}
 
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
 			get => previewPaneState;
-			set => SetProperty(ref previewPaneState, value);
+			set
+			{
+				if (SetProperty(ref previewPaneState, value))
+					OnPropertyChanged(nameof(LoadTagsList));
+			}
 		}
 
 		private bool showCloudItemButton;
@@ -66,6 +82,14 @@ namespace Files.App.ViewModels.UserControls
 			get => previewPaneContent;
 			set => SetProperty(ref previewPaneContent, value);
 		}
+
+		public bool LoadTagsList
+			=> SelectedItem?.HasTags ?? false && 
+			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
+			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
+
+		public MenuFlyout TagsFlyout
+			=> new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
 
 		public PreviewPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
@@ -156,6 +180,9 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
+
+				if (!isItemSelected)
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
 
 				return new FolderPreview(model);
 			}
@@ -341,6 +368,12 @@ namespace Files.App.ViewModels.UserControls
 			{
 				Debug.WriteLine(ex);
 			}
+		}
+
+		private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(ListedItem.HasTags))
+				OnPropertyChanged(nameof(LoadTagsList));
 		}
 
 		public void Dispose()
