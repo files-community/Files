@@ -76,6 +76,7 @@
 								<TextBlock
 									Margin="0,-2,0,0"
 									FontWeight="SemiBold"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 									Text="{x:Bind Name, Mode=OneWay}" />
 							</StackPanel>
 						</HyperlinkButton>
@@ -86,6 +87,7 @@
 								<FontIcon
 									FontSize="12"
 									FontWeight="SemiBold"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 									Glyph="&#xE8A7;" />
 							</HyperlinkButton.Content>
 						</HyperlinkButton>
