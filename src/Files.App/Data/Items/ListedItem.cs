@@ -175,10 +175,12 @@ namespace Files.App.Utils
 			{
 				if (SetProperty(ref fileImage, value))
 				{
-					var isValid = value is BitmapImage img;
-					LoadFileIcon = isValid;
-					NeedsPlaceholderGlyph = !isValid;
-					LoadWebShortcutGlyph = !isValid;
+					if (value is BitmapImage)
+					{
+						LoadFileIcon = true;
+						NeedsPlaceholderGlyph = false;
+						LoadWebShortcutGlyph = false;
+					}
 				}
 			}
 		}
