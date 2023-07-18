@@ -93,7 +93,7 @@
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
 				<ListView
-					x:Name="StorageObjectListView"
+					x:Name="MainUngroupedListView"
 					Padding="8,0,8,12"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"

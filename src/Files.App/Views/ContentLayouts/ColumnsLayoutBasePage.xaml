@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseLayout
-	x:Class="Files.App.Views.ContentLayouts.ColumnBaseLayoutPage"
+	x:Class="Files.App.Views.ContentLayouts.ColumnsLayoutBasePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:cloud="using:Files.App.Utils.Cloud"
@@ -8,6 +8,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.ContentLayouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
@@ -39,7 +41,7 @@
 				EmptyValue="Collapsed"
 				NotEmptyValue="Visible" />
 
-			<Style BasedOn="{StaticResource ColumnBaseLayoutListViewHeaderItemStyle}" TargetType="ListViewHeaderItem" />
+			<Style BasedOn="{StaticResource ColumnsLayoutListViewHeaderItemStyle}" TargetType="ListViewHeaderItem" />
 
 		</ResourceDictionary>
 	</local:BaseLayout.Resources>
@@ -71,35 +73,29 @@
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
 				<ListView
-					x:Name="FileList"
+					x:Name="MainUngroupedListView"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="True"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
-					DragOver="ItemsLayout_DragOver"
-					Drop="ItemsLayout_Drop"
-					FocusVisualPrimaryThickness="0"
-					FocusVisualSecondaryThickness="0"
 					Holding="FileList_Holding"
-					IsDoubleTapEnabled="True"
-					IsRightTapEnabled="True"
-					IsTabStop="True"
 					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
-					ScrollViewer.IsScrollInertiaEnabled="True"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="Extended"
+					Style="{StaticResource ColumnsLayoutListViewStyle}"
 					Tapped="FileList_ItemTapped">
 
-					<ListView.ItemContainerTransitions>
-						<TransitionCollection>
-							<AddDeleteThemeTransition />
-						</TransitionCollection>
-					</ListView.ItemContainerTransitions>
+					<i:Interaction.Behaviors>
+						<icore:EventTriggerBehavior EventName="DragOver">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand}" />
+						</icore:EventTriggerBehavior>
+						<icore:EventTriggerBehavior EventName="Drop">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}" />
+						</icore:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
 
 					<ListView.ItemTemplate>
 						<DataTemplate x:DataType="filesystem:ListedItem">
@@ -301,6 +297,12 @@
 							</GroupStyle.HeaderTemplate>
 						</GroupStyle>
 					</ListView.GroupStyle>
+
+					<ListView.ItemContainerTransitions>
+						<TransitionCollection>
+							<AddDeleteThemeTransition />
+						</TransitionCollection>
+					</ListView.ItemContainerTransitions>
 
 					<ListView.ItemContainerStyle>
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">

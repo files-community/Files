@@ -25,7 +25,7 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ContentLayoutStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<Style BasedOn="{StaticResource CustomBladeItem}" TargetType="toolkit:BladeItem" />
+			<Style BasedOn="{StaticResource CustomBladeItemStyle}" TargetType="toolkit:BladeItem" />
 
 		</ResourceDictionary>
 	</local:BaseLayout.Resources>

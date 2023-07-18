@@ -43,11 +43,11 @@ namespace Files.App.ViewModels.ContentLayouts
 		{
 		}
 
-		public void HandleSelectionChange(ColumnBaseLayoutPage initiator)
+		public void HandleSelectionChange(ColumnsLayoutBasePage initiator)
 		{
 			foreach (var blade in ColumnHost.ActiveBlades)
 			{
-				var columnView = blade.FindDescendant<ColumnBaseLayoutPage>();
+				var columnView = blade.FindDescendant<ColumnsLayoutBasePage>();
 				if (columnView != null && columnView != initiator)
 					columnView.ClearSelectionIndicator();
 			}
@@ -166,7 +166,7 @@ namespace Files.App.ViewModels.ContentLayouts
 						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
 
-						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnBaseLayoutPage columnLayout)
+						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnsLayoutBasePage columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -232,7 +232,7 @@ namespace Files.App.ViewModels.ContentLayouts
 		private void ColumnViewBrowser_ContentChanged(object sender, TabItemArguments e)
 		{
 			var c = sender as IShellPage;
-			var columnView = c?.SlimContentPage as ColumnBaseLayoutPage;
+			var columnView = c?.SlimContentPage as ColumnsLayoutBasePage;
 			if (columnView is not null)
 			{
 				columnView.ItemInvoked -= ColumnViewBase_ItemInvoked;
@@ -311,13 +311,13 @@ namespace Files.App.ViewModels.ContentLayouts
 			}
 		}
 
-		private ColumnBaseLayoutPage? RetrieveBladeColumnViewBase(BladeItem blade)
+		private ColumnsLayoutBasePage? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
 			if (blade.Content is not Frame activeBladeFrame ||
 				activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
 
-			return activeBladePage.SlimContentPage as ColumnBaseLayoutPage;
+			return activeBladePage.SlimContentPage as ColumnsLayoutBasePage;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
@@ -417,7 +417,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			{
 				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
 				{
-					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnBaseLayoutPage>();
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnsLayoutBasePage>();
 					if (bladeColumn is not null && bladeColumn == column.Source)
 						relativeIndex = i;
 				}
@@ -435,7 +435,7 @@ namespace Files.App.ViewModels.ContentLayouts
 
 			if (relativeIndex >= 0)
 			{
-				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnBaseLayoutPage>()?.ClearOpenedFolderSelectionIndicator();
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnsLayoutBasePage>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
 			}
 		}
@@ -477,7 +477,7 @@ namespace Files.App.ViewModels.ContentLayouts
 				if (frame?.Content is ColumnShellPage shPage)
 				{
 					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
-					if (shPage.SlimContentPage is ColumnBaseLayoutPage viewBase)
+					if (shPage.SlimContentPage is ColumnsLayoutBasePage viewBase)
 					{
 						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;

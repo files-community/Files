@@ -10,7 +10,7 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-	<Style x:Key="ColumnBaseLayoutListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
+	<Style x:Key="ColumnsLayoutListViewHeaderItemStyle" TargetType="ListViewHeaderItem">
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontSize" Value="{ThemeResource GridViewHeaderItemThemeFontSize}" />
 		<Setter Property="Background" Value="{ThemeResource GridViewHeaderItemBackground}" />
@@ -98,7 +98,20 @@
 		</Setter>
 	</Style>
 
-	<Style x:Name="CustomBladeItem" TargetType="toolkit:BladeItem">
+	<Style x:Key="ColumnsLayoutListViewStyle" TargetType="ListView">
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="IsDoubleTapEnabled" Value="True" />
+		<Setter Property="IsRightTapEnabled" Value="True" />
+		<Setter Property="FocusVisualPrimaryThickness" Value="0" />
+		<Setter Property="FocusVisualSecondaryThickness" Value="0" />
+		<Setter Property="CanDragItems" Value="True" />
+		<Setter Property="SelectionMode" Value="Extended" />
+		<Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="True" />
+	</Style>
+
+	<Style x:Name="CustomBladeItemStyle" TargetType="toolkit:BladeItem">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="TitleBarVisibility" Value="Collapsed" />
 		<Setter Property="BorderThickness" Value="0,0,1,0" />

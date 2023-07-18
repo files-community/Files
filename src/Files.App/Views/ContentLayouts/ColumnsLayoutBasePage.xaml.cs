@@ -9,11 +9,11 @@ namespace Files.App.Views.ContentLayouts
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
-	public sealed partial class ColumnBaseLayoutPage : BaseLayout
+	public sealed partial class ColumnsLayoutBasePage : BaseLayout
 	{
 		private readonly ColumnBaseLayoutViewModel ViewModel;
 
-		public ColumnBaseLayoutPage() : base()
+		public ColumnsLayoutBasePage() : base()
 		{
 			// Dependency injection
 			ViewModel = Ioc.Default.GetRequiredService<ColumnBaseLayoutViewModel>();

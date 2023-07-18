@@ -13,6 +13,6 @@ namespace Files.App.Data.Parameters
 
 		public ListView ListView { get; set; }
 
-		public ColumnBaseLayoutPage? Source { get; set; }
+		public ColumnsLayoutBasePage? Source { get; set; }
 	}
 }

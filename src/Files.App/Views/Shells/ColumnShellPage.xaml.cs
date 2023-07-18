@@ -58,7 +58,7 @@ namespace Files.App.Views.Shells
 		protected override void OnNavigationParamsChanged()
 		{
 			ItemDisplayFrame.Navigate(
-				typeof(ColumnBaseLayoutPage),
+				typeof(ColumnsLayoutBasePage),
 				new NavigationArguments()
 				{
 					IsSearchResultPage = ColumnParams.IsSearchResultPage,
@@ -102,7 +102,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.IsSearchBoxVisible = false;
 			}
 
-			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnBaseLayoutPage))
+			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnsLayoutBasePage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
 				ContentPage.ResetItemOpacity();
@@ -123,7 +123,7 @@ namespace Files.App.Views.Shells
 				CurrentPageType == typeof(DetailsLayoutPage) ||
 				CurrentPageType == typeof(GridViewLayoutPage) ||
 				CurrentPageType == typeof(ColumnsLayoutPage) ||
-				CurrentPageType == typeof(ColumnBaseLayoutPage);
+				CurrentPageType == typeof(ColumnsLayoutBasePage);
 
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
@@ -182,7 +182,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplayFrame.Navigate(typeof(ColumnBaseLayoutPage), new NavigationArguments()
+			ItemDisplayFrame.Navigate(typeof(ColumnsLayoutBasePage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,

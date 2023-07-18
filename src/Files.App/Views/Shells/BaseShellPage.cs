@@ -300,7 +300,7 @@ namespace Files.App.Views.Shells
 				CurrentPageType == typeof(DetailsLayoutPage) ||
 				CurrentPageType == typeof(GridViewLayoutPage) ||
 				CurrentPageType == typeof(ColumnsLayoutPage) ||
-				CurrentPageType == typeof(ColumnBaseLayoutPage);
+				CurrentPageType == typeof(ColumnsLayoutBasePage);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
