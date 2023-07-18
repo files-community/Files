@@ -11,6 +11,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:extensions="using:CommunityToolkit.WinUI.UI"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -123,7 +124,6 @@
 				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
 				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
 				CornerRadius="{StaticResource ControlCornerRadius}"
-				DisplayMemberPath="Name"
 				FocusDisengaged="VisiblePath_LostFocus"
 				FontWeight="SemiBold"
 				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
@@ -136,8 +136,14 @@
 				ScrollViewer.VerticalScrollBarVisibility="Hidden"
 				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
 				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-				TextMemberPath="ItemPath"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+				TextMemberPath="Text"
+				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+				<AutoSuggestBox.ItemTemplate>
+					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
+						<TextBlock Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
+					</DataTemplate>
+				</AutoSuggestBox.ItemTemplate>
+			</AutoSuggestBox>
 
 			<Grid
 				x:Name="ClickablePath"

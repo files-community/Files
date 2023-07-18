@@ -35,7 +35,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | RestoreRecycleBin                   | Restore                                   | Restore selected item(s) from recycle bin                |                     |
 |                    | RestoreAllRecycleBin                | Restore All Items                         | Restore all items from recycle bin                       |                     |
 |                    | OpenItem                            | Open                                      | Open item(s)                                             | Enter               |
-|                    | OpenItemWithApplicationPicker       | Open With                                 | Open item(s) with selected application                   |                     |
+|                    | OpenItemWithApplicationPicker       | Open with                                 | Open item(s) with selected application                   |                     |
 |                    | OpenParentFolder                    | Open parent folder                        | Open parent folder of searched item                      |                     |
 |                    | OpenFileLocation                    | Open file location                        | Open the item's location                                 |                     |
 |                    | RefreshItems                        | Refresh                                   | Refresh page contents                                    | Ctrl+R, F5          |
@@ -73,6 +73,7 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | OpenSettings                        | Settings                                  | Open settings page                                       | Ctrl+,              |
 |                    | OpenTerminal                        | Open in terminal                          | Open folder in terminal                                  | Ctrl+\`             |
 |                    | OpenTerminalAsAdmin                 | Open in terminal as administrator         | Open folder in terminal as administrator                 | Ctrl+Shift+\`       |
+|                    | OpenCommandPalette                  | Command palette                           | Open command palette                                     | Ctrl+Shift+P        |
 | Layout             | LayoutDecreaseSize                  | Decrease size                             | Decrease icon size in grid view                          | Ctrl+-              |
 |                    | LayoutIncreaseSize                  | Increase size                             | Increase icon size in grid view                          | Ctrl++              |
 |                    | LayoutDetails                       | Details                                   | Switch to details view                                   | Ctrl+Shift+1        |
@@ -131,6 +132,9 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | CloseTabsToTheRightSelected         | Close tabs to the right                   | Close tabs to the right of selected tab                  |                     |
 |                    | CloseOtherTabsCurrent               | Close other tabs                          | Close tabs other than current tab                        |                     |
 |                    | CloseOtherTabsSelected              | Close other tabs                          | Close tabs other than selected tab                       |                     |
+|                    | OpenDirectoryInNewPane              | Open in new pane                          | Open directory in new pane                               |                     |
+|                    | OpenDirectoryInNewTab               | Open in new tab                           | Open directory in new tab                                |                     |
+|                    | OpenInNewWindowItem                 | Open in new window                        | Open directory in new window                             |                     |
 |                    | ReopenClosedTab                     | Reopen closed tab                         | Reopen last closed tab                                   | Ctrl+Shift+T        |
 |                    | PreviousTab                         | Moves to the previous tab                 | Move to the previous tab                                 | Ctrl+Shift+Tab      |
 |                    | NextTab                             | Moves to the next tab                     | Move to the next tab                                     | Ctrl+Tab            |
