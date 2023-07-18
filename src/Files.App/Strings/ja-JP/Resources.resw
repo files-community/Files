@@ -139,7 +139,7 @@
     <value>サイズ:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>ディスク上のサイズ:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ:</value>
@@ -404,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>空き領域 {0}/{1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>プログラムから開く</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>送る</value>
@@ -1807,7 +1804,7 @@
     <value>不明</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>ファイル タグを編集</value>
+    <value>タグを編集</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>セットのパート</value>
@@ -2158,10 +2155,10 @@
     <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>レイアウトを自動的に選択する</value>
+    <value>レイアウトを自動的に選択</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>自動 (Ctrl+Shift+7)</value>
+    <value>レイアウトを自動的に選択 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2449,10 +2446,10 @@
     <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>ファイル名拡張子を表示する</value>
+    <value>ファイル名拡張子を表示</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>隠しファイルを表示する</value>
+    <value>隠しファイルを表示</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>フォーマット…</value>
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>アイテムをパスで並べ替える</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>新しいペインでフォルダーを開く</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>新しいタブでフォルダーを開く</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>新しいウィンドウでフォルダーを開く</value>
   </data>
 </root>

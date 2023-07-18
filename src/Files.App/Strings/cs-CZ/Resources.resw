@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} volných z {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Otevřít v aplikaci</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Poslat do</value>
   </data>
@@ -2026,7 +2023,7 @@
     <value>Nedávné soubory</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Otevřít soubory při spuštění systému Windows</value>
+    <value>Otevřít Files při spuštění systému Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atributy</value>
@@ -2158,10 +2155,10 @@
     <value>Uprav všechny sloupce</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Adaptivní rozvržení</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptivní (Ctrl+Shift+7)</value>
+    <value>Adaptivní rovržení (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Seřadit položky dle cesty</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
   </data>
 </root>

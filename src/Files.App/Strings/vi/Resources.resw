@@ -139,7 +139,7 @@
     <value>Kích thước:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Kích cỡ trên đĩa:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Cỡ không nén:</value>
@@ -404,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} phần {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Mở Bằng...</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Gửi đến</value>
@@ -1807,7 +1804,7 @@
     <value>Không xác định</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>Chỉnh sửa các thẻ tệp</value>
+    <value>Chỉnh sửa nhãn</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Một phần của bộ</value>
@@ -2197,7 +2194,7 @@
     <value>Cột kích thước</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Cột thẻ</value>
+    <value>Cột nhãn</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
     <value>Cột loại</value>
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Sắp xếp mục theo đường dẫn</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Mở đường dẫn trong ngăn mới</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Mở đường dẫn trong thẻ mới</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Mở đường dẫn trong cửa sổ mới</value>
   </data>
 </root>
