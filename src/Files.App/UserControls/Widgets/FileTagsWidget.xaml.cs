@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
@@ -17,22 +18,29 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
+		private readonly ICommandManager _commands;
+
+		private readonly ITagsContext _tagsContext;
+
+		private readonly IUserSettingsService userSettingsService;
+
 		public FileTagsWidgetViewModel ViewModel
 		{
 			get => (FileTagsWidgetViewModel)DataContext;
 			set => DataContext = value;
 		}
 
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public IShellPage AppInstance;
+
 		public Func<string, Task>? OpenAction { get; set; }
 
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
+		public delegate void RightClickedTagsChangedEventHandler(object sender, IEnumerable<FileTagsItemViewModel> items);
 
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
+		public static event RightClickedTagsChangedEventHandler? RightClickedTagsChanged;
 
 		public string WidgetName => nameof(FileTagsWidget);
 
@@ -50,6 +58,10 @@ namespace Files.App.UserControls.Widgets
 
 		public FileTagsWidget()
 		{
+			_commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			_tagsContext = Ioc.Default.GetRequiredService<ITagsContext>();
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 			InitializeComponent();
 
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
@@ -67,13 +79,13 @@ namespace Files.App.UserControls.Widgets
 		private void OpenProperties(WidgetCardItem? item)
 		{
 			EventHandler<object> flyoutClosed = null!;
-			flyoutClosed = async (s, e) =>
+			flyoutClosed = (s, e) =>
 			{
 				ItemContextMenuFlyout.Closed -= flyoutClosed;
 				ListedItem listedItem = new(null!)
 				{
-					ItemPath = (item.Item as FileTagsItemViewModel).Path,
-					ItemNameRaw = (item.Item as FileTagsItemViewModel).Name,
+					ItemPath = (item.Item as FileTagsItemViewModel)?.Path ?? string.Empty,
+					ItemNameRaw = (item.Item as FileTagsItemViewModel)?.Name ?? string.Empty,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = "Folder".GetLocalizedResource(),
 				};
@@ -96,14 +108,47 @@ namespace Files.App.UserControls.Widgets
 				await itemViewModel.ClickCommand.ExecuteAsync(null);
 		}
 
-		private async void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (e.OriginalSource is not FrameworkElement element ||
+				element.DataContext is not FileTagsItemViewModel item)
+			{
+				return;
+			}
+
+			LoadContextMenu(
+				element,
+				e,
+				GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
+				rightClickedItem: item);
+		}
+
+		public void TagTitle_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element ||
+				element.Parent is not Grid parent ||
+				parent.Children[1] is not AdaptiveGridView gridView)
+			{
+				return;
+			}
+
+			RightClickedTagsChanged?.Invoke(this, gridView.Items.Select(item => (FileTagsItemViewModel)item));
+
+			LoadContextMenu(
+				element,
+				e,
+				GetWidgetMenuItems());
+		}
+
+		private async void LoadContextMenu(
+			FrameworkElement element,
+			RightTappedRoutedEventArgs e,
+			List<ContextMenuFlyoutItemViewModel> menuItems,
+			FileTagsItemViewModel? rightClickedItem = null)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-			if (e.OriginalSource is not FrameworkElement element || element.DataContext is not FileTagsItemViewModel item)
-				return;
 
-			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder);
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
 			if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
@@ -113,8 +158,9 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
+			if (rightClickedItem is not null)
+				await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 
-			await ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 			e.Handled = true;
 		}
 
@@ -220,6 +266,14 @@ namespace Files.App.UserControls.Widgets
 					IsEnabled = false,
 				}
 			}.Where(x => x.ShowItem).ToList();
+		}
+
+		public List<ContextMenuFlyoutItemViewModel> GetWidgetMenuItems()
+		{
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModelBuilder(_commands.OpenAllTaggedItems).Build()
+			};
 		}
 
 		public void OpenFileLocation(WidgetCardItem? item)

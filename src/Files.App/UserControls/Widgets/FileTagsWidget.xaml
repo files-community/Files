@@ -51,7 +51,11 @@
 					</Grid.RowDefinitions>
 
 					<!--  Title  -->
-					<Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+					<Grid
+						Background="Transparent"
+						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+						BorderThickness="0,0,0,1"
+						RightTapped="TagTitle_RightTapped">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />

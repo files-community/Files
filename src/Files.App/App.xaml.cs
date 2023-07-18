@@ -117,6 +117,7 @@ namespace Files.App
 						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 						.AddSingleton<IWindowContext, WindowContext>()
 						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+						.AddSingleton<ITagsContext, TagsContext>()
 						.AddSingleton<IDialogService, DialogService>()
 						.AddSingleton<IImageService, ImagingService>()
 						.AddSingleton<IThreadingService, ThreadingService>()
