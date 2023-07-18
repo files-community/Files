@@ -913,10 +913,11 @@ namespace Files.App.Data.Models
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
-								item.FileImage ??= new BitmapImage();
-								item.FileImage.DecodePixelType = DecodePixelType.Logical;
-								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-								await item.FileImage.SetSourceAsync(Thumbnail);
+								var img = new BitmapImage();
+								img.DecodePixelType = DecodePixelType.Logical;
+								img.DecodePixelWidth = (int)thumbnailSize;
+								await img.SetSourceAsync(Thumbnail);
+								item.FileImage = img;
 								if (!string.IsNullOrEmpty(item.FileExtension) &&
 									!item.IsShortcut && !item.IsExecutable &&
 									!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
@@ -983,10 +984,11 @@ namespace Files.App.Data.Models
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
-								item.FileImage ??= new BitmapImage();
-								item.FileImage.DecodePixelType = DecodePixelType.Logical;
-								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-								await item.FileImage.SetSourceAsync(Thumbnail);
+								var img = new BitmapImage();
+								img.DecodePixelType = DecodePixelType.Logical;
+								img.DecodePixelWidth = (int)thumbnailSize;
+								await img.SetSourceAsync(Thumbnail);
+								item.FileImage = img;
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 							wasIconLoaded = true;
 						}
