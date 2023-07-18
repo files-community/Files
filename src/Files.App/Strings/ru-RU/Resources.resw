@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} свободно из {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Открыть с помощью</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Отправить в</value>
   </data>
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
   </data>
 </root>
