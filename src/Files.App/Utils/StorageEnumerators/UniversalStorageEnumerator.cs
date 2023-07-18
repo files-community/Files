@@ -89,7 +89,7 @@ namespace Files.App.Utils.StorageEnumerators
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
 								{
-									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+									folder.FileImage = defaultIconPairs[string.Empty];
 								}
 								tempList.Add(folder);
 							}
@@ -106,7 +106,7 @@ namespace Files.App.Utils.StorageEnumerators
 										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
 										if (defaultIconPairs.ContainsKey(lowercaseExtension))
 										{
-											fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+											fileEntry.FileImage = defaultIconPairs[lowercaseExtension];
 										}
 									}
 								}
