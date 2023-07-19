@@ -163,6 +163,8 @@ namespace Files.App.Views
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
+
+			SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.ReloadPreviewPane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
