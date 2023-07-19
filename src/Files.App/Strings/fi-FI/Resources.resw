@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} / {1} vapaana</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Avaa sovelluksessa</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Lähetä kohteeseen</value>
   </data>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Tuntematon</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Muokkaa tunnisteita</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2158,10 +2155,10 @@
     <value>Sovita kaikkien sarakkeiden koko näkymään</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Valitse automaattisesti paras asettelu</value>
+    <value>Mukautuva asettelu</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Mukautuva (Ctrl+Vaihto+7)</value>
+    <value>Mukautuva asettelu (Ctrl+Vaihto+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Vaihto+7</value>
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Järjestä kohteet polun mukaan</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Avaa hakemisto uudessa ruudussa</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Avaa hakemisto uudessa välilehdessä</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Avaa hakemisto uudessa ikkunassa</value>
   </data>
 </root>

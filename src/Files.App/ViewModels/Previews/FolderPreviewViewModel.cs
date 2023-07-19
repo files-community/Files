@@ -10,9 +10,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public class FolderPreviewViewModel
 	{
-		private readonly IGeneralSettingsService generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
-
-		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public ListedItem Item { get; }
 
@@ -61,10 +59,6 @@ namespace Files.App.ViewModels.Previews
 				if (branches.Length > 0)
 					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
 			}
-
-			var tags = Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
-			if (tags is not null)
-				Item.FileDetails.Add(GetFileProperty("FileTags", tags));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

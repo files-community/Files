@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
+using Files.App.Data.Commands;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.Extensions;

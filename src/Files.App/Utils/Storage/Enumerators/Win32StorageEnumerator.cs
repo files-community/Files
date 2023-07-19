@@ -60,7 +60,7 @@ namespace Files.App.Utils.Storage
 									var lowercaseExtension = file.FileExtension.ToLowerInvariant();
 									if (defaultIconPairs.ContainsKey(lowercaseExtension))
 									{
-										file.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+										file.FileImage = defaultIconPairs[lowercaseExtension];
 									}
 								}
 							}
@@ -84,7 +84,7 @@ namespace Files.App.Utils.Storage
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
 								{
 									// Set folder icon (found by empty extension string)
-									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
+									folder.FileImage = defaultIconPairs[string.Empty];
 								}
 
 								tempList.Add(folder);

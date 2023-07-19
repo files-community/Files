@@ -80,8 +80,10 @@ namespace Files.App.Utils.Storage
 							if (folder is not null)
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
-									folder.SetDefaultIcon(defaultIconPairs[string.Empty]);
-
+								{
+									folder.FileImage = defaultIconPairs[string.Empty];
+								}
+								
 								tempList.Add(folder);
 							}
 						}
@@ -96,7 +98,13 @@ namespace Files.App.Utils.Storage
 									{
 										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
 										if (defaultIconPairs.ContainsKey(lowercaseExtension))
+<<<<<<< HEAD:src/Files.App/Utils/Storage/Enumerators/UniversalStorageEnumerator.cs
 											fileEntry.SetDefaultIcon(defaultIconPairs[lowercaseExtension]);
+=======
+										{
+											fileEntry.FileImage = defaultIconPairs[lowercaseExtension];
+										}
+>>>>>>> upstream/main:src/Files.App/Utils/StorageEnumerators/UniversalStorageEnumerator.cs
 									}
 								}
 

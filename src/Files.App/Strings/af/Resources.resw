@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} vry van {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Maak Oop Met</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Send to</value>
   </data>
@@ -1807,7 +1804,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Onbekend</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Redigeer lêermerkers</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -3392,5 +3389,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
   </data>
 </root>

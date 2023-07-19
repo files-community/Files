@@ -36,5 +36,7 @@ namespace Files.App.Views.LayoutModes
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 
 		CommandBarFlyout BaseContextMenuFlyout { get; set; }
+
+		void ReloadPreviewPane();
 	}
 }

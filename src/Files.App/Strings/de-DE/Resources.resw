@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} frei von {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Öffnen mit</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Senden an</value>
   </data>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Unbekannt</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Tags bearbeiten</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -3391,5 +3388,14 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Elemente nach Pfad sortieren</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Verzeichnis in neuem Bereich öffnen</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Verzeichnis in neuem Tab öffnen</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Verzeichnis in neuem Fenster öffnen</value>
   </data>
 </root>

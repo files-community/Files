@@ -139,7 +139,7 @@
     <value>Ukuran:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Ukuran pada disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Ukuran tidak terkompresi:</value>
@@ -404,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} ruang bebas dari {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Buka dengan</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Kirim ke</value>
@@ -1609,7 +1606,7 @@
     <value>Terapkan pada</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Prinsip</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>file</value>
@@ -1621,7 +1618,7 @@
     <value>subfolder</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Diwariskan</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Perizinan</value>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Tidak dikenal</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Edit tag</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2167,7 +2164,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Tampilkan alternatif data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Perilaku</value>
@@ -2356,7 +2353,7 @@
     <value>Buat pintasan baru</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Buat pintasan ke lokal atau jaringan program, file, folder, komputer, atau alamat Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Masukkan lokasi item:</value>
@@ -2365,7 +2362,7 @@
     <value>Membuat pintasan</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>File yang digunakan saat ini, dinonaktifkan oleh Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit Pengaturan File</value>
@@ -2374,31 +2371,31 @@
     <value>Catatan Rilis</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Membuat pintasan di lokasi ini memerlukan hak istimewa administrator</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Apakah Anda ingin membuat pintasan di desktop?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Nama item yang ditentukan tidak valid</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Pengaturan</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Klik dua kali pada area kosong, untuk naik satu tingkat pada direktori</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Lihat lebih banyak</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Tampilkan tag edit flyout</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Tampilkan menu Kirim ke</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Tampilkan opsi untuk membuka folder di tab baru</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
     <value>Show option to open folders in a new window</value>
@@ -2413,7 +2410,7 @@
     <value>Enter Network Credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Ingat kredensial saya</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
     <value>Network folder error</value>
@@ -2461,7 +2458,7 @@
     <value>Bantuan</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Beralih ke layar penuh</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Yakin ingin menghapus tag ini?</value>
@@ -2542,7 +2539,7 @@
     <value>Open online help page in browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Beralih ke layar penuh</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Masuk ke tampilan fleksibel</value>
@@ -2605,7 +2602,7 @@
     <value>Restore selected item(s) from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Mengembalikan semua item dari tempat sampah</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>Buka item</value>
@@ -2617,7 +2614,7 @@
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Refresh halaman</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Ubah nama item yang dipilih</value>
@@ -2629,7 +2626,7 @@
     <value>Invert item selection</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Hapus item yang dipilih</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Toggle item selection</value>
@@ -2644,7 +2641,7 @@
     <value>Unpin item(s) from the Start Menu</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Sematkan folder ke Favorit</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
     <value>Unpin folder(s) from Favorites</value>
@@ -2659,7 +2656,7 @@
     <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Instal font yang dipilih</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
     <value>Install driver(s) using selected inf file(s)</value>
@@ -2674,10 +2671,10 @@
     <value>Run selected application as another user</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Jalankan skrip PowerShell yang dipilih</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Luncurkan pratinjau di jendela popup</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
@@ -2704,7 +2701,7 @@
     <value>Rotate selected image(s) to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Buka halaman pengaturan</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
     <value>Buka folder di terminal</value>
@@ -2740,37 +2737,37 @@
     <value>Switch views adaptively</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Urutkan item berdasarkan nama</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Urutkan item menurut tanggal diubah</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Urutkan item berdasarkan tanggal dibuat</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Urutkan item berdasarkan ukuran</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Urutkan item berdasarkan tipe</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Urutkan item berdasarkan status sinkronisasi</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Urutkan item berdasarkan tag</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Urutkan item berdasarkan folder asli</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Urutkan item berdasarkan tanggal dihapus</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Urutkan item dalam urutan A-Z</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Urutkan item dalam urutan Z-A</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Toggle item sort direction</value>
@@ -2779,43 +2776,43 @@
     <value>Daftar dan urutkan direktori berdampingan dengan file</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Buat daftar item tanpa kelompok</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Kelompokkan item berdasarkan nama</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Kelompokkan item berdasarkan tanggal diubah</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Kelompokkan item berdasarkan tanggal dibuat</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Kelompokkan item berdasarkan ukuran</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Kelompokkan item berdasarkan tipe</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Kelompokkan item berdasarkan status sinkronisasi</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Kelompokkan item berdasarkan tag</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Kelompokkan item berdasarkan folder aslinya</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Kelompokkan item berdasarkan tanggal dihapus</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Kelompokkan item jalur folder</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Urutkan grup dalam urutan A-Z</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Urutkan grup dalam urutan Z-A</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
     <value>Toggle group sort direction</value>
@@ -3077,13 +3074,13 @@
     <value>Keranjang Sampah</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Untagged</value>
+    <value>Tidak ditandai</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Pindah ke tab sebelumnya</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Pindah ke tab berikutnya</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Closes current tab</value>
@@ -3321,10 +3318,10 @@
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Jalankan git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Sinkronisasi</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
@@ -3384,12 +3381,21 @@
     <value>Remote Repository Name</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Cabang Saat ini</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
     <value>Path column</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Urutkan item berdasarkan jalur</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Buka tautan di panel baru</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Buka tautan di tab baru</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Buka tautan di jendela baru</value>
   </data>
 </root>
