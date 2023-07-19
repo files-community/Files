@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
 using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
