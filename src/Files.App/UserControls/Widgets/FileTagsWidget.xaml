@@ -81,17 +81,34 @@
 							</StackPanel>
 						</HyperlinkButton>
 
-						<!--  Open All Items  -->
-						<HyperlinkButton
+						<!--  Additional Actions  -->
+						<Button
 							Grid.Column="2"
 							Margin="4"
-							AutomationProperties.Name="{helpers:ResourceString Name=OpenAllTaggedItems}"
-							Command="{x:Bind OpenAllCommand}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=OpenAllTaggedItems}">
-							<HyperlinkButton.Content>
-								<localcontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
-							</HyperlinkButton.Content>
-						</HyperlinkButton>
+							Background="Transparent"
+							BorderBrush="Transparent"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
+							<Button.Flyout>
+								<MenuFlyout>
+									<MenuFlyoutItem
+										x:Name="OpenAllItemsButton"
+										AutomationProperties.Name="{helpers:ResourceString Name=OpenAllTaggedItems}"
+										Command="{x:Bind OpenAllCommand}"
+										Text="{helpers:ResourceString Name=OpenAllTaggedItems}"
+										ToolTipService.ToolTip="{helpers:ResourceString Name=OpenAllTaggedItems}">
+										<MenuFlyoutItem.Icon>
+											<FontIcon Glyph="&#xE8A7;" />
+										</MenuFlyoutItem.Icon>
+									</MenuFlyoutItem>
+								</MenuFlyout>
+							</Button.Flyout>
+
+							<FontIcon
+								FontSize="12"
+								FontWeight="SemiBold"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								Glyph="&#xE712;" />
+						</Button>
 					</Grid>
 
 					<!--  Contents  -->
