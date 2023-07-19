@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Converters;
-using Files.App.Utils.StorageItems;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Text.Json;

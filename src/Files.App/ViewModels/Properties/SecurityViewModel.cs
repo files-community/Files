@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
-using Files.App.Utils.Security;
 using Microsoft.UI.Xaml;
 using Vanara.PInvoke;
 using Windows.Storage;

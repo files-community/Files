@@ -1,7 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.StorageCache;
+using Files.App.Utils.Cloud;
+using Files.App.Utils.Shell;
+using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using LibGit2Sharp;
@@ -36,7 +38,7 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;

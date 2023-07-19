@@ -169,5 +169,7 @@ namespace Files.App.Data.Commands
 		IRichCommand GitPull { get; }
 		IRichCommand GitPush { get; }
 		IRichCommand GitSync { get; }
+
+		IRichCommand OpenAllTaggedItems { get; }
 	}
 }
