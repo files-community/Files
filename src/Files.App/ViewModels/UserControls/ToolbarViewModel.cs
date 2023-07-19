@@ -779,38 +779,57 @@ namespace Files.App.ViewModels.UserControls
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
 					IList<NavigationBarSuggestionItem>? suggestions = null;
-					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
-					if (folder is null)
-						return false;
-
-					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-					if (currPath.Count >= maxSuggestions)
+					if (sender.Text.StartsWith(">"))
 					{
-						suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+						var searchText = sender.Text.Substring(1);
+						suggestions = Commands.Where(command => command != Commands.None &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						.Select(command => new NavigationBarSuggestionItem()
 						{
-							Text = x.Path,
-							PrimaryDisplay = x.Item.DisplayName
+							Text = ">" + command.Code,
+							PrimaryDisplay = command.Description,
+							SecondaryDisplay = command.Code.ToString(),
+							SupplementaryDisplay = command.HotKeyText
 						}).ToList();
 					}
-					else if (currPath.Any())
+					else
 					{
-						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-						suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
+						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
+						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+
+						if (folder is null)
+							return false;
+
+						var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+						if (currPath.Count >= maxSuggestions)
 						{
-							Text = x.Path,
-							PrimaryDisplay = x.Item.DisplayName
-						}).Concat(
-							subPath.Select(x => new NavigationBarSuggestionItem()
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
 							{
 								Text = x.Path,
-								PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-							})).ToList();
+								PrimaryDisplay = x.Item.DisplayName
+							}).ToList();
+						}
+						else if (currPath.Any())
+						{
+							var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).Concat(
+								subPath.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x.Path,
+									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+								})).ToList();
+						}
 					}
-					else
+
+					if (suggestions is null || suggestions.Count == 0)
 					{
 						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
 						Text = shellpage.FilesystemViewModel.WorkingDirectory,
@@ -828,6 +847,8 @@ namespace Files.App.ViewModels.UserControls
 							{
 								NavigationBarSuggestions[si].Text = suggestions[si].Text;
 								NavigationBarSuggestions[si].PrimaryDisplay = suggestions[si].PrimaryDisplay;
+								NavigationBarSuggestions[si].SecondaryDisplay = suggestions[si].SecondaryDisplay;
+								NavigationBarSuggestions[si].SupplementaryDisplay = suggestions[si].SupplementaryDisplay;
 							}
 							else
 							{
