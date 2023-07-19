@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml;
@@ -49,7 +48,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (SetProperty(ref selectedItem, value))
 				{
-					OnPropertyChanged(nameof(TagsFlyout));
+					UpdateTagsItems();
 					OnPropertyChanged(nameof(LoadTagsList));
 
 					if (value is not null)
@@ -88,8 +87,7 @@ namespace Files.App.ViewModels.UserControls
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
-		public MenuFlyout TagsFlyout
-			=> new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+		public ObservableCollection<TagsListItem> Items { get; } = new();
 
 		public PreviewPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
@@ -374,6 +372,17 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (e.PropertyName is nameof(ListedItem.HasTags))
 				OnPropertyChanged(nameof(LoadTagsList));
+			else if (e.PropertyName is nameof(ListedItem.FileTagsUI))
+				UpdateTagsItems();
+		}
+
+		private void UpdateTagsItems()
+		{
+			Items.Clear();
+
+			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+
+			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
 		}
 
 		public void Dispose()

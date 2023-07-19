@@ -7,9 +7,9 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
-	xmlns:tags="using:Files.Core.ViewModels.FileTags"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
@@ -285,7 +285,7 @@
 
 					<GridView
 						HorizontalAlignment="Stretch"
-						ItemsSource="{x:Bind ViewModel.SelectedItem.FileTagsUI, Mode=OneWay}"
+						ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
 						SelectionMode="None">
 						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
@@ -294,45 +294,50 @@
 						</GridView.ItemsPanel>
 
 						<GridView.ItemTemplate>
-							<DataTemplate x:Name="TagTemplate" x:DataType="tags:TagViewModel">
-								<StackPanel
-									AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
-									Orientation="Horizontal"
-									Spacing="8"
-									ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
-									<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay}" />
-									<TextBlock
-										HorizontalAlignment="Stretch"
-										Style="{StaticResource Local.FileDetailsTextBlockStyle}"
-										Text="{x:Bind Name, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis" />
+							<DataTemplate x:Name="TagTemplate" x:DataType="items:TagsListItem">
+								<StackPanel>
+									<StackPanel
+										x:Name="DetailsTagItem"
+										x:Load="{x:Bind IsTag, Mode=OneWay}"
+										AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
+										Orientation="Horizontal"
+										Spacing="8"
+										ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
+										<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
+										<TextBlock
+											HorizontalAlignment="Stretch"
+											Style="{StaticResource Local.FileDetailsTextBlockStyle}"
+											Text="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis" />
+									</StackPanel>
+
+									<!--  Edit Tags Button  -->
+									<Button
+										x:Name="DetailsEditTags"
+										HorizontalAlignment="Left"
+										x:Load="{x:Bind IsFlyout, Mode=OneWay}"
+										AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
+										Background="Transparent"
+										BorderBrush="Transparent"
+										Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
+										ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
+										<Button.Content>
+											<usercontrols:OpacityIcon
+												Width="16"
+												Height="16"
+												Style="{StaticResource ColorIconTags}" />
+										</Button.Content>
+									</Button>
 								</StackPanel>
 							</DataTemplate>
 						</GridView.ItemTemplate>
 					</GridView>
 				</StackPanel>
 
-				<!--  Edit Tags Button  -->
-				<Button
-					x:Name="DetailsEditTags"
-					Margin="8,0,8,8"
-					HorizontalAlignment="Left"
-					Flyout="{x:Bind ViewModel.TagsFlyout, Mode=OneWay}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}"
-					Visibility="Collapsed">
-					<Button.Content>
-						<StackPanel Orientation="Horizontal" Spacing="8">
-							<FontIcon FontSize="12" Glyph="&#xE8EC;" />
-							<TextBlock Text="{helpers:ResourceString Name=EditTags}" />
-							<FontIcon FontSize="12" Glyph="&#xE70D;" />
-						</StackPanel>
-					</Button.Content>
-				</Button>
-
 				<!--  Open Properties Button  -->
 				<Button
 					x:Name="DetailsOpenProperties"
-					Margin="8,0,8,8"
+					Margin="8,8,8,8"
 					HorizontalAlignment="Left"
 					Command="{x:Bind Commands.OpenProperties}"
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
@@ -364,7 +369,6 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
-						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
@@ -378,7 +382,6 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
-						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -390,7 +393,6 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
-						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
@@ -403,7 +405,6 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
-						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
