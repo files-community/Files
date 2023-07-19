@@ -41,36 +41,39 @@ namespace Files.App.Utils.Storage
 		{
 			if (e.PropertyName == nameof(Count))
 			{
-				Model.CountText = string.Format(Count > 1 ? "GroupItemsCount_Plural".GetLocalizedResource() : "GroupItemsCount_Singular".GetLocalizedResource(), Count);
+				Model.CountText = string.Format(
+					Count > 1
+						? "GroupItemsCount_Plural".GetLocalizedResource()
+						: "GroupItemsCount_Singular".GetLocalizedResource(),
+					Count);
 			}
 		}
 
 		public void InitializeExtendedGroupHeaderInfoAsync()
 		{
 			if (GetExtendedGroupHeaderInfo is null)
-			{
 				return;
-			}
 
 			Model.ResumePropertyChangedNotifications(false);
 
 			GetExtendedGroupHeaderInfo.Invoke(this);
 			Model.Initialized = true;
+
 			if (isBulkOperationStarted)
-			{
 				Model.PausePropertyChangedNotifications();
-			}
 		}
 
 		public override void BeginBulkOperation()
 		{
 			base.BeginBulkOperation();
+			
 			Model.PausePropertyChangedNotifications();
 		}
 
 		public override void EndBulkOperation()
 		{
 			base.EndBulkOperation();
+
 			Model.ResumePropertyChangedNotifications();
 		}
 	}
