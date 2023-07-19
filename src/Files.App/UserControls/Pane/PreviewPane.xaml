@@ -317,10 +317,15 @@
 										HorizontalAlignment="Left"
 										x:Load="{x:Bind IsFlyout, Mode=OneWay}"
 										AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
+										Background="Transparent"
+										BorderBrush="Transparent"
 										Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
 										ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
 										<Button.Content>
-											<FontIcon FontSize="12" Glyph="&#xE710;" />
+											<usercontrols:OpacityIcon
+												Width="16"
+												Height="16"
+												Style="{StaticResource ColorIconTags}" />
 										</Button.Content>
 									</Button>
 								</StackPanel>
