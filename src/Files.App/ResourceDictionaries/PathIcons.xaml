@@ -136,8 +136,7 @@
 									<Path
 										x:Name="Path4"
 										Data="M1.68825 9.8098C1.51125 10.4763 1.68413 11.2165 2.20688 11.7392L4.67135 14.2037C6.23344 15.7658 8.7661 15.7658 10.3282 14.2037L14.414 10.1179C14.7891 9.74283 14.9998 9.23412 14.9998 8.70369V8.12132L9.62109 13.5C8.44952 14.6716 6.55003 14.6716 5.37845 13.5L1.68825 9.8098Z"
-										Fill="{ThemeResource IconBaseBrush}"
-										Opacity=".40" />
+										Fill="{ThemeResource IconBaseBrush}" />
 								</Grid>
 
 								<VisualStateManager.VisualStateGroups>
@@ -151,7 +150,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconEnterCompactOverlay" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
