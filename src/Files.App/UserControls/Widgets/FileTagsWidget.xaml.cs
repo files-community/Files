@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
@@ -18,10 +17,6 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
-		private readonly ICommandManager _commands;
-
-		private readonly ITagsContext _tagsContext;
-
 		private readonly IUserSettingsService userSettingsService;
 
 		public FileTagsWidgetViewModel ViewModel
@@ -36,11 +31,9 @@ namespace Files.App.UserControls.Widgets
 
 		public delegate void FileTagsOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void FileTagsNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
-		public delegate void RightClickedTagsChangedEventHandler(object sender, IEnumerable<FileTagsItemViewModel> items);
 
 		public event FileTagsOpenLocationInvokedEventHandler FileTagsOpenLocationInvoked;
 		public event FileTagsNewPaneInvokedEventHandler FileTagsNewPaneInvoked;
-		public static event RightClickedTagsChangedEventHandler? RightClickedTagsChanged;
 
 		public string WidgetName => nameof(FileTagsWidget);
 
@@ -58,8 +51,6 @@ namespace Files.App.UserControls.Widgets
 
 		public FileTagsWidget()
 		{
-			_commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			_tagsContext = Ioc.Default.GetRequiredService<ITagsContext>();
 			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			InitializeComponent();
@@ -121,23 +112,6 @@ namespace Files.App.UserControls.Widgets
 				e,
 				GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
 				rightClickedItem: item);
-		}
-
-		public void TagTitle_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			if (sender is not FrameworkElement element ||
-				element.Parent is not Grid parent ||
-				parent.Children[1] is not AdaptiveGridView gridView)
-			{
-				return;
-			}
-
-			RightClickedTagsChanged?.Invoke(this, gridView.Items.Select(item => (FileTagsItemViewModel)item));
-
-			LoadContextMenu(
-				element,
-				e,
-				GetWidgetMenuItems());
 		}
 
 		private async void LoadContextMenu(
@@ -266,14 +240,6 @@ namespace Files.App.UserControls.Widgets
 					IsEnabled = false,
 				}
 			}.Where(x => x.ShowItem).ToList();
-		}
-
-		public List<ContextMenuFlyoutItemViewModel> GetWidgetMenuItems()
-		{
-			return new List<ContextMenuFlyoutItemViewModel>()
-			{
-				new ContextMenuFlyoutItemViewModelBuilder(_commands.OpenAllTaggedItems).Build()
-			};
 		}
 
 		public void OpenFileLocation(WidgetCardItem? item)

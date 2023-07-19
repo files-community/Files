@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
 using Files.App.ViewModels.Widgets;
 using System.Collections.Immutable;
 
@@ -30,10 +29,10 @@ namespace Files.App.Data.Contexts
 
 		public TagsContext()
 		{
-			FileTagsWidget.RightClickedTagsChanged += FileTagsWidget_RightClickedTagsChanged;
+			FileTagsContainerViewModel.SelectedTagsChanged += FileTagsContainerViewModel_SelectedTagsChanged;
 		}
 
-		private void FileTagsWidget_RightClickedTagsChanged(object sender, IEnumerable<FileTagsItemViewModel> items)
+		private void FileTagsContainerViewModel_SelectedTagsChanged(object sender, IEnumerable<FileTagsItemViewModel> items)
 		{
 			TaggedItems = items;
 		}
