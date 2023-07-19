@@ -782,7 +782,7 @@ namespace Files.App.ViewModels.UserControls
 
 					if (sender.Text.StartsWith(">"))
 					{
-						var searchText = sender.Text.Substring(1);
+						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command => command != Commands.None &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
 							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
