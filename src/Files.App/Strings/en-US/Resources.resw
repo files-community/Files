@@ -3398,4 +3398,10 @@
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Open directory in new window</value>
   </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
+  </data>
 </root>
