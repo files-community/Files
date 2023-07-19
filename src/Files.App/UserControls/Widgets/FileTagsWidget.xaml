@@ -85,9 +85,9 @@
 						<HyperlinkButton
 							Grid.Column="2"
 							Margin="4"
-							AutomationProperties.Name="{helpers:ResourceString Name=OpenAllItems}"
+							AutomationProperties.Name="{helpers:ResourceString Name=OpenAllTaggedItems}"
 							Command="{x:Bind OpenAllCommand}"
-							ToolTipService.ToolTip="{helpers:ResourceString Name=OpenAllItems}">
+							ToolTipService.ToolTip="{helpers:ResourceString Name=OpenAllTaggedItems}">
 							<HyperlinkButton.Content>
 								<localcontrols:OpacityIcon Style="{StaticResource ColorIconOpen}" />
 							</HyperlinkButton.Content>

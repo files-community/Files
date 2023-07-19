@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly ITagsContext _tagsContext;
 
 		public string Label
-			=> "OpenAllItems".GetLocalizedResource();
+			=> "OpenAllTaggedItems".GetLocalizedResource();
 
 		public string Description
-			=> "OpenAllItemsDescription".GetLocalizedResource();
+			=> "OpenAllTaggedItemsDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE71D");
