@@ -139,7 +139,7 @@
     <value>Grootte:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Grootte op schijf:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Ongecomprimeerde grootte:</value>
@@ -2101,7 +2101,7 @@
     <value>Afbeeldingen</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Updatebestanden</value>
+    <value>Update Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>{0} items voorbereiden</value>
@@ -2224,7 +2224,7 @@
     <value>Archief comprimeren</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Comprimeren</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecteer bestanden en mappen wanneer je over hen beweegt</value>
@@ -2392,7 +2392,7 @@
     <value>Toon Bewerk Labels menu</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Toon Versturen naar menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Toon optie om mappen in een nieuw tabblad te openen</value>
@@ -2662,7 +2662,7 @@
     <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>Geselecteerde certificaat(en) installeren</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Geselecteerde toepassing uitvoeren als beheerder</value>
@@ -3282,13 +3282,13 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>Auteur</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Commitbericht</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
@@ -3306,13 +3306,13 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Achtergrond materiaal</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Branches beheren</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
@@ -3330,72 +3330,78 @@
     <value>{0} outgoing / {1} incoming commits</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>Verbind met GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>Files kan nu geen toegang krijgen tot GitHub.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Open de huidige map in Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Open de huidige map in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>Kopieer code</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Toegevoegd</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Verwijderd</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Gewijzigd</value>
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Kan huidige eigenaar niet weergeven.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Geweldig! Je bent nu geautoriseerd.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Repo initialiseren</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Initialiseer een Git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Naam externe repository</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Huidige branch</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
     <value>Path column</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Sorteer items op pad</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Open map in nieuw venster</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Open map in nieuw tabblad</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Open map in nieuw venster</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>
