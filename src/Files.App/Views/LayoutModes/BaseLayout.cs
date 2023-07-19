@@ -1377,6 +1377,11 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
+		public void ReloadPreviewPane()
+		{
+			UpdatePreviewPaneSelection(SelectedItems);
+		}
+
 		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)
 		{
 			if (LockPreviewPaneContent)
