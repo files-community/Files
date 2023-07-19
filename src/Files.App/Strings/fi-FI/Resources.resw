@@ -3398,4 +3398,10 @@
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Avaa hakemisto uudessa ikkunassa</value>
   </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Avaa kaikki</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Avaa kaikki merkityt kohteet</value>
+  </data>
 </root>

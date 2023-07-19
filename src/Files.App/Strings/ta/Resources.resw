@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>புதிய சாளரம்</value>
+    <value>புதியச் சாளரம்</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>பாதையை நகலெடு</value>
@@ -3297,10 +3297,10 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>அக்ரிலிக்</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>மைக்கா</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
     <value>Mica Alt</value>
@@ -3321,7 +3321,7 @@
     <value>Run git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>ஒத்திசை</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
@@ -3330,7 +3330,7 @@
     <value>{0} outgoing / {1} incoming commits</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>GitHub உடன் இணை</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
@@ -3345,7 +3345,7 @@
     <value>Open the current directory in Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Visual Studio Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
@@ -3397,5 +3397,11 @@
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>
