@@ -1,0 +1,31 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Page
+	x:Class="Files.App.Views.SplashScreenPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ImageBrush
+			x:Name="LogoSplash"
+			AlignmentX="Center"
+			AlignmentY="Center"
+			ImageSource="/Assets/AppTiles/Dev/SplashScreen.png"
+			Stretch="None" />
+	</Page.Resources>
+
+	<Grid>
+
+		<Grid Background="{StaticResource LogoSplash}" />
+
+		<ProgressRing
+			Margin="0,0,0,120"
+			VerticalAlignment="Bottom"
+			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+			IsIndeterminate="True" />
+
+	</Grid>
+</Page>

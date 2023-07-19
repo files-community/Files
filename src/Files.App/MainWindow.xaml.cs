@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Utils.CommandLine;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
@@ -19,20 +18,23 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
+		private readonly IApplicationService ApplicationService;
+
+		private MainPageViewModel mainPageViewModel;
+
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
 		public IntPtr WindowHandle { get; }
 
-		private MainPageViewModel mainPageViewModel;
-
-		private IApplicationService ApplicationService { get; } = Ioc.Default.GetRequiredService<IApplicationService>();
-
 		private MainWindow()
 		{
+			ApplicationService = new ApplicationService();
+
 			WindowHandle = this.GetWindowHandle();
 
 			InitializeComponent();
+
 			EnsureEarlyWindow();
 		}
 
@@ -41,30 +43,33 @@ namespace Files.App
 			// Set PersistenceId
 			PersistenceId = "FilesMainWindow";
 
-			// Set title
+			// Set minimum sizes
+			MinHeight = 416;
+			MinWidth = 516;
+
 			AppWindow.Title = "Files";
-
-			// Set logo
 			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
-
-			// Extend title bar
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-			// Set window buttons background to transparent
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+		}
 
-			// Set minimum sizes
-			base.MinHeight = 328;
-			base.MinWidth = 516;
+		public void ShowSplashScreen()
+		{
+			var rootFrame = EnsureWindowIsInitialized(false);
+
+			rootFrame.Navigate(typeof(SplashScreenPage));
 		}
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
+			//return;
+
 			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-			var rootFrame = EnsureWindowIsInitialized();
-			Activate();
+			var rootFrame = EnsureWindowIsInitialized(true);
+
+			//Activate();
 
 			switch (activatedEventArgs)
 			{
@@ -78,7 +83,7 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
-					else if (rootFrame.Content is null)
+					else if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -147,7 +152,7 @@ namespace Files.App
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (rootFrame.Content is null)
+					if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -161,27 +166,27 @@ namespace Files.App
 					break;
 			}
 
-			if (rootFrame.Content is null)
+			if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
-		private Frame EnsureWindowIsInitialized()
+		private Frame EnsureWindowIsInitialized(bool backdropEnabled)
 		{
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
 			//  just ensure that the window is active
-			if (!(MainWindow.Instance.Content is Frame rootFrame))
+			if (Instance.Content is not Frame rootFrame)
 			{
 				// Set system backdrop
-				this.SystemBackdrop = new AppSystemBackdrop();
+				if (backdropEnabled)
+					SystemBackdrop = new AppSystemBackdrop();
 
 				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new Frame();
-				rootFrame.CacheSize = 1;
+				rootFrame = new() { CacheSize = 1 };
 				rootFrame.NavigationFailed += OnNavigationFailed;
 
 				// Place the frame in the current Window
-				MainWindow.Instance.Content = rootFrame;
+				Instance.Content = rootFrame;
 			}
 
 			return rootFrame;
