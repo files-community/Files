@@ -336,7 +336,8 @@
 					HorizontalAlignment="Left"
 					Command="{x:Bind Commands.OpenProperties}"
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}"
+					Visibility="Collapsed">
 					<Button.Content>
 						<StackPanel Orientation="Horizontal" Spacing="8">
 							<usercontrols:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
@@ -364,6 +365,7 @@
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
 						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
+						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -377,6 +379,7 @@
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
@@ -388,6 +391,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
 						<Setter Target="DetailsEditTags.Visibility" Value="Visible" />
+						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 					</VisualState.Setters>
@@ -400,6 +404,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsEditTags.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />

@@ -73,25 +73,11 @@ namespace Files.App.Utils
 			set => SetProperty(ref loadFileIcon, value);
 		}
 
-		private bool loadDefaultIcon = false;
-		public bool LoadDefaultIcon
-		{
-			get => loadDefaultIcon;
-			[Obsolete("The set accessor is used internally and should not be used outside ListedItem and derived classes.")]
-			set => SetProperty(ref loadDefaultIcon, value);
-		}
-
 		private bool loadWebShortcutGlyph;
 		public bool LoadWebShortcutGlyph
 		{
 			get => loadWebShortcutGlyph;
-			set
-			{
-				if (SetProperty(ref loadWebShortcutGlyph, value))
-				{
-					LoadDefaultIcon = !value;
-				}
-			}
+			set => SetProperty(ref loadWebShortcutGlyph, value);
 		}
 
 		private bool loadCustomIcon;
@@ -187,43 +173,14 @@ namespace Files.App.Utils
 			get => fileImage;
 			set
 			{
-				if (fileImage is BitmapImage imgOld)
-				{
-					imgOld.ImageOpened -= Img_ImageOpened;
-				}
 				if (SetProperty(ref fileImage, value))
 				{
-					if (value is BitmapImage img)
-					{
-						if (img.PixelWidth > 0)
-						{
-							Img_ImageOpened(img, null);
-						}
-						else
-						{
-							img.ImageOpened += Img_ImageOpened;
-						}
-					}
-				}
-			}
-		}
-
-		private void Img_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			if (sender is BitmapImage image)
-			{
-				image.ImageOpened -= Img_ImageOpened;
-
-				if (image.PixelWidth > 0)
-				{
-					SafetyExtensions.IgnoreExceptions(() =>
+					if (value is BitmapImage)
 					{
 						LoadFileIcon = true;
-						PlaceholderDefaultIcon = null;
 						NeedsPlaceholderGlyph = false;
-						LoadDefaultIcon = false;
 						LoadWebShortcutGlyph = false;
-					}, App.Logger); // 2009482836u
+					}
 				}
 			}
 		}
@@ -241,13 +198,6 @@ namespace Files.App.Utils
 					SetProperty(ref iconOverlay, value);
 				}
 			}
-		}
-
-		private BitmapImage placeholderDefaultIcon;
-		public BitmapImage PlaceholderDefaultIcon
-		{
-			get => placeholderDefaultIcon;
-			set => SetProperty(ref placeholderDefaultIcon, value);
 		}
 
 		private BitmapImage shieldIcon;
@@ -452,13 +402,6 @@ namespace Files.App.Utils
 		public void UpdateContainsFilesFolders()
 		{
 			ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(ItemPath);
-		}
-
-		public void SetDefaultIcon(BitmapImage img)
-		{
-			NeedsPlaceholderGlyph = false;
-			LoadDefaultIcon = true;
-			PlaceholderDefaultIcon = img;
 		}
 
 		private bool CheckElevationRights()
