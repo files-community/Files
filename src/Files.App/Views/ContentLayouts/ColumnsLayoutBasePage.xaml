@@ -19,6 +19,12 @@
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
+	<i:Interaction.Behaviors>
+		<icore:EventTriggerBehavior EventName="CharacterReceived">
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.PageCharacterReceivedCommand}" />
+		</icore:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+
 	<local:BaseLayout.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -67,8 +73,13 @@
 		<SemanticZoom
 			x:Name="MainSemanticZoom"
 			CanChangeViews="{x:Bind ViewModel.CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
-			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
+			<i:Interaction.Behaviors>
+				<icore:EventTriggerBehavior EventName="ViewChangeStarted">
+					<icore:InvokeCommandAction Command="{x:Bind ViewModel.SemanticZoomViewChangeStartedCommand}" />
+				</icore:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
 
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
@@ -77,16 +88,14 @@
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					ContainerContentChanging="FileList_ContainerContentChanging"
-					DoubleTapped="FileList_DoubleTapped"
-					DragItemsStarting="FileList_DragItemsStarting"
-					Holding="FileList_Holding"
+					DoubleTapped="MainUngroupedListView_DoubleTapped"
+					Holding="MainUngroupedListView_Holding"
 					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View, Mode=OneWay}"
-					PreviewKeyDown="FileList_PreviewKeyDown"
-					RightTapped="FileList_RightTapped"
-					SelectionChanged="FileList_SelectionChanged"
+					PreviewKeyDown="MainUngroupedListView_PreviewKeyDown"
+					RightTapped="MainUngroupedListView_RightTapped"
+					SelectionChanged="MainUngroupedListView_SelectionChanged"
 					Style="{StaticResource ColumnsLayoutListViewStyle}"
-					Tapped="FileList_ItemTapped">
+					Tapped="MainUngroupedListView_ItemTapped">
 
 					<i:Interaction.Behaviors>
 						<icore:EventTriggerBehavior EventName="DragOver">
@@ -94,6 +103,12 @@
 						</icore:EventTriggerBehavior>
 						<icore:EventTriggerBehavior EventName="Drop">
 							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}" />
+						</icore:EventTriggerBehavior>
+						<icore:EventTriggerBehavior EventName="DragItemsStarting">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.ListViewDragItemsStartingCommand}" />
+						</icore:EventTriggerBehavior>
+						<icore:EventTriggerBehavior EventName="ContainerContentChanging">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.ListViewContainerContentChangingCommand}" />
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 

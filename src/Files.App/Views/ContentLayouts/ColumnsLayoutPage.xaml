@@ -17,6 +17,9 @@
 		<icore:EventTriggerBehavior EventName="PointerPressed">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
+		<icore:EventTriggerBehavior EventName="CharacterReceived">
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.PageCharacterReceivedCommand}" />
+		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseLayout.Resources>

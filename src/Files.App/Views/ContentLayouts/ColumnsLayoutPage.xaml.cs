@@ -22,17 +22,11 @@ namespace Files.App.Views.ContentLayouts
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			// Add item jumping handler
-			CharacterReceived += ViewModel.Page_CharacterReceived;
-
 			ViewModel.OnNavigatedTo(e);
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
-			// Remove item jumping handler
-			CharacterReceived += ViewModel.Page_CharacterReceived;
-
 			ViewModel.OnNavigatingFrom(e);
 		}
 	}

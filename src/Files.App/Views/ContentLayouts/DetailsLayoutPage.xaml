@@ -29,6 +29,9 @@
 		<icore:EventTriggerBehavior EventName="PointerPressed">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
+		<icore:EventTriggerBehavior EventName="CharacterReceived">
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.PageCharacterReceivedCommand}" />
+		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseLayout.Resources>
@@ -94,7 +97,6 @@
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="MainUngroupedListView"
-					Padding="8,0,8,12"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

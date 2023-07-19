@@ -29,6 +29,9 @@
 		<icore:EventTriggerBehavior EventName="PointerPressed">
 			<icore:InvokeCommandAction Command="{x:Bind ViewModel.ItemPointerPressedCommand}" />
 		</icore:EventTriggerBehavior>
+		<icore:EventTriggerBehavior EventName="CharacterReceived">
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.PageCharacterReceivedCommand}" />
+		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseLayout.Resources>
@@ -490,38 +493,39 @@
 		<SemanticZoom
 			x:Name="MainSemanticZoom"
 			CanChangeViews="{x:Bind ViewModel.CollectionViewSource.IsSourceGrouped, Mode=OneWay}"
-			ViewChangeStarted="SemanticZoom_ViewChangeStarted"
 			Visibility="{x:Bind ViewModel.FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
+
+			<i:Interaction.Behaviors>
+				<icore:EventTriggerBehavior EventName="ViewChangeStarted">
+					<icore:InvokeCommandAction Command="{x:Bind ViewModel.SemanticZoomViewChangeStartedCommand}" />
+				</icore:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
 
 			<!--  Ungrouped View  -->
 			<SemanticZoom.ZoomedInView>
 				<toolkit:AdaptiveGridView
-					x:Name="FileList"
-					Padding="8"
-					VerticalContentAlignment="Stretch"
+					x:Name="MainUngroupedListView"
 					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind ViewModel.IsMiddleClickToScrollEnabled, Mode=OneWay}"
-					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind ViewModel.InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="True"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DesiredWidth="{x:Bind ViewModel.GridViewItemMinWidth, Mode=OneWay}"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
-					DragOver="ItemsLayout_DragOver"
-					Drop="ItemsLayout_Drop"
-					FocusVisualPrimaryThickness="0"
-					FocusVisualSecondaryThickness="0"
-					IsDoubleTapEnabled="True"
-					IsTabStop="True"
 					ItemsSource="{x:Bind ViewModel.CollectionViewSource.View, Mode=OneWay}"
 					PreviewKeyDown="FileList_PreviewKeyDown"
-					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
 					SelectionChanged="FileList_SelectionChanged"
-					SelectionMode="Extended"
-					ShowsScrollingPlaceholders="True"
-					StretchContentForSingleRow="False"
+					Style="{StaticResource GridViewLayoutAdaptiveGridViewStyle}"
 					Tapped="FileList_ItemTapped">
+
+					<i:Interaction.Behaviors>
+						<icore:EventTriggerBehavior EventName="DragOver">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DragOverCommand}" />
+						</icore:EventTriggerBehavior>
+						<icore:EventTriggerBehavior EventName="Drop">
+							<icore:InvokeCommandAction Command="{x:Bind ViewModel.DropCommand}" />
+						</icore:EventTriggerBehavior>
+					</i:Interaction.Behaviors>
 
 					<toolkit:AdaptiveGridView.GroupStyle>
 						<GroupStyle>

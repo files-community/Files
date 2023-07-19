@@ -68,6 +68,9 @@ namespace Files.App.ViewModels.ContentLayouts
 		public ICommand DragOverCommand { get; private set; }
 		public ICommand DropCommand { get; private set; }
 		public ICommand SemanticZoomViewChangeStartedCommand { get; private set; }
+		public ICommand PageCharacterReceivedCommand { get; private set; }
+		public ICommand ListViewDragItemsStartingCommand { get; private set; }
+		public ICommand ListViewContainerContentChangingCommand { get; private set; }
 
 		public FolderSettingsViewModel? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -257,6 +260,9 @@ namespace Files.App.ViewModels.ContentLayouts
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOver);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(Drop);
 			SemanticZoomViewChangeStartedCommand = new RelayCommand<SemanticZoomViewChangedEventArgs>(SemanticZoomViewChangeStarted);
+			PageCharacterReceivedCommand = new RelayCommand<CharacterReceivedRoutedEventArgs>(PageCharacterReceived);
+			ListViewDragItemsStartingCommand = new RelayCommand<DragItemsStartingEventArgs>(ListViewDragItemsStarting);
+			ListViewContainerContentChangingCommand = new RelayCommand<ContainerContentChangingEventArgs>(ListViewContainerContentChanging);
 
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			ItemManipulationModel = new();
@@ -893,7 +899,7 @@ namespace Files.App.ViewModels.ContentLayouts
 				overflowSeparator.Visibility = Visibility.Collapsed;
 		}
 
-		public virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		protected virtual void PageCharacterReceived(CharacterReceivedRoutedEventArgs args)
 		{
 			if (ParentShellPageInstance!.IsCurrentInstance)
 			{
@@ -902,7 +908,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			}
 		}
 
-		protected void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+		protected void ListViewDragItemsStarting(DragItemsStartingEventArgs e)
 		{
 			try
 			{
@@ -1054,7 +1060,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			deferral.Complete();
 		}
 
-		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		protected void ListViewContainerContentChanging(ContainerContentChangingEventArgs args)
 		{
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
@@ -1331,7 +1337,7 @@ namespace Files.App.ViewModels.ContentLayouts
 			tapDebounceTimer.Stop();
 		}
 
-		protected async Task ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
+		public async Task ValidateItemNameInputText(TextBox textBox, TextBoxBeforeTextChangingEventArgs args, Action<bool> showError)
 		{
 			if (FilesystemHelpers.ContainsRestrictedCharacters(args.NewText))
 			{

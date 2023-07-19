@@ -2,7 +2,8 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:uc="using:Files.App.UserControls">
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
@@ -405,6 +406,21 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
+	</Style>
+
+	<Style x:Key="GridViewLayoutAdaptiveGridViewStyle" TargetType="toolkit:AdaptiveGridView">
+		<Setter Property="Padding" Value="8,8,8,8" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="wctanimations:ItemsReorderAnimation.Duration" Value="0:0:0.350" />
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="IsDoubleTapEnabled" Value="True" />
+		<Setter Property="FocusVisualPrimaryThickness" Value="0" />
+		<Setter Property="FocusVisualSecondaryThickness" Value="0" />
+		<Setter Property="CanDragItems" Value="True" />
+		<Setter Property="SelectionMode" Value="Extended" />
+		<Setter Property="ScrollViewer.IsHorizontalScrollChainingEnabled" Value="False" />
+		<Setter Property="ShowsScrollingPlaceholders" Value="True" />
+		<Setter Property="StretchContentForSingleRow" Value="False" />
 	</Style>
 
 </ResourceDictionary>

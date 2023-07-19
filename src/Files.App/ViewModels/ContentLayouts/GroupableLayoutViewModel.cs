@@ -156,7 +156,7 @@ namespace Files.App.ViewModels.ContentLayouts
 
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
 
-		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
+		public virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			ListViewBase.Focus(FocusState.Programmatic);
 		}
