@@ -7,7 +7,6 @@ using Files.App.Data.Models;
 using Files.App.Extensions;
 using Files.App.Utils;
 using Files.App.Utils.Cloud;
-using Files.App.Utils.FilesystemHistory;
 using Files.App.Helpers;
 using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
@@ -114,6 +113,7 @@ namespace Files.App
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+          .AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
