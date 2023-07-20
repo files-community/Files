@@ -1,12 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
-using Files.Core.Helpers;
-using Files.Shared.Cloud;
-using Files.Shared.EventArguments;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
@@ -16,8 +12,6 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class PreviewPaneViewModel : ObservableObject, IDisposable
 	{
-		private readonly IUserSettingsService userSettingsService;
-
 		private readonly IPreviewPaneSettingsService previewSettingsService;
 
 		private readonly IContentPageContext contentPageContextService;
@@ -47,14 +41,31 @@ namespace Files.App.ViewModels.UserControls
 		public ListedItem SelectedItem
 		{
 			get => selectedItem;
-			set => SetProperty(ref selectedItem, value);
+			set
+			{
+				if (selectedItem is not null)
+					selectedItem.PropertyChanged -= SelectedItem_PropertyChanged;
+
+				if (SetProperty(ref selectedItem, value))
+				{
+					UpdateTagsItems();
+					OnPropertyChanged(nameof(LoadTagsList));
+
+					if (value is not null)
+						value.PropertyChanged += SelectedItem_PropertyChanged;
+				}
+			}
 		}
 
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
 			get => previewPaneState;
-			set => SetProperty(ref previewPaneState, value);
+			set
+			{
+				if (SetProperty(ref previewPaneState, value))
+					OnPropertyChanged(nameof(LoadTagsList));
+			}
 		}
 
 		private bool showCloudItemButton;
@@ -71,16 +82,21 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref previewPaneContent, value);
 		}
 
-		public PreviewPaneViewModel(IUserSettingsService userSettings, IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
+		public bool LoadTagsList
+			=> SelectedItem?.HasTags ?? false && 
+			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
+			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
+
+		public ObservableCollection<TagsListItem> Items { get; } = new();
+
+		public PreviewPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
-			userSettingsService = userSettings;
 			previewSettingsService = previewSettings;
 
 			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
-			userSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -162,6 +178,9 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var model = new FolderPreviewViewModel(item);
 				await model.LoadAsync();
+
+				if (!isItemSelected)
+					item.FileTags ??= FileTagsHelper.ReadFileTag(item.ItemPath);
 
 				return new FolderPreview(model);
 			}
@@ -315,18 +334,14 @@ namespace Files.App.ViewModels.UserControls
 
 		public ICommand ShowPreviewOnlyInvoked { get; }
 
-		private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private async void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.SettingName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
+			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreview();
 			}
-		}
-
-		private void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{
 				var newEnablingStatus = previewSettingsService.IsEnabled;
 				if (isEnabled != newEnablingStatus)
@@ -353,9 +368,25 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private void SelectedItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(ListedItem.HasTags))
+				OnPropertyChanged(nameof(LoadTagsList));
+			else if (e.PropertyName is nameof(ListedItem.FileTagsUI))
+				UpdateTagsItems();
+		}
+
+		private void UpdateTagsItems()
+		{
+			Items.Clear();
+
+			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+
+			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
+		}
+
 		public void Dispose()
 		{
-			userSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}

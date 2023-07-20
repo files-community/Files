@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} вільно з {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Відкрити за допомогою</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Надіслати</value>
   </data>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Невідомо</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Редагувати позначки</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2158,7 +2155,7 @@
     <value>Стовпці по розміру вмісту</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Автовибір найкращого макета</value>
+    <value>Адаптивний макет</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Адаптивний (Ctrl+Shift+7)</value>
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Впорядкувати елементи за шляхом</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

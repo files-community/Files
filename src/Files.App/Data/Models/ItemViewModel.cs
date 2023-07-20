@@ -1,12 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.StorageCache;
+using Files.App.Utils.Cloud;
+using Files.App.Utils.Shell;
+using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
-using Files.Shared.Cloud;
-using Files.Shared.EventArguments;
-using Files.Shared.Services;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
@@ -39,14 +38,14 @@ namespace Files.App.Data.Models
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly IFileListCache fileListCache = FileListCacheController.GetInstance();
+		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
 
 		// Files and folders list for manipulating
-		private List<ListedItem> filesAndFolders;
+		private ConcurrentCollection<ListedItem> filesAndFolders;
 		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -388,7 +387,7 @@ namespace Files.App.Data.Models
 		public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
-			filesAndFolders = new List<ListedItem>();
+			filesAndFolders = new ConcurrentCollection<ListedItem>();
 			FilesAndFolders = new BulkConcurrentObservableCollection<ListedItem>();
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
@@ -427,18 +426,10 @@ namespace Files.App.Data.Models
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
 
-			// Get the item that immediately follows matching item to be removed
-			// If the matching item is the last item, try to get the previous item; otherwise, null
-			// Case must be ignored since $Recycle.Bin != $RECYCLE.BIN
-			var itemRemovedIndex = filesAndFolders.FindIndex(x => x.ItemPath.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
-			var nextOfMatchingItem = filesAndFolders.ElementAtOrDefault(itemRemovedIndex + 1 < filesAndFolders.Count ? itemRemovedIndex + 1 : itemRemovedIndex - 1);
 			var removedItem = await RemoveFileOrFolderAsync(e.FullPath);
 
 			if (removedItem is not null)
 				await ApplySingleFileChangeAsync(removedItem);
-
-			if (nextOfMatchingItem is not null)
-				await RequestSelectionAsync(new List<ListedItem>() { nextOfMatchingItem });
 		}
 
 		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
@@ -737,7 +728,7 @@ namespace Files.App.Data.Models
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles).ToList();
+				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
 			}
 
 			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -924,10 +915,11 @@ namespace Files.App.Data.Models
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
-								item.FileImage ??= new BitmapImage();
-								item.FileImage.DecodePixelType = DecodePixelType.Logical;
-								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-								await item.FileImage.SetSourceAsync(Thumbnail);
+								var img = new BitmapImage();
+								img.DecodePixelType = DecodePixelType.Logical;
+								img.DecodePixelWidth = (int)thumbnailSize;
+								await img.SetSourceAsync(Thumbnail);
+								item.FileImage = img;
 								if (!string.IsNullOrEmpty(item.FileExtension) &&
 									!item.IsShortcut && !item.IsExecutable &&
 									!ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant()))
@@ -994,10 +986,11 @@ namespace Files.App.Data.Models
 						{
 							await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
-								item.FileImage ??= new BitmapImage();
-								item.FileImage.DecodePixelType = DecodePixelType.Logical;
-								item.FileImage.DecodePixelWidth = (int)thumbnailSize;
-								await item.FileImage.SetSourceAsync(Thumbnail);
+								var img = new BitmapImage();
+								img.DecodePixelType = DecodePixelType.Logical;
+								img.DecodePixelWidth = (int)thumbnailSize;
+								await img.SetSourceAsync(Thumbnail);
+								item.FileImage = img;
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 							wasIconLoaded = true;
 						}
@@ -2364,14 +2357,14 @@ namespace Files.App.Data.Models
 			var results = new List<ListedItem>();
 			search.SearchTick += async (s, e) =>
 			{
-				filesAndFolders = new List<ListedItem>(results);
+				filesAndFolders = new ConcurrentCollection<ListedItem>(results);
 				await OrderFilesAndFoldersAsync();
 				await ApplyFilesAndFoldersChangesAsync();
 			};
 
 			await search.SearchAsync(results, searchCTS.Token);
 
-			filesAndFolders = new List<ListedItem>(results);
+			filesAndFolders = new ConcurrentCollection<ListedItem>(results);
 
 			await OrderFilesAndFoldersAsync();
 			await ApplyFilesAndFoldersChangesAsync();

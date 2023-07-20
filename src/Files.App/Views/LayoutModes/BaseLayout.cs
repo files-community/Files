@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,7 +23,7 @@ using Windows.Storage;
 using Windows.System;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
 namespace Files.App.Views.LayoutModes
@@ -69,7 +70,7 @@ namespace Files.App.Views.LayoutModes
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		public BaseLayoutCommandsViewModel? CommandsViewModel { get; protected set; }
+		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
 		public IShellPage? ParentShellPageInstance { get; private set; } = null;
 
@@ -445,7 +446,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Utils.Search.FolderSearch
+					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
@@ -709,7 +710,7 @@ namespace Files.App.Views.LayoutModes
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
-				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
+				Label = "EditTags".GetLocalizedResource(),
 				Content = new OpacityIcon()
 				{
 					Style = (Style)Application.Current.Resources["ColorIconTag"],
@@ -1374,6 +1375,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				showError?.Invoke(false);
 			}
+		}
+
+		public void ReloadPreviewPane()
+		{
+			UpdatePreviewPaneSelection(SelectedItems);
 		}
 
 		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)

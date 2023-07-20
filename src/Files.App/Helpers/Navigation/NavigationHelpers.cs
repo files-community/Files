@@ -4,14 +4,12 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Core.Helpers;
 using Files.Core.Services.Settings;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

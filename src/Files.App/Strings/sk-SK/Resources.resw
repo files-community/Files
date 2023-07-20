@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} velných z {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Otvoriť pomocou</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Poslať na</value>
   </data>
@@ -1808,7 +1805,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Neznámy</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Upraviť značky súboru</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2106,7 +2103,7 @@
     <value>Obrázky</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Aktualizovať súbory</value>
+    <value>Aktualizovať Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Pripravuje sa {0} položiek</value>
@@ -3393,5 +3390,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

@@ -5,8 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageEnumerators;
-using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;

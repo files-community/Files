@@ -4,14 +4,11 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Commands;
-using Files.App.Contexts;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
 using Files.Core.Extensions;
-using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -166,6 +163,8 @@ namespace Files.App.Views
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
+
+			SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.ReloadPreviewPane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)

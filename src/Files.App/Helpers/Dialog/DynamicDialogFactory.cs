@@ -132,7 +132,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_FileInUseDialog(List<Shared.Win32Process> lockingProcess = null)
+		public static DynamicDialog GetFor_FileInUseDialog(List<Win32Process> lockingProcess = null)
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{

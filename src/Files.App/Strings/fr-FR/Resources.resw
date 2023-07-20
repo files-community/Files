@@ -169,7 +169,7 @@
     <value>Modifié :</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Accédé</value>
+    <value>Accédé :</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Supprimer tous les éléments</value>
@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} libre(s) sur {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Ouvrir avec</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Envoyer vers</value>
   </data>
@@ -562,7 +559,7 @@
     <value>Signaler ce problème</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>L'élément référencé est invalide ou inaccessible.{0} Message d'erreur : {0}{1}</value>
+    <value>L'élément référencé est invalide ou inaccessible.{0}Message d'erreur :{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Élément invalide</value>
@@ -643,7 +640,7 @@
     <value>Crée un dossier vide</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
-    <value>Mode d'affichage</value>
+    <value>Mode de disposition</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Actualiser le dossier</value>
@@ -1003,7 +1000,7 @@
     <value>Inclure les éléments non indexés dans les résultats de recherche</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Synchroniser les préférences d'affichage et de tri entre les répertoires</value>
+    <value>Synchroniser les préférences de disposition et de tri entre les dossiers</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
@@ -1063,7 +1060,7 @@
     <value>Nom désiré</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Basculer le volet de prévisualisation</value>
+    <value>Afficher le volet de prévisualisation</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Éditer les étiquettes</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2011,7 +2008,7 @@
     <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos propres risques.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Effacer tout</value>
+    <value>Tout effacer</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
@@ -2077,7 +2074,7 @@
     <value>Exécuter avec PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Ce calcul de taille consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
+    <value>Le calcul de la taille des dossiers consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Tourner à gauche</value>
@@ -2128,7 +2125,7 @@
     <value>Étiquettes</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Utiliser le style compact dans la vue Détails</value>
+    <value>Utiliser le style compact dans la disposition détails</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universel</value>
@@ -2158,7 +2155,7 @@
     <value>Adapter la largeur des colonnes</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Choisir automatiquement la meilleure disposition</value>
+    <value>Disposition adaptative</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptatif (Ctrl+Maj+7)</value>
@@ -2203,13 +2200,13 @@
     <value>Colonne type</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Colonnes dans la mise en page des détails</value>
+    <value>Colonnes dans la disposition détails</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir les dossiers avec un seul clic dans la disposition en colonnes</value>
+    <value>Ouvrir les dossiers d'un seul clic dans la disposition colonnes</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2269,7 +2266,7 @@
     <value>Échec de vidage de la corbeille</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Mot de passe d'archive</value>
+    <value>Mot de passe de l'archive</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Chemin</value>
@@ -2521,7 +2518,7 @@
     <value>Augmenter la taille</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver la direction de tri</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nom invalide</value>
@@ -2773,7 +2770,7 @@
     <value>Trier les éléments par ordre décroissant</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver la direction de tri des éléments</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Lister et trier les dossiers avec les fichiers</value>
@@ -2818,7 +2815,7 @@
     <value>Trier les groupes en ordre décroissant</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver le sens de tri des groupes</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Ouvrir nouvel onglet</value>
@@ -3345,13 +3342,13 @@
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Ouvrir le répertoire actuel dans Visual Studio</value>
+    <value>Ouvrir le dossier actuel dans Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Ouvrir le répertoire actuel dans Visual Studio Code</value>
+    <value>Ouvrir le dossier actuel dans Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copier le code</value>
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Trier les éléments par chemin</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans un nouveau volet</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans un nouvel onglet</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans une nouvelle fenêtre</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Ouvrir tout</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Ouvrir tous les éléments étiquetés</value>
   </data>
 </root>
