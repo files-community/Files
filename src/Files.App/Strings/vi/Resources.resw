@@ -3398,4 +3398,10 @@
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Mở đường dẫn trong cửa sổ mới</value>
   </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Mở tất cả</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Mở tất cả mục được gắn nhãn</value>
+  </data>
 </root>

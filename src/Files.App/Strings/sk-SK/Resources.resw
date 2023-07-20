@@ -2103,7 +2103,7 @@
     <value>Obrázky</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Aktualizovať súbory</value>
+    <value>Aktualizovať Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Pripravuje sa {0} položiek</value>
@@ -3399,5 +3399,11 @@
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>
