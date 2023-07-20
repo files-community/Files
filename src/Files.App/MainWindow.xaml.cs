@@ -63,13 +63,11 @@ namespace Files.App
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
-			//return;
+			return;
 
 			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			var rootFrame = EnsureWindowIsInitialized(true);
-
-			//Activate();
 
 			switch (activatedEventArgs)
 			{

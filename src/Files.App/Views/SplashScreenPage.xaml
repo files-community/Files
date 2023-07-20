@@ -8,24 +8,30 @@
 	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
-	<Page.Resources>
-		<ImageBrush
-			x:Name="LogoSplash"
-			AlignmentX="Center"
-			AlignmentY="Center"
-			ImageSource="/Assets/AppTiles/Dev/SplashScreen.png"
-			Stretch="None" />
-	</Page.Resources>
-
 	<Grid>
-
-		<Grid Background="{StaticResource LogoSplash}" />
+		<Image
+			x:Name="MainSplashScreenImage"
+			Width="420"
+			Source="/Assets/AppTiles/Dev/SplashScreen.png" />
 
 		<ProgressRing
-			Margin="0,0,0,120"
+			x:Name="MainProgressRing"
+			Margin="0,0,0,88"
 			VerticalAlignment="Bottom"
 			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
 			IsIndeterminate="True" />
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="SizeChangesState">
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="640" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="MainSplashScreenImage.Width" Value="480" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>
