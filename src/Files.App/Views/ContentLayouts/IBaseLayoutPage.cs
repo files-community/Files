@@ -8,6 +8,16 @@ namespace Files.App.Views.ContentLayouts
 {
 	public interface IBaseLayoutPage : IDisposable
 	{
+		ItemManipulationModel ItemManipulationModel { get; }
+
+		PreviewPaneViewModel PreviewPaneViewModel { get; }
+
+		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
+		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
+		BaseLayoutViewModel? CommandsViewModel { get; }
+
 		bool IsRenamingItem { get; }
 
 		bool IsItemSelected { get; }
@@ -22,16 +32,6 @@ namespace Files.App.Views.ContentLayouts
 		List<ListedItem>? SelectedItems { get; }
 
 		ListedItem? SelectedItem { get; }
-
-		ItemManipulationModel ItemManipulationModel { get; }
-
-		PreviewPaneViewModel PreviewPaneViewModel { get; }
-
-		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
-
-		DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
-
-		BaseLayoutViewModel? CommandsViewModel { get; }
 
 		CommandBarFlyout ItemContextMenuFlyout { get; set; }
 

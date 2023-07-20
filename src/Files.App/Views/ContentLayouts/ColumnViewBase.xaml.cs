@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +16,6 @@ using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
-using Microsoft.UI.Dispatching;
 
 namespace Files.App.Views.ContentLayouts
 {
@@ -37,15 +36,24 @@ namespace Files.App.Views.ContentLayouts
 
 		private ListViewItem? openedFolderPresenter;
 
+		public event EventHandler? ItemInvoked;
+
+		public event EventHandler? ItemTapped;
+
 		public ColumnViewBase() : base()
 		{
 			InitializeComponent();
+
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-			ItemInvoked += ColumnViewBase_ItemInvoked;
-			GotFocus += ColumnViewBase_GotFocus;
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
+
+			// TODO: Convert to ICommand
+			ItemInvoked += ColumnViewBase_ItemInvoked;
+
+			// TODO: Convert to ICommand
+			GotFocus += ColumnViewBase_GotFocus;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -107,10 +115,6 @@ namespace Files.App.Views.ContentLayouts
 		{
 			FileList?.SelectedItems.Remove(e);
 		}
-
-		public event EventHandler? ItemInvoked;
-
-		public event EventHandler? ItemTapped;
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -23,22 +22,25 @@ namespace Files.App.Views.ContentLayouts
 	/// </summary>
 	public sealed partial class DetailsLayoutBrowser : BaseGroupableLayoutPage
 	{
-		private const int TAG_TEXT_BLOCK = 1;
-
-		private uint currentIconSize;
-
-		private ListedItem? _nextItemToSelect;
-
 		protected override uint IconSize => currentIconSize;
 
 		protected override ListViewBase ListViewBase => FileList;
 
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+		private const int TAG_TEXT_BLOCK = 1;
+
+		private uint currentIconSize;
+
+		private ListedItem? _nextItemToSelect;
+
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		private double maxWidthForRenameTextbox;
+		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
+		public ScrollViewer? ContentScroller { get; private set; }
+
+		private double maxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;
@@ -52,14 +54,12 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
-
-		public ScrollViewer? ContentScroller { get; private set; }
-
 		public DetailsLayoutBrowser() : base()
 		{
 			InitializeComponent();
+
 			DataContext = this;
+
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}

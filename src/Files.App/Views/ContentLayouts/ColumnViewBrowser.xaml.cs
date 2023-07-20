@@ -26,6 +26,22 @@ namespace Files.App.Views.ContentLayouts
 
 		public int FocusIndex { get; private set; }
 
+		public IShellPage ActiveColumnShellPage
+		{
+			get
+			{
+				if (ColumnHost.ActiveBlades?.Count > 0)
+				{
+					var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
+					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
+
+					return activeInstance ?? shellPages.Last();
+				}
+
+				return ParentShellPageInstance;
+			}
+		}
+
 		public ColumnViewBrowser() : base()
 		{
 			InitializeComponent();
@@ -416,21 +432,6 @@ namespace Files.App.Views.ContentLayouts
 			else
 			{
 				DismissOtherBlades(0);
-			}
-		}
-
-		public IShellPage ActiveColumnShellPage
-		{
-			get
-			{
-				if (ColumnHost.ActiveBlades?.Count > 0)
-				{
-					var shellPages = ColumnHost.ActiveBlades.Select(x => (x.Content as Frame).Content as IShellPage);
-					var activeInstance = shellPages.SingleOrDefault(x => x.IsCurrentInstance);
-					return activeInstance ?? shellPages.Last();
-				}
-
-				return ParentShellPageInstance;
 			}
 		}
 

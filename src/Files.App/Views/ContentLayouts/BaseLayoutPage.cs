@@ -29,7 +29,7 @@ using VanaraWindowsShell = Vanara.Windows.Shell;
 namespace Files.App.Views.ContentLayouts
 {
 	/// <summary>
-	/// Represents the base class which every layout page must derive from
+	/// Represents the base class which every layout page must derive from.
 	/// </summary>
 	public abstract class BaseLayoutPage : Page, IBaseLayoutPage, INotifyPropertyChanged
 	{
@@ -253,6 +253,20 @@ namespace Files.App.Views.ContentLayouts
 
 		protected abstract ItemsControl ItemsControl { get; }
 
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		private CancellationTokenSource? groupingCancellationToken;
+
+		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+
+		private ListedItem? dragOverItem = null;
+
+		private ListedItem? hoveredItem = null;
+
+		private ListedItem? preRenamingItem = null;
+
+		public ItemManipulationModel ItemManipulationModel { get; private set; }
+
 		public BaseLayoutPage()
 		{
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
@@ -279,6 +293,10 @@ namespace Files.App.Views.ContentLayouts
 
 		protected abstract void UnhookEvents();
 
+		protected abstract void InitializeCommandsViewModel();
+
+		protected abstract bool CanGetItemFromElement(object element);
+
 		private void HookBaseEvents()
 		{
 			ItemManipulationModel.RefreshItemsOpacityInvoked += ItemManipulationModel_RefreshItemsOpacityInvoked;
@@ -289,15 +307,11 @@ namespace Files.App.Views.ContentLayouts
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
 		}
 
-		public ItemManipulationModel ItemManipulationModel { get; private set; }
-
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			jumpString = string.Empty;
 			jumpTimer.Stop();
 		}
-
-		protected abstract void InitializeCommandsViewModel();
 
 		protected IEnumerable<ListedItem>? GetAllItems()
 		{
@@ -329,8 +343,6 @@ namespace Files.App.Views.ContentLayouts
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
 		}
 
-		protected abstract bool CanGetItemFromElement(object element);
-
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (ParentShellPageInstance?.SlimContentPage is not null)
@@ -358,8 +370,6 @@ namespace Files.App.Views.ContentLayouts
 				ParentShellPageInstance.FilesystemViewModel.UpdateEmptyTextType();
 			}
 		}
-
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
@@ -497,8 +507,6 @@ namespace Files.App.Views.ContentLayouts
 			catch (Exception) { }
 		}
 
-		private CancellationTokenSource? groupingCancellationToken;
-
 		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
 		{
 			await GroupPreferenceUpdated();
@@ -564,8 +572,6 @@ namespace Files.App.Views.ContentLayouts
 				Debug.WriteLine(error);
 			}
 		}
-
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
 
 		public async void BaseContextFlyout_Opening(object? sender, object e)
 		{
@@ -937,8 +943,6 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		private ListedItem? dragOverItem = null;
-
 		private void Item_DragLeave(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
@@ -1132,8 +1136,6 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		private ListedItem? hoveredItem = null;
-
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
@@ -1196,6 +1198,7 @@ namespace Files.App.Views.ContentLayouts
 			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
+
 		protected void InitializeDrag(UIElement container, ListedItem item)
 		{
 			if (item is null)
@@ -1218,11 +1221,6 @@ namespace Files.App.Views.ContentLayouts
 			element.DragLeave -= Item_DragLeave;
 			element.Drop -= Item_Drop;
 		}
-
-		// VirtualKey doesn't support or accept plus and minus by default.
-		public readonly VirtualKey PlusKey = (VirtualKey)187;
-
-		public readonly VirtualKey MinusKey = (VirtualKey)189;
 
 		public virtual void Dispose()
 		{
@@ -1319,8 +1317,6 @@ namespace Files.App.Views.ContentLayouts
 		virtual public void StartRenameItem()
 		{
 		}
-
-		private ListedItem? preRenamingItem = null;
 
 		public void CheckRenameDoubleClick(object clickedItem)
 		{
