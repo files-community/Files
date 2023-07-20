@@ -147,3 +147,4 @@ This is the list of all commands defined in `CommandCodes` enum except `None`.
 |                    | GitPull                             | Pull                                      | Run git pull                                             |                     |
 |                    | GitPush                             | Push                                      | Run git push                                             |                     |
 |                    | GitSync                             | Sync                                      | Run git pull and then git push                           |                     |
+| Tags               | OpenAllTaggedItems                  | Open all                                  | Open all tagged items                                    |                     |
