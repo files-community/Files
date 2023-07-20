@@ -7,7 +7,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Light">
-					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
+					<SolidColorBrush x:Key="IconBaseBrush" Color="#FF545454" />
 					<SolidColorBrush x:Key="IconAltBrush" Color="#72FFFFFF" />
 					<SolidColorBrush x:Key="Local.IconAltAccentBrush" Color="{StaticResource TextOnAccentFillColorPrimary}" />
 					<SolidColorBrush
@@ -40,8 +40,11 @@
 						Color="#72FFFFFF" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Dark">
-					<SolidColorBrush x:Key="IconBaseBrush" Color="#ABFFFFFF" />
-					<SolidColorBrush x:Key="IconAltBrush" Color="#72000000" />
+					<SolidColorBrush x:Key="IconBaseBrush" Color="#FFABABAB" />
+					<SolidColorBrush
+						x:Key="IconAltBrush"
+						Opacity=".30"
+						Color="#72000000" />
 					<SolidColorBrush
 						x:Key="Local.IconAltAccentBrush"
 						Opacity=".40"
@@ -76,7 +79,7 @@
 						Color="#72000000" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
-					<SolidColorBrush x:Key="IconBaseBrush" Color="#AB000000" />
+					<SolidColorBrush x:Key="IconBaseBrush" Color="#FF545454" />
 					<SolidColorBrush x:Key="IconAltBrush" Color="#72FFFFFF" />
 					<SolidColorBrush
 						x:Key="Local.IconAltAccentBrush"
@@ -1099,15 +1102,18 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Stretch="Fill">
-								<Grid Width="16" Height="16">
+							<Viewbox
+								Width="16"
+								Height="16"
+								Stretch="Uniform">
+								<Grid>
 									<Path
 										x:Name="Path1"
-										Data="M9 14H4C2.89543 14 2 13.1046 2 12V5H9V14Z"
+										Data="M9.5 4.5H1.5V12C1.5 13.3807 2.61929 14.5 4 14.5H9.5V4.5Z"
 										Fill="{ThemeResource IconAltBrush}" />
 									<Path
 										x:Name="Path2"
-										Data="M14 5H10V14H12C13.1046 14 14 13.1046 14 12V5Z"
+										Data="M14.5 4.5H9.5V14.5H12C13.3807 14.5 14.5 13.3807 14.5 12V4.5Z"
 										Fill="{ThemeResource AccentFillColorDefaultBrush}" />
 									<Path
 										x:Name="Path3"
@@ -1139,10 +1145,10 @@
 					<Setter.Value>
 						<ControlTemplate>
 							<Viewbox
-								Width="12"
-								Height="12"
+								Width="16"
+								Height="16"
 								Stretch="Fill">
-								<Grid Width="16" Height="16">
+								<Grid>
 									<Path
 										x:Name="Path1"
 										Data="M3 4.04346C2.83142 4.07712 2.66736 4.13034 2.50781 4.20312C2.21094 4.33333 1.95052 4.51041 1.72656 4.73437C1.50781 4.95312 1.33073 5.21093 1.19531 5.50781C1.0651 5.80468 1 6.11718 1 6.44531V12.5547C1 12.8828 1.0651 13.1953 1.19531 13.4922C1.33073 13.7891 1.50781 14.0495 1.72656 14.2734C1.95052 14.4922 2.21094 14.6693 2.50781 14.8047C2.80469 14.9349 3.11719 15 3.44531 15H9.5C9.79167 15 10.0729 14.9505 10.3438 14.8516C10.6146 14.7474 10.8594 14.6068 11.0781 14.4297C11.2969 14.2526 11.4818 14.0417 11.6328 13.7969C11.7891 13.5521 11.8958 13.2865 11.9531 13H10.9141C10.862 13.151 10.7891 13.2891 10.6953 13.4141C10.6016 13.5338 10.4922 13.638 10.3672 13.7266C10.2422 13.8151 10.1068 13.8828 9.96094 13.9297C9.8151 13.9766 9.66146 14 9.5 14H3.5C3.29688 14 3.10417 13.9609 2.92188 13.8828C2.73958 13.8047 2.57812 13.6979 2.4375 13.5625C2.30208 13.4219 2.19531 13.2604 2.11719 13.0781C2.03906 12.8958 2 12.7031 2 12.5V6.49999C2 6.29687 2.03906 6.10416 2.11719 5.92187C2.19531 5.73958 2.30208 5.58072 2.4375 5.44531C2.57812 5.30468 2.73958 5.19531 2.92188 5.11718C2.94771 5.10611 2.97375 5.09582 3 5.08632V4.04346Z"
@@ -1180,10 +1186,10 @@
 					<Setter.Value>
 						<ControlTemplate>
 							<Viewbox
-								Width="12"
-								Height="12"
+								Width="16"
+								Height="16"
 								Stretch="Fill">
-								<Grid Width="16" Height="16">
+								<Grid>
 									<Path
 										x:Name="Path1"
 										Data="M7.91399 2.29289C8.10152 2.10536 8.35588 2 8.62109 2H13.0728C13.6251 2 14.0728 2.44772 14.0728 3V7.37426C14.0728 7.64122 13.966 7.89709 13.7763 8.08491L7.95841 13.8446C7.76366 14.0375 7.50956 14.1339 7.25545 14.134C6.99936 14.1341 6.74328 14.0364 6.54798 13.8411L2.16399 9.45711C1.77346 9.06658 1.77346 8.43342 2.16399 8.04289L7.91399 2.29289ZM12.4998 4.5C12.4998 5.05228 12.0521 5.5 11.4998 5.5C10.9475 5.5 10.4998 5.05228 10.4998 4.5C10.4998 3.94772 10.9475 3.5 11.4998 3.5C12.0521 3.5 12.4998 3.94772 12.4998 4.5Z"
@@ -1216,10 +1222,10 @@
 					<Setter.Value>
 						<ControlTemplate>
 							<Viewbox
-								Width="12"
-								Height="12"
+								Width="16"
+								Height="16"
 								Stretch="Fill">
-								<Grid Width="16" Height="16">
+								<Grid>
 									<Path
 										x:Name="Path1"
 										Data="M2.29289 2.29289C2.10536 2.48043 2 2.73478 2 3V13C2 13.2652 2.10536 13.5196 2.29289 13.7071C2.48043 13.8946 2.73478 14 3 14H13C13.2652 14 13.5196 13.8946 13.7071 13.7071C13.8946 13.5196 14 13.2652 14 13V3C14 2.73478 13.8946 2.48043 13.7071 2.29289C13.5196 2.10536 13.2652 2 13 2H3C2.73478 2 2.48043 2.10536 2.29289 2.29289Z"
@@ -1833,8 +1839,11 @@
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate>
-							<Viewbox Stretch="Fill">
-								<Grid Width="16" Height="16">
+							<Viewbox
+								Width="16"
+								Height="16"
+								Stretch="Uniform">
+								<Grid>
 									<Path
 										x:Name="Path1"
 										Data="M0 3.5C0 3.22386 0.223858 3 0.5 3H6.5C6.77614 3 7 3.22386 7 3.5C7 3.77614 6.77614 4 6.5 4H0.5C0.223858 4 0 3.77614 0 3.5Z"
