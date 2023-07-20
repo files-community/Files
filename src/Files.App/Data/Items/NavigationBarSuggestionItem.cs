@@ -32,5 +32,12 @@ namespace Files.App.Data.Items
 			get => _SupplementaryDisplay;
 			set => SetProperty(ref _SupplementaryDisplay, value);
 		}
+
+		private float _DisplayOpacity = 1.0f;
+		public float DisplayOpacity
+		{
+			get => _DisplayOpacity;
+			set => SetProperty(ref _DisplayOpacity, value);
+		}
 	}
 }

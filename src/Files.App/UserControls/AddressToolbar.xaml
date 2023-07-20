@@ -147,7 +147,10 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
+								<TextBlock
+									Grid.Column="0"
+									Opacity="{x:Bind DisplayOpacity, Mode=OneWay}"
+									Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
 								<TextBlock
 									Grid.Column="1"
 									FontWeight="Normal"
@@ -158,6 +161,7 @@
 								x:Name="SecondaryDisplayBlock"
 								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 								FontWeight="Normal"
+								Opacity="{x:Bind DisplayOpacity, Mode=OneWay}"
 								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
 						</StackPanel>
 					</DataTemplate>

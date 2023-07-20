@@ -786,12 +786,14 @@ namespace Files.App.ViewModels.UserControls
 						suggestions = Commands.Where(command => command != Commands.None &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
 							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						.OrderByDescending(command => command.IsExecutable)
 						.Select(command => new NavigationBarSuggestionItem()
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
 							SecondaryDisplay = command.Code.ToString(),
-							SupplementaryDisplay = command.HotKeyText
+							SupplementaryDisplay = command.HotKeyText,
+							DisplayOpacity = command.IsExecutable ? 1.0f : 0.6f
 						}).ToList();
 					}
 					else
@@ -849,6 +851,7 @@ namespace Files.App.ViewModels.UserControls
 								NavigationBarSuggestions[si].PrimaryDisplay = suggestions[si].PrimaryDisplay;
 								NavigationBarSuggestions[si].SecondaryDisplay = suggestions[si].SecondaryDisplay;
 								NavigationBarSuggestions[si].SupplementaryDisplay = suggestions[si].SupplementaryDisplay;
+								NavigationBarSuggestions[si].DisplayOpacity = suggestions[si].DisplayOpacity;
 							}
 							else
 							{
