@@ -18,12 +18,12 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
 using Microsoft.UI.Dispatching;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.ContentLayouts
 {
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
-	public sealed partial class ColumnViewBase : StandardViewBase
+	public sealed partial class ColumnViewBase : BaseGroupableLayoutPage
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 

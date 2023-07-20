@@ -46,7 +46,7 @@ namespace Files.App.Views.Shells
 
 		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
 
-		public IBaseLayout SlimContentPage => ContentPage;
+		public IBaseLayoutPage SlimContentPage => ContentPage;
 
 		public IFilesystemHelpers FilesystemHelpers { get; protected set; }
 
@@ -68,8 +68,8 @@ namespace Files.App.Views.Shells
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
-		protected BaseLayout _ContentPage;
-		public BaseLayout ContentPage
+		protected BaseLayoutPage _ContentPage;
+		public BaseLayoutPage ContentPage
 		{
 			get => _ContentPage;
 			set
@@ -654,7 +654,7 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
 		}
 
-		protected async Task<BaseLayout> GetContentOrNullAsync()
+		protected async Task<BaseLayoutPage> GetContentOrNullAsync()
 		{
 			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
 			var tcs = new TaskCompletionSource<object?>();
@@ -663,7 +663,7 @@ namespace Files.App.Views.Shells
 				tcs.SetResult(ItemDisplay.Content);
 			});
 
-			return await tcs.Task as BaseLayout;
+			return await tcs.Task as BaseLayoutPage;
 		}
 
 		protected async Task DisplayFilesystemConsentDialog()

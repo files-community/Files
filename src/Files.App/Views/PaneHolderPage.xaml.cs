@@ -345,7 +345,7 @@ namespace Files.App.Views
 			{
 				ActivePane = activePane;
 
-				if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
+				if (ActivePane?.SlimContentPage is IBaseLayoutPage page && !page.IsItemSelected)
 				{
 					page.PreviewPaneViewModel.IsItemSelected = false;
 					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();

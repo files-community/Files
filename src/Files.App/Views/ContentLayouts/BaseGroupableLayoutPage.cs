@@ -3,7 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Data.Commands;
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.ContentLayouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,9 +13,9 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.ContentLayouts
 {
-	public abstract class StandardViewBase : BaseLayout
+	public abstract class BaseGroupableLayoutPage : BaseLayoutPage
 	{
 		private const int KEY_DOWN_MASK = 0x8000;
 
@@ -29,7 +29,7 @@ namespace Files.App.Views.LayoutModes
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public StandardViewBase() : base()
+		public BaseGroupableLayoutPage() : base()
 		{
 		}
 

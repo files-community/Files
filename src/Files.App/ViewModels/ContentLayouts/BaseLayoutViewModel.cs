@@ -10,10 +10,10 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.ContentLayouts
 {
 	/// <summary>
-	/// Represents ViewModel for <see cref="BaseLayout"/>.
+	/// Represents ViewModel for <see cref="BaseLayoutPage"/>.
 	/// </summary>
 	public class BaseLayoutViewModel : IDisposable
 	{
@@ -22,13 +22,9 @@ namespace Files.App.ViewModels.LayoutModes
 		private readonly ItemManipulationModel _itemManipulationModel;
 
 		public ICommand CreateNewFileCommand { get; private set; }
-
 		public ICommand ItemPointerPressedCommand { get; private set; }
-
 		public ICommand PointerWheelChangedCommand { get; private set; }
-
 		public ICommand DragOverCommand { get; private set; }
-
 		public ICommand DropCommand { get; private set; }
 
 		public BaseLayoutViewModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)

@@ -16,12 +16,12 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.ContentLayouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
-	public sealed partial class GridViewBrowser : StandardViewBase
+	public sealed partial class GridViewBrowser : BaseGroupableLayoutPage
 	{
 		private uint currentIconSize;
 
