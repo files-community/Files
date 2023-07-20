@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Data.Commands;
-using Files.App.ViewModels.ContentLayouts;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -13,7 +12,7 @@ namespace Files.App.Helpers
 	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
 	/// menus and toolbars for the user.
 	/// <see cref="ContextMenuFlyoutItemViewModel"/>
-	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// <see cref="ItemModelListToContextFlyoutHelper"/>
 	/// </summary>
 	public static class ContextFlyoutItemHelper
 	{

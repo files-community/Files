@@ -6,7 +6,6 @@ using CommunityToolkit.WinUI;
 using Files.App.Extensions;
 using Files.App.Utils;
 using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
 using Files.Shared.Extensions;

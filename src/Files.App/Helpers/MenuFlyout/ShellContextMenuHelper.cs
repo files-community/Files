@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels;
 using Files.Core.Helpers;

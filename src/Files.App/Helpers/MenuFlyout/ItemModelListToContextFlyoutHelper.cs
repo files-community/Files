@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Files.App.Helpers.ContextFlyouts
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.

@@ -2,9 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels.ContentLayouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -33,15 +31,40 @@ namespace Files.App.Views.ContentLayouts
 	/// </summary>
 	public abstract class BaseLayoutPage : Page, IBaseLayoutPage, INotifyPropertyChanged
 	{
-		private readonly DispatcherQueueTimer jumpTimer;
-
-		private readonly DragEventHandler Item_DragOverEventHandler;
-
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
+		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
+
+		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+
+		public ItemManipulationModel ItemManipulationModel { get; private set; }
+
+		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
+		protected abstract uint IconSize { get; }
+
+		protected abstract ItemsControl ItemsControl { get; }
+
+		private readonly DispatcherQueueTimer jumpTimer;
+		private readonly DispatcherQueueTimer dragOverTimer;
+		private readonly DispatcherQueueTimer tapDebounceTimer;
+		private readonly DispatcherQueueTimer hoverTimer;
+
+		private readonly DragEventHandler Item_DragOverEventHandler;
+
+		private CancellationTokenSource? groupingCancellationToken;
+
+		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+
+		private ListedItem? dragOverItem = null;
+
+		private ListedItem? hoveredItem = null;
+
+		private ListedItem? preRenamingItem = null;
 
 		public FolderSettingsViewModel? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -49,12 +72,12 @@ namespace Files.App.Views.ContentLayouts
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
-
 		public AppModel AppModel
 			=> App.AppModel;
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		protected NavigationArguments? navigationArguments;
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -70,15 +93,20 @@ namespace Files.App.Views.ContentLayouts
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+		public ListedItem? SelectedItem { get; private set; }
 
-		public IShellPage? ParentShellPageInstance { get; private set; } = null;
+		public ListedItem? RenamingItem { get; set; }
 
-		public bool IsRenamingItem { get; set; } = false;
+		public IShellPage? ParentShellPageInstance { get; private set; }
 
-		public ListedItem? RenamingItem { get; set; } = null;
+		public bool IsRenamingItem { get; set; }
 
-		public string? OldItemName { get; set; } = null;
+		public bool LockPreviewPaneContent { get; set; }
+
+		public string? OldItemName { get; set; }
+
+		protected AddressToolbar? NavToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private bool isMiddleClickToScrollEnabled = true;
 		public bool IsMiddleClickToScrollEnabled
@@ -94,9 +122,6 @@ namespace Files.App.Views.ContentLayouts
 				}
 			}
 		}
-
-		protected AddressToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private CollectionViewSource collectionViewSource = new()
 		{
@@ -122,9 +147,7 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		protected NavigationArguments? navigationArguments;
-
-		private bool isItemSelected = false;
+		private bool isItemSelected;
 		public bool IsItemSelected
 		{
 			get => isItemSelected;
@@ -188,9 +211,7 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		public bool LockPreviewPaneContent { get; set; }
-
-		private List<ListedItem>? selectedItems = new List<ListedItem>();
+		private List<ListedItem>? selectedItems = new();
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
@@ -244,28 +265,6 @@ namespace Files.App.Views.ContentLayouts
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
 		}
-
-		public ListedItem? SelectedItem { get; private set; }
-
-		private readonly DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
-
-		protected abstract uint IconSize { get; }
-
-		protected abstract ItemsControl ItemsControl { get; }
-
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		private CancellationTokenSource? groupingCancellationToken;
-
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
-
-		private ListedItem? dragOverItem = null;
-
-		private ListedItem? hoveredItem = null;
-
-		private ListedItem? preRenamingItem = null;
-
-		public ItemManipulationModel ItemManipulationModel { get; private set; }
 
 		public BaseLayoutPage()
 		{

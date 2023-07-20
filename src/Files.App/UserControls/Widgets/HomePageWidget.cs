@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Helpers;
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.Services;
 using Files.App.ViewModels;
 using Files.Core.Services.Settings;
