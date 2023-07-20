@@ -125,9 +125,7 @@
 
 			<!--  Head Contents  -->
 			<uc:SidebarControl.TabContent>
-				<Grid
-					x:Name="RightMarginGrid"
-					VerticalAlignment="Top">
+				<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
