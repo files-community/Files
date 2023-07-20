@@ -130,17 +130,20 @@ namespace Files.App.Utils.Storage
 
 		public static string GetExtendedDriveLabel(DriveInfo drive)
 		{
-			if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
-				return drive.VolumeLabel;
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var dosDevicePath = Vanara.PInvoke.Kernel32.QueryDosDevice(drive.Name).FirstOrDefault();
-				if (string.IsNullOrEmpty(dosDevicePath))
+				if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
 					return drive.VolumeLabel;
-				using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
-				using var udf = new UdfReader(driveStream);
-				return udf.VolumeLabel;
-			}) ?? drive.VolumeLabel;
+				return SafetyExtensions.IgnoreExceptions(() =>
+				{
+					var dosDevicePath = Vanara.PInvoke.Kernel32.QueryDosDevice(drive.Name).FirstOrDefault();
+					if (string.IsNullOrEmpty(dosDevicePath))
+						return drive.VolumeLabel;
+					using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
+					using var udf = new UdfReader(driveStream);
+					return udf.VolumeLabel;
+				}) ?? drive.VolumeLabel;
+			}) ?? "";
 		}
 
 		public static async Task<StorageItemThumbnail> GetThumbnailAsync(StorageFolder folder)
