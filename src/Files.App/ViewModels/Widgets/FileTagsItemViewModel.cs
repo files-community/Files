@@ -9,12 +9,11 @@ namespace Files.App.ViewModels.Widgets
 {
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{
+		private readonly IStorable _associatedStorable;
+
 		// A workaround for lack of MVVM-compliant navigation support.
 		// This workaround must be kept until further refactor of navigation code is completed.
 		private readonly Func<string, Task> _openAction;
-
-		private readonly IStorable _associatedStorable;
-		public IStorable AssociatedStorable => _associatedStorable;
 
 		[ObservableProperty]
 		private IImageModel? _Icon;
