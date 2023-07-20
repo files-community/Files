@@ -1,11 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Helpers
 {
 	public class AsyncManualResetEvent
 	{

@@ -1,16 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI.StartScreen;
 using TileSize = Windows.UI.StartScreen.TileSize;
 
 namespace Files.App.Helpers
 {
-	public class SecondaryTileHelper
+	public class AppSecondaryTileHelper
 	{
 		public bool CheckFolderPinned(string path)
 		{
@@ -61,6 +57,7 @@ namespace Files.App.Helpers
 
 			return result;
 		}
+
 		private SecondaryTile InitializeWithWindow(SecondaryTile obj)
 		{
 			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);

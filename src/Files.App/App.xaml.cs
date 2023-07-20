@@ -58,7 +58,7 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
+		public static AppSecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
 		/// Initializes the singleton application object. This is the first line of authored code
@@ -178,7 +178,7 @@ namespace Files.App
 				);
 
 				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
+					AppJumpListHelper.InitializeUpdatesAsync(),
 					addItemService.GetNewEntriesAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				);

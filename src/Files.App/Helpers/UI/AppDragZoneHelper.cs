@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Windows.Graphics;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -12,7 +9,7 @@ using WinRT.Interop;
 
 namespace Files.App.Helpers
 {
-	public static class DragZoneHelper
+	public static class AppDragZoneHelper
 	{
 		/// <summary>
 		/// Get Scale Adjustment

@@ -11,12 +11,14 @@ using Windows.UI.ViewManagement;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Class providing functionality around switching and restoring theme settings
+	/// Provides static helper for switching and restoring theme settings.
 	/// </summary>
-	public static class ThemeHelper
+	public static class AppThemeHelper
 	{
 		private const string selectedAppThemeKey = "theme";
+
 		private static Window? currentApplicationWindow;
+
 		private static AppWindowTitleBar? titleBar;
 
 		// Keep reference so it does not get optimized/garbage collected

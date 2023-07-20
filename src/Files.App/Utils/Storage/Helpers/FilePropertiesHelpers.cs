@@ -91,7 +91,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = AppThemeHelper.RootTheme
 			};
 
 			WinUIEx.WindowEx propertiesWindow;
@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 			propertiesWindow.Width = 800;
 			propertiesWindow.Height = 550;
 			propertiesWindow.Content = frame;
-			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
+			propertiesWindow.SystemBackdrop = new AppSystemBackdropHelper(true);
 
 			var appWindow = propertiesWindow.AppWindow;
 			appWindow.Title = "Properties".GetLocalizedResource();

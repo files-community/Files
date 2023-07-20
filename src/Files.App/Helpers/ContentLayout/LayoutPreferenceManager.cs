@@ -3,7 +3,7 @@
 
 namespace Files.App.Helpers
 {
-	public class LayoutPreferences
+	public class LayoutPreferenceManager
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -20,9 +20,9 @@ namespace Files.App.Helpers
 		public ColumnsViewModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
-		public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
+		public static LayoutPreferenceManager DefaultLayoutPreferences => new LayoutPreferenceManager();
 
-		public LayoutPreferences()
+		public LayoutPreferenceManager()
 		{
 			var defaultLayout = UserSettingsService.FoldersSettingsService.DefaultLayoutMode;
 
@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 			if (obj == this)
 				return true;
 
-			if (obj is LayoutPreferences prefs)
+			if (obj is LayoutPreferenceManager prefs)
 			{
 				return (
 					prefs.LayoutMode == LayoutMode &&

@@ -1,20 +1,17 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
 using LiteDB;
-using System;
-using System.Linq;
 using System.Text;
 using IO = System.IO;
 
 namespace Files.App.Helpers
 {
-	public class LayoutPrefsDb : IDisposable
+	public class LayoutPreferenceDatabase : IDisposable
 	{
 		private readonly LiteDatabase db;
 
-		public LayoutPrefsDb(string connection, bool shared = false)
+		public LayoutPreferenceDatabase(string connection, bool shared = false)
 		{
 			SafetyExtensions.IgnoreExceptions(() => CheckDbVersion(connection));
 			db = new LiteDatabase(new ConnectionString(connection)
@@ -23,7 +20,7 @@ namespace Files.App.Helpers
 			}, new BsonMapper() { IncludeFields = true });
 		}
 
-		public void SetPreferences(string filePath, ulong? frn, LayoutPreferences? prefs)
+		public void SetPreferences(string filePath, ulong? frn, LayoutPreferenceManager? prefs)
 		{
 			// Get a collection (or create, if doesn't exist)
 			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
@@ -61,7 +58,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public LayoutPreferences? GetPreferences(string? filePath = null, ulong? frn = null)
+		public LayoutPreferenceManager? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
 			return _FindPreferences(filePath, frn)?.Prefs;
 		}
@@ -123,7 +120,7 @@ namespace Files.App.Helpers
 			col.Update(allDocs);
 		}
 
-		~LayoutPrefsDb()
+		~LayoutPreferenceDatabase()
 		{
 			Dispose();
 		}
@@ -171,7 +168,7 @@ namespace Files.App.Helpers
 			public int Id { get; set; }
 			public ulong? Frn { get; set; }
 			public string FilePath { get; set; } = string.Empty;
-			public LayoutPreferences Prefs { get; set; } = LayoutPreferences.DefaultLayoutPreferences;
+			public LayoutPreferenceManager Prefs { get; set; } = LayoutPreferenceManager.DefaultLayoutPreferences;
 		}
 	}
 }

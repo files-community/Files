@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {

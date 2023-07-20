@@ -11,9 +11,9 @@ namespace Files.App.Data.Models
 		public static string LayoutSettingsDbPath
 			=> SystemIO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "user_settings.db");
 
-		private static readonly Lazy<LayoutPrefsDb> dbInstance = new(() => new LayoutPrefsDb(LayoutSettingsDbPath, true));
+		private static readonly Lazy<LayoutPreferenceDatabase> dbInstance = new(() => new LayoutPreferenceDatabase(LayoutSettingsDbPath, true));
 
-		public static LayoutPrefsDb GetDbInstance()
+		public static LayoutPreferenceDatabase GetDbInstance()
 			=> dbInstance.Value;
 
 		public event EventHandler<LayoutPreferenceEventArgs>? LayoutPreferencesUpdateRequired;
@@ -22,7 +22,7 @@ namespace Files.App.Data.Models
 
 		public FolderSettingsViewModel()
 		{
-			LayoutPreference = new LayoutPreferences();
+			LayoutPreference = new LayoutPreferenceManager();
 		}
 
 		public FolderSettingsViewModel(FolderLayoutModes modeOverride) : this()
@@ -304,7 +304,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
+		private static LayoutPreferenceManager GetLayoutPreferencesForPath(string folderPath)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			if (!userSettingsService.FoldersSettingsService.SyncFolderPreferencesAcrossDirectories)
@@ -316,10 +316,10 @@ namespace Files.App.Data.Models
 					?? GetDefaultLayoutPreferences(folderPath);
 			}
 
-			return LayoutPreferences.DefaultLayoutPreferences;
+			return LayoutPreferenceManager.DefaultLayoutPreferences;
 		}
 
-		public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
+		public static void SetLayoutPreferencesForPath(string folderPath, LayoutPreferenceManager prefs)
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -388,12 +388,12 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
+		private static LayoutPreferenceManager ReadLayoutPreferencesFromAds(string folderPath, ulong? frn)
 		{
 			var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
 
 			var adsPrefs = SafetyExtensions.IgnoreExceptions(() =>
-				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferences>(str));
+				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferenceManager>(str));
 
 			// Port settings to DB, delete ADS
 			WriteLayoutPreferencesToDb(folderPath, frn, adsPrefs);
@@ -402,7 +402,7 @@ namespace Files.App.Data.Models
 			return adsPrefs;
 		}
 
-		private static LayoutPreferences? ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
+		private static LayoutPreferenceManager? ReadLayoutPreferencesFromDb(string folderPath, ulong? frn)
 		{
 			if (string.IsNullOrEmpty(folderPath))
 				return null;
@@ -412,34 +412,34 @@ namespace Files.App.Data.Models
 			return dbInstance.GetPreferences(folderPath, frn);
 		}
 
-		private static LayoutPreferences GetDefaultLayoutPreferences(string folderPath)
+		private static LayoutPreferenceManager GetDefaultLayoutPreferences(string folderPath)
 		{
 			if (string.IsNullOrEmpty(folderPath))
-				return LayoutPreferences.DefaultLayoutPreferences;
+				return LayoutPreferenceManager.DefaultLayoutPreferences;
 
 			if (folderPath == Constants.UserEnvironmentPaths.DownloadsPath)
 				// Default for downloads folder is to group by date created
-				return new LayoutPreferences() {
+				return new LayoutPreferenceManager() {
 					DirectoryGroupOption = GroupOption.DateCreated,
 					DirectoryGroupDirection = SortDirection.Descending,
 					DirectoryGroupByDateUnit = GroupByDateUnit.Year
 				};
 			else if (LibraryManager.IsLibraryPath(folderPath))
 				// Default for libraries is to group by folder path
-				return new LayoutPreferences() { DirectoryGroupOption = GroupOption.FolderPath };
+				return new LayoutPreferenceManager() { DirectoryGroupOption = GroupOption.FolderPath };
 			else
 				// Either global setting or smart guess
-				return LayoutPreferences.DefaultLayoutPreferences;
+				return LayoutPreferenceManager.DefaultLayoutPreferences;
 		}
 
-		private static void WriteLayoutPreferencesToDb(string folderPath, ulong? frn, LayoutPreferences prefs)
+		private static void WriteLayoutPreferencesToDb(string folderPath, ulong? frn, LayoutPreferenceManager prefs)
 		{
 			if (string.IsNullOrEmpty(folderPath))
 				return;
 
 			var dbInstance = GetDbInstance();
 			if (dbInstance.GetPreferences(folderPath, frn) is null &&
-				LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
+				LayoutPreferenceManager.DefaultLayoutPreferences.Equals(prefs))
 			{
 				// Do not create setting if it's default
 				return;
@@ -448,9 +448,9 @@ namespace Files.App.Data.Models
 			dbInstance.SetPreferences(folderPath, frn, prefs);
 		}
 
-		private LayoutPreferences layoutPreference;
+		private LayoutPreferenceManager layoutPreference;
 
-		public LayoutPreferences LayoutPreference
+		public LayoutPreferenceManager LayoutPreference
 		{
 			get => layoutPreference;
 			private set

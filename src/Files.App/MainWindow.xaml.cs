@@ -173,7 +173,7 @@ namespace Files.App
 			if (!(MainWindow.Instance.Content is Frame rootFrame))
 			{
 				// Set system backdrop
-				this.SystemBackdrop = new AppSystemBackdrop();
+				this.SystemBackdrop = new AppSystemBackdropHelper();
 
 				// Create a Frame to act as the navigation context and navigate to the first page
 				rootFrame = new Frame();

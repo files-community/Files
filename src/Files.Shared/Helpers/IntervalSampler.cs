@@ -3,11 +3,12 @@
 
 using System;
 
-namespace Files.App.Helpers
+namespace Files.Shared.Helpers
 {
 	internal class IntervalSampler
 	{
 		private DateTime recordPoint;
+
 		private TimeSpan sampleInterval;
 
 		public IntervalSampler(int millisecondsInterval)

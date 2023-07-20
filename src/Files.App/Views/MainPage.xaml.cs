@@ -123,7 +123,7 @@ namespace Files.App.Views
 
 		private void SetRectDragRegion()
 		{
-			DragZoneHelper.SetDragZones(
+			AppDragZoneHelper.SetDragZones(
 				MainWindow.Instance,
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
