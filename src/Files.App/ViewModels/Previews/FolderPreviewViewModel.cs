@@ -50,14 +50,14 @@ namespace Files.App.ViewModels.Previews
 				!string.IsNullOrEmpty(repoPath))
 			{
 				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
-				var branches = GitHelpers.GetBranchesNames(gitDirectory);
+				var headName = GitHelpers.GetRepositoryHeadName(gitDirectory);
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
 				if(!string.IsNullOrEmpty(gitDirectory))
 					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
 
-				if (branches.Length > 0)
-					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
+				if (!string.IsNullOrWhiteSpace(headName))
+					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", headName));
 			}
 		}
 

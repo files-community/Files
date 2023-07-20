@@ -25,6 +25,8 @@ namespace Files.App.Utils.Git
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
+		private const int MAX_NUMBER_OF_BRANCHES = 15;
+
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -112,10 +114,20 @@ namespace Files.App.Utils.Git
 			return repository.Branches
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
-				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip?.Committer.When)
+				.Take(MAX_NUMBER_OF_BRANCHES)
 				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
 				.ToArray();
+		}
+
+		public static string GetRepositoryHeadName(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+				return string.Empty;
+
+			using var repository = new Repository(path);
+			return repository.Branches
+				.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)

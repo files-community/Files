@@ -181,6 +181,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
 		public IRichCommand GitPush => commands[CommandCodes.GitPush];
 		public IRichCommand GitSync => commands[CommandCodes.GitSync];
+		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
 
 		public CommandManager()
 		{
@@ -342,6 +343,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GitPull] = new GitPullAction(),
 			[CommandCodes.GitPush] = new GitPushAction(),
 			[CommandCodes.GitSync] = new GitSyncAction(),
+			[CommandCodes.OpenAllTaggedItems] = new OpenAllTaggedActions(),
 		};
 
 		private void UpdateHotKeys()

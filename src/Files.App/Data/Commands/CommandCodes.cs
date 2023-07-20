@@ -191,5 +191,8 @@ namespace Files.App.Data.Commands
 		GitPull,
 		GitPush,
 		GitSync,
+
+		// Tags
+		OpenAllTaggedItems,
 	}
 }
