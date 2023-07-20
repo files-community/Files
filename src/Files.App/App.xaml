@@ -57,7 +57,7 @@
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="Transparent" />
-							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="Transparent" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerFillColorDefault}" />
