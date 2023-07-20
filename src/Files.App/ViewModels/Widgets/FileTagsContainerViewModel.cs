@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Services;
+using Files.Core.Storage;
 using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Widgets
@@ -18,9 +18,9 @@ namespace Files.App.ViewModels.Widgets
 
 		private readonly ICommandManager _commands;
 
-		public delegate void SelectedTagsChangedEventHandler(object sender, IEnumerable<FileTagsItemViewModel> items);
+		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
-		public static event SelectedTagsChangedEventHandler? SelectedTagsChanged;
+		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
 
 		public ObservableCollection<FileTagsItemViewModel> Tags { get; }
 
@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Widgets
 		[RelayCommand]
 		private Task OpenAll(CancellationToken cancellationToken)
 		{
-			SelectedTagsChanged?.Invoke(this, Tags);
+			SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 
 			return _commands.OpenAllTaggedItems.ExecuteAsync();
 		}
