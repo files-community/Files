@@ -3399,9 +3399,9 @@
     <value>新しいウィンドウでフォルダーを開く</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>すべて開く</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>すべてのタグ付けされたアイテムを開く</value>
   </data>
 </root>
