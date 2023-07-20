@@ -19,7 +19,7 @@ namespace Files.App.Views.ContentLayouts
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
-	public sealed partial class GridViewBrowser : BaseGroupableLayoutPage
+	public sealed partial class GridViewLayoutPage : BaseGroupableLayoutPage
 	{
 		protected override uint IconSize => currentIconSize;
 
@@ -45,10 +45,10 @@ namespace Files.App.Views.ContentLayouts
 			DependencyProperty.Register(
 				"IsPointerOver",
 				typeof(bool),
-				typeof(GridViewBrowser),
+				typeof(GridViewLayoutPage),
 				new PropertyMetadata(false));
 
-		public GridViewBrowser() : base()
+		public GridViewLayoutPage() : base()
 		{
 			InitializeComponent();
 

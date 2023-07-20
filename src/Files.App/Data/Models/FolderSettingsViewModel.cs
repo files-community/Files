@@ -96,11 +96,11 @@ namespace Files.App.Data.Models
 
 			return (prefsForPath.LayoutMode) switch
 			{
-				FolderLayoutModes.DetailsView => typeof(DetailsLayoutBrowser),
-				FolderLayoutModes.TilesView => typeof(GridViewBrowser),
-				FolderLayoutModes.GridView => typeof(GridViewBrowser),
-				FolderLayoutModes.ColumnView => typeof(ColumnViewBrowser),
-				_ => typeof(DetailsLayoutBrowser)
+				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
+				FolderLayoutModes.TilesView => typeof(GridViewLayoutPage),
+				FolderLayoutModes.GridView => typeof(GridViewLayoutPage),
+				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
+				_ => typeof(DetailsLayoutPage)
 			};
 		}
 

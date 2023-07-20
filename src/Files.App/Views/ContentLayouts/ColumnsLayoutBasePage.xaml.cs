@@ -22,7 +22,7 @@ namespace Files.App.Views.ContentLayouts
 	/// <summary>
 	/// Represents the base page of Column View
 	/// </summary>
-	public sealed partial class ColumnViewBase : BaseGroupableLayoutPage
+	public sealed partial class ColumnsLayoutBasePage : BaseGroupableLayoutPage
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -32,7 +32,7 @@ namespace Files.App.Views.ContentLayouts
 
 		private readonly DispatcherQueueTimer doubleClickTimer;
 
-		private ColumnViewBrowser? columnsOwner;
+		private ColumnsLayoutPage? columnsOwner;
 
 		private ListViewItem? openedFolderPresenter;
 
@@ -40,7 +40,7 @@ namespace Files.App.Views.ContentLayouts
 
 		public event EventHandler? ItemTapped;
 
-		public ColumnViewBase() : base()
+		public ColumnsLayoutBasePage() : base()
 		{
 			InitializeComponent();
 
@@ -120,7 +120,7 @@ namespace Files.App.Views.ContentLayouts
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnViewBrowser>();
+				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnsLayoutPage>();
 				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
 				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
 
@@ -246,7 +246,7 @@ namespace Files.App.Views.ContentLayouts
 		private void CloseFolder()
 		{
 			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-			this.FindAscendant<ColumnViewBrowser>()?.DismissOtherBlades(currentBladeIndex);
+			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
 			ClearOpenedFolderSelectionIndicator();
 		}
 
@@ -327,7 +327,7 @@ namespace Files.App.Views.ContentLayouts
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
 				e.Handled = true;
@@ -338,7 +338,7 @@ namespace Files.App.Views.ContentLayouts
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnViewBrowser>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
 				e.Handled = true;
 			}
 		}

@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseGroupableLayoutPage
-	x:Class="Files.App.Views.ContentLayouts.ColumnViewBase"
+	x:Class="Files.App.Views.ContentLayouts.ColumnsLayoutBasePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:cloud="using:Files.App.Utils.Cloud"

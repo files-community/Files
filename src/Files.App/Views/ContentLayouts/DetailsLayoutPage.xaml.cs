@@ -20,7 +20,7 @@ namespace Files.App.Views.ContentLayouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
-	public sealed partial class DetailsLayoutBrowser : BaseGroupableLayoutPage
+	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
 		protected override uint IconSize => currentIconSize;
 
@@ -54,7 +54,7 @@ namespace Files.App.Views.ContentLayouts
 			}
 		}
 
-		public DetailsLayoutBrowser() : base()
+		public DetailsLayoutPage() : base()
 		{
 			InitializeComponent();
 

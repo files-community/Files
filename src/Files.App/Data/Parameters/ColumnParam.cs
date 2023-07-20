@@ -12,6 +12,6 @@ namespace Files.App.Data.Parameters
 
 		public ListView ListView { get; set; }
 
-		public ColumnViewBase? Source { get; set; }
+		public ColumnsLayoutBasePage? Source { get; set; }
 	}
 }
