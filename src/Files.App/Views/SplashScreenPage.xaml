@@ -12,7 +12,7 @@
 		<Image
 			x:Name="MainSplashScreenImage"
 			Width="420"
-			Source="/Assets/AppTiles/Dev/SplashScreen.png" />
+			Source="\Assets\AppTiles\Dev\SplashScreen.png" />
 
 		<ProgressRing
 			x:Name="MainProgressRing"
