@@ -44,11 +44,9 @@
 			<!--  Removes NavigationView background  -->
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 
-			<!--  Removes NavigationView corner radius  -->
-			<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
-
 			<!--  Removes NavigationView border from top, right and bottom  -->
-			<Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+			<Thickness x:Key="NavigationViewContentGridBorderThickness">0,0,0,0</Thickness>
+			<Thickness x:Key="NavigationViewMinimalContentGridBorderThickness">0,0,0,0</Thickness>
 
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
@@ -409,11 +407,18 @@
 									x:Name="ContentRoot"
 									Grid.Row="2"
 									Grid.ColumnSpan="2"
-									Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}">
+									Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
 									<Grid.RenderTransform>
 										<CompositeTransform x:Name="ContentTransform" />
 									</Grid.RenderTransform>
-									<Border Child="{TemplateBinding Content}" />
+									<Border
+										x:Name="FileAreaBorder"
+										Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+										BackgroundSizing="InnerBorderEdge"
+										BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+										BorderThickness="1,1,0,0"
+										Child="{TemplateBinding Content}"
+										CornerRadius="8,0,0,0" />
 
 									<Rectangle
 										x:Name="LightDismissLayer"
