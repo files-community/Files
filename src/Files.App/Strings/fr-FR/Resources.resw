@@ -2398,7 +2398,7 @@
     <value>Afficher l'option pour ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Afficher l'option pour ouvrir des dossiers dans une nouvelle fenêtre</value>
+    <value>Afficher l'option pour ouvrir les dossiers dans une nouvelle fenêtre</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Accès rapide</value>
@@ -2446,7 +2446,7 @@
     <value>Options du menu contextuel</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Afficher les extensions de fichiers</value>
+    <value>Afficher les extensions de fichier</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Afficher les éléments masqués</value>
