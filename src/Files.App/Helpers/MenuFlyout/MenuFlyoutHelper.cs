@@ -9,8 +9,6 @@ namespace Files.App.Helpers
 {
 	public class MenuFlyoutHelper : DependencyObject
 	{
-		#region View Models
-
 		public interface IMenuFlyoutItemViewModel { }
 
 		public class MenuFlyoutSeparatorViewModel : IMenuFlyoutItemViewModel { }
@@ -51,10 +49,6 @@ namespace Files.App.Helpers
 				=> Build = factoryFunc;
 		}
 
-		#endregion View Models
-
-		#region ItemsSource
-
 		public static IEnumerable<IMenuFlyoutItemViewModel> GetItemsSource(DependencyObject obj) => obj.GetValue(ItemsSourceProperty) as IEnumerable<IMenuFlyoutItemViewModel>;
 
 		public static void SetItemsSource(DependencyObject obj, IEnumerable<IMenuFlyoutItemViewModel> value) => obj.SetValue(ItemsSourceProperty, value);
@@ -62,10 +56,6 @@ namespace Files.App.Helpers
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
 		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
-
-		#endregion ItemsSource
-
-		#region IsVisible
 
 		public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
 
@@ -86,8 +76,6 @@ namespace Files.App.Helpers
 			if (!boolValue)
 				flyout.Hide();
 		}
-
-		#endregion IsVisible
 
 		private static async Task SetupItems(MenuFlyout menu)
 		{

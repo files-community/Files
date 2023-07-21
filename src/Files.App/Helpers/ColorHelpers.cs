@@ -11,6 +11,7 @@ namespace Files.App.Helpers
 	internal static class ColorHelpers
 	{
 		private const int COLOR_LENGTH = 7;
+
 		private const int COLOR_LENGTH_INCLUDING_ALPHA = 9;
 
 		private static readonly Color unknownTagColor = Color.FromArgb(255, 0x9E, 0xA3, 0xA1);
@@ -50,10 +51,12 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static Color FromUint(this uint value)
 		{
-			return Color.FromArgb((byte)((value >> 24) & 0xFF),
-					   (byte)((value >> 16) & 0xFF),
-					   (byte)((value >> 8) & 0xFF),
-					   (byte)(value & 0xFF));
+			return
+				Color.FromArgb(
+					(byte)((value >> 24) & 0xFF),
+					(byte)((value >> 16) & 0xFF),
+					(byte)((value >> 8) & 0xFF),
+					(byte)(value & 0xFF));
 		}
 
 		/// <summary>
@@ -87,6 +90,7 @@ namespace Files.App.Helpers
 		public static Windows.UI.Color ToWindowsColor(this System.Drawing.Color color)
 		{
 			string hex = color.ToHex();
+
 			return FromHex(hex);
 		}
 

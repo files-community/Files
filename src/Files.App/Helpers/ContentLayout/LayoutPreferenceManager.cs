@@ -3,9 +3,13 @@
 
 namespace Files.App.Helpers
 {
-	public class LayoutPreferenceManager
+	/// <summary>
+	/// Provides content layout preference manager.
+	/// </summary>
+	internal class LayoutPreferenceManager
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IUserSettingsService UserSettingsService =
+			Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public SortOption DirectorySortOption;
 		public SortDirection DirectorySortDirection;
@@ -20,7 +24,8 @@ namespace Files.App.Helpers
 		public ColumnsViewModel ColumnsViewModel;
 
 		[LiteDB.BsonIgnore]
-		public static LayoutPreferenceManager DefaultLayoutPreferences => new LayoutPreferenceManager();
+		public static LayoutPreferenceManager DefaultLayoutPreferences
+			=> new LayoutPreferenceManager();
 
 		public LayoutPreferenceManager()
 		{

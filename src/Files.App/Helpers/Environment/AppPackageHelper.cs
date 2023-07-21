@@ -1,22 +1,24 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.System;
 
 namespace Files.App.Helpers
 {
-	public static class PackageHelper
+	/// <summary>
+	/// Provides static helper for package information of the app.
+	/// </summary>
+	public static class AppPackageHelper
 	{
-		private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
+		private static readonly Uri dummyUri = new("mailto:dummy@dummy.com");
 
 		/// <summary>
-		/// Check if target <paramref name="packageName"/> is installed on this device.
+		/// Checks if target <paramref name="packageName"/> is installed on this device.
 		/// </summary>
 		/// <param name="packageName">Package name in format: "949FFEAB.Email.cz_refxrrjvvv3cw"</param>
-		/// <returns>True is app is installed on this device, false otherwise.</returns>
+		/// <returns>
+		/// Returns true if app is installed on this device; otherwise, false.
+		/// </returns>
 		public static async Task<bool> IsAppInstalledAsync(string packageName)
 		{
 			try

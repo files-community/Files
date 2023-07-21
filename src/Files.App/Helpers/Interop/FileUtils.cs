@@ -5,7 +5,12 @@ using System.Runtime.InteropServices;
 
 namespace Files.App.Helpers
 {
-	// https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209
+	/// <summary>
+	/// Provides static interop for file.
+	/// </summary>
+	/// <remarks>
+	/// <a href="https://stackoverflow.com/questions/317071/how-do-i-find-out-which-process-is-locking-a-file-using-net/317209#317209"/>
+	/// </remarks>
 	public static class FileUtils
 	{
 		[StructLayout(LayoutKind.Sequential)]
@@ -49,36 +54,44 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmRegisterResources(uint pSessionHandle,
-											  UInt32 nFiles,
-											  string[] rgsFilenames,
-											  UInt32 nApplications,
-											  [In] RM_UNIQUE_PROCESS[] rgApplications,
-											  UInt32 nServices,
-											  string[] rgsServiceNames);
+		static extern int RmRegisterResources(
+			uint pSessionHandle,
+			UInt32 nFiles,
+			string[] rgsFilenames,
+			UInt32 nApplications,
+			[In] RM_UNIQUE_PROCESS[] rgApplications,
+			UInt32 nServices,
+			string[] rgsServiceNames);
 
 		[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
-		static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+		static extern int RmStartSession(
+			out uint pSessionHandle,
+			int dwSessionFlags,
+			string strSessionKey);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmEndSession(uint pSessionHandle);
+		static extern int RmEndSession(
+			uint pSessionHandle);
 
 		[DllImport("rstrtmgr.dll")]
-		static extern int RmGetList(uint dwSessionHandle,
-									out uint pnProcInfoNeeded,
-									ref uint pnProcInfo,
-									[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
-									ref uint lpdwRebootReasons);
+		static extern int RmGetList(
+			uint dwSessionHandle,
+			out uint pnProcInfoNeeded,
+			ref uint pnProcInfo,
+			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
+			ref uint lpdwRebootReasons);
 
 		/// <summary>
-		/// Find out what process(es) have a lock on the specified file.
+		/// Gets what process(es) have a lock on the specified file.
 		/// </summary>
 		/// <param name="path">Path of the file.</param>
 		/// <returns>Processes locking the file</returns>
-		/// <remarks>See also:
-		/// http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx
-		/// http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs (no copyright in code at time of viewing)
-		///
+		/// <remarks>
+		/// See also:
+		/// <br/>
+		/// <a href="http://msdn.microsoft.com/library/windows/desktop/aa373661(v=vs.85).aspx"/>
+		/// <br/>
+		/// <a href="http://wyupdate.googlecode.com/svn-history/r401/trunk/frmFilesInUse.cs"/>
 		/// </remarks>
 		public static List<Process> WhoIsLocking(string[] resources)
 		{

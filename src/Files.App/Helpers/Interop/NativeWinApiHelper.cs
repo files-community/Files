@@ -19,14 +19,22 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-processthreads-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, TokenAccess DesiredAccess, out IntPtr TokenHandle);
+		public static extern bool OpenProcessToken(
+			[In] IntPtr ProcessHandle,
+			TokenAccess DesiredAccess,
+			out IntPtr TokenHandle);
 
 		[DllImport("api-ms-win-core-processthreads-l1-1-2.dll", SetLastError = true, ExactSpelling = true)]
 		public static extern IntPtr GetCurrentProcess();
 
 		[DllImport("api-ms-win-security-base-l1-1-0.dll", SetLastError = true, ExactSpelling = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetTokenInformation(IntPtr hObject, TOKEN_INFORMATION_CLASS tokenInfoClass, IntPtr pTokenInfo, int tokenInfoLength, out int returnLength);
+		public static extern bool GetTokenInformation(
+			IntPtr hObject,
+			TOKEN_INFORMATION_CLASS tokenInfoClass,
+			IntPtr pTokenInfo,
+			int tokenInfoLength,
+			out int returnLength);
 
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
 		public static extern bool CloseHandle(IntPtr hObject);
@@ -210,14 +218,13 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-wow64-l1-1-1.dll", SetLastError = true)]
 		private static extern bool IsWow64Process2(
-				IntPtr process,
-				out ushort processMachine,
-				out ushort nativeMachine);
+			IntPtr process,
+			out ushort processMachine,
+			out ushort nativeMachine);
 
 		// https://stackoverflow.com/questions/54456140/how-to-detect-were-running-under-the-arm64-version-of-windows-10-in-net
 		// https://learn.microsoft.com/windows/win32/sysinfo/image-file-machine-constants
 		private static bool? isRunningOnArm = null;
-
 		public static bool IsRunningOnArm
 		{
 			get
@@ -227,6 +234,7 @@ namespace Files.App.Helpers
 					isRunningOnArm = IsArmProcessor();
 					App.Logger.LogInformation("Running on ARM: {0}", isRunningOnArm);
 				}
+
 				return isRunningOnArm ?? false;
 			}
 		}
@@ -234,14 +242,15 @@ namespace Files.App.Helpers
 		private static bool IsArmProcessor()
 		{
 			var handle = System.Diagnostics.Process.GetCurrentProcess().Handle;
+
 			if (!IsWow64Process2(handle, out _, out var nativeMachine))
-			{
 				return false;
-			}
-			return (nativeMachine == 0xaa64 ||
-					nativeMachine == 0x01c0 ||
-					nativeMachine == 0x01c2 ||
-					nativeMachine == 0x01c4);
+
+			return
+				(nativeMachine == 0xaa64 ||
+				nativeMachine == 0x01c0 ||
+				nativeMachine == 0x01c2 ||
+				nativeMachine == 0x01c4);
 		}
 
 		private static bool? isHasThreadAccessPropertyPresent = null;
@@ -251,11 +260,14 @@ namespace Files.App.Helpers
 			get
 			{
 				isHasThreadAccessPropertyPresent ??= ApiInformation.IsPropertyPresent(typeof(DispatcherQueue).FullName, "HasThreadAccess");
+
 				return isHasThreadAccessPropertyPresent ?? false;
 			}
 		}
 
 		public static Task<string> GetFileAssociationAsync(string filePath)
-			=> Win32API.GetFileAssociationAsync(filePath, true);
+		{
+			return Win32API.GetFileAssociationAsync(filePath, true);
+		}
 	}
 }

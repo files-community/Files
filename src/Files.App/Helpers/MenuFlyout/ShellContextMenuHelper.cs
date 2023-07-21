@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers.ContextFlyouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +15,8 @@ namespace Files.App.Helpers
 {
 	public static class ShellContextmenuHelper
 	{
-		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public static IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
@@ -62,12 +62,13 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
-								ContextMenu contextMenu,
-								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-								CancellationToken cancellationToken,
-								bool showIcons = true,
-								int itemsBeforeOverflow = int.MaxValue)
+		private static void LoadMenuFlyoutItem(
+			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			ContextMenu contextMenu,
+			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+			CancellationToken cancellationToken,
+			bool showIcons = true,
+			int itemsBeforeOverflow = int.MaxValue)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return;
@@ -214,6 +215,7 @@ namespace Files.App.Helpers
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			if (item is not null)
 				flyout.Remove(item);
+
 			return item?.Items;
 		}
 
@@ -222,6 +224,7 @@ namespace Files.App.Helpers
 			var item = flyout.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
 			if (item is not null)
 				flyout.Remove(item);
+
 			return item?.Items;
 		}
 
@@ -268,8 +271,9 @@ namespace Files.App.Helpers
 						if (itemsControl is not null)
 						{
 							var maxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin;
-							secondaryElements.OfType<FrameworkElement>()
-											 .ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
+							secondaryElements
+								.OfType<FrameworkElement>()
+								.ForEach(x => x.MaxWidth = maxWidth); // Set items max width to current menu width (#5555)
 						}
 
 						secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));

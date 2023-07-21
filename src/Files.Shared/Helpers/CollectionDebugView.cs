@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Files.Shared.Helpers
 {
-	internal sealed class CollectionDebugView<T>
+	public sealed class CollectionDebugView<T>
 	{
 		private readonly ICollection<T> _collection;
 

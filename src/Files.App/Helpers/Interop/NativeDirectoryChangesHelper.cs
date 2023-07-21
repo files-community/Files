@@ -9,33 +9,54 @@ namespace Files.App.Helpers
 	public class NativeDirectoryChangesHelper
 	{
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
+		public static extern bool CloseHandle(
+			IntPtr hObject);
 
 		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
-		public static extern bool GetOverlappedResult(IntPtr hFile, OVERLAPPED lpOverlapped, out int lpNumberOfBytesTransferred, bool bWait);
+		public static extern bool GetOverlappedResult(
+			IntPtr hFile,
+			OVERLAPPED lpOverlapped,
+			out int lpNumberOfBytesTransferred,
+			bool bWait);
 
 		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
-		public static extern bool CancelIo(IntPtr hFile);
+		public static extern bool CancelIo(
+			IntPtr hFile);
 
 		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
-		public static extern bool CancelIoEx(IntPtr hFile, IntPtr lpOverlapped);
+		public static extern bool CancelIoEx(
+			IntPtr hFile,
+			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll")]
-		public static extern uint WaitForMultipleObjectsEx(uint nCount, IntPtr[] lpHandles, bool bWaitAll, uint dwMilliseconds, bool bAlertable);
+		public static extern uint WaitForMultipleObjectsEx(
+			uint nCount,
+			IntPtr[] lpHandles,
+			bool bWaitAll,
+			uint dwMilliseconds,
+			bool bAlertable);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern IntPtr CreateEvent(IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);
+		public static extern IntPtr CreateEvent(
+			IntPtr lpEventAttributes,
+			bool bManualReset,
+			bool bInitialState,
+			string lpName);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern bool ResetEvent(IntPtr hEvent);
+		public static extern bool ResetEvent(
+			IntPtr hEvent);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern UInt32 WaitForSingleObjectEx(IntPtr hHandle, UInt32 dwMilliseconds, bool bAlertable);
+		public static extern UInt32 WaitForSingleObjectEx(
+			IntPtr hHandle,
+			UInt32 dwMilliseconds,
+			bool bAlertable);
 
-		public delegate void LpoverlappedCompletionRoutine(uint dwErrorCode,
+		public delegate void LpoverlappedCompletionRoutine(
+			uint dwErrorCode,
 			uint dwNumberOfBytesTransfered,
-			OVERLAPPED lpOverlapped
-		);
+			OVERLAPPED lpOverlapped);
 
 		public unsafe struct OVERLAPPED
 		{
@@ -72,9 +93,14 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public unsafe static extern bool ReadDirectoryChangesW(IntPtr hDirectory, byte* lpBuffer,
-			int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, int*
-			lpBytesReturned, ref OVERLAPPED lpOverlapped,
+		public unsafe static extern bool ReadDirectoryChangesW(
+			IntPtr hDirectory,
+			byte* lpBuffer,
+			int nBufferLength,
+			bool bWatchSubtree,
+			int dwNotifyFilter,
+			int* lpBytesReturned,
+			ref OVERLAPPED lpOverlapped,
 			LpoverlappedCompletionRoutine lpCompletionRoutine);
 	}
 }

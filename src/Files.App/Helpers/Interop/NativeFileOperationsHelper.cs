@@ -60,7 +60,8 @@ namespace Files.App.Helpers
 		public const uint TRUNCATE_EXISTING = 5;
 
 		[DllImport("api-ms-win-core-handle-l1-1-0.dll")]
-		public static extern bool CloseHandle(IntPtr hObject);
+		public static extern bool CloseHandle(
+			IntPtr hObject);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
@@ -72,16 +73,25 @@ namespace Files.App.Helpers
 			IntPtr SecurityAttributes,
 			uint dwCreationDisposition,
 			uint dwFlagsAndAttributes,
-			IntPtr hTemplateFile
-		);
+			IntPtr hTemplateFile);
 
 		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
 		{
-			return new SafeFileHandle(CreateFileFromApp(filePath,
-				GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? CREATE_ALWAYS : OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			return new SafeFileHandle(CreateFileFromApp(
+			filePath,
+				GENERIC_WRITE,
+				0,
+				IntPtr.Zero,
+				overwrite ? CREATE_ALWAYS : OPEN_ALWAYS,
+				(uint)File_Attributes.BackupSemantics,
+				IntPtr.Zero),
+			true);
 		}
 
-		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
+		public static SafeFileHandle OpenFileForRead(
+			string filePath,
+			bool readWrite = false,
+			uint flags = 0)
 		{
 			return new SafeFileHandle(CreateFileFromApp(filePath,
 				GENERIC_READ | (readWrite ? GENERIC_WRITE : 0), FILE_SHARE_READ | (readWrite ? 0 : FILE_SHARE_WRITE), IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
@@ -127,24 +137,21 @@ namespace Files.App.Helpers
 			uint dwDesiredAccess,
 			uint dwShareMode,
 			uint dwCreationDisposition,
-			IntPtr pCreateExParams
-		);
+			IntPtr pCreateExParams);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
 		public static extern bool CreateDirectoryFromApp(
 			string lpPathName,
-			IntPtr SecurityAttributes
-		);
+			IntPtr SecurityAttributes);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
 		public static extern bool MoveFileFromApp(
 			string lpExistingFileName,
-			string lpNewFileName
-		);
+			string lpNewFileName);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
@@ -152,22 +159,19 @@ namespace Files.App.Helpers
 		public static extern bool CopyFileFromApp(
 			string lpExistingFileName,
 			string lpNewFileName,
-			bool bFailIfExists
-		);
+			bool bFailIfExists);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
 		public static extern bool DeleteFileFromApp(
-			string lpFileName
-		);
+			string lpFileName);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
 		SetLastError = true)]
 		public static extern bool RemoveDirectoryFromApp(
-			string lpPathName
-		);
+			string lpPathName);
 
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -189,8 +193,7 @@ namespace Files.App.Helpers
 			IntPtr hFile,
 			long lDistanceToMove,
 			IntPtr lpDistanceToMoveHigh,
-			uint dwMoveMethod
-		);
+			uint dwMoveMethod);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
@@ -200,8 +203,7 @@ namespace Files.App.Helpers
 			byte* lpBuffer,
 			int nBufferLength,
 			int* lpBytesReturned,
-			IntPtr lpOverlapped
-		);
+			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
 		CallingConvention = CallingConvention.StdCall,
@@ -211,8 +213,7 @@ namespace Files.App.Helpers
 			byte* lpBuffer,
 			int nBufferLength,
 			int* lpBytesWritten,
-			IntPtr lpOverlapped
-		);
+			IntPtr lpOverlapped);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
 			CallingConvention = CallingConvention.StdCall,
@@ -224,7 +225,10 @@ namespace Files.App.Helpers
 			[In] ref NativeOverlapped lpOverlapped,
 			LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
-		public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(uint dwErrorCode, uint dwNumberOfBytesTransfered, ref NativeOverlapped lpOverlapped);
+		public delegate void LPOVERLAPPED_COMPLETION_ROUTINE(
+			uint dwErrorCode,
+			uint dwNumberOfBytesTransfered,
+			ref NativeOverlapped lpOverlapped);
 
 		public enum GET_FILEEX_INFO_LEVELS
 		{
@@ -243,10 +247,18 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool GetFileTime([In] IntPtr hFile, out FILETIME lpCreationTime, out FILETIME lpLastAccessTime, out FILETIME lpLastWriteTime);
+		public static extern bool GetFileTime(
+			[In] IntPtr hFile,
+			out FILETIME lpCreationTime,
+			out FILETIME lpLastAccessTime,
+			out FILETIME lpLastWriteTime);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		public static extern bool SetFileTime([In] IntPtr hFile, in FILETIME lpCreationTime, in FILETIME lpLastAccessTime, in FILETIME lpLastWriteTime);
+		public static extern bool SetFileTime(
+			[In] IntPtr hFile,
+			in FILETIME lpCreationTime,
+			in FILETIME lpLastAccessTime,
+			in FILETIME lpLastWriteTime);
 
 		private enum FILE_INFO_BY_HANDLE_CLASS
 		{
@@ -297,8 +309,13 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, out FILE_ID_BOTH_DIR_INFO dirInfo, uint dwBufferSize);
+		private static extern bool GetFileInformationByHandleEx(
+			IntPtr hFile,
+			FILE_INFO_BY_HANDLE_CLASS infoClass,
+			out FILE_ID_BOTH_DIR_INFO dirInfo,
+			uint dwBufferSize);
 
+			
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 8)]
 		private struct FILE_STREAM_INFO
 		{
@@ -311,7 +328,11 @@ namespace Files.App.Helpers
 		}
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-		private static extern bool GetFileInformationByHandleEx(IntPtr hFile, FILE_INFO_BY_HANDLE_CLASS infoClass, IntPtr dirInfo, uint dwBufferSize);
+		private static extern bool GetFileInformationByHandleEx(
+			IntPtr hFile,
+			FILE_INFO_BY_HANDLE_CLASS infoClass,
+			IntPtr dirInfo,
+			uint dwBufferSize);
 
 		public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
 		{
@@ -327,31 +348,25 @@ namespace Files.App.Helpers
 
 		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (GetFileAttributesExFromApp(
-				lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
+			if (GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
 				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
-			}
+
 			return false;
 		}
 
 		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!GetFileAttributesExFromApp(
-				lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
+			if (!GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
 				return false;
-			}
+
 			return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
 		}
 
 		public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!GetFileAttributesExFromApp(
-				lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
+			if (!GetFileAttributesExFromApp(lpFileName, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
 				return false;
-			}
+
 			return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
 		}
 
@@ -366,9 +381,7 @@ namespace Files.App.Helpers
 				IntPtr.Zero);
 
 			if (hFile.ToInt64() == -1)
-			{
 				return null;
-			}
 
 			const int BUFFER_LENGTH = 4096;
 			byte[] buffer = new byte[BUFFER_LENGTH];
@@ -394,6 +407,7 @@ namespace Files.App.Helpers
 							}
 						}
 					}
+
 					ms.Position = 0;
 					szRead = reader.ReadToEnd();
 				}
@@ -406,22 +420,29 @@ namespace Files.App.Helpers
 
 		public static bool WriteStringToFile(string filePath, string str, File_Attributes flags = 0)
 		{
-			IntPtr hStream = CreateFileFromApp(filePath,
-				GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)(File_Attributes.BackupSemantics | flags), IntPtr.Zero);
+			IntPtr hStream = CreateFileFromApp(
+				filePath,
+				GENERIC_WRITE,
+				0,
+				IntPtr.Zero,
+				CREATE_ALWAYS,
+				(uint)(File_Attributes.BackupSemantics | flags),
+				IntPtr.Zero);
+
 			if (hStream.ToInt64() == -1)
-			{
 				return false;
-			}
+
 			byte[] buff = Encoding.UTF8.GetBytes(str);
 			int dwBytesWritten;
+
 			unsafe
 			{
 				fixed (byte* pBuff = buff)
-				{
 					WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
-				}
 			}
+
 			CloseHandle(hStream);
+
 			return true;
 		}
 
@@ -430,17 +451,19 @@ namespace Files.App.Helpers
 			using var hFile = CreateFileForWrite(filePath);
 
 			if (hFile.IsInvalid)
-			{
 				return false;
-			}
 
-			NativeOverlapped nativeOverlapped = new NativeOverlapped();
-			bool result = WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
+			NativeOverlapped nativeOverlapped = new();
+
+			bool result = WriteFileEx(
+				hFile.DangerousGetHandle(),
+				buffer,
+				(uint)buffer.LongLength,
+				ref nativeOverlapped,
+				callback);
 
 			if (!result)
-			{
 				System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
-			}
 
 			return result;
 		}
@@ -453,16 +476,16 @@ namespace Files.App.Helpers
 			{
 				var fileStruct = new FILE_ID_BOTH_DIR_INFO();
 				if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
-				{
 					return (ulong)fileStruct.FileId;
-				}
 			}
+
 			return null;
 		}
 
 		public static ulong? GetFileFRN(string filePath)
 		{
 			using var handle = OpenFileForRead(filePath);
+
 			if (!handle.IsInvalid)
 			{
 				try
@@ -472,12 +495,14 @@ namespace Files.App.Helpers
 				}
 				catch { }
 			}
+
 			return null;
 		}
 
 		public static long? GetFileSizeOnDisk(string filePath)
 		{
 			using var handle = OpenFileForRead(filePath);
+
 			if (!handle.IsInvalid)
 			{
 				try
@@ -487,6 +512,7 @@ namespace Files.App.Helpers
 				}
 				catch { }
 			}
+
 			return null;
 		}
 
@@ -502,14 +528,14 @@ namespace Files.App.Helpers
 					var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
 					var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
 					var normalisedTarget = printString ?? subsString;
+
 					if (string.IsNullOrEmpty(normalisedTarget))
 					{
 						normalisedTarget = subsString;
 						if (normalisedTarget.StartsWith(@"\??\", StringComparison.Ordinal))
-						{
 							normalisedTarget = normalisedTarget.Substring(4);
-						}
 					}
+
 					if (buffer.ReparseTag == IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
 					{
 						// Target is relative, get the absolute path
@@ -517,19 +543,23 @@ namespace Files.App.Helpers
 						path = path.TrimEnd(Path.DirectorySeparatorChar);
 						normalisedTarget = Path.GetFullPath(Path.Combine(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)), normalisedTarget));
 					}
+
 					return normalisedTarget;
 				}
 			}
+
 			return null;
 		}
 
 		public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
 		{
 			using var handle = OpenFileForRead(path);
+
 			if (!handle.IsInvalid)
 			{
 				var bufferSize = Marshal.SizeOf(typeof(FILE_STREAM_INFO)) * 10;
 				var mem = Marshal.AllocHGlobal(bufferSize);
+
 				if (GetFileInformationByHandleEx(handle.DangerousGetHandle(), FILE_INFO_BY_HANDLE_CLASS.FileStreamInfo, mem, (uint)bufferSize))
 				{
 					uint offset = 0;
@@ -537,14 +567,15 @@ namespace Files.App.Helpers
 					do
 					{
 						fileStruct = Marshal.PtrToStructure<FILE_STREAM_INFO>(new IntPtr(mem.ToInt64() + offset));
+
 						var name = fileStruct.StreamName.Substring(0, (int)fileStruct.StreamNameLength / 2);
 						if (name.EndsWith(":$DATA") && name != "::$DATA")
-						{
 							yield return (name, fileStruct.StreamSize);
-						}
+
 						offset += fileStruct.NextEntryOffset;
 					} while (fileStruct.NextEntryOffset != 0);
 				}
+
 				Marshal.FreeHGlobal(mem);
 			}
 		}

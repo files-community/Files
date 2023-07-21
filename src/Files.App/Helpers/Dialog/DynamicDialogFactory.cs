@@ -14,10 +14,11 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static factory for <see cref="ContentDialog"/>.
+	/// </summary>
 	public static class DynamicDialogFactory
 	{
-		public static readonly SolidColorBrush _transparentBrush = new SolidColorBrush(Colors.Transparent);
-
 		public static DynamicDialog GetFor_PropertySaveErrorDialog()
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -29,6 +30,7 @@ namespace Files.App.Helpers
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary | DynamicDialogButtons.Cancel
 			});
+
 			return dialog;
 		}
 
@@ -42,6 +44,7 @@ namespace Files.App.Helpers
 				PrimaryButtonAction = async (vm, e) => await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess")),
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 
@@ -55,6 +58,7 @@ namespace Files.App.Helpers
 				SecondaryButtonText = "No".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary
 			});
+
 			return dialog;
 		}
 
@@ -89,9 +93,12 @@ namespace Files.App.Helpers
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
 				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
-				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
-														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
-														: DynamicDialogButtons.Cancel;
+
+				dialog!.ViewModel.DynamicButtonsEnabled =
+					isInputValid
+						? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
+						: DynamicDialogButtons.Cancel;
+
 				if (isInputValid)
 					dialog.ViewModel.AdditionalData = inputText.Text;
 			};
@@ -137,11 +144,17 @@ namespace Files.App.Helpers
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "FileInUseDialog/Title".GetLocalizedResource(),
-				SubtitleText = lockingProcess.IsEmpty() ? "FileInUseDialog/Text".GetLocalizedResource() :
-					string.Format("FileInUseByDialog/Text".GetLocalizedResource(), string.Join(", ", lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
+				SubtitleText = lockingProcess.IsEmpty()
+					? "FileInUseDialog/Text".GetLocalizedResource()
+					: string.Format(
+						"FileInUseByDialog/Text".GetLocalizedResource(),
+						string.Join(
+							", ",
+							lockingProcess.Select(x => $"{x.AppName ?? x.Name} (PID: {x.Pid})"))),
 				PrimaryButtonText = "OK",
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 
@@ -278,6 +291,7 @@ namespace Files.App.Helpers
 				PrimaryButtonText = "Close".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
+
 			return dialog;
 		}
 	}

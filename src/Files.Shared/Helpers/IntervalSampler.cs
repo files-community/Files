@@ -5,7 +5,7 @@ using System;
 
 namespace Files.Shared.Helpers
 {
-	internal class IntervalSampler
+	public class IntervalSampler
 	{
 		private DateTime recordPoint;
 

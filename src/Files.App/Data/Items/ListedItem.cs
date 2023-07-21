@@ -406,8 +406,8 @@ namespace Files.App.Utils
 		private bool CheckElevationRights()
 		{
 			return IsShortcut
-				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
-				: ElevationHelpers.IsElevationRequired(this.ItemPath);
+				? AppElevationHelper.IsElevationRequired(((ShortcutItem)this).TargetPath)
+				: AppElevationHelper.IsElevationRequired(this.ItemPath);
 		}
 	}
 

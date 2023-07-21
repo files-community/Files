@@ -3,11 +3,10 @@
 
 using LiteDB;
 using System.Text;
-using IO = System.IO;
 
 namespace Files.App.Helpers
 {
-	public class LayoutPreferenceDatabase : IDisposable
+	internal class LayoutPreferenceDatabase : IDisposable
 	{
 		private readonly LiteDatabase db;
 
@@ -23,19 +22,19 @@ namespace Files.App.Helpers
 		public void SetPreferences(string filePath, ulong? frn, LayoutPreferenceManager? prefs)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+			var col = db.GetCollection<LayoutPreferenceDatabaseItem>("layoutprefs");
 
-			var tmp = _FindPreferences(filePath, frn);
+			var tmp = FindPreferences(filePath, frn);
 			if (tmp is null)
 			{
 				if (prefs is not null)
 				{
 					// Insert new tagged file (Id will be auto-incremented)
-					var newPref = new LayoutDbPrefs()
+					var newPref = new LayoutPreferenceDatabaseItem()
 					{
 						FilePath = filePath,
 						Frn = frn,
-						Prefs = prefs
+						Manager = prefs
 					};
 					col.Insert(newPref);
 					col.EnsureIndex(x => x.Frn);
@@ -47,7 +46,7 @@ namespace Files.App.Helpers
 				if (prefs is not null)
 				{
 					// Update file tag
-					tmp.Prefs = prefs;
+					tmp.Manager = prefs;
 					col.Update(tmp);
 				}
 				else
@@ -60,13 +59,13 @@ namespace Files.App.Helpers
 
 		public LayoutPreferenceManager? GetPreferences(string? filePath = null, ulong? frn = null)
 		{
-			return _FindPreferences(filePath, frn)?.Prefs;
+			return FindPreferences(filePath, frn)?.Manager;
 		}
 
-		private LayoutDbPrefs? _FindPreferences(string? filePath = null, ulong? frn = null)
+		private LayoutPreferenceDatabaseItem? FindPreferences(string? filePath = null, ulong? frn = null)
 		{
 			// Get a collection (or create, if doesn't exist)
-			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+			var col = db.GetCollection<LayoutPreferenceDatabaseItem>("layoutprefs");
 
 			if (filePath is not null)
 			{
@@ -99,9 +98,9 @@ namespace Files.App.Helpers
 			return null;
 		}
 
-		public void ResetAll(Func<LayoutDbPrefs, bool>? predicate = null)
+		public void ResetAll(Func<LayoutPreferenceDatabaseItem, bool>? predicate = null)
 		{
-			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+			var col = db.GetCollection<LayoutPreferenceDatabaseItem>("layoutprefs");
 			if (predicate is null)
 			{
 				col.Delete(Query.All());
@@ -112,22 +111,12 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public void ApplyToAll(Action<LayoutDbPrefs> updateAction, Func<LayoutDbPrefs, bool>? predicate = null)
+		public void ApplyToAll(Action<LayoutPreferenceDatabaseItem> updateAction, Func<LayoutPreferenceDatabaseItem, bool>? predicate = null)
 		{
-			var col = db.GetCollection<LayoutDbPrefs>("layoutprefs");
+			var col = db.GetCollection<LayoutPreferenceDatabaseItem>("layoutprefs");
 			var allDocs = predicate is null ? col.FindAll() : col.Find(x => predicate(x));
 			allDocs.ForEach(x => updateAction(x));
 			col.Update(allDocs);
-		}
-
-		~LayoutPreferenceDatabase()
-		{
-			Dispose();
-		}
-
-		public void Dispose()
-		{
-			db.Dispose();
 		}
 
 		public void Import(string json)
@@ -147,7 +136,7 @@ namespace Files.App.Helpers
 		private void CheckDbVersion(string filename)
 		{
 			var buffer = new byte[8192 * 2];
-			using (var stream = new IO.FileStream(filename, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite))
+			using (var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite))
 			{
 				// read first 16k
 				stream.Read(buffer, 0, buffer.Length);
@@ -159,16 +148,29 @@ namespace Files.App.Helpers
 					return; // version 4.1.4
 				}
 			}
-			IO.File.Delete(filename); // recreate DB with correct version
+			SystemIO.File.Delete(filename); // recreate DB with correct version
 		}
 
-		public class LayoutDbPrefs
+		~LayoutPreferenceDatabase()
+		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			db.Dispose();
+		}
+
+		internal class LayoutPreferenceDatabaseItem
 		{
 			[BsonId]
 			public int Id { get; set; }
+
 			public ulong? Frn { get; set; }
+
 			public string FilePath { get; set; } = string.Empty;
-			public LayoutPreferenceManager Prefs { get; set; } = LayoutPreferenceManager.DefaultLayoutPreferences;
+
+			public LayoutPreferenceManager Manager { get; set; } = LayoutPreferenceManager.DefaultLayoutPreferences;
 		}
 	}
 }

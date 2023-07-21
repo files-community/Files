@@ -15,9 +15,11 @@ namespace Files.App.Helpers
 	public static class ShareItemHelpers
 	{
 		public static bool IsItemShareable(ListedItem item)
-			=> !item.IsHiddenItem &&
+		{
+			return !item.IsHiddenItem &&
 				(!item.IsShortcut || item.IsLinkItem) &&
 				(item.PrimaryItemAttribute != StorageItemTypes.Folder || item.IsArchive);
+		}
 
 		public static void ShareItems(IEnumerable<ListedItem> itemsToShare)
 		{

@@ -4,32 +4,33 @@
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
-	internal class DialogDisplayHelper
+	/// <summary>
+	/// Provides static helper for <see cref="ContentDialog"/>.
+	/// </summary>
+	internal static class DialogDisplayHelper
 	{
 		/// <summary>
-		/// Standard dialog, to ensure consistency.
-		/// The secondaryText can be un-assigned to hide its respective button.
-		/// Result is true if the user presses primary text button
+		/// Shows a standard dialog provided to ensure consistency.
+		/// <br/>
+		/// The <paramref name="secondaryText"/> can be un-assigned to hide its respective button.
 		/// </summary>
-		/// <param name="title">
-		/// The title of this dialog
-		/// </param>
-		/// <param name="message">
-		/// THe main body message displayed within the dialog
-		/// </param>
+		/// <param name="title">The title of this dialog</param>
+		/// <param name="message">THe main body message displayed within the dialog</param>
 		/// <param name="primaryText">
 		/// Text to be displayed on the primary button (which returns true when pressed).
-		/// If not set, defaults to 'OK'
-		/// </param>
+		/// <br/>
+		/// If not set, defaults to 'OK'</param>
 		/// <param name="secondaryText">
 		/// The (optional) secondary button text.
+		/// <br/>
 		/// If not set, it won't be presented to the user at all.
 		/// </param>
+		/// <returns>
+		/// Returns true if the user presses primary text button; otherwise, false.
+		/// </returns>
 		public static async Task<bool> ShowDialogAsync(string title, string message, string primaryText = "OK", string secondaryText = null)
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
@@ -51,6 +52,7 @@ namespace Files.App.Helpers
 				if (MainWindow.Instance.Content is Frame rootFrame)
 				{
 					await dialog.ShowAsync();
+
 					return dialog.DynamicResult;
 				}
 			}
