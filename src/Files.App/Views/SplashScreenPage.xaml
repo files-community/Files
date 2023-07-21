@@ -12,6 +12,8 @@
 		<Image
 			x:Name="MainSplashScreenImage"
 			Width="420"
+			ImageFailed="Image_ImageFailed"
+			ImageOpened="Image_ImageOpened"
 			Source="\Assets\AppTiles\Dev\SplashScreen.png" />
 
 		<ProgressRing

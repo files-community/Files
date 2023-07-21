@@ -47,6 +47,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
+		public static bool IsSplashScreenLoading { get; set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -213,10 +214,8 @@ namespace Files.App
 				// Wait for the Window to initialize
 				await Task.Delay(10);
 
+				IsSplashScreenLoading = true;
 				MainWindow.Instance.ShowSplashScreen();
-
-				// Wait for the UI to update
-				await Task.Delay(500);
 
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
@@ -234,6 +233,15 @@ namespace Files.App
 				// TODO: Remove App.Logger instance and replace with DI
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
+
+				// Wait for the UI to update
+				for (var i = 0; i < 50; i++)
+				{
+					if (IsSplashScreenLoading)
+						await Task.Delay(10);
+					else
+						break;
+				}
 
 				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
