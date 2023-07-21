@@ -80,6 +80,8 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
+			PaneHolder = this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.PaneHolder;
+
 			base.Page_Loaded(sender, e);
 
 			NotifyPropertyChanged(nameof(FilesystemViewModel));
