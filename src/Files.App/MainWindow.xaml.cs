@@ -213,7 +213,7 @@ namespace Files.App
 					LeftPaneSelectItemParam = selectItem,
 				};
 
-				if (rootFrame.Content is not null)
+				if (rootFrame.Content is MainPage)
 					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
