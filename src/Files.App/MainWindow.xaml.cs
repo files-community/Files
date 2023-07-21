@@ -207,10 +207,12 @@ namespace Files.App
 						payload = folder.Path; // Convert short name to long name (#6190)
 				}
 
+				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
 				var paneNavigationArgs = new PaneNavigationArguments
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
+					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is not null)

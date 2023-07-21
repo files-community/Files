@@ -14,6 +14,8 @@ namespace Files.App.Views
 {
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
+		public static readonly int DualPaneWidthThreshold = 750;
+
 		public static event EventHandler<PaneHolderPage>? CurrentInstanceChanged;
 
 		private IUserSettingsService UserSettingsService { get; }
@@ -46,7 +48,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool _WindowIsCompact = MainWindow.Instance.Bounds.Width <= 750;
+		private bool _WindowIsCompact = MainWindow.Instance.Bounds.Width <= DualPaneWidthThreshold;
 		public bool WindowIsCompact
 		{
 			get => _WindowIsCompact;
@@ -78,7 +80,7 @@ namespace Files.App.Views
 			=> IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
-			=> !(MainWindow.Instance.Bounds.Width <= 750);
+			=> MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;
 
 		private NavigationParams _NavParamsLeft;
 		public NavigationParams NavParamsLeft
@@ -208,7 +210,7 @@ namespace Files.App.Views
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
-			WindowIsCompact = MainWindow.Instance.Bounds.Width <= 750;
+			WindowIsCompact = MainWindow.Instance.Bounds.Width <= DualPaneWidthThreshold;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
