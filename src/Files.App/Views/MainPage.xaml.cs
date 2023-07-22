@@ -197,10 +197,10 @@ namespace Files.App.Views
 		{
 			ViewModel.OnNavigatedTo(e);
 
-			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+			//SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+			//SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+			//SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+			//SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)

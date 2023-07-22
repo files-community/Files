@@ -9,6 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:sidebar="using:Files.App.UserControls.SideBar"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -110,21 +111,23 @@
 
 	<Border>
 		<!--  Root  -->
-		<uc:SidebarControl
+		<sidebar:SideBarHost
 			x:Name="SidebarControl"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
-			DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
-			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
-			IsPaneToggleButtonVisible="False"
 			Loaded="SidebarControl_Loaded"
-			PaneDisplayMode="Left"
+			DisplayMode="Expanded"
 			SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+			<!-- Todo: Fix 
+				DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
+				IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+				IsPaneToggleButtonVisible="False"
+			-->
 
 			<!--  Head Contents  -->
-			<uc:SidebarControl.TabContent>
+			<sidebar:SideBarHost.TabContent>
 				<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -181,7 +184,7 @@
 						TabIndex="1" />
 
 				</Grid>
-			</uc:SidebarControl.TabContent>
+			</sidebar:SideBarHost.TabContent>
 
 			<!--  Main Contents  -->
 			<Grid
@@ -254,7 +257,7 @@
 
 			</Grid>
 
-		</uc:SidebarControl>
+		</sidebar:SideBarHost>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
