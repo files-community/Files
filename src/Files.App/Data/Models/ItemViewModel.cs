@@ -1206,11 +1206,11 @@ namespace Files.App.Data.Models
 							cts.Token.ThrowIfCancellationRequested();
 							await SafetyExtensions.IgnoreExceptions(() =>
 							{
-								var repo = new LibGit2Sharp.Repository(repoPath);
-								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
-
 								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 								{
+									var repo = new LibGit2Sharp.Repository(repoPath);
+									GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
+
 									var gitItem = item.AsGitItem;
 									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
 									{

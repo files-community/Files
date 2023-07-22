@@ -891,20 +891,24 @@ namespace Files.App.ViewModels.UserControls
 			{
 				case nameof(FolderSettingsViewModel.GridViewSize):
 				case nameof(FolderSettingsViewModel.LayoutMode):
+					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
-						LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
-						{
-							FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
-							FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
-							FolderLayoutModes.GridView =>
-								instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
-									? Commands.LayoutGridSmall.OpacityStyle!
-									: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
-										? Commands.LayoutGridMedium.OpacityStyle!
-										: Commands.LayoutGridLarge.OpacityStyle!,
-							_ => Commands.LayoutDetails.OpacityStyle!
-						};
-					}
+						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
+						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
+						FolderLayoutModes.GridView =>
+							instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
+								? Commands.LayoutGridSmall.OpacityStyle!
+								: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
+									? Commands.LayoutGridMedium.OpacityStyle!
+									: Commands.LayoutGridLarge.OpacityStyle!,
+						_ => Commands.LayoutDetails.OpacityStyle!
+					};
+					OnPropertyChanged(nameof(IsTilesLayout));
+					OnPropertyChanged(nameof(IsColumnLayout));
+					OnPropertyChanged(nameof(IsGridSmallLayout));
+					OnPropertyChanged(nameof(IsGridMediumLayout));
+					OnPropertyChanged(nameof(IsGridLargeLayout));
+					OnPropertyChanged(nameof(IsDetailsLayout));
 					break;
 			}
 		}
@@ -952,6 +956,13 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
+		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
