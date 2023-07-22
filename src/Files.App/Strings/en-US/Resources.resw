@@ -175,7 +175,7 @@
     <value>Clear all items</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path</value>
+    <value>Enter a path to navigate to or type ">" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
