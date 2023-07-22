@@ -211,6 +211,9 @@ namespace Files.App
 				// Initialize and activate MainWindow
 				EnsureSuperEarlyWindow();
 
+				// Wait for the Window to initialize
+				await Task.Delay(10);
+
 				IsSplashScreenLoading = new TaskCompletionSource();
 				MainWindow.Instance.ShowSplashScreen();
 
