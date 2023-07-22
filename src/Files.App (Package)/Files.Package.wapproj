@@ -98,6 +98,7 @@
     <Content Include="Package.appinstaller" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Files.App.Elevated\Files.App.Elevated.csproj" />
     <ProjectReference Include="..\Files.App\Files.App.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
       <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
