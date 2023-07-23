@@ -345,6 +345,8 @@
 
   <ItemGroup>
     <ClCompile Include="FilesLauncher.cpp" />
+    <ClCompile Include="OpenInFolder.cpp" />
+    <ClInclude Include="OpenInFolder.h" />
     <None Include="packages.config" />
   </ItemGroup>
 

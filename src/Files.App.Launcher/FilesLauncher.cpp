@@ -13,12 +13,17 @@
 #include <vector>
 #include <wil/resource.h>
 
+#include "OpenInFolder.h"
+
 // Link additional libraries
 #pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "Propsys.lib")
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "uuid.lib")
 
+constexpr auto ID_TIMEREXPIRED = 101;
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 bool OpenInExistingShellWindow(const TCHAR* folderPath);
 void RunFileExplorer(const TCHAR* openDirectory);
 size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle);
@@ -105,10 +110,67 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			return 0;
 		}
 
+		// Register the window class.
+		const wchar_t CLASS_NAME[] = L"Files Window Class";
+
+		WNDCLASSEX wcex = { };
+		wcex.cbSize = sizeof(wcex);
+		wcex.lpfnWndProc = WindowProc;
+		wcex.cbWndExtra = sizeof(OpenInFolder*);
+		wcex.hInstance = hInstance;
+		wcex.lpszClassName = CLASS_NAME;
+		RegisterClassEx(&wcex);
+
+		OpenInFolder openInFolder;
+
+		// Create the window.
+		HWND hwnd = CreateWindowEx(
+			0,
+			CLASS_NAME,
+			L"Files Launcher",
+			0,
+			0, 0, 0, 0,
+			HWND_MESSAGE,
+			NULL,
+			hInstance,
+			&openInFolder
+		);
+
+		if (hwnd == NULL)
+		{
+			if (_debugStream)
+				fclose(_debugStream);
+
+			return 0;
+		}
+
+		SetTimer(hwnd, ID_TIMEREXPIRED, 500, NULL);
+
+		ShowWindow(hwnd, SW_SHOWNORMAL);
+		//UpdateWindow(hwnd);
+
+		MSG msg = { };
+		while (GetMessage(&msg, NULL, 0, 0) > 0)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		auto item = openInFolder.GetResult();
+
 		TCHAR args[1024];
-		std::wcout << L"No item selected" << std::endl;
-		//swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
-		swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\"", szBuf, openDirectory);
+		if (item.empty())
+		{
+			std::wcout << L"No item selected" << std::endl;
+			//swprintf(args, _countof(args) - 1, L"-directory \"%s\"", openDirectory);
+			swprintf(args, _countof(args) - 1, L"\"%s\" -directory \"%s\"", szBuf, openDirectory);
+		}
+		else
+		{
+			std::wcout << L"Item: " << item << std::endl;
+			//swprintf(args, _countof(args) - 1, L"-select \"%s\"", item.c_str());
+			swprintf(args, _countof(args) - 1, L"\"%s\" -select \"%s\"", szBuf, item.c_str());
+		}
 
 		std::wstring uriWithArgs = L"files-uwp:?cmd=" + str2wstr(wstring_to_utf8_hex(args));
 
@@ -158,6 +220,49 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		fclose(_debugStream);
 
 	return 0;
+}
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	auto* pContainer = (OpenInFolder*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
+	switch (uMsg)
+	{
+	case WM_NCCREATE:
+	{
+		CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+		pContainer = reinterpret_cast<OpenInFolder*>(pCreate->lpCreateParams);
+
+		if (!pContainer)
+		{
+			PostQuitMessage(0);
+			return 0;
+		}
+
+		pContainer->SetWindow(hwnd);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pContainer);
+		break;
+	}
+
+	case WM_NCDESTROY:
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+		return 0;
+
+	case WM_TIMER:
+		switch (wParam)
+		{
+		case ID_TIMEREXPIRED:
+			PostQuitMessage(0);
+			return 0;
+		}
+		break;
+	}
+
+	 // Jump across to the member window function (will handle all requests).
+	if (pContainer != nullptr)
+		return pContainer->WindowProcedure(hwnd, uMsg, wParam, lParam);
+	else
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 size_t strifind(const std::wstring& strHaystack, const std::wstring& strNeedle)
