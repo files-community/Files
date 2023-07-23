@@ -1,9 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Data.Items
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged
 	{
 		public string Text { get; }
 
@@ -16,6 +18,10 @@ namespace Files.App.Data.Items
 		public NavigationControlItemType ItemType { get; }
 
 		public ContextMenuOptions MenuOptions { get; }
+
+		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; }
+
+		public IconSource? GenerateIconSource();
 	}
 
 	public enum NavigationControlItemType

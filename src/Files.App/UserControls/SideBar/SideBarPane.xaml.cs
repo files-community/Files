@@ -1,11 +1,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using System;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace Files.App.UserControls.SideBar
 {
+	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove) { }
+	public record ItemContextInvokedArgs(object Item, Point Position) { }
+	
+	
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SideBarPane : UserControl
 	{
@@ -13,11 +19,11 @@ namespace Files.App.UserControls.SideBar
 
 		private double preManipulationSideBarWidth = 0;
 
-		public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove) { }
-
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
+		
 		public event EventHandler<object>? ItemInvoked;
-		public event EventHandler<object>? ItemContextInvoked;
+
+		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 
 		public SideBarPane()
 		{
@@ -27,7 +33,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void SideBar_Loaded(object sender, RoutedEventArgs e)
 		{
-			if(DisplayMode != SideBarDisplayMode.Minimal)
+			if (DisplayMode != SideBarDisplayMode.Minimal)
 			{
 				UpdateDisplayModeForWidth(MenuItemsHost.ActualWidth);
 			}
@@ -37,16 +43,16 @@ namespace Files.App.UserControls.SideBar
 			}
 		}
 
-		public void RaiseContextRequested(SideBarItem item)
+		public void RaiseContextRequested(SideBarItem item, Point e)
 		{
 			// Only leaves can be selected
-			ItemContextInvoked?.Invoke(item, item.DataContext);
+			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
 		}
-		
+
 		public void RaiseItemInvoked(SideBarItem item)
 		{
 			// Only leaves can be selected
-			if (item.Items is not null) return;
+			if (item.Item?.ChildItems is not null) return;
 			SelectedItem = item.DataContext;
 			ItemInvoked?.Invoke(item, SelectedItem);
 		}

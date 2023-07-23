@@ -42,6 +42,7 @@
 			Grid.ColumnSpan="2"
 			Loaded="SideBar_Loaded"
 			ItemInvoked="SideBar_ItemInvoked"
+			ItemContextInvoked="SideBar_ItemContextInvoked"
 			InnerContent="{x:Bind InnerContent}"
 			DisplayMode="{x:Bind DisplayMode}"
 			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"

@@ -2,9 +2,14 @@
 <!-- Licensed under the MIT License. -->
 
 <ResourceDictionary
+	x:Class="Files.App.UserControls.SideBar.SideBarItemResources"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.App.UserControls.SideBar">
+    xmlns:local="using:Files.App.UserControls.SideBar" xmlns:items="using:Files.App.Data.Items">
+
+	<DataTemplate x:Key="DefaultSideBarItemTemplate">
+		<local:SideBarItem Item="{Binding}"/>
+	</DataTemplate>
 
 	<Style TargetType="local:SideBarItem" >
 		<Setter Property="Template">
@@ -46,7 +51,7 @@
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
-										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}"/>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -95,8 +100,10 @@
                                 HorizontalAlignment="Left" VerticalAlignment="Center"
                                 Width="2" Height="16" Margin="4,0" Fill="{ThemeResource AccentFillColorDefaultBrush}"/>
 
-							<ContentPresenter Content="{TemplateBinding Icon}" MaxWidth="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-							<TextBlock Grid.Column="1" Text="{TemplateBinding Text}"
+							<ContentPresenter x:Name="IconPresenter"
+								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+								Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							<TextBlock Grid.Column="1" Text="{Binding Text,Mode=OneWay}"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 							<FontIcon x:Name="ExpanderIcon" Grid.Column="3" FontSize="8" Glyph="&#xE70E;" Margin="0,0,14,0"/>
 
@@ -108,28 +115,18 @@
 											<Setter Target="MinWidth" Value="200"/>
 										</Style>
 									</Flyout.FlyoutPresenterStyle>
-									<ItemsRepeater x:Name="FlyoutChildrenPresenter" ItemsSource="{TemplateBinding Items}"
-                                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch">
-										<ItemsRepeater.ItemTemplate>
-											<DataTemplate>
-												<local:SideBarItem Text="{Binding Text}" Icon="{Binding Icon, Mode=OneWay}"/>
-											</DataTemplate>
-										</ItemsRepeater.ItemTemplate>
-									</ItemsRepeater>
+									<ItemsRepeater x:Name="FlyoutChildrenPresenter" ItemsSource="{Binding ChildItems,Mode=OneWay}"
+											ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
+                                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch"/>
 								</Flyout>
 							</FlyoutBase.AttachedFlyout>
 						</Grid>
 
 						<ItemsRepeater x:Name="ChildrenPresenter" 
                             Grid.Row="2"
-                            ItemsSource="{TemplateBinding Items}" 
-                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch">
-							<ItemsRepeater.ItemTemplate>
-								<DataTemplate>
-									<local:SideBarItem Text="{Binding Text}" Icon="{Binding Icon, Mode=OneWay}"/>
-								</DataTemplate>
-							</ItemsRepeater.ItemTemplate>
-						</ItemsRepeater>
+                            ItemsSource="{Binding ChildItems,Mode=OneWay}" 
+							ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
+                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch"/>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

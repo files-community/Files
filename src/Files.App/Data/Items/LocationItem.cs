@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Utils.Shell;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -14,10 +15,11 @@ namespace Files.App.Data.Items
 		public BitmapImage Icon
 		{
 			get => icon;
-			set => SetProperty(ref icon, value);
+			set
+			{
+				SetProperty(ref icon, value, nameof(Icon));
+			}
 		}
-
-		//public Uri IconSource { get; set; }
 
 		public byte[] IconData { get; set; }
 
@@ -48,6 +50,10 @@ namespace Files.App.Data.Items
 		public bool IsDefaultLocation { get; set; }
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
+		public IconSource? GenerateIconSource() => new ImageIconSource()
+		{
+			ImageSource = icon
+		};
 
 		public bool SelectsOnInvoked { get; set; } = true;
 

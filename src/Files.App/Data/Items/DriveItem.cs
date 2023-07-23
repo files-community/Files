@@ -6,7 +6,9 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -20,7 +22,10 @@ namespace Files.App.Data.Items
 		public BitmapImage Icon
 		{
 			get => icon;
-			set => SetProperty(ref icon, value);
+			set
+			{
+				SetProperty(ref icon, value, nameof(Icon));
+			}
 		}
 
 		public byte[] IconData { get; set; }
@@ -152,6 +157,13 @@ namespace Files.App.Data.Items
 
 		public string Name => Root.DisplayName;
 
+		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
+
+		public IconSource? GenerateIconSource() => new ImageIconSource()
+		{
+			ImageSource = Icon
+		};
+
 		public DriveItem()
 		{
 			ItemType = NavigationControlItemType.CloudDrive;
@@ -261,7 +273,6 @@ namespace Files.App.Data.Items
 				}
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
-
 			Icon ??= await IconData.ToBitmapAsync();
 		}
 

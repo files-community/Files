@@ -29,29 +29,21 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty IsExpandedProperty =
 			DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SideBarItem), new PropertyMetadata(false, OnPropertyChanged));
 
-		public object Icon
+		public INavigationControlItem? Item
 		{
-			get { return (object)GetValue(IconProperty); }
+			get { return (INavigationControlItem)GetValue(ItemProperty); }
+			set { SetValue(ItemProperty, value); }
+		}
+		public static readonly DependencyProperty ItemProperty =
+			DependencyProperty.Register("Item", typeof(INavigationControlItem), typeof(SideBarItem), new PropertyMetadata(null));
+
+		public FrameworkElement Icon
+		{
+			get { return (FrameworkElement)GetValue(IconProperty); }
 			set { SetValue(IconProperty, value); }
 		}
 		public static readonly DependencyProperty IconProperty =
-			DependencyProperty.Register("Icon", typeof(object), typeof(SideBarItem), new PropertyMetadata(null));
-
-		public string Text
-		{
-			get { return (string)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
-		}
-		public static readonly DependencyProperty TextProperty =
-			DependencyProperty.Register("Text", typeof(string), typeof(SideBarItem), new PropertyMetadata(null));
-
-		public object Items
-		{
-			get { return (object)GetValue(ItemsProperty); }
-			set { SetValue(ItemsProperty, value); }
-		}
-		public static readonly DependencyProperty ItemsProperty =
-			DependencyProperty.Register("Items", typeof(object), typeof(SideBarItem), new PropertyMetadata(null));
+			DependencyProperty.Register("Icon", typeof(FrameworkElement), typeof(SideBarItem), new PropertyMetadata(null));
 
 		public SideBarDisplayMode DisplayMode
 		{
@@ -85,11 +77,11 @@ namespace Files.App.UserControls.SideBar
 			}
 			else if (e.Property == IsExpandedProperty)
 			{
-				item.UpdateExpansionState(item.Items);
+				item.UpdateExpansionState(item.Item?.ChildItems);
 			}
-			else if (e.Property == ItemsProperty)
+			else if(e.Property == ItemProperty)
 			{
-				item.UpdateExpansionState((UIElement)e.NewValue);
+				item.HookupIconChangeListener(e.OldValue as INavigationControlItem, e.NewValue as INavigationControlItem);
 			}
 			else if(e.Property == DataContextProperty)
 			{

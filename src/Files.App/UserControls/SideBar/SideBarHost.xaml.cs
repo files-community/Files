@@ -8,12 +8,10 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -256,6 +254,172 @@ namespace Files.App.UserControls.SideBar
 
 		private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
 		{
+		}
+
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		{
+			var options = item.MenuOptions;
+
+			var favoriteModel = App.QuickAccessManager.Model;
+			var favoriteIndex = favoriteModel.IndexOfItem(item);
+			var favoriteCount = favoriteModel.FavoriteItems.Count;
+
+			var isFavoriteItem = item.Section is SectionType.Favorites && favoriteIndex is not -1;
+			var showMoveItemUp = isFavoriteItem && favoriteIndex > 0;
+			var showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
+
+			var isDriveItem = item is DriveItem;
+			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
+
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
+					Glyph = "\uE710",
+					Command = CreateLibraryCommand,
+					ShowItem = options.IsLibrariesHeader
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
+					Glyph = "\uE10E",
+					Command = RestoreLibrariesCommand,
+					ShowItem = options.IsLibrariesHeader
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.EmptyRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.RestoreAllRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
+					Command = OpenInNewTabCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
+					Command = OpenInNewWindowCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "PinToFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
+					Command = PinItemCommand,
+					ShowItem = isDriveItem && !isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
+					Command = UnpinItemCommand,
+					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
+					Glyph = "\uE77A",
+					Command = HideSectionCommand,
+					ShowItem = options.ShowHideSection
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Command = EjectDeviceCommand,
+					ShowItem = options.ShowEjectDevice
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
+					Command = OpenPropertiesCommand,
+					CommandParameter = menu,
+					ShowItem = options.ShowProperties
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsEnabled = false,
+					IsHidden = !options.ShowShellItems,
+				}
+			}.Where(x => x.ShowItem).ToList();
+		}
+
+		private void SideBar_ItemContextInvoked(object sender, ItemContextInvokedArgs args)
+		{
+			if (args.Item is not INavigationControlItem item || sender is not FrameworkElement sidebarItem)
+			{
+				return;
+			}
+			rightClickedItem = item;
+
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+
+			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			secondaryElements.OfType<FrameworkElement>()
+								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
+
+			if (item.MenuOptions.ShowShellItems)
+				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
 		}
 
 		private void SideBar_DisplayModeChanged(object sender, SideBarDisplayMode e)

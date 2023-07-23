@@ -10,9 +10,10 @@
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
 	xmlns:local="using:Files.App.UserControls.SideBar"
 	mc:Ignorable="d"
-    MinWidth="300" MinHeight="500">
+    MinWidth="300" MinHeight="500"
+	Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
 
-    <Grid>
+	<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="DisplayColumn" Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -49,6 +50,7 @@
 
         <ContentPresenter x:Name="ContentPresenter"
             Grid.Column="2" HorizontalAlignment="Stretch"
+			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
             VerticalAlignment="Stretch" Content="{x:Bind InnerContent, Mode=OneWay}"/>
         <Grid x:Name="PaneLightDismissLayer" Grid.Column="2" Grid.ColumnSpan="3"
             Visibility="Collapsed"
@@ -59,14 +61,10 @@
 
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
             <ScrollViewer HorizontalScrollMode="Disabled">
-                <ItemsRepeater x:Name="MenuItemsHost" VerticalCacheLength="100"
+				<ItemsRepeater x:Name="MenuItemsHost" VerticalCacheLength="100"
+						ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
                         ItemsSource="{x:Bind Items, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <local:SideBarItem Icon="{Binding Icon}" Text="{Binding Text}" Items="{Binding Items}"/>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
+					<ItemsRepeater.Layout>
                         <StackLayout />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>

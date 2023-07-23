@@ -1,3 +1,5 @@
+
+
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
@@ -5,7 +7,10 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System.Drawing.Text;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace Files.App.UserControls.SideBar
 {
@@ -22,7 +27,6 @@ namespace Files.App.UserControls.SideBar
 		public SideBarItem()
 		{
 			DefaultStyleKey = typeof(SideBarItem);
-			DataContext = this;
 
 			PointerReleased += Item_PointerReleased;
 			KeyDown += (sender, args) =>
@@ -46,7 +50,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
-			if (Items is null) return;
+			if (Item?.ChildItems is null) return;
 
 			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
 			if (isOpen)
@@ -62,6 +66,7 @@ namespace Files.App.UserControls.SideBar
 		private void SideBarItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			HookupOwners();
+			HookupIconChangeListener(null, Item);
 
 			if (GetTemplateChild("ElementGrid") is Grid grid)
 			{
@@ -85,12 +90,13 @@ namespace Files.App.UserControls.SideBar
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
 
-			UpdateExpansionState(Items);
+			UpdateExpansionState(Item?.ChildItems);
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
-			Owner.RaiseContextRequested(this);
+			Owner.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
+			args.Handled = true;
 		}
 
 		private void HookupOwners()
@@ -112,13 +118,33 @@ namespace Files.App.UserControls.SideBar
 			});
 		}
 
+		private void HookupIconChangeListener(INavigationControlItem? oldItem, INavigationControlItem? newItem)
+		{
+			if(oldItem != null)
+			{
+				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
+			}
+			if(newItem != null)
+			{
+				newItem.PropertyChanged += ItemPropertyChangedHandler;
+			}
+			UpdateIcon();
+		}
+		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
+		{
+			if(args.PropertyName == "Icon")
+			{
+				UpdateIcon();
+			}
+		}
+
 		private void ReevaluateSelection()
 		{
-			if (Items is null)
+			if (Item?.ChildItems is null)
 			{
 				IsSelected = DataContext == Owner.SelectedItem;
 			}
-			else if (Items is IList list)
+			else if (Item?.ChildItems is IList list)
 			{
 				if (list.Contains(Owner.SelectedItem))
 				{
@@ -134,7 +160,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void ChildrenPresenter_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
-			if (Items is IList enumerable)
+			if (Item?.ChildItems is IList enumerable)
 			{
 				var newElement = enumerable[args.Index];
 				if (newElement == selectedChildItem)
@@ -166,12 +192,12 @@ namespace Files.App.UserControls.SideBar
 			switch (displayMode)
 			{
 				case SideBarDisplayMode.Expanded:
-					UpdateExpansionState(Items);
+					UpdateExpansionState(Item?.ChildItems);
 					UpdateSelectionState();
 					SetFlyoutOpen(false);
 					break;
 				case SideBarDisplayMode.Minimal:
-					UpdateExpansionState(Items);
+					UpdateExpansionState(Item?.ChildItems);
 					SetFlyoutOpen(false);
 					break;
 				case SideBarDisplayMode.Compact:
@@ -184,6 +210,11 @@ namespace Files.App.UserControls.SideBar
 		private void UpdateSelectionState()
 		{
 			VisualStateManager.GoToState(this, ShouldShowSelectionIndicator() ? "Selected" : "Unselected", true);
+		}
+
+		private void UpdateIcon()
+		{
+			Icon = Item.GenerateIconSource()?.CreateIconElement();
 		}
 
 		private bool ShouldShowSelectionIndicator()

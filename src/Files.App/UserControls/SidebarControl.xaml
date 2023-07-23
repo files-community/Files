@@ -278,7 +278,7 @@
 					<NavigationViewItem.Icon>
 						<ImageIcon>
 							<ImageIcon.Source>
-								<BitmapImage UriSource="{x:Bind Logo}" />
+								<BitmapImage UriSource="{x:Bind Icon}" />
 							</ImageIcon.Source>
 						</ImageIcon>
 					</NavigationViewItem.Icon>
