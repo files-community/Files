@@ -8,12 +8,34 @@
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+
+	<local:HomePageWidget.Resources>
+		<ResourceDictionary>
+			<Style
+				x:Key="HighlightingButtonStyle"
+				BasedOn="{StaticResource DefaultButtonStyle}"
+				TargetType="Button">
+				<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+				<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="HorizontalAlignment" Value="Stretch" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalAlignment" Value="Stretch" />
+				<Setter Property="Padding" Value="16" />
+				<Setter Property="MinHeight" Value="48" />
+				<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+			</Style>
+		</ResourceDictionary>
+	</local:HomePageWidget.Resources>
+
 	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
 			Grid.Row="0"
 			HorizontalAlignment="Stretch"
 			ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
+
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
 					ItemsStretch="Fill"
@@ -24,6 +46,7 @@
 					MinRowSpacing="8"
 					Orientation="Horizontal" />
 			</ItemsRepeater.Layout>
+
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:FolderCardItem">
 					<Button
@@ -39,6 +62,7 @@
 						DataContext="{x:Bind}"
 						PointerPressed="Button_PointerPressed"
 						RightTapped="Button_RightTapped"
+						Style="{StaticResource HighlightingButtonStyle}"
 						Tag="{x:Bind Path}">
 						<Grid
 							HorizontalAlignment="Stretch"
@@ -48,6 +72,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
+
 							<FontIcon
 								x:Name="PinIcon"
 								HorizontalAlignment="Right"
@@ -55,6 +80,7 @@
 								x:Load="{x:Bind IsPinned, Mode=OneWay}"
 								FontSize="12"
 								Glyph="&#xE840;" />
+
 							<Image
 								Grid.Row="0"
 								Width="32"
@@ -63,6 +89,7 @@
 								VerticalAlignment="Center"
 								Source="{x:Bind Thumbnail, Mode=OneWay}"
 								Stretch="Uniform" />
+
 							<TextBlock
 								x:Name="ItemLocationName"
 								Grid.Row="1"
@@ -73,10 +100,12 @@
 								Text="{x:Bind Text}"
 								TextTrimming="WordEllipsis"
 								TextWrapping="NoWrap" />
+
 						</Grid>
 					</Button>
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
+
 		</ItemsRepeater>
 	</Grid>
 </local:HomePageWidget>
