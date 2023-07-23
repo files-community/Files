@@ -14,6 +14,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// <see cref="StyleSelector"/> used by <see cref="SettingsExpander"/> to choose the proper <see cref="SettingsCard"/> container style (clickable or not).
+	/// </summary>
 	public class SettingsExpanderItemStyleSelector : StyleSelector
 	{
 		/// <summary>
@@ -27,25 +30,29 @@ namespace Files.App.UserControls
 		public Style ClickableStyle { get; set; }
 
 		/// <summary>
+		/// Gets or sets the unknown <see cref="Style"/>.
+		/// </summary>
+		public Style FreeStyle { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="SettingsExpanderItemStyleSelector"/> class.
 		/// </summary>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 		public SettingsExpanderItemStyleSelector()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 		{
 		}
 
 		/// <inheritdoc/>
 		protected override Style SelectStyleCore(object item, DependencyObject container)
 		{
-			if (container is SettingsCard card && card.IsClickEnabled)
+			if (container is SettingsCard card)
 			{
-				return ClickableStyle;
+				if (card.IsClickEnabled)
+					return ClickableStyle;
+				else
+					return DefaultStyle;
 			}
 			else
-			{
-				return DefaultStyle;
-			}
+				return FreeStyle;
 		}
 	}
 }

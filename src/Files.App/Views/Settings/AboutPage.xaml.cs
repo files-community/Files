@@ -14,9 +14,9 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
-		private void ThirdPartyLicenses_Click(object sender, bool e)
+		private void ThirdPartyLicensesSettingsExpander_Expanded(object sender, EventArgs e)
 		{
-			if (e && ViewModel.ThirdPartyNotices is null)
+			if (ViewModel.ThirdPartyNotices is null)
 				ViewModel.LoadThirdPartyNotices();
 		}
 

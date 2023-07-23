@@ -28,7 +28,6 @@ namespace Files.App.UserControls
 		public SettingsExpander()
 		{
 			this.DefaultStyleKey = typeof(SettingsExpander);
-
 			Items = new List<object>();
 		}
 
@@ -43,7 +42,7 @@ namespace Files.App.UserControls
 				_itemsRepeater.ElementPrepared -= this.ItemsRepeater_ElementPrepared;
 			}
 
-			_itemsRepeater = GetTemplateChild(ItemsRepeater) as MUXC.ItemsRepeater;
+			_itemsRepeater = GetTemplateChild(ItemsRepeater) as ItemsRepeater;
 
 			if (_itemsRepeater != null)
 			{
