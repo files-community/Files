@@ -246,7 +246,7 @@ namespace Files.App
 					{ "::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}", NetworkFolderPath },
 					{ "::{208D2C60-3AEA-1069-A2D7-08002B30309D}", NetworkFolderPath },
 					{ RecycleBinPath.ToUpperInvariant(), RecycleBinPath },
-					{ MyComputerPath.ToUpperInvariant(), MyComputerPath },
+					{ MyComputerPath.ToUpperInvariant(), "Home" /*MyComputerPath*/ },
 					{ NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
 				};
 		}
