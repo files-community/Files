@@ -1,8 +1,9 @@
-﻿using Files.Core.Data.Items;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Core.Data.Items;
 using Files.Shared;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Text.Json;
