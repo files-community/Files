@@ -45,7 +45,6 @@ namespace Files.App.UserControls.SideBar
 
 		public void RaiseContextRequested(SideBarItem item, Point e)
 		{
-			// Only leaves can be selected
 			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
 		}
 

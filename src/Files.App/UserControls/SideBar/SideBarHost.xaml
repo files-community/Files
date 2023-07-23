@@ -31,7 +31,6 @@
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
-
 		<!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
 		<Border
 			x:Name="TabContentBorder"

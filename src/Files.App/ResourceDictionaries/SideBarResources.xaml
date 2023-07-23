@@ -2,7 +2,7 @@
 <!-- Licensed under the MIT License. -->
 
 <ResourceDictionary
-	x:Class="Files.App.UserControls.SideBar.SideBarItemResources"
+	x:Class="Files.App.UserControls.SideBar.SideBarResources"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.App.UserControls.SideBar" xmlns:items="using:Files.App.Data.Items">
@@ -18,16 +18,18 @@
 					<Grid x:Name="RootPanel">
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
-								<VisualState x:Name="Expanded"/>
-								<VisualState x:Name="NoExpansion">
+								<VisualState x:Name="NoExpansion" />
+								<VisualState x:Name="Expanded">
 									<VisualState.Setters>
-										<Setter Target="ChildrenPresenter.Visibility" Value="Collapsed"/>
-										<Setter Target="ExpanderIcon.Visibility" Value="Collapsed"/>
+										<Setter Target="ChildrenPresenter.Visibility" Value="Visible"/>
+										<Setter Target="IconPresenter.Visibility" Value="Collapsed"/>
+										<Setter Target="ExpanderIcon.Visibility" Value="Visible"/>
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
 										<Setter Target="ChildrenPresenter.Visibility" Value="Collapsed"/>
+										<Setter Target="ExpanderIcon.Visibility" Value="Visible"/>
 										<Setter Target="ExpanderIcon.Glyph" Value="&#xE70D;"/>
 									</VisualState.Setters>
 								</VisualState>
@@ -38,20 +40,30 @@
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="SelectionIndicator.Opacity" Value="1"/>
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 
 							<VisualStateGroup x:Name="PointerStates">
 								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="NormalSelected">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}"/>
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}"/>
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}"/>
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -63,7 +75,7 @@
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible"/>
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Top"/>
-										<Setter Target="ElementGrid.Margin" Value="0,-2,0,-2"/>
+										<Setter Target="ElementGrid.Margin" Value="4,-2"/>
 										<Setter Target="ElementGrid.Height" Value="34"/>
 									</VisualState.Setters>
 								</VisualState>
@@ -76,6 +88,16 @@
 								<VisualState x:Name="DragOnTop">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}"/>
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+							
+							<VisualStateGroup x:Name="DisplayModes">
+								<VisualState x:Name="NonCompact"/>
+								<VisualState x:Name="Compact">
+									<VisualState.Setters>
+										<Setter Target="RootPanel.MaxWidth" Value="48"/>
+										<Setter Target="ElementGrid.Width" Value="40"/>
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -93,10 +115,13 @@
 						<Grid x:Name="ElementGrid"
                             Grid.Row="0"
                             HorizontalAlignment="Stretch"
+							BorderThickness="1"
+							Margin="4,0"
+							BorderBrush="Transparent"
                             Background="Transparent"
                             Height="30" CornerRadius="{ThemeResource ControlCornerRadius}">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="48"/>
+								<ColumnDefinition Width="40"/>
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
@@ -110,24 +135,31 @@
 								Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 							<TextBlock Grid.Column="1" Text="{Binding Text,Mode=OneWay}"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-							<FontIcon x:Name="ExpanderIcon" Grid.Column="3" FontSize="8" Glyph="&#xE70E;" Margin="8,0,14,0"/>
+							<FontIcon x:Name="ExpanderIcon" Visibility="Collapsed" Grid.Column="3" FontSize="8" Glyph="&#xE70E;" Margin="8,0,14,0"/>
 
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">
 									<Flyout.FlyoutPresenterStyle>
 										<Style TargetType="FlyoutPresenter" BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" >
-											<Setter Target="Padding" Value="0"/>
+											<Setter Target="Padding" Value="0,4"/>
 											<Setter Target="MinWidth" Value="200"/>
+											<Setter Target="MinHeight" Value="20"/>
 										</Style>
 									</Flyout.FlyoutPresenterStyle>
 									<ItemsRepeater x:Name="FlyoutChildrenPresenter" ItemsSource="{Binding ChildItems,Mode=OneWay}"
-											ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
-                                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch"/>
+                                            local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}" HorizontalAlignment="Stretch">
+										<ItemsRepeater.ItemTemplate>
+											<DataTemplate>
+												<local:SideBarItem Item="{Binding}" IsInFlyout="True"/>
+											</DataTemplate>
+										</ItemsRepeater.ItemTemplate>
+									</ItemsRepeater>
 								</Flyout>
 							</FlyoutBase.AttachedFlyout>
 						</Grid>
 
-						<ItemsRepeater x:Name="ChildrenPresenter" 
+						<ItemsRepeater x:Name="ChildrenPresenter"
+							Visibility="Collapsed"
                             Grid.Row="2"
                             ItemsSource="{Binding ChildItems,Mode=OneWay}" 
 							ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"

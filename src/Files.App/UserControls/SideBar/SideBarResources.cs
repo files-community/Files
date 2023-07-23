@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.UserControls.SideBar
 {
-    partial class SideBarItemResources : ResourceDictionary
+    partial class SideBarResources : ResourceDictionary
     {
     }
 }

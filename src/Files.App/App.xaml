@@ -29,7 +29,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/SideBarItem.xaml" />
+				<ResourceDictionary Source="/ResourceDictionaries/SideBarResources.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">

@@ -22,7 +22,7 @@ namespace Files.App.UserControls.SideBar
 		private object? selectedChildItem = null;
 
 		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
-		public bool CollapsableChildren => DisplayMode != SideBarDisplayMode.Compact;
+		public bool CollapseEnabled => DisplayMode != SideBarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
 
 		public SideBarItem()
@@ -121,7 +121,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void HookupIconChangeListener(INavigationControlItem? oldItem, INavigationControlItem? newItem)
 		{
-			if(oldItem != null)
+			if (oldItem != null)
 			{
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
 				if (oldItem.ChildItems is not null)
@@ -130,7 +130,7 @@ namespace Files.App.UserControls.SideBar
 			if (newItem != null)
 			{
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
-				if(newItem.ChildItems is not null)
+				if (newItem.ChildItems is not null)
 					newItem.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
 			}
 			UpdateIcon();
@@ -144,7 +144,7 @@ namespace Files.App.UserControls.SideBar
 
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
 		{
-			if(args.PropertyName == "Icon")
+			if (args.PropertyName == "Icon")
 			{
 				UpdateIcon();
 			}
@@ -190,7 +190,7 @@ namespace Files.App.UserControls.SideBar
 		{
 			if (HasChildren)
 			{
-				if (CollapsableChildren)
+				if (CollapseEnabled)
 				{
 					IsExpanded = !IsExpanded;
 				}
@@ -220,6 +220,10 @@ namespace Files.App.UserControls.SideBar
 					UpdateSelectionState();
 					break;
 			}
+			if (!IsInFlyout)
+			{
+				VisualStateManager.GoToState(this, DisplayMode == SideBarDisplayMode.Compact ? "Compact" : "NonCompact", true);
+			}
 		}
 
 		private void UpdateSelectionState()
@@ -234,7 +238,7 @@ namespace Files.App.UserControls.SideBar
 
 		private bool ShouldShowSelectionIndicator()
 		{
-			if (IsExpanded && CollapsableChildren)
+			if (IsExpanded && CollapseEnabled)
 			{
 				return IsSelected;
 			}
@@ -246,7 +250,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void UpdateExpansionState()
 		{
-			if (!HasChildren)
+			if (!HasChildren || !CollapseEnabled)
 			{
 				VisualStateManager.GoToState(this, "NoExpansion", true);
 			}
@@ -265,13 +269,13 @@ namespace Files.App.UserControls.SideBar
 
 		private void ItemGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
 			isPointerOver = false;
 		}
 
 		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Normal", true);
+			VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
 		}
 
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
