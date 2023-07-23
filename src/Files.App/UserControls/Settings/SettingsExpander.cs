@@ -18,7 +18,7 @@ namespace Files.App.UserControls
 {
 	public partial class SettingsExpander : Control
 	{
-		private const string PART_ItemsRepeater = "PART_ItemsRepeater";
+		private const string ItemsRepeater = "ItemsRepeater";
 
 		private ItemsRepeater? _itemsRepeater;
 
@@ -43,7 +43,7 @@ namespace Files.App.UserControls
 				_itemsRepeater.ElementPrepared -= this.ItemsRepeater_ElementPrepared;
 			}
 
-			_itemsRepeater = GetTemplateChild(PART_ItemsRepeater) as MUXC.ItemsRepeater;
+			_itemsRepeater = GetTemplateChild(ItemsRepeater) as MUXC.ItemsRepeater;
 
 			if (_itemsRepeater != null)
 			{

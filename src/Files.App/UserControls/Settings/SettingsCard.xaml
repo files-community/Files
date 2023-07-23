@@ -1,4 +1,4 @@
-<!--  Licensed to the .NET Foundation under one or more agreements. The .NET Foundation licenses this file to you under the MIT license. See the LICENSE file in the project root for more information.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -133,7 +133,7 @@
 				<Setter.Value>
 					<ControlTemplate TargetType="local:SettingsCard">
 						<Grid
-							x:Name="PART_RootGrid"
+							x:Name="RootGrid"
 							MinWidth="{TemplateBinding MinWidth}"
 							MinHeight="{TemplateBinding MinHeight}"
 							MaxWidth="{TemplateBinding MaxWidth}"
@@ -161,13 +161,13 @@
 							</Grid.ColumnDefinitions>
 
 							<Viewbox
-								x:Name="PART_HeaderIconPresenterHolder"
+								x:Name="HeaderIconPresenterHolder"
 								Grid.RowSpan="1"
 								MaxWidth="{ThemeResource SettingsCardHeaderIconMaxSize}"
 								MaxHeight="{ThemeResource SettingsCardHeaderIconMaxSize}"
 								Margin="{ThemeResource SettingsCardHeaderIconMargin}">
 								<ContentPresenter
-									x:Name="PART_HeaderIconPresenter"
+									x:Name="HeaderIconPresenter"
 									win:AutomationProperties.AccessibilityView="Raw"
 									win:HighContrastAdjustment="None"
 									Content="{TemplateBinding HeaderIcon}" />
@@ -180,7 +180,7 @@
 								VerticalAlignment="Center"
 								Orientation="Vertical">
 								<ContentPresenter
-									x:Name="PART_HeaderPresenter"
+									x:Name="HeaderPresenter"
 									Grid.Column="1"
 									HorizontalAlignment="Left"
 									win:HighContrastAdjustment="None"
@@ -188,7 +188,7 @@
 									TextWrapping="Wrap" />
 
 								<ContentPresenter
-									x:Name="PART_DescriptionPresenter"
+									x:Name="DescriptionPresenter"
 									Content="{TemplateBinding Description}"
 									FontSize="{ThemeResource SettingsCardDescriptionFontSize}"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -218,7 +218,7 @@
 							</StackPanel>
 
 							<ContentPresenter
-								x:Name="PART_ContentPresenter"
+								x:Name="ContentPresenter"
 								Grid.Column="2"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Center"
@@ -226,7 +226,7 @@
 								Content="{TemplateBinding Content}" />
 
 							<Viewbox
-								x:Name="PART_ActionIconPresenterHolder"
+								x:Name="ActionIconPresenterHolder"
 								Grid.RowSpan="2"
 								Grid.Column="3"
 								MaxWidth="{ThemeResource SettingsCardActionIconMaxSize}"
@@ -237,7 +237,7 @@
 								win:HighContrastAdjustment="None"
 								Visibility="Collapsed">
 								<ContentPresenter
-									x:Name="PART_ActionIconPresenter"
+									x:Name="ActionIconPresenter"
 									win:AutomationProperties.AccessibilityView="Raw"
 									win:HighContrastAdjustment="None"
 									Content="{TemplateBinding ActionIcon}"
@@ -249,63 +249,63 @@
 									<VisualState x:Name="Normal" />
 									<VisualState x:Name="PointerOver">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBackgroundPointerOver}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="BorderBrush">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBorderBrushPointerOver}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPointerOver}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="PointerOver" />
+											<Setter Target="RootGrid.(AnimatedIcon.State)" Value="PointerOver" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Pressed">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBackgroundPressed}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="BorderBrush">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="BorderBrush">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardBorderBrushPressed}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DescriptionPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundPressed}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="Pressed" />
+											<Setter Target="RootGrid.(AnimatedIcon.State)" Value="Pressed" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Disabled">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ActionIconPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ActionIconPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderIconPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
 											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DescriptionPresenter" Storyboard.TargetProperty="Foreground">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DescriptionPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SettingsCardForegroundDisabled}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
 											<!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="Normal" />
+											<Setter Target="RootGrid.(AnimatedIcon.State)" Value="Normal" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -320,14 +320,14 @@
 											<wcttriggers:ControlSizeTrigger
 												MinWidth="{ThemeResource SettingsCardWrapNoIconThreshold}"
 												MaxWidth="{ThemeResource SettingsCardWrapThreshold}"
-												TargetElement="{Binding ElementName=PART_RootGrid}" />
+												TargetElement="{Binding ElementName=RootGrid}" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-											<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
-											<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-											<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
-											<Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+											<Setter Target="ContentPresenter.(Grid.Row)" Value="1" />
+											<Setter Target="ContentPresenter.(Grid.Column)" Value="1" />
+											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Stretch" />
+											<Setter Target="ContentPresenter.HorizontalContentAlignment" Value="Left" />
+											<Setter Target="ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
 											<Setter Target="HeaderPanel.Margin" Value="0" />
 										</VisualState.Setters>
 									</VisualState>
@@ -335,15 +335,15 @@
 									<!--  For even smaller widths: the HeaderIcon is collapsed.  -->
 									<VisualState x:Name="RightWrappedNoIcon">
 										<VisualState.StateTriggers>
-											<wcttriggers:ControlSizeTrigger MaxWidth="{ThemeResource SettingsCardWrapNoIconThreshold}" TargetElement="{Binding ElementName=PART_RootGrid}" />
+											<wcttriggers:ControlSizeTrigger MaxWidth="{ThemeResource SettingsCardWrapNoIconThreshold}" TargetElement="{Binding ElementName=RootGrid}" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="PART_HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
-											<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-											<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
-											<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-											<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="Left" />
-											<Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+											<Setter Target="HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
+											<Setter Target="ContentPresenter.(Grid.Row)" Value="1" />
+											<Setter Target="ContentPresenter.(Grid.Column)" Value="1" />
+											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Stretch" />
+											<Setter Target="ContentPresenter.HorizontalContentAlignment" Value="Left" />
+											<Setter Target="ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
 											<Setter Target="HeaderPanel.Margin" Value="0" />
 										</VisualState.Setters>
 									</VisualState>
@@ -354,12 +354,12 @@
 											<wcttriggers:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Left" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="PART_HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
-											<Setter Target="PART_DescriptionPresenter.Visibility" Value="Collapsed" />
-											<Setter Target="PART_HeaderPresenter.Visibility" Value="Collapsed" />
-											<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-											<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
-											<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Left" />
+											<Setter Target="HeaderIconPresenterHolder.Visibility" Value="Collapsed" />
+											<Setter Target="DescriptionPresenter.Visibility" Value="Collapsed" />
+											<Setter Target="HeaderPresenter.Visibility" Value="Collapsed" />
+											<Setter Target="ContentPresenter.(Grid.Row)" Value="1" />
+											<Setter Target="ContentPresenter.(Grid.Column)" Value="1" />
+											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Left" />
 										</VisualState.Setters>
 									</VisualState>
 
@@ -369,11 +369,11 @@
 											<wcttriggers:IsEqualStateTrigger Value="{Binding ContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" To="Vertical" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="PART_ContentPresenter.(Grid.Row)" Value="1" />
-											<Setter Target="PART_ContentPresenter.(Grid.Column)" Value="1" />
-											<Setter Target="PART_ContentPresenter.HorizontalAlignment" Value="Stretch" />
-											<Setter Target="PART_ContentPresenter.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
-											<Setter Target="PART_ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
+											<Setter Target="ContentPresenter.(Grid.Row)" Value="1" />
+											<Setter Target="ContentPresenter.(Grid.Column)" Value="1" />
+											<Setter Target="ContentPresenter.HorizontalAlignment" Value="Stretch" />
+											<Setter Target="ContentPresenter.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}" />
+											<Setter Target="ContentPresenter.Margin" Value="{ThemeResource SettingsCardVerticalHeaderContentSpacing}" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
@@ -386,7 +386,7 @@
 											<wcttriggers:IsNullOrEmptyStateTrigger Value="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="PART_ContentPresenter.Visibility" Value="Collapsed" />
+											<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>

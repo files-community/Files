@@ -24,10 +24,10 @@ namespace Files.App.UserControls
 		internal const string PressedState = "Pressed";
 		internal const string DisabledState = "Disabled";
 
-		internal const string ActionIconPresenterHolder = "PART_ActionIconPresenterHolder";
-		internal const string HeaderPresenter = "PART_HeaderPresenter";
-		internal const string DescriptionPresenter = "PART_DescriptionPresenter";
-		internal const string HeaderIconPresenterHolder = "PART_HeaderIconPresenterHolder";
+		internal const string ActionIconPresenterHolder = "ActionIconPresenterHolder";
+		internal const string HeaderPresenter = "HeaderPresenter";
+		internal const string DescriptionPresenter = "DescriptionPresenter";
+		internal const string HeaderIconPresenterHolder = "HeaderIconPresenterHolder";
 
 		/// <summary>
 		/// Creates a new instance of the <see cref="SettingsCard"/> class.
