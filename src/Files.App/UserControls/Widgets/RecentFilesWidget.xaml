@@ -12,7 +12,8 @@
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 
-	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
+	<StackPanel x:Name="RecentsListGrid" Margin="-10,0">
+
 		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
@@ -47,6 +48,8 @@
 			SelectionMode="None">
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+					<Setter Property="Margin" Value="0" />
+					<Setter Property="Padding" Value="8,0" />
 					<Setter Property="MinHeight" Value="1" />
 					<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 				</Style>
@@ -65,6 +68,11 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
+
+						<Grid.BackgroundTransition>
+							<BrushTransition Duration="0:0:0.083" />
+						</Grid.BackgroundTransition>
+
 						<FontIcon
 							x:Name="RecentFolderImg"
 							Grid.Column="0"
@@ -75,6 +83,7 @@
 							FontSize="24"
 							Foreground="#ffe793"
 							Glyph="&#xE8B7;" />
+
 						<FontIcon
 							x:Name="EmptyImg"
 							Grid.Column="0"
@@ -84,6 +93,7 @@
 							x:Phase="1"
 							FontSize="24"
 							Glyph="&#xE7C3;" />
+
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
@@ -110,6 +120,7 @@
 							Text="{x:Bind RecentPath}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
+
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
