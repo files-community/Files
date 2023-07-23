@@ -47,7 +47,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static TaskCompletionSource IsSplashScreenLoading { get; set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -214,7 +214,7 @@ namespace Files.App
 				// Wait for the Window to initialize
 				await Task.Delay(10);
 
-				IsSplashScreenLoading = new TaskCompletionSource();
+				SplashScreenLoadingTCS = new TaskCompletionSource();
 				MainWindow.Instance.ShowSplashScreen();
 
 				// Get AppActivationArguments
@@ -235,7 +235,7 @@ namespace Files.App
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				// Wait for the UI to update
-				await IsSplashScreenLoading.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+				await SplashScreenLoadingTCS.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 
 				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
