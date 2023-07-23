@@ -6,8 +6,8 @@ using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.SideBar;
 using Files.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -197,10 +197,10 @@ namespace Files.App.Views
 		{
 			ViewModel.OnNavigatedTo(e);
 
-			//SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-			//SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-			//SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-			//SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
@@ -267,13 +267,13 @@ namespace Files.App.Views
 			keyReleased = true;
 		}
 
-		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
+		private async void SidebarControl_SidebarItemDropped(object sender, UserControls.SideBar.SidebarItemDroppedEventArgs e)
 		{
 			await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
 			e.SignalEvent?.Set();
 		}
 
-		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
+		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, UserControls.SideBar.SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
 				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
@@ -293,15 +293,14 @@ namespace Files.App.Views
 			}
 		}
 
-		private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
+		private void SidebarControl_SidebarItemNewPaneInvoked(object sender, UserControls.SideBar.SidebarItemNewPaneInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is INavigationControlItem navItem)
 				SidebarAdaptiveViewModel.PaneHolder.OpenPathInNewPane(navItem.Path);
 		}
 
-		private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
+		private void SidebarControl_SidebarItemInvoked(object sender, UserControls.SideBar.SidebarItemInvokedEventArgs e)
 		{
-			var invokedItemContainer = e.InvokedItemContainer;
 
 			// Path to navigate
 			string? navigationPath;
@@ -309,37 +308,28 @@ namespace Files.App.Views
 			// Type of page to navigate
 			Type? sourcePageType = null;
 
-			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
+			switch (e.InvokedItem.ItemType)
 			{
 				case NavigationControlItemType.Location:
 					{
 						// Get the path of the invoked item
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path;
+						var ItemPath = e.InvokedItem.Path;
 
-						// Section item
-						if (string.IsNullOrEmpty(ItemPath))
-						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
-						}
 						// Home item
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
+						if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
 						{
-							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-								return; // return if already selected
-
 							navigationPath = "Home";
 							sourcePageType = typeof(HomePage);
 						}
-						// Any other item
 						else
 						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
+							navigationPath = e.InvokedItem.Path;
 						}
 						break;
 					}
 
 				case NavigationControlItemType.FileTag:
-					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
+					var tagPath = e.InvokedItem.Path; // Get the path of the invoked item
 					if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
 					{
 						shp.NavigateToPath(tagPath, new NavigationArguments()
@@ -355,7 +345,7 @@ namespace Files.App.Views
 
 				default:
 					{
-						navigationPath = invokedItemContainer.Tag?.ToString();
+						navigationPath = e.InvokedItem.Path;
 						break;
 					}
 			}

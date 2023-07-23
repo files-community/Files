@@ -73,6 +73,11 @@
 										<Setter Target="DragTargetIndicator.VerticalAlignment" Value="Bottom"/>
 									</VisualState.Setters>
 								</VisualState>
+								<VisualState x:Name="DragOnTop">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}"/>
+									</VisualState.Setters>
+								</VisualState>
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 
@@ -105,7 +110,7 @@
 								Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 							<TextBlock Grid.Column="1" Text="{Binding Text,Mode=OneWay}"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-							<FontIcon x:Name="ExpanderIcon" Grid.Column="3" FontSize="8" Glyph="&#xE70E;" Margin="0,0,14,0"/>
+							<FontIcon x:Name="ExpanderIcon" Grid.Column="3" FontSize="8" Glyph="&#xE70E;" Margin="8,0,14,0"/>
 
 							<FlyoutBase.AttachedFlyout>
 								<Flyout x:Name="ChildrenFlyout" Placement="Right">

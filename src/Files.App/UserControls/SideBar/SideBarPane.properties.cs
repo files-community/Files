@@ -36,13 +36,13 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarPane), new PropertyMetadata(null));
 
-		public object SelectedItem
+		public INavigationControlItem SelectedItem
 		{
-			get { return (object)GetValue(SelectedItemProperty); }
+			get { return (INavigationControlItem)GetValue(SelectedItemProperty); }
 			set { SetValue(SelectedItemProperty, value); }
 		}
 		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register("SelectedItem", typeof(object), typeof(SideBarPane), new PropertyMetadata(null));
+			DependencyProperty.Register("SelectedItem", typeof(INavigationControlItem), typeof(SideBarPane), new PropertyMetadata(null));
 
 		public bool PaneExpanded
 		{

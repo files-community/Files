@@ -37,6 +37,14 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty ItemProperty =
 			DependencyProperty.Register("Item", typeof(INavigationControlItem), typeof(SideBarItem), new PropertyMetadata(null));
 
+		public bool UseReorderDrop
+		{
+			get { return (bool)GetValue(UseReorderDropProperty); }
+			set { SetValue(UseReorderDropProperty, value); }
+		}
+		public static readonly DependencyProperty UseReorderDropProperty =
+			DependencyProperty.Register("UseReorderDrop", typeof(bool), typeof(SideBarItem), new PropertyMetadata(false));
+
 		public FrameworkElement Icon
 		{
 			get { return (FrameworkElement)GetValue(IconProperty); }
@@ -77,11 +85,13 @@ namespace Files.App.UserControls.SideBar
 			}
 			else if (e.Property == IsExpandedProperty)
 			{
-				item.UpdateExpansionState(item.Item?.ChildItems);
+				item.UpdateExpansionState();
 			}
 			else if(e.Property == ItemProperty)
 			{
 				item.HookupIconChangeListener(e.OldValue as INavigationControlItem, e.NewValue as INavigationControlItem);
+				item.UpdateExpansionState();
+				item.ReevaluateSelection();
 			}
 			else if(e.Property == DataContextProperty)
 			{

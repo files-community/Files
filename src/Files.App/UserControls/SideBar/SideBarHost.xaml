@@ -7,7 +7,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:sidebar="using:Files.App.UserControls.SideBar"
 	HorizontalAlignment="Stretch"
-	Loaded="SidebarNavView_Loaded"
+	Loaded="SideBarHost_Loaded"
+	SizeChanged="SideBarHost_SizeChanged"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -41,9 +42,11 @@
 		<sidebar:SideBarPane x:Name="SideBar" Grid.Row="1"
 			Grid.ColumnSpan="2"
 			Loaded="SideBar_Loaded"
+			ItemDropped="SideBar_ItemDropped"
 			ItemInvoked="SideBar_ItemInvoked"
 			ItemContextInvoked="SideBar_ItemContextInvoked"
 			InnerContent="{x:Bind InnerContent}"
+			SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
 			DisplayMode="{x:Bind DisplayMode}"
 			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
 			DisplayModeChanged="SideBar_DisplayModeChanged"/>

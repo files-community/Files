@@ -8,10 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls" 
-	xmlns:local="using:Files.App.UserControls.SideBar"
 	mc:Ignorable="d"
-    MinWidth="300" MinHeight="500"
-	Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
+	Background="Red"
+    MinWidth="300" MinHeight="500">
 
 	<Grid>
         <Grid.ColumnDefinitions>
@@ -48,10 +47,12 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <ContentPresenter x:Name="ContentPresenter"
-            Grid.Column="2" HorizontalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
-            VerticalAlignment="Stretch" Content="{x:Bind InnerContent, Mode=OneWay}"/>
+		<Grid Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
+			Grid.Column="2" HorizontalAlignment="Stretch">
+			<ContentPresenter x:Name="ContentPresenter"
+				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+				VerticalAlignment="Stretch" Content="{x:Bind InnerContent, Mode=OneWay}"/>
+		</Grid>
         <Grid x:Name="PaneLightDismissLayer" Grid.Column="2" Grid.ColumnSpan="3"
             Visibility="Collapsed"
             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -59,8 +60,9 @@
             PointerPressed="PaneLightDismissLayer_PointerPressed"
             Tapped="PaneLightDismissLayer_Tapped"/>
 
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
-            <ScrollViewer HorizontalScrollMode="Disabled">
+		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
+            <ScrollViewer HorizontalScrollMode="Disabled" Background="Transparent">
 				<ItemsRepeater x:Name="MenuItemsHost" VerticalCacheLength="100"
 						ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
                         ItemsSource="{x:Bind Items, Mode=OneWay}">
@@ -71,9 +73,10 @@
             </ScrollViewer>
         </Grid>
         <controls:GridSplitter x:Name="SideBarResizer" Grid.Column="1"
-            Width="5" MinWidth="5"
+            Width="0" MinWidth="1"
             Foreground="Transparent"
 			GripperForeground="Transparent"
+			Background="{ThemeResource ControlFillColorInputActiveBrush}"
             ManipulationDelta="GridSplitter_ManipulationDelta" 
             ManipulationStarted="GridSplitter_ManipulationStarted" />
     </Grid>

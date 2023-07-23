@@ -21,6 +21,7 @@ namespace Files.App.UserControls.SideBar
 
 		private object? selectedChildItem = null;
 
+		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
 		public bool CollapsableChildren => DisplayMode != SideBarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
 
@@ -90,7 +91,7 @@ namespace Files.App.UserControls.SideBar
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
 
-			UpdateExpansionState(Item?.ChildItems);
+			UpdateExpansionState();
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -123,13 +124,24 @@ namespace Files.App.UserControls.SideBar
 			if(oldItem != null)
 			{
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
+				if (oldItem.ChildItems is not null)
+					oldItem.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
 			}
-			if(newItem != null)
+			if (newItem != null)
 			{
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
+				if(newItem.ChildItems is not null)
+					newItem.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
 			}
 			UpdateIcon();
 		}
+
+		private void ChildItems_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			ReevaluateSelection();
+			UpdateExpansionState();
+		}
+
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
 		{
 			if(args.PropertyName == "Icon")
@@ -140,7 +152,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void ReevaluateSelection()
 		{
-			if (Item?.ChildItems is null)
+			if (!HasChildren)
 			{
 				IsSelected = DataContext == Owner.SelectedItem;
 			}
@@ -176,13 +188,16 @@ namespace Files.App.UserControls.SideBar
 
 		private void Clicked()
 		{
-			if (CollapsableChildren)
+			if (HasChildren)
 			{
-				IsExpanded = !IsExpanded;
-			}
-			else
-			{
-				SetFlyoutOpen(true);
+				if (CollapsableChildren)
+				{
+					IsExpanded = !IsExpanded;
+				}
+				else
+				{
+					SetFlyoutOpen(true);
+				}
 			}
 			Owner?.RaiseItemInvoked(this);
 		}
@@ -192,16 +207,16 @@ namespace Files.App.UserControls.SideBar
 			switch (displayMode)
 			{
 				case SideBarDisplayMode.Expanded:
-					UpdateExpansionState(Item?.ChildItems);
+					UpdateExpansionState();
 					UpdateSelectionState();
 					SetFlyoutOpen(false);
 					break;
 				case SideBarDisplayMode.Minimal:
-					UpdateExpansionState(Item?.ChildItems);
+					UpdateExpansionState();
 					SetFlyoutOpen(false);
 					break;
 				case SideBarDisplayMode.Compact:
-					UpdateExpansionState(null);
+					UpdateExpansionState();
 					UpdateSelectionState();
 					break;
 			}
@@ -229,9 +244,9 @@ namespace Files.App.UserControls.SideBar
 			}
 		}
 
-		private void UpdateExpansionState(object? childContent)
+		private void UpdateExpansionState()
 		{
-			if (childContent == null)
+			if (!HasChildren)
 			{
 				VisualStateManager.GoToState(this, "NoExpansion", true);
 			}
@@ -273,14 +288,27 @@ namespace Files.App.UserControls.SideBar
 
 		private void ItemGrid_DragOver(object sender, DragEventArgs e)
 		{
-			e.AcceptedOperation = DataPackageOperation.Move;
-			if (DragTargetAboveCenter(e))
+			if (HasChildren)
 			{
-				VisualStateManager.GoToState(this, "DragInsertAbove", true);
+				IsExpanded = true;
+			}
+
+			e.AcceptedOperation = DataPackageOperation.Move;
+
+			if (UseReorderDrop)
+			{
+				if (DragTargetAboveCenter(e))
+				{
+					VisualStateManager.GoToState(this, "DragInsertAbove", true);
+				}
+				else
+				{
+					VisualStateManager.GoToState(this, "DragInsertBelow", true);
+				}
 			}
 			else
 			{
-				VisualStateManager.GoToState(this, "DragInsertBelow", true);
+				VisualStateManager.GoToState(this, "DragOnTop", true);
 			}
 		}
 
@@ -302,7 +330,7 @@ namespace Files.App.UserControls.SideBar
 		private void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
 			VisualStateManager.GoToState(this, "NoDrag", true);
-			Owner.RaiseItemDropped(this, e, DragTargetAboveCenter(e));
+			Owner.RaiseItemDropped(this, e, DragTargetAboveCenter(e), e);
 		}
 	}
 }

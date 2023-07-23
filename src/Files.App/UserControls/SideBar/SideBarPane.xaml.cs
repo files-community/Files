@@ -8,7 +8,7 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls.SideBar
 {
-	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove) { }
+	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove, DragEventArgs RawEvent) { }
 	public record ItemContextInvokedArgs(object Item, Point Position) { }
 	
 	
@@ -52,8 +52,8 @@ namespace Files.App.UserControls.SideBar
 		public void RaiseItemInvoked(SideBarItem item)
 		{
 			// Only leaves can be selected
-			if (item.Item?.ChildItems is not null) return;
-			SelectedItem = item.DataContext;
+			if (item.HasChildren) return;
+			SelectedItem = (item.DataContext as INavigationControlItem)!;
 			ItemInvoked?.Invoke(item, SelectedItem);
 		}
 
@@ -88,9 +88,9 @@ namespace Files.App.UserControls.SideBar
 			}
 		}
 
-		internal void RaiseItemDropped(SideBarItem sideBarItem, DragEventArgs e, bool insertsAbove)
+		internal void RaiseItemDropped(SideBarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
 		{
-			ItemDropped?.Invoke(this, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove));
+			ItemDropped?.Invoke(this, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
 		}
 
 		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)

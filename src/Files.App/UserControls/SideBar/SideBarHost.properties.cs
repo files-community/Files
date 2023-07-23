@@ -29,19 +29,32 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
 
-		public object SelectedItem
-		{
-			get { return (object)GetValue(SelectedItemProperty); }
-			set { SetValue(SelectedItemProperty, value); }
-		}
-		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register("SelectedItem", typeof(object), typeof(SideBarHost), new PropertyMetadata(null));
-
 		public UIElement TabContent
 		{
 			get => (UIElement)GetValue(TabContentProperty);
 			set => SetValue(TabContentProperty, value);
 		}
 		public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
+
+
+		public SidebarViewModel ViewModel
+		{
+			get => (SidebarViewModel)GetValue(ViewModelProperty);
+			set => SetValue(ViewModelProperty, value);
+		}
+		public static readonly DependencyProperty ViewModelProperty =
+			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
+
+		public INavigationControlItem SelectedItem
+		{
+			get => (INavigationControlItem)GetValue(SelectedItemProperty);
+			set
+			{
+				if (IsLoaded)
+					SetValue(SelectedItemProperty, value);
+			}
+		}
+		public static readonly DependencyProperty SelectedItemProperty = 
+			DependencyProperty.Register(nameof(SelectedItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
 	}
 }
