@@ -130,4 +130,8 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="UserControls\Settings\Outdated\" />
+    </ItemGroup>
+
 </Project>
