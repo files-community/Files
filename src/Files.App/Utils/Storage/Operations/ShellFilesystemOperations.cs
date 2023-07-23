@@ -2,7 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.Text;
+using System.Text.Json;
 using Windows.Storage;
+using static Vanara.PInvoke.User32.RAWINPUT;
 
 namespace Files.App.Utils.Storage
 {
@@ -107,7 +111,7 @@ namespace Files.App.Utils.Storage
 				if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Copy, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)));
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -196,6 +200,7 @@ namespace Files.App.Utils.Storage
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress, 1);
 			fsProgress.Report();
+			var operationID = Guid.NewGuid().ToString();
 
 			var createResult = new ShellOperationResult();
 			(var success, var response) = (false, new ShellOperationResult());
@@ -260,7 +265,16 @@ namespace Files.App.Utils.Storage
 				if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await CreateAsync(source, progress, cancellationToken);
+					{
+						switch (source.ItemType)
+						{
+							case FilesystemItemType.File:
+								var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
+								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data)), null);
+							case FilesystemItemType.Directory:
+								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFolder", null, null)), null);
+						}
+					}
 				}
 				else if (createResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.NameTooLong))
 				{
@@ -390,7 +404,7 @@ namespace Files.App.Utils.Storage
 				if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await DeleteItemsAsync(source, progress, permanently, cancellationToken);
+						return await RunAdminOperationAsync(new ShellOperationDeleteRequest(OperationType.Delete, operationID, source.Select(x => x.Path).ToArray(), permanently));
 				}
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -510,7 +524,7 @@ namespace Files.App.Utils.Storage
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)));
 				}
 				else if (source.Zip(destination, (src, dest) => (src, dest)).FirstOrDefault(x => x.src.ItemType == FilesystemItemType.Directory && PathNormalization.GetParentDir(x.dest).IsSubPathOf(x.src.Path)) is (IStorageItemWithPath, string) subtree)
 				{
@@ -606,6 +620,7 @@ namespace Files.App.Utils.Storage
 
 			FileSystemProgress fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
+			var operationID = Guid.NewGuid().ToString();
 
 			var renameResult = new ShellOperationResult();
 			var (status, response) = await FileOperationsHelpers.RenameItemAsync(source.Path, newName, collision == NameCollisionOption.ReplaceExisting);
@@ -635,7 +650,7 @@ namespace Files.App.Utils.Storage
 				if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RenameAsync(source, newName, collision, progress, cancellationToken);
+						return await RunAdminOperationAsync(new ShellOperationRenameRequest(OperationType.Rename, operationID, source.Path, newName, collision == NameCollisionOption.ReplaceExisting));
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -740,7 +755,7 @@ namespace Files.App.Utils.Storage
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RestoreItemsFromTrashAsync(source, destination, progress, cancellationToken);
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, source.Select(s => s.Path).ToArray(), destination.ToArray(), false));
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -792,8 +807,34 @@ namespace Files.App.Utils.Storage
 
 		private async Task<bool> RequestAdminOperation()
 		{
-			// TODO: Implement this method
-			return false;
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			return await dialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary;
+		}
+
+		private async Task<IStorageHistory> RunAdminOperationAsync(ShellOperationRequest request)
+		{
+			var req = JsonSerializer.Serialize(request);
+			byte[] buffer = Encoding.UTF8.GetBytes(req);
+			using (MemoryMappedFile mmf = MemoryMappedFile.CreateNew(request.ID, req.Length, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.None, HandleInheritability.Inheritable))
+			{
+				using (MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor())
+				{
+					accessor.Write(0, req.Length);
+					accessor.WriteArray(sizeof(int), buffer, 0, buffer.Length);
+				}
+
+				using Process process = new Process();
+				process.StartInfo.UseShellExecute = true;
+				process.StartInfo.Verb = "RunAs";
+				process.StartInfo.FileName = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledPath, "Files.App.Elevated", "Files.App.Elevated.exe");
+				process.StartInfo.Arguments = string.Join(" ", "FileOperation", request.ID);
+				await SafetyExtensions.IgnoreExceptions(() =>
+				{
+					process.Start();
+					return process.WaitForExitAsync();
+				});
+			}
+			return null;
 		}
 
 		private Task<DialogResult> GetFileInUseDialog(IEnumerable<string> source, IEnumerable<Win32Process> lockingProcess = null)
