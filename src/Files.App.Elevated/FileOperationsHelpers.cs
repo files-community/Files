@@ -10,6 +10,7 @@ using Vanara.Windows.Shell;
 
 namespace Files.App.Elevated
 {
+	/// <WARN>Code in this class is a close duplicate of Files.App.Utils.Storage</WARN>
 	public class FileOperationsHelpers
 	{
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
