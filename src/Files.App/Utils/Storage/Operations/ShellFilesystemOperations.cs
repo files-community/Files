@@ -6,7 +6,6 @@ using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Text.Json;
 using Windows.Storage;
-using static Vanara.PInvoke.User32.RAWINPUT;
 
 namespace Files.App.Utils.Storage
 {
