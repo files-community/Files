@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, bool asAdmin, string template = "", byte[]? dataBytes = null)
+		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
 			return Win32API.StartSTATask(async () =>
 			{
@@ -52,6 +52,7 @@ namespace Files.App.Utils.Storage
 					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
 								| ShellFileOperations.OperationFlags.RequireElevation;
 				}
+				op.OwnerWindow = (IntPtr)ownerHwnd;
 
 				var shellOperationResult = new ShellOperationResult();
 
@@ -286,7 +287,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, bool asAdmin, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, long ownerHwnd, bool asAdmin, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -304,6 +305,7 @@ namespace Files.App.Utils.Storage
 					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
 							| ShellFileOperations.OperationFlags.RequireElevation;
 				}
+				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
 				if (!SafetyExtensions.IgnoreExceptions(() =>

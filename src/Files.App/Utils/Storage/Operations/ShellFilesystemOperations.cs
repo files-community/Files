@@ -221,14 +221,14 @@ namespace Files.App.Utils.Storage
 						}
 						else
 						{
-							(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", asAdmin, newEntryInfo?.Template, newEntryInfo?.Data);
+							(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFile", MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, newEntryInfo?.Template, newEntryInfo?.Data);
 						}
 
 						break;
 					}
 				case FilesystemItemType.Directory:
 					{
-						(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder", asAdmin);
+						(success, response) = await FileOperationsHelpers.CreateItemAsync(source.Path, "CreateFolder", MainWindow.Instance.WindowHandle.ToInt64(), asAdmin);
 						break;
 					}
 			}
@@ -607,7 +607,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 
 			var renameResult = new ShellOperationResult();
-			var (status, response) = await FileOperationsHelpers.RenameItemAsync(source.Path, newName, collision == NameCollisionOption.ReplaceExisting, asAdmin);
+			var (status, response) = await FileOperationsHelpers.RenameItemAsync(source.Path, newName, collision == NameCollisionOption.ReplaceExisting, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin);
 			var result = (FilesystemResult)status;
 
 			renameResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
