@@ -10,10 +10,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	MinWidth="300"
 	MinHeight="500"
-	Background="Red"
 	mc:Ignorable="d">
 
-	<Grid>
+	<Grid Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition x:Name="DisplayColumn" Width="Auto" />
 			<ColumnDefinition Width="Auto" />
@@ -24,7 +23,7 @@
 			x:Name="ContentPresenter"
 			Grid.Column="2"
 			HorizontalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
+			CornerRadius="8,0,0,0">
 			<ContentPresenter
 				VerticalAlignment="Stretch"
 				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
@@ -44,8 +43,7 @@
 		<Grid
 			x:Name="DisplayColumnGrid"
 			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
+			VerticalAlignment="Stretch">
 			<ScrollViewer Background="Transparent" HorizontalScrollMode="Disabled">
 				<ItemsRepeater
 					x:Name="MenuItemsHost"
@@ -63,7 +61,8 @@
 			Grid.Column="1"
 			Width="0"
 			MinWidth="1"
-			Background="{ThemeResource ControlFillColorInputActiveBrush}"
+			Margin="0,8,0,0"
+			Background="Transparent"
 			Foreground="Transparent"
 			GripperForeground="Transparent"
 			ManipulationDelta="GridSplitter_ManipulationDelta"
