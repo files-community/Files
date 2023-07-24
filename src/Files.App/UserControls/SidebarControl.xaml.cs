@@ -401,7 +401,7 @@ namespace Files.App.UserControls
 		private async Task EjectDevice()
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(result);
+			await UIHelpers.ShowDeviceEjectResultAsync(rightClickedItem is DriveItem driveItem ? driveItem.Type : Data.Items.DriveType.Unknown, result);
 		}
 
 		private void FormatDrive()

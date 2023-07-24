@@ -55,15 +55,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void ApplyResources()
 		{
-			// Get the index of the current theme
-			var selTheme = ThemeHelper.RootTheme;
-
-			// Toggle between the themes to force reload the resource styles
-			ThemeHelper.RootTheme = ElementTheme.Dark;
-			ThemeHelper.RootTheme = ElementTheme.Light;
-
-			// Restore the theme to the correct theme
-			ThemeHelper.RootTheme = selTheme;
+			ThemeHelper.ApplyResources();
 		}
 	}
 }
