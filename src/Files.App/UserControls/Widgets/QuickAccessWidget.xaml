@@ -29,7 +29,7 @@
 		</ResourceDictionary>
 	</local:HomePageWidget.Resources>
 
-	<Grid>
+	<Grid Padding="16,0,16,0">
 		<ItemsRepeater
 			x:Name="CardsList"
 			Grid.Row="0"
@@ -50,7 +50,7 @@
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:FolderCardItem">
 					<Button
-						Padding="8"
+						Padding="0"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
@@ -65,41 +65,52 @@
 						Style="{StaticResource HighlightingButtonStyle}"
 						Tag="{x:Bind Path}">
 						<Grid
+							Margin="12,8"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
-							RowSpacing="0">
+							ColumnSpacing="12"
+							RowSpacing="8">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="32" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
 
-							<FontIcon
-								x:Name="PinIcon"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Top"
-								x:Load="{x:Bind IsPinned, Mode=OneWay}"
-								FontSize="12"
-								Glyph="&#xE840;" />
-
 							<Image
-								Grid.Row="0"
-								Width="32"
-								Height="32"
+								Grid.RowSpan="3"
+								Grid.Column="0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
+								x:Phase="1"
 								Source="{x:Bind Thumbnail, Mode=OneWay}"
 								Stretch="Uniform" />
 
 							<TextBlock
 								x:Name="ItemLocationName"
-								Grid.Row="1"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
+								Grid.Row="0"
+								Grid.Column="1"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Bottom"
 								FontSize="14"
-								HorizontalTextAlignment="Center"
-								Text="{x:Bind Text}"
-								TextTrimming="WordEllipsis"
+								FontWeight="Medium"
+								Text="{x:Bind Text, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
+
+							<FontIcon
+								x:Name="PinIcon"
+								Grid.Row="1"
+								Grid.Column="1"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind IsPinned, Mode=OneWay}"
+								FontSize="12"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Glyph="&#xE840;" />
 
 						</Grid>
 					</Button>

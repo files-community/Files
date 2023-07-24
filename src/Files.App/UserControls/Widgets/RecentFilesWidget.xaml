@@ -12,11 +12,12 @@
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 
-	<StackPanel x:Name="RecentsListGrid" Margin="-10,0">
+	<StackPanel x:Name="RecentsListGrid" Padding="12,0,12,0">
 
 		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
+			Margin="4,0,4,0"
 			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
@@ -27,6 +28,7 @@
 		<!--  Message when there are no recent files to display  -->
 		<TextBlock
 			x:Name="RecentItemDescription"
+			Margin="4,0,4,0"
 			HorizontalAlignment="Stretch"
 			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
 			FontSize="14"
@@ -46,32 +48,27 @@
 			ItemsSource="{x:Bind recentItemsCollection}"
 			RightTapped="ListView_RightTapped"
 			SelectionMode="None">
+
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 					<Setter Property="Margin" Value="0" />
-					<Setter Property="Padding" Value="8,0" />
+					<Setter Property="Padding" Value="16,0" />
 					<Setter Property="MinHeight" Value="1" />
 					<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 				</Style>
 			</ListView.ItemContainerStyle>
+
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid
-						Padding="2.5"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
-						ColumnSpacing="14"
+						ColumnSpacing="20"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-
-						<Grid.BackgroundTransition>
-							<BrushTransition Duration="0:0:0.083" />
-						</Grid.BackgroundTransition>
 
 						<FontIcon
 							x:Name="RecentFolderImg"
@@ -124,6 +121,7 @@
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
+
 		</ListView>
 	</StackPanel>
 </local:HomePageWidget>

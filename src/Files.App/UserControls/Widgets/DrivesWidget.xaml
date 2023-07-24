@@ -29,7 +29,7 @@
 		</ResourceDictionary>
 	</local:HomePageWidget.Resources>
 
-	<Grid>
+	<Grid Padding="16,0,16,0">
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
@@ -64,10 +64,10 @@
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">
 						<Grid
-							Margin="8"
+							Margin="12,8"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
-							ColumnSpacing="8">
+							ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="32" />
 								<ColumnDefinition Width="*" />

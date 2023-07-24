@@ -8,8 +8,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -21,8 +19,8 @@
 		<Thickness x:Key="ExpanderChevronMargin">0,0,0,0</Thickness>
 		<x:Double x:Key="ExpanderChevronButtonSize">16</x:Double>
 		<Thickness x:Key="ExpanderHeaderPadding">0,0,0,0</Thickness>
-		<Thickness x:Key="ExpanderHeaderInnerMargin">8,0,8,0</Thickness>
-		<Thickness x:Key="ExpanderHeaderInnerPadding">8,0,8,0</Thickness>
+		<Thickness x:Key="ExpanderHeaderInnerMargin">16,0,16,0</Thickness>
+		<Thickness x:Key="ExpanderHeaderInnerPadding">12,0,12,0</Thickness>
 
 		<Style x:Key="NoUpDownAnimationExpanderStyle" TargetType="Expander">
 			<Setter Property="IsTabStop" Value="False" />
@@ -195,9 +193,10 @@
 							CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid
 								x:Name="HoverGrid"
-								Height="32"
+								Height="40"
 								Margin="{StaticResource ExpanderHeaderInnerMargin}"
 								Padding="{StaticResource ExpanderHeaderInnerPadding}"
+								HorizontalAlignment="Left"
 								Background="{ThemeResource ExpanderChevronBackground}"
 								BorderBrush="{ThemeResource ExpanderChevronBorderBrush}"
 								BorderThickness="{ThemeResource ExpanderChevronBorderThickness}"
@@ -205,7 +204,7 @@
 								CornerRadius="{StaticResource ControlCornerRadius}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 
 								<Grid.BackgroundTransition>
@@ -278,7 +277,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="PointerOverOff" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOff" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Pressed">
@@ -297,7 +296,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="PressedOff" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOff" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Disabled">
@@ -337,7 +336,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="NormalOn" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="CheckedPointerOver">
@@ -361,7 +360,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="PointerOverOn" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PointerOverOn" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="CheckedPressed">
@@ -385,7 +384,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="PressedOn" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOn" />
 										</VisualState.Setters>
 									</VisualState>
 
@@ -410,7 +409,7 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="ExpandCollapseChevron.(local:AnimatedIcon.State)" Value="NormalOn" />
+											<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
 										</VisualState.Setters>
 									</VisualState>
 									<VisualState x:Name="Indeterminate" />
@@ -429,94 +428,102 @@
 	</UserControl.Resources>
 
 	<Border>
-		<Grid>
-			<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
+		<ListView
+			Padding="0,4"
+			ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}"
+			SelectionMode="None">
 
-				<!--  Remove Reveal Highlight Effect  -->
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<!--  Spacing  -->
-						<Setter Property="Margin" Value="4" />
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="ListViewItem">
-									<ListViewItemPresenter
-										x:Name="Root"
-										HorizontalContentAlignment="Stretch"
-										VerticalContentAlignment="Stretch" />
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</ListView.ItemContainerStyle>
+			<!--  Remove Reveal Highlight Effect  -->
+			<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<!--  Spacing  -->
+					<Setter Property="Margin" Value="0" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ListViewItem">
+								<ListViewItemPresenter
+									x:Name="Root"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch" />
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ListView.ItemContainerStyle>
 
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
-						<Grid>
-							<Expander
-								Padding="16,0,16,0"
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
+					<Grid Padding="0,4">
+						<Expander
+							Padding="0"
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
+							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+
+							<Expander.Header>
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{StaticResource BodyStrongTextBlockStyle}"
+									Text="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" />
+							</Expander.Header>
+
+							<ContentControl
+								Margin="0,8,0,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
-								IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+								Content="{x:Bind WidgetControl, Mode=OneWay}" />
 
-								<Expander.Header>
-									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" />
-								</Expander.Header>
+							<Expander.Resources>
+								<SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
+								<SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
+								<SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent" />
+								<SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
+								<SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
+								<SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
+							</Expander.Resources>
 
-								<ContentControl
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Stretch"
-									Content="{x:Bind WidgetControl, Mode=OneWay}" />
+						</Expander>
 
-								<Expander.Resources>
-									<SolidColorBrush x:Key="ExpanderHeaderBackground" Color="Transparent" />
-									<SolidColorBrush x:Key="ExpanderHeaderBorderBrush" Color="Transparent" />
-									<SolidColorBrush x:Key="ExpanderHeaderBorderPointerOverBrush" Color="Transparent" />
-									<SolidColorBrush x:Key="ExpanderHeaderBorderPressedBrush" Color="Transparent" />
-									<SolidColorBrush x:Key="ExpanderContentBackground" Color="Transparent" />
-									<SolidColorBrush x:Key="ExpanderContentBorderBrush" Color="Transparent" />
-								</Expander.Resources>
+						<!--  Menu Flyout  -->
+						<Button
+							x:Name="MenuFlyout"
+							Width="36"
+							Height="32"
+							Margin="16,0"
+							Padding="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							x:Load="{x:Bind ShowMenuFlyout, Mode=OneWay}"
+							AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
 
-							</Expander>
+							<FontIcon
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								FontSize="16"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Glyph="&#xE712;" />
 
-							<!--  Menu Flyout  -->
-							<Button
-								x:Name="MenuFlyout"
-								Width="36"
-								Height="32"
-								Margin="0,8,50,0"
-								Padding="0"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Top"
-								x:Load="{x:Bind ShowMenuFlyout, Mode=OneWay}"
-								AutomationProperties.Name="{helpers:ResourceString Name=MoreOptions}"
-								Background="Transparent"
-								BorderBrush="Transparent"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=MoreOptions}">
-								<FontIcon
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									FontSize="14"
-									Glyph="&#xe712;" />
+							<Button.Flyout>
+								<MenuFlyout>
+									<MenuFlyoutItem
+										x:Name="FlyoutItem"
+										Command="{x:Bind MenuFlyoutItem.Command}"
+										Icon="{x:Bind MenuFlyoutItem.Icon}"
+										Text="{x:Bind MenuFlyoutItem.Text}" />
+								</MenuFlyout>
+							</Button.Flyout>
 
-								<Button.Flyout>
-									<MenuFlyout>
-										<MenuFlyoutItem
-											x:Name="FlyoutItem"
-											Command="{x:Bind MenuFlyoutItem.Command}"
-											Icon="{x:Bind MenuFlyoutItem.Icon}"
-											Text="{x:Bind MenuFlyoutItem.Text}" />
-									</MenuFlyout>
-								</Button.Flyout>
-							</Button>
+						</Button>
 
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
 
-			</ListView>
-		</Grid>
+		</ListView>
 	</Border>
 
 </UserControl>
