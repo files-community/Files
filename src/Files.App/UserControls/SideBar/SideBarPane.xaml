@@ -26,7 +26,8 @@
 			<ContentPresenter
 				VerticalAlignment="Stretch"
 				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BackgroundSizing="InnerBorderEdge"
+				BorderBrush="{ThemeResource ControlStrokeColorDefault}"
 				BorderThickness="1,1,0,0"
 				Content="{x:Bind InnerContent, Mode=OneWay}"
 				CornerRadius="8,0,0,0" />
