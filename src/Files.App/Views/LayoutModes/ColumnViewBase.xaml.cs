@@ -436,7 +436,7 @@ namespace Files.App.Views.LayoutModes
 						},
 						EventArgs.Empty);
 				}
-				else if (!IsRenamingItem && (isItemFile || isItemFolder))
+				else if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}
