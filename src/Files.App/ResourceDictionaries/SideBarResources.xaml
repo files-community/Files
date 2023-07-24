@@ -28,7 +28,6 @@
 								</VisualState>
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
-										<Setter Target="ChildrenPresenter.Visibility" Value="Collapsed"/>
 										<Setter Target="ExpanderIcon.Visibility" Value="Visible"/>
 										<Setter Target="ExpanderIcon.Glyph" Value="&#xE70D;"/>
 									</VisualState.Setters>
@@ -117,11 +116,10 @@
                             HorizontalAlignment="Stretch"
 							BorderThickness="1"
 							Margin="4,0"
-							BorderBrush="Transparent"
                             Background="Transparent"
                             Height="30" CornerRadius="{ThemeResource ControlCornerRadius}">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="40"/>
+								<ColumnDefinition Width="38"/>
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>

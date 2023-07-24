@@ -44,13 +44,13 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty SelectedItemProperty =
 			DependencyProperty.Register("SelectedItem", typeof(INavigationControlItem), typeof(SideBarPane), new PropertyMetadata(null));
 
-		public bool PaneExpanded
+		public bool IsPaneOpen
 		{
-			get { return (bool)GetValue(PaneExpandedProperty); }
-			set { SetValue(PaneExpandedProperty, value); }
+			get { return (bool)GetValue(IsPaneOpenProperty); }
+			set { SetValue(IsPaneOpenProperty, value); }
 		}
-		public static readonly DependencyProperty PaneExpandedProperty =
-			DependencyProperty.Register("PaneExpanded", typeof(bool), typeof(SideBarPane), new PropertyMetadata(false, OnPropertyChanged));
+		public static readonly DependencyProperty IsPaneOpenProperty =
+			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarPane), new PropertyMetadata(false, OnPropertyChanged));
 
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -62,7 +62,7 @@ namespace Files.App.UserControls.SideBar
 				control.UpdateDisplayMode();
 				control.DisplayModeChanged?.Invoke(control, (SideBarDisplayMode)e.NewValue);
 			}
-			else if (e.Property == PaneExpandedProperty)
+			else if (e.Property == IsPaneOpenProperty)
 			{
 				control.UpdateMinimalMode();
 			}

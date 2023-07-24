@@ -17,9 +17,8 @@ namespace Files.App.UserControls.SideBar
 			get { return (SideBarDisplayMode)GetValue(DisplayModeProperty); }
 			set { SetValue(DisplayModeProperty, value); }
 		}
-		public event EventHandler<SideBarDisplayMode>? DisplayModeChanged;
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarPane), new PropertyMetadata(SideBarDisplayMode.Expanded));
+			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarHost), new PropertyMetadata(SideBarDisplayMode.Expanded));
 
 		public UIElement InnerContent
 		{
@@ -34,8 +33,16 @@ namespace Files.App.UserControls.SideBar
 			get => (UIElement)GetValue(TabContentProperty);
 			set => SetValue(TabContentProperty, value);
 		}
-		public static readonly DependencyProperty TabContentProperty = DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
+		public static readonly DependencyProperty TabContentProperty =
+			DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
 
+		public bool IsPaneOpen
+		{
+			get { return (bool)GetValue(IsPaneOpenProperty); }
+			set { SetValue(IsPaneOpenProperty, value); }
+		}
+		public static readonly DependencyProperty IsPaneOpenProperty =
+			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarHost), new PropertyMetadata(false));
 
 		public SidebarViewModel ViewModel
 		{
@@ -43,7 +50,7 @@ namespace Files.App.UserControls.SideBar
 			set => SetValue(ViewModelProperty, value);
 		}
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SidebarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SideBarHost), new PropertyMetadata(null));
 
 		public INavigationControlItem SelectedItem
 		{

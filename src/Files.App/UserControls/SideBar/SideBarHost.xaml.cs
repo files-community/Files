@@ -147,21 +147,29 @@ namespace Files.App.UserControls.SideBar
 
 		private void SideBarHost_SizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			if (args.NewSize.Width < 500)
+			if (args.NewSize.Width < 650)
 			{
-				SideBar.DisplayMode = SideBarDisplayMode.Minimal;
+				DisplayMode = SideBarDisplayMode.Minimal;
 			}
-			else if (args.NewSize.Width < 1000)
+			else if (args.NewSize.Width < 1300)
 			{
-				SideBar.DisplayMode = SideBarDisplayMode.Compact;
+				DisplayMode = SideBarDisplayMode.Compact;
 			}
 			else
 			{
-				SideBar.DisplayMode = SideBarDisplayMode.Expanded;
+				DisplayMode = SideBarDisplayMode.Expanded;
 			}
 		}
 
-		private async void SideBar_ItemDropped(object sender, ItemDroppedEventArgs e)
+		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
+		{
+			if(DisplayMode == SideBarDisplayMode.Minimal)
+			{
+				IsPaneOpen = !IsPaneOpen;
+			}
+        }
+
+        private async void SideBar_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
 			if (e.DropTarget is not LocationItem locationItem) return;
 
@@ -190,13 +198,6 @@ namespace Files.App.UserControls.SideBar
 					await signal.WaitAsync();
 				}
 				deferral.Complete();
-			}
-		}
-
-		private void SideBar_DisplayModeChanged(object sender, SideBarDisplayMode e)
-		{
-			if (e == SideBarDisplayMode.Minimal)
-			{
 			}
 		}
 

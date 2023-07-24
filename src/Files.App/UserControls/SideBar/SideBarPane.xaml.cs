@@ -67,7 +67,7 @@ namespace Files.App.UserControls.SideBar
 					VisualStateManager.GoToState(this, "Expanded", false);
 					return;
 				case SideBarDisplayMode.Minimal:
-					PaneExpanded = false;
+					IsPaneOpen = false;
 					UpdateMinimalMode();
 					return;
 			}
@@ -77,7 +77,7 @@ namespace Files.App.UserControls.SideBar
 		{
 			if (DisplayMode != SideBarDisplayMode.Minimal) return;
 
-			if (PaneExpanded)
+			if (IsPaneOpen)
 			{
 				VisualStateManager.GoToState(this, "MinimalExpanded", false);
 			}
@@ -118,12 +118,12 @@ namespace Files.App.UserControls.SideBar
 
 		private void PaneLightDismissLayer_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			PaneExpanded = false;
+			IsPaneOpen = false;
 		}
 
 		private void PaneLightDismissLayer_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
-			PaneExpanded = false;
+			IsPaneOpen = false;
 		}
 	}
 }

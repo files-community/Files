@@ -12,7 +12,7 @@
 	xmlns:sidebar="using:Files.App.UserControls.SideBar"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters" xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -117,14 +117,10 @@
 			HorizontalContentAlignment="Stretch"
 			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
 			Loaded="SidebarControl_Loaded"
-			DisplayMode="Expanded"
+			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
+			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
-			<!-- Todo: Fix 
-				DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
-				IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
-				IsPaneToggleButtonVisible="False"
-			-->
 
 			<!--  Head Contents  -->
 			<sidebar:SideBarHost.TabContent>
@@ -276,18 +272,12 @@
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup>
-				<VisualState>
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger x:Name="MinimalSidebarAdaptiveTrigger" MinWindowWidth="641" />
-					</VisualState.StateTriggers>
-				</VisualState>
+				<VisualState x:Name="NormalSidebarState"/>
 				<VisualState x:Name="MinimalSidebarState">
 					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
+						<triggers:CompareStateTrigger Value="{x:Bind SidebarControl.DisplayMode, Mode=OneWay}" Comparison="Equal" To="Minimal"/>
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
-						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
 					</VisualState.Setters>
 				</VisualState>

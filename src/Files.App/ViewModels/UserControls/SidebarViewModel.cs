@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.SideBar;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,8 +35,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
-		private NavigationViewDisplayMode sidebarDisplayMode;
-		public NavigationViewDisplayMode SidebarDisplayMode
+		private SideBarDisplayMode sidebarDisplayMode;
+		public SideBarDisplayMode SidebarDisplayMode
 		{
 			get => sidebarDisplayMode;
 			set
@@ -63,7 +64,7 @@ namespace Files.App.ViewModels.UserControls
 			};
 
 		public bool IsSidebarCompactSize
-			=> SidebarDisplayMode == NavigationViewDisplayMode.Compact || SidebarDisplayMode == NavigationViewDisplayMode.Minimal;
+			=> SidebarDisplayMode == SideBarDisplayMode.Compact || SidebarDisplayMode == SideBarDisplayMode.Minimal;
 
 		public void NotifyInstanceRelatedPropertiesChanged(string arg)
 		{
@@ -610,17 +611,12 @@ namespace Files.App.ViewModels.UserControls
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
 
-		public void SidebarControl_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
-		{
-			SidebarDisplayMode = args.DisplayMode;
-		}
-
 		public void UpdateTabControlMargin()
 		{
 			TabControlMargin = SidebarDisplayMode switch
 			{
 				// This prevents the pane toggle button from overlapping the tab control in minimal mode
-				NavigationViewDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
+				SideBarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
 				_ => new GridLength(0, GridUnitType.Pixel),
 			};
 		}

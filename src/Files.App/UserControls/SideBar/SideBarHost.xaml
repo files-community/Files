@@ -5,7 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:sidebar="using:Files.App.UserControls.SideBar"
+	xmlns:sidebar="using:Files.App.UserControls.SideBar" xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	HorizontalAlignment="Stretch"
 	Loaded="SideBarHost_Loaded"
 	SizeChanged="SideBarHost_SizeChanged"
@@ -17,16 +17,16 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="TogglePaneButtonStates">
 				<VisualState x:Name="TogglePaneButtonHidden"/>
 				<VisualState x:Name="TogglePaneButtonVisible">
-					
+					<VisualState.StateTriggers>
+						<triggers:CompareStateTrigger Value="{x:Bind DisplayMode, Mode=OneWay}" Comparison="Equal" To="Minimal" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="TogglePaneButton.Visibility" Value="Visible"/>
+					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
@@ -34,20 +34,24 @@
 		<!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
 		<Border
 			x:Name="TabContentBorder"
-			Grid.Column="1"
 			VerticalAlignment="Top"
 			Canvas.ZIndex="2" />
-
+		<Button x:Name="TogglePaneButton" Click="TogglePaneButton_Click" VerticalAlignment="Top"
+			Margin="4"
+			Background="Transparent"
+			Visibility="Collapsed" 
+			HorizontalAlignment="Left"
+			BorderThickness="0" 
+			Style="{StaticResource PaneToggleButtonStyle}"/>
 		<sidebar:SideBarPane x:Name="SideBar" Grid.Row="1"
-			Grid.ColumnSpan="2"
 			Loaded="SideBar_Loaded"
 			ItemDropped="SideBar_ItemDropped"
 			ItemInvoked="SideBar_ItemInvoked"
 			ItemContextInvoked="SideBar_ItemContextInvoked"
 			InnerContent="{x:Bind InnerContent}"
 			SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-			DisplayMode="{x:Bind DisplayMode}"
-			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
-			DisplayModeChanged="SideBar_DisplayModeChanged"/>
+			DisplayMode="{x:Bind DisplayMode, Mode=OneWay}"
+			IsPaneOpen="{x:Bind IsPaneOpen, Mode=TwoWay}"
+			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"/>
 	</Grid>
 </UserControl>

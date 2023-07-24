@@ -30,16 +30,19 @@
                 </VisualState>
                 <VisualState x:Name="MinimalCollapsed">
                     <VisualState.Setters>
-                        <Setter Target="DisplayColumn.Width" Value="0"/>
-                        <Setter Target="ContentPresenter.(Grid.Column)" Value="0"/>
+						<Setter Target="DisplayColumn.Width" Value="0"/>
+						<Setter Target="DisplayColumnGrid.MaxWidth" Value="0"/>
+						<Setter Target="DisplayColumnGrid.Background" Value="Red"/>
+						<Setter Target="ContentPresenter.(Grid.Column)" Value="0"/>
                         <Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3"/>
                         <Setter Target="SideBarResizer.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="MinimalExpanded">
                     <VisualState.Setters>
-                        <Setter Target="DisplayColumn.Width" Value="300"/>
-                        <Setter Target="ContentPresenter.(Grid.Column)" Value="0"/>
+						<Setter Target="DisplayColumn.Width" Value="300"/>
+						<Setter Target="DisplayColumnGrid.Background" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
+						<Setter Target="ContentPresenter.(Grid.Column)" Value="0"/>
                         <Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3"/>
                         <Setter Target="SideBarResizer.Visibility" Value="Collapsed"/>
                         <Setter Target="PaneLightDismissLayer.Visibility" Value="Visible"/>
@@ -48,9 +51,9 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-		<Grid Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
+		<Grid x:Name="ContentPresenter" Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
 			Grid.Column="2" HorizontalAlignment="Stretch">
-			<ContentPresenter x:Name="ContentPresenter"
+			<ContentPresenter
 				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
 				VerticalAlignment="Stretch" Content="{x:Bind InnerContent, Mode=OneWay}"/>
 		</Grid>
@@ -61,7 +64,7 @@
             PointerPressed="PaneLightDismissLayer_PointerPressed"
             Tapped="PaneLightDismissLayer_Tapped"/>
 
-		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+		<Grid x:Name="DisplayColumnGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
             <ScrollViewer HorizontalScrollMode="Disabled" Background="Transparent">
 				<ItemsRepeater x:Name="MenuItemsHost" VerticalCacheLength="100"
