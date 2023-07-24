@@ -4,8 +4,9 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:sidebar="using:Files.App.UserControls.SideBar" xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sidebar="using:Files.App.UserControls.SideBar"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	HorizontalAlignment="Stretch"
 	Loaded="SideBarHost_Loaded"
 	SizeChanged="SideBarHost_SizeChanged"
@@ -13,45 +14,53 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
-		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup x:Name="TogglePaneButtonStates">
-				<VisualState x:Name="TogglePaneButtonHidden"/>
-				<VisualState x:Name="TogglePaneButtonVisible">
-					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger Value="{x:Bind DisplayMode, Mode=OneWay}" Comparison="Equal" To="Minimal" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="TogglePaneButton.Visibility" Value="Visible"/>
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
 
 		<!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
 		<Border
 			x:Name="TabContentBorder"
 			VerticalAlignment="Top"
 			Canvas.ZIndex="2" />
-		<Button x:Name="TogglePaneButton" Click="TogglePaneButton_Click" VerticalAlignment="Top"
+		<Button
+			x:Name="TogglePaneButton"
 			Margin="4"
-			Background="Transparent"
-			Visibility="Collapsed" 
 			HorizontalAlignment="Left"
-			BorderThickness="0" 
-			Style="{StaticResource PaneToggleButtonStyle}"/>
-		<sidebar:SideBarPane x:Name="SideBar" Grid.Row="1"
-			Loaded="SideBar_Loaded"
+			VerticalAlignment="Top"
+			Background="Transparent"
+			BorderThickness="0"
+			Click="TogglePaneButton_Click"
+			Style="{StaticResource PaneToggleButtonStyle}"
+			Visibility="Collapsed" />
+		<sidebar:SideBarPane
+			x:Name="SideBar"
+			Grid.Row="1"
+			DisplayMode="{x:Bind DisplayMode, Mode=OneWay}"
+			InnerContent="{x:Bind InnerContent}"
+			IsPaneOpen="{x:Bind IsPaneOpen, Mode=TwoWay}"
+			ItemContextInvoked="SideBar_ItemContextInvoked"
 			ItemDropped="SideBar_ItemDropped"
 			ItemInvoked="SideBar_ItemInvoked"
-			ItemContextInvoked="SideBar_ItemContextInvoked"
-			InnerContent="{x:Bind InnerContent}"
-			SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
-			DisplayMode="{x:Bind DisplayMode, Mode=OneWay}"
-			IsPaneOpen="{x:Bind IsPaneOpen, Mode=TwoWay}"
-			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"/>
+			Items="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
+			Loaded="SideBar_Loaded"
+			SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}" />
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="TogglePaneButtonStates">
+				<VisualState x:Name="TogglePaneButtonHidden" />
+				<VisualState x:Name="TogglePaneButtonVisible">
+					<VisualState.StateTriggers>
+						<triggers:CompareStateTrigger
+							Comparison="Equal"
+							Value="{x:Bind DisplayMode, Mode=OneWay}"
+							To="Minimal" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </UserControl>

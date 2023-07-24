@@ -7,12 +7,13 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:uc="using:Files.App.UserControls"
 	xmlns:sidebar="using:Files.App.UserControls.SideBar"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters" xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -116,9 +117,9 @@
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
-			Loaded="SidebarControl_Loaded"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+			Loaded="SidebarControl_Loaded"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
@@ -272,10 +273,13 @@
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup>
-				<VisualState x:Name="NormalSidebarState"/>
+				<VisualState x:Name="NormalSidebarState" />
 				<VisualState x:Name="MinimalSidebarState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger Value="{x:Bind SidebarControl.DisplayMode, Mode=OneWay}" Comparison="Equal" To="Minimal"/>
+						<triggers:CompareStateTrigger
+							Comparison="Equal"
+							Value="{x:Bind SidebarControl.DisplayMode, Mode=OneWay}"
+							To="Minimal" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
