@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 				if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Copy, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)));
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Copy, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)), fsProgress);
 				}
 				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -269,9 +269,9 @@ namespace Files.App.Utils.Storage
 						{
 							case FilesystemItemType.File:
 								var newEntryInfo = await ShellNewEntryExtensions.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
-								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data)), null);
+								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFile", newEntryInfo?.Template, newEntryInfo?.Data), fsProgress), null);
 							case FilesystemItemType.Directory:
-								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFolder", null, null)), null);
+								return (await RunAdminOperationAsync(new ShellOperationCreateRequest(OperationType.Create, operationID, source.Path, "CreateFolder", null, null), fsProgress), null);
 						}
 					}
 				}
@@ -403,7 +403,7 @@ namespace Files.App.Utils.Storage
 				if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RunAdminOperationAsync(new ShellOperationDeleteRequest(OperationType.Delete, operationID, source.Select(x => x.Path).ToArray(), permanently));
+						return await RunAdminOperationAsync(new ShellOperationDeleteRequest(OperationType.Delete, operationID, source.Select(x => x.Path).ToArray(), permanently), fsProgress);
 				}
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -523,7 +523,7 @@ namespace Files.App.Utils.Storage
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)));
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, sourceNoSkip.Select(x => x.Path).ToArray(), destinationNoSkip.ToArray(), collisionsNoSkip.All(x => x == FileNameConflictResolveOptionType.ReplaceExisting)), fsProgress);
 				}
 				else if (source.Zip(destination, (src, dest) => (src, dest)).FirstOrDefault(x => x.src.ItemType == FilesystemItemType.Directory && PathNormalization.GetParentDir(x.dest).IsSubPathOf(x.src.Path)) is (IStorageItemWithPath, string) subtree)
 				{
@@ -649,7 +649,7 @@ namespace Files.App.Utils.Storage
 				if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RunAdminOperationAsync(new ShellOperationRenameRequest(OperationType.Rename, operationID, source.Path, newName, collision == NameCollisionOption.ReplaceExisting));
+						return await RunAdminOperationAsync(new ShellOperationRenameRequest(OperationType.Rename, operationID, source.Path, newName, collision == NameCollisionOption.ReplaceExisting), fsProgress);
 				}
 				else if (renameResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -754,7 +754,7 @@ namespace Files.App.Utils.Storage
 				if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.Unauthorized))
 				{
 					if (await RequestAdminOperation())
-						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, source.Select(s => s.Path).ToArray(), destination.ToArray(), false));
+						return await RunAdminOperationAsync(new ShellOperationCopyMoveRequest(OperationType.Move, operationID, source.Select(s => s.Path).ToArray(), destination.ToArray(), false), fsProgress);
 				}
 				else if (moveResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
@@ -810,29 +810,33 @@ namespace Files.App.Utils.Storage
 			return await dialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary;
 		}
 
-		private async Task<IStorageHistory> RunAdminOperationAsync(ShellOperationRequest request)
+		private async Task<StorageHistory> RunAdminOperationAsync(ShellOperationRequest request, FileSystemProgress progress)
 		{
-			var req = JsonSerializer.Serialize(request);
-			byte[] buffer = Encoding.UTF8.GetBytes(req);
-			using (MemoryMappedFile mmf = MemoryMappedFile.CreateNew(request.ID, req.Length, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.None, HandleInheritability.Inheritable))
+			var success = await SafetyExtensions.Wrap(async () =>
 			{
-				using (MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor())
+				var req = JsonSerializer.Serialize(request);
+				byte[] buffer = Encoding.UTF8.GetBytes(req);
+				using (MemoryMappedFile mmf = MemoryMappedFile.CreateNew(request.ID, req.Length, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.None, HandleInheritability.Inheritable))
 				{
-					accessor.Write(0, req.Length);
-					accessor.WriteArray(sizeof(int), buffer, 0, buffer.Length);
-				}
+					using (MemoryMappedViewAccessor accessor = mmf.CreateViewAccessor())
+					{
+						accessor.Write(0, req.Length);
+						accessor.WriteArray(sizeof(int), buffer, 0, buffer.Length);
+					}
 
-				using Process process = new Process();
-				process.StartInfo.UseShellExecute = true;
-				process.StartInfo.Verb = "RunAs";
-				process.StartInfo.FileName = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledPath, "Files.App.Elevated", "Files.App.Elevated.exe");
-				process.StartInfo.Arguments = string.Join(" ", "FileOperation", request.ID);
-				await SafetyExtensions.IgnoreExceptions(() =>
-				{
+					using Process process = new Process();
+					process.StartInfo.UseShellExecute = true;
+					process.StartInfo.Verb = "RunAs";
+					process.StartInfo.FileName = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledPath, "Files.App.Elevated", "Files.App.Elevated.exe");
+					process.StartInfo.Arguments = string.Join(" ", "FileOperation", request.ID);
 					process.Start();
-					return process.WaitForExitAsync();
-				});
-			}
+					await process.WaitForExitAsync();
+					return process.ExitCode is 0;
+				}
+			}, (_, _) => Task.FromResult(false));
+
+			progress.ReportStatus(success ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
+
 			return null;
 		}
 

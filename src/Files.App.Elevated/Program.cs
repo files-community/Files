@@ -16,10 +16,10 @@ namespace Files.App.Elevated
 		public static FileLogger Logger { get; private set; }
 
 		[STAThread]
-		private static async Task Main(string[] args)
+		private static async Task<int> Main(string[] args)
 		{
 			if (args is null || args.Length < 2)
-				return;
+				return 0;
 
 			Logger = new FileLogger(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_fulltrust.log"));
 			AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
@@ -27,12 +27,14 @@ namespace Files.App.Elevated
 			switch (args[0])
 			{
 				case "FileOperation":
-					await HandleFileOperation(args[1]);
-					break;
+					var (success, res) = await HandleFileOperation(args[1]);
+					return success && res.Final.All(x => x.Succeeded) ? 0 : -1;
 			}
+
+			return 0;
 		}
 
-		private static async Task HandleFileOperation(string operationID)
+		private static async Task<(bool, ShellOperationResult)> HandleFileOperation(string operationID)
 		{
 			using (MemoryMappedFile mmf = MemoryMappedFile.OpenExisting(operationID, MemoryMappedFileRights.Read, HandleInheritability.Inheritable))
 			{
@@ -42,23 +44,20 @@ namespace Files.App.Elevated
 					var ros = Encoding.UTF8.GetString(reader.ReadBytes(reader.ReadInt32()));
 					Logger.LogInformation(ros);
 					var req = JsonSerializer.Deserialize<ShellOperationRequest>(ros);
-					switch (req.Operation)
+					switch (req?.Operation)
 					{
 						case OperationType.Copy when req is ShellOperationCopyMoveRequest cm:
-							await FileOperationsHelpers.CopyItemAsync(cm.Sources, cm.Destinations, cm.Replace, 0, req.ID);
-							break;
+							return await FileOperationsHelpers.CopyItemAsync(cm.Sources, cm.Destinations, cm.Replace, 0, req.ID);
 						case OperationType.Move when req is ShellOperationCopyMoveRequest cm:
-							await FileOperationsHelpers.MoveItemAsync(cm.Sources, cm.Destinations, cm.Replace, 0, req.ID);
-							break;
+							return await FileOperationsHelpers.MoveItemAsync(cm.Sources, cm.Destinations, cm.Replace, 0, req.ID);
 						case OperationType.Delete when req is ShellOperationDeleteRequest del:
-							await FileOperationsHelpers.DeleteItemAsync(del.Sources, del.Permanently, 0, req.ID);
-							break;
+							return await FileOperationsHelpers.DeleteItemAsync(del.Sources, del.Permanently, 0, req.ID);
 						case OperationType.Rename when req is ShellOperationRenameRequest rn:
-							await FileOperationsHelpers.RenameItemAsync(rn.Source, rn.Destination, rn.Replace);
-							break;
+							return await FileOperationsHelpers.RenameItemAsync(rn.Source, rn.Destination, rn.Replace);
 						case OperationType.Create when req is ShellOperationCreateRequest cr:
-							await FileOperationsHelpers.CreateItemAsync(cr.Source, cr.CreateOption, cr.Template, cr.Data);
-							break;
+							return await FileOperationsHelpers.CreateItemAsync(cr.Source, cr.CreateOption, cr.Template, cr.Data);
+						default:
+							return (false, new());
 					}
 				}
 			}
@@ -66,8 +65,8 @@ namespace Files.App.Elevated
 
 		private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
 		{
-			var exception = e.ExceptionObject as Exception;
-			Logger.LogError(exception, exception.Message);
+			var ex = (Exception)e.ExceptionObject;
+			Logger.LogError(ex, ex.Message);
 		}
 	}
 }
