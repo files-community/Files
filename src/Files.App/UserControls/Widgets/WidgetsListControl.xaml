@@ -429,7 +429,7 @@
 
 	<Border>
 		<ListView
-			Padding="0,4"
+			Padding="0,0,0,16"
 			ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}"
 			SelectionMode="None">
 
@@ -453,7 +453,7 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
-					<Grid Padding="0,4">
+					<Grid Padding="0,4,0,0">
 						<Expander
 							Padding="0"
 							HorizontalAlignment="Stretch"
@@ -469,7 +469,7 @@
 							</Expander.Header>
 
 							<ContentControl
-								Margin="0,8,0,0"
+								Margin="0,4,0,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								Content="{x:Bind WidgetControl, Mode=OneWay}" />

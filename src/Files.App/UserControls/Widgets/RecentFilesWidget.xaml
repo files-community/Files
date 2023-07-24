@@ -67,7 +67,7 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="1.5*" />
 						</Grid.ColumnDefinitions>
 
 						<FontIcon
