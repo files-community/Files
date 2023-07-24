@@ -22,12 +22,14 @@
 		<Grid
 			x:Name="ContentPresenter"
 			Grid.Column="2"
-			HorizontalAlignment="Stretch"
-			CornerRadius="8,0,0,0">
+			HorizontalAlignment="Stretch">
 			<ContentPresenter
 				VerticalAlignment="Stretch"
 				Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-				Content="{x:Bind InnerContent, Mode=OneWay}" />
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1,1,0,0"
+				Content="{x:Bind InnerContent, Mode=OneWay}"
+				CornerRadius="8,0,0,0" />
 		</Grid>
 		<Grid
 			x:Name="PaneLightDismissLayer"
