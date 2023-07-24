@@ -170,7 +170,7 @@
 				HorizontalAlignment="Stretch"
 				Click="ThirdPartyLicenses_Click">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE15E;" />
+					<FontIcon Glyph="&#xE90F;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<ScrollViewer Height="400">
@@ -190,7 +190,7 @@
 				ButtonCommand="{x:Bind ViewModel.OpenGitHubRepoCommand}"
 				IsClickable="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE12B;" />
+					<FontIcon Glyph="&#xE774;" />
 				</local:SettingsBlockControl.Icon>
 
 				<FontIcon
