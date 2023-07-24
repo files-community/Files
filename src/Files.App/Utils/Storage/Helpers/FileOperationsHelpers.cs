@@ -46,7 +46,8 @@ namespace Files.App.Utils.Storage
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.RenameOnCollision
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+							| ShellFileOperations.OperationFlags.NoErrorUI
+							| ShellFileOperations.OperationFlags.ShowElevationPrompt;
 
 				var shellOperationResult = new ShellOperationResult();
 
@@ -201,7 +202,8 @@ namespace Files.App.Utils.Storage
 				using var op = new ShellFileOperations();
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmation
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+							| ShellFileOperations.OperationFlags.NoErrorUI
+							| ShellFileOperations.OperationFlags.ShowElevationPrompt;
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				if (!permanently)
 				{
@@ -288,7 +290,8 @@ namespace Files.App.Utils.Storage
 				var shellOperationResult = new ShellOperationResult();
 
 				op.Options = ShellFileOperations.OperationFlags.Silent
-						  | ShellFileOperations.OperationFlags.NoErrorUI;
+						  | ShellFileOperations.OperationFlags.NoErrorUI
+						  | ShellFileOperations.OperationFlags.ShowElevationPrompt;
 				op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
 				if (!SafetyExtensions.IgnoreExceptions(() =>
@@ -352,7 +355,8 @@ namespace Files.App.Utils.Storage
 
 				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+							| ShellFileOperations.OperationFlags.NoErrorUI
+							| ShellFileOperations.OperationFlags.ShowElevationPrompt;
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;
@@ -433,7 +437,8 @@ namespace Files.App.Utils.Storage
 
 				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+							| ShellFileOperations.OperationFlags.NoErrorUI
+							| ShellFileOperations.OperationFlags.ShowElevationPrompt;
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;
