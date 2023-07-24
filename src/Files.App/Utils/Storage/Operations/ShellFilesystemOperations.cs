@@ -810,7 +810,7 @@ namespace Files.App.Utils.Storage
 			return await dialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary;
 		}
 
-		private async Task<StorageHistory> RunAdminOperationAsync(ShellOperationRequest request, FileSystemProgress progress)
+		private async Task<IStorageHistory> RunAdminOperationAsync(ShellOperationRequest request, FileSystemProgress progress)
 		{
 			var success = await SafetyExtensions.Wrap(async () =>
 			{
