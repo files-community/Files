@@ -111,7 +111,8 @@ namespace Files.App.Utils.Git
 				return Array.Empty<BranchItem>();
 
 			using var repository = new Repository(path);
-			return repository.Branches
+
+			return GetValidBranches(repository.Branches)
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenByDescending(b => b.Tip?.Committer.When)
@@ -126,7 +127,7 @@ namespace Files.App.Utils.Git
 				return string.Empty;
 
 			using var repository = new Repository(path);
-			return repository.Branches
+			return GetValidBranches(repository.Branches)
 				.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 		}
 
@@ -260,7 +261,11 @@ namespace Files.App.Utils.Git
 					};
 			}
 
-			IsExecutingGitAction = true;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+			});
+
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -551,6 +556,24 @@ namespace Files.App.Utils.Git
 				return;
 
 			Repository.Init(path);
+		}
+
+		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
+		{
+			foreach (var branch in branches)
+			{
+				try
+				{
+					var throwIfInvalid = branch.IsCurrentRepositoryHead;
+				}
+				catch (LibGit2SharpException ex)
+				{
+					_logger.LogWarning(ex, ex.Message);
+					continue;
+				}
+
+				yield return branch;
+			}
 		}
 
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
