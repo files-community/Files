@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 
 			if (runAsAdmin)
 			{
-				return await LaunchHelper.LaunchAppAsync(application, "runas", workingDirectory);
+				return await LaunchHelper.LaunchAppAsync(application, "RunAs", workingDirectory);
 			}
 			else
 			{
