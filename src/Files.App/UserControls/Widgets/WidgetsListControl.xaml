@@ -193,7 +193,7 @@
 							CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid
 								x:Name="HoverGrid"
-								Height="40"
+								Height="32"
 								Margin="{StaticResource ExpanderHeaderInnerMargin}"
 								Padding="{StaticResource ExpanderHeaderInnerPadding}"
 								HorizontalAlignment="Left"
