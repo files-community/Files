@@ -1,20 +1,27 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.SideBar;
-using Microsoft.UI.Dispatching;
+using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
+using System.Windows.Input;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable
+	public class SidebarViewModel : ObservableObject, IDisposable, ISideBarViewModel
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
@@ -29,9 +36,12 @@ namespace Files.App.ViewModels.UserControls
 		public IFilesystemHelpers FilesystemHelpers
 			=> PaneHolder?.FilesystemHelpers;
 
-		private DispatcherQueue dispatcherQueue;
+		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
+		private INavigationControlItem rightClickedItem;
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; init; }
+		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
+		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
@@ -210,7 +220,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public SidebarViewModel()
 		{
-			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
 			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -231,6 +241,17 @@ namespace Files.App.ViewModels.UserControls
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+
+			HideSectionCommand = new RelayCommand(HideSection);
+			UnpinItemCommand = new RelayCommand(UnpinItem);
+			PinItemCommand = new RelayCommand(PinItem);
+			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTab);
+			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindow);
+			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPane);
+			EjectDeviceCommand = new AsyncRelayCommand(EjectDevice);
+			FormatDriveCommand = new RelayCommand(FormatDrive);
+			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
+			ReorderItemsCommand = new AsyncRelayCommand(ReorderItems);
 		}
 
 		private Task CreateItemHomeAsync()
@@ -619,6 +640,390 @@ namespace Files.App.ViewModels.UserControls
 				SideBarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
 				_ => new GridLength(0, GridUnitType.Pixel),
 			};
+		}
+
+		public async void HandleItemDropped(ItemDroppedEventArgs args)
+		{
+			if (args.DropTarget is not LocationItem locationItem) return;
+
+			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
+			{
+				var deferral = args.RawEvent.GetDeferral();
+				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section)) // Pin to Favorites section
+				{
+					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+					foreach (var item in storageItems)
+					{
+						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+							QuickAccessService.PinToSidebar(item.Path);
+					}
+				}
+				else
+				{
+					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
+				}
+				deferral.Complete();
+			}
+		}
+
+		public void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
+		{
+			if (args.Item is not INavigationControlItem item || sender is not FrameworkElement sidebarItem)
+			{
+				return;
+			}
+			rightClickedItem = item;
+
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
+			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
+
+			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
+			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+
+			secondaryElements.OfType<FrameworkElement>()
+								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+
+			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
+			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
+
+			if (item.MenuOptions.ShowShellItems)
+				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
+		}
+
+		public async void HandleItemInvoked(object item)
+		{
+			if (item is not INavigationControlItem navigationControlItem) return;
+			var navigationPath = item as string;
+
+			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
+				return;
+
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed && navigationPath is not null)
+			{
+				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+				return;
+			}
+
+			// Type of page to navigate
+			Type? sourcePageType = null;
+
+			switch (navigationControlItem.ItemType)
+			{
+				case NavigationControlItemType.Location:
+					{
+						// Get the path of the invoked item
+						var ItemPath = navigationControlItem.Path;
+
+						// Home item
+						if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
+						{
+							navigationPath = "Home";
+							sourcePageType = typeof(HomePage);
+						}
+						else
+						{
+							navigationPath = navigationControlItem.Path;
+						}
+						break;
+					}
+
+				case NavigationControlItemType.FileTag:
+					var tagPath = navigationControlItem.Path; // Get the path of the invoked item
+					if (PaneHolder?.ActivePane is IShellPage shp)
+					{
+						shp.NavigateToPath(tagPath, new NavigationArguments()
+						{
+							IsSearchResultPage = true,
+							SearchPathParam = "Home",
+							SearchQuery = tagPath,
+							AssociatedTabInstance = shp,
+							NavPathParam = tagPath
+						});
+					}
+					return;
+
+				default:
+					{
+						navigationPath = navigationControlItem.Path;
+						break;
+					}
+			}
+
+			if (PaneHolder?.ActivePane is IShellPage shellPage)
+				shellPage.NavigateToPath(navigationPath, sourcePageType);
+		}
+
+		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialog);
+
+		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialog);
+
+		private ICommand HideSectionCommand { get; }
+
+		private ICommand PinItemCommand { get; }
+
+		private ICommand UnpinItemCommand { get; }
+
+		private ICommand OpenInNewTabCommand { get; }
+
+		private ICommand OpenInNewWindowCommand { get; }
+
+		private ICommand OpenInNewPaneCommand { get; }
+
+		private ICommand EjectDeviceCommand { get; }
+
+		private ICommand FormatDriveCommand { get; }
+
+		private ICommand OpenPropertiesCommand { get; }
+
+		private ICommand ReorderItemsCommand { get; }
+
+		private async Task OpenInNewPane()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+			PaneHolder.OpenPathInNewPane(rightClickedItem.Path);
+		}
+
+		private async Task OpenInNewTab()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+
+			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path);
+		}
+
+		private async Task OpenInNewWindow()
+		{
+			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
+				return;
+
+			await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
+		}
+
+		private void PinItem()
+		{
+			if (rightClickedItem is DriveItem)
+				_ = QuickAccessService.PinToSidebar(new[] { rightClickedItem.Path });
+		}
+		private void UnpinItem()
+		{
+			if (rightClickedItem.Section == SectionType.Favorites || rightClickedItem is DriveItem)
+				_ = QuickAccessService.UnpinFromSidebar(rightClickedItem.Path);
+		}
+
+		private void HideSection()
+		{
+			switch (rightClickedItem.Section)
+			{
+				case SectionType.Favorites:
+					UserSettingsService.GeneralSettingsService.ShowFavoritesSection = false;
+					break;
+				case SectionType.Library:
+					UserSettingsService.GeneralSettingsService.ShowLibrarySection = false;
+					break;
+				case SectionType.CloudDrives:
+					UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection = false;
+					break;
+				case SectionType.Drives:
+					UserSettingsService.GeneralSettingsService.ShowDrivesSection = false;
+					break;
+				case SectionType.Network:
+					UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection = false;
+					break;
+				case SectionType.WSL:
+					UserSettingsService.GeneralSettingsService.ShowWslSection = false;
+					break;
+				case SectionType.FileTag:
+					UserSettingsService.GeneralSettingsService.ShowFileTagsSection = false;
+					break;
+			}
+		}
+
+		private async Task ReorderItems()
+		{
+			var dialog = new ReorderSidebarItemsDialogViewModel();
+			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var result = await dialogService.ShowDialogAsync(dialog);
+		}
+
+		private void OpenProperties(CommandBarFlyout menu)
+		{
+			EventHandler<object> flyoutClosed = null!;
+			flyoutClosed = (s, e) =>
+			{
+				menu.Closed -= flyoutClosed;
+				if (rightClickedItem is DriveItem)
+					FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, PaneHolder.ActivePane);
+				else if (rightClickedItem is LibraryLocationItem library)
+					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
+				else if (rightClickedItem is LocationItem locationItem)
+				{
+					ListedItem listedItem = new ListedItem(null!)
+					{
+						ItemPath = locationItem.Path,
+						ItemNameRaw = locationItem.Text,
+						PrimaryItemAttribute = StorageItemTypes.Folder,
+						ItemType = "Folder".GetLocalizedResource(),
+					};
+
+					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, PaneHolder.ActivePane);
+				}
+			};
+			menu.Closed += flyoutClosed;
+		}
+
+		private async Task EjectDevice()
+		{
+			var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+			await UIHelpers.ShowDeviceEjectResultAsync(rightClickedItem is DriveItem driveItem ? driveItem.Type : Data.Items.DriveType.Unknown, result);
+		}
+
+		private void FormatDrive()
+		{
+			Win32API.OpenFormatDriveDialog(rightClickedItem.Path);
+		}
+
+		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
+		{
+			var options = item.MenuOptions;
+
+			var favoriteModel = App.QuickAccessManager.Model;
+			var favoriteIndex = favoriteModel.IndexOfItem(item);
+			var favoriteCount = favoriteModel.FavoriteItems.Count;
+
+			var isFavoriteItem = item.Section is SectionType.Favorites && favoriteIndex is not -1;
+			var showMoveItemUp = isFavoriteItem && favoriteIndex > 0;
+			var showMoveItemDown = isFavoriteItem && favoriteIndex < favoriteCount - 1;
+
+			var isDriveItem = item is DriveItem;
+			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
+
+			return new List<ContextMenuFlyoutItemViewModel>()
+			{
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
+					Glyph = "\uE710",
+					Command = CreateLibraryCommand,
+					ShowItem = options.IsLibrariesHeader
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
+					Glyph = "\uE10E",
+					Command = RestoreLibrariesCommand,
+					ShowItem = options.IsLibrariesHeader
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.RestoreAllRecycleBin)
+				{
+					IsVisible = options.ShowEmptyRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewTab".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewTab",
+					},
+					Command = OpenInNewTabCommand,
+					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewWindow".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconOpenInNewWindow",
+					},
+					Command = OpenInNewWindowCommand,
+					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "OpenInNewPane".GetLocalizedResource(),
+					Command = OpenInNewPaneCommand,
+					ShowItem = options.IsLocationItem && UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "PinToFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconPinToFavorites",
+					},
+					Command = PinItemCommand,
+					ShowItem = isDriveItem && !isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "UnpinFromFavorites".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconUnpinFromFavorites",
+					},
+					Command = UnpinItemCommand,
+					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Glyph = "\uE8D8",
+					Command = ReorderItemsCommand,
+					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
+					Glyph = "\uE77A",
+					Command = HideSectionCommand,
+					ShowItem = options.ShowHideSection
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Command = EjectDeviceCommand,
+					ShowItem = options.ShowEjectDevice
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Properties".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
+					Command = OpenPropertiesCommand,
+					CommandParameter = menu,
+					ShowItem = options.ShowProperties
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					Tag = "OverflowSeparator",
+					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "Loading".GetLocalizedResource(),
+					Glyph = "\xE712",
+					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					ID = "ItemOverflow",
+					Tag = "ItemOverflow",
+					IsEnabled = false,
+					IsHidden = !options.ShowShellItems,
+				}
+			}.Where(x => x.ShowItem).ToList();
 		}
 
 		private GridLength tabControlMargin;

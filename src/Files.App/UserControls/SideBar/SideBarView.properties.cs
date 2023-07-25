@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.SideBar
 {
-	public sealed partial class SideBarHost
+	public sealed partial class SideBarView
 	{
 		public object Items
 		{
@@ -10,7 +10,7 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(ItemsProperty, value); }
 		}
 		public static readonly DependencyProperty ItemsProperty =
-			DependencyProperty.Register("Items", typeof(object), typeof(SideBarHost), new PropertyMetadata(null));
+			DependencyProperty.Register("Items", typeof(object), typeof(SideBarView), new PropertyMetadata(null));
 
 		public SideBarDisplayMode DisplayMode
 		{
@@ -18,7 +18,7 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarHost), new PropertyMetadata(SideBarDisplayMode.Expanded));
+			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarView), new PropertyMetadata(SideBarDisplayMode.Expanded));
 
 		public UIElement InnerContent
 		{
@@ -26,7 +26,7 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(InnerContentProperty, value); }
 		}
 		public static readonly DependencyProperty InnerContentProperty =
-			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
+			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
 
 		public UIElement TabContent
 		{
@@ -34,7 +34,7 @@ namespace Files.App.UserControls.SideBar
 			set => SetValue(TabContentProperty, value);
 		}
 		public static readonly DependencyProperty TabContentProperty =
-			DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarHost), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -42,15 +42,15 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(IsPaneOpenProperty, value); }
 		}
 		public static readonly DependencyProperty IsPaneOpenProperty =
-			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarHost), new PropertyMetadata(false));
+			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarView), new PropertyMetadata(false));
 
-		public SidebarViewModel ViewModel
+		public ISideBarViewModel ViewModel
 		{
-			get => (SidebarViewModel)GetValue(ViewModelProperty);
+			get => (ISideBarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(SidebarViewModel), typeof(SideBarHost), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(ISideBarViewModel), typeof(SideBarView), new PropertyMetadata(null));
 
 		public INavigationControlItem SelectedItem
 		{

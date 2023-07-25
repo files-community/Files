@@ -112,7 +112,7 @@
 
 	<Border>
 		<!--  Root  -->
-		<sidebar:SideBarHost
+		<sidebar:SideBarView
 			x:Name="SidebarControl"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
@@ -124,7 +124,7 @@
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
 			<!--  Head Contents  -->
-			<sidebar:SideBarHost.TabContent>
+			<sidebar:SideBarView.TabContent>
 				<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -181,7 +181,7 @@
 						TabIndex="1" />
 
 				</Grid>
-			</sidebar:SideBarHost.TabContent>
+			</sidebar:SideBarView.TabContent>
 
 			<!--  Main Contents  -->
 			<Grid
@@ -254,7 +254,7 @@
 
 			</Grid>
 
-		</sidebar:SideBarHost>
+		</sidebar:SideBarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>

@@ -17,6 +17,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
+using Vanara.Extensions.Reflection;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
@@ -196,11 +197,6 @@ namespace Files.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			ViewModel.OnNavigatedTo(e);
-
-			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
@@ -265,93 +261,6 @@ namespace Files.App.Views
 			base.OnLostFocus(e);
 
 			keyReleased = true;
-		}
-
-		private async void SidebarControl_SidebarItemDropped(object sender, UserControls.SideBar.SidebarItemDroppedEventArgs e)
-		{
-			await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
-			e.SignalEvent?.Set();
-		}
-
-		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, UserControls.SideBar.SidebarItemPropertiesInvokedEventArgs e)
-		{
-			if (e.InvokedItemDataContext is DriveItem)
-				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			else if (e.InvokedItemDataContext is LocationItem locationItem)
-			{
-				ListedItem listedItem = new ListedItem(null!)
-				{
-					ItemPath = locationItem.Path,
-					ItemNameRaw = locationItem.Text,
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "Folder".GetLocalizedResource(),
-				};
-
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
-		}
-
-		private void SidebarControl_SidebarItemNewPaneInvoked(object sender, UserControls.SideBar.SidebarItemNewPaneInvokedEventArgs e)
-		{
-			if (e.InvokedItemDataContext is INavigationControlItem navItem)
-				SidebarAdaptiveViewModel.PaneHolder.OpenPathInNewPane(navItem.Path);
-		}
-
-		private void SidebarControl_SidebarItemInvoked(object sender, UserControls.SideBar.SidebarItemInvokedEventArgs e)
-		{
-
-			// Path to navigate
-			string? navigationPath;
-
-			// Type of page to navigate
-			Type? sourcePageType = null;
-
-			switch (e.InvokedItem.ItemType)
-			{
-				case NavigationControlItemType.Location:
-					{
-						// Get the path of the invoked item
-						var ItemPath = e.InvokedItem.Path;
-
-						// Home item
-						if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
-						{
-							navigationPath = "Home";
-							sourcePageType = typeof(HomePage);
-						}
-						else
-						{
-							navigationPath = e.InvokedItem.Path;
-						}
-						break;
-					}
-
-				case NavigationControlItemType.FileTag:
-					var tagPath = e.InvokedItem.Path; // Get the path of the invoked item
-					if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
-					{
-						shp.NavigateToPath(tagPath, new NavigationArguments()
-						{
-							IsSearchResultPage = true,
-							SearchPathParam = "Home",
-							SearchQuery = tagPath,
-							AssociatedTabInstance = shp,
-							NavPathParam = tagPath
-						});
-					}
-					return;
-
-				default:
-					{
-						navigationPath = e.InvokedItem.Path;
-						break;
-					}
-			}
-
-			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
-				shellPage.NavigateToPath(navigationPath, sourcePageType);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
