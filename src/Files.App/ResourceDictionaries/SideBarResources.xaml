@@ -74,7 +74,7 @@
 								Text="{Binding Text, Mode=OneWay}" />
 							<FontIcon
 								x:Name="ExpanderIcon"
-								Grid.Column="3"
+								Grid.Column="2"
 								Margin="8,0,14,0"
 								FontSize="8"
 								Glyph="&#xE70E;"
@@ -126,6 +126,7 @@
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
 										<Setter Target="ExpanderIcon.Visibility" Value="Visible" />
+										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="ExpanderIcon.Glyph" Value="&#xE70D;" />
 									</VisualState.Setters>
 								</VisualState>
