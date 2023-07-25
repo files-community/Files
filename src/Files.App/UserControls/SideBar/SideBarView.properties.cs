@@ -4,21 +4,13 @@ namespace Files.App.UserControls.SideBar
 {
 	public sealed partial class SideBarView
 	{
-		public object Items
-		{
-			get { return (object)GetValue(ItemsProperty); }
-			set { SetValue(ItemsProperty, value); }
-		}
-		public static readonly DependencyProperty ItemsProperty =
-			DependencyProperty.Register("Items", typeof(object), typeof(SideBarView), new PropertyMetadata(null));
-
 		public SideBarDisplayMode DisplayMode
 		{
 			get { return (SideBarDisplayMode)GetValue(DisplayModeProperty); }
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarView), new PropertyMetadata(SideBarDisplayMode.Expanded));
+			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarView), new PropertyMetadata(SideBarDisplayMode.Expanded, OnPropertyChanged));
 
 		public UIElement InnerContent
 		{
@@ -42,7 +34,7 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(IsPaneOpenProperty, value); }
 		}
 		public static readonly DependencyProperty IsPaneOpenProperty =
-			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarView), new PropertyMetadata(false));
+			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarView), new PropertyMetadata(false, OnPropertyChanged));
 
 		public ISideBarViewModel ViewModel
 		{
@@ -63,5 +55,19 @@ namespace Files.App.UserControls.SideBar
 		}
 		public static readonly DependencyProperty SelectedItemProperty = 
 			DependencyProperty.Register(nameof(SelectedItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
+
+		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is not SideBarView control) return;
+
+			if (e.Property == DisplayModeProperty)
+			{
+				control.UpdateDisplayMode();
+			}
+			else if (e.Property == IsPaneOpenProperty)
+			{
+				control.UpdateMinimalMode();
+			}
+		}
 	}
 }

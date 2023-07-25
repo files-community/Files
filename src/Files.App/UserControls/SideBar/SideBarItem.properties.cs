@@ -5,13 +5,13 @@ namespace Files.App.UserControls.SideBar
 {
 	public sealed partial class SideBarItem : Control
 	{
-		public SideBarPane Owner
+		public SideBarView Owner
 		{
-			get { return (SideBarPane)GetValue(OwnerProperty); }
+			get { return (SideBarView)GetValue(OwnerProperty); }
 			set { SetValue(OwnerProperty, value); }
 		}
 		public static readonly DependencyProperty OwnerProperty =
-			DependencyProperty.Register("Owner", typeof(SideBarPane), typeof(SideBarItem), new PropertyMetadata(null));
+			DependencyProperty.Register("Owner", typeof(SideBarView), typeof(SideBarItem), new PropertyMetadata(null));
 
 		public bool IsSelected
 		{

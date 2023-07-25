@@ -4,6 +4,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -107,13 +108,13 @@ namespace Files.App.UserControls.SideBar
 			{
 				resolvingTarget = element;
 			}
-			Owner = resolvingTarget.FindAscendant<SideBarPane>()!;
+			Owner = resolvingTarget.FindAscendant<SideBarView>()!;
 
-			Owner.RegisterPropertyChangedCallback(SideBarPane.DisplayModeProperty, (sender, args) =>
+			Owner.RegisterPropertyChangedCallback(SideBarView.DisplayModeProperty, (sender, args) =>
 			{
 				DisplayMode = Owner.DisplayMode;
 			});
-			Owner.RegisterPropertyChangedCallback(SideBarPane.SelectedItemProperty, (sender, args) =>
+			Owner.RegisterPropertyChangedCallback(SideBarView.SelectedItemProperty, (sender, args) =>
 			{
 				ReevaluateSelection();
 			});
@@ -287,7 +288,11 @@ namespace Files.App.UserControls.SideBar
 		{
 			VisualStateManager.GoToState(this, isPointerOver ? "PointerOver" : "Normal", true);
 			e.Handled = true;
-			Clicked();
+			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
+			if (updateKind == PointerUpdateKind.LeftButtonReleased)
+			{
+				Clicked();
+			}
 		}
 
 		private void ItemGrid_DragOver(object sender, DragEventArgs e)
