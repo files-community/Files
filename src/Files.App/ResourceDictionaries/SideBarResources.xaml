@@ -111,7 +111,11 @@
 							local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 							ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
 							ItemsSource="{Binding ChildItems, Mode=OneWay}"
-							Visibility="Collapsed" />
+							Visibility="Collapsed">
+							<ItemsRepeater.Layout>
+								<StackLayout Spacing="4" />
+							</ItemsRepeater.Layout>
+						</ItemsRepeater>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
 								<VisualState x:Name="NoExpansion" />
