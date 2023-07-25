@@ -47,7 +47,11 @@
 			x:Name="DisplayColumnGrid"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch">
-			<ScrollViewer Background="Transparent" HorizontalScrollMode="Disabled">
+			<ScrollViewer
+				x:Name="MenuItemHostScrollViewer"
+				Padding="4"
+				Background="Transparent"
+				HorizontalScrollMode="Disabled">
 				<ItemsRepeater
 					x:Name="MenuItemsHost"
 					ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
@@ -76,8 +80,8 @@
 				<VisualState x:Name="Expanded" />
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
-						<Setter Target="DisplayColumn.Width" Value="48" />
-						<Setter Target="MenuItemsHost.MaxWidth" Value="48" />
+						<Setter Target="DisplayColumn.Width" Value="56" />
+						<Setter Target="MenuItemsHost.MaxWidth" Value="56" />
 						<Setter Target="MenuItemsHostLayout.Spacing" Value="0" />
 					</VisualState.Setters>
 				</VisualState>
