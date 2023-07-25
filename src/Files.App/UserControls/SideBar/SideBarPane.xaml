@@ -54,7 +54,7 @@
 					ItemsSource="{x:Bind Items, Mode=OneWay}"
 					VerticalCacheLength="100">
 					<ItemsRepeater.Layout>
-						<StackLayout />
+						<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
 					</ItemsRepeater.Layout>
 				</ItemsRepeater>
 			</ScrollViewer>
@@ -78,6 +78,7 @@
 					<VisualState.Setters>
 						<Setter Target="DisplayColumn.Width" Value="48" />
 						<Setter Target="MenuItemsHost.MaxWidth" Value="48" />
+						<Setter Target="MenuItemsHostLayout.Spacing" Value="0" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">

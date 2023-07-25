@@ -44,7 +44,7 @@
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="38" />
+								<ColumnDefinition x:Name="IconColumn" Width="38" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
@@ -119,6 +119,7 @@
 									<VisualState.Setters>
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="IconColumn.Width" Value="12" />
 										<Setter Target="ExpanderIcon.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
