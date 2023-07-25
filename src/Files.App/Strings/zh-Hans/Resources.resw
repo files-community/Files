@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} 可用，共 {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>打开方式</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>发送到</value>
   </data>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>编辑文件标签</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>按路径排序</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>在新面板中打开目录</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>在新标签页中打开目录</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>在新窗口中打开目录</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

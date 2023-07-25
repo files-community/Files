@@ -9,7 +9,6 @@ using Files.App.Helpers;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels.Properties;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Generic;
@@ -85,7 +84,11 @@ namespace Files.App.Views.Properties
 
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
-				Win32API.SetVolumeLabel(drive.Path, newName);
+				if (drive.Type == Data.Items.DriveType.Network)
+					Win32API.SetNetworkDriveLabel(drive.DeviceID, newName);
+				else
+					Win32API.SetVolumeLabel(drive.Path, newName);
+
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();

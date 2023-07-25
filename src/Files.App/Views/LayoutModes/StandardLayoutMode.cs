@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
+using Files.App.Data.Commands;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,7 +35,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void InitializeCommandsViewModel()
 		{
-			CommandsViewModel = new BaseLayoutCommandsViewModel(new BaseLayoutCommandImplementationModel(ParentShellPageInstance, ItemManipulationModel));
+			CommandsViewModel = new BaseLayoutViewModel(ParentShellPageInstance, ItemManipulationModel);
 		}
 
 		protected override void HookEvents()

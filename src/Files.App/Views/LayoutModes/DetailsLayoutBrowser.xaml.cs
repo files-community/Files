@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -13,7 +14,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using SortDirection = Files.Shared.Enums.SortDirection;
+using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -815,7 +816,7 @@ namespace Files.App.Views.LayoutModes
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		private void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;

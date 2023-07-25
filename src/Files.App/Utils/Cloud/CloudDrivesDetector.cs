@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-using Files.Shared.Cloud;
 using Files.Shared.Extensions;
 using Microsoft.Win32;
 using System;
@@ -12,7 +10,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Cloud
 {
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector

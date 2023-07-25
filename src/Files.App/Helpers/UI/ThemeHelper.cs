@@ -59,6 +59,16 @@ namespace Files.App.Helpers
 			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 		}
 
+		public static void ApplyResources()
+		{
+			// Toggle between the themes to force reload the resource styles
+			ApplyTheme(ElementTheme.Dark);
+			ApplyTheme(ElementTheme.Light);
+
+			// Restore the theme to the correct theme
+			ApplyTheme();
+		}
+
 		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
@@ -78,8 +88,11 @@ namespace Files.App.Helpers
 
 		private static void ApplyTheme()
 		{
-			var rootTheme = RootTheme;
+			ApplyTheme(RootTheme);
+		}
 
+		private static void ApplyTheme(ElementTheme rootTheme)
+		{
 			if (MainWindow.Instance.Content is FrameworkElement rootElement)
 				rootElement.RequestedTheme = rootTheme;
 

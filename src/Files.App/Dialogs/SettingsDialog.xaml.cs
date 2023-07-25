@@ -3,7 +3,6 @@
 
 using Files.App.Views.Settings;
 using Files.Core.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;

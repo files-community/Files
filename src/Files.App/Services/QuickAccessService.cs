@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StorageItems;
 using Files.App.Utils.Shell;
 using Files.App.UserControls.Widgets;
 
@@ -53,9 +52,10 @@ namespace Files.App.Services
 				if (ShellStorageFolder.IsShellPath((string)fi.Path))
 				{
 					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
-					var path = folder.Path;
+					var path = folder?.Path;
 
-					if (folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\")))) // Fix for the Linux header
+					if (path is not null && 
+						(folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\"))))) // Fix for the Linux header
 					{
 						await SafetyExtensions.IgnoreExceptions(async () =>
 						{

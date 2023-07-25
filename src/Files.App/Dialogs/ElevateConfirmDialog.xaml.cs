@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.ViewModels.Dialogs;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;

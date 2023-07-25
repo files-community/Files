@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} свободни от {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Отвори с</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Изпращане до</value>
   </data>
@@ -1321,7 +1318,7 @@
     <value>Модифициран:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
-    <value>Отвори с</value>
+    <value>Отваряне с</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
     <value>Икона на файл</value>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Неизвестно</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Редактиране на файлови етикети</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2158,10 +2155,10 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Адаптивно оформление</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Адаптивно (Ctrl+Shift+7)</value>
+    <value>Адаптивно оформление (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -3387,9 +3384,24 @@
     <value>Current Branch</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Колона с пътя</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Подредба на елементите по път</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Отваряне на директорията в нов панел</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Отваряне на директорията в нов раздел</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Отваряне на директорията в нов прозорец</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>
