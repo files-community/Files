@@ -49,7 +49,7 @@
 			VerticalAlignment="Stretch">
 			<ScrollViewer
 				x:Name="MenuItemHostScrollViewer"
-				Padding="4"
+				Padding="2"
 				Background="Transparent"
 				HorizontalScrollMode="Disabled">
 				<ItemsRepeater
