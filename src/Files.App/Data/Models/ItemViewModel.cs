@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Cloud;
-using Files.App.Utils.Shell;
-using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
 using LibGit2Sharp;
@@ -465,7 +462,7 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath == e.Path);
+				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath == e.Path);
 				if (matchingItem is not null)
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -663,7 +660,7 @@ namespace Files.App.Data.Models
 						else
 						{
 							ApplyBulkInsertEntries();
-							FilesAndFolders.InsertRange(i, filesAndFolders.Skip(i));
+							FilesAndFolders.InsertRange(i, filesAndFolders.ToList().Skip(i));
 
 							break;
 						}
@@ -728,7 +725,7 @@ namespace Files.App.Data.Models
 				if (filesAndFolders.Count == 0)
 					return;
 
-				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders, folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
+				filesAndFolders = new ConcurrentCollection<ListedItem>(SortingHelper.OrderFileList(filesAndFolders.ToList(), folderSettings.DirectorySortOption, folderSettings.DirectorySortDirection, folderSettings.SortDirectoriesAlongsideFiles));
 			}
 
 			if (NativeWinApiHelper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
@@ -1346,7 +1343,7 @@ namespace Files.App.Data.Models
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
 				IsLoadingItems = false;
 
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders);
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(folderSettings, WorkingDirectory, filesAndFolders.ToList());
 			}
 			finally
 			{
@@ -1603,7 +1600,7 @@ namespace Files.App.Data.Models
 					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
 
 					// errorCode == ERROR_ACCESS_DENIED
-					if (!filesAndFolders.Any() && errorCode == 0x5)
+					if (filesAndFolders.Count == 0 && errorCode == 0x5)
 					{
 						await DialogDisplayHelper.ShowDialogAsync(
 							"AccessDenied".GetLocalizedResource(),
@@ -2157,7 +2154,7 @@ namespace Files.App.Data.Models
 				return;
 			}
 
-			if (!filesAndFolders.Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
+			if (!filesAndFolders.ToList().Any(x => x.ItemPath.Equals(item.ItemPath, StringComparison.OrdinalIgnoreCase))) // Avoid adding duplicate items
 			{
 				filesAndFolders.Add(item);
 
@@ -2262,7 +2259,7 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				var matchingItems = filesAndFolders.Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
+				var matchingItems = filesAndFolders.ToList().Where(x => paths.Any(p => p.Equals(x.ItemPath, StringComparison.OrdinalIgnoreCase)));
 				var results = await Task.WhenAll(matchingItems.Select(x => GetFileOrFolderUpdateInfoAsync(x, hasSyncStatus)));
 
 				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
@@ -2307,7 +2304,7 @@ namespace Files.App.Data.Models
 
 			try
 			{
-				var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 
 				if (matchingItem is not null)
 				{
@@ -2316,7 +2313,7 @@ namespace Files.App.Data.Models
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
 						// Main file is removed, remove connected ADS
-						foreach (var adsItem in filesAndFolders.Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath).ToList())
+						foreach (var adsItem in filesAndFolders.ToList().Where(x => x is AlternateStreamItem ads && ads.MainStreamPath == matchingItem.ItemPath))
 							filesAndFolders.Remove(adsItem);
 					}
 

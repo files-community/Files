@@ -166,7 +166,6 @@ namespace Files.App.Data.Items
 
 			item.Text = type switch
 			{
-				DriveType.Network => $"{root.DisplayName} ({deviceId})",
 				DriveType.CDRom when !string.IsNullOrEmpty(label) => root.DisplayName.Replace(label.Left(32), label),
 				_ => root.DisplayName
 			};

@@ -42,7 +42,7 @@
 				HorizontalAlignment="Stretch"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE2AC;" />
+					<FontIcon Glyph="&#xE621;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ToggleSwitch
@@ -54,7 +54,7 @@
 			<!--  Details layout columns  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DetailsLayoutColumns}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE179;" />
+					<FontIcon Glyph="&#xE71D;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
@@ -164,7 +164,7 @@
 			<!--  Layout mode  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutMode}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE152;" />
+					<FontIcon Glyph="&#xE8A9;" />
 				</local:SettingsBlockControl.Icon>
 
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
@@ -353,7 +353,7 @@
 				HorizontalAlignment="Stretch"
 				IsExpanded="True">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE2B2;" />
+					<FontIcon Glyph="&#xEE40;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"

@@ -134,7 +134,7 @@
 				HorizontalAlignment="Stretch"
 				x:Load="False">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE1A5;" />
+					<FontIcon Glyph="&#xE8E5;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"

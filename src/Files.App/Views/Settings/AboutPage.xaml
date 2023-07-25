@@ -121,7 +121,7 @@
 				Expanded="ThirdPartyLicensesSettingsExpander_Expanded"
 				Header="{helpers:ResourceString Name=ThirdPartyLicenses}">
 				<uc:SettingsExpander.HeaderIcon>
-					<FontIcon Glyph="&#xE15E;" />
+					<FontIcon Glyph="&#xE90F;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
 					<Grid Padding="0">
@@ -142,7 +142,7 @@
 				Header="{helpers:ResourceString Name=OpenGitHubRepo}"
 				IsClickEnabled="True">
 				<uc:SettingsCard.HeaderIcon>
-					<FontIcon Glyph="&#xE12B;" />
+					<FontIcon Glyph="&#xE774;" />
 				</uc:SettingsCard.HeaderIcon>
 				<uc:SettingsCard.ActionIcon>
 					<FontIcon Glyph="&#xE8A7;" />
