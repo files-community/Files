@@ -816,7 +816,7 @@ namespace Files.App.Views.LayoutModes
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		private void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
