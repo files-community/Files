@@ -41,7 +41,7 @@
 
 	<Grid
 		x:Name="RootGrid"
-		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 		BorderThickness="0,0,0,1">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />

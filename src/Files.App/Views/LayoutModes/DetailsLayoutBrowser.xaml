@@ -202,7 +202,6 @@
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
-					Padding="8,0,8,12"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
@@ -242,8 +241,8 @@
 							x:Name="HeaderGrid"
 							Height="40"
 							Margin="0"
-							Padding="16,0,0,0"
-							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+							Padding="24,0,0,0"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
 
@@ -547,7 +546,6 @@
 							<uc:DataGridHeader
 								x:Name="NameHeader"
 								Grid.Column="2"
-								Margin="4,0,-4,0"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Name"
 								Header="{helpers:ResourceString Name=Name}" />
@@ -962,7 +960,9 @@
 										<CheckBox
 											x:Name="SelectionCheckbox"
 											Width="20"
+											Height="20"
 											MinWidth="0"
+											MinHeight="0"
 											HorizontalAlignment="Center"
 											AutomationProperties.AccessibilityView="Raw"
 											Checked="ItemSelected_Checked"
@@ -975,7 +975,7 @@
 									<!--  Item Name  -->
 									<Grid
 										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										Canvas.ZIndex="6">
@@ -1080,11 +1080,11 @@
 										ToolTipService.ToolTip="{x:Bind AsGitItem.GitLastCommitFullSha, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.GitLastCommitShaColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
-									<!--  Tags That Item Is Labeled  -->
+									<!--  Added Tags  -->
 									<Grid
 										x:Name="ItemTagGrid"
 										Width="{Binding ColumnsViewModel.TagColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,12,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
