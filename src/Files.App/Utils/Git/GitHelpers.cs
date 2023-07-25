@@ -117,7 +117,7 @@ namespace Files.App.Utils.Git
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenByDescending(b => b.Tip?.Committer.When)
 				.Take(MAX_NUMBER_OF_BRANCHES)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 				.ToArray();
 		}
 
@@ -566,13 +566,24 @@ namespace Files.App.Utils.Git
 				{
 					var throwIfInvalid = branch.IsCurrentRepositoryHead;
 				}
-				catch (LibGit2SharpException ex)
+				catch (LibGit2SharpException)
 				{
-					_logger.LogWarning(ex, ex.Message);
 					continue;
 				}
 
 				yield return branch;
+			}
+		}
+
+		private static BranchTrackingDetails? TryGetTrackingDetails(Branch branch)
+		{
+			try
+			{
+				return branch.TrackingDetails;
+			} 
+			catch (LibGit2SharpException)
+			{
+				return null;
 			}
 		}
 
