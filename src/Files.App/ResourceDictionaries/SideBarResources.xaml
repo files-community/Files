@@ -5,6 +5,7 @@
 	x:Class="Files.App.UserControls.Sidebar.SidebarResources"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.UserControls.Sidebar">
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
@@ -29,8 +30,8 @@
 							Margin="4,-2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
-							Fill="{ThemeResource SurfaceStrokeColorDefaultBrush}"
 							AutomationProperties.AccessibilityView="Raw"
+							Fill="{ThemeResource SurfaceStrokeColorDefaultBrush}"
 							RadiusX="4"
 							RadiusY="4"
 							Visibility="Collapsed" />
@@ -59,9 +60,9 @@
 								Height="16"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
 								Fill="{ThemeResource AccentFillColorDefaultBrush}"
 								Opacity="0"
-								AutomationProperties.AccessibilityView="Raw"
 								RadiusX="2"
 								RadiusY="2" />
 
@@ -76,10 +77,36 @@
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"
-								AutomationProperties.AccessibilityView="Raw"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
 								Text="{Binding Text, Mode=OneWay}" />
+
+							<AnimatedIcon
+								x:Name="ExpandCollapseChevron"
+								Grid.Column="3"
+								Width="{StaticResource ExpanderChevronGlyphSize}"
+								Height="{StaticResource ExpanderChevronGlyphSize}"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								AnimatedIcon.State="NormalOff"
+								AutomationProperties.AccessibilityView="Raw"
+								Foreground="{ThemeResource ExpanderChevronForeground}"
+								RenderTransformOrigin="0.5, 0.5"
+								Visibility="Collapsed">
+								<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
+								<AnimatedIcon.FallbackIconSource>
+									<FontIconSource
+										FontFamily="{StaticResource SymbolThemeFontFamily}"
+										FontSize="12"
+										Glyph="{StaticResource ExpanderChevronDownGlyph}"
+										IsTextScaleFactorEnabled="False" />
+								</AnimatedIcon.FallbackIconSource>
+								<AnimatedIcon.RenderTransform>
+									<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
+								</AnimatedIcon.RenderTransform>
+							</AnimatedIcon>
+
 							<FontIcon
 								x:Name="ExpanderIcon"
 								Grid.Column="2"
@@ -140,7 +167,7 @@
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="IconColumn.Width" Value="8" />
-										<Setter Target="ExpanderIcon.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
@@ -148,13 +175,36 @@
 								</VisualState>
 								<VisualState x:Name="Collapsed">
 									<VisualState.Setters>
-										<Setter Target="ExpanderIcon.Glyph" Value="&#xE70D;" />
 										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="IconColumn.Width" Value="8" />
-										<Setter Target="ExpanderIcon.Visibility" Value="Visible" />
+										<Setter Target="ExpandCollapseChevron.Visibility" Value="Visible" />
 										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
 										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
 										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="ExpansionIconStates">
+								<VisualState x:Name="NoEXpansionIconState" />
+								<VisualState x:Name="ExpandedIconNormal">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="ExpandedIconPressed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOn" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CollapsedIconNormal">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="NormalOff" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CollapsedIconPressed">
+									<VisualState.Setters>
+										<Setter Target="ExpandCollapseChevron.(AnimatedIcon.State)" Value="PressedOff" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

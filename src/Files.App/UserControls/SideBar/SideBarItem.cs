@@ -274,6 +274,7 @@ namespace Files.App.UserControls.Sidebar
 			else
 			{
 				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", true);
+				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
 			}
 			UpdateSelectionState();
 		}
@@ -298,10 +299,12 @@ namespace Files.App.UserControls.Sidebar
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			VisualStateManager.GoToState(this, IsSelected ? "PressedSelected" : "Pressed", true);
+			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconPressed" : "CollapsedIconPressed", true);
 		}
 
 		private void Item_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			e.Handled = true;
 			if (isPointerOver)
 			{
 				VisualStateManager.GoToState(this, IsSelected ? "PointerOverSelected" : "PointerOver", true); ;
@@ -310,7 +313,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
 			}
-			e.Handled = true;
+			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
 			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
 			if (updateKind == PointerUpdateKind.LeftButtonReleased)
 			{
