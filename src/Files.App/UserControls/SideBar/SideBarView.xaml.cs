@@ -141,5 +141,10 @@ namespace Files.App.UserControls.Sidebar
 		{
 			IsPaneOpen = false;
 		}
+
+		private void SidebarResizer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+		{
+			DisplayMode = DisplayMode == SidebarDisplayMode.Expanded ? SidebarDisplayMode.Compact : SidebarDisplayMode.Expanded;
+		}
 	}
 }

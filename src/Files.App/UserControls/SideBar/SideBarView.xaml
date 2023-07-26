@@ -81,6 +81,7 @@
 			Background="Transparent"
 			Foreground="Transparent"
 			GripperForeground="Transparent"
+			DoubleTapped="SidebarResizer_DoubleTapped"
 			ManipulationDelta="GridSplitter_ManipulationDelta"
 			ManipulationStarted="GridSplitter_ManipulationStarted" />
 
