@@ -44,13 +44,13 @@
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition x:Name="IconColumn" Width="38" />
+								<ColumnDefinition x:Name="IconColumn" Width="40" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<Rectangle
 								x:Name="SelectionIndicator"
-								Width="2"
+								Width="3"
 								Height="16"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
@@ -203,8 +203,8 @@
 								<VisualState x:Name="NonCompact" />
 								<VisualState x:Name="Compact">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.MaxWidth" Value="48" />
-										<Setter Target="ElementGrid.Width" Value="40" />
+										<Setter Target="RootPanel.MaxWidth" Value="56" />
+										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
