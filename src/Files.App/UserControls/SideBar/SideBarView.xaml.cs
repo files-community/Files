@@ -1,10 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using System.Security.Cryptography.Pkcs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
@@ -19,8 +20,16 @@ namespace Files.App.UserControls.Sidebar
 	{
 
 		private double preManipulationSidebarWidth = 0;
+
 		private const double COMPACT_MAX_WIDTH = 200;
+
 		internal SidebarItem? SelectedItemContainer = null;
+
+		/// <summary>
+		/// True if the user is currently resizing the Sidebar
+		/// </summary>
+		private bool draggingSidebarResizer;
+
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<object>? ItemInvoked;
@@ -131,6 +140,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
 		{
+			draggingSidebarResizer = true;
 			preManipulationSidebarWidth = MenuItemsHost.ActualWidth;
 		}
 
@@ -154,6 +164,26 @@ namespace Files.App.UserControls.Sidebar
 		private void SidebarResizer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
 		{
 			DisplayMode = DisplayMode == SidebarDisplayMode.Expanded ? SidebarDisplayMode.Compact : SidebarDisplayMode.Expanded;
+		}
+
+		private void SidebarResizer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		{
+			var sidebarResizer = (GridSplitter)sender;
+			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+		}
+
+		private void SidebarResizer_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		{
+			if (draggingSidebarResizer)
+				return;
+
+			var sidebarResizer = (GridSplitter)sender;
+			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+		}
+
+		private void SidebarResizer_ManipulationCompleted(object sender, Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+		{
+			draggingSidebarResizer = false;
 		}
 	}
 }

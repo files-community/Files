@@ -82,8 +82,12 @@
 			DoubleTapped="SidebarResizer_DoubleTapped"
 			Foreground="Transparent"
 			GripperForeground="Transparent"
+			ManipulationCompleted="SidebarResizer_ManipulationCompleted"
 			ManipulationDelta="GridSplitter_ManipulationDelta"
-			ManipulationStarted="GridSplitter_ManipulationStarted" />
+			ManipulationStarted="GridSplitter_ManipulationStarted"
+			PointerCanceled="SidebarResizer_PointerExited"
+			PointerEntered="SidebarResizer_PointerEntered"
+			PointerExited="SidebarResizer_PointerExited" />
 
 		<Grid
 			x:Name="ContentPresenter"
