@@ -107,6 +107,7 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
+
 		<StackPanel
 			Grid.Column="0"
 			Height="32"
@@ -367,5 +368,6 @@
 				</Flyout>
 			</Button.Flyout>
 		</Button>
+
 	</Grid>
 </UserControl>

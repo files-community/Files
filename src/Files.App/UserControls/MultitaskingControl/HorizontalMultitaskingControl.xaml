@@ -11,6 +11,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -576,6 +577,7 @@
 			TabStripDragOver="TabStrip_TabStripDragOver"
 			TabStripDrop="TabStrip_TabStripDrop"
 			Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
+
 			<TabView.TabItemTemplate>
 				<DataTemplate x:DataType="local:TabItem">
 					<TabViewItem
@@ -591,6 +593,7 @@
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>
+
 			<TabView.TabStripFooter>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -598,6 +601,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
 					</Grid.ColumnDefinitions>
+
 					<ContentPresenter Grid.Column="0" Content="{x:Bind ActionsControl, Mode=OneWay}" />
 
 					<!--  This defines the drag area for the title bar  -->
@@ -608,8 +612,11 @@
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
 						Fill="Transparent" />
+
 				</Grid>
 			</TabView.TabStripFooter>
+
 		</TabView>
 	</Border>
+
 </local:BaseMultitaskingControl>

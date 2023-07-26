@@ -10,7 +10,9 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
+
 		<DataTemplate x:Key="PageTemplate" x:DataType="vms:PageViewModel">
 			<Border
 				Margin="4"
@@ -28,23 +30,28 @@
 				</Viewbox>
 			</Border>
 		</DataTemplate>
+
 	</UserControl.Resources>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+
 		<FlipView
 			x:Name="PageList"
 			Background="Transparent"
 			FlowDirection="LeftToRight"
 			ItemTemplate="{StaticResource PageTemplate}"
 			ItemsSource="{x:Bind ViewModel.Pages, Mode=OneWay}" />
+
 		<PipsPager
 			x:Name="FlipViewPipsPager"
 			Grid.Row="1"
 			HorizontalAlignment="Center"
 			NumberOfPages="{x:Bind ViewModel.PageCount, Mode=OneWay}"
 			SelectedPageIndex="{x:Bind Path=PageList.SelectedIndex, Mode=TwoWay}" />
+
 	</Grid>
 </UserControl>

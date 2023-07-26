@@ -28,9 +28,11 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
+
 		<Grid x:Name="SubtitleArea">
 			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
 		</Grid>
+
 		<Grid
 			x:Name="SelectionListContent"
 			Grid.Row="1"
@@ -73,5 +75,6 @@
 				</ListView.ItemTemplate>
 			</ListView>
 		</Grid>
+
 	</Grid>
 </ContentDialog>

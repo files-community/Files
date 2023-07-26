@@ -19,6 +19,7 @@
 
 	<Grid x:Name="DestinationPathGrid">
 		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarFavoriteItems, Mode=OneWay}">
+
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:LocationItem">
 					<Grid
@@ -39,7 +40,9 @@
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
+
 						<TextBlock Grid.RowSpan="2" Text="{x:Bind Text}" />
+
 						<FontIcon
 							Grid.Row="1"
 							HorizontalAlignment="Right"
@@ -47,9 +50,11 @@
 							Glyph="&#xE76F;"
 							PointerPressed="MoveItem"
 							Visibility="{x:Bind IsPinned}" />
+
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
+
 		</ListView>
 	</Grid>
 </ContentDialog>

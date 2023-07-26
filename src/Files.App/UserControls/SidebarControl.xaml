@@ -25,6 +25,7 @@
 	PaneOpened="NavigationView_PaneOpened"
 	SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 	mc:Ignorable="d">
+
 	<FlyoutBase.AttachedFlyout>
 		<MenuFlyout x:Name="SidebarContextMenu">
 			<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
@@ -39,6 +40,7 @@
 				Text="{helpers:ResourceString Name=FileTags}" />
 		</MenuFlyout>
 	</FlyoutBase.AttachedFlyout>
+
 	<NavigationView.Resources>
 		<ResourceDictionary>
 			<!--  Removes NavigationView background  -->
@@ -1190,4 +1192,5 @@
 			LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
 			LocationNavItemTemplate="{StaticResource LocationNavItem}" />
 	</NavigationView.MenuItemTemplateSelector>
+
 </NavigationView>

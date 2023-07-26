@@ -31,9 +31,10 @@ namespace Files.App.Dialogs
 		private async void MoveItem(object sender, PointerRoutedEventArgs e)
 		{
 			var properties = e.GetCurrentPoint(null).Properties;
-			var icon = sender as FontIcon;
 			if (!properties.IsLeftButtonPressed)
 				return;
+
+			var icon = sender as FontIcon;
 
 			var navItem = icon?.FindAscendant<Grid>();
 			if (navItem is not null)
@@ -50,7 +51,6 @@ namespace Files.App.Dialogs
 			e.AllowedOperations = DataPackageOperation.Move;
 		}
 
-		
 		private void ListViewItem_DragOver(object sender, DragEventArgs e)
 		{
 			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
@@ -90,6 +90,9 @@ namespace Files.App.Dialogs
 				ViewModel.SidebarFavoriteItems.Move(ViewModel.SidebarFavoriteItems.IndexOf(sourceLocationItem), ViewModel.SidebarFavoriteItems.IndexOf(locationItem));
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 	}
 }

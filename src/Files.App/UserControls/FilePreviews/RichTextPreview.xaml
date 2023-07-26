@@ -11,6 +11,7 @@
 	mc:Ignorable="d">
 
 	<Border>
+
 		<RichEditBox
 			x:Name="TextPreviewControl"
 			IsReadOnly="True"
@@ -30,5 +31,6 @@
 				</ResourceDictionary>
 			</RichEditBox.Resources>
 		</RichEditBox>
+
 	</Border>
 </UserControl>
