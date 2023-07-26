@@ -110,29 +110,20 @@
 		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
-	<Border>
-		<!--  Root  -->
-		<sidebar:SideBarView
-			x:Name="SidebarControl"
-			HorizontalAlignment="Stretch"
-			HorizontalContentAlignment="Stretch"
-			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
-			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
-			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
-			Loaded="SidebarControl_Loaded"
-			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
-			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-			<!--  Head Contents  -->
-			<sidebar:SideBarView.TabContent>
-				<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
+		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-					<!--  Tab Control  -->
-					<usercontrols:HorizontalMultitaskingControl
+			<!--  Tab Control  -->
+			<usercontrols:HorizontalMultitaskingControl
 						x:Name="TabControl"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
@@ -143,8 +134,8 @@
 						TabIndex="0"
 						TabStripVisibility="Visible"
 						Visibility="Visible">
-						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
-							<Button
+				<usercontrols:HorizontalMultitaskingControl.ActionsControl>
+					<Button
 								x:Name="HorizontalMultitaskingControlAddButton"
 								Width="32"
 								Height="32"
@@ -156,18 +147,18 @@
 								BorderThickness="0"
 								Command="{x:Bind Commands.NewTab}"
 								ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
-								<Button.Content>
-									<FontIcon
+						<Button.Content>
+							<FontIcon
 										x:Name="HorizontalMultitaskingControlAddButtonIcon"
 										FontSize="12"
 										Glyph="&#xE710;" />
-								</Button.Content>
-							</Button>
-						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-					</usercontrols:HorizontalMultitaskingControl>
+						</Button.Content>
+					</Button>
+				</usercontrols:HorizontalMultitaskingControl.ActionsControl>
+			</usercontrols:HorizontalMultitaskingControl>
 
-					<!--  Address Bar  -->
-					<uc:AddressToolbar
+			<!--  Address Bar  -->
+			<uc:AddressToolbar
 						x:Name="NavToolbar"
 						Grid.Row="1"
 						HorizontalAlignment="Stretch"
@@ -180,10 +171,30 @@
 						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						TabIndex="1" />
 
-				</Grid>
-			</sidebar:SideBarView.TabContent>
+			<Button
+				x:Name="TogglePaneButton"
+				Margin="2,2,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Background="Transparent"
+				BorderThickness="0"
+				Click="TogglePaneButton_Click"
+				Style="{StaticResource PaneToggleButtonStyle}"
+				Visibility="Collapsed" />
+		</Grid>
 
-			<!--  Main Contents  -->
+		<!--  Root  -->
+		<sidebar:SideBarView
+			x:Name="SidebarControl"
+			Grid.Row="1"
+			HorizontalAlignment="Stretch"
+			HorizontalContentAlignment="Stretch"
+			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
+			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
+			Loaded="SidebarControl_Loaded"
+			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
+			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+
 			<Grid
 				x:Name="RootGrid"
 				PreviewKeyDown="RootGrid_PreviewKeyDown"
@@ -283,9 +294,10 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
+						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-	</Border>
+	</Grid>
 </Page>

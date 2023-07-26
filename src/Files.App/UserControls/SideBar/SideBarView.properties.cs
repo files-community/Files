@@ -20,14 +20,6 @@ namespace Files.App.UserControls.SideBar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
 
-		public UIElement TabContent
-		{
-			get => (UIElement)GetValue(TabContentProperty);
-			set => SetValue(TabContentProperty, value);
-		}
-		public static readonly DependencyProperty TabContentProperty =
-			DependencyProperty.Register(nameof(TabContent), typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
-
 		public bool IsPaneOpen
 		{
 			get { return (bool)GetValue(IsPaneOpenProperty); }

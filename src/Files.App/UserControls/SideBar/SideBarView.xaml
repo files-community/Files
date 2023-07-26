@@ -6,7 +6,6 @@
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:sidebar="using:Files.App.UserControls.SideBar"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	HorizontalAlignment="Stretch"
 	Loaded="SideBarView_Loaded"
@@ -15,33 +14,10 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition x:Name="DisplayColumn" Width="Auto" />
+			<ColumnDefinition x:Name="DisplayColumn" Width="300" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-
-		<!--  This is a special spot just for tabs so that the title bar DragArea can function properly  -->
-		<Border
-			x:Name="TabContentBorder"
-			Grid.ColumnSpan="3"
-			VerticalAlignment="Top"
-			Canvas.ZIndex="2" />
-		<Button
-			x:Name="TogglePaneButton"
-			Grid.ColumnSpan="3"
-			Margin="4"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Background="Transparent"
-			BorderThickness="0"
-			Click="TogglePaneButton_Click"
-			Style="{StaticResource PaneToggleButtonStyle}"
-			Visibility="Collapsed" />
 
 		<!--  This is the background for the sidebar pane and sidebar content  -->
 		<Border

@@ -114,10 +114,13 @@ namespace Files.App.UserControls.SideBar
 			{
 				DisplayMode = Owner.DisplayMode;
 			});
+			DisplayMode = Owner.DisplayMode;
+
 			Owner.RegisterPropertyChangedCallback(SideBarView.SelectedItemProperty, (sender, args) =>
 			{
 				ReevaluateSelection();
 			});
+			ReevaluateSelection();
 		}
 
 		private void HookupIconChangeListener(INavigationControlItem? oldItem, INavigationControlItem? newItem)

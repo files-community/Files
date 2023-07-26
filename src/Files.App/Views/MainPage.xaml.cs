@@ -442,5 +442,13 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
+
+		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (SidebarControl.DisplayMode == SideBarDisplayMode.Minimal)
+			{
+				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
+			}
+		}
 	}
 }

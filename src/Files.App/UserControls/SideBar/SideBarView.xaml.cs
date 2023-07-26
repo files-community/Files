@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
@@ -16,22 +14,8 @@ namespace Files.App.UserControls.SideBar
 
 
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SideBarView : UserControl, INotifyPropertyChanged
+	public sealed partial class SideBarView : UserControl
 	{
-		private bool canOpenInNewPane;
-
-		public bool CanOpenInNewPane
-		{
-			get => canOpenInNewPane;
-			set
-			{
-				if (value != canOpenInNewPane)
-				{
-					canOpenInNewPane = value;
-					NotifyPropertyChanged(nameof(CanOpenInNewPane));
-				}
-			}
-		}
 
 		private double preManipulationSideBarWidth = 0;
 		private const double COMPACT_MAX_WIDTH = 200;
@@ -45,15 +29,7 @@ namespace Files.App.UserControls.SideBar
 			InitializeComponent();
 		}
 
-
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		public void RaiseItemInvoked(SideBarItem item)
+		internal void RaiseItemInvoked(SideBarItem item)
 		{
 			// Only leaves can be selected
 			if (item.HasChildren) return;
@@ -62,7 +38,7 @@ namespace Files.App.UserControls.SideBar
 			ViewModel.HandleItemInvoked(item.DataContext);
 		}
 
-		public void RaiseContextRequested(SideBarItem item, Point e)
+		internal void RaiseContextRequested(SideBarItem item, Point e)
 		{
 			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
 			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.DataContext, e));
@@ -91,45 +67,15 @@ namespace Files.App.UserControls.SideBar
 			}
 		}
 
-		private void SideBar_ItemContextInvoked(object sender, ItemContextInvokedArgs args)
-		{
-			ViewModel.HandleItemContextInvoked(sender, args);
-		}
-
 		private void SideBarView_SizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			if (args.NewSize.Width < 650)
-			{
-				DisplayMode = SideBarDisplayMode.Minimal;
-			}
-			else if (args.NewSize.Width < 1300)
-			{
-				DisplayMode = SideBarDisplayMode.Compact;
-			}
-			else
-			{
-				DisplayMode = SideBarDisplayMode.Expanded;
-			}
-		}
-
-		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (DisplayMode == SideBarDisplayMode.Minimal)
-			{
-				IsPaneOpen = !IsPaneOpen;
-			}
-		}
-
-		private async void SideBar_ItemDropped(object sender, ItemDroppedEventArgs e)
-		{
-			ViewModel?.HandleItemDropped(e);
+			UpdateDisplayModeForSideBarWidth(args.NewSize.Width);
 		}
 
 		private void SideBarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			(this.FindDescendant("TabContentBorder") as Border)!.Child = TabContent;
+			UpdateDisplayModeForSideBarWidth(ActualWidth);
 		}
-
 
 		private void UpdateMinimalMode()
 		{
@@ -154,19 +100,35 @@ namespace Files.App.UserControls.SideBar
 		private void GridSplitter_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
 		{
 			var newWidth = preManipulationSideBarWidth + e.Cumulative.Translation.X;
-			UpdateDisplayModeForWidth(newWidth);
+			UpdateDisplayModeForPaneWidth(newWidth);
 		}
 
-		private void UpdateDisplayModeForWidth(double newWidth)
+		private void UpdateDisplayModeForSideBarWidth(double newControlWidth)
 		{
-			if (newWidth < COMPACT_MAX_WIDTH)
+			if (newControlWidth < 650)
+			{
+				DisplayMode = SideBarDisplayMode.Minimal;
+			}
+			else if (newControlWidth < 1300)
 			{
 				DisplayMode = SideBarDisplayMode.Compact;
 			}
-			else if (newWidth > COMPACT_MAX_WIDTH)
+			else
 			{
 				DisplayMode = SideBarDisplayMode.Expanded;
-				DisplayColumn.Width = new GridLength(newWidth);
+			}
+		}
+
+		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
+		{
+			if (newPaneWidth < COMPACT_MAX_WIDTH)
+			{
+				DisplayMode = SideBarDisplayMode.Compact;
+			}
+			else if (newPaneWidth > COMPACT_MAX_WIDTH)
+			{
+				DisplayMode = SideBarDisplayMode.Expanded;
+				DisplayColumn.Width = new GridLength(newPaneWidth);
 			}
 		}
 
