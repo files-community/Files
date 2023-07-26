@@ -49,10 +49,6 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<Grid.BackgroundTransition>
-								<BrushTransition Duration="0:0:0.083" />
-							</Grid.BackgroundTransition>
-
 							<Rectangle
 								x:Name="SelectionIndicator"
 								Width="3"

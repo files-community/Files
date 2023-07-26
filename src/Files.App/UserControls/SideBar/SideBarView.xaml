@@ -14,7 +14,7 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition x:Name="DisplayColumn" Width="300" />
+			<ColumnDefinition x:Name="DisplayColumn" Width="240" MaxWidth="480"/>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
