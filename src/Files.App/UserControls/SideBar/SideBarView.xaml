@@ -76,7 +76,7 @@
 			Grid.Row="1"
 			Grid.Column="1"
 			Width="0"
-			MinWidth="1"
+			MinWidth="4"
 			Margin="0,8,0,0"
 			Background="Transparent"
 			DoubleTapped="SidebarResizer_DoubleTapped"
