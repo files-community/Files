@@ -267,7 +267,7 @@ namespace Files.App.UserControls.SideBar
 
 		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "PointerOver", true);
+			VisualStateManager.GoToState(this, IsSelected ? "PointerOverSelected" : "PointerOver", true); ;
 			isPointerOver = true;
 		}
 
@@ -284,12 +284,19 @@ namespace Files.App.UserControls.SideBar
 
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "Pressed", true);
+			VisualStateManager.GoToState(this, IsSelected ? "PressedSelected" : "Pressed", true);
 		}
 
 		private void Item_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, isPointerOver ? "PointerOver" : "Normal", true);
+			if (isPointerOver)
+			{
+				VisualStateManager.GoToState(this, IsSelected ? "PointerOverSelected" : "PointerOver", true); ;
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
+			}
 			e.Handled = true;
 			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
 			if (updateKind == PointerUpdateKind.LeftButtonReleased)

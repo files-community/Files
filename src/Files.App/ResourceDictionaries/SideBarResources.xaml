@@ -40,14 +40,20 @@
 							Height="30"
 							Margin="4,0"
 							HorizontalAlignment="Stretch"
-							Background="Transparent"
+							Background="{ThemeResource SubtleFillColorTransparentBrush}"
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}">
+
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="40" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
+
+							<Grid.BackgroundTransition>
+								<BrushTransition Duration="0:0:0.083" />
+							</Grid.BackgroundTransition>
+
 							<Rectangle
 								x:Name="SelectionIndicator"
 								Width="3"
@@ -165,10 +171,20 @@
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOverSelected">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PressedSelected">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
