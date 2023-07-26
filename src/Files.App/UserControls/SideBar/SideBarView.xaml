@@ -10,11 +10,15 @@
 	HorizontalAlignment="Stretch"
 	Loaded="SidebarView_Loaded"
 	SizeChanged="SidebarView_SizeChanged"
+	TabFocusNavigation="Local"
 	mc:Ignorable="d">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition x:Name="DisplayColumn" Width="240" MaxWidth="480"/>
+			<ColumnDefinition
+				x:Name="DisplayColumn"
+				Width="240"
+				MaxWidth="480" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
@@ -26,18 +30,6 @@
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
-		<Grid
-			x:Name="ContentPresenter"
-			Grid.Row="1"
-			Grid.Column="2"
-			HorizontalAlignment="Stretch"
-			Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
-			BackgroundSizing="InnerBorderEdge"
-			BorderBrush="{ThemeResource ControlStrokeColorDefault}"
-			BorderThickness="1,1,0,0"
-			CornerRadius="8,0,0,0">
-			<ContentPresenter VerticalAlignment="Stretch" Content="{x:Bind InnerContent, Mode=OneWay}" />
-		</Grid>
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -54,22 +46,30 @@
 			x:Name="DisplayColumnGrid"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch">
-			<ScrollViewer
-				x:Name="MenuItemHostScrollViewer"
-				Padding="2,8,2,2"
-				Background="Transparent"
-				HorizontalScrollMode="Disabled">
-				<ItemsRepeater
-					x:Name="MenuItemsHost"
-					ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-					ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
-					VerticalCacheLength="100">
-					<ItemsRepeater.Layout>
-						<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
-					</ItemsRepeater.Layout>
-				</ItemsRepeater>
-			</ScrollViewer>
+			VerticalAlignment="Stretch"
+			XYFocusKeyboardNavigation="Enabled">
+			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+				<ScrollViewer
+					x:Name="MenuItemHostScrollViewer"
+					Padding="2,8,2,2"
+					Background="Transparent"
+					HorizontalScrollMode="Disabled"
+					XYFocusKeyboardNavigation="Enabled">
+					<ItemsRepeater
+						x:Name="MenuItemsHost"
+						AutomationProperties.AccessibilityView="Content"
+						AutomationProperties.Name="Sidebar pane"
+						IsTabStop="True"
+						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
+						VerticalCacheLength="100"
+						XYFocusKeyboardNavigation="Enabled">
+						<ItemsRepeater.Layout>
+							<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
+						</ItemsRepeater.Layout>
+					</ItemsRepeater>
+				</ScrollViewer>
+			</ItemsRepeaterScrollHost>
 		</Grid>
 		<controls:GridSplitter
 			x:Name="SidebarResizer"
@@ -79,12 +79,27 @@
 			MinWidth="1"
 			Margin="0,8,0,0"
 			Background="Transparent"
+			DoubleTapped="SidebarResizer_DoubleTapped"
 			Foreground="Transparent"
 			GripperForeground="Transparent"
-			DoubleTapped="SidebarResizer_DoubleTapped"
 			ManipulationDelta="GridSplitter_ManipulationDelta"
 			ManipulationStarted="GridSplitter_ManipulationStarted" />
 
+		<Grid
+			x:Name="ContentPresenter"
+			Grid.Row="1"
+			Grid.Column="2"
+			HorizontalAlignment="Stretch"
+			Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+			BackgroundSizing="InnerBorderEdge"
+			BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+			BorderThickness="1,1,0,0"
+			CornerRadius="8,0,0,0">
+			<Border
+				VerticalAlignment="Stretch"
+				Child="{x:Bind InnerContent, Mode=OneWay}"
+				TabFocusNavigation="Local" />
+		</Grid>
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="TogglePaneButtonStates">
 				<VisualState x:Name="TogglePaneButtonHidden" />

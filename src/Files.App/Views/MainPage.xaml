@@ -112,8 +112,8 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
@@ -124,34 +124,34 @@
 
 			<!--  Tab Control  -->
 			<usercontrols:HorizontalMultitaskingControl
-						x:Name="TabControl"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
-						x:FieldModifier="public"
-						x:Load="False"
-						Loaded="HorizontalMultitaskingControl_Loaded"
-						TabIndex="0"
-						TabStripVisibility="Visible"
-						Visibility="Visible">
+				x:Name="TabControl"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:FieldModifier="public"
+				x:Load="False"
+				Loaded="HorizontalMultitaskingControl_Loaded"
+				TabIndex="0"
+				TabStripVisibility="Visible"
+				Visibility="Visible">
 				<usercontrols:HorizontalMultitaskingControl.ActionsControl>
 					<Button
-								x:Name="HorizontalMultitaskingControlAddButton"
-								Width="32"
-								Height="32"
-								Padding="8"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Bottom"
-								AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
-								Background="Transparent"
-								BorderThickness="0"
-								Command="{x:Bind Commands.NewTab}"
-								ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
+						x:Name="HorizontalMultitaskingControlAddButton"
+						Width="32"
+						Height="32"
+						Padding="8"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
+						Background="Transparent"
+						BorderThickness="0"
+						Command="{x:Bind Commands.NewTab}"
+						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
 						<Button.Content>
 							<FontIcon
-										x:Name="HorizontalMultitaskingControlAddButtonIcon"
-										FontSize="12"
-										Glyph="&#xE710;" />
+								x:Name="HorizontalMultitaskingControlAddButtonIcon"
+								FontSize="12"
+								Glyph="&#xE710;" />
 						</Button.Content>
 					</Button>
 				</usercontrols:HorizontalMultitaskingControl.ActionsControl>
@@ -159,17 +159,17 @@
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar
-						x:Name="NavToolbar"
-						Grid.Row="1"
-						HorizontalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
-						x:Load="False"
-						Loaded="NavToolbar_Loaded"
-						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						ShowOngoingTasks="True"
-						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-						TabIndex="1" />
+				x:Name="NavToolbar"
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:Load="False"
+				Loaded="NavToolbar_Loaded"
+				OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
+				ShowOngoingTasks="True"
+				ShowSearchBox="True"
+				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+				TabIndex="1" />
 
 			<Button
 				x:Name="TogglePaneButton"

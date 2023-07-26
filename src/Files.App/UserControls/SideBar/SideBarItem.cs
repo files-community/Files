@@ -1,25 +1,20 @@
-
-
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Drawing.Text;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 
 namespace Files.App.UserControls.Sidebar
 {
 	public sealed partial class SidebarItem : Control
 	{
-
 		private bool isPointerOver = false;
-
 		private object? selectedChildItem = null;
 
 		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
@@ -33,10 +28,10 @@ namespace Files.App.UserControls.Sidebar
 			PointerReleased += Item_PointerReleased;
 			KeyDown += (sender, args) =>
 			{
-				args.Handled = true;
 				if (args.Key == Windows.System.VirtualKey.Enter)
 				{
 					Clicked();
+					args.Handled = true;
 				}
 			};
 			CanDrag = true;
@@ -45,24 +40,14 @@ namespace Files.App.UserControls.Sidebar
 			Loaded += SidebarItem_Loaded;
 		}
 
-		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+		protected override AutomationPeer OnCreateAutomationPeer()
 		{
-			args.Data.SetData(StandardDataFormats.Text, this.DataContext.ToString());
+			return new SidebarItemAutomationPeer(this);
 		}
 
-		private void SetFlyoutOpen(bool isOpen = true)
+		internal void Select()
 		{
-			if (Item?.ChildItems is null) return;
-
-			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
-			if (isOpen)
-			{
-				FlyoutBase.ShowAttachedFlyout(flyoutOwner);
-			}
-			else
-			{
-				FlyoutBase.GetAttachedFlyout(flyoutOwner).Hide();
-			}
+			Owner.SelectedItem = (INavigationControlItem)Owner.DataContext;
 		}
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
@@ -79,8 +64,11 @@ namespace Files.App.UserControls.Sidebar
 				grid.ContextRequested += ItemGrid_ContextRequested;
 				grid.DragLeave += ItemGrid_DragLeave;
 				grid.DragOver += ItemGrid_DragOver;
+				grid.GotFocus += ItemGrid_GotFocus;
+				grid.LostFocus += ItemGrid_LostFocus;
 				grid.Drop += ItemGrid_Drop;
 				grid.AllowDrop = true;
+				grid.IsTabStop = true;
 			}
 
 			if (GetTemplateChild("ChildrenPresenter") is ItemsRepeater repeater)
@@ -93,12 +81,6 @@ namespace Files.App.UserControls.Sidebar
 			}
 
 			UpdateExpansionState();
-		}
-
-		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
-		{
-			Owner.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
-			args.Handled = true;
 		}
 
 		private void HookupOwners()
@@ -140,6 +122,26 @@ namespace Files.App.UserControls.Sidebar
 			UpdateIcon();
 		}
 
+		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+		{
+			args.Data.SetData(StandardDataFormats.Text, this.DataContext.ToString());
+		}
+
+		private void SetFlyoutOpen(bool isOpen = true)
+		{
+			if (Item?.ChildItems is null) return;
+
+			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
+			if (isOpen)
+			{
+				FlyoutBase.ShowAttachedFlyout(flyoutOwner);
+			}
+			else
+			{
+				FlyoutBase.GetAttachedFlyout(flyoutOwner).Hide();
+			}
+		}
+
 		private void ChildItems_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			ReevaluateSelection();
@@ -159,12 +161,17 @@ namespace Files.App.UserControls.Sidebar
 			if (!HasChildren)
 			{
 				IsSelected = DataContext == Owner.SelectedItem;
+				if (IsSelected)
+				{
+					Owner.UpdateSelectedItemContainer(this);
+				}
 			}
 			else if (Item?.ChildItems is IList list)
 			{
 				if (list.Contains(Owner.SelectedItem))
 				{
 					selectedChildItem = Owner.SelectedItem;
+					SetFlyoutOpen(false);
 				}
 				else
 				{
@@ -190,7 +197,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void Clicked()
+		internal void Clicked()
 		{
 			if (HasChildren)
 			{
@@ -203,6 +210,11 @@ namespace Files.App.UserControls.Sidebar
 					SetFlyoutOpen(true);
 				}
 			}
+			RaiseItemInvoked();
+		}
+		
+		internal void RaiseItemInvoked()
+		{
 			Owner?.RaiseItemInvoked(this);
 		}
 
@@ -238,6 +250,7 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateIcon()
 		{
 			Icon = Item.GenerateIconSource()?.CreateIconElement();
+			AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
 		private bool ShouldShowSelectionIndicator()
@@ -331,14 +344,20 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private bool DragTargetAboveCenter(DragEventArgs args)
+		private void ItemGrid_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (GetTemplateChild("ElementGrid") is Grid grid)
-			{
-				var position = args.GetPosition(grid);
-				return position.Y < grid.ActualHeight / 2;
-			}
-			return false;
+			VisualStateManager.GoToState(this, "Unfocused", false);
+		}
+
+		private void ItemGrid_GotFocus(object sender, RoutedEventArgs e)
+		{
+			VisualStateManager.GoToState(this, "Focused", false);
+		}
+
+		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		{
+			Owner.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
+			args.Handled = true;
 		}
 
 		private void ItemGrid_DragLeave(object sender, DragEventArgs e)
@@ -350,6 +369,16 @@ namespace Files.App.UserControls.Sidebar
 		{
 			VisualStateManager.GoToState(this, "NoDrag", true);
 			Owner.RaiseItemDropped(this, e, DragTargetAboveCenter(e), e);
+		}
+
+		private bool DragTargetAboveCenter(DragEventArgs args)
+		{
+			if (GetTemplateChild("ElementGrid") is Grid grid)
+			{
+				var position = args.GetPosition(grid);
+				return position.Y < grid.ActualHeight / 2;
+			}
+			return false;
 		}
 	}
 }

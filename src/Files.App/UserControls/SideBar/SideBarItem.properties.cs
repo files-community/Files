@@ -27,7 +27,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsExpandedProperty, value); }
 		}
 		public static readonly DependencyProperty IsExpandedProperty =
-			DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SidebarItem), new PropertyMetadata(false, OnPropertyChanged));
+			DependencyProperty.Register("IsExpanded", typeof(bool), typeof(SidebarItem), new PropertyMetadata(true, OnPropertyChanged));
 
 		public bool IsInFlyout
 		{

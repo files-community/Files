@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
+using System.Security.Cryptography.Pkcs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
@@ -19,6 +20,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private double preManipulationSidebarWidth = 0;
 		private const double COMPACT_MAX_WIDTH = 200;
+		internal SidebarItem? SelectedItemContainer = null;
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<object>? ItemInvoked;
@@ -29,25 +31,18 @@ namespace Files.App.UserControls.Sidebar
 			InitializeComponent();
 		}
 
-		internal void RaiseItemInvoked(SidebarItem item)
+		private void UpdateMinimalMode()
 		{
-			// Only leaves can be selected
-			if (item.HasChildren) return;
-			SelectedItem = (item.DataContext as INavigationControlItem)!;
-			ItemInvoked?.Invoke(item, item.DataContext);
-			ViewModel.HandleItemInvoked(item.DataContext);
-		}
+			if (DisplayMode != SidebarDisplayMode.Minimal) return;
 
-		internal void RaiseContextRequested(SidebarItem item, Point e)
-		{
-			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
-			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.DataContext, e));
-		}
-
-		internal void RaiseItemDropped(SidebarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
-		{
-			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
-			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
+			if (IsPaneOpen)
+			{
+				VisualStateManager.GoToState(this, "MinimalExpanded", false);
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, "MinimalCollapsed", false);
+			}
 		}
 
 		private void UpdateDisplayMode()
@@ -65,42 +60,6 @@ namespace Files.App.UserControls.Sidebar
 					UpdateMinimalMode();
 					return;
 			}
-		}
-
-		private void SidebarView_SizeChanged(object sender, SizeChangedEventArgs args)
-		{
-			UpdateDisplayModeForSidebarWidth(args.NewSize.Width);
-		}
-
-		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
-		{
-			UpdateDisplayModeForSidebarWidth(ActualWidth);
-		}
-
-		private void UpdateMinimalMode()
-		{
-			if (DisplayMode != SidebarDisplayMode.Minimal) return;
-
-			if (IsPaneOpen)
-			{
-				VisualStateManager.GoToState(this, "MinimalExpanded", false);
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, "MinimalCollapsed", false);
-			}
-		}
-
-
-		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
-		{
-			preManipulationSidebarWidth = MenuItemsHost.ActualWidth;
-		}
-
-		private void GridSplitter_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
-		{
-			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
-			UpdateDisplayModeForPaneWidth(newWidth);
 		}
 
 		private void UpdateDisplayModeForSidebarWidth(double newControlWidth)
@@ -131,6 +90,56 @@ namespace Files.App.UserControls.Sidebar
 				DisplayColumn.Width = new GridLength(newPaneWidth);
 			}
 		}
+
+		internal void UpdateSelectedItemContainer(SidebarItem container)
+		{
+			SelectedItemContainer = container;
+		}
+
+		internal void RaiseItemInvoked(SidebarItem item)
+		{
+			// Only leaves can be selected
+			if (item.HasChildren) return;
+			SelectedItem = (item.DataContext as INavigationControlItem)!;
+			ItemInvoked?.Invoke(item, item.DataContext);
+			ViewModel.HandleItemInvoked(item.DataContext);
+		}
+
+		internal void RaiseContextRequested(SidebarItem item, Point e)
+		{
+			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
+			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.DataContext, e));
+		}
+
+		internal void RaiseItemDropped(SidebarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
+		{
+			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
+			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
+		}
+
+
+		private void SidebarView_SizeChanged(object sender, SizeChangedEventArgs args)
+		{
+			UpdateDisplayModeForSidebarWidth(args.NewSize.Width);
+		}
+
+		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
+		{
+			UpdateDisplayModeForSidebarWidth(ActualWidth);
+		}
+
+
+		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+		{
+			preManipulationSidebarWidth = MenuItemsHost.ActualWidth;
+		}
+
+		private void GridSplitter_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+		{
+			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
+			UpdateDisplayModeForPaneWidth(newWidth);
+		}
+
 
 		private void PaneLightDismissLayer_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{

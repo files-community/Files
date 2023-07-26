@@ -8,10 +8,11 @@
 	xmlns:local="using:Files.App.UserControls.Sidebar">
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
-		<local:SidebarItem Item="{Binding}" />
+		<local:SidebarItem AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}" Item="{Binding}" />
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">
+		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SidebarItem">
@@ -29,6 +30,7 @@
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							Fill="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+							AutomationProperties.AccessibilityView="Raw"
 							RadiusX="4"
 							RadiusY="4"
 							Visibility="Collapsed" />
@@ -41,7 +43,9 @@
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
 							BorderThickness="1"
-							CornerRadius="{ThemeResource ControlCornerRadius}">
+							CornerRadius="{ThemeResource ControlCornerRadius}"
+							IsTabStop="True"
+							TabFocusNavigation="Once">
 
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="40" />
@@ -57,6 +61,7 @@
 								VerticalAlignment="Center"
 								Fill="{ThemeResource AccentFillColorDefaultBrush}"
 								Opacity="0"
+								AutomationProperties.AccessibilityView="Raw"
 								RadiusX="2"
 								RadiusY="2" />
 
@@ -66,10 +71,12 @@
 								Height="16"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
 								Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"
+								AutomationProperties.AccessibilityView="Raw"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								Text="{Binding Text, Mode=OneWay}" />
@@ -77,6 +84,7 @@
 								x:Name="ExpanderIcon"
 								Grid.Column="2"
 								Margin="8,0,14,0"
+								AutomationProperties.AccessibilityView="Raw"
 								FontSize="8"
 								Glyph="&#xE70E;"
 								Visibility="Collapsed" />
@@ -94,10 +102,15 @@
 										x:Name="FlyoutChildrenPresenter"
 										HorizontalAlignment="Stretch"
 										local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
-										ItemsSource="{Binding ChildItems, Mode=OneWay}">
+										AutomationProperties.AccessibilityView="Content"
+										ItemsSource="{Binding ChildItems, Mode=OneWay}"
+										XYFocusKeyboardNavigation="Enabled">
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate>
-												<local:SidebarItem IsInFlyout="True" Item="{Binding}" />
+												<local:SidebarItem
+													AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+													IsInFlyout="True"
+													Item="{Binding}" />
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
 									</ItemsRepeater>
@@ -110,9 +123,11 @@
 							Grid.Row="2"
 							HorizontalAlignment="Stretch"
 							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
+							AutomationProperties.AccessibilityView="Content"
 							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 							ItemsSource="{Binding ChildItems, Mode=OneWay}"
-							Visibility="Collapsed">
+							Visibility="Collapsed"
+							XYFocusKeyboardNavigation="Enabled">
 							<ItemsRepeater.Layout>
 								<StackLayout Spacing="4" />
 							</ItemsRepeater.Layout>
@@ -151,6 +166,15 @@
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Unfocused" />
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="ElementGrid.BorderBrush" Value="Red" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
