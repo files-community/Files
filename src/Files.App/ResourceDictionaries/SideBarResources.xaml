@@ -2,20 +2,19 @@
 <!--  Licensed under the MIT License.  -->
 
 <ResourceDictionary
-	x:Class="Files.App.UserControls.SideBar.SideBarResources"
+	x:Class="Files.App.UserControls.Sidebar.SidebarResources"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:items="using:Files.App.Data.Items"
-	xmlns:local="using:Files.App.UserControls.SideBar">
+	xmlns:local="using:Files.App.UserControls.Sidebar">
 
-	<DataTemplate x:Key="DefaultSideBarItemTemplate">
-		<local:SideBarItem Item="{Binding}" />
+	<DataTemplate x:Key="DefaultSidebarItemTemplate">
+		<local:SidebarItem Item="{Binding}" />
 	</DataTemplate>
 
-	<Style TargetType="local:SideBarItem">
+	<Style TargetType="local:SidebarItem">
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="local:SideBarItem">
+				<ControlTemplate TargetType="local:SidebarItem">
 					<Grid x:Name="RootPanel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
@@ -98,11 +97,11 @@
 									<ItemsRepeater
 										x:Name="FlyoutChildrenPresenter"
 										HorizontalAlignment="Stretch"
-										local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}"
+										local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 										ItemsSource="{Binding ChildItems, Mode=OneWay}">
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate>
-												<local:SideBarItem IsInFlyout="True" Item="{Binding}" />
+												<local:SidebarItem IsInFlyout="True" Item="{Binding}" />
 											</DataTemplate>
 										</ItemsRepeater.ItemTemplate>
 									</ItemsRepeater>
@@ -114,8 +113,8 @@
 							x:Name="ChildrenPresenter"
 							Grid.Row="2"
 							HorizontalAlignment="Stretch"
-							local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}"
-							ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
+							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
+							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 							ItemsSource="{Binding ChildItems, Mode=OneWay}"
 							Visibility="Collapsed">
 							<ItemsRepeater.Layout>

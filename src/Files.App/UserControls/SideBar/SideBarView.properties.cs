@@ -1,16 +1,16 @@
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UserControls.SideBar
+namespace Files.App.UserControls.Sidebar
 {
-	public sealed partial class SideBarView
+	public sealed partial class SidebarView
 	{
-		public SideBarDisplayMode DisplayMode
+		public SidebarDisplayMode DisplayMode
 		{
-			get { return (SideBarDisplayMode)GetValue(DisplayModeProperty); }
+			get { return (SidebarDisplayMode)GetValue(DisplayModeProperty); }
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register("DisplayMode", typeof(SideBarDisplayMode), typeof(SideBarView), new PropertyMetadata(SideBarDisplayMode.Expanded, OnPropertyChanged));
+			DependencyProperty.Register("DisplayMode", typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
 		public UIElement InnerContent
 		{
@@ -18,7 +18,7 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(InnerContentProperty, value); }
 		}
 		public static readonly DependencyProperty InnerContentProperty =
-			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
+			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -26,15 +26,15 @@ namespace Files.App.UserControls.SideBar
 			set { SetValue(IsPaneOpenProperty, value); }
 		}
 		public static readonly DependencyProperty IsPaneOpenProperty =
-			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SideBarView), new PropertyMetadata(false, OnPropertyChanged));
+			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
 
-		public ISideBarViewModel ViewModel
+		public ISidebarViewModel ViewModel
 		{
-			get => (ISideBarViewModel)GetValue(ViewModelProperty);
+			get => (ISidebarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ISideBarViewModel), typeof(SideBarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarView), new PropertyMetadata(null));
 
 		public INavigationControlItem SelectedItem
 		{
@@ -50,7 +50,7 @@ namespace Files.App.UserControls.SideBar
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SideBarView control) return;
+			if (sender is not SidebarView control) return;
 
 			if (e.Property == DisplayModeProperty)
 			{

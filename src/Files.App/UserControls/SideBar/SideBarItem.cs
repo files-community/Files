@@ -13,9 +13,9 @@ using System.Drawing.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
-namespace Files.App.UserControls.SideBar
+namespace Files.App.UserControls.Sidebar
 {
-	public sealed partial class SideBarItem : Control
+	public sealed partial class SidebarItem : Control
 	{
 
 		private bool isPointerOver = false;
@@ -23,12 +23,12 @@ namespace Files.App.UserControls.SideBar
 		private object? selectedChildItem = null;
 
 		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
-		public bool CollapseEnabled => DisplayMode != SideBarDisplayMode.Compact;
+		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
 
-		public SideBarItem()
+		public SidebarItem()
 		{
-			DefaultStyleKey = typeof(SideBarItem);
+			DefaultStyleKey = typeof(SidebarItem);
 
 			PointerReleased += Item_PointerReleased;
 			KeyDown += (sender, args) =>
@@ -40,12 +40,12 @@ namespace Files.App.UserControls.SideBar
 				}
 			};
 			CanDrag = true;
-			DragStarting += SideBarItem_DragStarting;
+			DragStarting += SidebarItem_DragStarting;
 
-			Loaded += SideBarItem_Loaded;
+			Loaded += SidebarItem_Loaded;
 		}
 
-		private void SideBarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
 			args.Data.SetData(StandardDataFormats.Text, this.DataContext.ToString());
 		}
@@ -65,7 +65,7 @@ namespace Files.App.UserControls.SideBar
 			}
 		}
 
-		private void SideBarItem_Loaded(object sender, RoutedEventArgs e)
+		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			HookupOwners();
 			HookupIconChangeListener(null, Item);
@@ -108,15 +108,15 @@ namespace Files.App.UserControls.SideBar
 			{
 				resolvingTarget = element;
 			}
-			Owner = resolvingTarget.FindAscendant<SideBarView>()!;
+			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
 
-			Owner.RegisterPropertyChangedCallback(SideBarView.DisplayModeProperty, (sender, args) =>
+			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
 			{
 				DisplayMode = Owner.DisplayMode;
 			});
 			DisplayMode = Owner.DisplayMode;
 
-			Owner.RegisterPropertyChangedCallback(SideBarView.SelectedItemProperty, (sender, args) =>
+			Owner.RegisterPropertyChangedCallback(SidebarView.SelectedItemProperty, (sender, args) =>
 			{
 				ReevaluateSelection();
 			});
@@ -181,11 +181,11 @@ namespace Files.App.UserControls.SideBar
 				var newElement = enumerable[args.Index];
 				if (newElement == selectedChildItem)
 				{
-					(args.Element as SideBarItem)!.IsSelected = true;
+					(args.Element as SidebarItem)!.IsSelected = true;
 				}
 				else
 				{
-					(args.Element as SideBarItem)!.IsSelected = false;
+					(args.Element as SidebarItem)!.IsSelected = false;
 				}
 			}
 		}
@@ -206,27 +206,27 @@ namespace Files.App.UserControls.SideBar
 			Owner?.RaiseItemInvoked(this);
 		}
 
-		private void SideBarDisplayModeChanged(SideBarDisplayMode displayMode)
+		private void SidebarDisplayModeChanged(SidebarDisplayMode displayMode)
 		{
 			switch (displayMode)
 			{
-				case SideBarDisplayMode.Expanded:
+				case SidebarDisplayMode.Expanded:
 					UpdateExpansionState();
 					UpdateSelectionState();
 					SetFlyoutOpen(false);
 					break;
-				case SideBarDisplayMode.Minimal:
+				case SidebarDisplayMode.Minimal:
 					UpdateExpansionState();
 					SetFlyoutOpen(false);
 					break;
-				case SideBarDisplayMode.Compact:
+				case SidebarDisplayMode.Compact:
 					UpdateExpansionState();
 					UpdateSelectionState();
 					break;
 			}
 			if (!IsInFlyout)
 			{
-				VisualStateManager.GoToState(this, DisplayMode == SideBarDisplayMode.Compact ? "Compact" : "NonCompact", true);
+				VisualStateManager.GoToState(this, DisplayMode == SidebarDisplayMode.Compact ? "Compact" : "NonCompact", true);
 			}
 		}
 

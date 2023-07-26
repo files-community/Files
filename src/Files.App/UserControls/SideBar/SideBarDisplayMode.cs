@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.App.UserControls.SideBar
+namespace Files.App.UserControls.Sidebar
 {
-	public enum SideBarDisplayMode
+	public enum SidebarDisplayMode
 	{
 		Minimal,
 		Compact,

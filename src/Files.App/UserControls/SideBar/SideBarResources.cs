@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.App.UserControls.SideBar
+namespace Files.App.UserControls.Sidebar
 {
-    partial class SideBarResources : ResourceDictionary
+    partial class SidebarResources : ResourceDictionary
     {
     }
 }

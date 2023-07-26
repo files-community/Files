@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
-	x:Class="Files.App.UserControls.SideBar.SideBarView"
+	x:Class="Files.App.UserControls.Sidebar.SidebarView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
@@ -8,8 +8,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	HorizontalAlignment="Stretch"
-	Loaded="SideBarView_Loaded"
-	SizeChanged="SideBarView_SizeChanged"
+	Loaded="SidebarView_Loaded"
+	SizeChanged="SidebarView_SizeChanged"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -62,8 +62,8 @@
 				HorizontalScrollMode="Disabled">
 				<ItemsRepeater
 					x:Name="MenuItemsHost"
-					ItemTemplate="{StaticResource DefaultSideBarItemTemplate}"
-					ItemsSource="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
+					ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+					ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 					VerticalCacheLength="100">
 					<ItemsRepeater.Layout>
 						<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
@@ -72,7 +72,7 @@
 			</ScrollViewer>
 		</Grid>
 		<controls:GridSplitter
-			x:Name="SideBarResizer"
+			x:Name="SidebarResizer"
 			Grid.Row="1"
 			Grid.Column="1"
 			Width="0"
@@ -116,7 +116,7 @@
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
-						<Setter Target="SideBarResizer.Visibility" Value="Collapsed" />
+						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalExpanded">
@@ -129,7 +129,7 @@
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
-						<Setter Target="SideBarResizer.Visibility" Value="Collapsed" />
+						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>

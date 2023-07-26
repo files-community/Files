@@ -7,29 +7,29 @@ using Microsoft.UI.Xaml.Markup;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
-namespace Files.App.UserControls.SideBar
+namespace Files.App.UserControls.Sidebar
 {
 	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove, DragEventArgs RawEvent) { }
 	public record ItemContextInvokedArgs(object Item, Point Position) { }
 
 
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SideBarView : UserControl
+	public sealed partial class SidebarView : UserControl
 	{
 
-		private double preManipulationSideBarWidth = 0;
+		private double preManipulationSidebarWidth = 0;
 		private const double COMPACT_MAX_WIDTH = 200;
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<object>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 
-		public SideBarView()
+		public SidebarView()
 		{
 			InitializeComponent();
 		}
 
-		internal void RaiseItemInvoked(SideBarItem item)
+		internal void RaiseItemInvoked(SidebarItem item)
 		{
 			// Only leaves can be selected
 			if (item.HasChildren) return;
@@ -38,13 +38,13 @@ namespace Files.App.UserControls.SideBar
 			ViewModel.HandleItemInvoked(item.DataContext);
 		}
 
-		internal void RaiseContextRequested(SideBarItem item, Point e)
+		internal void RaiseContextRequested(SidebarItem item, Point e)
 		{
 			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
 			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.DataContext, e));
 		}
 
-		internal void RaiseItemDropped(SideBarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
+		internal void RaiseItemDropped(SidebarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
 		{
 			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
 			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
@@ -54,32 +54,32 @@ namespace Files.App.UserControls.SideBar
 		{
 			switch (DisplayMode)
 			{
-				case SideBarDisplayMode.Compact:
+				case SidebarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", false);
 					return;
-				case SideBarDisplayMode.Expanded:
+				case SidebarDisplayMode.Expanded:
 					VisualStateManager.GoToState(this, "Expanded", false);
 					return;
-				case SideBarDisplayMode.Minimal:
+				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
 					UpdateMinimalMode();
 					return;
 			}
 		}
 
-		private void SideBarView_SizeChanged(object sender, SizeChangedEventArgs args)
+		private void SidebarView_SizeChanged(object sender, SizeChangedEventArgs args)
 		{
-			UpdateDisplayModeForSideBarWidth(args.NewSize.Width);
+			UpdateDisplayModeForSidebarWidth(args.NewSize.Width);
 		}
 
-		private void SideBarView_Loaded(object sender, RoutedEventArgs e)
+		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			UpdateDisplayModeForSideBarWidth(ActualWidth);
+			UpdateDisplayModeForSidebarWidth(ActualWidth);
 		}
 
 		private void UpdateMinimalMode()
 		{
-			if (DisplayMode != SideBarDisplayMode.Minimal) return;
+			if (DisplayMode != SidebarDisplayMode.Minimal) return;
 
 			if (IsPaneOpen)
 			{
@@ -94,28 +94,28 @@ namespace Files.App.UserControls.SideBar
 
 		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
 		{
-			preManipulationSideBarWidth = MenuItemsHost.ActualWidth;
+			preManipulationSidebarWidth = MenuItemsHost.ActualWidth;
 		}
 
 		private void GridSplitter_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
 		{
-			var newWidth = preManipulationSideBarWidth + e.Cumulative.Translation.X;
+			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
 			UpdateDisplayModeForPaneWidth(newWidth);
 		}
 
-		private void UpdateDisplayModeForSideBarWidth(double newControlWidth)
+		private void UpdateDisplayModeForSidebarWidth(double newControlWidth)
 		{
 			if (newControlWidth < 650)
 			{
-				DisplayMode = SideBarDisplayMode.Minimal;
+				DisplayMode = SidebarDisplayMode.Minimal;
 			}
 			else if (newControlWidth < 1300)
 			{
-				DisplayMode = SideBarDisplayMode.Compact;
+				DisplayMode = SidebarDisplayMode.Compact;
 			}
 			else
 			{
-				DisplayMode = SideBarDisplayMode.Expanded;
+				DisplayMode = SidebarDisplayMode.Expanded;
 			}
 		}
 
@@ -123,11 +123,11 @@ namespace Files.App.UserControls.SideBar
 		{
 			if (newPaneWidth < COMPACT_MAX_WIDTH)
 			{
-				DisplayMode = SideBarDisplayMode.Compact;
+				DisplayMode = SidebarDisplayMode.Compact;
 			}
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
-				DisplayMode = SideBarDisplayMode.Expanded;
+				DisplayMode = SidebarDisplayMode.Expanded;
 				DisplayColumn.Width = new GridLength(newPaneWidth);
 			}
 		}

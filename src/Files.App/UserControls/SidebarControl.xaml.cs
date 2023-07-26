@@ -1007,14 +1007,14 @@ namespace Files.App.UserControls
 		private void NavigationView_PaneOpened(NavigationView sender, object args)
 		{
 			// Restore expanded state when pane is opened
-			foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
+			foreach (var loc in ViewModel.SidebarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
 				loc.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(loc.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{loc.Text.Replace('\\', '_')}");
 		}
 
 		private void NavigationView_PaneClosed(NavigationView sender, object args)
 		{
 			// Collapse all sections but do not store the state when pane is closed
-			foreach (var loc in ViewModel.SideBarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
+			foreach (var loc in ViewModel.SidebarItems.OfType<LocationItem>().Where(x => x.ChildItems is not null))
 				loc.IsExpanded = false;
 		}
 

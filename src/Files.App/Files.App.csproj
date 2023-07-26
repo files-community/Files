@@ -69,8 +69,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="UserControls\SideBar\SideBarItem.xaml" />
-      <None Remove="UserControls\SideBar\SideBarView.xaml" />
+      <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
+      <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
 
     <ItemGroup>

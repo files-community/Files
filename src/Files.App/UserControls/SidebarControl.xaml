@@ -19,7 +19,7 @@
 	IsTitleBarAutoPaddingEnabled="False"
 	ItemInvoked="Sidebar_ItemInvoked"
 	Loaded="SidebarNavView_Loaded"
-	MenuItemsSource="{x:Bind ViewModel.SideBarItems, Mode=OneWay}"
+	MenuItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 	OpenPaneLength="{x:Bind userSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneTime}"
 	PaneClosed="NavigationView_PaneClosed"
 	PaneOpened="NavigationView_PaneOpened"

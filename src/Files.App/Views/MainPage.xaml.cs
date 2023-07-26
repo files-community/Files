@@ -7,7 +7,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.UserControls.SideBar;
+using Files.App.UserControls.Sidebar;
 using Files.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
@@ -445,7 +445,7 @@ namespace Files.App.Views
 
 		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (SidebarControl.DisplayMode == SideBarDisplayMode.Minimal)
+			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
 			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}

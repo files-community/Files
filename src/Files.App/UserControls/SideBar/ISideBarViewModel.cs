@@ -1,8 +1,8 @@
-﻿namespace Files.App.UserControls.SideBar
+﻿namespace Files.App.UserControls.Sidebar
 {
-	public interface ISideBarViewModel
+	public interface ISidebarViewModel
 	{
-		public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; }
 
 		public void HandleItemDropped(ItemDroppedEventArgs args);
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.SideBar;
+using Files.App.UserControls.Sidebar;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -18,7 +18,7 @@ using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable, ISideBarViewModel
+	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -39,14 +39,14 @@ namespace Files.App.ViewModels.UserControls
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 		private INavigationControlItem rightClickedItem;
 
-		public BulkConcurrentObservableCollection<INavigationControlItem> SideBarItems { get; init; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; init; }
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
 
-		private SideBarDisplayMode sidebarDisplayMode;
-		public SideBarDisplayMode SidebarDisplayMode
+		private SidebarDisplayMode sidebarDisplayMode;
+		public SidebarDisplayMode SidebarDisplayMode
 		{
 			get => sidebarDisplayMode;
 			set
@@ -74,7 +74,7 @@ namespace Files.App.ViewModels.UserControls
 			};
 
 		public bool IsSidebarCompactSize
-			=> SidebarDisplayMode == SideBarDisplayMode.Compact || SidebarDisplayMode == SideBarDisplayMode.Minimal;
+			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
 
 		public void NotifyInstanceRelatedPropertiesChanged(string arg)
 		{
@@ -88,9 +88,9 @@ namespace Files.App.ViewModels.UserControls
 			var value = arg;
 
 			INavigationControlItem? item = null;
-			var sidebarItems = SideBarItems
+			var sidebarItems = SidebarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SideBarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(SidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -222,7 +222,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
-			SideBarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+			SidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -400,7 +400,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private LocationItem? GetSection(SectionType sectionType)
 		{
-			return SideBarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
+			return SidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
 		private async Task<LocationItem> CreateSection(SectionType sectionType)
@@ -546,8 +546,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private void AddSectionToSideBar(LocationItem section)
 		{
-			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => SideBarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
-			SideBarItems.Insert(Math.Min(index, SideBarItems.Count), section);
+			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => SidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+			SidebarItems.Insert(Math.Min(index, SidebarItems.Count), section);
 		}
 
 		public async Task UpdateSectionVisibility(SectionType sectionType, bool show)
@@ -574,7 +574,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				SideBarItems.Remove(SideBarItems.FirstOrDefault(x => x.Section == sectionType));
+				SidebarItems.Remove(SidebarItems.FirstOrDefault(x => x.Section == sectionType));
 			}
 		}
 
@@ -637,7 +637,7 @@ namespace Files.App.ViewModels.UserControls
 			TabControlMargin = SidebarDisplayMode switch
 			{
 				// This prevents the pane toggle button from overlapping the tab control in minimal mode
-				SideBarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
+				SidebarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
 				_ => new GridLength(0, GridUnitType.Pixel),
 			};
 		}
