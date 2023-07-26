@@ -407,7 +407,7 @@ namespace Files.App.Utils.Shell
 		{
 			EnsureNotDisposed();
 			EnsureInitialized();
-			var hr = previewHandler.SetWindow(hwnd, new RECT());
+			var hr = previewHandler.SetWindow(hwnd, new());
 			return (int)hr >= 0;
 		}
 
