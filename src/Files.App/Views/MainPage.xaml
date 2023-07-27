@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -34,6 +35,19 @@
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
+
+			<MenuFlyout x:Key="SidebarContextMenu">
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
+				<ToggleMenuFlyoutItem
+					x:Name="SidebarContextMenuFileTagsSection"
+					IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFileTagsSection, Mode=TwoWay}"
+					Text="{helpers:ResourceString Name=FileTags}" />
+			</MenuFlyout>
 		</ResourceDictionary>
 	</Page.Resources>
 

@@ -12,7 +12,7 @@ using Windows.Foundation;
 namespace Files.App.UserControls.Sidebar
 {
 	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove, DragEventArgs RawEvent) { }
-	public record ItemContextInvokedArgs(object Item, Point Position) { }
+	public record ItemContextInvokedArgs(object? Item, Point Position) { }
 
 
 	[ContentProperty(Name = "InnerContent")]
@@ -78,7 +78,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				DisplayMode = SidebarDisplayMode.Minimal;
 			}
-			else if(useCompactInExpanded)
+			else if (useCompactInExpanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
 			}
@@ -166,7 +166,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
 		{
-			if(DisplayMode == SidebarDisplayMode.Expanded)
+			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
 				useCompactInExpanded = true;
@@ -196,6 +196,13 @@ namespace Files.App.UserControls.Sidebar
 		private void SidebarResizer_ManipulationCompleted(object sender, Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = false;
+		}
+
+		private void DisplayColumnGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		{
+			var newArgs = new ItemContextInvokedArgs(null, args.TryGetPosition(this, out var point) ? point : default);
+			ViewModel.HandleItemContextInvoked(this, newArgs);
+			args.Handled = true;
 		}
 	}
 }

@@ -33,6 +33,8 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref paneHolder, value);
 		}
 
+		public MenuFlyout PaneFlyout;
+
 		public IFilesystemHelpers FilesystemHelpers
 			=> PaneHolder?.FilesystemHelpers;
 
@@ -667,13 +669,18 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
+
 		{
-			if (args.Item is not INavigationControlItem item || sender is not FrameworkElement sidebarItem)
+			if (sender is not FrameworkElement sidebarItem) return;
+
+			if (args.Item is not INavigationControlItem item)
 			{
+				// We are in the pane context requested path
+				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
 				return;
 			}
-			rightClickedItem = item;
 
+			rightClickedItem = item;
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 

@@ -49,6 +49,7 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Canvas.ZIndex="10"
+			ContextRequested="DisplayColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer

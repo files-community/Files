@@ -54,6 +54,7 @@ namespace Files.App.Views
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
 
