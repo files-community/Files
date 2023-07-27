@@ -275,8 +275,8 @@
 				<StackPanel
 					x:Name="DetailsTagsList"
 					Margin="12,8,12,0"
-					x:Load="{x:Bind ViewModel.LoadTagsList, Mode=OneWay}"
-					Spacing="4">
+					Spacing="4"
+					Visibility="Collapsed">
 					<TextBlock
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Center"
@@ -369,6 +369,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
@@ -382,6 +383,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -393,6 +395,7 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
@@ -405,6 +408,7 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />

@@ -22,6 +22,7 @@
 			<Thickness x:Key="ContentDialogPadding">0</Thickness>
 			<SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
@@ -145,5 +146,6 @@
 			</ScrollViewer>
 
 		</NavigationView>
+
 	</Grid>
 </ContentDialog>

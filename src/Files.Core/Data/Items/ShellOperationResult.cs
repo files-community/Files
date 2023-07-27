@@ -20,7 +20,7 @@ namespace Files.Core.Data.Items
 		/// Final results of a file operation. Contains last status for each source file.
 		/// </summary>
 		public List<ShellOperationItemResult> Final =>
-			Items.GroupBy(x => new { Src = x.Source, Dst = x.Destination }).Select(x => x.Last()).ToList();
+			Items.GroupBy(x => x.Source).Select(x => x.Last()).ToList();
 	}
 
 	public class ShellOperationItemResult

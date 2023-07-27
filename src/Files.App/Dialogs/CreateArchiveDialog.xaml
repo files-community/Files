@@ -35,10 +35,12 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+
 			<TextBlock
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Name}" />
+
 			<TextBox
 				x:Name="FileNameBox"
 				Grid.Column="1"
@@ -54,6 +56,7 @@
 						Target="{x:Bind FileNameBox}" />
 				</TextBox.Resources>
 			</TextBox>
+
 		</Grid>
 
 		<!--  Archive Options  -->
@@ -163,5 +166,6 @@
 				</Grid>
 			</Expander.Content>
 		</Expander>
+
 	</StackPanel>
 </ContentDialog>

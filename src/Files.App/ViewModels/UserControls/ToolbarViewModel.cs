@@ -708,7 +708,7 @@ namespace Files.App.ViewModels.UserControls
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(result);
+								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
 							}
 							return;
 						}
