@@ -27,7 +27,10 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{

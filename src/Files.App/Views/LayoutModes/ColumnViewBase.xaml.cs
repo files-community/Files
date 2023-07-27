@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -88,7 +87,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems.Any())
+			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
@@ -163,11 +162,11 @@ namespace Files.App.Views.LayoutModes
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputText(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -283,7 +282,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				e.Handled = true;
 
-				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+				if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -359,13 +358,13 @@ namespace Files.App.Views.LayoutModes
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-							ParentShellPageInstance.Up_Click();
+							ParentShellPageInstance?.Up_Click();
 						break;
 				}
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 
 			ResetRenameDoubleClick();
@@ -399,7 +398,6 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 
-
 			// Allow for Ctrl+Shift selection
 			if (ctrlPressed || shiftPressed)
 				return;
@@ -413,7 +411,7 @@ namespace Files.App.Views.LayoutModes
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else
+			else if (item is not null)
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
@@ -438,10 +436,14 @@ namespace Files.App.Views.LayoutModes
 						},
 						EventArgs.Empty);
 				}
-				else if (!IsRenamingItem && (isItemFile || isItemFolder))
+				else if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}
+			}
+			else
+			{
+				CloseFolder();
 			}
 		}
 

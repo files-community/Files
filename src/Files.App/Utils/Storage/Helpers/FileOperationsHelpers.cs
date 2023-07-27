@@ -37,7 +37,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, string template = "", byte[]? dataBytes = null)
+		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
 			return Win32API.StartSTATask(async () =>
 			{
@@ -47,6 +47,12 @@ namespace Files.App.Utils.Storage
 							| ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.RenameOnCollision
 							| ShellFileOperations.OperationFlags.NoErrorUI;
+				if (asAdmin)
+				{
+					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
+								| ShellFileOperations.OperationFlags.RequireElevation;
+				}
+				op.OwnerWindow = (IntPtr)ownerHwnd;
 
 				var shellOperationResult = new ShellOperationResult();
 
@@ -188,7 +194,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, bool asAdmin, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -202,6 +208,11 @@ namespace Files.App.Utils.Storage
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmation
 							| ShellFileOperations.OperationFlags.NoErrorUI;
+				if (asAdmin)
+				{
+					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
+								| ShellFileOperations.OperationFlags.RequireElevation;
+				}
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				if (!permanently)
 				{
@@ -276,7 +287,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, long ownerHwnd, bool asAdmin, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -289,6 +300,12 @@ namespace Files.App.Utils.Storage
 
 				op.Options = ShellFileOperations.OperationFlags.Silent
 						  | ShellFileOperations.OperationFlags.NoErrorUI;
+				if (asAdmin)
+				{
+					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
+							| ShellFileOperations.OperationFlags.RequireElevation;
+				}
+				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnRename ? ShellFileOperations.OperationFlags.RenameOnCollision : 0;
 
 				if (!SafetyExtensions.IgnoreExceptions(() =>
@@ -337,7 +354,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -353,6 +370,11 @@ namespace Files.App.Utils.Storage
 				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoErrorUI;
+				if (asAdmin)
+				{
+					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
+								| ShellFileOperations.OperationFlags.RequireElevation;
+				}
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnMove ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;
@@ -417,7 +439,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, IProgress<FileSystemProgress> progress, string operationID = "")
+		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<FileSystemProgress> progress, string operationID = "")
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
@@ -434,6 +456,11 @@ namespace Files.App.Utils.Storage
 				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
 							| ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoErrorUI;
+				if (asAdmin)
+				{
+					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
+								| ShellFileOperations.OperationFlags.RequireElevation;
+				}
 				op.OwnerWindow = (IntPtr)ownerHwnd;
 				op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
 					: ShellFileOperations.OperationFlags.NoConfirmation;

@@ -28,7 +28,8 @@ namespace Files.App.Utils.Storage
 		Task<(IStorageHistory, IStorageItem)> CreateAsync(
 			IStorageItemWithPath source,
 			IProgress<FileSystemProgress> process,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		Task<IStorageHistory> CreateShortcutItemsAsync(
 			IList<IStorageItemWithPath> source,
@@ -96,7 +97,8 @@ namespace Files.App.Utils.Storage
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
 			IProgress<FileSystemProgress> progress,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		/// <summary>
 		/// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -158,7 +160,8 @@ namespace Files.App.Utils.Storage
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
 			IProgress<FileSystemProgress> progress,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		/// <summary>
 		/// Deletes <paramref name="source"/>
@@ -222,7 +225,8 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItemWithPath> source,
 			IProgress<FileSystemProgress> progress,
 			bool permanently,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		/// <summary>
 		/// Renames <paramref name="source"/> with <paramref name="newName"/>
@@ -262,7 +266,8 @@ namespace Files.App.Utils.Storage
 			string newName,
 			NameCollisionOption collision,
 			IProgress<FileSystemProgress> progress,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		/// <summary>
 		/// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
@@ -319,7 +324,8 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IProgress<FileSystemProgress> progress,
-			CancellationToken cancellationToken);
+			CancellationToken cancellationToken,
+			bool asAdmin = false);
 
 		/// <summary>
 		/// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
