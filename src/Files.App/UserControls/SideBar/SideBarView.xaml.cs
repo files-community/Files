@@ -20,6 +20,7 @@ namespace Files.App.UserControls.Sidebar
 	{
 
 		private double preManipulationSidebarWidth = 0;
+		private bool useCompactInExpanded = false;
 
 		private const double COMPACT_MAX_WIDTH = 200;
 
@@ -73,11 +74,11 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateDisplayModeForSidebarWidth(double newControlWidth)
 		{
-			if (newControlWidth < 650)
+			if (newControlWidth <= 640)
 			{
 				DisplayMode = SidebarDisplayMode.Minimal;
 			}
-			else if (newControlWidth < 1300)
+			else if(useCompactInExpanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
 			}
@@ -92,11 +93,13 @@ namespace Files.App.UserControls.Sidebar
 			if (newPaneWidth < COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
+				useCompactInExpanded = true;
 			}
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
 				DisplayColumn.Width = new GridLength(newPaneWidth);
+				useCompactInExpanded = false;
 			}
 		}
 
@@ -163,7 +166,16 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
 		{
-			DisplayMode = DisplayMode == SidebarDisplayMode.Expanded ? SidebarDisplayMode.Compact : SidebarDisplayMode.Expanded;
+			if(DisplayMode == SidebarDisplayMode.Expanded)
+			{
+				DisplayMode = SidebarDisplayMode.Compact;
+				useCompactInExpanded = true;
+			}
+			else
+			{
+				DisplayMode = SidebarDisplayMode.Expanded;
+				useCompactInExpanded = false;
+			}
 		}
 
 		private void SidebarResizer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)

@@ -35,6 +35,7 @@
 			Grid.Row="1"
 			Grid.Column="2"
 			Grid.ColumnSpan="3"
+			Canvas.ZIndex="10"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Background="Transparent"
@@ -47,12 +48,12 @@
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
+			Canvas.ZIndex="10"
 			XYFocusKeyboardNavigation="Enabled">
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,2,2"
-					Background="Transparent"
+					Padding="2,8,6,2"
 					HorizontalScrollMode="Disabled"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
