@@ -7,6 +7,8 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AdvancedPage : Page
 	{
+		private AdvancedViewModel ViewModel;
+
 		public AdvancedPage()
 		{
 			InitializeComponent();

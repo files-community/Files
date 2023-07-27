@@ -13,6 +13,8 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class TagsPage : Page
 	{
+		private TagsViewModel ViewModel;
+
 		private string oldTagName = string.Empty;
 
 		// Will be null unless the user has edited any tag

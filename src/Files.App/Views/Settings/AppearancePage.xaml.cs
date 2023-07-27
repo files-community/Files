@@ -8,11 +8,11 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AppearancePage : Page
 	{
-		private AppearanceViewModel ViewModel => DataContext as AppearanceViewModel;
+		private AppearanceViewModel ViewModel;
 
 		public AppearancePage()
 		{
-			DataContext = Ioc.Default.GetRequiredService<AppearanceViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<AppearanceViewModel>();
 
 			InitializeComponent();
 		}

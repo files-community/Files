@@ -5,28 +5,22 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vm="using:Files.App.ViewModels.Settings"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
-
-	<Page.DataContext>
-		<vm:AboutViewModel x:Name="ViewModel" />
-	</Page.DataContext>
 
 	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
-				<RepositionThemeTransition />
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
 			<!--  Title (About)  -->
-			<TextBlock
-				Margin="2,0,2,12"
-				Style="{StaticResource SubtitleTextBlockStyle}"
-				Text="{helpers:ResourceString Name=About}" />
+			<TextBlock Style="{StaticResource SettingsHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=About}" />
 
 			<!--  App Info  -->
 			<uc:SettingsCard Description="{x:Bind ViewModel.Version}" Header="{x:Bind ViewModel.AppName}">

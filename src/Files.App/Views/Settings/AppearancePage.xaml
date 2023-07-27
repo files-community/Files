@@ -7,18 +7,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
@@ -82,105 +79,104 @@
 						TextTrimming="CharacterEllipsis" />
 				</Grid>
 			</DataTemplate>
+
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+	<Grid x:Name="RootGrid">
+		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>
 				<TransitionCollection>
 					<EntranceThemeTransition />
 				</TransitionCollection>
 			</StackPanel.ChildrenTransitions>
 
-			<!--  Title  -->
-			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=Appearance}" />
+			<!--  Title (Appearance)  -->
+			<TextBlock Style="{StaticResource SettingsHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Appearance}" />
 
 			<!--  Theme  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
+				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />
-				</local:SettingsBlockControl.Icon>
+				</uc:SettingsCard.HeaderIcon>
 				<ComboBox
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+			</uc:SettingsCard>
 
 			<!--  Backdrop Material  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BackdropMaterial}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=BackdropMaterial}">
+				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEF1F;" />
-				</local:SettingsBlockControl.Icon>
+				</uc:SettingsCard.HeaderIcon>
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+			</uc:SettingsCard>
 
 			<!--  App Background  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Background}"
+			<uc:SettingsExpander
 				HorizontalAlignment="Stretch"
+				Header="{helpers:ResourceString Name=Background}"
 				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE771;" />
-				</local:SettingsBlockControl.Icon>
-				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
-					<StackPanel Orientation="Horizontal">
-						<Border
-							Width="24"
-							Height="24"
-							Margin="4"
-							Background="Gray"
-							CornerRadius="4">
-							<Grid>
-								<PathIcon Data="M0 6 L0 0 L6 0 L6 6 L12 6 L12 0 L18 0 L18 6 L12 6 L12 12 L18 12 L18 6 L24 6 L24 12 L18 12 L18 18 L24 18 L24 24 L6 24 L6 18 L0 18 L0 12 L6 12 L6 18 L12 18 L12 24 L18 24 L18 18 L12 18 L12 12 L6 12 L6 6 Z" Foreground="LightGray" />
-								<Rectangle Fill="{ThemeResource App.Theme.BackgroundBrush}" />
-							</Grid>
-						</Border>
-						<FontIcon
-							Margin="8,4,10,4"
-							FontSize="12"
-							Glyph="&#xE70D;" />
-					</StackPanel>
-					<Button.Flyout>
-						<Flyout>
-							<toolkit:ColorPicker
-								IsAlphaEnabled="True"
-								IsColorSpectrumVisible="False"
-								Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
-						</Flyout>
-					</Button.Flyout>
-				</Button>
-				<local:SettingsBlockControl.ExpandableContent>
-					<GridView
-						Padding="8"
-						HorizontalAlignment="Stretch"
-						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
-						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
-						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</uc:SettingsExpander.HeaderIcon>
+				<uc:SettingsExpander.Content>
+					<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=Background}">
+						<StackPanel Orientation="Horizontal">
+							<Border
+								Width="24"
+								Height="24"
+								Margin="4"
+								Background="Gray"
+								CornerRadius="4">
+								<Grid>
+									<PathIcon Data="M0 6 L0 0 L6 0 L6 6 L12 6 L12 0 L18 0 L18 6 L12 6 L12 12 L18 12 L18 6 L24 6 L24 12 L18 12 L18 18 L24 18 L24 24 L6 24 L6 18 L0 18 L0 12 L6 12 L6 18 L12 18 L12 24 L18 24 L18 18 L12 18 L12 12 L6 12 L6 6 Z" Foreground="LightGray" />
+									<Rectangle Fill="{ThemeResource App.Theme.BackgroundBrush}" />
+								</Grid>
+							</Border>
+							<FontIcon
+								Margin="8,4,10,4"
+								FontSize="12"
+								Glyph="&#xE70D;" />
+						</StackPanel>
+						<Button.Flyout>
+							<Flyout>
+								<toolkit:ColorPicker
+									IsAlphaEnabled="True"
+									IsColorSpectrumVisible="False"
+									Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
+							</Flyout>
+						</Button.Flyout>
+					</Button>
+				</uc:SettingsExpander.Content>
+				<uc:SettingsExpander.Items>
+					<Grid>
+						<GridView
+							Padding="8"
+							HorizontalAlignment="Stretch"
+							ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
+							ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
+							SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
+					</Grid>
+				</uc:SettingsExpander.Items>
+			</uc:SettingsExpander>
 
 			<!--  Compact Spacing  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=UseCompactSpacing}">
+				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE62B;" />
-				</local:SettingsBlockControl.Icon>
+				</uc:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
 					IsOn="{x:Bind ViewModel.UseCompactStyles, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
+
 		</StackPanel>
 	</Grid>
 </Page>

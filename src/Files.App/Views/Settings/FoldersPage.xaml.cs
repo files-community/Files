@@ -7,6 +7,8 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class FoldersPage : Page
 	{
+		private FoldersViewModel ViewModel;
+
 		public FoldersPage()
 		{
 			InitializeComponent();

@@ -89,11 +89,20 @@
 	<Style BasedOn="{StaticResource DefaultSettingsExpanderStyle}" TargetType="local:SettingsExpander" />
 
 	<Style
+		x:Key="SettingsHeaderTextBlockStyle"
+		BasedOn="{StaticResource SubtitleTextBlockStyle}"
+		TargetType="TextBlock">
+		<Style.Setters>
+			<Setter Property="Margin" Value="4,0,4,12" />
+		</Style.Setters>
+	</Style>
+
+	<Style
 		x:Key="SettingsSectionHeaderTextBlockStyle"
 		BasedOn="{StaticResource BodyStrongTextBlockStyle}"
 		TargetType="TextBlock">
 		<Style.Setters>
-			<Setter Property="Margin" Value="2,32,2,4" />
+			<Setter Property="Margin" Value="4,32,4,4" />
 		</Style.Setters>
 	</Style>
 

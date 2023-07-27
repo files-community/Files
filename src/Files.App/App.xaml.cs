@@ -114,7 +114,7 @@ namespace Files.App
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-          .AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
@@ -153,7 +153,13 @@ namespace Files.App
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<OngoingTasksViewModel>()
-					.AddSingleton<AppearanceViewModel>()
+					// Settings ViewModels
+					.AddTransient<AboutViewModel>()
+					.AddTransient<AdvancedViewModel>()
+					.AddTransient<AppearanceViewModel>()
+					.AddTransient<FoldersViewModel>()
+					.AddTransient<GeneralViewModel>()
+					.AddTransient<TagsViewModel>()
 				).Build();
 		}
 
