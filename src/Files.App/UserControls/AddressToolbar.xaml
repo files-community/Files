@@ -148,16 +148,25 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
+								
+								<!-- Primary Display -->
+								<!-- This is used to display paths or command descriptions. -->
 								<TextBlock
 									Grid.Column="0"
 									Opacity="{x:Bind DisplayOpacity, Mode=OneWay}"
 									Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
+
+								<!-- Supplementary Display -->
+								<!-- This is used to display command hotkeys. -->
 								<TextBlock
 									Grid.Column="1"
 									FontWeight="Normal"
 									Opacity="0.6"
 									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
 							</Grid>
+
+							<!-- Secondary Display -->
+							<!-- This is used to display command codes. -->
 							<TextBlock
 								x:Name="SecondaryDisplayBlock"
 								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"

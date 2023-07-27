@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal class OpenCommandPaletteAction : IAction
 	{
-		private readonly IContentPageContext context;
+		private readonly IContentPageContext _context;
 
 		public string Label
 			=> "CommandPalette".GetLocalizedResource();
@@ -18,12 +18,12 @@ namespace Files.App.Actions
 
 		public OpenCommandPaletteAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync()
 		{
-			context.ShellPage?.ToolbarViewModel.OpenCommandPalette();
+			_context.ShellPage?.ToolbarViewModel.OpenCommandPalette();
 
 			return Task.CompletedTask;
 		}

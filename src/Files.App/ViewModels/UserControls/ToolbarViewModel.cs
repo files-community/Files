@@ -843,19 +843,19 @@ namespace Files.App.ViewModels.UserControls
 					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.PrimaryDisplay).Any())
 					{
 						// No elements in common, update the list in-place
-						for (int si = 0; si < suggestions.Count; si++)
+						for (int index = 0; index < suggestions.Count; index++)
 						{
-							if (si < NavigationBarSuggestions.Count)
+							if (index < NavigationBarSuggestions.Count)
 							{
-								NavigationBarSuggestions[si].Text = suggestions[si].Text;
-								NavigationBarSuggestions[si].PrimaryDisplay = suggestions[si].PrimaryDisplay;
-								NavigationBarSuggestions[si].SecondaryDisplay = suggestions[si].SecondaryDisplay;
-								NavigationBarSuggestions[si].SupplementaryDisplay = suggestions[si].SupplementaryDisplay;
-								NavigationBarSuggestions[si].DisplayOpacity = suggestions[si].DisplayOpacity;
+								NavigationBarSuggestions[index].Text = suggestions[index].Text;
+								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
+								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
+								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
+								NavigationBarSuggestions[index].DisplayOpacity = suggestions[index].DisplayOpacity;
 							}
 							else
 							{
-								NavigationBarSuggestions.Add(suggestions[si]);
+								NavigationBarSuggestions.Add(suggestions[index]);
 							}
 						}
 
