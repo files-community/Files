@@ -488,7 +488,7 @@ namespace Files.App.Views.Shells
 
 		public async Task RefreshIfNoWatcherExists()
 		{
-			if (!FilesystemViewModel.IsWatcherEnabled)
+			if (FilesystemViewModel.HasNoWatcher)
 				await Refresh_Click();
 		}
 
