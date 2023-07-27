@@ -13,6 +13,7 @@
 	CloseButtonText="{x:Bind ViewModel.CloseButtonText, Mode=OneWay}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	HighContrastAdjustment="None"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsPrimaryButtonEnabled, Mode=OneWay}"
 	IsSecondaryButtonEnabled="{x:Bind ViewModel.IsSecondaryButtonEnabled, Mode=OneWay}"
 	KeyDown="ContentDialog_KeyDown"

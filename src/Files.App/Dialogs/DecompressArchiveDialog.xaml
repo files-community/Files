@@ -9,6 +9,7 @@
 	Title="{helpers:ResourceString Name=ExtractArchive}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	HighContrastAdjustment="None"
 	PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
 	PrimaryButtonText="{helpers:ResourceString Name=Extract}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"

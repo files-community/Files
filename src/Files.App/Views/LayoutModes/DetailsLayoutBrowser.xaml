@@ -975,6 +975,7 @@
 									<!--  Item Name  -->
 									<Grid
 										Width="{Binding ColumnsViewModel.NameColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Margin="0,0,8,0"
 										Padding="10,0,0,0"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"

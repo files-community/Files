@@ -7,6 +7,7 @@
 	xmlns:local2="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="PropertiesDialogMarkup"
+	HighContrastAdjustment="None"
 	RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
 	mc:Ignorable="d">
 

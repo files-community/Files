@@ -11,6 +11,7 @@
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	HighContrastAdjustment="None"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsBranchValid, Mode=OneWay}"
 	PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"

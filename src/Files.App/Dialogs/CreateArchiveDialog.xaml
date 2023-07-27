@@ -14,6 +14,7 @@
 	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
+	HighContrastAdjustment="None"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
 	Loaded="ContentDialog_Loaded"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
