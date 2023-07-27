@@ -37,7 +37,6 @@ namespace Files.App.Data.Models
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
 		private readonly IStorageCacheController fileListCache = StorageCacheController.GetInstance();
 		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
-		private readonly QueryOptions watcherQueryOptions;
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
@@ -400,14 +399,6 @@ namespace Files.App.Data.Models
 			gitChangedEvent = new AsyncManualResetEvent();
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-			watcherQueryOptions = new QueryOptions()
-			{
-				FolderDepth = FolderDepth.Shallow,
-				IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
-			};
-			watcherQueryOptions.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-			watcherQueryOptions.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
@@ -1738,9 +1729,18 @@ namespace Files.App.Data.Models
 
 			await Task.Factory.StartNew(() =>
 			{
-				if (rootFolder.AreQueryOptionsSupported(watcherQueryOptions))
+				var options = new QueryOptions()
 				{
-					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(watcherQueryOptions).ToStorageItemQueryResult();
+					FolderDepth = FolderDepth.Shallow,
+					IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+				};
+
+				options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+				options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
+
+				if (rootFolder.AreQueryOptionsSupported(options))
+				{
+					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
 					itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
 
 					// Just get one item to start getting notifications
