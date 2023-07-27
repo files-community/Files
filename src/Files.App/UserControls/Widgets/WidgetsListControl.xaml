@@ -20,7 +20,8 @@
 		<x:Double x:Key="ExpanderChevronButtonSize">16</x:Double>
 		<Thickness x:Key="ExpanderHeaderPadding">0,0,0,0</Thickness>
 		<Thickness x:Key="ExpanderHeaderInnerMargin">16,0,16,0</Thickness>
-		<Thickness x:Key="ExpanderHeaderInnerPadding">12,0,12,0</Thickness>
+		<Thickness x:Key="ExpanderHeaderInnerPadding">8,0,8,0</Thickness>
+		<Thickness x:Key="ExpanderHeaderInnerHeight">32</Thickness>
 
 		<Style x:Key="NoUpDownAnimationExpanderStyle" TargetType="Expander">
 			<Setter Property="IsTabStop" Value="False" />
@@ -193,7 +194,7 @@
 							CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid
 								x:Name="HoverGrid"
-								Height="32"
+								Height="{StaticResource ExpanderHeaderInnerHeight}"
 								Margin="{StaticResource ExpanderHeaderInnerMargin}"
 								Padding="{StaticResource ExpanderHeaderInnerPadding}"
 								HorizontalAlignment="Left"
@@ -221,10 +222,13 @@
 										AnimatedIcon.State="NormalOff"
 										AutomationProperties.AccessibilityView="Raw"
 										Foreground="{ThemeResource ExpanderChevronForeground}"
-										RenderTransformOrigin="0.5,0.5">
+										RenderTransformOrigin="0.5, 0.5">
 										<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
 										<AnimatedIcon.FallbackIconSource>
-											<FontIconSource FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{StaticResource ExpanderChevronDownGlyph}" />
+											<FontIconSource
+												FontFamily="{StaticResource SymbolThemeFontFamily}"
+												Glyph="{StaticResource ExpanderChevronDownGlyph}"
+												IsTextScaleFactorEnabled="False" />
 										</AnimatedIcon.FallbackIconSource>
 										<AnimatedIcon.RenderTransform>
 											<RotateTransform x:Name="ExpandCollapseChevronRotateTransform" Angle="0" />
