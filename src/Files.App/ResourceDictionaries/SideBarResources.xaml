@@ -43,6 +43,7 @@
 							Margin="4,0"
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
+							UseSystemFocusVisuals="True"
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}"
 							IsTabStop="True"
@@ -216,15 +217,6 @@
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-
-							<VisualStateGroup x:Name="FocusStates">
-								<VisualState x:Name="Unfocused" />
-								<VisualState x:Name="Focused">
-									<VisualState.Setters>
-										<Setter Target="ElementGrid.BorderBrush" Value="Red" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

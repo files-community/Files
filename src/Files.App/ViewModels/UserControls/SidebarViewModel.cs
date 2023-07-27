@@ -722,8 +722,11 @@ namespace Files.App.ViewModels.UserControls
 						// Get the path of the invoked item
 						var ItemPath = navigationControlItem.Path;
 
+						if (ItemPath is null)
+							ItemPath = navigationControlItem.Text;
+
 						// Home item
-						if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
+						if (ItemPath != null && ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
 						{
 							navigationPath = "Home";
 							sourcePageType = typeof(HomePage);

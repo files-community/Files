@@ -64,8 +64,6 @@ namespace Files.App.UserControls.Sidebar
 				grid.ContextRequested += ItemGrid_ContextRequested;
 				grid.DragLeave += ItemGrid_DragLeave;
 				grid.DragOver += ItemGrid_DragOver;
-				grid.GotFocus += ItemGrid_GotFocus;
-				grid.LostFocus += ItemGrid_LostFocus;
 				grid.Drop += ItemGrid_Drop;
 				grid.AllowDrop = true;
 				grid.IsTabStop = true;
@@ -183,16 +181,20 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ChildrenPresenter_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
-			if (Item?.ChildItems is IList enumerable)
+			if(args.Element is SidebarItem item)
 			{
-				var newElement = enumerable[args.Index];
-				if (newElement == selectedChildItem)
+				if (Item?.ChildItems is IList enumerable)
 				{
-					(args.Element as SidebarItem)!.IsSelected = true;
-				}
-				else
-				{
-					(args.Element as SidebarItem)!.IsSelected = false;
+					var newElement = enumerable[args.Index];
+					if (newElement == selectedChildItem)
+					{
+						(args.Element as SidebarItem)!.IsSelected = true;
+					}
+					else
+					{
+						(args.Element as SidebarItem)!.IsSelected = false;
+					}
+					item.UpdateIcon();
 				}
 			}
 		}
@@ -345,16 +347,6 @@ namespace Files.App.UserControls.Sidebar
 			{
 				VisualStateManager.GoToState(this, "DragOnTop", true);
 			}
-		}
-
-		private void ItemGrid_LostFocus(object sender, RoutedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, "Unfocused", false);
-		}
-
-		private void ItemGrid_GotFocus(object sender, RoutedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, "Focused", false);
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
