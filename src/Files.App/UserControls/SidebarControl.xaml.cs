@@ -1,32 +1,18 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.Extensions;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.Services;
-using Files.App.Utils.Shell;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Dialogs;
-using Files.Core.Services;
-using Files.Core.Services.Settings;
-using Files.Shared.Extensions;
+using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -38,10 +24,16 @@ namespace Files.App.UserControls
 {
 	public sealed partial class SidebarControl : NavigationView, INotifyPropertyChanged
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly IUserSettingsService userSettingsService;
 
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private readonly ICommandManager commands;
+
+		private readonly IFileTagsService _fileTagsService;
+		public IQuickAccessService QuickAccessService { get; }
+
+		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
+
+		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
 
 		public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -130,6 +122,11 @@ namespace Files.App.UserControls
 
 		public SidebarControl()
 		{
+			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			_fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
+			QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 			InitializeComponent();
 
 			dragOverSectionTimer = DispatcherQueue.CreateTimer();
@@ -190,6 +187,8 @@ namespace Files.App.UserControls
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
+			var isTagItem = item is FileTagItem;
+
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
@@ -240,6 +239,10 @@ namespace Files.App.UserControls
 					Command = OpenInNewPaneCommand,
 					ShowItem = options.IsLocationItem && userSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenAllTaggedItems)
+				{
+					IsVisible = isTagItem
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
@@ -456,13 +459,28 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
-		private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		private async void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 			if (sender is not NavigationViewItem sidebarItem ||
 				sidebarItem.DataContext is not INavigationControlItem item)
 				return;
+
+			if (item is FileTagItem tagItem)
+			{
+				var cts = new CancellationTokenSource();
+				var items = new List<(string path, bool isFolder)>();
+
+				await foreach (var taggedItem in _fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
+				{
+					items.Add((
+						taggedItem.Storable.TryGetPath() ?? string.Empty,
+						taggedItem.Storable is IFolder));
+				}
+
+				SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(items));
+			}
 
 			rightClickedItem = item;
 
@@ -626,7 +644,7 @@ namespace Files.App.UserControls
 					}
 					CompleteDragEventArgs(e, captionText, operationType);
 				}
-			}			
+			}
 
 			deferral.Complete();
 		}
@@ -665,7 +683,7 @@ namespace Files.App.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							QuickAccessService.PinToSidebar(item.Path);
+							await QuickAccessService.PinToSidebar(item.Path);
 					}
 				}
 				else

@@ -9,9 +9,11 @@
 	x:Name="PropertiesDialogMarkup"
 	RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
 	mc:Ignorable="d">
+
 	<ContentDialog.Resources>
 		<Thickness x:Key="ContentDialogPadding">0</Thickness>
 	</ContentDialog.Resources>
 
 	<Frame x:Name="propertiesFrame" x:FieldModifier="public" />
+
 </ContentDialog>
