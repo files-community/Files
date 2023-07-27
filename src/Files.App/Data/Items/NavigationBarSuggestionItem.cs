@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Media;
+
 namespace Files.App.Data.Items
 {
 	public class NavigationBarSuggestionItem : ObservableObject
@@ -33,11 +35,11 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref _SupplementaryDisplay, value);
 		}
 
-		private float _DisplayOpacity = 1.0f;
-		public float DisplayOpacity
+		private Brush _DisplayForeground = App.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
+		public Brush DisplayForeground
 		{
-			get => _DisplayOpacity;
-			set => SetProperty(ref _DisplayOpacity, value);
+			get => _DisplayForeground;
+			set => SetProperty(ref _DisplayForeground, value);
 		}
 	}
 }

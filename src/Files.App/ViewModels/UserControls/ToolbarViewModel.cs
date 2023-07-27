@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -793,7 +794,9 @@ namespace Files.App.ViewModels.UserControls
 							PrimaryDisplay = command.Description,
 							SecondaryDisplay = command.Code.ToString(),
 							SupplementaryDisplay = command.HotKeyText,
-							DisplayOpacity = command.IsExecutable ? 1.0f : 0.6f
+							DisplayForeground = (command.IsExecutable
+								? App.Current.Resources["TextFillColorPrimaryBrush"]
+								: App.Current.Resources["TextFillColorSecondaryBrush"]) as Brush
 						}).ToList();
 					}
 					else
@@ -851,7 +854,7 @@ namespace Files.App.ViewModels.UserControls
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
 								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
 								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
-								NavigationBarSuggestions[index].DisplayOpacity = suggestions[index].DisplayOpacity;
+								NavigationBarSuggestions[index].DisplayForeground = suggestions[index].DisplayForeground;
 							}
 							else
 							{

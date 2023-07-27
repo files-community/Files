@@ -153,7 +153,7 @@
 								<!--  This is used to display paths or command descriptions.  -->
 								<TextBlock
 									Grid.Column="0"
-									Opacity="{x:Bind DisplayOpacity, Mode=OneWay}"
+									Foreground="{x:Bind DisplayForeground, Mode=OneWay}"
 									Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
 
 								<!--  Supplementary Display  -->
@@ -161,7 +161,7 @@
 								<TextBlock
 									Grid.Column="1"
 									FontWeight="Normal"
-									Opacity="0.6"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
 							</Grid>
 
@@ -171,7 +171,7 @@
 								x:Name="SecondaryDisplayBlock"
 								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 								FontWeight="Normal"
-								Opacity="{x:Bind DisplayOpacity, Mode=OneWay}"
+								Foreground="{x:Bind DisplayForeground, Mode=OneWay}"
 								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
 						</StackPanel>
 					</DataTemplate>
