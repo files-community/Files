@@ -131,7 +131,7 @@
 		<Style.Setters>
 			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
 			<Setter Property="BorderThickness" Value="{ThemeResource SettingsExpanderItemBorderThickness}" />
-			<Setter Property="Padding" Value="{ThemeResource SettingsExpanderItemPadding}" />
+			<Setter Property="Padding" Value="0" />
 		</Style.Setters>
 	</Style>
 

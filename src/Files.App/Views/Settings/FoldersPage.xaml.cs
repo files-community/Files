@@ -7,10 +7,12 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class FoldersPage : Page
 	{
-		private FoldersViewModel ViewModel;
+		private readonly FoldersViewModel ViewModel;
 
 		public FoldersPage()
 		{
+			ViewModel = Ioc.Default.GetRequiredService<FoldersViewModel>();
+
 			InitializeComponent();
 		}
 	}

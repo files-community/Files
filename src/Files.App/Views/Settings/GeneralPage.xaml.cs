@@ -7,10 +7,12 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class GeneralPage : Page
 	{
-		private GeneralViewModel ViewModel;
+		private readonly GeneralViewModel ViewModel;
 
 		public GeneralPage()
 		{
+			ViewModel = Ioc.Default.GetRequiredService<GeneralViewModel>();
+
 			InitializeComponent();
 		}
 	}

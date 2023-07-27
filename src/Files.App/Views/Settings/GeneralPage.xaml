@@ -31,7 +31,7 @@
 					x:Name="AppLanguagesComboBox"
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=Language}"
-					ItemsSource="{x:Bind ViewModel.AppLanguages}"
+					ItemsSource="{x:Bind ViewModel.AppLanguages, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="vm:AppLanguageItem">

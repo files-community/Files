@@ -7,10 +7,12 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AdvancedPage : Page
 	{
-		private AdvancedViewModel ViewModel;
+		private readonly AdvancedViewModel ViewModel;
 
 		public AdvancedPage()
 		{
+			ViewModel = Ioc.Default.GetRequiredService<AdvancedViewModel>();
+
 			InitializeComponent();
 		}
 	}

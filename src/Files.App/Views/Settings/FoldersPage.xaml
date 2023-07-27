@@ -304,8 +304,7 @@
 					<Grid>
 						<InfoBar
 							BorderBrush="Transparent"
-							BorderThickness="0,0,8,8"
-							CornerRadius="0,0,2,2"
+							CornerRadius="0,0,4,4"
 							IsClosable="False"
 							IsIconVisible="True"
 							IsOpen="True"

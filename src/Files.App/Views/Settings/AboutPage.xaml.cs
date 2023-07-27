@@ -9,10 +9,12 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AboutPage : Page
 	{
-		private AboutViewModel ViewModel;
+		private readonly AboutViewModel ViewModel;
 
 		public AboutPage()
 		{
+			ViewModel = Ioc.Default.GetRequiredService<AboutViewModel>();
+
 			InitializeComponent();
 		}
 

@@ -8,7 +8,7 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class AppearancePage : Page
 	{
-		private AppearanceViewModel ViewModel;
+		private readonly AppearanceViewModel ViewModel;
 
 		public AppearancePage()
 		{

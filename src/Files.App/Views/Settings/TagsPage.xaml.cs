@@ -13,7 +13,7 @@ namespace Files.App.Views.Settings
 {
 	public sealed partial class TagsPage : Page
 	{
-		private TagsViewModel ViewModel;
+		private readonly TagsViewModel ViewModel;
 
 		private string oldTagName = string.Empty;
 
@@ -24,6 +24,8 @@ namespace Files.App.Views.Settings
 
 		public TagsPage()
 		{
+			ViewModel = Ioc.Default.GetRequiredService<TagsViewModel>();
+
 			InitializeComponent();
 		}
 
