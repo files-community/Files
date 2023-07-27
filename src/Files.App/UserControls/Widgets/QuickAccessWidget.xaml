@@ -101,17 +101,6 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
-							<FontIcon
-								x:Name="PinIcon"
-								Grid.Row="1"
-								Grid.Column="1"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Top"
-								x:Load="{x:Bind IsPinned, Mode=OneWay}"
-								FontSize="12"
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Glyph="&#xE840;" />
-
 						</Grid>
 					</Button>
 				</DataTemplate>

@@ -15,10 +15,12 @@
 		HorizontalAlignment="Stretch"
 		VerticalAlignment="Stretch"
 		CornerRadius="{StaticResource ControlCornerRadius}">
+
 		<WebView2
 			x:Name="WebViewControl"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Loaded="WebViewControl_Loaded" />
+
 	</Border>
 </UserControl>

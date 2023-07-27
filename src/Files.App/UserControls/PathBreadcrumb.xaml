@@ -176,4 +176,5 @@
 		</ListView.ItemTemplateSelector>
 
 	</ListView>
+
 </UserControl>

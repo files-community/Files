@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 			if (ejectButton)
 			{
 				var result = await EjectDeviceAsync(matchingDrive.Path);
-				await UIHelpers.ShowDeviceEjectResultAsync(result);
+				await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
 			}
 			return true;
 		}
