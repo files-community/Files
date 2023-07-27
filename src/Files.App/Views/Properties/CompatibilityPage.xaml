@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsuc="using:Files.App.UserControls.Settings"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
 	Tag="Compatibility"
@@ -15,10 +15,6 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 
@@ -29,91 +25,90 @@
 		<StackPanel Padding="12" Spacing="4">
 
 			<!--  Run Troubleshooter  -->
-			<settingsuc:SettingsBlockControl
-				Title="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}"
-				ButtonCommand="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
-				IsClickable="True">
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</settingsuc:SettingsBlockControl>
+			<uc:SettingsCard
+				Command="{x:Bind CompatibilityProperties.RunTroubleshooterCommand}"
+				Header="{helpers:ResourceString Name=RunCompatibilityTroubleShooter}"
+				IsClickEnabled="True">
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
+			</uc:SettingsCard>
 
 			<!--  Compatibility Mode  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityMode}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=CompatibilityMode}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityMode}"
 					DisplayMemberPath="Name"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					ItemsSource="{x:Bind CompatibilityProperties.OSCompatibilityList, Mode=OneWay}"
 					SelectedValue="{x:Bind CompatibilityProperties.OSCompatibility, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</uc:SettingsCard>
 
 			<!--  Reduce Color Mode  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=ReducedColorMode}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=ReducedColorMode}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=ReducedColorMode}"
 					DisplayMemberPath="Name"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					ItemsSource="{x:Bind CompatibilityProperties.ReducedColorModeList, Mode=OneWay}"
 					SelectedValue="{x:Bind CompatibilityProperties.ReducedColorMode, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</uc:SettingsCard>
 
 			<!--  Run Low Resolution  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=ExecuteAt640X480}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=ExecuteAt640X480}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=ExecuteAt640X480}"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					IsOn="{x:Bind CompatibilityProperties.ExecuteAt640X480, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
 
 			<!--  Full Screen Optimizations  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=DisableFullscreenOptimizations}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=DisableFullscreenOptimizations}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					IsOn="{x:Bind CompatibilityProperties.DisableMaximized, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
 
 			<!--  Run As  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=RunAsAdministrator}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=DisableFullscreenOptimizations}"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					IsOn="{x:Bind CompatibilityProperties.RunAsAdministrator, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
 
 			<!--  Register For Restart  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RegisterForRestart}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=RegisterForRestart}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=RegisterForRestart}"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					IsOn="{x:Bind CompatibilityProperties.RegisterForRestart, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
 
 			<!--  Use Main Monitor DPI Settings  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=UseMainMonitorDPISettings}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=UseMainMonitorDPISettings}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=UseMainMonitorDPISettings}"
 					DisplayMemberPath="Name"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					ItemsSource="{x:Bind CompatibilityProperties.HighDpiOptionList, Mode=OneWay}"
 					SelectedValue="{x:Bind CompatibilityProperties.HighDpiOption, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</uc:SettingsCard>
 
 			<!--  Override High DPI Scaling Behavior  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}" HorizontalAlignment="Stretch">
+			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=OverrideDPIScalingBehaviour}"
 					DisplayMemberPath="Name"
 					IsEnabled="{x:Bind CompatibilityProperties.CompatibilityOptions, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 					ItemsSource="{x:Bind CompatibilityProperties.HighDpiOverrideList, Mode=OneWay}"
 					SelectedValue="{x:Bind CompatibilityProperties.HighDpiOverride, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</uc:SettingsCard>
 
 		</StackPanel>
 	</ScrollViewer>

@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsuc="using:Files.App.UserControls.Settings"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	Loaded="Properties_Loaded"
 	Tag="Shortcut"
@@ -16,7 +16,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -137,30 +136,29 @@
 					Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}" />
 			</Grid>
 
-			<settingsuc:SettingsBlockControl
+			<uc:SettingsCard
 				x:Name="RunAsAdminCheckbox"
-				Title="{helpers:ResourceString Name=RunAsAdministrator}"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}">
+				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=RunAsAdministrator}">
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
 					IsOn="{x:Bind ViewModel.RunAsAdmin, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+			</uc:SettingsCard>
 
-			<settingsuc:SettingsBlockControl
+			<uc:SettingsCard
 				x:Name="OpenFileLocation"
-				Title="{helpers:ResourceString Name=OpenFileLocation}"
 				Grid.Row="2"
 				Grid.Column="0"
 				x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
-				ButtonCommand="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
-				IsClickable="True">
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</settingsuc:SettingsBlockControl>
+				Command="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=OpenFileLocation}"
+				IsClickEnabled="True">
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
+			</uc:SettingsCard>
 
 		</StackPanel>
 	</ScrollViewer>
