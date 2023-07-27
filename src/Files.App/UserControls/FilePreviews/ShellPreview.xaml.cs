@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using static Vanara.PInvoke.Shell32;
@@ -45,11 +46,12 @@ namespace Files.App.UserControls.FilePreviews
 			var source = contentPresenter.TransformToVisual(XamlRoot.Content);
 			var physicalSize = contentPresenter.RenderSize;
 			var physicalPos = source.TransformPoint(new Point(0, 0));
-			var result = new Vanara.PInvoke.RECT();
-			result.Left = (int)(physicalPos.X + 0.5);
-			result.Top = (int)(physicalPos.Y + 0.5);
-			result.Right = (int)(physicalPos.X + physicalSize.Width + 0.5);
-			result.Bottom = (int)(physicalPos.Y + physicalSize.Height + 0.5);
+			var scale = User32.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96.0;
+			var result = new RECT();
+			result.Left = (int)(physicalPos.X * scale + 0.5);
+			result.Top = (int)(physicalPos.Y * scale + 0.5);
+			result.Width = (int)(physicalSize.Width * scale + 0.5);
+			result.Height = (int)(physicalSize.Height * scale + 0.5);
 			ViewModel.SizeChanged(result);
 		}
 	}

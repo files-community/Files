@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
-using static Vanara.PInvoke.AdvApi32;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
 
@@ -23,6 +22,7 @@ namespace Files.App.ViewModels.Previews
 		static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
 
 		PreviewHandler? currentHandler;
+		HWND hwnd = HWND.NULL;
 
 		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
 		{
@@ -51,58 +51,75 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		public void SizeChanged(RECT result)
+		public void SizeChanged(RECT size)
 		{
-			//if (currentHandler != null)
-			//currentHandler.ResetBounds(result);
+			if (hwnd != HWND.NULL)
+				User32.SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
+			if (currentHandler != null)
+				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
 		}
 
 		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
 		{
 			if (msg == (uint)WindowMessage.WM_NCCREATE)
-				return (IntPtr)1;
-			else if (msg == (uint)WindowMessage.WM_CREATE)
 			{
 				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd.DangerousGetHandle());
-				IntPtr pobj = IntPtr.Zero;
 				try
 				{
 					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
 					currentHandler.InitWithFileWithEveryWay(Item.ItemPath);
+					//currentHandler.SetBackground(((SolidColorBrush)Background).Color);
+					//currentHandler.SetForeground(((SolidColorBrush)Foreground).Color);
+					currentHandler.DoPreview();
 				}
 				catch (Exception ex)
 				{
 					UnloadPreview();
 				}
-				//currentHandler.SetBackground(((SolidColorBrush)Background).Color);
-				//currentHandler.SetForeground(((SolidColorBrush)Foreground).Color);
-				currentHandler.DoPreview();
 			}
-			else if (msg == (uint)WindowMessage.WM_SIZE)
+			else if (msg == (uint)WindowMessage.WM_CLOSE)
 			{
-				if (currentHandler != null)
-					currentHandler.ResetBounds(new(0, 0, Macros.LOWORD(lParam), Macros.HIWORD(lParam)));
+				if (currentHandler is not null)
+				{
+					currentHandler.UnloadPreview();
+					currentHandler = null;
+				}
+			}
+			else if (msg == (uint)WindowMessage.WM_DESTROY)
+			{
+				User32.PostQuitMessage(0);
 			}
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
 		public void LoadPreview()
 		{
+			UnloadPreview();
+
+			var parent = MainWindow.Instance.WindowHandle;
+
+			foreach (var wnd in User32.EnumChildWindows(parent))
+			{
+				var styleChild = (WindowStyles)User32.GetWindowLong(wnd, WindowLongFlags.GWL_STYLE);
+				if (!styleChild.HasFlag(WindowStyles.WS_CLIPSIBLINGS))
+					User32.SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
+			}
+			var styleParent = (WindowStyles)User32.GetWindowLong(parent, WindowLongFlags.GWL_STYLE);
+			User32.SetWindowLong(parent, WindowLongFlags.GWL_STYLE, (nint)(styleParent | WindowStyles.WS_CLIPCHILDREN));
+
 			var th = new Thread(() =>
 			{
 				HINSTANCE hInst = Kernel32.GetModuleHandle();
-				var wCls = new WindowClass($"{GetType().Name}+{Guid.NewGuid()}", hInst, WndProc);
-				var hwnd = Win32Error.ThrowLastErrorIfInvalid(CreateWindowEx(0, wCls.ClassName, "Preview", WindowStyles.WS_OVERLAPPEDWINDOW, 0, 0, 500, 500, hWndParent: HWND.NULL, hInstance: hInst)).DangerousGetHandle();
-				User32.ShowWindow(hwnd, ShowWindowCommand.SW_NORMAL);
+				var wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
+				hwnd = Win32Error.ThrowLastErrorIfInvalid(CreateWindowEx(0, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst));
+
 				while (GetMessage(out MSG msg) > 0)
 				{
-					if (msg.message == (uint)WindowMessage.WM_QUIT)
-					{
-						break;
-					}
 					TranslateMessage(msg);
 					DispatchMessage(msg);
 				}
+
+				User32.UnregisterClass(wCls.ClassName, hInst);
 			});
 			th.TrySetApartmentState(ApartmentState.STA);
 			th.Start();
@@ -110,10 +127,16 @@ namespace Files.App.ViewModels.Previews
 
 		private void UnloadPreview()
 		{
-			if (currentHandler == null)
+			var parent = MainWindow.Instance.WindowHandle;
+			if (hwnd == HWND.NULL)
+				hwnd = User32.EnumChildWindows(parent).FirstOrDefault(x =>
+				{
+					var sb = new StringBuilder(512);
+					return User32.GetClassName(x, sb, 512) > 0 && sb.ToString().StartsWith(GetType().Name);
+				});
+			if (hwnd == HWND.NULL)
 				return;
-			currentHandler.UnloadPreview();
-			currentHandler = null;
+			User32.PostMessage(hwnd, (uint)WindowMessage.WM_CLOSE, 0, 0);
 		}
 
 		public void GotFocus(Action focusPresenter)
