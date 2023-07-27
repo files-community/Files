@@ -90,7 +90,7 @@
 
 	<Style
 		x:Key="SettingsHeaderTextBlockStyle"
-		BasedOn="{StaticResource SubtitleTextBlockStyle}"
+		BasedOn="{StaticResource TitleTextBlockStyle}"
 		TargetType="TextBlock">
 		<Style.Setters>
 			<Setter Property="Margin" Value="4,0,4,12" />

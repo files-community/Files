@@ -3,12 +3,12 @@
 	x:Class="Files.App.Views.Settings.TagsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
@@ -59,8 +59,7 @@
 							x:Name="AddTagGrid"
 							Padding="32,12"
 							x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}"
-							Background="{ThemeResource CardBackgroundFillColorDefault}"
-							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderBrush="{ThemeResource DividerStrokeColorDefault}"
 							BorderThickness="0,0,0,1">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
@@ -166,7 +165,7 @@
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 							ReorderMode="Enabled"
-							SelectionMode="None">
+							SelectionMode="Single">
 							<ListView.ItemTemplate>
 								<DataTemplate xmlns:vm="using:Files.Core.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
 									<Grid ColumnSpacing="16">
