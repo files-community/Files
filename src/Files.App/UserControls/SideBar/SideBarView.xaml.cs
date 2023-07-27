@@ -111,22 +111,24 @@ namespace Files.App.UserControls.Sidebar
 		internal void RaiseItemInvoked(SidebarItem item)
 		{
 			// Only leaves can be selected
-			if (item.HasChildren) return;
-			SelectedItem = (item.DataContext as INavigationControlItem)!;
-			ItemInvoked?.Invoke(item, item.DataContext);
-			ViewModel.HandleItemInvoked(item.DataContext);
+			if (item.Item is null || item.HasChildren) return;
+
+			SelectedItem = item.Item;
+			ItemInvoked?.Invoke(item, item.Item);
+			ViewModel.HandleItemInvoked(item.Item);
 		}
 
 		internal void RaiseContextRequested(SidebarItem item, Point e)
 		{
-			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.DataContext, e));
-			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.DataContext, e));
+			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
+			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
 		}
 
 		internal void RaiseItemDropped(SidebarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
 		{
-			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
-			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.DataContext, e.DataView, insertsAbove, rawEvent));
+			if (sideBarItem.Item is null) return;
+			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, e.DataView, insertsAbove, rawEvent));
+			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, e.DataView, insertsAbove, rawEvent));
 		}
 
 

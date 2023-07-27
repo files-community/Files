@@ -47,7 +47,7 @@ namespace Files.App.UserControls.Sidebar
 
 		internal void Select()
 		{
-			Owner.SelectedItem = (INavigationControlItem)Owner.DataContext;
+			Owner.SelectedItem = Item!;
 		}
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
@@ -122,7 +122,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			args.Data.SetData(StandardDataFormats.Text, this.DataContext.ToString());
+			args.Data.SetData(StandardDataFormats.Text, Item!.Text.ToString());
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
@@ -158,7 +158,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (!HasChildren)
 			{
-				IsSelected = DataContext == Owner.SelectedItem;
+				IsSelected = Item == Owner.SelectedItem;
 				if (IsSelected)
 				{
 					Owner.UpdateSelectedItemContainer(this);
