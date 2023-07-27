@@ -35,10 +35,10 @@
 			Grid.Row="1"
 			Grid.Column="2"
 			Grid.ColumnSpan="3"
-			Canvas.ZIndex="10"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Background="Transparent"
+			Canvas.ZIndex="10"
 			PointerPressed="PaneLightDismissLayer_PointerPressed"
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
