@@ -37,7 +37,7 @@ namespace Files.App.Dialogs
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
-			var itemTypes = await addItemService.GetNewEntriesAsync();
+			var itemTypes = addItemService.GetEntries();
 			await ViewModel.AddItemsToList(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation
