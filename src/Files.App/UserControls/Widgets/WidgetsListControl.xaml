@@ -21,7 +21,7 @@
 		<Thickness x:Key="ExpanderHeaderPadding">0,0,0,0</Thickness>
 		<Thickness x:Key="ExpanderHeaderInnerMargin">16,0,16,0</Thickness>
 		<Thickness x:Key="ExpanderHeaderInnerPadding">8,0,8,0</Thickness>
-		<Thickness x:Key="ExpanderHeaderInnerHeight">32</Thickness>
+		<x:Double x:Key="ExpanderHeaderInnerHeight">32</x:Double>
 
 		<Style x:Key="NoUpDownAnimationExpanderStyle" TargetType="Expander">
 			<Setter Property="IsTabStop" Value="False" />
@@ -321,11 +321,6 @@
 									</VisualState>
 									<VisualState x:Name="Checked">
 										<Storyboard>
-											<DoubleAnimation
-												Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-												Storyboard.TargetProperty="Angle"
-												To="180.0"
-												Duration="0:0:0.1" />
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderHeaderForeground}" />
 											</ObjectAnimationUsingKeyFrames>
@@ -345,11 +340,6 @@
 									</VisualState>
 									<VisualState x:Name="CheckedPointerOver">
 										<Storyboard>
-											<DoubleAnimation
-												Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-												Storyboard.TargetProperty="Angle"
-												To="180.0"
-												Duration="0:0:0.1" />
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderHeaderForegroundPointerOver}" />
 											</ObjectAnimationUsingKeyFrames>
@@ -369,11 +359,6 @@
 									</VisualState>
 									<VisualState x:Name="CheckedPressed">
 										<Storyboard>
-											<DoubleAnimation
-												Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-												Storyboard.TargetProperty="Angle"
-												To="180.0"
-												Duration="0:0:0.1" />
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderHeaderForegroundPressed}" />
 											</ObjectAnimationUsingKeyFrames>
@@ -394,11 +379,6 @@
 
 									<VisualState x:Name="CheckedDisabled">
 										<Storyboard>
-											<DoubleAnimation
-												Storyboard.TargetName="ExpandCollapseChevronRotateTransform"
-												Storyboard.TargetProperty="Angle"
-												To="180.0"
-												Duration="0:0:0.1" />
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderHeaderDisabledForeground}" />
 											</ObjectAnimationUsingKeyFrames>

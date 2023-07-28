@@ -77,7 +77,7 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FolderImg}"
 							x:Phase="1"
-							FontSize="24"
+							FontSize="20"
 							Foreground="#ffe793"
 							Glyph="&#xE8B7;" />
 
@@ -88,14 +88,14 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind EmptyImgVis}"
 							x:Phase="1"
-							FontSize="24"
+							FontSize="20"
 							Glyph="&#xE7C3;" />
 
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
-							Width="24"
-							Height="24"
+							Width="20"
+							Height="20"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FileIconVis}"
