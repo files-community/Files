@@ -11,6 +11,14 @@
 	DataContext="{x:Bind ViewModel}"
 	mc:Ignorable="d">
 
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/UserControls/Settings/SettingsControls.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
 	<Grid x:Name="RootGrid">
 		<StackPanel Spacing="{StaticResource SettingsCardSpacing}">
 			<StackPanel.ChildrenTransitions>

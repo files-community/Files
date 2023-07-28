@@ -16,6 +16,9 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/UserControls/Settings/SettingsControls.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />

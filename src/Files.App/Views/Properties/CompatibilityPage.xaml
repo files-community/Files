@@ -15,6 +15,9 @@
 
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/UserControls/Settings/SettingsControls.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 
