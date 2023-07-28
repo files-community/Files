@@ -72,7 +72,7 @@
 					<FontIcon Glyph="&#xED15;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
-					<!--  Submit feature request  -->
+					<!--  Submit Feature Request  -->
 					<uc:SettingsCard
 						Command="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
 						Header="{helpers:ResourceString Name=SubmitFeatureRequest}"
@@ -81,7 +81,7 @@
 							<FontIcon Glyph="&#xE8A7;" />
 						</uc:SettingsCard.ActionIcon>
 					</uc:SettingsCard>
-					<!--  Submit bug report  -->
+					<!--  Submit Bug Report  -->
 					<uc:SettingsCard
 						Command="{x:Bind ViewModel.SubmitBugReportCommand}"
 						Header="{helpers:ResourceString Name=SubmitBugReport}"
@@ -106,8 +106,22 @@
 				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
-			<!--  Open Source  -->
+			<!--  Section Header (Open Source)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=OpenSource}" />
+
+			<!--  Translate  -->
+			<uc:SettingsCard
+				HorizontalAlignment="Stretch"
+				Command="{x:Bind ViewModel.OpenCrowdinCommand}"
+				Header="{helpers:ResourceString Name=ImproveTranslation}"
+				IsClickEnabled="True">
+				<uc:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xF2B7;" />
+				</uc:SettingsCard.HeaderIcon>
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
+			</uc:SettingsCard>
 
 			<!--  Third Party Licenses  -->
 			<uc:SettingsExpander

@@ -59,6 +59,7 @@
 							x:Name="AddTagGrid"
 							Padding="32,12"
 							x:Load="{x:Bind ViewModel.IsCreatingNewTag, Mode=OneWay}"
+							Background="{ThemeResource CardBackgroundFillColorDefault}"
 							BorderBrush="{ThemeResource DividerStrokeColorDefault}"
 							BorderThickness="0,0,0,1">
 							<Grid.ColumnDefinitions>
@@ -165,7 +166,7 @@
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 							ReorderMode="Enabled"
-							SelectionMode="Single">
+							SelectionMode="None">
 							<ListView.ItemTemplate>
 								<DataTemplate xmlns:vm="using:Files.Core.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
 									<Grid ColumnSpacing="16">

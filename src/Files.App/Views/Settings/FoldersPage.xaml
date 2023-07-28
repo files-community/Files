@@ -26,43 +26,47 @@
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE621;" />
 				</uc:SettingsCard.HeaderIcon>
-
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</uc:SettingsCard>
 
-			<!--  Details layout columns  -->
+			<!--  Details Layout Columns  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=DetailsLayoutColumns}">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE71D;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
+					<!--  Tag Column  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
 							IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Size Column  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
 							IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Type Column  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
 							IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Date Column  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
 							IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Date Created Column  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
@@ -72,12 +76,13 @@
 				</uc:SettingsExpander.Items>
 			</uc:SettingsExpander>
 
-			<!--  Default sorting and grouping options  -->
+			<!--  Default Sorting And Grouping Options  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=SortingAndGrouping}">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8CB;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
+					<!--  Sort By  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SortBy}">
 						<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 							<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
@@ -88,12 +93,14 @@
 							<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 						</ComboBox>
 					</uc:SettingsCard>
+					<!--  Sort In Descending Order  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SortInDescendingOrder}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
 							IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Group By  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=GroupBy}">
 						<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 							<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
@@ -105,6 +112,7 @@
 							<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 						</ComboBox>
 					</uc:SettingsCard>
+					<!--  Group In Descending Order  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=GroupInDescendingOrder}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
@@ -112,6 +120,7 @@
 							IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Group By Month Instead Of Year  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=GroupByMonthInsteadOfYear}"
@@ -119,6 +128,7 @@
 							IsOn="{x:Bind ViewModel.GroupByMonth, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  List And Sort Directories Alongside Files  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsListAndSortDirectoriesAlongsideFiles}"
@@ -128,12 +138,11 @@
 				</uc:SettingsExpander.Items>
 			</uc:SettingsExpander>
 
-			<!--  Layout mode  -->
+			<!--  Layout Mode  -->
 			<uc:SettingsCard Header="{helpers:ResourceString Name=LayoutMode}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8A9;" />
 				</uc:SettingsCard.HeaderIcon>
-
 				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutMode}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
@@ -141,7 +150,6 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=IconGrid}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" />
 				</ComboBox>
-
 			</uc:SettingsCard>
 
 			<!--  Section Header (Display)  -->
@@ -153,24 +161,28 @@
 					<FontIcon Glyph="&#xED1A;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
+					<!--  Show Hidden Items  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
 							IsOn="{x:Bind ViewModel.ShowHiddenItems, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Show Dot Files  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=ShowDotFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
 							IsOn="{x:Bind ViewModel.ShowDotFiles, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Show Protected System Files  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=ShowProtectedSystemFiles}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}"
 							IsOn="{x:Bind ViewModel.ShowProtectedSystemFiles, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Show Alternate Streams  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=ShowAlternateStreams}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
@@ -216,24 +228,27 @@
 			<!--  Section Header (Behaviors)  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Behaviors}" />
 
-			<!--  Opening items  -->
+			<!--  Opening Items  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=OpeningItems}">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED25;" />
 				</uc:SettingsExpander.HeaderIcon>
 				<uc:SettingsExpander.Items>
+					<!--  Open Items With One Click  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}"
 							IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Open Folder With One Click Columns Layout  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}">
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
 							IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
 							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 					</uc:SettingsCard>
+					<!--  Open Folders In New Tab  -->
 					<uc:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
 						<ToggleSwitch
 							x:Name="OpenFoldersNewTab"
@@ -278,7 +293,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</uc:SettingsCard>
 
-			<!--  Double click to go up  -->
+			<!--  Double click To Go Up  -->
 			<uc:SettingsCard Header="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B0;" />
@@ -289,7 +304,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</uc:SettingsCard>
 
-			<!--  Calculate folder sizes  -->
+			<!--  Calculate Folder Sizes  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=CalculateFolderSizes}" IsExpanded="True">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xEE40;" />
