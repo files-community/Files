@@ -21,12 +21,18 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel.GotFocus(() => contentPresenter.Focus(FocusState.Programmatic));
 		}
 
-		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)
+		private async void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
-			ViewModel.LoadPreview();
+			await ViewModel.LoadPreviewAsync();
+			ViewModel.SizeChanged(GetPreviewSize());
 		}
 
 		private void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			ViewModel.SizeChanged(GetPreviewSize());
+		}
+
+		private RECT GetPreviewSize()
 		{
 			var source = contentPresenter.TransformToVisual(XamlRoot.Content);
 			var physicalSize = contentPresenter.RenderSize;
@@ -37,7 +43,7 @@ namespace Files.App.UserControls.FilePreviews
 			result.Top = (int)(physicalPos.Y * scale + 0.5);
 			result.Width = (int)(physicalSize.Width * scale + 0.5);
 			result.Height = (int)(physicalSize.Height * scale + 0.5);
-			ViewModel.SizeChanged(result);
+			return result;
 		}
 	}
 }

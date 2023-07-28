@@ -107,7 +107,7 @@ namespace Files.App.ViewModels.Previews
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public void LoadPreview()
+		public Task LoadPreviewAsync()
 		{
 			UnloadPreview();
 
@@ -116,28 +116,35 @@ namespace Files.App.ViewModels.Previews
 			foreach (var wnd in User32.EnumChildWindows(parent))
 			{
 				var styleChild = (WindowStyles)User32.GetWindowLong(wnd, WindowLongFlags.GWL_STYLE);
-				if (!styleChild.HasFlag(WindowStyles.WS_CLIPSIBLINGS))
-					SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
+				SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
 			}
 			var styleParent = (WindowStyles)User32.GetWindowLong(parent, WindowLongFlags.GWL_STYLE);
 			SetWindowLong(parent, WindowLongFlags.GWL_STYLE, (nint)(styleParent | WindowStyles.WS_CLIPCHILDREN));
+
+			var windowCreated = new TaskCompletionSource();
 
 			var th = new Thread(() =>
 			{
 				HINSTANCE hInst = Kernel32.GetModuleHandle();
 				var wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-				hwnd = Win32Error.ThrowLastErrorIfInvalid(CreateWindowEx(0, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst));
+				hwnd = CreateWindowEx(0, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
+				windowCreated.TrySetResult();
 
-				while (GetMessage(out MSG msg) > 0)
+				if (hwnd != HWND.NULL)
 				{
-					TranslateMessage(msg);
-					DispatchMessage(msg);
+					while (GetMessage(out MSG msg) > 0)
+					{
+						TranslateMessage(msg);
+						DispatchMessage(msg);
+					}
 				}
 
 				User32.UnregisterClass(wCls.ClassName, hInst);
 			});
 			th.TrySetApartmentState(ApartmentState.STA);
 			th.Start();
+
+			return windowCreated.Task;
 		}
 
 		private void UnloadPreview()
