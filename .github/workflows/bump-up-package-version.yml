@@ -1,0 +1,35 @@
+name: Files Version Bump Workflow
+run-name: Bump up Files version to ${{ inputs.new_version }} by @${{ github.actor }}
+on:
+    workflow_dispatch:
+        inputs:
+            new_version:
+                required: true
+
+jobs:
+    resources:
+        name: Update resources
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Update Package.appxmanifest
+              run: |
+                  sed -i "s/<Identity Name=\"\(.*\)\" Publisher=\"\(.*\)\" Version=\"\(.*\)\" \/>/<Identity Name=\"\1\" Publisher=\"\2\" Version=\"${{ inputs.files_new_version }}\" \/>/g" "src/Files.App (Package)/Package.appxmanifest"
+            - name: Create a new PR for changes
+              uses: peter-evans/create-pull-request@v4
+              with:
+                token: ${{ secrets.ACCESS_TOKEN }}
+                commit-message: 'Package: Bump Files to ${{ inputs.new_version }}'
+                committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                signoff: false
+                branch: ${{ github.actor }}/bump-up-to-${{ inputs.new_version }}
+                delete-branch: true
+                title: 'Package: Bump Files to ${{ inputs.new_version }}'
+                body: |
+                    *This PR was created by automation with GitHub Actions*<br>
+                    Bumps Files to 45.2.0.
+                labels: |
+                    automation
+                reviewers: ${{ github.actor }}
+                draft: false
