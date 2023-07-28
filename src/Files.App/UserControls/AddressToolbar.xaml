@@ -14,7 +14,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:winui="using:Microsoft.UI.Xaml.Controls"
 	x:Name="NavToolbar"
 	Height="50"
 	d:DesignHeight="50"
