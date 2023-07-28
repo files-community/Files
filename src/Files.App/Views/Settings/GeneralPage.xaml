@@ -22,7 +22,7 @@
 			<!--  Title (General)  -->
 			<TextBlock Style="{StaticResource SettingsHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=General}" />
 
-			<!--  Language Settings  -->
+			<!--  Language  -->
 			<uc:SettingsCard Header="{helpers:ResourceString Name=Language}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xF2B7;" />
@@ -41,7 +41,7 @@
 				</ComboBox>
 			</uc:SettingsCard>
 
-			<!--  Date Settings  -->
+			<!--  Date  -->
 			<uc:SettingsCard Description="{x:Bind ViewModel.DateFormatSample}" Header="{helpers:ResourceString Name=DateFormat}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEC92;" />
@@ -72,7 +72,7 @@
 				</ComboBox>
 			</uc:SettingsCard>
 
-			<!--  Search Settings  -->
+			<!--  Search  -->
 			<uc:SettingsCard Header="{helpers:ResourceString Name=SettingsSearchUnindexedItems}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE721;" />
@@ -83,7 +83,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</uc:SettingsCard>
 
-			<!--  Startup Settings  -->
+			<!--  Startup  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=StartupSettings}">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE7E8;" />
@@ -182,7 +182,7 @@
 					Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
 			</uc:SettingsCard>
 
-			<!--  Toggle Widgets  -->
+			<!--  Widget Options  -->
 			<uc:SettingsExpander Header="{helpers:ResourceString Name=Widgets}">
 				<uc:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xF246;" />

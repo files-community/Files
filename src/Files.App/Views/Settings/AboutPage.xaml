@@ -50,7 +50,7 @@
 				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
-			<!--  Help and support  -->
+			<!--  Help And Support  -->
 			<TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=HelpAndSupport}" />
 
 			<!--  Documentation  -->
