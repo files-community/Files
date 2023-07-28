@@ -1,4 +1,4 @@
-name: Files Package Version Bump Up
+name: Package Version Bump
 run-name: Bump up Files to ${{ inputs.files_new_version }}
 on:
     workflow_dispatch:
