@@ -23,7 +23,7 @@
 			<!--  Title (Advanced)  -->
 			<TextBlock Style="{StaticResource SettingsHeaderTextBlockStyle}" Text="{helpers:ResourceString Name=Advanced}" />
 
-			<!--  Export  -->
+			<!--  Export Files Settings  -->
 			<uc:SettingsCard
 				Command="{x:Bind ViewModel.ExportSettingsCommand}"
 				Header="{helpers:ResourceString Name=ExportSettings}"
@@ -31,13 +31,12 @@
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE1;" />
 				</uc:SettingsCard.HeaderIcon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
-			<!--  Import  -->
+			<!--  Import Files Settings  -->
 			<uc:SettingsCard
 				Command="{x:Bind ViewModel.ImportSettingsCommand}"
 				Header="{helpers:ResourceString Name=ImportSettings}"
@@ -45,10 +44,9 @@
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEDE2;" />
 				</uc:SettingsCard.HeaderIcon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
 			<!--  Edit Settings File  -->
@@ -59,10 +57,9 @@
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8DA;" />
 				</uc:SettingsCard.HeaderIcon>
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
+				<uc:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
 			<!--  Open on Windows startup  -->
