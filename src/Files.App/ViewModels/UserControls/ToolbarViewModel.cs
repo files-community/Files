@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -165,7 +166,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -508,6 +509,16 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		public void OpenCommandPalette()
+		{
+			PathText = ">";
+			ManualEntryBoxLoaded = true;
+			ClickablePathLoaded = false;
+
+			var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+			AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
+		}
+
 		public void SwitchSearchBoxVisibility()
 		{
 			if (IsSearchBoxVisible)
@@ -644,6 +655,23 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
+			if (currentInput.StartsWith('>'))
+			{
+				var code = currentInput.Substring(1).Trim();
+				var command = Commands[code];
+
+				if (command == Commands.None)
+					await DialogDisplayHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
+						string.Format("InvalidCommandContent".GetLocalizedResource(), code));
+				else if (!command.IsExecutable)
+					await DialogDisplayHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
+						string.Format("CommandNotExecutableContent".GetLocalizedResource(), command.Code));
+				else
+					await command.ExecuteAsync();
+
+				return;
+			}
+
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
 			if (currentInput.Contains('/') && !isFtp)
@@ -751,60 +779,80 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					IList<ListedItem>? suggestions = null;
-					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+					IList<NavigationBarSuggestionItem>? suggestions = null;
 
-					if (folder is null)
-						return false;
-
-					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-					if (currPath.Count >= maxSuggestions)
+					if (sender.Text.StartsWith(">"))
 					{
-						suggestions = currPath.Select(x => new ListedItem(null!)
+						var searchText = sender.Text.Substring(1).Trim();
+						suggestions = Commands.Where(command => command.IsExecutable &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						.Select(command => new NavigationBarSuggestionItem()
 						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
+							Text = ">" + command.Code,
+							PrimaryDisplay = command.Description,
+							SupplementaryDisplay = command.HotKeyText,
 						}).ToList();
-					}
-					else if (currPath.Any())
-					{
-						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-						suggestions = currPath.Select(x => new ListedItem(null!)
-						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
-						}).Concat(
-							subPath.Select(x => new ListedItem(null!)
-							{
-								ItemPath = x.Path,
-								ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-							})).ToList();
 					}
 					else
 					{
-						suggestions = new List<ListedItem>() { new ListedItem(null!) {
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
+						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
+						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
+						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+
+						if (folder is null)
+							return false;
+
+						var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+						if (currPath.Count >= maxSuggestions)
+						{
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).ToList();
+						}
+						else if (currPath.Any())
+						{
+							var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).Concat(
+								subPath.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x.Path,
+									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+								})).ToList();
+						}
+					}
+
+					if (suggestions is null || suggestions.Count == 0)
+					{
+						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
 
 					// NavigationBarSuggestions becoming empty causes flickering of the suggestion box
 					// Here we check whether at least an element is in common between old and new list
-					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.Name).Any())
+					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.PrimaryDisplay).Any())
 					{
 						// No elements in common, update the list in-place
-						for (int si = 0; si < suggestions.Count; si++)
+						for (int index = 0; index < suggestions.Count; index++)
 						{
-							if (si < NavigationBarSuggestions.Count)
+							if (index < NavigationBarSuggestions.Count)
 							{
-								NavigationBarSuggestions[si].ItemNameRaw = suggestions[si].ItemNameRaw;
-								NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+								NavigationBarSuggestions[index].Text = suggestions[index].Text;
+								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
+								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
+								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
 							}
 							else
 							{
-								NavigationBarSuggestions.Add(suggestions[si]);
+								NavigationBarSuggestions.Add(suggestions[index]);
 							}
 						}
 
@@ -814,10 +862,10 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						// At least an element in common, show animation
-						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemNameRaw).ToList())
+						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.PrimaryDisplay).ToList())
 							NavigationBarSuggestions.Remove(s);
 
-						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemNameRaw).ToList())
+						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.PrimaryDisplay).ToList())
 							NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
 					}
 
@@ -825,10 +873,10 @@ namespace Files.App.ViewModels.UserControls
 				}))
 				{
 					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new ListedItem(null!)
+					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 					{
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 					});
 				}
 			}
