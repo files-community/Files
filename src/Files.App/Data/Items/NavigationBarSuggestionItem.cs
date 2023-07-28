@@ -34,12 +34,5 @@ namespace Files.App.Data.Items
 			get => _SupplementaryDisplay;
 			set => SetProperty(ref _SupplementaryDisplay, value);
 		}
-
-		private Brush _DisplayForeground = App.Current.Resources["TextFillColorPrimaryBrush"] as Brush;
-		public Brush DisplayForeground
-		{
-			get => _DisplayForeground;
-			set => SetProperty(ref _DisplayForeground, value);
-		}
 	}
 }

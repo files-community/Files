@@ -784,19 +784,14 @@ namespace Files.App.ViewModels.UserControls
 					if (sender.Text.StartsWith(">"))
 					{
 						var searchText = sender.Text.Substring(1).Trim();
-						suggestions = Commands.Where(command => command != Commands.None &&
+						suggestions = Commands.Where(command => command.IsExecutable &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
 							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
-						.OrderByDescending(command => command.IsExecutable)
 						.Select(command => new NavigationBarSuggestionItem()
 						{
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
-							SecondaryDisplay = command.Code.ToString(),
 							SupplementaryDisplay = command.HotKeyText,
-							DisplayForeground = (command.IsExecutable
-								? App.Current.Resources["TextFillColorPrimaryBrush"]
-								: App.Current.Resources["TextFillColorSecondaryBrush"]) as Brush
 						}).ToList();
 					}
 					else
@@ -854,7 +849,6 @@ namespace Files.App.ViewModels.UserControls
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
 								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
 								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
-								NavigationBarSuggestions[index].DisplayForeground = suggestions[index].DisplayForeground;
 							}
 							else
 							{
