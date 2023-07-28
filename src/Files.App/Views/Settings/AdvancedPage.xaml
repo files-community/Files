@@ -70,7 +70,7 @@
 				</uc:SettingsCard.ActionIcon>
 			</uc:SettingsCard>
 
-			<!--  Open on Windows startup  -->
+			<!--  Open On Windows startup  -->
 			<uc:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsOpenInLogin}">
 				<uc:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE7E8;" />

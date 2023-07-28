@@ -152,7 +152,7 @@
 				</uc:SettingsExpander.Items>
 			</uc:SettingsExpander>
 
-			<!--  Open GitHub repo  -->
+			<!--  Open GitHub Repo  -->
 			<uc:SettingsCard
 				Command="{x:Bind ViewModel.OpenGitHubRepoCommand}"
 				Header="{helpers:ResourceString Name=OpenGitHubRepo}"
