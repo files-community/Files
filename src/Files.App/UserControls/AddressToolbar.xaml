@@ -151,10 +151,9 @@
 
 								<!--  Primary Display  -->
 								<!--  This is used to display paths or command descriptions.  -->
-								<TextBlock
-									Grid.Column="0"
-									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-									Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
+								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+								</TextBlock>
 
 								<!--  Supplementary Display  -->
 								<!--  This is used to display command hotkeys.  -->
