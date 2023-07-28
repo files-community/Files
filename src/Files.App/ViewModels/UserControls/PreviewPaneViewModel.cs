@@ -197,7 +197,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var ext = item.FileExtension.ToLowerInvariant();
 
-			/*if (MediaPreviewViewModel.ContainsExtension(ext))
+			if (MediaPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
@@ -259,7 +259,7 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				return new CodePreview(model);
-			}*/
+			}
 
 			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null)
 			{

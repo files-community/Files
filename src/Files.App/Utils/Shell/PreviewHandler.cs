@@ -175,8 +175,8 @@ namespace Files.App.Utils.Shell
 			// Moreover, to create the instance in a server at low integrity level, we need
 			// to use another thread with low mandatory label. We keep it simple by creating
 			// a same-integrity object.
-			if (hr == HRESULT.CO_E_SERVER_EXEC_FAILURE)
-				hr = CoCreateInstance(ref clsid, IntPtr.Zero, ClassContext.LocalServer, ref iid, out pph);
+			//if (hr == HRESULT.CO_E_SERVER_EXEC_FAILURE)
+			//	hr = CoCreateInstance(ref clsid, IntPtr.Zero, ClassContext.LocalServer, ref iid, out pph);
 			if ((int)hr < 0)
 				throw new COMException(cannotCreate, (int)hr);
 			pPreviewHandler = pph;
@@ -406,7 +406,9 @@ namespace Files.App.Utils.Shell
 		public bool ResetWindow()
 		{
 			EnsureNotDisposed();
-			EnsureInitialized();
+			//EnsureInitialized();
+			if (!init)
+				return false;
 			var hr = previewHandler.SetWindow(hwnd, new());
 			return (int)hr >= 0;
 		}
@@ -417,7 +419,9 @@ namespace Files.App.Utils.Shell
 		public bool ResetBounds(RECT previewerBounds)
 		{
 			EnsureNotDisposed();
-			EnsureInitialized();
+			//EnsureInitialized();
+			if (!init)
+				return false;
 			var hr = previewHandler.SetRect(previewerBounds);
 			return (int)hr >= 0;
 		}
@@ -461,7 +465,9 @@ namespace Files.App.Utils.Shell
 		public void DoPreview()
 		{
 			EnsureNotDisposed();
-			EnsureInitialized();
+			//EnsureInitialized();
+			if (!init)
+				return;
 			EnsureNotShown();
 			ResetWindow();
 			previewHandler.DoPreview();
@@ -474,7 +480,9 @@ namespace Files.App.Utils.Shell
 		public void Focus()
 		{
 			EnsureNotDisposed();
-			EnsureInitialized();
+			//EnsureInitialized();
+			if (!init)
+				return;
 			EnsureShown();
 			previewHandler.SetFocus();
 		}
@@ -486,7 +494,9 @@ namespace Files.App.Utils.Shell
 		public IntPtr QueryFocus()
 		{
 			EnsureNotDisposed();
-			EnsureInitialized();
+			//EnsureInitialized();
+			if (!init)
+				return IntPtr.Zero;
 			EnsureShown();
 			IntPtr result;
 			var hr = previewHandler.QueryFocus(out result);

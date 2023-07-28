@@ -1,4 +1,5 @@
 ﻿using Files.App.ViewModels.Properties;
+using Microsoft.UI.Xaml;
 using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
@@ -17,9 +18,23 @@ namespace Files.App.ViewModels.Previews
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 			=> new List<FileProperty>();
 
-		const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
-		static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
-		static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
+		private const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
+		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
+		private static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLong")]
+		private static extern int SetWindowLongPtr32(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLongPtr")]
+		private static extern IntPtr SetWindowLongPtr64(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		private IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+		{
+			if (IntPtr.Size == 4)
+				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
+			else
+				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+		}
 
 		PreviewHandler? currentHandler;
 		HWND hwnd = HWND.NULL;
@@ -68,8 +83,8 @@ namespace Files.App.ViewModels.Previews
 				{
 					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
 					currentHandler.InitWithFileWithEveryWay(Item.ItemPath);
-					//currentHandler.SetBackground(((SolidColorBrush)Background).Color);
-					//currentHandler.SetForeground(((SolidColorBrush)Foreground).Color);
+					//currentHandler.SetBackground();
+					//currentHandler.SetForeground();
 					currentHandler.DoPreview();
 				}
 				catch (Exception ex)
@@ -102,10 +117,10 @@ namespace Files.App.ViewModels.Previews
 			{
 				var styleChild = (WindowStyles)User32.GetWindowLong(wnd, WindowLongFlags.GWL_STYLE);
 				if (!styleChild.HasFlag(WindowStyles.WS_CLIPSIBLINGS))
-					User32.SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
+					SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
 			}
 			var styleParent = (WindowStyles)User32.GetWindowLong(parent, WindowLongFlags.GWL_STYLE);
-			User32.SetWindowLong(parent, WindowLongFlags.GWL_STYLE, (nint)(styleParent | WindowStyles.WS_CLIPCHILDREN));
+			SetWindowLong(parent, WindowLongFlags.GWL_STYLE, (nint)(styleParent | WindowStyles.WS_CLIPCHILDREN));
 
 			var th = new Thread(() =>
 			{
@@ -152,6 +167,13 @@ namespace Files.App.ViewModels.Previews
 					currentHandler = old;
 				}
 			}
+		}
+
+		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
+		{
+			UnloadPreview();
+
+			base.PreviewControlBase_Unloaded(sender, e);
 		}
 	}
 }
