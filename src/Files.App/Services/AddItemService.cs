@@ -8,11 +8,13 @@ namespace Files.App.Services
 	{
 		private List<ShellNewEntry> _cached;
 
-		public async Task<List<ShellNewEntry>> GetNewEntriesAsync()
+		public async Task InitializeAsync()
 		{
-			if (_cached is null || _cached.Count == 0)
-				_cached = await ShellNewEntryExtensions.GetNewContextMenuEntries();
+			_cached = await ShellNewEntryExtensions.GetNewContextMenuEntries();
+		}
 
+		public List<ShellNewEntry> GetEntries()
+		{
 			return _cached;
 		}
 	}

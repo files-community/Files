@@ -405,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibili su {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Apri con</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>Invia a</value>
   </data>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Gestisci le etichette</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Ordina gli elementi per percorso</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Apri la directory in un nuovo pannello</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Apri la directory in una nuova scheda</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Apri la directory in una nuova finestra</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Apri tutto</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Apri tutti gli elementi etichettati</value>
   </data>
 </root>

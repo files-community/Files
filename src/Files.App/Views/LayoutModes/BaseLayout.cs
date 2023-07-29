@@ -446,7 +446,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Utils.Search.FolderSearch
+					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
@@ -710,7 +710,7 @@ namespace Files.App.Views.LayoutModes
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
-				Label = "SettingsEditFileTagsExpander/Title".GetLocalizedResource(),
+				Label = "EditTags".GetLocalizedResource(),
 				Content = new OpacityIcon()
 				{
 					Style = (Style)Application.Current.Resources["ColorIconTag"],
@@ -1375,6 +1375,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				showError?.Invoke(false);
 			}
+		}
+
+		public void ReloadPreviewPane()
+		{
+			UpdatePreviewPaneSelection(SelectedItems);
 		}
 
 		protected void UpdatePreviewPaneSelection(List<ListedItem>? value)

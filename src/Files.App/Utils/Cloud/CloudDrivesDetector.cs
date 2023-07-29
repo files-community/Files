@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.Cloud
 {
 	[SupportedOSPlatform("Windows10.0.10240")]
 	public class CloudDrivesDetector

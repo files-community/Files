@@ -41,11 +41,12 @@ namespace Files.App.Helpers
 		/// Displays a toast or dialog to indicate the result of
 		/// a device ejection operation.
 		/// </summary>
+		/// <param name="type">Type of drive to eject</param>
 		/// <param name="result">Only true implies a successful device ejection</param>
 		/// <returns></returns>
-		public static async Task ShowDeviceEjectResultAsync(bool result)
+		public static async Task ShowDeviceEjectResultAsync(Data.Items.DriveType type, bool result)
 		{
-			if (result)
+			if (type != Data.Items.DriveType.CDRom && result)
 			{
 				Debug.WriteLine("Device successfully ejected");
 
@@ -81,7 +82,7 @@ namespace Files.App.Helpers
 				// And send the notification
 				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
 			}
-			else
+			else if (!result)
 			{
 				Debug.WriteLine("Can't eject device");
 

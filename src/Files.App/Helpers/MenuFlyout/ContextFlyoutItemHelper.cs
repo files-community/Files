@@ -583,7 +583,7 @@ namespace Files.App.Helpers
 
 			if (canCreateFileInPage)
 			{
-				var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+				var cachedNewContextMenuEntries = addItemService.GetEntries();
 				cachedNewContextMenuEntries?.ForEach(i =>
 				{
 					if (!string.IsNullOrEmpty(i.IconBase64))

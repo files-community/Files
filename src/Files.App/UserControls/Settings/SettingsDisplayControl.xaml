@@ -24,6 +24,7 @@
 			<Setter Property="FontSize" Value="12" />
 			<Setter Property="Opacity" Value="0.75" />
 		</Style>
+
 	</UserControl.Resources>
 
 	<Grid
@@ -35,7 +36,6 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
-
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
@@ -86,6 +86,7 @@
 			VerticalAlignment="Center"
 			x:Load="{x:Bind SettingsActionableElement, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
 			Content="{x:Bind SettingsActionableElement, Mode=OneWay}" />
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
 				<VisualState x:Name="NormalState">

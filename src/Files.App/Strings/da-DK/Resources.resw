@@ -2333,7 +2333,7 @@ We use App Center to track which settings are being used, find bugs, and fix cra
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>Mærke</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Rediger tags</value>
   </data>
   <data name="SettingsEnableFileTags.Title" xml:space="preserve">

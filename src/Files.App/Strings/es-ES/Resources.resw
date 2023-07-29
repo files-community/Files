@@ -139,7 +139,7 @@
     <value>Tamaño:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Tamaño en disco:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir:</value>
@@ -404,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibles de {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Abrir con</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Enviar a</value>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Desconocido</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Editar etiquetas</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2158,10 +2155,10 @@
     <value>Ajustar el tamaño de todas las columnas</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Seleccionar automáticamente el mejor diseño</value>
+    <value>Diseño adaptable</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptatiivo (Ctrl+Mayús+7)</value>
+    <value>Diseño adaptable (Ctrl+Mayús+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Mayús+7</value>
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Ordenar elementos por ruta</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Abrir directorio en nuevo panel</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Abrir directorio en nueva pestaña</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Abrir directorio en nueva ventana</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

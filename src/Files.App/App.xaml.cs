@@ -3,6 +3,11 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Data.Models;
+using Files.App.Extensions;
+using Files.App.Utils;
+using Files.App.Utils.Cloud;
+using Files.App.Helpers;
 using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
@@ -42,6 +47,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -89,70 +95,66 @@ namespace Files.App
 		{
 			return Host.CreateDefaultBuilder()
 				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
-				.ConfigureLogging(builder =>
-					builder
+				.ConfigureLogging(builder => builder
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
-					.SetMinimumLevel(LogLevel.Information)
-				)
-				.ConfigureServices(services =>
-					services
-						.AddSingleton<IUserSettingsService, UserSettingsService>()
-						.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>(sp => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-						.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-						.AddSingleton<IPageContext, PageContext>()
-						.AddSingleton<IContentPageContext, ContentPageContext>()
-						.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-						.AddSingleton<IWindowContext, WindowContext>()
-						.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-						.AddSingleton<IDialogService, DialogService>()
-						.AddSingleton<IImageService, ImagingService>()
-						.AddSingleton<IThreadingService, ThreadingService>()
-						.AddSingleton<ILocalizationService, LocalizationService>()
-						.AddSingleton<ICloudDetector, CloudDetector>()
-						.AddSingleton<IFileTagsService, FileTagsService>()
-						.AddSingleton<ICommandManager, CommandManager>()
-						.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-						.AddSingleton<IApplicationService, ApplicationService>()
-						.AddSingleton<ISystemPinService, SystemPinService>()
-
+					.SetMinimumLevel(LogLevel.Information))
+				.ConfigureServices(services => services
+					.AddSingleton<IUserSettingsService, UserSettingsService>()
+					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>(sp => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IContentPageContext, ContentPageContext>()
+					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+					.AddSingleton<IWindowContext, WindowContext>()
+					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<IImageService, ImagingService>()
+					.AddSingleton<IThreadingService, ThreadingService>()
+					.AddSingleton<ILocalizationService, LocalizationService>()
+					.AddSingleton<ICloudDetector, CloudDetector>()
+					.AddSingleton<IFileTagsService, FileTagsService>()
+					.AddSingleton<ICommandManager, CommandManager>()
+					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
+					.AddSingleton<IApplicationService, ApplicationService>()
+                    .AddSingleton<ISystemPinService, SystemPinService>()
 #if UWP
-						.AddSingleton<IStorageService, WindowsStorageService>()
+					.AddSingleton<IStorageService, WindowsStorageService>()
 #else
-						.AddSingleton<IStorageService, NativeStorageService>()
+                    .AddSingleton<IStorageService, NativeStorageService>()
 #endif
-						.AddSingleton<IFtpStorageService, FtpStorageService>()
-						.AddSingleton<IAddItemService, AddItemService>()
+					.AddSingleton<IFtpStorageService, FtpStorageService>()
+					.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW
-						.AddSingleton<IUpdateService, SideloadUpdateService>()
+					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #else
-						.AddSingleton<IUpdateService, UpdateService>()
+					.AddSingleton<IUpdateService, UpdateService>()
 #endif
-						.AddSingleton<IPreviewPopupService, PreviewPopupService>()
-						.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
-						.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-						.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
-						.AddSingleton<ISizeProvider, UserSizeProvider>()
-						.AddSingleton<IQuickAccessService, QuickAccessService>()
-						.AddSingleton<IResourcesService, ResourcesService>()
-						.AddSingleton<IJumpListService, JumpListService>()
-						.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-						.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
-						.AddSingleton<MainPageViewModel>()
-						.AddSingleton<PreviewPaneViewModel>()
-						.AddSingleton<SidebarViewModel>()
-						.AddSingleton<SettingsViewModel>()
-						.AddSingleton<DrivesViewModel>()
-						.AddSingleton<NetworkDrivesViewModel>()
-						.AddSingleton<OngoingTasksViewModel>()
-						.AddSingleton<AppearanceViewModel>()
-				)
-				.Build();
+					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
+					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
+					.AddSingleton<ISizeProvider, UserSizeProvider>()
+					.AddSingleton<IQuickAccessService, QuickAccessService>()
+					.AddSingleton<IResourcesService, ResourcesService>()
+					.AddSingleton<IJumpListService, JumpListService>()
+					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
+					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<MainPageViewModel>()
+					.AddSingleton<PreviewPaneViewModel>()
+					.AddSingleton<SidebarViewModel>()
+					.AddSingleton<SettingsViewModel>()
+					.AddSingleton<DrivesViewModel>()
+					.AddSingleton<NetworkDrivesViewModel>()
+					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<AppearanceViewModel>()
+				).Build();
 		}
 
 		private static async Task InitializeAppComponentsAsync()
@@ -174,7 +176,7 @@ namespace Files.App
 
 				await Task.WhenAll(
 					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.GetNewEntriesAsync(),
+					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
 
@@ -202,28 +204,44 @@ namespace Files.App
 		/// <param name="e">Details about the launch request and process.</param>
 		protected override void OnLaunched(LaunchActivatedEventArgs e)
 		{
-			// Get AppActivationArguments
-			var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+			_ = ActivateAsync();
 
-			// Start tracking app usage
-			if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
-				SystemInformation.Instance.TrackAppUse(activationEventArgs);
+			async Task ActivateAsync()
+			{
+				// Initialize and activate MainWindow
+				EnsureSuperEarlyWindow();
 
-			// Configure Host and IoC
-			_host = ConfigureHost();
-			Ioc.Default.ConfigureServices(_host.Services);
+				// Wait for the Window to initialize
+				await Task.Delay(10);
 
-			EnsureSettingsAndConfigurationAreBootstrapped();
+				SplashScreenLoadingTCS = new TaskCompletionSource();
+				MainWindow.Instance.ShowSplashScreen();
 
-			// Initialize and activate MainWindow
-			EnsureSuperEarlyWindow();
+				// Get AppActivationArguments
+				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 
-			// TODO(s)
-			Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-			Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
+				// Start tracking app usage
+				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
+					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
-			_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-			_ = MainWindow.Instance.InitializeApplication(appActivationArguments.Data);
+				// Configure Host and IoC
+				_host = ConfigureHost();
+				Ioc.Default.ConfigureServices(_host.Services);
+
+				EnsureSettingsAndConfigurationAreBootstrapped();
+
+				// TODO: Remove App.Logger instance and replace with DI
+				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
+
+				// Wait for the UI to update
+				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+				SplashScreenLoadingTCS = null;
+
+				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
+
+				_ = MainWindow.Instance.InitializeApplication(appActivationArguments.Data);
+			}
 		}
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()

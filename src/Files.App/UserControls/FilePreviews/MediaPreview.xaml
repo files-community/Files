@@ -11,13 +11,16 @@
 	d:DesignWidth="400"
 	Unloaded="{x:Bind ViewModel.PreviewControlBase_Unloaded}"
 	mc:Ignorable="d">
+
 	<UserControl.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="Space"
 			Invoked="TogglePlaybackAcceleratorInvoked"
 			Modifiers="Control" />
 	</UserControl.KeyboardAccelerators>
+
 	<Border CornerRadius="{StaticResource ControlCornerRadius}">
+
 		<MediaPlayerElement
 			x:Name="PlayerContext"
 			AreTransportControlsEnabled="True"
@@ -31,5 +34,6 @@
 					IsZoomButtonVisible="False" />
 			</MediaPlayerElement.TransportControls>
 		</MediaPlayerElement>
+
 	</Border>
 </UserControl>

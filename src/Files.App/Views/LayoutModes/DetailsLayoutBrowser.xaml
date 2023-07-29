@@ -13,6 +13,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
@@ -915,14 +916,6 @@
 													Source="{x:Bind FileImage, Mode=OneWay}"
 													Stretch="Uniform" />
 											</ContentPresenter>
-											<Image
-												x:Name="FolderGlyphIcon"
-												Width="20"
-												Height="20"
-												HorizontalAlignment="Stretch"
-												VerticalAlignment="Stretch"
-												x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-												Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
 											<Border
 												x:Name="TypeUnknownGlyph"
 												Width="20"
@@ -1106,40 +1099,45 @@
 												<DataTemplate x:DataType="filetags:TagViewModel">
 													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 														<StackPanel
+															x:Name="TagPill"
 															Height="24"
 															Padding="8,0"
 															HorizontalAlignment="Left"
 															x:Phase="2"
-															BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-															BorderThickness="1"
 															CornerRadius="12"
 															Orientation="Horizontal"
+															Spacing="8"
 															Tapped="TagItem_Tapped"
 															ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
-															<FontIcon
-																x:Name="TagIcon"
-																FontSize="12"
-																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-																Glyph="&#xE8EC;"
-																Tapped="TagIcon_Tapped"
-																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+															<!--  Tag icon  -->
+															<PathIcon
+																VerticalAlignment="Center"
+																Data="{StaticResource ColorIconFilledTag}"
+																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+															<!--  Tag name  -->
 															<TextBlock
 																MaxWidth="200"
-																Padding="8,0,0,0"
 																VerticalAlignment="Center"
-																FontSize="12"
-																LineHeight="18"
 																Style="{StaticResource ColumnContentTextBlock}"
 																Text="{x:Bind Name, Mode=OneWay}"
 																TextTrimming="CharacterEllipsis" />
-
+															<!--  Remove tag icon  -->
+															<FontIcon
+																x:Name="RemoveTagIcon"
+																VerticalAlignment="Center"
+																FontSize="12"
+																Glyph="&#xE711;"
+																Tapped="RemoveTagIcon_Tapped"
+																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}"
+																Visibility="Collapsed" />
 															<VisualStateManager.VisualStateGroups>
 																<VisualStateGroup x:Name="CommonStates">
 																	<VisualState x:Name="Normal" />
 
 																	<VisualState x:Name="PointerOver">
 																		<VisualState.Setters>
-																			<Setter Target="TagIcon.Glyph" Value="&#xE711;" />
+																			<Setter Target="TagPill.Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
+																			<Setter Target="RemoveTagIcon.Visibility" Value="Visible" />
 																		</VisualState.Setters>
 																	</VisualState>
 																</VisualStateGroup>
@@ -1374,7 +1372,7 @@
 					<ListView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
-								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
 									<StackPanel
 										Margin="0,0,0,4"
 										VerticalAlignment="Top"
@@ -1457,41 +1455,41 @@
 								Spacing="4">
 								<Image
 									Height="36"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
 									Stretch="Uniform" />
-								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<FontIcon FontSize="32" Glyph="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 								<StackPanel
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
 											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
 										<TextBlock
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="14"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

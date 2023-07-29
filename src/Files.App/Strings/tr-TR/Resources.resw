@@ -139,7 +139,7 @@
     <value>Boyut:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Diskteki boyutu:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Sıkıştırılmamış Boyut:</value>
@@ -404,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} / {1} boş</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Birlikte aç</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Gönder</value>
@@ -1806,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Bilinmeyen</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Dosya etiketlerini düzenle</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2104,7 +2101,7 @@
     <value>Resimler</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Dosyaları Güncelle</value>
+    <value>Files güncelle</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>{0} Tane Dosya Hazırlanıyor</value>
@@ -2227,7 +2224,7 @@
     <value>Arşiv sıkıştırılıyor</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Sıkıştır</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Üzerine getirildiğinde dosyaları ve dizinleri seçin</value>
@@ -2954,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>Ayr</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -3050,7 +3047,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>Sessiz</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
@@ -3272,7 +3269,7 @@
     <value>Önizleme</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Git durumu</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Git Hatası</value>
@@ -3391,5 +3388,20 @@
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

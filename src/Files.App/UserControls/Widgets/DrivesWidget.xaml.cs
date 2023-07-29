@@ -272,7 +272,7 @@ namespace Files.App.UserControls.Widgets
 		private async Task EjectDevice(DriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(result);
+			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
 		}
 
 		private void FormatDrive(DriveCardItem? item)

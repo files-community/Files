@@ -175,7 +175,7 @@
     <value>Clear all items</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path</value>
+    <value>Enter a path to navigate to or type ">" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Edit tags</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -3397,5 +3397,29 @@
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
   </data>
 </root>

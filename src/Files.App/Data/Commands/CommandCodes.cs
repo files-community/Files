@@ -103,6 +103,7 @@ namespace Files.App.Data.Commands
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
+		OpenCommandPalette,
 
 		// Layout
 		LayoutDecreaseSize,
@@ -190,5 +191,8 @@ namespace Files.App.Data.Commands
 		GitPull,
 		GitPush,
 		GitSync,
+
+		// Tags
+		OpenAllTaggedItems,
 	}
 }
