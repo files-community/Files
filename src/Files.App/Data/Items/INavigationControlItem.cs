@@ -23,7 +23,6 @@ namespace Files.App.Data.Items
 		Drive,
 		LinuxDistro,
 		Location,
-		CloudDrive,
 		FileTag
 	}
 

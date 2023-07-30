@@ -152,11 +152,6 @@ namespace Files.App.Data.Items
 
 		public string Name => Root.DisplayName;
 
-		public DriveItem()
-		{
-			ItemType = NavigationControlItemType.CloudDrive;
-		}
-
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
