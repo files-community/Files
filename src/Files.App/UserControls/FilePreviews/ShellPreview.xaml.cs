@@ -25,6 +25,8 @@ namespace Files.App.UserControls.FilePreviews
 		{
 			await ViewModel.LoadPreviewAsync();
 			ViewModel.SizeChanged(GetPreviewSize());
+			if (XamlRoot.Content is FrameworkElement element)
+				element.SizeChanged += PreviewHost_SizeChanged;
 		}
 
 		private void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -44,6 +46,13 @@ namespace Files.App.UserControls.FilePreviews
 			result.Width = (int)(physicalSize.Width * scale + 0.5);
 			result.Height = (int)(physicalSize.Height * scale + 0.5);
 			return result;
+		}
+
+		private void PreviewHost_Unloaded(object sender, RoutedEventArgs e)
+		{
+			if (XamlRoot.Content is FrameworkElement element)
+				element.SizeChanged -= PreviewHost_SizeChanged;
+			ViewModel.UnloadPreview();
 		}
 	}
 }

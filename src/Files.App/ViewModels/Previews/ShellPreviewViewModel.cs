@@ -147,7 +147,7 @@ namespace Files.App.ViewModels.Previews
 			return windowCreated.Task;
 		}
 
-		private void UnloadPreview()
+		public void UnloadPreview()
 		{
 			var parent = MainWindow.Instance.WindowHandle;
 			if (hwnd == HWND.NULL)
@@ -174,13 +174,6 @@ namespace Files.App.ViewModels.Previews
 					currentHandler = old;
 				}
 			}
-		}
-
-		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
-		{
-			UnloadPreview();
-
-			base.PreviewControlBase_Unloaded(sender, e);
 		}
 	}
 }
