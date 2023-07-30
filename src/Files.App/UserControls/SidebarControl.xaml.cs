@@ -1076,7 +1076,6 @@ namespace Files.App.UserControls
 			{
 				NavigationControlItemType.Location => LocationNavItemTemplate,
 				NavigationControlItemType.Drive => DriveNavItemTemplate,
-				NavigationControlItemType.CloudDrive => DriveNavItemTemplate,
 				NavigationControlItemType.LinuxDistro => LinuxNavItemTemplate,
 				NavigationControlItemType.FileTag => FileTagNavItemTemplate,
 				_ => null

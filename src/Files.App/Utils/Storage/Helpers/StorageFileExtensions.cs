@@ -284,7 +284,7 @@ namespace Files.App.Utils.Storage
 
 				var drives = drivesViewModel.Drives.Concat(networkDrivesViewModel.Drives).Cast<DriveItem>().Concat(App.CloudDrivesManager.Drives);
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-				title = drive is not null ? drive.Text : $@"Drive ({component})";
+				title = drive is not null ? drive.Text : string.Format("DriveWithLetter".GetLocalizedResource(), component);
 			}
 			else
 			{
