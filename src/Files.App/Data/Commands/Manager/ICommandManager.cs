@@ -6,6 +6,7 @@ namespace Files.App.Data.Commands
 	public interface ICommandManager : IEnumerable<IRichCommand>
 	{
 		IRichCommand this[CommandCodes code] { get; }
+		IRichCommand this[string code] { get; }
 		IRichCommand this[HotKey customHotKey] { get; }
 
 		IRichCommand None { get; }
@@ -88,6 +89,7 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
+		IRichCommand OpenCommandPalette { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
