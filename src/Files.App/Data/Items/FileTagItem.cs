@@ -22,8 +22,8 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = Text;
 				OnPropertyChanged("Icon");
+				OnPropertyChanged(nameof(ToolTip));
 			}
 		}
 
@@ -48,5 +48,7 @@ namespace Files.App.Data.Items
 			Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
 			Foreground = new SolidColorBrush(FileTag.Color.ToColor())
 		};
+		
+		public object ToolTip => Text;
 	}
 }

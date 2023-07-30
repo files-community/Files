@@ -37,8 +37,6 @@ namespace Files.App.Data.Items
 			set => path = value;
 		}
 
-		public string ToolTipText { get; private set; }
-
 		public string DeviceID { get; set; }
 
 		public StorageFolder Root { get; set; }
@@ -73,8 +71,11 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref maxSpace, value))
 				{
-					ToolTipText = GetSizeString();
-
+					if (Type != DriveType.CloudDrive)
+					{
+						ToolTip = GetSizeString();
+					}
+					
 					OnPropertyChanged(nameof(MaxSpaceText));
 					OnPropertyChanged(nameof(ShowDriveDetails));
 				}
@@ -89,7 +90,10 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref freeSpace, value))
 				{
-					ToolTipText = GetSizeString();
+					if (Type != DriveType.CloudDrive)
+					{
+						ToolTip = GetSizeString();
+					}
 
 					OnPropertyChanged(nameof(FreeSpaceText));
 				}
@@ -112,7 +116,16 @@ namespace Files.App.Data.Items
 		public bool ShowDriveDetails
 			=> MaxSpace.Bytes > 0d;
 
-		public DriveType Type { get; set; }
+		private DriveType type;
+		public DriveType Type { get => type; set
+			{
+				type = value;
+				if(value == DriveType.Network)
+				{
+					ToolTip = "Network".GetLocalizedResource();
+				}
+			}
+		}
 
 		private string text;
 		public string Text
@@ -156,8 +169,18 @@ namespace Files.App.Data.Items
 		public string Id => DeviceID;
 
 		public string Name => Root.DisplayName;
-
+		
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
+
+		private object toolTip = "";
+		public object ToolTip
+		{
+			get => toolTip; 
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
 
 		public IconSource? GenerateIconSource() => new ImageIconSource()
 		{

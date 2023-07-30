@@ -103,7 +103,7 @@ namespace Files.App.UserControls.Sidebar
 			ReevaluateSelection();
 		}
 
-		private void HookupIconChangeListener(INavigationControlItem? oldItem, INavigationControlItem? newItem)
+		private void HookupIconChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
 		{
 			if (oldItem != null)
 			{

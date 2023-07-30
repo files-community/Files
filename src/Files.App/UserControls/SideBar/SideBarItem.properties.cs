@@ -37,13 +37,13 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty IsInFlyoutProperty =
 			DependencyProperty.Register("IsInFlyout", typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
 
-		public INavigationControlItem? Item
+		public ISidebarItemModel? Item
 		{
-			get { return (INavigationControlItem)GetValue(ItemProperty); }
+			get { return (ISidebarItemModel)GetValue(ItemProperty); }
 			set { SetValue(ItemProperty, value); }
 		}
 		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register("Item", typeof(INavigationControlItem), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register("Item", typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
 
 		public bool UseReorderDrop
 		{

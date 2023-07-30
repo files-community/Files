@@ -23,7 +23,18 @@ namespace Files.App.Data.Items
 
 		public byte[] IconData { get; set; }
 
-		public string Text { get; set; } = "";
+		private string text = "";
+		public string Text
+		{
+			get => text;
+			set
+			{
+				text = value;
+				// Just in case path hasn't been set
+				if (ToolTip is "")
+					ToolTip = value;
+			}
+		}
 
 		private string path;
 		public string Path
@@ -32,7 +43,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = string.IsNullOrEmpty(Path) ||
+				ToolTip = string.IsNullOrEmpty(Path) ||
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
@@ -41,8 +52,6 @@ namespace Files.App.Data.Items
 					: Path;
 			}
 		}
-
-		public virtual string ToolTipText { get; set; }
 
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.Location;
@@ -74,6 +83,16 @@ namespace Files.App.Data.Items
 
 		public bool IsHeader { get; set; }
 
+		private object toolTip = "";
+		public object ToolTip
+		{
+			get => toolTip;
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
@@ -97,13 +116,8 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref spaceUsed, value);
-
-				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
-
-		public override string ToolTipText
-			=> SpaceUsed.ToSizeString();
 
 		public RecycleBinLocationItem()
 		{

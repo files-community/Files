@@ -43,12 +43,12 @@
 							Margin="4,0"
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
-							UseSystemFocusVisuals="True"
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}"
 							IsTabStop="True"
-							TabFocusNavigation="Once">
-
+							TabFocusNavigation="Once"
+							ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay}"
+							UseSystemFocusVisuals="True">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition x:Name="IconColumn" Width="40" />
 								<ColumnDefinition Width="*" />

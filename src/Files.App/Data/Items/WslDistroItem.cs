@@ -16,11 +16,9 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
+				ToolTip = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
 			}
 		}
-
-		public string ToolTipText { get; private set; }
 
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.LinuxDistro;
@@ -40,6 +38,16 @@ namespace Files.App.Data.Items
 		public ContextMenuOptions MenuOptions { get; set; }
 
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
+
+		private object toolTip = "";
+		public object ToolTip
+		{
+			get => toolTip;
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
 		public IconSource? GenerateIconSource() => new BitmapIconSource()
 		{
 			UriSource = icon,

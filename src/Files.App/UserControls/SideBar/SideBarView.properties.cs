@@ -36,17 +36,16 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarView), new PropertyMetadata(null));
 
-		public INavigationControlItem SelectedItem
+		public ISidebarItemModel SelectedItem
 		{
-			get => (INavigationControlItem)GetValue(SelectedItemProperty);
+			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
 			set
 			{
-				if (IsLoaded)
-					SetValue(SelectedItemProperty, value);
+				SetValue(SelectedItemProperty, value);
 			}
 		}
-		public static readonly DependencyProperty SelectedItemProperty = 
-			DependencyProperty.Register(nameof(SelectedItem), typeof(INavigationControlItem), typeof(SidebarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty SelectedItemProperty =
+			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarControl), new PropertyMetadata(null));
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

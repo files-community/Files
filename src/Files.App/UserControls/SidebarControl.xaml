@@ -71,7 +71,7 @@
 					RightTapped="NavigationViewItem_RightTapped"
 					SelectsOnInvoked="{x:Bind SelectsOnInvoked}"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind ToolTip, Mode=OneWay}">
 					<NavigationViewItem.Icon>
 						<ImageIcon Source="{x:Bind Icon, Mode=OneWay}" />
 					</NavigationViewItem.Icon>
@@ -276,7 +276,7 @@
 					PointerPressed="Sidebar_PointerPressed"
 					RightTapped="NavigationViewItem_RightTapped"
 					Tag="{x:Bind Path}"
-					ToolTipService.ToolTip="{x:Bind ToolTipText}">
+					ToolTipService.ToolTip="{x:Bind ToolTip}">
 					<NavigationViewItem.Icon>
 						<ImageIcon>
 							<ImageIcon.Source>

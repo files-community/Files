@@ -30,7 +30,7 @@
 						DragStarting="ListViewItem_DragStarting"
 						Drop="ListViewItem_Drop"
 						Tag="{x:Bind Path}"
-						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}">
+						ToolTipService.ToolTip="{x:Bind ToolTip, Mode=OneWay}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
