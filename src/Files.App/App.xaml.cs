@@ -182,7 +182,7 @@ namespace Files.App
 
 				await Task.WhenAll(
 					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.GetNewEntriesAsync(),
+					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
 

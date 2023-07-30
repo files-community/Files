@@ -126,7 +126,7 @@
 					VerticalAlignment="Center"
 					x:Load="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}"
 					Style="{StaticResource PropertyName}"
-					Text="{helpers:ResourceString Name=AddDPropertiesShortcutItemWorkingDirialog/Text}" />
+					Text="{helpers:ResourceString Name=ShortcutItemWorkingDir}" />
 
 				<TextBox
 					x:Name="shortcutItemWorkingDirValue"
