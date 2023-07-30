@@ -1,16 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Commands;
-using Files.App.ViewModels;
-using Files.Core.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Windows.Input;
 using Windows.System;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
@@ -72,7 +67,14 @@ namespace Files.App.UserControls
 		{
 			// AutoSuggestBox won't receive focus unless it's fully loaded
 			VisiblePath.Focus(FocusState.Programmatic);
-			DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
+
+			if (DependencyObjectHelpers.FindChild<TextBox>(VisiblePath) is TextBox textBox)
+			{
+				if (textBox.Text.StartsWith(">"))
+					textBox.Select(1, textBox.Text.Length - 1);
+				else
+					textBox.SelectAll();
+			}
 		}
 
 		private void ManualPathEntryItem_Click(object _, PointerRoutedEventArgs e)

@@ -9,9 +9,15 @@ namespace Files.Core.Services
 	public interface IAddItemService
 	{
 		/// <summary>
+		/// Initialize the service
+		/// </summary>
+		/// <returns>Task</returns>
+		Task InitializeAsync();
+
+		/// <summary>
 		/// Gets a list of the available item types
 		/// </summary>
 		/// <returns>List of the available item types</returns>
-		Task<List<ShellNewEntry>> GetNewEntriesAsync();
+		List<ShellNewEntry> GetEntries();
 	}
 }

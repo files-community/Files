@@ -68,6 +68,9 @@ namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 				}
 			});
 
+			if (itemTypes is null)
+				return;
+
 			foreach (var itemType in itemTypes)
 			{
 				IImageModel? imageModel = null;
