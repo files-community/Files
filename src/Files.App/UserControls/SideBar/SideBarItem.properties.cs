@@ -53,9 +53,9 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty UseReorderDropProperty =
 			DependencyProperty.Register("UseReorderDrop", typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
 
-		public FrameworkElement Icon
+		public FrameworkElement? Icon
 		{
-			get { return (FrameworkElement)GetValue(IconProperty); }
+			get { return (FrameworkElement?)GetValue(IconProperty); }
 			set { SetValue(IconProperty, value); }
 		}
 		public static readonly DependencyProperty IconProperty =

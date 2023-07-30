@@ -20,6 +20,7 @@ namespace Files.App.UserControls.Sidebar
 		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
+		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 
 		public SidebarItem()
 		{
@@ -34,7 +35,6 @@ namespace Files.App.UserControls.Sidebar
 					args.Handled = true;
 				}
 			};
-			CanDrag = true;
 			DragStarting += SidebarItem_DragStarting;
 
 			Loaded += SidebarItem_Loaded;
@@ -181,7 +181,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ChildrenPresenter_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
-			if(args.Element is SidebarItem item)
+			if (args.Element is SidebarItem item)
 			{
 				if (Item?.ChildItems is IList enumerable)
 				{
@@ -214,7 +214,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 			RaiseItemInvoked();
 		}
-		
+
 		internal void RaiseItemInvoked()
 		{
 			Owner?.RaiseItemInvoked(this);
@@ -251,7 +251,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
-			Icon = Item.GenerateIconSource()?.CreateIconElement();
+			Icon = Item?.GenerateIconSource()?.CreateIconElement();
 			AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
@@ -330,23 +330,21 @@ namespace Files.App.UserControls.Sidebar
 				IsExpanded = true;
 			}
 
-			e.AcceptedOperation = DataPackageOperation.Move;
-
-			if (UseReorderDrop)
-			{
-				if (DragTargetAboveCenter(e))
-				{
-					VisualStateManager.GoToState(this, "DragInsertAbove", true);
-				}
-				else
-				{
-					VisualStateManager.GoToState(this, "DragInsertBelow", true);
-				}
-			}
-			else
+			var insertsAbove = DetermineDropTargetPosition(e);
+			if (insertsAbove == SidebarItemDropPosition.Center)
 			{
 				VisualStateManager.GoToState(this, "DragOnTop", true);
 			}
+			else if (insertsAbove == SidebarItemDropPosition.Top)
+			{
+				VisualStateManager.GoToState(this, "DragInsertAbove", true);
+			}
+			else if(insertsAbove == SidebarItemDropPosition.Bottom)
+			{
+				VisualStateManager.GoToState(this, "DragInsertBelow", true);
+			}
+
+			Owner.RaiseItemDragOver(this, insertsAbove, e);
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -363,17 +361,28 @@ namespace Files.App.UserControls.Sidebar
 		private void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
 			VisualStateManager.GoToState(this, "NoDrag", true);
-			Owner.RaiseItemDropped(this, e, DragTargetAboveCenter(e), e);
+			Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
-		private bool DragTargetAboveCenter(DragEventArgs args)
+		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)
 		{
-			if (GetTemplateChild("ElementGrid") is Grid grid)
+			if (UseReorderDrop)
 			{
-				var position = args.GetPosition(grid);
-				return position.Y < grid.ActualHeight / 2;
+				if (GetTemplateChild("ElementGrid") is Grid grid)
+				{
+					var position = args.GetPosition(grid);
+					if(position.Y < grid.ActualHeight * DROP_REPOSITION_THRESHOLD)
+					{
+						return SidebarItemDropPosition.Top;
+					}
+					if(position.Y > grid.ActualHeight * (1- DROP_REPOSITION_THRESHOLD))
+					{
+						return SidebarItemDropPosition.Bottom;
+					}
+					return SidebarItemDropPosition.Center;
+				}
 			}
-			return false;
+			return SidebarItemDropPosition.Center;
 		}
 	}
 }

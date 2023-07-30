@@ -6,15 +6,10 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
 namespace Files.App.UserControls.Sidebar
 {
-	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, bool InsertAbove, DragEventArgs RawEvent) { }
-	public record ItemContextInvokedArgs(object? Item, Point Position) { }
-
-
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl
 	{
@@ -33,6 +28,7 @@ namespace Files.App.UserControls.Sidebar
 
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
+		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
 		public event EventHandler<object>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 
@@ -124,13 +120,19 @@ namespace Files.App.UserControls.Sidebar
 			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
 		}
 
-		internal void RaiseItemDropped(SidebarItem sideBarItem, DragEventArgs e, bool insertsAbove, DragEventArgs rawEvent)
+		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, e.DataView, insertsAbove, rawEvent));
-			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, e.DataView, insertsAbove, rawEvent));
+			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
+		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		{
+			if (sideBarItem.Item is null) return;
+			ItemDragOver?.Invoke(sideBarItem, new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDragOver(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+		}
 
 		private void SidebarView_SizeChanged(object sender, SizeChangedEventArgs args)
 		{

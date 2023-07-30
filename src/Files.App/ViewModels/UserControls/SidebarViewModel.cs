@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
+using Windows.ApplicationModel.DataTransfer.DragDrop;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -1034,6 +1036,100 @@ namespace Files.App.ViewModels.UserControls
 					IsHidden = !options.ShowShellItems,
 				}
 			}.Where(x => x.ShowItem).ToList();
+		}
+
+		public async void HandleItemDragOver(ItemDragOverEventArgs args)
+		{
+			if (args.DropTarget is not LocationItem locationItem) return;
+			
+			var rawEvent = args.RawEvent;
+			var deferral = rawEvent.GetDeferral();
+
+			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
+			{
+				args.RawEvent.Handled = true;
+
+				var isPathNull = string.IsNullOrEmpty(locationItem.Path);
+				var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+				var hasStorageItems = storageItems.Any();
+
+				if (isPathNull && hasStorageItems && SectionType.Favorites.Equals(locationItem.Section))
+				{
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path));
+
+					if (!haveFoldersToPin)
+					{
+						rawEvent.AcceptedOperation = DataPackageOperation.None;
+					}
+					else
+					{
+						var captionText = "PinToFavorites".GetLocalizedResource();
+						CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
+					}
+				}
+				else if (isPathNull ||
+					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
+					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase))
+				{
+					rawEvent.AcceptedOperation = DataPackageOperation.None;
+				}
+				else if (hasStorageItems is false)
+				{
+					rawEvent.AcceptedOperation = DataPackageOperation.None;
+				}
+				else
+				{
+					string captionText;
+					DataPackageOperation operationType;
+					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+					{
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
+					}
+					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || rawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+					{
+						captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Link;
+					}
+					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Control))
+					{
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
+					}
+					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
+					{
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
+					}
+					else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
+						|| ZipStorageFolder.IsZipPath(locationItem.Path))
+					{
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
+					}
+					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path))
+					{
+						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Move;
+					}
+					else
+					{
+						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						operationType = DataPackageOperation.Copy;
+					}
+					CompleteDragEventArgs(rawEvent, captionText, operationType);
+				}
+			}
+
+			deferral.Complete();
+		}
+
+		private static DragEventArgs CompleteDragEventArgs(DragEventArgs e, string captionText, DataPackageOperation operationType)
+		{
+			e.DragUIOverride.IsCaptionVisible = true;
+			e.DragUIOverride.Caption = captionText;
+			e.AcceptedOperation = operationType;
+			return e;
 		}
 
 		private GridLength tabControlMargin;
