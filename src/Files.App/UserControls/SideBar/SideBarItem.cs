@@ -252,7 +252,8 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateIcon()
 		{
 			Icon = Item?.GenerateIconSource()?.CreateIconElement();
-			AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
+			if(Icon is not null)
+				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
 		private bool ShouldShowSelectionIndicator()
