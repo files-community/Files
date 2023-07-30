@@ -8,6 +8,10 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.UserControls.Sidebar">
 
+	<x:Double x:Key="SidebarOpenPaneLength">300</x:Double>
+	<x:Double x:Key="SidebarNegativeOpenPaneLength">-300</x:Double>
+	<x:Double x:Key="SidebarCompactOpenPaneLength">56</x:Double>
+
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
 		<local:SidebarItem AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}" Item="{Binding}" />
 	</DataTemplate>
@@ -280,7 +284,7 @@
 								<VisualState x:Name="NonCompact" />
 								<VisualState x:Name="Compact">
 									<VisualState.Setters>
-										<Setter Target="RootPanel.MaxWidth" Value="56" />
+										<Setter Target="RootPanel.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
 										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>

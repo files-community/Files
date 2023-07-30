@@ -44,13 +44,14 @@
 			Visibility="Collapsed" />
 
 		<Grid
-			x:Name="DisplayColumnGrid"
+			x:Name="PaneColumnGrid"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Canvas.ZIndex="10"
-			ContextRequested="DisplayColumnGrid_ContextRequested"
+			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
+
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
@@ -107,34 +108,22 @@
 				TabFocusNavigation="Local" />
 		</Grid>
 		<VisualStateManager.VisualStateGroups>
-			<VisualStateGroup x:Name="TogglePaneButtonStates">
-				<VisualState x:Name="TogglePaneButtonHidden" />
-				<VisualState x:Name="TogglePaneButtonVisible">
-					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind DisplayMode, Mode=OneWay}"
-							To="Minimal" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
-						<Setter Target="DisplayColumn.Width" Value="56" />
-						<Setter Target="MenuItemsHost.MaxWidth" Value="56" />
+						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="DisplayColumn.MinWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="DisplayColumn.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="MenuItemsHost.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
 						<Setter Target="MenuItemsHostLayout.Spacing" Value="0" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">
 					<VisualState.Setters>
 						<Setter Target="DisplayColumn.Width" Value="0" />
-						<Setter Target="DisplayColumnGrid.MaxWidth" Value="0" />
-						<Setter Target="DisplayColumnGrid.Background" Value="Red" />
+						<Setter Target="PaneColumnGrid.MaxWidth" Value="0" />
+						<Setter Target="PaneColumnGrid.Background" Value="Red" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
@@ -143,11 +132,11 @@
 				</VisualState>
 				<VisualState x:Name="MinimalExpanded">
 					<VisualState.Setters>
-						<Setter Target="DisplayColumn.Width" Value="300" />
-						<Setter Target="DisplayColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-						<Setter Target="DisplayColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
-						<Setter Target="DisplayColumnGrid.BorderThickness" Value="0,1,1,0" />
-						<Setter Target="DisplayColumnGrid.CornerRadius" Value="0,8,0,8" />
+						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
+						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+						<Setter Target="PaneColumnGrid.BorderThickness" Value="0,1,1,0" />
+						<Setter Target="PaneColumnGrid.CornerRadius" Value="0,8,0,8" />
 						<Setter Target="ContentPresenter.(Grid.Column)" Value="0" />
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />

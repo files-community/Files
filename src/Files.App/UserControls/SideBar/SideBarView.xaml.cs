@@ -43,11 +43,11 @@ namespace Files.App.UserControls.Sidebar
 
 			if (IsPaneOpen)
 			{
-				VisualStateManager.GoToState(this, "MinimalExpanded", false);
+				VisualStateManager.GoToState(this, "MinimalExpanded", true);
 			}
 			else
 			{
-				VisualStateManager.GoToState(this, "MinimalCollapsed", false);
+				VisualStateManager.GoToState(this, "MinimalCollapsed", true);
 			}
 		}
 
@@ -56,10 +56,10 @@ namespace Files.App.UserControls.Sidebar
 			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Compact:
-					VisualStateManager.GoToState(this, "Compact", false);
+					VisualStateManager.GoToState(this, "Compact", true);
 					return;
 				case SidebarDisplayMode.Expanded:
-					VisualStateManager.GoToState(this, "Expanded", false);
+					VisualStateManager.GoToState(this, "Expanded", true);
 					return;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
@@ -202,7 +202,7 @@ namespace Files.App.UserControls.Sidebar
 			draggingSidebarResizer = false;
 		}
 
-		private void DisplayColumnGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		private void PaneColumnGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
 			var newArgs = new ItemContextInvokedArgs(null, args.TryGetPosition(this, out var point) ? point : default);
 			ViewModel.HandleItemContextInvoked(this, newArgs);
