@@ -175,7 +175,7 @@
     <value>Clear all items</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type ">" to open the command palette</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -3421,5 +3421,8 @@
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
     <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>
