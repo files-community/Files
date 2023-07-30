@@ -3404,6 +3404,10 @@
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
   </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
   <data name="InvalidCommand" xml:space="preserve">
     <value>Invalid command</value>
   </data>
