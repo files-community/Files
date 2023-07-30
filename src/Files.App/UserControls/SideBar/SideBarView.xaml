@@ -52,9 +52,9 @@
 			XYFocusKeyboardNavigation="Enabled">
 
 			<Grid.RenderTransform>
-				<CompositeTransform x:Name="PaneColumnGridTransform"/>
+				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
-			
+
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
@@ -124,7 +124,7 @@
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">
 					<VisualState.Setters>
-						<!-- Minimal mode setters -->
+						<!--  Minimal mode setters  -->
 						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
@@ -134,14 +134,14 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
-						<!-- Specific to collapsed pane -->
+						<!--  Specific to collapsed pane  -->
 						<Setter Target="PaneColumnGridTransform.TranslateX" Value="{StaticResource SidebarNegativeOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalExpanded">
 					<VisualState.Setters>
-						<!-- Minimal mode setters -->
+						<!--  Minimal mode setters  -->
 						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarOpenPaneLength}" />
 						<Setter Target="PaneColumnGrid.Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 						<Setter Target="PaneColumnGrid.BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
@@ -151,7 +151,7 @@
 						<Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="ContentPresenter.CornerRadius" Value="0" />
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
-						<!-- Specific to expanded pane -->
+						<!--  Specific to expanded pane  -->
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
@@ -167,7 +167,7 @@
 									Value="0" />
 							</DoubleAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneLightDismissLayer" Storyboard.TargetProperty="Visibility">
-								<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>
+								<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
