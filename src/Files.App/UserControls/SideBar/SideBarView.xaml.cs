@@ -180,6 +180,11 @@ namespace Files.App.UserControls.Sidebar
 				DisplayMode = SidebarDisplayMode.Expanded;
 				useCompactInExpanded = false;
 			}
+			// Fix for splitter being stuck on double tap
+			if(sender is GridSplitter splitter)
+			{
+				VisualStateManager.GoToState(splitter, "Normal", true);
+			}
 		}
 
 		private void SidebarResizer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
