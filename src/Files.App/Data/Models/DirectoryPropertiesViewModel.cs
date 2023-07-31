@@ -94,7 +94,9 @@ namespace Files.App.Data.Models
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
 		{
-			GitBranchDisplayName = isGitRepository && branches.Any() && !(ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults)
+			GitBranchDisplayName = isGitRepository &&
+								branches.Any() &&
+								!(ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults)
 				? branches[ACTIVE_BRANCH_INDEX].Name
 				: null;
 
