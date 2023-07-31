@@ -2,11 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI.Controls;
+using Files.App.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using Windows.Foundation;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.UserControls.Sidebar
 {
@@ -145,18 +149,52 @@ namespace Files.App.UserControls.Sidebar
 		}
 
 
-		private void GridSplitter_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+		private void SidebarResizer_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = true;
-			preManipulationSidebarWidth = MenuItemsHost.ActualWidth;
+			preManipulationSidebarWidth = DisplayColumn.Width.Value;
+			VisualStateManager.GoToState(this, "ResizerPressed", true);
 		}
 
-		private void GridSplitter_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+		private void SidebarResizer_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
 		{
 			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
 			UpdateDisplayModeForPaneWidth(newWidth);
 		}
 
+		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			var primaryInvocation = e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter;
+			if (DisplayMode == SidebarDisplayMode.Expanded)
+			{
+				if (primaryInvocation)
+				{
+					DisplayMode = SidebarDisplayMode.Compact;
+					useCompactInExpanded = true;
+					return;
+				}
+
+				var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
+				var increment = ctrl.HasFlag(CoreVirtualKeyStates.Down) ? 5 : 1;
+
+				// Left makes the pane smaller so we invert the increment
+				if (e.Key == VirtualKey.Left)
+				{
+					increment = -increment;
+				}
+				var newWidth = DisplayColumn.Width.Value + increment;
+				UpdateDisplayModeForPaneWidth(newWidth);
+				return;
+			}
+			else if (DisplayMode == SidebarDisplayMode.Compact)
+			{
+				if (primaryInvocation || e.Key == VirtualKey.Right)
+				{
+					useCompactInExpanded = false;
+					DisplayMode = SidebarDisplayMode.Expanded;
+				}
+			}
+		}
 
 		private void PaneLightDismissLayer_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
@@ -180,17 +218,13 @@ namespace Files.App.UserControls.Sidebar
 				DisplayMode = SidebarDisplayMode.Expanded;
 				useCompactInExpanded = false;
 			}
-			// Fix for splitter being stuck on double tap
-			if(sender is GridSplitter splitter)
-			{
-				VisualStateManager.GoToState(splitter, "Normal", true);
-			}
 		}
 
 		private void SidebarResizer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			var sidebarResizer = (GridSplitter)sender;
+			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+			VisualStateManager.GoToState(this, "ResizerPointerOver", true);
 		}
 
 		private void SidebarResizer_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -198,13 +232,15 @@ namespace Files.App.UserControls.Sidebar
 			if (draggingSidebarResizer)
 				return;
 
-			var sidebarResizer = (GridSplitter)sender;
+			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+			VisualStateManager.GoToState(this, "ResizerNormal", true);
 		}
 
 		private void SidebarResizer_ManipulationCompleted(object sender, Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = false;
+			VisualStateManager.GoToState(this, "ResizerNormal", true);
 		}
 
 		private void PaneColumnGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)

@@ -3,8 +3,8 @@
 	x:Class="Files.App.UserControls.Sidebar.SidebarView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	HorizontalAlignment="Stretch"
 	Loaded="SidebarView_Loaded"
@@ -77,23 +77,35 @@
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
 		</Grid>
-		<controls:GridSplitter
+
+		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
+			Grid.RowSpan="2"
 			Grid.Column="1"
-			Width="0"
 			MinWidth="4"
 			Margin="0,8,0,0"
+			HorizontalAlignment="Right"
+			AllowFocusOnInteraction="True"
 			Background="Transparent"
+			BorderBrush="Transparent"
 			DoubleTapped="SidebarResizer_DoubleTapped"
-			Foreground="Transparent"
-			GripperForeground="Transparent"
 			ManipulationCompleted="SidebarResizer_ManipulationCompleted"
-			ManipulationDelta="GridSplitter_ManipulationDelta"
-			ManipulationStarted="GridSplitter_ManipulationStarted"
+			ManipulationDelta="SidebarResizer_ManipulationDelta"
+			ManipulationMode="TranslateX"
+			ManipulationStarted="SidebarResizer_ManipulationStarted"
 			PointerCanceled="SidebarResizer_PointerExited"
 			PointerEntered="SidebarResizer_PointerEntered"
-			PointerExited="SidebarResizer_PointerExited" />
+			PointerExited="SidebarResizer_PointerExited"
+			RenderTransform="{Binding ElementName=ContentRoot, Path=RenderTransform, Mode=OneWay}"
+			Visibility="{Binding ElementName=PaneRoot, Path=Visibility, Mode=OneWay}">
+			<UserControl
+				x:Name="SidebarResizerControl"
+				AutomationProperties.Name="{helpers:ResourceString Name=ResizeElementControl/AutomationProperties/Name}"
+				IsTabStop="True"
+				KeyDown="SidebarResizerControl_KeyDown"
+				UseSystemFocusVisuals="True" />
+		</Border>
 
 		<Grid
 			x:Name="ContentPresenter"
@@ -183,6 +195,31 @@
 						</Storyboard>
 					</VisualTransition>
 				</VisualStateGroup.Transitions>
+			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="ResizerStates">
+				<VisualState x:Name="ResizerNormal" />
+				<VisualState x:Name="ResizerPointerOver">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+						</ObjectAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+
+				<VisualState x:Name="ResizerPressed">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+						</ObjectAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
