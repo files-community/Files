@@ -23,7 +23,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		private async void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
-			await ViewModel.LoadPreviewAsync();
+			await ViewModel.LoadPreviewAsync(contentPresenter);
 			ViewModel.SizeChanged(GetPreviewSize());
 			if (XamlRoot.Content is FrameworkElement element)
 				element.SizeChanged += PreviewHost_SizeChanged;

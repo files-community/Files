@@ -1,8 +1,12 @@
-﻿using Files.App.ViewModels.Properties;
-using Microsoft.UI.Xaml;
+﻿using DirectN;
+using Files.App.ViewModels.Properties;
+using Microsoft.UI.Content;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
+using WinRT;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
 
@@ -22,21 +26,8 @@ namespace Files.App.ViewModels.Previews
 		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
 		private static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
 
-		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLong")]
-		private static extern int SetWindowLongPtr32(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
-
-		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLongPtr")]
-		private static extern IntPtr SetWindowLongPtr64(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
-
-		private IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
-		{
-			if (IntPtr.Size == 4)
-				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
-			else
-				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
-		}
-
 		PreviewHandler? currentHandler;
+		ContentExternalOutputLink? m_outputLink;
 		HWND hwnd = HWND.NULL;
 
 		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
@@ -72,6 +63,8 @@ namespace Files.App.ViewModels.Previews
 				User32.SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
 			if (currentHandler != null)
 				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
+			if (m_outputLink is not null)
+				m_outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
 		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
@@ -107,19 +100,11 @@ namespace Files.App.ViewModels.Previews
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public Task LoadPreviewAsync()
+		public async Task LoadPreviewAsync(ContentPresenter presenter)
 		{
 			UnloadPreview();
 
 			var parent = MainWindow.Instance.WindowHandle;
-
-			foreach (var wnd in User32.EnumChildWindows(parent))
-			{
-				var styleChild = (WindowStyles)User32.GetWindowLong(wnd, WindowLongFlags.GWL_STYLE);
-				SetWindowLong(wnd, WindowLongFlags.GWL_STYLE, (nint)(styleChild | WindowStyles.WS_CLIPSIBLINGS));
-			}
-			var styleParent = (WindowStyles)User32.GetWindowLong(parent, WindowLongFlags.GWL_STYLE);
-			SetWindowLong(parent, WindowLongFlags.GWL_STYLE, (nint)(styleParent | WindowStyles.WS_CLIPCHILDREN));
 
 			var windowCreated = new TaskCompletionSource();
 
@@ -127,12 +112,12 @@ namespace Files.App.ViewModels.Previews
 			{
 				HINSTANCE hInst = Kernel32.GetModuleHandle();
 				var wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-				hwnd = CreateWindowEx(0, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
+				hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
 				windowCreated.TrySetResult();
 
 				if (hwnd != HWND.NULL)
 				{
-					while (GetMessage(out MSG msg) > 0)
+					while (GetMessage(out Vanara.PInvoke.MSG msg) > 0)
 					{
 						TranslateMessage(msg);
 						DispatchMessage(msg);
@@ -144,7 +129,65 @@ namespace Files.App.ViewModels.Previews
 			th.TrySetApartmentState(ApartmentState.STA);
 			th.Start();
 
-			return windowCreated.Task;
+			await windowCreated.Task;
+
+			var hr = ChildWindowToXaml(parent, presenter);
+		}
+
+		private bool ChildWindowToXaml(IntPtr parent, ContentPresenter presenter)
+		{
+			D3D_DRIVER_TYPE[] driverTypes =
+			{
+				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_HARDWARE,
+				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
+			};
+
+			ID3D11Device? d3d11Device = null;
+			D3D_FEATURE_LEVEL featureLevelSupported;
+			ID3D11DeviceContext d3d11DeviceContext;
+
+			foreach (var driveType in driverTypes)
+			{
+				var hr = D3D11Functions.D3D11CreateDevice(
+					null,
+					driveType,
+					IntPtr.Zero,
+					(uint)D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+					null,
+					0,
+					7,
+					out d3d11Device,
+					out featureLevelSupported,
+					out d3d11DeviceContext);
+
+				if (hr.IsSuccess)
+					break;
+			}
+
+			if (d3d11Device is null)
+				return false;
+			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
+			if (Functions.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var dcompDev).IsError)
+				return false;
+			IDCompositionDevice m_pDevice = (IDCompositionDevice)Marshal.GetObjectForIUnknown(dcompDev);
+
+			if (m_pDevice.CreateVisual(out var m_pControlChildVisual).IsError ||
+				m_pDevice.CreateSurfaceFromHwnd(hwnd.DangerousGetHandle(), out var m_pControlsurfaceTile).IsError ||
+				m_pControlChildVisual.SetContent(m_pControlsurfaceTile).IsError)
+				return false;
+
+			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
+			m_outputLink = ContentExternalOutputLink.Create(compositor);
+			IDCompositionTarget target = m_outputLink.As<IDCompositionTarget>();
+			target.SetRoot(m_pControlChildVisual);
+
+			m_outputLink.PlacementVisual.Size = new(0, 0);
+			m_outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			ElementCompositionPreview.SetElementChildVisual(presenter, m_outputLink.PlacementVisual);
+
+			m_pDevice.Commit();
+
+			return DwmApi.DwmSetWindowAttribute<bool>(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true).Succeeded;
 		}
 
 		public void UnloadPreview()
@@ -158,7 +201,7 @@ namespace Files.App.ViewModels.Previews
 				});
 			if (hwnd == HWND.NULL)
 				return;
-			User32.PostMessage(hwnd, (uint)WindowMessage.WM_CLOSE, 0, 0);
+			User32.PostMessage(hwnd, (uint)WindowMessage.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
 		}
 
 		public void GotFocus(Action focusPresenter)
