@@ -547,18 +547,15 @@ namespace Files.App.Utils.Storage
 		}
 		private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
 		{
-			if (stream.Length == 0) // File is empty
+			stream.SetLength(0);
+			var compressor = new SevenZipCompressor()
 			{
-				var compressor = new SevenZipCompressor()
-				{
-					CompressionMode = CompressionMode.Create,
-					ArchiveFormat = format
-				};
-				await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
-				await stream.FlushAsync();
-				return true;
-			}
-			return false;
+				CompressionMode = CompressionMode.Create,
+				ArchiveFormat = format
+			};
+			await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
+			await stream.FlushAsync();
+			return true;
 		}
 
 		private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()
