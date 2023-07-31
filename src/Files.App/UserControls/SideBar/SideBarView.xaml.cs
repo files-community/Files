@@ -98,9 +98,14 @@ namespace Files.App.UserControls.Sidebar
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
-				DisplayColumn.Width = new GridLength(newPaneWidth);
+				OpenPaneWidth = newPaneWidth;
 				useCompactInExpanded = false;
 			}
+		}
+
+		private void UpdateOpenPaneLengthColumn()
+		{
+			DisplayColumn.Width = new GridLength(OpenPaneWidth);
 		}
 
 		internal void UpdateSelectedItemContainer(SidebarItem container)
@@ -145,18 +150,18 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			UpdateDisplayModeForSidebarWidth(ActualWidth);
+			UpdateDisplayMode();
+			UpdateOpenPaneLengthColumn();
 		}
 
-
-		private void SidebarResizer_ManipulationStarted(object sender, Microsoft.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = true;
-			preManipulationSidebarWidth = DisplayColumn.Width.Value;
+			preManipulationSidebarWidth = OpenPaneWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
 		}
 
-		private void SidebarResizer_ManipulationDelta(object sender, Microsoft.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
 			UpdateDisplayModeForPaneWidth(newWidth);
@@ -182,7 +187,7 @@ namespace Files.App.UserControls.Sidebar
 				{
 					increment = -increment;
 				}
-				var newWidth = DisplayColumn.Width.Value + increment;
+				var newWidth = OpenPaneWidth + increment;
 				UpdateDisplayModeForPaneWidth(newWidth);
 				return;
 			}
@@ -196,17 +201,17 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void PaneLightDismissLayer_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void PaneLightDismissLayer_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			IsPaneOpen = false;
 		}
 
-		private void PaneLightDismissLayer_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+		private void PaneLightDismissLayer_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			IsPaneOpen = false;
 		}
 
-		private void SidebarResizer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
@@ -220,14 +225,14 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void SidebarResizer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(this, "ResizerPointerOver", true);
 		}
 
-		private void SidebarResizer_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (draggingSidebarResizer)
 				return;
@@ -237,13 +242,13 @@ namespace Files.App.UserControls.Sidebar
 			VisualStateManager.GoToState(this, "ResizerNormal", true);
 		}
 
-		private void SidebarResizer_ManipulationCompleted(object sender, Microsoft.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+		private void SidebarResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = false;
 			VisualStateManager.GoToState(this, "ResizerNormal", true);
 		}
 
-		private void PaneColumnGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		private void PaneColumnGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
 		{
 			var newArgs = new ItemContextInvokedArgs(null, args.TryGetPosition(this, out var point) ? point : default);
 			ViewModel.HandleItemContextInvoked(this, newArgs);
