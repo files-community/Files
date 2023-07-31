@@ -12,6 +12,7 @@ namespace Files.App.Data.Models
 			UserLength = new GridLength(24, GridUnitType.Pixel),
 			IsResizeable = false,
 		};
+
 		[LiteDB.BsonIgnore]
 		public ColumnViewModel IconColumn
 		{
