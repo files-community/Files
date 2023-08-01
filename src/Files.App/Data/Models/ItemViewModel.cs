@@ -381,6 +381,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		public bool HasNoWatcher { get; private set; }
+
 		public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
@@ -1381,7 +1383,8 @@ namespace Files.App.Data.Models
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
 						IsTypeGitRepository = GitDirectory is not null
 					});
-					WatchForDirectoryChanges(path, syncStatus);
+					if (!HasNoWatcher)
+						WatchForDirectoryChanges(path, syncStatus);
 					if (GitDirectory is not null)
 						WatchForGitChanges();
 					break;
@@ -1390,13 +1393,15 @@ namespace Files.App.Data.Models
 				case 1:
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					WatchForStorageFolderChanges(currentStorageFolder?.Item);
+					if (!HasNoWatcher)
+						WatchForStorageFolderChanges(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
 				case 2:
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-					WatchForWin32FolderChanges(path);
+					if (!HasNoWatcher)
+						WatchForWin32FolderChanges(path);
 					break;
 
 				// Enumeration failed
@@ -1429,14 +1434,16 @@ namespace Files.App.Data.Models
 			watcherCTS = new CancellationTokenSource();
 		}
 
-		public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
+		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
+			bool isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
+			bool isShellFolder = path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
 			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
-				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
-				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
+				!isMtp &&
+				!isShellFolder &&
 				!isWslDistro;
 			bool isFtp = FtpHelpers.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
@@ -1506,6 +1513,8 @@ namespace Files.App.Data.Models
 				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
 					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
 			}
+
+			HasNoWatcher = isFtp || isWslDistro || isMtp || currentStorageFolder?.Item is ZipStorageFolder;
 
 			if (enumFromStorageFolder)
 			{

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Services;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -485,6 +484,12 @@ namespace Files.App.Views.Shells
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
 			return SlimContentPage?.CommandsViewModel.Drop(e);
+		}
+
+		public async Task RefreshIfNoWatcherExists()
+		{
+			if (FilesystemViewModel.HasNoWatcher)
+				await Refresh_Click();
 		}
 
 		public async Task Refresh_Click()

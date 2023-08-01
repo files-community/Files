@@ -617,7 +617,7 @@
 											Grid.Row="0"
 											Grid.Column="1"
 											VerticalAlignment="Center"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -633,7 +633,7 @@
 										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -728,7 +728,7 @@
 									Grid.Column="2"
 									VerticalAlignment="Center"
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -747,7 +747,7 @@
 									Grid.Column="1"
 									Grid.ColumnSpan="3"
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 

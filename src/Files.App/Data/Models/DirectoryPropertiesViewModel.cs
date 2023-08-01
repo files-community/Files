@@ -7,6 +7,8 @@ namespace Files.App.Data.Models
 {
 	public class DirectoryPropertiesViewModel : ObservableObject
 	{
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
 
@@ -86,13 +88,15 @@ namespace Files.App.Data.Models
 
 		public DirectoryPropertiesViewModel()
 		{
-			NewBranchCommand = new AsyncRelayCommand(() 
+			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranch(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)
 		{
-			GitBranchDisplayName = isGitRepository && branches.Any()
+			GitBranchDisplayName = isGitRepository &&
+								branches.Any() &&
+								!(ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults)
 				? branches[ACTIVE_BRANCH_INDEX].Name
 				: null;
 
