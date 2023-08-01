@@ -69,7 +69,7 @@ namespace Files.App.Utils.RecycleBin
 					ReturnResult.InProgress,
 					FileOperationType.Delete);
 
-				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
+				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
 				banner.Remove();
 				if (opSucceded)
 					ongoingTasksViewModel.PostBanner(
