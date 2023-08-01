@@ -63,8 +63,11 @@ namespace Files.Shared
 			try
 			{
 				var lines = File.ReadAllLines(filePath);
-				var lastLines = lines.Skip(Math.Max(0, lines.Length - numberOfLinesKept));
-				File.WriteAllLines(filePath, lastLines);
+				if (lines.Length > numberOfLinesKept)
+				{
+					var lastLines = lines.Skip(Math.Max(0, lines.Length - numberOfLinesKept));
+					File.WriteAllLines(filePath, lastLines);
+				}
 			}
 			catch (Exception e)
 			{
