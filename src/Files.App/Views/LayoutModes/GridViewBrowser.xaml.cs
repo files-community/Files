@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Vanara.Extensions.Reflection;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -191,17 +192,30 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock textBlockName = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock textBlockFormat = gridViewItem.FindDescendant("ItemFileFormat") as TextBlock;
+				TextBlock textBlockSize = gridViewItem.FindDescendant("ItemSize") as TextBlock;
 				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-				textBox.Text = textBlock.Text;
-				OldItemName = textBlock.Text;
-				textBlock.Visibility = Visibility.Collapsed;
+				Grid gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
+
+				textBox.Text = textBlockName.Text;
+				OldItemName = textBlockName.Text;
+
+				textBlockName.Visibility = Visibility.Collapsed;
+				textBlockFormat.Visibility = Visibility.Collapsed;
+				textBlockSize.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
+				gridMain.ColumnDefinitions[0].Width = new GridLength(0);
+				gridMain.ColumnDefinitions[1].Width = new GridLength(0);
 
 				if (textBox.FindParent<Grid>() is null)
 				{
-					textBlock.Visibility = Visibility.Visible;
+					textBlockName.Visibility = Visibility.Visible;
+					textBlockFormat.Visibility = Visibility.Visible;
+					textBlockSize.Visibility = Visibility.Visible;
 					textBox.Visibility = Visibility.Collapsed;
+					gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
+					gridMain.ColumnDefinitions[1].Width = new GridLength(64);
 					return;
 				}
 			}
@@ -247,9 +261,17 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock? textBlockName = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock? textBlockFormat = gridViewItem.FindDescendant("ItemFileFormat") as TextBlock;
+				TextBlock? textBlockSize = gridViewItem.FindDescendant("ItemSize") as TextBlock;
+				Grid? gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
+
 				textBox.Visibility = Visibility.Collapsed;
-				textBlock!.Visibility = Visibility.Visible;
+				textBlockName!.Visibility = Visibility.Visible;
+				textBlockFormat!.Visibility = Visibility.Visible;
+				textBlockSize!.Visibility = Visibility.Visible;
+				gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
+				gridMain.ColumnDefinitions[1].Width = new GridLength(64);
 			}
 
 			textBox!.LostFocus -= RenameTextBox_LostFocus;
