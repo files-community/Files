@@ -13,6 +13,8 @@ on:
                 options:
                     - Preview
                     - Release
+                    - Test
+                    - Servicing
                 required: false
 
 jobs:
