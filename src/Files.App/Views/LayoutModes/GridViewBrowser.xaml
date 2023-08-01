@@ -247,6 +247,7 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
+					x:Name="MainGrid"
 					MaxHeight="68"
 					Padding="0"
 					HorizontalAlignment="Left"
@@ -402,12 +403,17 @@
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
 							Grid.Row="0"
+							Padding="5 2 5 2"							
+							MaxHeight="60"
 							HorizontalAlignment="Left"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 							Text="{x:Bind Name, Mode=OneWay}"
+							TextWrapping="Wrap"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
 							Visibility="Collapsed" />
 
 						<TextBlock
+							x:Name="ItemFileFormat"
 							Grid.Row="1"
 							HorizontalAlignment="Left"
 							FontSize="12px"
@@ -417,6 +423,7 @@
 							TextWrapping="NoWrap" />
 
 						<TextBlock
+							x:Name="ItemSize"
 							Grid.Row="2"
 							HorizontalAlignment="Left"
 							FontSize="12px"
