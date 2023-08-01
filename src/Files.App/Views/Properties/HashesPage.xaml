@@ -59,7 +59,7 @@
 						<!--  Algorithm  -->
 						<TextBlock
 							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
+							Style="{StaticResource App.Theme.BaseTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Algorithm}" />
 
 						<!--  (Divider)  -->
@@ -74,7 +74,7 @@
 						<TextBlock
 							Grid.Column="2"
 							VerticalAlignment="Center"
-							Style="{StaticResource BodyTextBlockStyle}"
+							Style="{StaticResource App.Theme.BaseTextBlockStyle}"
 							Text="{helpers:ResourceString Name=HashValue}" />
 
 						<!--  Toggle Hashes  -->
@@ -157,7 +157,7 @@
 									Orientation="Horizontal">
 									<TextBlock
 										VerticalAlignment="Center"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{helpers:ResourceString Name=Calculating}" />
 
 									<ProgressBar
@@ -173,7 +173,7 @@
 									Grid.Column="2"
 									VerticalAlignment="Center"
 									x:Load="{x:Bind IsCalculating, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind HashValue, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
