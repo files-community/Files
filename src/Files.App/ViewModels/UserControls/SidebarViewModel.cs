@@ -55,10 +55,12 @@ namespace Files.App.ViewModels.UserControls
 			get => sidebarDisplayMode;
 			set
 			{
+				// We only want to track non minimal mode
+				if (value == SidebarDisplayMode.Minimal) return;
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
-
+					IsSidebarOpen = sidebarDisplayMode == SidebarDisplayMode.Expanded;
 					UpdateTabControlMargin();
 				}
 			}
@@ -245,6 +247,7 @@ namespace Files.App.ViewModels.UserControls
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);

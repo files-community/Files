@@ -65,7 +65,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else if (e.Property == DisplayModeProperty)
 			{
-				control.UpdateDisplayMode();
+				control.UpdateDisplayMode((SidebarDisplayMode)e.OldValue);
 			}
 			else if (e.Property == IsPaneOpenProperty)
 			{

@@ -204,7 +204,6 @@
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
-			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
 			OpenPaneWidth="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
@@ -299,18 +298,20 @@
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup>
-				<VisualState x:Name="NormalSidebarState" />
-				<VisualState x:Name="MinimalSidebarState">
+				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind SidebarControl.DisplayMode, Mode=OneWay}"
-							To="Minimal" />
+						<AdaptiveTrigger MinWindowWidth="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
+						<Setter Target="SidebarControl.DisplayMode" Value="Minimal" />
 						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
 					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="MinimalSidebarState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger x:Name="MinimalSidebarAdaptiveTrigger" MinWindowWidth="641" />
+					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>

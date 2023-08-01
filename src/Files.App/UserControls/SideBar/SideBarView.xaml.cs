@@ -55,15 +55,22 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void UpdateDisplayMode()
+		private void UpdateDisplayMode(SidebarDisplayMode? oldValue = null)
 		{
+			if (oldValue.HasValue)
+			{
+				useCompactInExpanded = oldValue == SidebarDisplayMode.Compact;
+			}
+
 			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", true);
+					useCompactInExpanded = true;
 					return;
 				case SidebarDisplayMode.Expanded:
 					VisualStateManager.GoToState(this, "Expanded", true);
+					useCompactInExpanded = false;
 					return;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
@@ -74,18 +81,21 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateDisplayModeForSidebarWidth(double newControlWidth)
 		{
-			if (newControlWidth <= 640)
-			{
-				DisplayMode = SidebarDisplayMode.Minimal;
-			}
-			else if (useCompactInExpanded)
-			{
-				DisplayMode = SidebarDisplayMode.Compact;
-			}
-			else
-			{
-				DisplayMode = SidebarDisplayMode.Expanded;
-			}
+			//if (newControlWidth <= 640)
+			//{
+			//	if(DisplayMode != SidebarDisplayMode.Minimal)
+			//	{
+			//		useCompactInExpanded = DisplayMode == SidebarDisplayMode.Compact;
+			//		DisplayMode = SidebarDisplayMode.Minimal;
+			//	}
+			//}
+			//else if (DisplayMode == SidebarDisplayMode.Minimal)
+			//{
+			//	if (useCompactInExpanded)
+			//		DisplayMode = SidebarDisplayMode.Compact;
+			//	else
+			//		DisplayMode = SidebarDisplayMode.Expanded;
+			//}
 		}
 
 		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
@@ -93,13 +103,11 @@ namespace Files.App.UserControls.Sidebar
 			if (newPaneWidth < COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
-				useCompactInExpanded = true;
 			}
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
 				OpenPaneWidth = newPaneWidth;
-				useCompactInExpanded = false;
 			}
 		}
 
@@ -150,6 +158,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
+			useCompactInExpanded = DisplayMode == SidebarDisplayMode.Compact;
 			UpdateDisplayMode();
 			UpdateOpenPaneLengthColumn();
 		}
