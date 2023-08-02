@@ -2384,6 +2384,26 @@ namespace Files.App.Data.Models
 			searchCTS?.Cancel();
 		}
 
+		public void UpdateDateDisplay(bool isFormatChange)
+		{
+			filesAndFolders.ToList().AsParallel().ForEach(item =>
+			{
+				// Reassign values to update date display
+				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
+					item.ItemDateAccessedReal = item.ItemDateAccessedReal;
+				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
+					item.ItemDateCreatedReal = item.ItemDateCreatedReal;
+				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
+					item.ItemDateModifiedReal = item.ItemDateModifiedReal;
+				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
+					recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal;
+				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
+					gitItem.GitLastCommitDate = gitItem.GitLastCommitDate;
+			});
+		}
+
+		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
+
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
