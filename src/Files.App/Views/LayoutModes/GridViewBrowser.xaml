@@ -402,13 +402,13 @@
 
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
-							Grid.Row="0"							
+							Grid.Row="0"
 							MaxHeight="60"
 							HorizontalAlignment="Left"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextWrapping="Wrap"
-							ScrollViewer.VerticalScrollBarVisibility="Auto"
 							Visibility="Collapsed" />
 
 						<TextBlock
