@@ -402,8 +402,7 @@
 
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
-							Grid.Row="0"
-							Padding="5 2 5 2"							
+							Grid.Row="0"							
 							MaxHeight="60"
 							HorizontalAlignment="Left"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"

@@ -184,11 +184,14 @@ namespace Files.App.Views.LayoutModes
 			{
 				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				Grid gridMain = gridViewItem.FindDescendant("GridViewBrowserListedItem") as Grid;
+
 				textBox = popup.Child as TextBox;
 				textBox.Text = textBlock.Text;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
+				gridMain.RowDefinitions[0].Height = new GridLength(0);
 			}
 			else
 			{
@@ -256,8 +259,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				Grid? gridMain = gridViewItem.FindDescendant("GridViewBrowserListedItem") as Grid;
+
 				popup!.IsOpen = false;
 				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
+				gridMain.RowDefinitions[0].Height = GridLength.Auto;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
