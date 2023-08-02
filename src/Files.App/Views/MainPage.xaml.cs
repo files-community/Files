@@ -4,18 +4,13 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -220,14 +215,8 @@ namespace Files.App.Views
 					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
-					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
-					if (isTextBox)
-					{
-						if (hotKey.IsTextBoxHotKey())
-							break;
-						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
-							break;
-					}
+					if (e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null)
+						break;
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
@@ -273,7 +262,7 @@ namespace Files.App.Views
 			e.SignalEvent?.Set();
 		}
 
-		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
+		private void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
 				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
