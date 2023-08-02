@@ -2386,19 +2386,19 @@ namespace Files.App.Data.Models
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
-			filesAndFolders.ToList().AsParallel().ForAll(item =>
+			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
 				// Reassign values to update date display
 				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
-					item.ItemDateAccessedReal = item.ItemDateAccessedReal;
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
 				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
-					item.ItemDateCreatedReal = item.ItemDateCreatedReal;
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
 				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
-					item.ItemDateModifiedReal = item.ItemDateModifiedReal;
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
 				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
-					recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal;
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
 				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
-					gitItem.GitLastCommitDate = gitItem.GitLastCommitDate;
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
 			});
 		}
 
