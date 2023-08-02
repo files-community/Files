@@ -2386,7 +2386,7 @@ namespace Files.App.Data.Models
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
-			filesAndFolders.ToList().AsParallel().ForEach(item =>
+			filesAndFolders.ToList().AsParallel().ForAll(item =>
 			{
 				// Reassign values to update date display
 				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
