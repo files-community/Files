@@ -370,22 +370,35 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
+		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
+		{
+			using Process process = CreatePowershellProcess(command, runAsAdmin);
+			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
+
+			process.Start();
+
+			try
+			{
+				await process.WaitForExitAsync(cts.Token);
+				return process.ExitCode == 0;
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+			catch (Win32Exception)
+			{
+				// If user cancels UAC
+				return false;
+			}
+		}
+
 		public static bool RunPowershellCommand(string command, bool runAsAdmin)
 		{
 			try
 			{
-				using Process process = new Process();
+				using Process process = CreatePowershellProcess(command, runAsAdmin);
 
-				if (runAsAdmin)
-				{
-					process.StartInfo.UseShellExecute = true;
-					process.StartInfo.Verb = "runas";
-				}
-
-				process.StartInfo.FileName = "powershell.exe";
-				process.StartInfo.CreateNoWindow = true;
-				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				process.StartInfo.Arguments = command;
 				process.Start();
 
 				if (process.WaitForExit(30 * 1000))
@@ -813,6 +826,24 @@ namespace Files.App.Utils.Shell
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
 			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+		}
+
+		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
+		{
+			Process process = new();
+
+			if (runAsAdmin)
+			{
+				process.StartInfo.UseShellExecute = true;
+				process.StartInfo.Verb = "runas";
+			}
+
+			process.StartInfo.FileName = "powershell.exe";
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			process.StartInfo.Arguments = command;
+
+			return process;
 		}
 	}
 }
