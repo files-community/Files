@@ -1,17 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls;
-using Files.App.ViewModels;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
 namespace Files.App.Helpers.ContextFlyouts
 {
 	/// <summary>
@@ -255,6 +247,12 @@ namespace Files.App.Helpers.ContextFlyouts
 
 					if (item.IsPrimary || item.CollapseLabel)
 						toggleButton.SetValue(ToolTipService.ToolTipProperty, item.Text);
+
+					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
+					{
+						toggleButton.KeyboardAccelerators.Add(item.KeyboardAccelerator);
+						toggleButton.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+					}
 				}
 			}
 			else
@@ -279,6 +277,12 @@ namespace Files.App.Helpers.ContextFlyouts
 
 					if (item.IsPrimary || item.CollapseLabel)
 						button.SetValue(ToolTipService.ToolTipProperty, item.Text);
+
+					if (item.KeyboardAccelerator is not null && item.KeyboardAcceleratorTextOverride is not null)
+					{
+						button.KeyboardAccelerators.Add(item.KeyboardAccelerator);
+						button.KeyboardAcceleratorTextOverride = item.KeyboardAcceleratorTextOverride;
+					}
 				}
 			}
 
