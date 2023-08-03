@@ -512,11 +512,11 @@ namespace Files.App.Utils.Shell
 			return success;
 		}
 
-		public static void OpenFormatDriveDialog(string drive)
+		public static Task OpenFormatDriveDialog(string drive)
 		{
 			// Format requires elevation
 			int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
 		}
 
 		public static void SetVolumeLabel(string drivePath, string newLabel)

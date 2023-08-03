@@ -212,7 +212,7 @@ namespace Files.App.Helpers
 
 					case "format":
 						var drivePath = contextMenu.ItemsPath[0];
-						Win32API.OpenFormatDriveDialog(drivePath);
+						await Win32API.OpenFormatDriveDialog(drivePath);
 						break;
 
 					default:
