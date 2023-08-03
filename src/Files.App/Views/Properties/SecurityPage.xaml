@@ -159,7 +159,7 @@
 
 									<TextBlock
 										Grid.Column="1"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										ToolTipService.ToolTip="{x:Bind Principal.FullNameHumanized}">
 										<Run Text="{x:Bind Principal.DisplayName}" />
 										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes}" />

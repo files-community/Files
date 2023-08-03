@@ -28,7 +28,12 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
+
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">

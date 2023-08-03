@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.MultitaskingControl;
+using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,12 +13,17 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+
+		private DateTimeFormats _lastDateTimeFormats;
+
 		private Task _gitFetch = Task.CompletedTask;
 
 		private CancellationTokenSource _gitFetchToken = new CancellationTokenSource();
@@ -194,6 +200,12 @@ namespace Files.App.Views.Shells
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+			_updateDateDisplayTimer.Start();
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -724,6 +736,19 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
+			{
+				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+				FilesystemViewModel?.UpdateDateDisplay(true);
+			}
+			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
+			{
+				FilesystemViewModel?.UpdateDateDisplay(false);
+			}
+		}
+
 		public virtual void Dispose()
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
@@ -762,6 +787,8 @@ namespace Files.App.Views.Shells
 				disposableContent?.Dispose();
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

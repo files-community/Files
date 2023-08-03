@@ -26,6 +26,7 @@
 		<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
 		<Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
 		<Setter Property="FontWeight" Value="SemiBold" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 	</Style>
 
 	<Style x:Key="PropertyValueGrid" TargetType="Grid">
@@ -40,6 +41,7 @@
 		<Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
 		<Setter Property="IsTextSelectionEnabled" Value="True" />
 		<Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 	</Style>
 
 	<Style
@@ -52,6 +54,7 @@
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="FontSize" Value="14" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 	</Style>
 
 	<Style
@@ -64,6 +67,7 @@
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="FontSize" Value="14" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 	</Style>
 
 	<converters:StringArrayToStringConverter x:Key="StringArrayToString" />
