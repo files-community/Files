@@ -499,11 +499,6 @@ namespace Files.App.Utils.Shell
 			return success;
 		}
 
-		public static void UnlockBitlockerDrive(string drive, string password)
-		{
-			RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
-		}
-
 		public static void OpenFormatDriveDialog(string drive)
 		{
 			// Format requires elevation
