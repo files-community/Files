@@ -207,7 +207,7 @@ namespace Files.App.Helpers
 
 					case "mount":
 						var vhdPath = contextMenu.ItemsPath[0];
-						Win32API.MountVhdDisk(vhdPath);
+						await Win32API.MountVhdDisk(vhdPath);
 						break;
 
 					case "format":

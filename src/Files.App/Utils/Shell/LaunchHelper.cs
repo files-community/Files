@@ -45,7 +45,7 @@ namespace Files.App.Utils.Shell
 			if (FileExtensionHelpers.IsVhdFile(application))
 			{
 				// Use PowerShell to mount Vhd Disk as this requires admin rights
-				return Win32API.MountVhdDisk(application);
+				return await Win32API.MountVhdDisk(application);
 			}
 
 			try
