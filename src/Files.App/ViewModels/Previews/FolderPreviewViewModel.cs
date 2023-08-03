@@ -41,8 +41,8 @@ namespace Files.App.ViewModels.Previews
 			Item.FileDetails = new()
 			{
 				GetFileProperty("PropertyItemCount", items.Count),
-				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
-				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
+				GetFileProperty("PropertyDateModified", info.DateModified),
+				GetFileProperty("PropertyDateCreated", info.ItemDate),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
 			};
 

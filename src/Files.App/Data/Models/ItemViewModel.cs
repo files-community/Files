@@ -2384,6 +2384,26 @@ namespace Files.App.Data.Models
 			searchCTS?.Cancel();
 		}
 
+		public void UpdateDateDisplay(bool isFormatChange)
+		{
+			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			{
+				// Reassign values to update date display
+				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
+				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
+				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
+			});
+		}
+
+		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
+
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
