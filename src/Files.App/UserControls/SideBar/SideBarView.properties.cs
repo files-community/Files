@@ -53,7 +53,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarControl), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null));
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

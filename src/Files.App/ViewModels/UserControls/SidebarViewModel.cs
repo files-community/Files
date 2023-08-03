@@ -17,6 +17,8 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -25,6 +27,7 @@ namespace Files.App.ViewModels.UserControls
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private readonly IFileTagsService fileTagsService;
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
@@ -47,8 +50,6 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public static readonly GridLength CompactSidebarWidth = SidebarControl.GetSidebarCompactSize();
-
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
 		{
@@ -65,6 +66,10 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 		}
+
+		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
+
+		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
 
 		private readonly SectionType[] SectionOrder =
 			new SectionType[]
@@ -227,6 +232,7 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarViewModel()
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			SidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -673,7 +679,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
+		public async void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
 
 		{
 			if (sender is not FrameworkElement sidebarItem) return;
@@ -683,6 +689,21 @@ namespace Files.App.ViewModels.UserControls
 				// We are in the pane context requested path
 				PaneFlyout.ShowAt(sender as FrameworkElement, args.Position);
 				return;
+			}
+
+			if (item is FileTagItem tagItem)
+			{
+				var cts = new CancellationTokenSource();
+				var items = new List<(string path, bool isFolder)>();
+
+				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
+				{
+					items.Add((
+						taggedItem.Storable.TryGetPath() ?? string.Empty,
+						taggedItem.Storable is IFolder));
+				}
+
+				SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(items));
 			}
 
 			rightClickedItem = item;
