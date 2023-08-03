@@ -4,24 +4,20 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.System;
 using WinRT.Interop;
+using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
@@ -44,6 +40,8 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
+		private DispatcherQueueTimer _updateDateDisplayTimer;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -60,6 +58,10 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
 		private async Task PromptForReview()
@@ -381,6 +383,21 @@ namespace Files.App.Views
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
+		}
+
+		private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Start();
+		}
+
+		private void PreviewPane_Unloaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Stop();
+		}
+
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
