@@ -813,19 +813,19 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public static void InstallFont(string fontFilePath, bool forAllUsers)
+		public static Task InstallFont(string fontFilePath, bool forAllUsers)
 		{
 			string fontDirectory = forAllUsers
 				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
 				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
-			string registryKey = forAllUsers 
+			string registryKey = forAllUsers
 				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
 				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
 
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
-			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)

@@ -194,14 +194,14 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								Win32API.InstallFont(path, false);
+								await Win32API.InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								Win32API.InstallFont(path, true);
+								await Win32API.InstallFont(path, true);
 						}
 						break;
 

@@ -31,12 +31,10 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public async Task ExecuteAsync()
 		{
 			foreach (ListedItem selectedItem in context.SelectedItems)
-				Win32API.InstallFont(selectedItem.ItemPath, false);
-
-			return Task.CompletedTask;
+				await Win32API.InstallFont(selectedItem.ItemPath, false);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
