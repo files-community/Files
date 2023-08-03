@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,11 +13,10 @@ using Windows.UI.Core;
 namespace Files.App.UserControls.Sidebar
 {
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SidebarView : UserControl
+	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
 
 		private double preManipulationSidebarWidth = 0;
-		private bool useCompactInExpanded = false;
 
 		private const double COMPACT_MAX_WIDTH = 200;
 
@@ -35,6 +32,7 @@ namespace Files.App.UserControls.Sidebar
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
 		public event EventHandler<object>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public SidebarView()
 		{
@@ -55,47 +53,21 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void UpdateDisplayMode(SidebarDisplayMode? oldValue = null)
+		private void UpdateDisplayMode()
 		{
-			if (oldValue.HasValue)
-			{
-				useCompactInExpanded = oldValue == SidebarDisplayMode.Compact;
-			}
-
 			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", true);
-					useCompactInExpanded = true;
 					return;
 				case SidebarDisplayMode.Expanded:
 					VisualStateManager.GoToState(this, "Expanded", true);
-					useCompactInExpanded = false;
 					return;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
 					UpdateMinimalMode();
 					return;
 			}
-		}
-
-		private void UpdateDisplayModeForSidebarWidth(double newControlWidth)
-		{
-			//if (newControlWidth <= 640)
-			//{
-			//	if(DisplayMode != SidebarDisplayMode.Minimal)
-			//	{
-			//		useCompactInExpanded = DisplayMode == SidebarDisplayMode.Compact;
-			//		DisplayMode = SidebarDisplayMode.Minimal;
-			//	}
-			//}
-			//else if (DisplayMode == SidebarDisplayMode.Minimal)
-			//{
-			//	if (useCompactInExpanded)
-			//		DisplayMode = SidebarDisplayMode.Compact;
-			//	else
-			//		DisplayMode = SidebarDisplayMode.Expanded;
-			//}
 		}
 
 		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
@@ -107,13 +79,13 @@ namespace Files.App.UserControls.Sidebar
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
-				OpenPaneWidth = newPaneWidth;
+				OpenPaneLength = newPaneWidth;
 			}
 		}
 
 		private void UpdateOpenPaneLengthColumn()
 		{
-			DisplayColumn.Width = new GridLength(OpenPaneWidth);
+			DisplayColumn.Width = new GridLength(OpenPaneLength);
 		}
 
 		internal void UpdateSelectedItemContainer(SidebarItem container)
@@ -151,14 +123,8 @@ namespace Files.App.UserControls.Sidebar
 			ViewModel.HandleItemDragOver(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
-		private void SidebarView_SizeChanged(object sender, SizeChangedEventArgs args)
-		{
-			UpdateDisplayModeForSidebarWidth(args.NewSize.Width);
-		}
-
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
-			useCompactInExpanded = DisplayMode == SidebarDisplayMode.Compact;
 			UpdateDisplayMode();
 			UpdateOpenPaneLengthColumn();
 		}
@@ -166,7 +132,7 @@ namespace Files.App.UserControls.Sidebar
 		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = true;
-			preManipulationSidebarWidth = OpenPaneWidth;
+			preManipulationSidebarWidth = PaneColumnGrid.ActualWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
 		}
 
@@ -184,7 +150,6 @@ namespace Files.App.UserControls.Sidebar
 				if (primaryInvocation)
 				{
 					DisplayMode = SidebarDisplayMode.Compact;
-					useCompactInExpanded = true;
 					return;
 				}
 
@@ -196,7 +161,7 @@ namespace Files.App.UserControls.Sidebar
 				{
 					increment = -increment;
 				}
-				var newWidth = OpenPaneWidth + increment;
+				var newWidth = OpenPaneLength + increment;
 				UpdateDisplayModeForPaneWidth(newWidth);
 				return;
 			}
@@ -204,7 +169,6 @@ namespace Files.App.UserControls.Sidebar
 			{
 				if (primaryInvocation || e.Key == VirtualKey.Right)
 				{
-					useCompactInExpanded = false;
 					DisplayMode = SidebarDisplayMode.Expanded;
 				}
 			}
@@ -225,12 +189,10 @@ namespace Files.App.UserControls.Sidebar
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
-				useCompactInExpanded = true;
 			}
 			else
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
-				useCompactInExpanded = false;
 			}
 		}
 

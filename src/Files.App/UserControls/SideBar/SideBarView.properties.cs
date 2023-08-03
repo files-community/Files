@@ -28,13 +28,19 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty IsPaneOpenProperty =
 			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
 
-		public double OpenPaneWidth
+		public double OpenPaneLength
 		{
-			get { return (double)GetValue(OpenPaneWidthProperty); }
-			set { SetValue(OpenPaneWidthProperty, value); }
+			get { return (double)GetValue(OpenPaneLengthProperty); }
+			set
+			{
+				SetValue(OpenPaneLengthProperty, value);
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NegativeOpenPaneLength)));
+			}
 		}
-		public static readonly DependencyProperty OpenPaneWidthProperty =
-			DependencyProperty.Register("OpenPaneWidth", typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
+		public static readonly DependencyProperty OpenPaneLengthProperty =
+			DependencyProperty.Register("OpenPaneLength", typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
+
+		public double NegativeOpenPaneLength => -OpenPaneLength;
 
 		public ISidebarViewModel ViewModel
 		{
@@ -59,13 +65,13 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (sender is not SidebarView control) return;
 
-			if (e.Property == OpenPaneWidthProperty)
+			if (e.Property == OpenPaneLengthProperty)
 			{
 				control.UpdateOpenPaneLengthColumn();
 			}
 			else if (e.Property == DisplayModeProperty)
 			{
-				control.UpdateDisplayMode((SidebarDisplayMode)e.OldValue);
+				control.UpdateDisplayMode();
 			}
 			else if (e.Property == IsPaneOpenProperty)
 			{

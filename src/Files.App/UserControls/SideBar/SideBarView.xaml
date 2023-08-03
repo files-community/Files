@@ -8,7 +8,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	HorizontalAlignment="Stretch"
 	Loaded="SidebarView_Loaded"
-	SizeChanged="SidebarView_SizeChanged"
 	TabFocusNavigation="Local"
 	mc:Ignorable="d">
 
@@ -128,10 +127,6 @@
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
 						<Setter Target="DisplayColumn.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
-						<Setter Target="DisplayColumn.MinWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
-						<Setter Target="DisplayColumn.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
-						<Setter Target="MenuItemsHost.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
-						<Setter Target="MenuItemsHostLayout.Spacing" Value="0" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">
@@ -169,6 +164,96 @@
 				</VisualState>
 
 				<VisualStateGroup.Transitions>
+					<!--  From compact  -->
+					<VisualTransition From="Compact" To="MinimalCollapsed">
+						<Storyboard>
+							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
+								<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+								<SplineDoubleKeyFrame
+									KeySpline="0.1,0.9 0.2,1.0"
+									KeyTime="0:0:0.35"
+									Value="{StaticResource SidebarNegativeCompactOpenPaneLength}" />
+							</DoubleAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Column)">
+								<DiscreteObjectKeyFrame Value="0" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+								<DiscreteObjectKeyFrame Value="3" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
+								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+
+					<!--  From expanded  -->
+					<VisualTransition From="Expanded" To="MinimalCollapsed">
+						<Storyboard>
+							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
+								<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
+								<SplineDoubleKeyFrame
+									KeySpline="0.1,0.9 0.2,1.0"
+									KeyTime="0:0:0.35"
+									Value="{x:Bind NegativeOpenPaneLength, Mode=OneWay}" />
+							</DoubleAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Column)">
+								<DiscreteObjectKeyFrame Value="0" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+								<DiscreteObjectKeyFrame Value="3" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
+								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+
+					<!--  From minimal collapsed  -->
+					<VisualTransition From="MinimalCollapsed" To="Compact">
+						<Storyboard>
+							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
+								<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{StaticResource SidebarNegativeCompactOpenPaneLength}" />
+								<SplineDoubleKeyFrame
+									KeySpline="0.1,0.9 0.2,1.0"
+									KeyTime="0:0:0.35"
+									Value="0" />
+							</DoubleAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Column)">
+								<DiscreteObjectKeyFrame Value="2" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+								<DiscreteObjectKeyFrame Value="1" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
+								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="Width">
+								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+
+					<VisualTransition From="MinimalCollapsed" To="Expanded">
+						<Storyboard>
+							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
+								<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{x:Bind NegativeOpenPaneLength, Mode=OneWay}" />
+								<SplineDoubleKeyFrame
+									KeySpline="0.1,0.9 0.2,1.0"
+									KeyTime="0:0:0.35"
+									Value="0" />
+							</DoubleAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Column)">
+								<DiscreteObjectKeyFrame Value="1" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
+								<DiscreteObjectKeyFrame Value="1" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
+								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+
 					<VisualTransition From="MinimalCollapsed" To="MinimalExpanded">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -183,6 +268,8 @@
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
+
+					<!--  From minimal expandewd  -->
 					<VisualTransition From="MinimalExpanded" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
