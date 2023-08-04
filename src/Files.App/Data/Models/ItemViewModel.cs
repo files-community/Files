@@ -1390,7 +1390,7 @@ namespace Files.App.Data.Models
           
 					if (!HasNoWatcher)
 						WatchForDirectoryChanges(path, syncStatus);
-					if (IsValidGitDirectoryl)
+					if (IsValidGitDirectory)
 						WatchForGitChanges();
 					break;
 
