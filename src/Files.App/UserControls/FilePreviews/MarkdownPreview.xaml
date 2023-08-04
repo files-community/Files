@@ -8,6 +8,7 @@
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -15,9 +16,12 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
+
 	<Border>
 		<ScrollViewer>
+
 			<controls:MarkdownTextBlock Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
+
 		</ScrollViewer>
 	</Border>
 </UserControl>

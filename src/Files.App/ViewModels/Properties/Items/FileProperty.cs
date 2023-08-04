@@ -170,6 +170,14 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		/// <summary>
+		/// Updates the value text
+		/// </summary>
+		public void UpdateValueText()
+		{
+			OnPropertyChanged(nameof(ValueText));
+		}
+
+		/// <summary>
 		/// Call this function just after getting properties to set the property's converter based on the value type.
 		/// For some reason, this does not work for arrays. In the case of arrays, override the converter
 		/// </summary>

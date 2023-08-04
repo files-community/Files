@@ -152,11 +152,6 @@ namespace Files.App.Data.Items
 
 		public string Name => Root.DisplayName;
 
-		public DriveItem()
-		{
-			ItemType = NavigationControlItemType.CloudDrive;
-		}
-
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
@@ -166,7 +161,6 @@ namespace Files.App.Data.Items
 
 			item.Text = type switch
 			{
-				DriveType.Network => $"{root.DisplayName} ({deviceId})",
 				DriveType.CDRom when !string.IsNullOrEmpty(label) => root.DisplayName.Replace(label.Left(32), label),
 				_ => root.DisplayName
 			};

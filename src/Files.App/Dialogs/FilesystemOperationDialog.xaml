@@ -182,6 +182,7 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 
 			<TextBlock
@@ -230,6 +231,7 @@
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>
+
 		</StackPanel>
 	</Grid>
 </ContentDialog>

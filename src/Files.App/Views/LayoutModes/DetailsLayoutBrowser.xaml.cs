@@ -205,7 +205,6 @@ namespace Files.App.Views.LayoutModes
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			// Show original path and date deleted columns in Recycle Bin
 			if (e.IsTypeRecycleBin)
 			{
 				ColumnsViewModel.OriginalPathColumn.Show();
@@ -217,14 +216,12 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.DateDeletedColumn.Hide();
 			}
 
-			// Show cloud drive item status column
 			if (e.IsTypeCloudDrive)
 				ColumnsViewModel.StatusColumn.Show();
 			else
 				ColumnsViewModel.StatusColumn.Hide();
 
-			// Show git columns in git repository
-			if (e.IsTypeGitRepository)
+			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
 			{
 				ColumnsViewModel.GitCommitAuthorColumn.Show();
 				ColumnsViewModel.GitLastCommitDateColumn.Show();
@@ -241,7 +238,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitStatusColumn.Hide();
 			}
 
-			// Show path columns in git repository
 			if (e.IsTypeSearchResults)
 				ColumnsViewModel.PathColumn.Show();
 			else
@@ -816,7 +812,7 @@ namespace Files.App.Views.LayoutModes
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private void TagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		private void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;

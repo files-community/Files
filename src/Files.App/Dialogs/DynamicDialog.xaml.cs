@@ -1,13 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.App.Dialogs
 {
@@ -24,7 +19,10 @@ namespace Files.App.Dialogs
 			get => ViewModel.DynamicResult;
 		}
 
-		public new Task<ContentDialogResult> ShowAsync() => this.TryShowAsync();
+		public new Task<ContentDialogResult> ShowAsync()
+		{
+			return this.TryShowAsync();
+		}
 
 		public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
 		{
@@ -33,16 +31,6 @@ namespace Files.App.Dialogs
 			dynamicDialogViewModel.HideDialog = Hide;
 			ViewModel = dynamicDialogViewModel;
 		}
-
-		#region IDisposable
-
-		public void Dispose()
-		{
-			ViewModel?.Dispose();
-			ViewModel = null;
-		}
-
-		#endregion IDisposable
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
 		{
@@ -62,6 +50,12 @@ namespace Files.App.Dialogs
 		private void ContentDialog_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
 		{
 			ViewModel.KeyDownCommand.Execute(e);
+		}
+
+		public void Dispose()
+		{
+			ViewModel?.Dispose();
+			ViewModel = null;
 		}
 	}
 }

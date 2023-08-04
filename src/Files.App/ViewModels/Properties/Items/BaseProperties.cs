@@ -1,4 +1,6 @@
-using Files.Core.Extensions;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;
@@ -9,8 +11,6 @@ namespace Files.App.ViewModels.Properties
 {
 	public abstract class BaseProperties
 	{
-		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
-
 		public IShellPage AppInstance { get; set; } = null;
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; }
@@ -35,7 +35,7 @@ namespace Files.App.ViewModels.Properties
 			IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
 			// Cannot get date and owner in MTP devices
-			ViewModel.ItemAccessedTimestamp = dateTimeFormatter.ToShortLabel((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
+			ViewModel.ItemAccessedTimestampReal = (DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now);
 		}
 
 		public async Task<(long size, long sizeOnDisk)> CalculateFolderSizeAsync(string path, CancellationToken token)
