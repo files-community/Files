@@ -224,9 +224,6 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="1" />
 							</ObjectAnimationUsingKeyFrames>
-							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
-								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
-							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="Width">
 								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
 							</ObjectAnimationUsingKeyFrames>
