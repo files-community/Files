@@ -111,12 +111,13 @@ namespace Files.App.Utils.Git
 				return Array.Empty<BranchItem>();
 
 			using var repository = new Repository(path);
-			return repository.Branches
+
+			return GetValidBranches(repository.Branches)
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
 				.ThenByDescending(b => b.Tip?.Committer.When)
 				.Take(MAX_NUMBER_OF_BRANCHES)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 				.ToArray();
 		}
 
@@ -126,7 +127,7 @@ namespace Files.App.Utils.Git
 				return string.Empty;
 
 			using var repository = new Repository(path);
-			return repository.Branches
+			return GetValidBranches(repository.Branches)
 				.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 		}
 
@@ -260,7 +261,11 @@ namespace Files.App.Utils.Git
 					};
 			}
 
-			IsExecutingGitAction = true;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+			});
+
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -551,6 +556,35 @@ namespace Files.App.Utils.Git
 				return;
 
 			Repository.Init(path);
+		}
+
+		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
+		{
+			foreach (var branch in branches)
+			{
+				try
+				{
+					var throwIfInvalid = branch.IsCurrentRepositoryHead;
+				}
+				catch (LibGit2SharpException)
+				{
+					continue;
+				}
+
+				yield return branch;
+			}
+		}
+
+		private static BranchTrackingDetails? TryGetTrackingDetails(Branch branch)
+		{
+			try
+			{
+				return branch.TrackingDetails;
+			} 
+			catch (LibGit2SharpException)
+			{
+				return null;
+			}
 		}
 
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
