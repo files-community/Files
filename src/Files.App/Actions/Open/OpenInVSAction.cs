@@ -31,7 +31,9 @@ namespace Files.App.Actions
 		}
 
 		public Task ExecuteAsync()
-			=> Win32API.RunPowershellCommandAsync($"start \'{_context.SolutionFilePath}\'", false);
+		{
+			return Win32API.RunPowershellCommandAsync($"start \'{_context.SolutionFilePath}\'", false);
+		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

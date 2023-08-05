@@ -31,7 +31,9 @@ namespace Files.App.Actions
 		}
 
 		public Task ExecuteAsync()
-			=> Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+		{
+			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
