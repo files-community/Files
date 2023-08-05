@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Common;
-using Files.App.Utils.StorageItems;
 using Files.App.Helpers;
 using Files.App.Utils.Shell;
 using Files.Shared.Extensions;

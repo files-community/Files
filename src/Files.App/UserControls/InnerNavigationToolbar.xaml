@@ -7,6 +7,8 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -513,6 +515,10 @@
 								Text="{x:Bind Commands.SortBySyncStatus.Label}" />
 							<ToggleMenuFlyoutItem IsChecked="{x:Bind Commands.SortByTag.IsOn, Mode=TwoWay}" Text="{x:Bind Commands.SortByTag.Label}" />
 							<ToggleMenuFlyoutItem
+								IsChecked="{x:Bind Commands.SortByPath.IsOn, Mode=TwoWay}"
+								IsEnabled="{x:Bind Commands.SortByPath.IsExecutable, Mode=OneWay}"
+								Text="{x:Bind Commands.SortByPath.Label}" />
+							<ToggleMenuFlyoutItem
 								IsChecked="{x:Bind Commands.SortByOriginalFolder.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByOriginalFolder.IsExecutable, Mode=OneWay}"
 								Text="{x:Bind Commands.SortByOriginalFolder.Label}" />
@@ -598,9 +604,7 @@
 				Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=Layout}">
 
-				<AppBarButton.Icon>
-					<FontIcon Glyph="&#xE152;" />
-				</AppBarButton.Icon>
+				<local:OpacityIcon Style="{x:Bind ViewModel.LayoutOpacityIcon, Mode=OneWay}" />
 
 				<AppBarButton.Flyout>
 					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
@@ -612,7 +616,6 @@
 							<!--  Layout Options  -->
 							<Grid ColumnSpacing="8" RowSpacing="8">
 								<Grid.RowDefinitions>
-									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
@@ -638,10 +641,15 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutDetails.AutomationName}"
 									Command="{x:Bind Commands.LayoutDetails}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutDetails.IsOn, Mode=OneWay}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutDetails.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutDetails.Glyph.BaseGlyph}" />
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutDetails.OpacityStyle}" />
 								</RadioButton>
 
 								<TextBlock
@@ -652,9 +660,41 @@
 									Tapped="{x:Bind Commands.LayoutDetails.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutDetails.Label}" />
 
-								<!--  Tiles Layout  -->
+								<!--  Columns Layout  -->
 								<RadioButton
 									Grid.Row="1"
+									Grid.Column="0"
+									Width="36"
+									Height="32"
+									MinWidth="0"
+									Padding="0"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"
+									AutomationProperties.Name="{x:Bind Commands.LayoutColumns.AutomationName}"
+									Command="{x:Bind Commands.LayoutColumns}"
+									CornerRadius="{StaticResource ControlCornerRadius}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
+									Style="{StaticResource DefaultToggleButtonStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
+								</RadioButton>
+
+								<TextBlock
+									x:Name="NavToolbarColumnsHeader"
+									Grid.Row="1"
+									Grid.Column="1"
+									VerticalAlignment="Center"
+									Tapped="{x:Bind Commands.LayoutColumns.ExecuteTapped}"
+									Text="{x:Bind Commands.LayoutColumns.Label}" />
+
+								<!--  Tiles Layout  -->
+								<RadioButton
+									Grid.Row="2"
 									Grid.Column="0"
 									Width="36"
 									Height="32"
@@ -665,15 +705,20 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutTiles.AutomationName}"
 									Command="{x:Bind Commands.LayoutTiles}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutTiles.IsOn, Mode=OneWay}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutTiles.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutTiles.Glyph.BaseGlyph}" />
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsTilesLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutTiles.OpacityStyle}" />
 								</RadioButton>
 
 								<TextBlock
 									x:Name="NavToolbarTilesHeader"
-									Grid.Row="1"
+									Grid.Row="2"
 									Grid.Column="1"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutTiles.ExecuteTapped}"
@@ -681,8 +726,8 @@
 
 								<!--  Grid Small Layout  -->
 								<RadioButton
-									Grid.Row="2"
-									Grid.Column="0"
+									Grid.Row="0"
+									Grid.Column="3"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -692,24 +737,29 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridSmall.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridSmall}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutGridSmall.IsOn, Mode=OneWay}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsGridSmallLayout, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridSmall.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridSmall.Glyph.BaseGlyph}" />
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsGridSmallLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutGridSmall.OpacityStyle}" />
 								</RadioButton>
 
 								<TextBlock
 									x:Name="NavToolbarSmallIconsHeader"
-									Grid.Row="2"
-									Grid.Column="1"
+									Grid.Row="0"
+									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutGridSmall.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridSmall.Label}" />
 
 								<!--  Grid Medium Layout  -->
 								<RadioButton
-									Grid.Row="3"
-									Grid.Column="0"
+									Grid.Row="1"
+									Grid.Column="3"
 									Width="36"
 									Height="32"
 									MinWidth="0"
@@ -719,16 +769,21 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridMedium.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridMedium}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutGridMedium.IsOn, Mode=OneWay}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsGridMediumLayout, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridMedium.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridMedium.Glyph.BaseGlyph}" />
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsGridMediumLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutGridMedium.OpacityStyle}" />
 								</RadioButton>
 
 								<TextBlock
 									x:Name="NavToolbarMediumIconsHeader"
-									Grid.Row="3"
-									Grid.Column="1"
+									Grid.Row="1"
+									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutGridMedium.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridMedium.Label}" />
@@ -745,7 +800,7 @@
 
 								<!--  Grid Large Layout  -->
 								<RadioButton
-									Grid.Row="0"
+									Grid.Row="2"
 									Grid.Column="3"
 									Width="36"
 									Height="32"
@@ -756,75 +811,24 @@
 									AutomationProperties.Name="{x:Bind Commands.LayoutGridLarge.AutomationName}"
 									Command="{x:Bind Commands.LayoutGridLarge}"
 									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutGridLarge.IsOn, Mode=OneWay}"
+									GroupName="LayoutRadio"
+									IsChecked="{x:Bind ViewModel.IsGridLargeLayout, Mode=OneWay}"
 									Style="{StaticResource DefaultToggleButtonStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutGridLarge.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutGridLarge.Glyph.BaseGlyph}" />
+									<local:OpacityIcon
+										Width="16"
+										Height="16"
+										IsSelected="{x:Bind ViewModel.IsGridLargeLayout, Mode=OneWay}"
+										Style="{x:Bind Commands.LayoutGridLarge.OpacityStyle}" />
 								</RadioButton>
 
 								<TextBlock
 									x:Name="NavToolbarLargeIconsHeader"
-									Grid.Row="0"
+									Grid.Row="2"
 									Grid.Column="4"
 									VerticalAlignment="Center"
 									Tapped="{x:Bind Commands.LayoutGridLarge.ExecuteTapped}"
 									Text="{x:Bind Commands.LayoutGridLarge.Label}" />
-
-								<!--  Columns Layout  -->
-								<RadioButton
-									Grid.Row="1"
-									Grid.Column="3"
-									Width="36"
-									Height="32"
-									MinWidth="0"
-									Padding="0"
-									HorizontalContentAlignment="Center"
-									VerticalContentAlignment="Center"
-									AutomationProperties.Name="{x:Bind Commands.LayoutColumns.AutomationName}"
-									Command="{x:Bind Commands.LayoutColumns}"
-									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutColumns.IsOn, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutColumns.LabelWithHotKey, Mode=OneWay}">
-									<Viewbox Width="20">
-										<local:OpacityIcon Style="{x:Bind Commands.LayoutColumns.OpacityStyle}" />
-									</Viewbox>
-								</RadioButton>
-
-								<TextBlock
-									x:Name="NavToolbarColumnsHeader"
-									Grid.Row="1"
-									Grid.Column="4"
-									VerticalAlignment="Center"
-									Tapped="{x:Bind Commands.LayoutColumns.ExecuteTapped}"
-									Text="{x:Bind Commands.LayoutColumns.Label}" />
-
-								<!--  Adaptive Layout  -->
-								<RadioButton
-									Grid.Row="2"
-									Grid.Column="3"
-									Width="36"
-									Height="32"
-									MinWidth="0"
-									Padding="0"
-									HorizontalContentAlignment="Center"
-									VerticalContentAlignment="Center"
-									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
-									Command="{x:Bind Commands.LayoutAdaptive}"
-									CornerRadius="{StaticResource ControlCornerRadius}"
-									IsChecked="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=OneWay}"
-									Style="{StaticResource DefaultToggleButtonStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}">
-									<FontIcon FontSize="16" Glyph="{x:Bind Commands.LayoutAdaptive.Glyph.BaseGlyph}" />
-								</RadioButton>
-
-								<TextBlock
-									x:Name="NavToolbarAdaptiveHeader"
-									Grid.Row="2"
-									Grid.Column="4"
-									VerticalAlignment="Center"
-									Tapped="{x:Bind Commands.LayoutAdaptive.ExecuteTapped}"
-									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
 
 							</Grid>
 
@@ -842,6 +846,7 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
+									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 									<RowDefinition MinHeight="30" />
 								</Grid.RowDefinitions>
@@ -881,6 +886,23 @@
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 
+								<!--  Adaptive Layout  -->
+								<TextBlock
+									Grid.Row="2"
+									Grid.Column="0"
+									VerticalAlignment="Center"
+									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
+
+								<ToggleSwitch
+									Grid.Row="2"
+									Grid.Column="1"
+									HorizontalAlignment="Right"
+									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
+									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
+									Rotation="1"
+									Style="{StaticResource RightAlignedToggleSwitchStyle}"
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
+
 							</Grid>
 
 						</StackPanel>
@@ -906,6 +928,13 @@
 
 			<!--  3 Dots Commands  -->
 			<CommandBar.SecondaryCommands>
+
+				<!--  Workaround to enable displaying OpacityIcons in the menu  -->
+				<AppBarButton Visibility="Collapsed">
+					<AppBarButton.Icon>
+						<FontIcon Glyph="&#xE737;" />
+					</AppBarButton.Icon>
+				</AppBarButton>
 
 				<!--  Open Pane  -->
 				<AppBarButton
@@ -935,9 +964,7 @@
 					Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewWindow/KeyboardAcceleratorTextOverride}"
 					Label="{helpers:ResourceString Name=NavigationToolbarNewWindow/Label}">
-					<AppBarButton.Icon>
-						<FontIcon Glyph="&#xE737;" />
-					</AppBarButton.Icon>
+					<local:OpacityIcon Style="{StaticResource ColorIconOpenNewWindow}" />
 					<AppBarButton.KeyboardAccelerators>
 						<KeyboardAccelerator
 							Key="N"

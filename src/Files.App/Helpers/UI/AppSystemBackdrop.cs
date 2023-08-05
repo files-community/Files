@@ -64,7 +64,7 @@ namespace Files.App.Helpers
 			userSettingsService.OnSettingChangedEvent -= OnSettingChanged;
 		}
 
-		private void OnSettingChanged(object? sender, Shared.EventArguments.SettingChangedEventArgs e)
+		private void OnSettingChanged(object? sender, SettingChangedEventArgs e)
 		{
 			if (target is null)
 				return;

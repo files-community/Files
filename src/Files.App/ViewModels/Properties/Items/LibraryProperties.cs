@@ -1,22 +1,13 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Utils.StorageItems;
-using Files.App.Helpers;
-using Files.Shared.Services.DateTimeFormatter;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
 	internal class LibraryProperties : BaseProperties
 	{
-		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
-
 		public LibraryItem Library { get; private set; }
 
 		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
@@ -69,7 +60,7 @@ namespace Files.App.ViewModels.Properties
 			BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
 			if (libraryFile is not null)
 			{
-				ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(libraryFile.DateCreated);
+				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
 				if (libraryFile.Properties is not null)
 				{
 					GetOtherProperties(libraryFile.Properties);
@@ -112,16 +103,22 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;
+			ViewModel.ItemSizeOnDiskProgressVisibility = true;
 
 			try
 			{
 				long librarySize = 0;
+				long librarySizeOnDisk = 0;
 				foreach (var folder in storageFolders)
 				{
-					librarySize += await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
+					var foldersSize = await Task.Run(async () => await CalculateFolderSizeAsync(folder.Path, token));
+					librarySize += foldersSize.size;
+					librarySizeOnDisk += foldersSize.sizeOnDisk;
 				}
 				ViewModel.ItemSizeBytes = librarySize;
 				ViewModel.ItemSize = librarySize.ToLongSizeString();
+				ViewModel.ItemSizeOnDiskBytes = librarySize;
+				ViewModel.ItemSizeOnDisk = librarySize.ToLongSizeString();
 			}
 			catch (Exception ex)
 			{
@@ -129,6 +126,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			ViewModel.ItemSizeProgressVisibility = false;
+			ViewModel.ItemSizeOnDiskProgressVisibility = false;
 
 			SetItemsCountString();
 		}

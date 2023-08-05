@@ -52,7 +52,7 @@ namespace Files.App.UserControls.Widgets
 
 			// Thumbnail data is valid, set the item icon
 			if (thumbnailData is not null && thumbnailData.Length > 0)
-				Thumbnail = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 		}
 
 		public int CompareTo(DriveCardItem? other) => Item.Path.CompareTo(other?.Item?.Path);
@@ -272,7 +272,7 @@ namespace Files.App.UserControls.Widgets
 		private async Task EjectDevice(DriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(result);
+			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
 		}
 
 		private void FormatDrive(DriveCardItem? item)

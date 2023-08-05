@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.Input;
 using Files.App.Utils;
 using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -119,7 +118,7 @@ namespace Files.App.Views.Properties
 		// WINUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 			return obj;
 		}
 

@@ -2,12 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Files.Core.Helpers;
 
 namespace Files.App.Data.Models
 {
 	public class SelectedItemsPropertiesViewModel : ObservableObject
 	{
+		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
+
 		private bool loadFolderGlyph;
 		public bool LoadFolderGlyph
 		{
@@ -147,6 +148,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSize, value);
 		}
 
+		private string itemSizeOnDisk;
+		public string ItemSizeOnDisk
+		{
+			get => itemSizeOnDisk;
+			set => SetProperty(ref itemSizeOnDisk, value);
+		}
+
 		private string uncompresseditemSize;
 		public string UncompressedItemSize
 		{
@@ -179,6 +187,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemSizeBytes, value);
 		}
 
+		private long itemSizeOnDiskBytes;
+		public long ItemSizeOnDiskBytes
+		{
+			get => itemSizeOnDiskBytes;
+			set => SetProperty(ref itemSizeOnDiskBytes, value);
+		}
+
 		private long uncompresseditemSizeBytes;
 		public long UncompressedItemSizeBytes
 		{
@@ -191,6 +206,13 @@ namespace Files.App.Data.Models
 		{
 			get => itemSizeProgressVisibility;
 			set => SetProperty(ref itemSizeProgressVisibility, value);
+		}
+
+		private bool itemSizeOnDiskProgressVisibility = false;
+		public bool ItemSizeOnDiskProgressVisibility
+		{
+			get => itemSizeOnDiskProgressVisibility;
+			set => SetProperty(ref itemSizeOnDiskProgressVisibility, value);
 		}
 
 		// For libraries
@@ -317,14 +339,18 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref driveFreeSpaceVisibility, value);
 		}
 
-		private string itemCreatedTimestamp;
-		public string ItemCreatedTimestamp
+		public string ItemCreatedTimestamp { get; private set; }
+
+		private DateTimeOffset itemCreatedTimestampReal;
+		public DateTimeOffset ItemCreatedTimestampReal
 		{
-			get => itemCreatedTimestamp;
+			get => itemCreatedTimestampReal;
 			set
 			{
 				ItemCreatedTimestampVisibility = true;
-				SetProperty(ref itemCreatedTimestamp, value);
+				SetProperty(ref itemCreatedTimestampReal, value);
+				ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(value);
+				OnPropertyChanged(nameof(ItemCreatedTimestamp));
 			}
 		}
 
@@ -335,14 +361,18 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemCreatedTimestampVisibility, value);
 		}
 
-		private string itemModifiedTimestamp;
-		public string ItemModifiedTimestamp
+		public string ItemModifiedTimestamp { get; private set; }
+
+		private DateTimeOffset itemModifiedTimestampReal;
+		public DateTimeOffset ItemModifiedTimestampReal
 		{
-			get => itemModifiedTimestamp;
+			get => itemModifiedTimestampReal;
 			set
 			{
 				ItemModifiedTimestampVisibility = true;
-				SetProperty(ref itemModifiedTimestamp, value);
+				SetProperty(ref itemModifiedTimestampReal, value);
+				ItemModifiedTimestamp = dateTimeFormatter.ToShortLabel(value);
+				OnPropertyChanged(nameof(ItemModifiedTimestamp));
 			}
 		}
 
@@ -353,14 +383,18 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref itemModifiedTimestampVisibility, value);
 		}
 
-		public string itemAccessedTimestamp;
-		public string ItemAccessedTimestamp
+		public string ItemAccessedTimestamp { get; private set; }
+
+		public DateTimeOffset itemAccessedTimestampReal;
+		public DateTimeOffset ItemAccessedTimestampReal
 		{
-			get => itemAccessedTimestamp;
+			get => itemAccessedTimestampReal;
 			set
 			{
 				ItemAccessedTimestampVisibility = true;
-				SetProperty(ref itemAccessedTimestamp, value);
+				SetProperty(ref itemAccessedTimestampReal, value);
+				ItemAccessedTimestamp = dateTimeFormatter.ToShortLabel(value);
+				OnPropertyChanged(nameof(ItemAccessedTimestamp));
 			}
 		}
 

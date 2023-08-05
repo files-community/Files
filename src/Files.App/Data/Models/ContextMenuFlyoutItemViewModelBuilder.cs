@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
+using Windows.System;
 
 namespace Files.App.Data.Models
 {
@@ -80,8 +80,17 @@ namespace Files.App.Data.Models
 				viewModel.GlyphFontFamilyName = glyph.FontFamily;
 			}
 
-			if (command.HotKeyText is not null)
-				viewModel.KeyboardAcceleratorTextOverride = command.HotKeyText;
+			if (command.HotKeys.Length > 0 &&
+				!(command.HotKeys[0].Key is Keys.Enter &&
+				command.HotKeys[0].Modifier is KeyModifiers.None))
+			{
+				viewModel.KeyboardAccelerator = new Microsoft.UI.Xaml.Input.KeyboardAccelerator()
+				{
+					Key = (VirtualKey)command.HotKeys[0].Key,
+					Modifiers = (VirtualKeyModifiers)command.HotKeys[0].Modifier
+				};
+				viewModel.KeyboardAcceleratorTextOverride = command.HotKeys[0].Label;
+			}
 
 			return viewModel;
 		}

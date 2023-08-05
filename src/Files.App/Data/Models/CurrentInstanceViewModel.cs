@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LibGit2Sharp;
-
 namespace Files.App.Data.Models
 {
 	public class CurrentInstanceViewModel : ObservableObject
@@ -179,11 +177,7 @@ namespace Files.App.Data.Models
 			get
 			{
 				if (IsGitRepository)
-				{
-					using var repository = new Repository(gitRepositoryPath);
-					return repository.Branches.FirstOrDefault(branch =>
-						branch.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
-				}
+					return GitHelpers.GetRepositoryHeadName(gitRepositoryPath);
 
 				return string.Empty;
 			}

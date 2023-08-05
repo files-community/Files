@@ -54,15 +54,19 @@ namespace Files.App.Dialogs
 		public CreateArchiveDialog()
 		{
 			InitializeComponent();
+
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public new Task<ContentDialogResult> ShowAsync() => SetContentDialogRoot(this).ShowAsync().AsTask();
+		public new Task<ContentDialogResult> ShowAsync()
+		{
+			return SetContentDialogRoot(this).ShowAsync().AsTask();
+		}
 
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot; // WinUi3
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot; // WinUi3
 			return contentDialog;
 		}
 

@@ -1,7 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Commands;
+using Files.App.Data.Commands;
+using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -21,7 +22,7 @@ namespace Files.App.Helpers
 		private static readonly IModifiableCommandManager modifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutCommandsViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
@@ -70,7 +71,7 @@ namespace Files.App.Helpers
 		}
 
 		public static List<ContextMenuFlyoutItemViewModel> GetBaseItemMenuItems(
-			BaseLayoutCommandsViewModel commandsViewModel,
+			BaseLayoutViewModel commandsViewModel,
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
@@ -170,6 +171,10 @@ namespace Files.App.Helpers
 							IsToggle = true
 						}.Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByTag)
+						{
+							IsToggle = true
+						}.Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(commands.SortByPath)
 						{
 							IsToggle = true
 						}.Build(),
@@ -359,7 +364,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource(),
+					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconOpenWith"
@@ -378,42 +383,9 @@ namespace Files.App.Helpers
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewTab".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewTab"
-					},
-					Command = commandsViewModel.OpenDirectoryInNewTabCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.GeneralSettingsService.ShowOpenInNewTab,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewWindow".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
-					{
-						OpacityIconStyle = "ColorIconOpenInNewWindow"
-					},
-					Command = commandsViewModel.OpenInNewWindowItemCommand,
-					ShowItem = itemsSelected && selectedItems.Count < 5 && areAllItemsFolders && userSettingsService.GeneralSettingsService.ShowOpenInNewWindow,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "OpenInNewPane".GetLocalizedResource(),
-					Command = commandsViewModel.OpenDirectoryInNewPaneCommand,
-					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowOpenInNewPane && areAllItemsFolders,
-					SingleItemOnly = true,
-					ShowInSearchPage = true,
-					ShowInFtpPage = true,
-					ShowInZipPage = true,
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewTabAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenInNewWindowItemAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(commands.OpenDirectoryInNewPaneAction).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
@@ -588,7 +560,7 @@ namespace Files.App.Helpers
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutCommandsViewModel commandsViewModel, bool canCreateFileInPage)
+		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)
 		{
 			var list = new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -598,7 +570,6 @@ namespace Files.App.Helpers
 					Text = "File".GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
-					CommandParameter = null,
 					ShowInFtpPage = true,
 					ShowInZipPage = true,
 					IsEnabled = canCreateFileInPage
@@ -612,7 +583,7 @@ namespace Files.App.Helpers
 
 			if (canCreateFileInPage)
 			{
-				var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+				var cachedNewContextMenuEntries = addItemService.GetEntries();
 				cachedNewContextMenuEntries?.ForEach(i =>
 				{
 					if (!string.IsNullOrEmpty(i.IconBase64))

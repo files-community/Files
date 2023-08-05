@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.Enums;
+using Files.Core.Storage.NestedStorage;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,26 +15,16 @@ namespace Files.Core.Storage.ModifiableStorage
 		/// <summary>
 		/// Deletes the provided storable item from this folder.
 		/// </summary>
-		Task DeleteAsync(IStorable item, bool permanently = false, CancellationToken cancellationToken = default);
-
-		/// <summary>
-		/// Creates a copy of the provided storable item in this folder.
-		/// </summary>
-		Task<IStorable> CreateCopyOfAsync(IStorable itemToCopy, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
-
-		/// <summary>
-		/// Moves a storable item out of the provided folder, and into this folder. Returns the new item that resides in this folder.
-		/// </summary>
-		Task<IStorable> MoveFromAsync(IStorable itemToMove, IModifiableFolder source, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task DeleteAsync(INestedStorable item, bool permanently = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Creates a new file with the desired name inside this folder.
 		/// </summary>
-		Task<IFile> CreateFileAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<INestedFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Creates a new folder with the desired name inside this folder.
 		/// </summary>
-		Task<IFolder> CreateFolderAsync(string desiredName, CreationCollisionOption collisionOption = default, CancellationToken cancellationToken = default);
+		Task<INestedFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default);
 	}
 }

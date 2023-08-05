@@ -5,14 +5,11 @@ using CommunityToolkit.WinUI.UI;
 using Files.App.Utils;
 using Files.Core.ViewModels.Dialogs;
 using Files.Core.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Threading.Tasks;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.App.Dialogs
 {
@@ -36,18 +33,20 @@ namespace Files.App.Dialogs
 		{
 			InitializeComponent();
 
-			App.Window.SizeChanged += Current_SizeChanged;
+			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		}
 
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
-			}
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 			return contentDialog;
 		}
 
@@ -59,26 +58,25 @@ namespace Files.App.Dialogs
 		private void UpdateDialogLayout()
 		{
 			if (ViewModel.FileSystemDialogMode.ConflictsExist)
-				ContainerGrid.Width = App.Window.Bounds.Width <= 700 ? App.Window.Bounds.Width - 50 : 650;
+				ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 700 ? MainWindow.Instance.Bounds.Width - 50 : 650;
 		}
 
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
 			var primaryButton = this.FindDescendant("PrimaryButton") as Button;
 			if (primaryButton is not null)
-			{
 				primaryButton.GotFocus += PrimaryButton_GotFocus;
-			}
 		}
 
 		private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
 		{
 			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
+
 			if (chkPermanentlyDelete is not null)
-			{
 				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
-			}
+
 			DetailsGrid.IsEnabled = true;
 		}
 
@@ -87,15 +85,15 @@ namespace Files.App.Dialogs
 			if (args.Result == ContentDialogResult.Primary)
 				ViewModel.SaveConflictResolveOption();
 
-			App.Window.SizeChanged -= Current_SizeChanged;
+			MainWindow.Instance.SizeChanged -= Current_SizeChanged;
 			ViewModel.CancelCts();
 		}
 
 		private void NameStackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
-			if (sender is FrameworkElement element
-				&& element.DataContext is FileSystemDialogConflictItemViewModel conflictItem
-				&& conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
+			if (sender is FrameworkElement element &&
+				element.DataContext is FileSystemDialogConflictItemViewModel conflictItem &&
+				conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
 			{
 				conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
 				conflictItem.CustomName = conflictItem.DestinationDisplayName;

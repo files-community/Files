@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Converters;
-using Files.App.Utils.StorageItems;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using System.Text.Json;
@@ -168,6 +167,14 @@ namespace Files.App.ViewModels.Properties
 			propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
 
 			return file.Properties.SavePropertiesAsync(propsToSave).AsTask();
+		}
+
+		/// <summary>
+		/// Updates the value text
+		/// </summary>
+		public void UpdateValueText()
+		{
+			OnPropertyChanged(nameof(ValueText));
 		}
 
 		/// <summary>

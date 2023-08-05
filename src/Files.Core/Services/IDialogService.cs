@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.ViewModels.Dialogs;
-using Files.Shared.Enums;
+using Files.Core.Data.Enums;
 
 namespace Files.Core.Services
 {

@@ -20,6 +20,7 @@
 	mc:Ignorable="d">
 
 	<StackPanel Width="440" Spacing="4">
+
 		<!--  Branch Name  -->
 		<Grid
 			Padding="12"
@@ -98,5 +99,6 @@
 				HorizontalAlignment="Right"
 				IsOn="{x:Bind ViewModel.Checkout, Mode=TwoWay}" />
 		</Grid>
+
 	</StackPanel>
 </ContentDialog>

@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		private static SelectorItem? GetFocusedElement()
 		{
-			return FocusManager.GetFocusedElement(App.Window.Content.XamlRoot) as SelectorItem;
+			return FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as SelectorItem;
 		}
 	}
 }

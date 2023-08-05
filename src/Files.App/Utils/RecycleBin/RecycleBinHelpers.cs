@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
 using Vanara.PInvoke;
@@ -70,7 +69,7 @@ namespace Files.App.Utils.RecycleBin
 					ReturnResult.InProgress,
 					FileOperationType.Delete);
 
-				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
+				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
 				banner.Remove();
 				if (opSucceded)
 					ongoingTasksViewModel.PostBanner(

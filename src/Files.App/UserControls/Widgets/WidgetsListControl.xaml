@@ -11,6 +11,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<!--  Custom widget style that disables the animations  -->
 		<Style x:Key="Local.WidgetExpanderStyle" TargetType="controls:Expander">
@@ -181,6 +182,7 @@
 						</Setter>
 					</Style>
 				</ListView.ItemContainerStyle>
+
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
 						<Grid>
@@ -239,6 +241,7 @@
 						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
+
 			</ListView>
 		</Grid>
 	</Border>

@@ -1,9 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Properties;
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage.FileProperties;
@@ -12,9 +10,7 @@ namespace Files.App.ViewModels.Previews
 {
 	public class FolderPreviewViewModel
 	{
-		private readonly IGeneralSettingsService generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
-
-		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
+		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
 		public ListedItem Item { get; }
 
@@ -34,7 +30,7 @@ namespace Files.App.ViewModels.Previews
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 			var items = await Folder.GetItemsAsync();
 
-			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem, ThumbnailOptions.UseCurrentScale);
+			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Folder, 256, ThumbnailMode.SingleItem, ThumbnailOptions.ReturnOnlyIfCached);
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256, true);
 
 			if (iconData is not null)
@@ -45,8 +41,8 @@ namespace Files.App.ViewModels.Previews
 			Item.FileDetails = new()
 			{
 				GetFileProperty("PropertyItemCount", items.Count),
-				GetFileProperty("PropertyDateModified", dateTimeFormatter.ToLongLabel(info.DateModified)),
-				GetFileProperty("PropertyDateCreated", dateTimeFormatter.ToLongLabel(info.ItemDate)),
+				GetFileProperty("PropertyDateModified", info.DateModified),
+				GetFileProperty("PropertyDateCreated", info.ItemDate),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
 			};
 
@@ -54,18 +50,15 @@ namespace Files.App.ViewModels.Previews
 				!string.IsNullOrEmpty(repoPath))
 			{
 				var gitDirectory = GitHelpers.GetGitRepositoryPath(Folder.Path, Path.GetPathRoot(Folder.Path));
-				var branches = GitHelpers.GetBranchesNames(gitDirectory);
+				var headName = GitHelpers.GetRepositoryHeadName(gitDirectory);
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
 				if(!string.IsNullOrEmpty(gitDirectory))
 					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
 
-				if (branches.Length > 0)
-					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", branches.First().Name));
+				if (!string.IsNullOrWhiteSpace(headName))
+					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", headName));
 			}
-
-			var tags = Item.FileTagsUI is not null ? string.Join(',', Item.FileTagsUI.Select(x => x.Name)) : null;
-			Item.FileDetails.Add(GetFileProperty("FileTags", tags));
 		}
 
 		private static FileProperty GetFileProperty(string nameResource, object value)

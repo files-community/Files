@@ -3,7 +3,6 @@
 
 using Files.App.Dialogs;
 using Files.App.Utils.Archives;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;

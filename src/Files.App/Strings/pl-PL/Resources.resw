@@ -133,10 +133,13 @@
     <value>Utworzony:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Lokalizacja:</value>
+    <value>Ścieżka</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Rozmiar:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Rozmiar na dysku:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Rozmiar nieskompresowany:</value>
@@ -274,10 +277,10 @@
     <value>Witamy w Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Udziel uprawnienia</value>
+    <value>Przyznaj uprawnienia</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian.</value>
+    <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami, gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Widok</value>
@@ -310,13 +313,13 @@
     <value>Ten folder jest pusty.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Wstecz (Alt+Strzałka w lewo)</value>
+    <value>Wstecz</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Dalej (Alt+Strzałka w prawo)</value>
+    <value>Dalej</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>W górę (Alt+Strzałka w górę)</value>
+    <value>W górę</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Odśwież</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>Wolnych: {0} z {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Otwórz za pomocą</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Wyślij do</value>
@@ -550,10 +550,10 @@
     <value>{0} - skrót</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Aplikacja Files napotkała problem, na który się nie przygotowaliśmy</value>
+    <value>Aplikacja Files napotkała problem, na który się nie przygotowaliśmy.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Coś poszło nie tak</value>
+    <value>Coś poszło nie tak!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Zgłoś ten problem</value>
@@ -571,7 +571,7 @@
     <value>Obecnie nie ma nic do udostępniania...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>Elementy które zaznaczyłeś, zostaną udostępnione</value>
+    <value>Elementy, które zaznaczyłeś, zostaną udostępnione</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
     <value>Zaznaczony element zostanie udostępniony</value>
@@ -688,7 +688,7 @@
     <value>Data modyfikacji</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Głębokość bitowa</value>
+    <value>Głębia bitowa</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Wymiary</value>
@@ -706,7 +706,7 @@
     <value>Rozdzielczość w pionie</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Przestrzeń kolorów</value>
+    <value>Przestrzeń barw</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
@@ -727,10 +727,10 @@
     <value>Data wykonania</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Producent Aparatu</value>
+    <value>Producent aparatu</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Model Aparatu</value>
+    <value>Model aparatu</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
     <value>Czas ekspozycji</value>
@@ -748,16 +748,16 @@
     <value>Ilość kanałów</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Formatuj</value>
+    <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Ilość powtórzeń</value>
+    <value>Częstotliwość próbkowania</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Artysta albumu</value>
+    <value>Wykonawca albumu</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Nazwa albumu</value>
+    <value>Album</value>
   </data>
   <data name="Artist" xml:space="preserve">
     <value>Artysta</value>
@@ -769,7 +769,7 @@
     <value>Kompozytor</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>Konduktor</value>
+    <value>Dyrygent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
     <value>Numer płyty</value>
@@ -805,7 +805,7 @@
     <value>Numer sezonu</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>Numer odcinku</value>
+    <value>Numer odcinka</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Realizator</value>
@@ -937,7 +937,7 @@
     <value>Element Kosza</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Element skrótowy</value>
+    <value>Skrót</value>
   </data>
   <data name="Drives" xml:space="preserve">
     <value>Dyski</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Data modyfikacji:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Otwórz za pomocą</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Nieznany</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Edytuj tagi plików</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2155,7 +2155,7 @@
     <value>Dopasuj rozmiar wszystkich kolumn</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptacyjny</value>
+    <value>Automatycznie wybierz najlepszy układ</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptacyjny (Ctrl+Shift+7)</value>
@@ -2224,7 +2224,7 @@
     <value>Kompresowanie archiwum</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Skompresuj</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Zaznacz pliki i foldery w trakcie trzymania kursora nad nimi</value>
@@ -2392,7 +2392,7 @@
     <value>Pokaż edycję tagów</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Pokaż Menu Wyślij do</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Pokaż opcję otwierania folderów w nowym panelu</value>
@@ -2432,9 +2432,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Kolor tagu</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Zapisz zmiany</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nowy tag</value>
@@ -3119,7 +3116,7 @@
     <value>Wyszukaj niezindeksowane elementy</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Przełącz pasek ścieżki</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Utwórz nowy element</value>
@@ -3288,13 +3285,13 @@
     <value>Autor</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Data zatwierdzenia</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Wiadomość zatwierdzenia</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>Commit SHA</value>
+    <value>Zatwierdź SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3317,28 +3314,94 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Zarządzaj gałęziami</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Wciśnij</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Uruchom git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Synchronizuj</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Uruchom git pull a następnie git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} Wychodzące / {1} przychodzące polecenia</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Połącz z usługą GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Wprowadź następujący kod na poniższym linku, aby rozpocząć pracę z repozytoriami GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Pliki nie mogą teraz uzyskać dostępu do GitHub.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Otwórz bieżącą ścieżkę w Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Otwórz bieżącą ścieżkę w Visual Studio Code</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Skopiuj kod</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Dodano</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Usunięto</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Zmodyfikowano</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Nieśledzone</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Nie można wyświetlić obecnego właściciela.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Wspaniale! Jesteś teraz autoryzowany.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Zainicjuj repozytorium</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Inicjalizuj repozytorium Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Nazwa Zdalnego Repozytorium</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Bieżąca gałąź</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Kolumna ścieżki</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sortuj pozycje według ścieżki</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
   </data>
 </root>

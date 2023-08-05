@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
 using Files.App.ViewModels.Dialogs;
 using LibGit2Sharp;
 using Microsoft.AppCenter.Analytics;
@@ -26,9 +25,13 @@ namespace Files.App.Utils.Git
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
+		private const int MAX_NUMBER_OF_BRANCHES = 15;
+
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
+		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 
 		private static readonly FetchOptions _fetchOptions = new()
 		{
@@ -37,8 +40,7 @@ namespace Files.App.Utils.Git
 
 		private static readonly PullOptions _pullOptions = new();
 
-		private static readonly string _clientId =
-			EnvHelpers.GetAppEnvironmentAndLogo().Item1 is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
+		private static readonly string _clientId = _applicationService.Environment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
 				? CLIENT_ID_SECRET
 				: string.Empty;
 
@@ -109,13 +111,24 @@ namespace Files.App.Utils.Git
 				return Array.Empty<BranchItem>();
 
 			using var repository = new Repository(path);
-			return repository.Branches
+
+			return GetValidBranches(repository.Branches)
 				.Where(b => !b.IsRemote || b.RemoteName == "origin")
 				.OrderByDescending(b => b.IsCurrentRepositoryHead)
-				.ThenBy(b => b.IsRemote)
 				.ThenByDescending(b => b.Tip?.Committer.When)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, b.TrackingDetails.AheadBy, b.TrackingDetails.BehindBy))
+				.Take(MAX_NUMBER_OF_BRANCHES)
+				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 				.ToArray();
+		}
+
+		public static string GetRepositoryHeadName(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+				return string.Empty;
+
+			using var repository = new Repository(path);
+			return GetValidBranches(repository.Branches)
+				.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -248,7 +261,11 @@ namespace Files.App.Utils.Git
 					};
 			}
 
-			IsExecutingGitAction = true;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+			});
+
 			try
 			{
 				foreach (var remote in repository.Network.Remotes)
@@ -266,7 +283,7 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 			}
 
-			App.Window.DispatcherQueue.TryEnqueue(() =>
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
@@ -509,19 +526,6 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			string? changeKindSymbol = null;
-			if (changeKind is not ChangeKind.Ignored)
-			{
-				changeKindSymbol = changeKind switch
-				{
-					ChangeKind.Added => "A",
-					ChangeKind.Deleted => "D",
-					ChangeKind.Modified => "M",
-					ChangeKind.Untracked => "U",
-					_ => null,
-				};
-			}
-
 			string? changeKindHumanized = null;
 			if (changeKind is not ChangeKind.Ignored)
 			{
@@ -538,7 +542,6 @@ namespace Files.App.Utils.Git
 			var gitItemModel = new GitItemModel()
 			{
 				Status = changeKind,
-				StatusSymbol = changeKindSymbol,
 				StatusHumanized = changeKindHumanized,
 				LastCommit = commit,
 				Path = relativePath,
@@ -553,6 +556,35 @@ namespace Files.App.Utils.Git
 				return;
 
 			Repository.Init(path);
+		}
+
+		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
+		{
+			foreach (var branch in branches)
+			{
+				try
+				{
+					var throwIfInvalid = branch.IsCurrentRepositoryHead;
+				}
+				catch (LibGit2SharpException)
+				{
+					continue;
+				}
+
+				yield return branch;
+			}
+		}
+
+		private static BranchTrackingDetails? TryGetTrackingDetails(Branch branch)
+		{
+			try
+			{
+				return branch.TrackingDetails;
+			} 
+			catch (LibGit2SharpException)
+			{
+				return null;
+			}
 		}
 
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
@@ -592,7 +624,7 @@ namespace Files.App.Utils.Git
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
-			
+
 			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
 				return;

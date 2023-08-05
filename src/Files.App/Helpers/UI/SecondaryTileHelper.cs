@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 		}
 		private SecondaryTile InitializeWithWindow(SecondaryTile obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 			return obj;
 		}
 

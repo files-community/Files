@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
     sealed class GitInitAction : ObservableObject, IAction

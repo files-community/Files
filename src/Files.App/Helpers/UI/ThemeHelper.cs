@@ -1,10 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -49,11 +45,11 @@ namespace Files.App.Helpers
 		public static void Initialize()
 		{
 			// Save reference as this might be null when the user is in another app
-			currentApplicationWindow = App.Window;
+			currentApplicationWindow = MainWindow.Instance;
 
 			// Set TitleBar background color
 			if (currentApplicationWindow is not null)
-				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
+				titleBar = MainWindow.Instance.AppWindow.TitleBar;
 
 			// Apply the desired theme based on what is set in the application settings
 			ApplyTheme();
@@ -63,19 +59,28 @@ namespace Files.App.Helpers
 			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 		}
 
+		public static void ApplyResources()
+		{
+			// Toggle between the themes to force reload the resource styles
+			ApplyTheme(ElementTheme.Dark);
+			ApplyTheme(ElementTheme.Light);
+
+			// Restore the theme to the correct theme
+			ApplyTheme();
+		}
+
 		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
 			if (currentApplicationWindow is null)
 			{
-				currentApplicationWindow = App.Window;
+				currentApplicationWindow = MainWindow.Instance;
 
 				if (currentApplicationWindow is null)
 					return;
 			}
 
-			if (titleBar is null)
-				titleBar = App.GetAppWindow(currentApplicationWindow)?.TitleBar;
+			titleBar ??= MainWindow.Instance.AppWindow.TitleBar;
 
 			// Dispatch on UI thread so that we have a current appbar to access and change
 			await currentApplicationWindow.DispatcherQueue.EnqueueOrInvokeAsync(ApplyTheme);
@@ -83,9 +88,12 @@ namespace Files.App.Helpers
 
 		private static void ApplyTheme()
 		{
-			var rootTheme = RootTheme;
+			ApplyTheme(RootTheme);
+		}
 
-			if (App.Window.Content is FrameworkElement rootElement)
+		private static void ApplyTheme(ElementTheme rootTheme)
+		{
+			if (MainWindow.Instance.Content is FrameworkElement rootElement)
 				rootElement.RequestedTheme = rootTheme;
 
 			if (titleBar is not null)

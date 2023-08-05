@@ -4,14 +4,12 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Extensions;
 using Files.App.Utils;
-using Files.App.Utils.StorageItems;
 using Files.App.Utils.Shell;
 using Files.App.ViewModels;
 using Files.App.Views;
 using Files.Core.Helpers;
 using Files.Core.Services.Settings;
 using Files.Shared;
-using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -441,7 +439,7 @@ namespace Files.App.Helpers
 		// WINUI3
 		private static LauncherOptions InitializeWithWindow(LauncherOptions obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 			return obj;
 		}
 

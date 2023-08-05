@@ -11,6 +11,7 @@ namespace Files.Shared.Helpers
 		{
 			if (string.IsNullOrEmpty(folder))
 				return name;
+
 			return folder.Contains('/') ? Path.Combine(folder, name).Replace('\\', '/') : Path.Combine(folder, name);
 		}
 	}

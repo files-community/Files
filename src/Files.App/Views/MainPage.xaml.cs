@@ -4,27 +4,20 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.UserControls;
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Extensions;
-using Files.Shared.EventArguments;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.Storage;
-using Windows.System;
 using WinRT.Interop;
+using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
@@ -47,6 +40,8 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
+		private DispatcherQueueTimer _updateDateDisplayTimer;
+
 		public MainPage()
 		{
 			InitializeComponent();
@@ -63,6 +58,10 @@ namespace Files.App.Views
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
 		private async Task PromptForReview()
@@ -82,7 +81,7 @@ namespace Files.App.Views
 				try
 				{
 					var storeContext = StoreContext.GetDefault();
-					InitializeWithWindow.Initialize(storeContext, App.WindowHandle);
+					InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
 					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
 
 					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
@@ -97,7 +96,7 @@ namespace Files.App.Views
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			return contentDialog;
 		}
@@ -127,7 +126,7 @@ namespace Files.App.Views
 		private void SetRectDragRegion()
 		{
 			DragZoneHelper.SetDragZones(
-				App.Window,
+				MainWindow.Instance,
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
@@ -166,6 +165,8 @@ namespace Files.App.Views
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
+
+			SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.ReloadPreviewPane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -221,14 +222,8 @@ namespace Files.App.Views
 					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
-					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
-					if (isTextBox)
-					{
-						if (hotKey.IsTextBoxHotKey())
-							break;
-						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
-							break;
-					}
+					if (e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null)
+						break;
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
@@ -274,7 +269,7 @@ namespace Files.App.Views
 			e.SignalEvent?.Set();
 		}
 
-		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
+		private void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
 		{
 			if (e.InvokedItemDataContext is DriveItem)
 				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
@@ -382,6 +377,21 @@ namespace Files.App.Views
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
+		}
+
+		private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Start();
+		}
+
+		private void PreviewPane_Unloaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Stop();
+		}
+
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -494,7 +504,7 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = App.Window.Bounds.Width > 450 && App.Window.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && App.Window.Bounds.Height > 360;
+				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
 				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
 
 				return isEnabled;

@@ -2,11 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StorageItems;
+using Files.App.Storage.FtpStorage;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Net;
+using System.Text;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -229,7 +231,8 @@ namespace Files.App.Helpers
 			if (packageView && packageView.Result is not null)
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
-				associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+				await associatedInstance.RefreshIfNoWatcherExists();
 			}
 		}
 
@@ -262,6 +265,7 @@ namespace Files.App.Helpers
 			if (renamed == ReturnResult.Success)
 			{
 				associatedInstance.ToolbarViewModel.CanGoForward = false;
+				await associatedInstance.RefreshIfNoWatcherExists();
 				return true;
 			}
 
@@ -271,9 +275,10 @@ namespace Files.App.Helpers
 		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+			await associatedInstance.RefreshIfNoWatcherExists();
 		}
 
-		public static async Task<IStorageItem?> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
+		private static async Task<IStorageItem?> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			string? currentPath = null;
 
@@ -344,6 +349,7 @@ namespace Files.App.Helpers
 					return;
 
 				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+				await associatedInstance.RefreshIfNoWatcherExists();
 			}
 			catch (Exception ex)
 			{
@@ -363,6 +369,26 @@ namespace Files.App.Helpers
 			itemManipulationModel.RefreshItemsOpacity();
 		}
 
+		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
+		{
+			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
+
+			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
+				currentPath = library.DefaultSaveFolder;
+
+			foreach (ListedItem selectedItem in selectedItems)
+			{
+				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
+				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);
+
+				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
+					await HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
+			}
+
+			if (associatedInstance is not null)
+				await associatedInstance.RefreshIfNoWatcherExists();
+		}
+
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
 			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -380,6 +406,8 @@ namespace Files.App.Helpers
 				return;
 
 			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);
+
+			await associatedInstance.RefreshIfNoWatcherExists();
 		}
 
 		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
@@ -413,6 +441,32 @@ namespace Files.App.Helpers
 			item.Arguments = arguments;
 			item.WorkingDirectory = workingDir;
 			item.RunAsAdmin = runAsAdmin;
+		}
+
+		public async static Task<StorageCredential> RequestPassword(IPasswordProtectedItem sender)
+		{
+			var path = ((IStorageItem)sender).Path;
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
+			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				dialogService.ShowDialogAsync(credentialDialogViewModel));
+
+			if (dialogResult != DialogResult.Primary || credentialDialogViewModel.IsAnonymous)
+				return new();
+
+			// Can't do more than that to mitigate immutability of strings. Perhaps convert DisposableArray to SecureString immediately?
+			var credentials = new StorageCredential(credentialDialogViewModel.UserName, Encoding.UTF8.GetString(credentialDialogViewModel.Password));
+			credentialDialogViewModel.Password?.Dispose();
+
+			if (isFtp)
+			{
+				var host = FtpHelpers.GetFtpHost(path);
+				FtpManager.Credentials[host] = new NetworkCredential(credentials.UserName, credentials.SecurePassword);
+			}
+
+			return credentials;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Cloud;
+using Files.Core.Utils.Cloud;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using Windows.Storage;
@@ -49,7 +49,7 @@ namespace Files.App.Utils.Cloud
 				{
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
 
-					_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
 				}
 				catch (Exception ex)
 				{
@@ -69,7 +69,7 @@ namespace Files.App.Utils.Cloud
 				{
 					cloudProviderItem.IconData = iconData;
 
-					await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async ()
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
 						=> cloudProviderItem.Icon = await iconData.ToBitmapAsync());
 				}
 

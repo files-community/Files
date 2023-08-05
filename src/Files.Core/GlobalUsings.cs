@@ -20,8 +20,9 @@ global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
 
 // Files Back-end
-global using global::Files.Core.CommandLine;
 global using global::Files.Core.Data.Enums;
+global using global::Files.Core.Data.EventArguments;
+global using global::Files.Core.Data.Items;
 global using global::Files.Core.Data.Messages;
 global using global::Files.Core.Data.Models;
 global using global::Files.Core.Extensions;
@@ -30,3 +31,5 @@ global using global::Files.Core.Services;
 global using global::Files.Core.Services.Settings;
 global using global::Files.Core.Services.SizeProvider;
 global using global::Files.Core.ViewModels;
+global using global::Files.Core.Utils;
+global using global::Files.Core.Utils.CommandLine;
