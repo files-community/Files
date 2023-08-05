@@ -369,6 +369,7 @@ namespace Files.App
 				}
 			})
 			.ToList();
+			AppLifecycle.RemoveThisInstanceTabs();
 		}
 
 		#region Exception Handlers

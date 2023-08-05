@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Files.App.Helpers
 {
@@ -40,6 +42,14 @@ namespace Files.App.Helpers
 		{
 			var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
+		}
+
+		public static Task<bool> OpenTabsInNewWindowAsync(List<string> tabArgsList)
+		{
+			string tabArgsListStr = JsonSerializer.Serialize(tabArgsList);
+			string tabs = tabArgsListStr;
+			var uri = new Uri($"files-uwp:?tabs={Uri.EscapeDataString(tabs)}");
+			return Launcher.LaunchUriAsync(uri, new LauncherOptions{ DisplayApplicationPicker = false }).AsTask();
 		}
 
 		public static void OpenInSecondaryPane(IShellPage associatedInstance, ListedItem listedItem)

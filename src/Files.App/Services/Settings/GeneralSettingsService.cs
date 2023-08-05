@@ -64,6 +64,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string> LastAppsTabsWithIDList
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public List<string> LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
