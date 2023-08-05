@@ -17,7 +17,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel;

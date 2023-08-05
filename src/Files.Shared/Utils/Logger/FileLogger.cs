@@ -18,7 +18,6 @@ namespace Files.Shared
 		public FileLogger(string filePath)
 		{
 			this.filePath = filePath;
-			PurgeLogs(100);
 		}
 
 		public IDisposable? BeginScope<TState>(TState state) where TState : notnull
