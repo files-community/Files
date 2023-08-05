@@ -243,13 +243,10 @@
 									Value="0" />
 							</DoubleAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Column)">
-								<DiscreteObjectKeyFrame Value="1" />
+								<DiscreteObjectKeyFrame Value="2" />
 							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="1" />
-							</ObjectAnimationUsingKeyFrames>
-							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
-								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
