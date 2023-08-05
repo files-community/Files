@@ -148,7 +148,7 @@ namespace Files.App.Helpers
 		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
-			return icons is not null ? icons.FirstOrDefault(x => x.Index == index) : null;
+			return icons?.FirstOrDefault(x => x.Index == index);
 		}
 
 		public static async Task<BitmapImage?> GetSidebarIconResource(int index)
