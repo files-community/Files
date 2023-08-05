@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
 using IO = System.IO;
+using System.Text.Json;
 
 namespace Files.App
 {
@@ -119,6 +120,15 @@ namespace Files.App
 								else
 									await InitializeFromCmdLineArgs(rootFrame, ppm);
 								break;
+							case "tabs":
+								var tabArgsListStr = JsonSerializer.Deserialize<List<string>>(unescapedValue);
+								List<TabItemArguments> tabArgsList = tabArgsListStr.Select(x => TabItemArguments.Deserialize(x)).ToList();
+
+								rootFrame.Navigate(typeof(MainPage),
+									new MainPageNavigationArguments() { Parameter = tabArgsList, IgnoreStartupSettings = true },
+									new SuppressNavigationTransitionInfo());
+								break;
+
 						}
 					}
 					break;

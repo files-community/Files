@@ -357,6 +357,7 @@ namespace Files.App
 				}
 			})
 			.ToList();
+			AppLifecycle.RemoveThisInstanceTabs();
 		}
 
 		/// <summary>

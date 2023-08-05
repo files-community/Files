@@ -1,0 +1,302 @@
+﻿using Files.App.Services.Settings;
+using Microsoft.Windows.AppLifecycle;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.Json;
+using Files.App.UserControls.MultitaskingControl;
+using Files.App.Helpers;
+
+namespace Files.App.Helpers
+{
+	public class AppLifecycle
+	{
+		public static string SharedMemoryName = "FilesAppTabsWithID";
+		public static string InstanceID = Process.GetCurrentProcess().Id.ToString();
+		public static List<TabItemWithIDArguments> TabsWithIDArgList = new List<TabItemWithIDArguments>();
+		public static MemoryMappedFile? SharedMemory;
+		public static long defaultBufferSize = 1024;
+		public static IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		//	Check if the SharedMemory exists, if not create it
+		protected static MemoryMappedFile CheckSharedMemory()
+		{
+			try
+			{
+				SharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
+			}
+			catch (FileNotFoundException)
+			{
+				SharedMemory = MemoryMappedFile.CreateOrOpen(SharedMemoryName, defaultBufferSize);
+			}
+			return SharedMemory;
+		}
+
+		//	Check if the SharedMemory exists and if the BufferSize is enough, if not create a new one
+		protected static MemoryMappedFile CheckSharedMemory(int BufferSize)
+		{
+			SharedMemory = CheckSharedMemory();
+			long BufferSizeIn = BufferSize;
+			using (MemoryMappedViewAccessor accessor = SharedMemory.CreateViewAccessor())
+			{
+				long length = accessor.Capacity;
+				if (length > BufferSizeIn)
+				{
+				}
+				else
+				{
+					SharedMemory.Dispose();
+					long NewBufferSize = (BufferSizeIn / defaultBufferSize) + defaultBufferSize;
+					SharedMemory = MemoryMappedFile.CreateOrOpen(SharedMemoryName, NewBufferSize);
+				}
+			}
+			return SharedMemory;
+		}
+
+		//	Read TabsWithIDArgList from SharedMemory
+		protected static async Task ReadSharedMemory()
+		{
+			try
+			{
+				SharedMemory = CheckSharedMemory();
+				using (MemoryMappedViewAccessor accessor = SharedMemory.CreateViewAccessor())
+				{
+					long length = accessor.Capacity;
+					byte[] buffer = new byte[length];
+					accessor.ReadArray(0, buffer, 0, buffer.Length);
+					int nullIndex = Array.IndexOf(buffer, (byte)'\0');
+					if (nullIndex > 0)
+					{
+						int Index = nullIndex;
+						byte[] truncatedBuffer = new byte[Index];
+						Array.Copy(buffer, 0, truncatedBuffer, 0, Index);
+						string bufferStr = Encoding.UTF8.GetString(truncatedBuffer);
+						List<string> TabsWithIDArgStrList = JsonSerializer.Deserialize<List<string>>(bufferStr);
+						TabsWithIDArgList = TabsWithIDArgStrList.Select(x => TabItemWithIDArguments.Deserialize(x)).ToList();
+					}
+					else
+					{
+						TabsWithIDArgList = new List<TabItemWithIDArguments>();
+					}
+				}
+			}
+			finally
+			{
+				await Task.CompletedTask;
+			}
+		}
+
+		//	Write TabsWithIDArgList to SharedMemory
+		protected static async Task WriteSharedMemory()
+		{
+			try
+			{
+				List<string> TabsWithIDArgStrList = TabsWithIDArgList.Select(x => x.Serialize()).ToList();
+				string bufferStr = JsonSerializer.Serialize(TabsWithIDArgStrList);
+				byte[] buffer = Encoding.UTF8.GetBytes(bufferStr);
+
+				SharedMemory = CheckSharedMemory(buffer.Length);
+
+				using (MemoryMappedViewAccessor accessor = SharedMemory.CreateViewAccessor())
+				{
+					byte[] bufferClear = new byte[accessor.Capacity];
+					accessor.WriteArray(0, bufferClear, 0, bufferClear.Length);
+					accessor.WriteArray(0, buffer, 0, buffer.Length);
+				}
+			}
+			finally
+			{
+				await Task.CompletedTask;
+			}
+		}
+
+		//	Add Tabs of this instance to TabsWithIDList
+		private static List<TabItemWithIDArguments> AddTabsWithID()
+		{
+			List<TabItemWithIDArguments> OtherTabsWithIDArgList = TabsWithIDArgList.FindAll(x => x.InstanceID != InstanceID).ToList();
+			List<string> ThisInstanceTabsStr = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(x => x.TabItemArguments.Serialize()).ToList();
+
+			List<TabItemWithIDArguments> ThisInstanceTabsWithIDArgList = ThisInstanceTabsStr.Select(x => TabItemWithIDArguments.Deserialize(x)).ToList();
+			List<TabItemWithIDArguments> NewTabsWithIDArgList = OtherTabsWithIDArgList.ToList();
+			NewTabsWithIDArgList.AddRange(ThisInstanceTabsWithIDArgList);
+			return NewTabsWithIDArgList;
+		}
+		private static List<TabItemWithIDArguments> RemoveTabsWithID()
+		{
+			List<TabItemWithIDArguments> OtherTabsWithIDArgList = TabsWithIDArgList.FindAll(x => x.InstanceID != InstanceID).ToList();
+			return OtherTabsWithIDArgList;
+		}
+		public static async Task UpDate()
+		{
+			await ReadSharedMemory();
+			TabsWithIDArgList = AddTabsWithID();
+			await WriteSharedMemory();
+			await ReadSharedMemory();
+			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = TabsWithIDArgList.Select(x => x.Serialize()).ToList();
+		}
+		public static async void RemoveThisInstanceTabs()
+		{
+			await ReadSharedMemory();
+			TabsWithIDArgList = RemoveTabsWithID().ToList();
+			await WriteSharedMemory();
+			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = TabsWithIDArgList.Select(x => x.Serialize()).ToList();
+		}
+
+		//	Restore LastAppsTabs
+		public static bool RestoreLastAppsTabs()
+		{
+			ReadSharedMemory();
+			if (userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList is null)
+			{
+				return false;
+			}
+			List<TabItemWithIDArguments> LastAppsTabsWithIDArgList = userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList
+				.Select(x => TabItemWithIDArguments.Deserialize(x))
+				.ToList();
+			List<string> TabsIDList = TabsWithIDArgList
+				.Select(x => x.InstanceID)
+				.Distinct()
+				.ToList();
+			List<TabItemWithIDArguments> TabsWithIDToBeRestored = LastAppsTabsWithIDArgList
+				.Where(x => !TabsIDList.Contains(x.InstanceID))
+				.ToList();
+			if (TabsWithIDToBeRestored.Count == 0)
+			{
+				return false;
+			}
+			List<string> InstanceIDList = TabsWithIDToBeRestored
+				.Select(x => x.InstanceID)
+				.Distinct()
+				.ToList();
+			foreach (string InstanceID in InstanceIDList)
+			{
+				List<TabItemWithIDArguments> TabsWithIDToBeRestoredForInstance = TabsWithIDToBeRestored
+					.Where(x => x.InstanceID == InstanceID)
+					.ToList();
+				List<TabItemArguments> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
+					.Select(x => x as TabItemArguments)
+					.ToList();
+				List<string> TabsToBeRestoredForInstanceStr = TabsToBeRestoredForInstance
+					.Select(x => x.Serialize())
+					.ToList();
+				NavigationHelpers.OpenTabsInNewWindowAsync(TabsToBeRestoredForInstanceStr);
+			}
+			return true;
+		}
+		public static bool RestoreLastAppsTabs(MainPageViewModel mainPageViewModel)
+		{
+			ReadSharedMemory();
+			if (userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList is null)
+			{
+				return false;
+			}
+			List<TabItemWithIDArguments> LastAppsTabsWithIDArgList = userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList
+				.Select(x => TabItemWithIDArguments.Deserialize(x))
+				.ToList();
+			List<string> TabsIDList = TabsWithIDArgList
+				.Select(x => x.InstanceID)
+				.Distinct()
+				.ToList();
+			List<TabItemWithIDArguments> TabsWithIDToBeRestored = LastAppsTabsWithIDArgList
+				.Where(x => !TabsIDList.Contains(x.InstanceID))
+				.ToList();
+			if (TabsWithIDToBeRestored.Count == 0)
+			{
+				return false;
+			}
+			List<string> InstanceIDList = TabsWithIDToBeRestored
+				.Select(x => x.InstanceID)
+				.Distinct()
+				.ToList();
+			for(int i = 0; i < InstanceIDList.Count; i++)
+			{
+				string InstanceID = InstanceIDList[i];
+				List<TabItemWithIDArguments> TabsWithIDToBeRestoredForInstance = TabsWithIDToBeRestored
+					.Where(x => x.InstanceID == InstanceID)
+					.ToList();
+				List<TabItemArguments> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
+					.Select(x => x as TabItemArguments)
+					.ToList();
+				List<string> TabsToBeRestoredForInstanceStr = TabsToBeRestoredForInstance
+					.Select(x => x.Serialize())
+					.ToList();
+				if (i == 0)
+				{
+					foreach (var tabArgs in TabsToBeRestoredForInstance)
+					{
+						mainPageViewModel.AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+					}
+				}
+				else
+				{
+					NavigationHelpers.OpenTabsInNewWindowAsync(TabsToBeRestoredForInstanceStr);
+				}
+			}
+			return true;
+		}
+	}
+
+
+	public class TabItemWithIDArguments : TabItemArguments
+	{
+		public string InstanceID { get; set; }
+		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
+
+		public TabItemWithIDArguments()
+		{
+			InstanceID = AppLifecycle.InstanceID;
+		}
+
+		public new string Serialize()
+		{
+			var	TabArg = JsonSerializer.Serialize(this, TypesConverter.Options);
+			//TabArg = "{*" + InstanceID+ "*}" + "{*" + TabArg + "*}";
+			return TabArg;
+		}
+
+		public static new TabItemWithIDArguments Deserialize(string obj)
+		{
+			var tabArgs = new TabItemWithIDArguments();
+
+			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
+			tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+
+			try
+			{
+				tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+			}
+			catch (JsonException)
+			{
+				tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+			}
+			if (tempArgs.ContainsKey("InstanceID"))
+			{
+				tabArgs.InstanceID = tempArgs["InstanceID"].GetString();
+			}
+			else
+			{
+				tabArgs.InstanceID = AppLifecycle.InstanceID;
+			}
+			return tabArgs;
+		}
+
+		public static TabItemWithIDArguments CreateFromTabItemArg(TabItemArguments tabItemArg)
+		{
+			string json = JsonSerializer.Serialize(tabItemArg);
+			var tabItemWithIDArg = JsonSerializer.Deserialize<TabItemWithIDArguments>(json);
+			tabItemWithIDArg.InstanceID = AppLifecycle.InstanceID;
+			return tabItemWithIDArg;
+		}
+
+		public TabItemArguments ExportToTabItemArg()
+		{
+			string json = JsonSerializer.Serialize(this);
+			var tabItemArg = JsonSerializer.Deserialize<TabItemArguments>(json);
+			return tabItemArg;
+		}
+	}
+}

@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
+using Files.App.Helpers;
 
 namespace Files.App.ViewModels
 {
@@ -320,16 +321,30 @@ namespace Files.App.ViewModels
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
 					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-						userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+						(userSettingsService.GeneralSettingsService.LastSessionTabList is not null ||
+						userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList is not null)
+						)
 					{
-						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+						bool isRestored = AppLifecycle.RestoreLastAppsTabs(this);
+						List<string> LastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList.ToList();
+						TabItemArguments defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+						List<string> defaultArgStrList = new List<string>() { defaultArg.Serialize() };
+						if (isRestored && !LastSessionTabList.SequenceEqual(defaultArgStrList))
 						{
-							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							await NavigationHelpers.OpenTabsInNewWindowAsync(LastSessionTabList);
 						}
-
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
-
+						else if (isRestored && LastSessionTabList.SequenceEqual(defaultArgStrList))
+						{
+							
+						}
+						else if (!isRestored)
+						{
+							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+							{
+								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							}
+						}
 						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
 					else
@@ -377,6 +392,15 @@ namespace Files.App.ViewModels
 					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
 				else if (parameter is TabItemArguments tabArgs)
 					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+				else if (parameter is List<TabItemArguments> tabArgsList)
+				{
+					foreach (TabItemArguments tabArgItem in tabArgsList)
+					{
+						await AddNewTabByParam(tabArgItem.InitialPageType, tabArgItem.NavigationArg);
+					}
+				}
+				else
+					await AddNewTabAsync();
 			}
 
 			// Load the app theme resources
@@ -427,6 +451,7 @@ namespace Files.App.ViewModels
 				return;
 
 			await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+			await AppLifecycle.UpDate();
 		}
 	}
 }
