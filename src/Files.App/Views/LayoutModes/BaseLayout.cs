@@ -255,7 +255,7 @@ namespace Files.App.Views.LayoutModes
 
 		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
 		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
-		public bool AllowItemDragging => !ElevationHelpers.IsAppRunAsAdmin();
+		public bool AllowItemDrag => !ElevationHelpers.IsAppRunAsAdmin();
 
 		public BaseLayout()
 		{

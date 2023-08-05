@@ -568,7 +568,7 @@
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="{x:Bind AllowItemDragging, Mode=OneWay}"
+					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
 					DoubleTapped="FileList_DoubleTapped"

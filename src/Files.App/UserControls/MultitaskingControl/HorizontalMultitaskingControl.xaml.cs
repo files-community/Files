@@ -25,6 +25,10 @@ namespace Files.App.UserControls.MultitaskingControl
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
 		private TabViewItem? hoveredTabViewItem;
 
+		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
+		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowTabsDrag => !ElevationHelpers.IsAppRunAsAdmin();
+
 		public HorizontalMultitaskingControl()
 		{
 			InitializeComponent();

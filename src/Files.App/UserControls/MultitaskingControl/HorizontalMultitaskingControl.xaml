@@ -563,7 +563,7 @@
 			VerticalAlignment="Stretch"
 			AddTabButtonClick="TabView_AddTabButtonClick"
 			AllowDropTabs="True"
-			CanDragTabs="True"
+			CanReorderTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
 			DragLeave="TabStrip_DragLeave"
 			IsAddTabButtonVisible="False"
 			SelectedIndex="{x:Bind local1:App.AppModel.TabStripSelectedIndex, Mode=TwoWay}"
