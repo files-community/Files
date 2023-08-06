@@ -139,7 +139,7 @@
     <value>الحجم:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>الحجم في القرص:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>الحجم الغير مضغوط:</value>
@@ -160,7 +160,7 @@
     <value>تحديد الكل</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>عكس التحديد</value>
+    <value>قم بعكس التحديد</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>إزالة التحديد</value>
@@ -175,7 +175,7 @@
     <value>ازالة كل العناصر</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>ادخل وجهة معينة</value>
+    <value>أدخل مسار للانتقال إلى أو اكتب "&gt;" لفتح لوحة الأوامر</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>بحث</value>
@@ -2392,7 +2392,7 @@
     <value>إظهار قائمة تعديل العلامات</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>عرض قائمة الإرسال إلى</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>إظهار خيار فتح المجلدات في علامة تبويب جديدة</value>
@@ -2635,7 +2635,7 @@
     <value>مشاركة الملفات المختارة مع الآخرين</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value/>
+    <value>تثبيت العناصر في قائمة البدء</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>إلغاء تثبيت العناصر من قائمة البدء</value>
@@ -3285,13 +3285,13 @@
     <value>المؤلف</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>تاريخ التنفيذ</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>رسالة التنفيذ</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>Commit SHA</value>
+    <value>رمز SHA للتنفيذ</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3306,102 +3306,127 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>مادة الخلفية</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>صلب</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>ادارة الفروع</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>ارفع</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>قم بتشغيل git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>مزامنة</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>قم بتشغيل git pull ثم git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} تنفيذات صادرة / {1} تنفيذات واردة</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>الاتصال بـ GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>أدخل الرمز التالي في الرابط أدناه لبدء العمل مع مستودعات GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>لا يمكن لـ Files الوصول إلى GitHub الآن.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>فتح المجلد الحالي في Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>فتح المجلد الحالي في Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>نسخ الكود</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>تمت الإضافة</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>تم الحذف</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>تم تغييره</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>غير متتبع</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>غير قادر على عرض المالك الحالي.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>عظيم! أنت الآن مفوض.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>تهيئة مستودع</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>تهيئة مستودع Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>اسم المستودع البعيد</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>الفرع الحالي</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>عمود المسار</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>فرز العناصر حسب المسار</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>فتح المجلد في لوحة جديدة</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>فتح المجلد في علامة تبويب جديدة</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>فتح المجلد في نافذة جديدة</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>فتح الكل</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>فتح جميع العناصر المعلمة</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>القرص ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>أمر غير صالح</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' غير معترف به كأمر.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>الأمر غير قابل للتنفيذ</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>الأمر '{0}' غير جاهز لتنفيذه.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>لوحة الأوامر</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>إفتح لوحة الأوامر</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>بدء في:</value>
   </data>
 </root>
