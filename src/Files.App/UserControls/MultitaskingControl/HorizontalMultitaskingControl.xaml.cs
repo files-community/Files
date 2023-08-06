@@ -63,7 +63,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 			tabHoverTimer.Stop();
 		}
 
@@ -105,7 +105,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true;
+				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
@@ -119,12 +119,12 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		private void TabStrip_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
 		private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 			if (!(sender is TabView tabStrip))
 			{
 				return;

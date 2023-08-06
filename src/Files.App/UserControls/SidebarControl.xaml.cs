@@ -268,7 +268,10 @@ namespace Files.App.UserControls
 					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
-					ShowItem = isFavoriteItem || item.Section is SectionType.Favorites
+					// See issue #12390 on Github. Dragging makes the app crash when run as admin.
+					// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+					ShowItem = (isFavoriteItem || item.Section is SectionType.Favorites) &&
+								!ElevationHelpers.IsAppRunAsAdmin()
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
