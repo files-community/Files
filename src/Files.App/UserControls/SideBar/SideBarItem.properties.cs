@@ -37,6 +37,15 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty IsInFlyoutProperty =
 			DependencyProperty.Register("IsInFlyout", typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
 
+		public double ChildrenPresenterHeight
+		{
+			get { return (double)GetValue(ChildrenPresenterHeightProperty); }
+			set { SetValue(ChildrenPresenterHeightProperty, value); }
+		}
+		// Using 30 as a default in case something goes wrong
+		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
+			DependencyProperty.Register("ChildrenPresenterHeight", typeof(double), typeof(SidebarItem), new PropertyMetadata(30d)); 
+
 		public ISidebarItemModel? Item
 		{
 			get { return (ISidebarItemModel)GetValue(ItemProperty); }

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using SQLitePCL;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls.Sidebar
@@ -21,6 +22,7 @@ namespace Files.App.UserControls.Sidebar
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		private ItemsRepeater childrenRepeater;
 
 		public SidebarItem()
 		{
@@ -71,7 +73,9 @@ namespace Files.App.UserControls.Sidebar
 
 			if (GetTemplateChild("ChildrenPresenter") is ItemsRepeater repeater)
 			{
+				childrenRepeater = repeater;
 				repeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
+				repeater.SizeChanged += ChildrenPresenter_SizeChanged;
 			}
 			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
 			{
@@ -79,6 +83,11 @@ namespace Files.App.UserControls.Sidebar
 			}
 
 			UpdateExpansionState();
+		}
+
+		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			ChildrenPresenterHeight = e.NewSize.Height;
 		}
 
 		private void HookupOwners()
@@ -252,7 +261,7 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateIcon()
 		{
 			Icon = Item?.GenerateIconSource()?.CreateIconElement();
-			if(Icon is not null)
+			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
@@ -276,6 +285,13 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else
 			{
+				if(childrenRepeater != null)
+				{
+					if(childrenRepeater.ActualHeight > ChildrenPresenterHeight)
+					{
+						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
+					}
+				}
 				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", true);
 				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
 			}
@@ -340,7 +356,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				VisualStateManager.GoToState(this, "DragInsertAbove", true);
 			}
-			else if(insertsAbove == SidebarItemDropPosition.Bottom)
+			else if (insertsAbove == SidebarItemDropPosition.Bottom)
 			{
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
@@ -372,11 +388,11 @@ namespace Files.App.UserControls.Sidebar
 				if (GetTemplateChild("ElementGrid") is Grid grid)
 				{
 					var position = args.GetPosition(grid);
-					if(position.Y < grid.ActualHeight * DROP_REPOSITION_THRESHOLD)
+					if (position.Y < grid.ActualHeight * DROP_REPOSITION_THRESHOLD)
 					{
 						return SidebarItemDropPosition.Top;
 					}
-					if(position.Y > grid.ActualHeight * (1- DROP_REPOSITION_THRESHOLD))
+					if (position.Y > grid.ActualHeight * (1 - DROP_REPOSITION_THRESHOLD))
 					{
 						return SidebarItemDropPosition.Bottom;
 					}
