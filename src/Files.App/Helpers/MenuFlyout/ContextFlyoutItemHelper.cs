@@ -1,8 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
+using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.LayoutModes;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -75,7 +76,7 @@ namespace Files.App.Helpers
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel itemViewModel = null)
+			ItemViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
@@ -633,6 +634,22 @@ namespace Files.App.Helpers
 			}
 
 			return list;
+		}
+
+		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
+		{
+			var placeholder = contextMenu.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName)).FirstOrDefault() as AppBarButton;
+			if (placeholder is not null)
+				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+
+			if (replacingItem is not null)
+			{
+				var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { replacingItem });
+				contextMenu.SecondaryCommands.Insert(
+					position,
+					bitLockerCommands.FirstOrDefault()
+				);
+			}
 		}
 	}
 }

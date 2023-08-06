@@ -1,28 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Utils.Shell;
-using Files.App.ViewModels;
-using Files.Core.Helpers;
-using Files.Core.Services.Settings;
-using Files.Shared;
-using Files.Shared.Extensions;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.UI.Core;
@@ -119,7 +104,7 @@ namespace Files.App.Helpers
 					break;
 
 				// Avoid duplicate separators
-				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault().ItemType == ContextMenuFlyoutItemType.Separator))
+				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault()?.ItemType == ContextMenuFlyoutItemType.Separator))
 					continue;
 
 				BitmapImage? image = null;
@@ -174,7 +159,7 @@ namespace Files.App.Helpers
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
 						BitmapIcon = image,
-						Command = new RelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
+						Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
 						CommandParameter = menuFlyoutItem
 					};
 					menuItemsListLocal.Insert(0, menuLayoutItem);
@@ -243,7 +228,7 @@ namespace Files.App.Helpers
 		public static async Task LoadShellMenuItems(
 			string path,
 			CommandBarFlyout itemContextMenuFlyout,
-			ContextMenuOptions options = null,
+			ContextMenuOptions? options = null,
 			bool showOpenWithMenu = false,
 			bool showSendToMenu = false)
 		{
@@ -270,36 +255,26 @@ namespace Files.App.Helpers
 					shellMenuItems.Remove(sendToItem);
 
 				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
-				var turnOnBitLockerPlaceholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "TurnOnBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
-				if (turnOnBitLockerPlaceholder is not null)
-					turnOnBitLockerPlaceholder.Visibility = Visibility.Collapsed;
-
 				if (turnOnBitLocker is not null)
-				{
 					shellMenuItems.Remove(turnOnBitLocker);
 
-					var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { turnOnBitLocker });
-					itemContextMenuFlyout.SecondaryCommands.Insert(
-						itemContextMenuFlyout.SecondaryCommands.Count - 2,
-						bitLockerCommands.FirstOrDefault()
-					);
-				}
+				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+					itemContextMenuFlyout,
+					"TurnOnBitLockerPlaceholder",
+					turnOnBitLocker,
+					itemContextMenuFlyout.SecondaryCommands.Count - 2
+				);
 
 				var manageBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
-				var manageBitLockerPlaceholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "ManageBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
-				if (manageBitLockerPlaceholder is not null)
-					manageBitLockerPlaceholder.Visibility = Visibility.Collapsed;
-
 				if (manageBitLocker is not null)
-				{
 					shellMenuItems.Remove(manageBitLocker);
 
-					var (_, manageBitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { manageBitLocker });
-					itemContextMenuFlyout.SecondaryCommands.Insert(
-						itemContextMenuFlyout.SecondaryCommands.Count - 2,
-						manageBitLockerCommands.FirstOrDefault()
-					);
-				}
+				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+					itemContextMenuFlyout,
+					"ManageBitLockerPlaceholder",
+					manageBitLocker,
+					itemContextMenuFlyout.SecondaryCommands.Count - 2
+				);
 
 				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
@@ -338,9 +313,9 @@ namespace Files.App.Helpers
 
 					var flyoutItems = (overflowItem.Flyout as MenuFlyout)?.Items;
 					if (flyoutItems is not null)
-						overflowItems.ForEach(i => flyoutItems.Add(i));
-					overflowItem.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
-					overflowSeparator.Visibility = overflowItems.Any() ? Visibility.Visible : Visibility.Collapsed;
+						overflowItems?.ForEach(i => flyoutItems.Add(i));
+					overflowItem.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
+					overflowSeparator.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
 
 					overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 					overflowItem.IsEnabled = true;
@@ -375,7 +350,8 @@ namespace Files.App.Helpers
 				}
 
 				// Add items to shell submenu
-				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x => {
+				shellMenuItems.Where(x => x.LoadSubMenuAction is not null).ForEach(async x =>
+				{
 					await x.LoadSubMenuAction();
 
 					if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)

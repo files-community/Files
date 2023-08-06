@@ -758,31 +758,18 @@ namespace Files.App.Views.LayoutModes
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
 
-			var turnOnBitLockerPlaceholder = contextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "TurnOnBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
-			if (turnOnBitLockerPlaceholder is not null)
-				turnOnBitLockerPlaceholder.Visibility = Visibility.Collapsed;
-
-			if (turnOnBitLockerMenuItem is not null)
-			{
-				var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { turnOnBitLockerMenuItem });
-				contextMenuFlyout.SecondaryCommands.Insert(
-					contextMenuFlyout.SecondaryCommands.Count - 2,
-					bitLockerCommands.FirstOrDefault()
-				);
-			}
-
-			var manageBitLockerPlaceholder = contextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "ManageBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
-			if (manageBitLockerPlaceholder is not null)
-				manageBitLockerPlaceholder.Visibility = Visibility.Collapsed;
-
-			if (manageBitLockerMenuItem is not null)
-			{
-				var (_, manageBitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { manageBitLockerMenuItem });
-				contextMenuFlyout.SecondaryCommands.Insert(
-					contextMenuFlyout.SecondaryCommands.Count - 2,
-					manageBitLockerCommands.FirstOrDefault()
-				);
-			}
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"TurnOnBitLockerPlaceholder",
+				turnOnBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"ManageBitLockerPlaceholder",
+				manageBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
 
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
 			if (overflowItem is not null)
