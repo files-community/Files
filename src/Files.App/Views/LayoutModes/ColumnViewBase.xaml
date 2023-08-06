@@ -192,6 +192,7 @@
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
+								PointerEntered="Grid_PointerEntered"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />

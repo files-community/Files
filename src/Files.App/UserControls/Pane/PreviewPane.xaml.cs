@@ -22,7 +22,7 @@ namespace Files.App.UserControls
 
 		private readonly ICommandManager Commands;
 
-		private readonly PreviewPaneViewModel ViewModel;
+		public PreviewPaneViewModel ViewModel { get; private set; }
 
 		private ObservableContext Context { get; } = new();
 

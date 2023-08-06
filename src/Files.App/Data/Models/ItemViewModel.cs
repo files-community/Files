@@ -90,6 +90,8 @@ namespace Files.App.Data.Models
 
 		public string? GitDirectory { get; private set; }
 
+		public bool IsValidGitDirectory { get; private set; }
+
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
 
@@ -139,6 +141,7 @@ namespace Files.App.Data.Models
 			}
 
 			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
@@ -1378,14 +1381,16 @@ namespace Files.App.Data.Models
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
-						IsTypeGitRepository = GitDirectory is not null
+						IsTypeGitRepository = IsValidGitDirectory
 					});
+          
 					if (!HasNoWatcher)
 						WatchForDirectoryChanges(path, syncStatus);
-					if (GitDirectory is not null)
+					if (IsValidGitDirectory)
 						WatchForGitChanges();
 					break;
 
@@ -2212,9 +2217,9 @@ namespace Files.App.Data.Models
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
 
 			await AddFileOrFolderAsync(listedItem);
 
@@ -2383,6 +2388,26 @@ namespace Files.App.Data.Models
 		{
 			searchCTS?.Cancel();
 		}
+
+		public void UpdateDateDisplay(bool isFormatChange)
+		{
+			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			{
+				// Reassign values to update date display
+				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
+				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
+				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
+			});
+		}
+
+		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
 
 		public void Dispose()
 		{

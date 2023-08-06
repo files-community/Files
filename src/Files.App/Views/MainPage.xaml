@@ -267,7 +267,9 @@
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
+					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					Loaded="PreviewPane_Loaded"
+					Unloaded="PreviewPane_Unloaded" />
 
 				<!--  Status Bar  -->
 				<uc:StatusBarControl
