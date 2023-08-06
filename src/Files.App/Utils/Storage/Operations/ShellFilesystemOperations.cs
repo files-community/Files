@@ -170,8 +170,7 @@ namespace Files.App.Utils.Storage
 				{
 					var failingItems = copyResult.Items
 						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
-						.Select(item => item.Source)
-						.Concat(new string[] { @"C:\Users\user\Distros\ubuntu.iso", @"C:\Users\user\Distros\windows.iso" });
+						.Select(item => item.Source);
 
 					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(
 						string.Format("FileTooLargeHeader".GetLocalizedResource(), Path.GetPathRoot(copyResult.Items.First().Destination)),
