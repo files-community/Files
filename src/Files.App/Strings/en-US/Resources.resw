@@ -3430,6 +3430,7 @@
     <value>Start in:</value>
   </data>
   <data name="FileTooLargeHeader" xml:space="preserve">
-    <value>The following files are too big to be copied on ({0}):</value>
+	<!--  {0} is the root path of the target drive  -->
+    <value>The following files are too large to be copied to ({0}):</value>
   </data>
 </root>
