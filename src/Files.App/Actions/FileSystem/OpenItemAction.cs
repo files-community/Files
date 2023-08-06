@@ -1,46 +1,45 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.Views;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
 	internal class OpenItemAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "Open".GetLocalizedResource();
+		public string Label
+			=> "Open".GetLocalizedResource();
 
-		public string Description => "OpenItemDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenItemDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenFile");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconOpenFile");
 
-		public HotKey HotKey => new(Keys.Enter);
+		public HotKey HotKey
+			=> new(Keys.Enter);
 
 		private const int MaxOpenCount = 10;
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.Count <= MaxOpenCount &&
-			!(context.ShellPage is ColumnShellPage && context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.SelectedItems.Count <= MaxOpenCount &&
+			!(context.ShellPage is ColumnShellPage &&
+			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
 		public OpenItemAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			NavigationHelpers.OpenSelectedItems(context.ShellPage);
+			return NavigationHelpers.OpenSelectedItems(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -52,25 +51,33 @@ namespace Files.App.Actions
 
 	internal class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "BaseLayoutItemContextFlyoutOpenItemWith/Text".GetLocalizedResource();
+		public string Label
+			=> "OpenWith".GetLocalizedResource();
 
-		public string Description => "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph => new(opacityStyle: "ColorIconOpenWith");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconOpenWith");
 
-		public bool IsExecutable => context.HasSelection && context.SelectedItems.All(
-				i => (i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) || (i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.SelectedItems.All(i =>
+				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
+				(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 
 		public OpenItemWithApplicationPickerAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			NavigationHelpers.OpenSelectedItems(context.ShellPage, true);
+			return NavigationHelpers.OpenSelectedItems(context.ShellPage, true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -82,18 +89,25 @@ namespace Files.App.Actions
 
 	internal class OpenParentFolderAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label => "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
+		public string Label
+			=> "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
 
-		public string Description => "OpenParentFolderDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenParentFolderDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph => new(baseGlyph: "\uE197");
+		public RichGlyph Glyph
+			=> new(baseGlyph: "\uE197");
 
-		public bool IsExecutable => context.HasSelection && context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
+		public bool IsExecutable =>
+			context.HasSelection &&
+			context.ShellPage.InstanceViewModel.IsPageTypeSearchResults;
 
 		public OpenParentFolderAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 

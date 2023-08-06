@@ -1,8 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
@@ -12,9 +11,11 @@ namespace Files.App.Actions
 
 		private readonly bool _isVSInstalled;
 
-		public string Label { get; } = "OpenInVS".GetLocalizedResource();
+		public string Label
+			=> "OpenInVS".GetLocalizedResource();
 
-		public string Description { get; } = "OpenInVSDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenInVSDescription".GetLocalizedResource();
 
 		public bool IsExecutable => 
 			_isVSInstalled &&
@@ -29,17 +30,15 @@ namespace Files.App.Actions
 				_context.PropertyChanged += Context_PropertyChanged;
 		}
 
+		public Task ExecuteAsync()
+		{
+			return Win32API.RunPowershellCommandAsync($"start \'{_context.SolutionFilePath}\'", false);
+		}
+
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(IContentPageContext.SolutionFilePath))
 				OnPropertyChanged(nameof(IsExecutable));
-		}
-
-		public Task ExecuteAsync()
-		{
-			Win32API.RunPowershellCommand($"start \'{_context.SolutionFilePath}\'", false);
-
-			return Task.CompletedTask;
 		}
 	}
 }

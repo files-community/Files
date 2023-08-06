@@ -1,42 +1,40 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.Shell;
-using Files.Core.Helpers;
-using System.Threading.Tasks;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
 	internal class RunWithPowershellAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public bool IsExecutable => context.SelectedItem is not null &&
+		public string Label
+			=> "RunWithPowerShell".GetLocalizedResource();
+
+		public string Description
+			=> "RunWithPowershellDescription".GetLocalizedResource();
+
+		public RichGlyph Glyph
+			=> new("\uE756");
+
+		public bool IsExecutable =>
+			context.SelectedItem is not null &&
 			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
-
-		public string Label => "RunWithPowerShell".GetLocalizedResource();
-
-		public string Description => "RunWithPowershellDescription".GetLocalizedResource();
-
-		public RichGlyph Glyph => new("\uE756");
 
 		public RunWithPowershellAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
+			return Win32API.RunPowershellCommandAsync($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
 		}
 
-		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

@@ -133,10 +133,13 @@
     <value>作成日時:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>パス:</value>
+    <value>パス</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>サイズ:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>ディスク上のサイズ:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ:</value>
@@ -172,7 +175,7 @@
     <value>すべて削除</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>パスを入力</value>
+    <value>移動先のパスを入力するか、「&gt;」をタイプしてコマンド パレットを開く</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>検索</value>
@@ -402,9 +405,6 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>空き領域 {0}/{1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>プログラムから開く</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
     <value>送る</value>
   </data>
@@ -529,7 +529,7 @@
     <value>引数:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>送信先</value>
+    <value>リンク先:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>ショートカットの種類:</value>
@@ -1006,7 +1006,7 @@
     <value>右クリック メニューをカスタマイズ</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>元のパス:</value>
+    <value>元のパス</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>追加</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>更新日時:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>プログラムから開く</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1555,7 +1555,7 @@
     <value>読み取り</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>グループ名またはユーザー名:</value>
+    <value>グループ名またはユーザー名</value>
   </data>
   <data name="Write" xml:space="preserve">
     <value>書き込み</value>
@@ -1803,8 +1803,8 @@
   <data name="Unknown" xml:space="preserve">
     <value>不明</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
-    <value>ファイル タグを編集</value>
+  <data name="EditTags" xml:space="preserve">
+    <value>タグを編集</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>セットのパート</value>
@@ -1915,7 +1915,7 @@
     <value>設定のインポートにエラーが発生しました</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>ゴミ箱を空にする</value>
+    <value>ごみ箱を空にする</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>サイドバー</value>
@@ -2155,10 +2155,10 @@
     <value>すべての列のサイズを合わせる</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自動</value>
+    <value>レイアウトを自動的に選択</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>自動 (Ctrl+Shift+7)</value>
+    <value>レイアウトを自動的に選択 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2257,13 +2257,13 @@
     <value>このフォルダーにアクセスする権限がありません。</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>ゴミ箱を空にしています</value>
+    <value>ごみ箱を空にしています</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>ゴミ箱を正常に空にしました</value>
+    <value>ごみ箱を正常に空にしました</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>ゴミ箱を空にできませんでした</value>
+    <value>ごみ箱を空にできませんでした</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>書庫のパスワード</value>
@@ -2433,9 +2433,6 @@
   <data name="TagColor" xml:space="preserve">
     <value>タグの色</value>
   </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>変更を保存</value>
-  </data>
   <data name="NewTag" xml:space="preserve">
     <value>新しいタグ</value>
   </data>
@@ -2449,10 +2446,10 @@
     <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>ファイル名拡張子を表示する</value>
+    <value>ファイル名拡張子を表示</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>隠しファイルを表示する</value>
+    <value>隠しファイルを表示</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>フォーマット…</value>
@@ -3317,6 +3314,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>ブランチの管理</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>プッシュ</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>git push を実行する</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>同期</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>git pull と git push を順番に実行する</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} 送信/ {1} 受信コミット</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>GitHub に接続</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>GitHub リポジトリでの作業を開始するには、以下のリンクに次のコードを入力してください。</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files は現在 GitHub にアクセスできません。</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3350,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>現在のフォルダーを Visual Studio Code で開く</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>コードをコピー</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>追加</value>
   </data>
@@ -3340,5 +3364,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>未追跡</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>現在の所有者を表示できません。</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>素晴らしい! これで作業できるようになりました。</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>リポジトリの初期化</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Git リポジトリを初期化する</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>リモート リポジトリ名</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>現在のブランチ</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>パス</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>アイテムをパスで並べ替える</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>新しいペインでフォルダーを開く</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>新しいタブでフォルダーを開く</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>新しいウィンドウでフォルダーを開く</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>すべて開く</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>すべてのタグ付けされたアイテムを開く</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>ドライブ ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>無効なコマンド</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>{0} はコマンドとして認識できません。</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>実行できないコマンド</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>コマンド {0} は現在実行できません。</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>コマンド パレット</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>コマンド パレットを開く</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>作業フォルダー:</value>
   </data>
 </root>

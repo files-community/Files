@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Enums;
+using Files.Core.Data.Enums;
 using System.ComponentModel;
 
 namespace Files.Core.Services.Settings
@@ -62,6 +62,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating whether or not the date deleted column should be visible by default.
 		/// </summary>
 		bool ShowDateDeletedColumn { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the path column should be visible by default.
+		/// </summary>
+		bool ShowPathColumn { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the original path column should be visible by default.
@@ -142,6 +147,11 @@ namespace Files.Core.Services.Settings
 		/// Gets or sets a value indicating sync status column's default width
 		/// </summary>
 		double SyncStatusColumnWidth { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating path column's default width
+		/// </summary>
+		double PathColumnWidth { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating original path column's default width

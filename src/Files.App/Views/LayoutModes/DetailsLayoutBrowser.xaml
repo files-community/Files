@@ -6,13 +6,14 @@
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:filesystem="using:Files.App.Filesystem"
+	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:filetags="using:Files.Core.ViewModels.FileTags"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.LayoutModes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI.UI"
@@ -55,7 +56,7 @@
 				TargetType="toolkit:GridSplitter">
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Width" Value="12" />
-				<Setter Property="Margin" Value="0,4,0,4" />
+				<Setter Property="Margin" Value="0" />
 				<Setter Property="Opacity" Value="0.8" />
 				<Setter Property="Canvas.ZIndex" Value="1" />
 			</Style>
@@ -155,7 +156,7 @@
 
 			<Style
 				x:Key="ColumnContentTextBlock"
-				BasedOn="{StaticResource CaptionTextBlockStyle}"
+				BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
 				TargetType="TextBlock">
 				<Setter Property="TextWrapping" Value="NoWrap" />
 				<Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -314,6 +315,14 @@
 										Text="{helpers:ResourceString Name=Tag}"
 										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
+									<!--  Item Path  -->
+									<ToggleMenuFlyoutItem
+										x:Name="PathColumnVisibilityToggleMenuFlyoutItem"
+										Click="ToggleMenuFlyoutItem_Click"
+										IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+										Text="{helpers:ResourceString Name=PathColumn}"
+										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
 										x:Name="OriginalPathColumnVisibilityToggleMenuFlyoutItem"
@@ -457,9 +466,18 @@
 								<!--  (Divider)  -->
 								<ColumnDefinition Width="Auto" />
 
-								<!--  Item Original Path  -->
+								<!--  Item Path  -->
 								<ColumnDefinition
 									x:Name="Column5"
+									Width="{x:Bind ColumnsViewModel.PathColumn.Length, Mode=OneWay}"
+									MaxWidth="{x:Bind ColumnsViewModel.PathColumn.MaxLength, Mode=OneWay}" />
+
+								<!--  (Divider)  -->
+								<ColumnDefinition Width="Auto" />
+
+								<!--  Item Original Path  -->
+								<ColumnDefinition
+									x:Name="Column6"
 									Width="{x:Bind ColumnsViewModel.OriginalPathColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.OriginalPathColumn.MaxLength, Mode=OneWay}" />
 
@@ -468,7 +486,7 @@
 
 								<!--  Item Date Deleted  -->
 								<ColumnDefinition
-									x:Name="Column6"
+									x:Name="Column7"
 									Width="{x:Bind ColumnsViewModel.DateDeletedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateDeletedColumn.MaxLength, Mode=OneWay}" />
 
@@ -477,7 +495,7 @@
 
 								<!--  Item Date Modified  -->
 								<ColumnDefinition
-									x:Name="Column7"
+									x:Name="Column8"
 									Width="{x:Bind ColumnsViewModel.DateModifiedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateModifiedColumn.MaxLength, Mode=OneWay}" />
 
@@ -486,7 +504,7 @@
 
 								<!--  Item Date Created  -->
 								<ColumnDefinition
-									x:Name="Column8"
+									x:Name="Column9"
 									Width="{x:Bind ColumnsViewModel.DateCreatedColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.DateCreatedColumn.MaxLength, Mode=OneWay}" />
 
@@ -495,7 +513,7 @@
 
 								<!--  Item Type  -->
 								<ColumnDefinition
-									x:Name="Column9"
+									x:Name="Column10"
 									Width="{x:Bind ColumnsViewModel.ItemTypeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.ItemTypeColumn.MaxLength, Mode=OneWay}" />
 
@@ -504,7 +522,7 @@
 
 								<!--  Item Size  -->
 								<ColumnDefinition
-									x:Name="Column10"
+									x:Name="Column11"
 									Width="{x:Bind ColumnsViewModel.SizeColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.SizeColumn.MaxLength, Mode=OneWay}" />
 
@@ -513,7 +531,7 @@
 
 								<!--  Item Sync Status  -->
 								<ColumnDefinition
-									x:Name="Column11"
+									x:Name="Column12"
 									Width="{x:Bind ColumnsViewModel.StatusColumn.Length, Mode=OneWay}"
 									MaxWidth="{x:Bind ColumnsViewModel.StatusColumn.MaxLength, Mode=OneWay}" />
 
@@ -677,10 +695,32 @@
 								Style="{StaticResource HeaderGridSplitterStyle}"
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
+							<!--  Item Path  -->
+							<uc:DataGridHeader
+								x:Name="PathHeader"
+								Grid.Column="16"
+								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
+								CommandParameter="Path"
+								Header="{helpers:ResourceString Name=Path}"
+								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+
+							<!--  (Divider)  -->
+							<toolkit:GridSplitter
+								Grid.Column="17"
+								AutomationProperties.Name="PathColumnHeaderGridSplitter"
+								DoubleTapped="GridSplitter_DoubleTapped"
+								Loaded="GridSplitter_Loaded"
+								ManipulationCompleted="GridSplitter_ManipulationCompleted"
+								ManipulationDelta="GridSplitter_ManipulationDelta"
+								ManipulationStarted="GridSplitter_ManipulationStarted"
+								PreviewKeyUp="GridSplitter_PreviewKeyUp"
+								Style="{StaticResource HeaderGridSplitterStyle}"
+								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
+
 							<!--  Item Original Path  -->
 							<uc:DataGridHeader
 								x:Name="OriginalPathHeader"
-								Grid.Column="16"
+								Grid.Column="18"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="OriginalFolder"
 								Header="{helpers:ResourceString Name=OriginalPath}"
@@ -688,7 +728,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="17"
+								Grid.Column="19"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -702,7 +742,7 @@
 							<!--  Item Deleted Date  -->
 							<uc:DataGridHeader
 								x:Name="DateDeletedHeader"
-								Grid.Column="18"
+								Grid.Column="20"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateDeleted"
 								Header="{helpers:ResourceString Name=DateDeleted}"
@@ -710,7 +750,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="19"
+								Grid.Column="21"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -724,7 +764,7 @@
 							<!--  Item Modified Date  -->
 							<uc:DataGridHeader
 								x:Name="DateModifiedHeader"
-								Grid.Column="20"
+								Grid.Column="22"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateModified"
 								Header="{helpers:ResourceString Name=DateModifiedLowerCase}"
@@ -732,7 +772,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="21"
+								Grid.Column="23"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -746,7 +786,7 @@
 							<!--  Item Created Date  -->
 							<uc:DataGridHeader
 								x:Name="DateCreatedHeader"
-								Grid.Column="22"
+								Grid.Column="24"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="DateCreated"
 								Header="{helpers:ResourceString Name=DateCreated}"
@@ -754,7 +794,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="23"
+								Grid.Column="25"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -768,7 +808,7 @@
 							<!--  Item Type  -->
 							<uc:DataGridHeader
 								x:Name="FileTypeHeader"
-								Grid.Column="24"
+								Grid.Column="26"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="FileType"
 								Header="{helpers:ResourceString Name=Type}"
@@ -776,7 +816,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="25"
+								Grid.Column="27"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -790,7 +830,7 @@
 							<!--  Item Size  -->
 							<uc:DataGridHeader
 								x:Name="ItemSizeHeader"
-								Grid.Column="26"
+								Grid.Column="28"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
 								CommandParameter="Size"
 								Header="{helpers:ResourceString Name=Size}"
@@ -798,7 +838,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="27"
+								Grid.Column="29"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -812,7 +852,7 @@
 							<!--  Item Sync Status Badge  -->
 							<uc:DataGridHeader
 								x:Name="SyncStatusHeader"
-								Grid.Column="28"
+								Grid.Column="30"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Left"
 								Command="{x:Bind UpdateSortOptionsCommand, Mode=OneWay}"
@@ -822,7 +862,7 @@
 
 							<!--  (Divider)  -->
 							<toolkit:GridSplitter
-								Grid.Column="29"
+								Grid.Column="31"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
 								Loaded="GridSplitter_Loaded"
@@ -876,14 +916,6 @@
 													Source="{x:Bind FileImage, Mode=OneWay}"
 													Stretch="Uniform" />
 											</ContentPresenter>
-											<Image
-												x:Name="FolderGlyphIcon"
-												Width="20"
-												Height="20"
-												HorizontalAlignment="Stretch"
-												VerticalAlignment="Stretch"
-												x:Load="{x:Bind LoadDefaultIcon, Mode=OneWay}"
-												Source="{x:Bind PlaceholderDefaultIcon, Mode=OneWay}" />
 											<Border
 												x:Name="TypeUnknownGlyph"
 												Width="20"
@@ -976,27 +1008,30 @@
 									</Grid>
 
 									<!--  Item Git Status  -->
-									<TextBlock
+									<Border
 										x:Name="ItemGitStatusTextBlock"
 										Width="{Binding ColumnsViewModel.GitStatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										FontWeight="SemiBold"
-										Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-										Style="{StaticResource ColumnContentTextBlock}"
-										Text="{x:Bind AsGitItem.UnmergedGitStatusLabel, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										x:Load="{x:Bind IsGitItem}">
+										<uc:OpacityIcon
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Left"
+											Style="{x:Bind AsGitItem.UnmergedGitStatusIcon, Mode=OneWay}"
+											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
+											Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+									</Border>
 
 									<!--  Item Git Last Commit Date  -->
 									<TextBlock
 										x:Name="ItemGitLastCommitDateTextBlock"
 										Width="{Binding ColumnsViewModel.GitLastCommitDateColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1007,9 +1042,10 @@
 									<TextBlock
 										x:Name="ItemGitLastCommitMessageTextBlock"
 										Width="{Binding ColumnsViewModel.GitLastCommitMessageColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1020,9 +1056,10 @@
 									<TextBlock
 										x:Name="ItemGitCommitAuthorTextBlock"
 										Width="{Binding ColumnsViewModel.GitCommitAuthorColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										DataContextChanged="TextBlock_DataContextChanged"
 										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
 										Style="{StaticResource ColumnContentTextBlock}"
@@ -1033,9 +1070,10 @@
 									<TextBlock
 										x:Name="ItemGitLastCommitShaTextBlock"
 										Width="{Binding ColumnsViewModel.GitLastCommitShaColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Padding="12,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind IsGitItem}"
 										Style="{StaticResource ColumnContentTextBlock}"
 										Text="{x:Bind AsGitItem.GitLastCommitSha, Mode=OneWay}"
 										ToolTipService.ToolTip="{x:Bind AsGitItem.GitLastCommitFullSha, Mode=OneWay}"
@@ -1061,40 +1099,45 @@
 												<DataTemplate x:DataType="filetags:TagViewModel">
 													<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 														<StackPanel
+															x:Name="TagPill"
 															Height="24"
 															Padding="8,0"
 															HorizontalAlignment="Left"
 															x:Phase="2"
-															BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-															BorderThickness="1"
 															CornerRadius="12"
 															Orientation="Horizontal"
+															Spacing="8"
 															Tapped="TagItem_Tapped"
 															ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
-															<FontIcon
-																x:Name="TagIcon"
-																FontSize="12"
-																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-																Glyph="&#xE8EC;"
-																Tapped="TagIcon_Tapped"
-																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}" />
+															<!--  Tag icon  -->
+															<PathIcon
+																VerticalAlignment="Center"
+																Data="{StaticResource ColorIconFilledTag}"
+																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+															<!--  Tag name  -->
 															<TextBlock
 																MaxWidth="200"
-																Padding="8,0,0,0"
 																VerticalAlignment="Center"
-																FontSize="12"
-																LineHeight="18"
 																Style="{StaticResource ColumnContentTextBlock}"
 																Text="{x:Bind Name, Mode=OneWay}"
 																TextTrimming="CharacterEllipsis" />
-
+															<!--  Remove tag icon  -->
+															<FontIcon
+																x:Name="RemoveTagIcon"
+																VerticalAlignment="Center"
+																FontSize="12"
+																Glyph="&#xE711;"
+																Tapped="RemoveTagIcon_Tapped"
+																ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}"
+																Visibility="Collapsed" />
 															<VisualStateManager.VisualStateGroups>
 																<VisualStateGroup x:Name="CommonStates">
 																	<VisualState x:Name="Normal" />
 
 																	<VisualState x:Name="PointerOver">
 																		<VisualState.Setters>
-																			<Setter Target="TagIcon.Glyph" Value="&#xE711;" />
+																			<Setter Target="TagPill.Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
+																			<Setter Target="RemoveTagIcon.Visibility" Value="Visible" />
 																		</VisualState.Setters>
 																	</VisualState>
 																</VisualStateGroup>
@@ -1105,6 +1148,19 @@
 											</ItemsRepeater.ItemTemplate>
 										</ItemsRepeater>
 									</Grid>
+
+									<!--  Item Path  -->
+									<TextBlock
+										x:Name="ItemPath"
+										Width="{Binding ColumnsViewModel.PathColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
+										Padding="10,0,0,0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										DataContextChanged="TextBlock_DataContextChanged"
+										IsTextTrimmedChanged="TextBlock_IsTextTrimmedChanged"
+										Style="{StaticResource ColumnContentTextBlock}"
+										Text="{x:Bind ItemPath, Mode=OneWay}"
+										Visibility="{Binding ColumnsViewModel.PathColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Original Path  -->
 									<TextBlock
@@ -1187,16 +1243,20 @@
 										Visibility="{Binding ColumnsViewModel.SizeColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
 
 									<!--  Item Sync Status Badge  -->
-									<FontIcon
+									<Border
 										x:Name="ItemStatus"
 										Width="{Binding ColumnsViewModel.StatusColumn.LengthIncludingGridSplitter.Value, ElementName=PageRoot, Mode=OneWay}"
-										Margin="10,0,0,0"
+										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										AutomationProperties.Name="{x:Bind SyncStatusString, Mode=OneWay}"
-										FontSize="12"
-										Glyph="{x:Bind SyncStatusUI.Glyph, Mode=OneWay}"
-										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
+										<uc:OpacityIcon
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Left"
+											Style="{x:Bind SyncStatusUI.OpacityIcon, Mode=OneWay}" />
+									</Border>
 
 									<!--  Visual Status Managing  -->
 									<VisualStateManager.VisualStateGroups>
@@ -1312,7 +1372,7 @@
 					<ListView.GroupStyle>
 						<GroupStyle>
 							<GroupStyle.HeaderTemplate>
-								<DataTemplate x:DataType="helpers:IGroupedCollectionHeader">
+								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
 									<StackPanel
 										Margin="0,0,0,4"
 										VerticalAlignment="Top"
@@ -1329,7 +1389,7 @@
 											<TextBlock
 												Margin="4,0,0,0"
 												VerticalAlignment="Center"
-												Style="{StaticResource BodyTextBlockStyle}"
+												Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 												Text="{x:Bind Model.CountText, Mode=OneWay}"
 												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -1343,7 +1403,7 @@
 
 										<TextBlock
 											Margin="0,2,0,0"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -1395,41 +1455,41 @@
 								Spacing="4">
 								<Image
 									Height="36"
-									Source="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
+									Source="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ImageSource, Mode=OneWay}"
 									Stretch="Uniform" />
-								<FontIcon FontSize="32" Glyph="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
+								<FontIcon FontSize="32" Glyph="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Icon, Mode=OneWay}" />
 								<StackPanel
 									VerticalAlignment="Center"
-									AutomationProperties.Name="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}"
 									Orientation="Vertical">
 									<StackPanel Orientation="Horizontal" Spacing="4">
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="16"
 											Style="{StaticResource SubtitleTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Text, Mode=OneWay}" />
 
 										<TextBlock
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
 										<TextBlock
 											VerticalAlignment="Center"
 											FontSize="14"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
-											Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((helpers:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
+										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

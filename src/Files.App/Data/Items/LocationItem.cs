@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -92,7 +92,7 @@ namespace Files.App.Data.Items
 			{
 				SetProperty(ref spaceUsed, value);
 
-				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
 			}
 		}
 

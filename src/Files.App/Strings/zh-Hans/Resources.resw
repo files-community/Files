@@ -133,10 +133,13 @@
     <value>新建:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>路径:</value>
+    <value>路径</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>大小:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>占用磁盘空间</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>未压缩大小:</value>
@@ -172,7 +175,7 @@
     <value>清空所有项目</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>输入路径</value>
+    <value>输入要导航到的路径，或键入"&gt;"以打开命令面板</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
@@ -268,7 +271,7 @@
     <value>删除</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>固定到收藏</value>
+    <value>固定到收藏夹</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>欢迎使用 Files!</value>
@@ -283,7 +286,7 @@
     <value>显示</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>键入名称</value>
+    <value>输入项目名称</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>设置名称</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} 可用，共 {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>打开方式</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>发送到</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>修改日期：</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>打开方式</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>编辑文件标签</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -1897,7 +1897,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>通过单击打开文件</value>
+    <value>通过单击打开项目</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2155,7 +2155,7 @@
     <value>自动调整所有列宽</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自适应</value>
+    <value>自动选择最佳布局</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>自适应 (Ctrl+Shift+7)</value>
@@ -2392,7 +2392,7 @@
     <value>显示“编辑文件标签”</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>显示“发送到”菜单</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>显示“在新标签页中打开”</value>
@@ -2432,9 +2432,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>标签颜色</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>保存更改</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>新标签</value>
@@ -3317,6 +3314,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>管理分支</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>推送</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>运行 git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>同步</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>运行 git pull 随后 git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} 个传出提交 / {1} 个传入提交</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>连接到 GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>若要开始使用 GitHub 存储库，请在下方的链接中输入以下验证码。</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files 目前无法访问 GitHub。</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,16 +3350,83 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>在 Visual Studio Code 中打开当前目录</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>复制代码</value>
+  </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>已添加</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>已删除</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>已修改</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>未跟踪</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>无法显示当前的所有者。</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>很好！你现在已获得授权。</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>初始化存储库</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>初始化 Git 存储库</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>远程仓库名称</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>当前分支</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>“路径”列</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>按路径排序</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>在新面板中打开目录</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>在新标签页中打开目录</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>在新窗口中打开目录</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>全部打开</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>打开所有有标签的项目</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>驱动器 ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>无效的命令</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>无法将“{0}”识别为命令。</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>命令无法执行</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>命令“{0}”尚未准备好执行。</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>命令面板</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>打开命令面板</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>起始位置:</value>
   </data>
 </root>

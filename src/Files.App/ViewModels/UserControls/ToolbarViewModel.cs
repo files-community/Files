@@ -2,13 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Filesystem.StorageItems;
-using Files.App.Shell;
-using Files.Core.Helpers;
-using Files.Core.Services;
-using Files.Shared.EventArguments;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -172,13 +165,35 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
 		{
 			get => instanceViewModel;
-			set => SetProperty(ref instanceViewModel, value);
+			set
+			{
+				if (instanceViewModel?.FolderSettings is not null)
+					instanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+
+				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
+				{
+					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
+					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+				}
+			}
+		}
+
+		private Style _LayoutOpacityIcon;
+		public Style LayoutOpacityIcon
+		{
+			get => _LayoutOpacityIcon;
+			set
+			{
+				if (SetProperty(ref _LayoutOpacityIcon, value))
+				{
+				}
+			}
 		}
 
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
@@ -477,7 +492,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (pointerRoutedEventArgs is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
@@ -491,6 +506,16 @@ namespace Files.App.ViewModels.UserControls
 			{
 				ItemPath = itemTappedPath
 			});
+		}
+
+		public void OpenCommandPalette()
+		{
+			PathText = ">";
+			ManualEntryBoxLoaded = true;
+			ClickablePathLoaded = false;
+
+			var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+			AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
 		}
 
 		public void SwitchSearchBoxVisibility()
@@ -516,7 +541,7 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (App.Window.Content as Frame)?.FindDescendant<AddressToolbar>();
+		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		public void CloseSearchBox()
 		{
@@ -629,6 +654,23 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
+			if (currentInput.StartsWith('>'))
+			{
+				var code = currentInput.Substring(1).Trim();
+				var command = Commands[code];
+
+				if (command == Commands.None)
+					await DialogDisplayHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
+						string.Format("InvalidCommandContent".GetLocalizedResource(), code));
+				else if (!command.IsExecutable)
+					await DialogDisplayHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
+						string.Format("CommandNotExecutableContent".GetLocalizedResource(), command.Code));
+				else
+					await command.ExecuteAsync();
+
+				return;
+			}
+
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
 			if (currentInput.Contains('/') && !isFtp)
@@ -666,7 +708,7 @@ namespace Files.App.ViewModels.UserControls
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(result);
+								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
 							}
 							return;
 						}
@@ -736,60 +778,82 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					IList<ListedItem>? suggestions = null;
-					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+					IList<NavigationBarSuggestionItem>? suggestions = null;
 
-					if (folder is null)
-						return false;
-
-					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-					if (currPath.Count >= maxSuggestions)
+					if (sender.Text.StartsWith(">"))
 					{
-						suggestions = currPath.Select(x => new ListedItem(null!)
+						var searchText = sender.Text.Substring(1).Trim();
+						suggestions = Commands.Where(command => command.IsExecutable &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						.Select(command => new NavigationBarSuggestionItem()
 						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
+							Text = ">" + command.Code,
+							PrimaryDisplay = command.Description,
+							SupplementaryDisplay = command.HotKeyText,
+							SearchText = searchText,
 						}).ToList();
-					}
-					else if (currPath.Any())
-					{
-						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-						suggestions = currPath.Select(x => new ListedItem(null!)
-						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
-						}).Concat(
-							subPath.Select(x => new ListedItem(null!)
-							{
-								ItemPath = x.Path,
-								ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-							})).ToList();
 					}
 					else
 					{
-						suggestions = new List<ListedItem>() { new ListedItem(null!) {
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
+						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
+						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
+						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+
+						if (folder is null)
+							return false;
+
+						var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+						if (currPath.Count >= maxSuggestions)
+						{
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).ToList();
+						}
+						else if (currPath.Any())
+						{
+							var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).Concat(
+								subPath.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x.Path,
+									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+								})).ToList();
+						}
+					}
+
+					if (suggestions is null || suggestions.Count == 0)
+					{
+						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
 
 					// NavigationBarSuggestions becoming empty causes flickering of the suggestion box
 					// Here we check whether at least an element is in common between old and new list
-					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.Name).Any())
+					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.PrimaryDisplay).Any())
 					{
 						// No elements in common, update the list in-place
-						for (int si = 0; si < suggestions.Count; si++)
+						for (int index = 0; index < suggestions.Count; index++)
 						{
-							if (si < NavigationBarSuggestions.Count)
+							if (index < NavigationBarSuggestions.Count)
 							{
-								NavigationBarSuggestions[si].ItemNameRaw = suggestions[si].ItemNameRaw;
-								NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+								NavigationBarSuggestions[index].Text = suggestions[index].Text;
+								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
+								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
+								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
 							}
 							else
 							{
-								NavigationBarSuggestions.Add(suggestions[si]);
+								NavigationBarSuggestions.Add(suggestions[index]);
 							}
 						}
 
@@ -799,23 +863,56 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						// At least an element in common, show animation
-						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemNameRaw).ToList())
+						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.PrimaryDisplay).ToList())
 							NavigationBarSuggestions.Remove(s);
 
-						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemNameRaw).ToList())
-							NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+						for (int index = 0; index < suggestions.Count; index++)
+						{
+							if (NavigationBarSuggestions.Count > index && NavigationBarSuggestions[index].PrimaryDisplay == suggestions[index].PrimaryDisplay)
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+							else
+								NavigationBarSuggestions.Insert(index, suggestions[index]);
+						}
 					}
 
 					return true;
 				}))
 				{
 					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new ListedItem(null!)
+					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 					{
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 					});
 				}
+			}
+		}
+
+		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(FolderSettingsViewModel.GridViewSize):
+				case nameof(FolderSettingsViewModel.LayoutMode):
+					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+					{
+						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
+						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
+						FolderLayoutModes.GridView =>
+							instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
+								? Commands.LayoutGridSmall.OpacityStyle!
+								: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
+									? Commands.LayoutGridMedium.OpacityStyle!
+									: Commands.LayoutGridLarge.OpacityStyle!,
+						_ => Commands.LayoutDetails.OpacityStyle!
+					};
+					OnPropertyChanged(nameof(IsTilesLayout));
+					OnPropertyChanged(nameof(IsColumnLayout));
+					OnPropertyChanged(nameof(IsGridSmallLayout));
+					OnPropertyChanged(nameof(IsGridMediumLayout));
+					OnPropertyChanged(nameof(IsGridLargeLayout));
+					OnPropertyChanged(nameof(IsDetailsLayout));
+					break;
 			}
 		}
 
@@ -862,6 +959,13 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
+		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
 
 		public string ExtractToText
 			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();

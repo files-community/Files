@@ -1,8 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
@@ -12,9 +11,11 @@ namespace Files.App.Actions
 
 		private readonly bool _isVSCodeInstalled;
 
-		public string Label { get; } = "OpenInVSCode".GetLocalizedResource();
+		public string Label
+			=> "OpenInVSCode".GetLocalizedResource();
 
-		public string Description { get; } = "OpenInVSCodeDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenInVSCodeDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&
@@ -31,9 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand($"code \'{_context.ShellPage?.FilesystemViewModel.WorkingDirectory}\'", false);
-
-			return Task.CompletedTask;
+			return Win32API.RunPowershellCommandAsync($"code \'{_context.ShellPage?.FilesystemViewModel.WorkingDirectory}\'", false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

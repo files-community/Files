@@ -35,7 +35,7 @@
 				<TextBlock
 					x:Name="LoadingTextBlock"
 					HorizontalAlignment="Center"
-					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 					Text="{helpers:ResourceString Name=Loading}" />
 			</StackPanel>
 

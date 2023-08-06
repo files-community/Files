@@ -1,17 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.Core.Services;
 using Files.Core.ViewModels.Dialogs;
 using Files.Core.ViewModels.Dialogs.AddItemDialog;
-using Files.Shared.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.App.Dialogs
 {
@@ -30,17 +23,21 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await base.ShowAsync();
+		}
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			ViewModel.ResultType = (e.ClickedItem as AddItemDialogListItemViewModel).ItemResult;
+
 			Hide();
 		}
 
 		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
 		{
-			var itemTypes = await addItemService.GetNewEntriesAsync();
+			var itemTypes = addItemService.GetEntries();
 			await ViewModel.AddItemsToList(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation

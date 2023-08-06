@@ -1,13 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.Settings;
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
@@ -21,48 +18,64 @@ namespace Files.App
 {
 	public sealed partial class MainWindow : WindowEx
 	{
+		private readonly IApplicationService ApplicationService;
+
 		private MainPageViewModel mainPageViewModel;
 
-		public MainWindow()
-		{
-			InitializeComponent();
+		private static MainWindow? _Instance;
+		public static MainWindow Instance => _Instance ??= new();
 
-			PersistenceId = "FilesMainWindow";
+		public IntPtr WindowHandle { get; }
+
+		private MainWindow()
+		{
+			ApplicationService = new ApplicationService();
+
+			WindowHandle = this.GetWindowHandle();
+
+			InitializeComponent();
 
 			EnsureEarlyWindow();
 		}
 
 		private void EnsureEarlyWindow()
 		{
-			// Set title
-			AppWindow.Title = "Files";
-
-			// Set logo
-			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, App.LogoPath));
-
-			// Extend title bar
-			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-
-			// Set window buttons background to transparent
-			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+			// Set PersistenceId
+			PersistenceId = "FilesMainWindow";
 
 			// Set minimum sizes
-			base.MinHeight = 328;
-			base.MinWidth = 516;
+			MinHeight = 416;
+			MinWidth = 516;
+
+			AppWindow.Title = "Files";
+			AppWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
+			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+		}
+
+		public void ShowSplashScreen()
+		{
+			var rootFrame = EnsureWindowIsInitialized();
+
+			rootFrame.Navigate(typeof(SplashScreenPage));
 		}
 
 		public async Task InitializeApplication(object activatedEventArgs)
 		{
+			// Set system backdrop
+			SystemBackdrop = new AppSystemBackdrop();
+
 			mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			var rootFrame = EnsureWindowIsInitialized();
-			Activate();
 
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
-					if (launchArgs.Arguments is not null && launchArgs.Arguments.Contains($"files.exe", StringComparison.OrdinalIgnoreCase))
+					if (launchArgs.Arguments is not null &&
+						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files.exe", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files", StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
@@ -71,7 +84,7 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
-					else if (rootFrame.Content is null)
+					else if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -104,11 +117,15 @@ namespace Files.App
 						switch (parsedArgs[0])
 						{
 							case "tab":
-								rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+								rootFrame.Navigate(typeof(MainPage),
+									new MainPageNavigationArguments() { Parameter = TabItemArguments.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new SuppressNavigationTransitionInfo());
 								break;
 
 							case "folder":
-								rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+								rootFrame.Navigate(typeof(MainPage),
+									new MainPageNavigationArguments() { Parameter = unescapedValue, IgnoreStartupSettings = true },
+									new SuppressNavigationTransitionInfo());
 								break;
 
 							case "cmd":
@@ -136,7 +153,7 @@ namespace Files.App
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (rootFrame.Content is null)
+					if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -150,7 +167,7 @@ namespace Files.App
 					break;
 			}
 
-			if (rootFrame.Content is null)
+			if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
@@ -159,18 +176,14 @@ namespace Files.App
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
 			//  just ensure that the window is active
-			if (!(App.Window.Content is Frame rootFrame))
+			if (Instance.Content is not Frame rootFrame)
 			{
-				// Set system backdrop
-				this.SystemBackdrop = new AppSystemBackdrop();
-
 				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new Frame();
-				rootFrame.CacheSize = 1;
+				rootFrame = new() { CacheSize = 1 };
 				rootFrame.NavigationFailed += OnNavigationFailed;
 
 				// Place the frame in the current Window
-				App.Window.Content = rootFrame;
+				Instance.Content = rootFrame;
 			}
 
 			return rootFrame;
@@ -196,13 +209,15 @@ namespace Files.App
 						payload = folder.Path; // Convert short name to long name (#6190)
 				}
 
+				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
 				var paneNavigationArgs = new PaneNavigationArguments
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
+					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (rootFrame.Content is not null)
+				if (rootFrame.Content is MainPage)
 					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

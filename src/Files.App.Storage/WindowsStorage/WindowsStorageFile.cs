@@ -1,10 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.ExtendableStorage;
-using Files.Sdk.Storage.LocatableStorage;
-using Files.Sdk.Storage.ModifiableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.ExtendableStorage;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.ModifiableStorage;
+using Files.Core.Storage.NestedStorage;
 using System;
 using System.IO;
 using System.Threading;
@@ -14,7 +15,7 @@ using Windows.Storage;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IFile"/>
-	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended
+	public sealed class WindowsStorageFile : WindowsStorable<StorageFile>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
 	{
 		public WindowsStorageFile(StorageFile storage)
 			: base(storage)
@@ -40,7 +41,7 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public override async Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public override async Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			var parentFolderTask = storage.GetParentAsync().AsTask(cancellationToken);
 			var parentFolder = await parentFolderTask;

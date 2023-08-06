@@ -903,7 +903,7 @@
   <data name="HorizontalMultitaskingControlCloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଟାବ୍‍ ବନ୍ଦ କରିବା (Ctrl+W)</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>ଏଥିରେ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
@@ -1221,7 +1221,7 @@
   <data name="DetailsViewHeaderFlyout_ShowFileTag.Text" xml:space="preserve">
     <value>ଟ୍ୟାଗ୍</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>ଟ୍ୟାଗଗୁଡିକ ସମ୍ପାଦନା କରନ୍ତୁ</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">

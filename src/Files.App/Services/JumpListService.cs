@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Services;
 using System.IO;
 using Windows.Storage;
 using Windows.UI.StartScreen;

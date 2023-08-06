@@ -1,40 +1,42 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
-using Files.App.Contexts;
-using Files.App.Extensions;
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 namespace Files.App.Actions
 {
 	internal class OpenNewPaneAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly IContentPageContext context;
 
-		public string Label { get; } = "NavigationToolbarNewPane/Label".GetLocalizedResource();
+		public string Label
+			=> "NavigationToolbarNewPane/Label".GetLocalizedResource();
 
-		public string Description { get; } = "OpenNewPaneDescription".GetLocalizedResource();
+		public string Description
+			=> "OpenNewPaneDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.OemPlus, KeyModifiers.MenuShift);
+		public HotKey HotKey
+			=> new(Keys.OemPlus, KeyModifiers.MenuShift);
 
-		public HotKey SecondHotKey { get; } = new(Keys.Add, KeyModifiers.MenuShift);
+		public HotKey SecondHotKey
+			=> new(Keys.Add, KeyModifiers.MenuShift);
 
-		public RichGlyph Glyph { get; } = new(opacityStyle: "ColorIconRightPane");
+		public RichGlyph Glyph
+			=> new(opacityStyle: "ColorIconOpenNewPane");
 
-		public bool IsExecutable => context.IsMultiPaneEnabled && !context.IsMultiPaneActive;
+		public bool IsExecutable => 
+			context.IsMultiPaneEnabled &&
+			!context.IsMultiPaneActive;
 
 		public OpenNewPaneAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
+
 			return Task.CompletedTask;
 		}
 

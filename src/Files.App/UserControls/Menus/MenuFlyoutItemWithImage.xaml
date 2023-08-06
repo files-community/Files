@@ -17,6 +17,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:MenuFlyoutItemWithImage">
+
 						<Grid
 							x:Name="LayoutRoot"
 							Margin="{StaticResource MenuFlyoutItemMargin}"
@@ -29,6 +30,7 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
+
 							<Viewbox
 								x:Name="IconRoot"
 								Width="16"
@@ -38,6 +40,7 @@
 								Visibility="Collapsed">
 								<ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}" />
 							</Viewbox>
+
 							<Image
 								Width="16"
 								Height="16"
@@ -46,6 +49,7 @@
 								VerticalAlignment="Center"
 								Source="{TemplateBinding BitmapIcon}"
 								Stretch="Uniform" />
+
 							<TextBlock
 								x:Name="TextBlock"
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -53,6 +57,7 @@
 								Foreground="{TemplateBinding Foreground}"
 								Text="{TemplateBinding Text}"
 								TextTrimming="Clip" />
+
 							<TextBlock
 								x:Name="KeyboardAcceleratorTextBlock"
 								Grid.Column="1"

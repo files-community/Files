@@ -133,10 +133,13 @@
     <value>Skapad:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Sökväg:</value>
+    <value>Sökväg</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Storlek:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Okomprimerad storlek:</value>
@@ -172,7 +175,7 @@
     <value>Rensa alla objekt</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Ange en sökväg</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Sök</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} ledigt av {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Öppna med</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Skicka till</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Ändrat den:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Öppna med</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Okänd</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Redigera taggar</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2104,7 +2104,7 @@
     <value>Uppdateringsfiler</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
+    <value>Förbereder {0} objekt</value>
   </data>
   <data name="PrepareInProgress" xml:space="preserve">
     <value>Förbereder objekt</value>
@@ -2113,10 +2113,10 @@
     <value>Kopieringen misslyckades.</value>
   </data>
   <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+    <value>Flytten av {0} objekt från {1} till {2} misslyckades</value>
   </data>
   <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+    <value>Flytten av {0} objekt från {1} till {2} misslyckades</value>
   </data>
   <data name="StatusMoveFailed" xml:space="preserve">
     <value>Det gick inte att flytta.</value>
@@ -2140,43 +2140,43 @@
     <value>Försök igen</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Flyttningsåtgärden stöds inte i denna kontext. Vill du kopiera objekten istället?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
     <value>Dolda objekt</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>Anpassad</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Ställ in som skrivbordsbildspel</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Anpassa kolumner för att passa</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptiv (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Skift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Visa alternativa dataströmmar</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Beteenden</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Betygsätt Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Vill du betygsätta Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Ange som bakgrund</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Använd som skrivbordsbakgrund</value>
@@ -2188,19 +2188,19 @@
     <value>Datumkolumn</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Skapelsedatumkolumn</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Storlekskolumn</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Taggkolumn</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Typkolumn</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Detaljlayoutkolumn</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Låsskärm</value>
@@ -2212,67 +2212,67 @@
     <value>Öppnar objekt</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+    <value>Komprimering slutförd</value>
   </data>
   <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+    <value>{0} filer har komprimerats</value>
   </data>
   <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+    <value>{0} kunde inte komprimeras</value>
   </data>
   <data name="CompressionInProgress" xml:space="preserve">
     <value>Komprimerar arkiv</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Komprimera</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Välj filer och mappar när man hovrar över dem</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Är du säker på att du vill återställa alla objekt i papperskorgen?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Återställ alla objekt</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Vill du återställa {0} valda objekt?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Återställ valda</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
     <value>Återställ alla objekt</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Återställ</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Genvägen kan inte öppnas</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Målvägen kan inte hittas {0}. Vill du ta bort denna genväg?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Du har inte rättigheter för att komma åt denna mapp.</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
+    <value>Tömmer papperskorgen</value>
   </data>
   <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
+    <value>Papperskorgen har tömts</value>
   </data>
   <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Kunde inte tömma papperskorgen</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Arkivlösenord</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Sökväg</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sortering och gruppering</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Skapa arkiv</value>
@@ -2293,25 +2293,25 @@
     <value>Ultra</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Hög</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
     <value>Normal</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Låg</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Snabb</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Ingen</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Delningsstorlek</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Dela inte upp</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2335,19 +2335,19 @@
     <value>Format</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Synkronieringsstatuskolumn</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Gruppera efter</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sortera efter</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Gruppera i fallande ordning</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Sortera i fallande ordning</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Skapa en ny genväg</value>
@@ -2368,16 +2368,16 @@
     <value>Redigera inställningsfil</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Ändringslogg</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Att skapa en genväg på den här platsen kräver administratörsrättigheter</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Vill du skapa genvägen på skrivbordet istället?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Det specificerade objektnamnet är ogiltigt</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Inställningar</value>
@@ -2389,31 +2389,31 @@
     <value>Visa mer</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Visa taggredigeringsmeny</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Visa "Skicka till"-meny</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Visa alternativ för att öppna mappar i en ny flik</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Visa alternativ för att öppna mappar i ett nytt fönster</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Snabbåtkomst</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Ange dina uppgifter för att ansluta till: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Ange nätverksautentiseringsuppgifter</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Kom ihåg mina inloggningsuppgifter</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Fel i nätverksmappen</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>App-version</value>
@@ -2425,16 +2425,13 @@
     <value>Alltid</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Endast permanent radering</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>Aldrig</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Spara ändringar</value>
+    <value>Taggfärg</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Ny tagg</value>
@@ -2446,25 +2443,25 @@
     <value>Laddar...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Inställningar för innehållsmeny</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Visa filnamnstillägg</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Visa dolda objekt</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Formatera...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Hjälp</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Växla helskärm</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Är du säker på att du vill radera den här taggen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Spela alla</value>
@@ -2473,73 +2470,73 @@
     <value>Höjd</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Bredd</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Tillämpa denna åtgärd på alla objekt i konflikt</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Öppna i en terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Öppna i en terminal som administratör</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Spara</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Markera flera</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Ordna om sidofältet</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>Hashes</value>
+    <value>Hashar</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>Ett problem uppstod vid beräkningen</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Algoritm</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>Hashvärde</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>Välj hashar att visa</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Beräknar...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Fästa objekt</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Minska storlek</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Öka storlek</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Växla sorteringsriktning</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Ogiltigt namn</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>Namnet får inte vara tomt, starta med eller avsluta med en punkt.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Videor</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Öppna förhandsgranskningspopup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Växla kompakt överlägg</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Öppna onlinehjälp i en webbläsare</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Växla helskärm</value>
@@ -2551,220 +2548,220 @@
     <value>Stäng kompakt överlägg</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Växla kompakt överlägg</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Hoppa till sökrutan</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Växla om dolda objekt ska visas</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Växla om filnamnstillägg ska visas</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Växla om förhandsgranskningspanelen ska visas</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Växla om sidofältet ska visas</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopiera objekt(en) till urklipp</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Kopiera objektets sökväg till urklipp</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>Klipp ut objekt till urklipp</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>Klistra in objekt från urklipp till nuvarande mapp</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>Klistra in objekt från urklipp till den valda mappen</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Ta bort objekt</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Skapa ny mapp</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Skapa nya genvägar till valda objekt</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Skapa ny genväg till ett objekt</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Töm papperskorgen</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Öppna formateringsmenyn för valt objekt</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Återställ valda objekt från papperskorgen</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Återställ alla objekt från papperskorgen</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Öppna objekt</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Öppna objekt med vald applikation</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Öppna överordnad mapp av sökt objekt</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>Uppdatera sidans innehåll</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Byt namn på valt objekt</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Markera alla objekt</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Omvänd markering</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Rensa markering</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Växla val av objekt</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Dela markerade fil(er) med andra</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Fäst objekt i Start-menyn</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Lossa objekt från Start-menyn</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Fäst mapp(ar) till favoriter</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>Lossa mapp(ar) från favoriter</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Ställ in vald bild som skrivbordsbakgrund</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Ställ in valda bilder som bildspel på skrivbordet</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Ställ in den valda bilden som bakgrund på låsskärmen</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Installera valda teckensnitt</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Installera drivrutin(er) med valda 'Inf' fil(er)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>Installera markerade certifikat</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Kör vald applikation som administratör</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Kör vald applikation som en annan användare</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Kör valt PowerShell-skript</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Starta förhandsgranskning i popup-fönster</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Skapa arkiv med valda objekt</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Skapa ett 7z arkiv direkt med valda objekt</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Skapa ett zip-arkiv direkt med valda objekt</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Extrahera objekt från valda arkiv till valfri mapp</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>Extrahera objekt från valda arkiv till aktuell mapp</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>Extrahera objekt från markerade arkiv till ny mapp</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Rotera valda bild(er) till vänster</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Rotera valda bild(er) till höger</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Öppna Inställningarna</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Öppna mappen i terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Öppna mappen i terminalen som administratör</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Minska ikonstorleken i rutnätsvyn</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Öka ikonstorleken i rutnätsvyn</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Växla till detaljvy</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Växla till panelvy</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Växla till rutnätsvy med små ikoner</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Växla till rutnätsvy med medelstora ikoner</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Växla till rutnätsvy med stora ikoner</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Växla till kolumnvy</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Växla vyer adaptivt</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Sortera objekt efter namn</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Sortera objekt efter ändringsdatum</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Sortera objekt efter datum då de skapades</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Sortera objekt efter storlek</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Sortera objekt efter typ</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Sortera objekt efter synkroniseringsstatus</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Sortera objekt efter taggar</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Sortera objekt efter originalmapp</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Sortera objekt efter borttaget datum</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
     <value>Sort items in ascending order</value>
@@ -2974,7 +2971,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Hjälp</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -3065,73 +3062,73 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Växla markering</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Visa varning vid ändring av filtillägg</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>This PC</value>
+    <value>Den här datorn</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Papperskorgen</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>Untagged</value>
+    <value>Otaggad(e)</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Flyttar till föregående flik</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Flyttar till nästa flik</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Stänger aktuell flik</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Redigera sökväg</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Göra om</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Ångra</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Ogiltig plats</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>Är du säker på att du vill kopiera dessa filer utan deras egenskaper?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>Dessa filer har egenskaper som inte kan kopieras till den nya platsen</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>Dessa filer har egenskaper som inte kan flyttas till den nya platsen</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>Är du säker på att du vill flytta dessa filer utan deras egenskaper?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Visa kryssrutor när du väljer objekt</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Sök efter oindexerade objekt</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>Focus path bar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Skapa nytt objekt</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Inga grupper eller användare har behörighet att komma åt det här objektet. Ägaren till det här objektet kan dock tilldela behörigheter.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>Öppna objektets sökväg</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Radera permanent</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
     <value>Delete item(s) permanently</value>
@@ -3203,7 +3200,7 @@
     <value>Leave my changes on '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Ignorera mina ändringar</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
     <value>Bring my changes to '{0}'</value>
@@ -3317,6 +3314,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files cannot access GitHub right now.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3350,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
   </data>
@@ -3340,5 +3364,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Unable to display current owner.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Great! You are now authorized.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>

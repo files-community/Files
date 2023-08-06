@@ -105,24 +105,24 @@ namespace Files.App.Data.Models
 				locationItem.IsInvalid = false;
 				if (res)
 				{
-					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 96u, ThumbnailMode.ListView);
+					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
 					locationItem.IconData = iconData;
 
 					if (locationItem.IconData is not null)
-						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 
 				if (locationItem.IconData is null)
 				{
-					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 96u);
+					locationItem.IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(path, 48u);
 
 					if (locationItem.IconData is not null)
-						locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
+						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
 			}
 			else
 			{
-				locationItem.Icon = await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
 			}

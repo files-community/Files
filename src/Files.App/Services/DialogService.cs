@@ -7,7 +7,6 @@ using Files.Core.Services;
 using Files.Core.ViewModels.Dialogs;
 using Files.Core.ViewModels.Dialogs.AddItemDialog;
 using Files.Core.ViewModels.Dialogs.FileSystemDialog;
-using Files.Shared.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
@@ -50,7 +49,7 @@ namespace Files.App.Services
 			dialog.ViewModel = viewModel;
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = App.Window.Content.XamlRoot;
+				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			return dialog;
 		}

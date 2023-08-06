@@ -66,7 +66,8 @@ namespace Files.App.Views.Shells
 					NavPathParam = ColumnParams.NavPathParam,
 					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
-					AssociatedTabInstance = this
+					AssociatedTabInstance = this,
+					SelectItems = ColumnParams.SelectItems
 				});
 		}
 
@@ -79,6 +80,8 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+
+			PaneHolder = this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 

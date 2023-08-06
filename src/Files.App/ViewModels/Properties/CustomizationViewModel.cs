@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.WinUI;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using System.IO;
 using Windows.Storage.Pickers;
 using Microsoft.UI.Windowing;
@@ -125,7 +125,7 @@ namespace Files.App.ViewModels.Properties
 			if (!result)
 				return false;
 
-			await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				_appInstance?.FilesystemViewModel?.RefreshItems(null);
 			});

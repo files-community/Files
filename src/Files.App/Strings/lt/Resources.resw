@@ -1374,7 +1374,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date modified:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Open with</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1872,7 +1872,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Edit tags</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">

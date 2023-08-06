@@ -133,10 +133,13 @@
     <value>Data creazione:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Percorso:</value>
+    <value>Percorso</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Dimensione:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Dimensione su disco:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Dimensione non compressa:</value>
@@ -172,7 +175,7 @@
     <value>Elimina tutti gli elementi</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Inserisci un percorso</value>
+    <value>Inserisci un percorso o digita "&gt;" per aprire la palette dei comandi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Cerca</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibili su {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Apri con</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Invia a</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Data modifica:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Apri con</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Sconosciuto</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Gestisci le etichette</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2155,7 +2155,7 @@
     <value>Adatta tutte le colonne</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adattivo</value>
+    <value>Seleziona automaticamente il layout migliore</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adattivo (Ctrl+Maiusc+7)</value>
@@ -2392,7 +2392,7 @@
     <value>Mostra il menù per la modifica dei tag</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Mostra il menù Invia A</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mostra l'opzione per aprire le cartelle in una nuova scheda</value>
@@ -2432,9 +2432,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Colore dell'etichetta</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Salvare le modifiche</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nuova etichetta</value>
@@ -3317,6 +3314,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Gestisci i branch</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Esegui git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sinc</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Esegui git pull e poi git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} commit in uscita / {1} commit in ingresso</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connettiti a GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Inserisci il codice seguente al link qui sotto per iniziare a usare i repository di GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files non può accedere a GitHub in questo momento.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3329,6 +3350,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Apri la directory attuale in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copia il codice</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Aggiunto</value>
   </data>
@@ -3340,5 +3364,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Non tracciato</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Impossibile visualizzare il proprietario attuale.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Ottimo! Ora sei autorizzato/a.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Inizializza repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Inizializza una repository git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Nome Repository Remoto</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Branch attuale</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Percorso</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Ordina gli elementi per percorso</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Apri la directory in un nuovo pannello</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Apri la directory in una nuova scheda</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Apri la directory in una nuova finestra</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Apri tutto</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Apri tutti gli elementi etichettati</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Unità ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Comando non valido</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' non è riconosciuto come un comando.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Comando non eseguibile</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Il comando '{0}' non è pronto per essere eseguito.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Palette dei comandi</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Apri la palette dei comandi</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Avvia in:</value>
   </data>
 </root>

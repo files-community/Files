@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Files.Shared.Extensions
 {
-	[Obsolete("This class will be replaced with SafeWrapper.")]
 	public static class SafetyExtensions
 	{
 		public static bool IgnoreExceptions(Action action, ILogger? logger = null)
@@ -20,6 +19,7 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -29,11 +29,13 @@ namespace Files.Shared.Extensions
 			try
 			{
 				await action();
+
 				return true;
 			}
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return false;
 			}
 		}
@@ -47,6 +49,7 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return default;
 			}
 		}
@@ -60,7 +63,32 @@ namespace Files.Shared.Extensions
 			catch (Exception ex)
 			{
 				logger?.LogInformation(ex, ex.Message);
+
 				return default;
+			}
+		}
+
+		public static async Task<TOut> Wrap<TOut>(Func<Task<TOut>> inputTask, Func<Func<Task<TOut>>, Exception, Task<TOut>> onFailed)
+		{
+			try
+			{
+				return await inputTask();
+			}
+			catch (Exception ex)
+			{
+				return await onFailed(inputTask, ex);
+			}
+		}
+
+		public static async Task Wrap(Func<Task> inputTask, Func<Func<Task>, Exception, Task> onFailed)
+		{
+			try
+			{
+				await inputTask();
+			}
+			catch (Exception ex)
+			{
+				await onFailed(inputTask, ex);
 			}
 		}
 	}

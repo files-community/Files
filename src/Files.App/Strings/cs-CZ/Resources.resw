@@ -133,10 +133,13 @@
     <value>Vytvořeno:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Cesta:</value>
+    <value>Cesta</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Velikost:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Velikost na disku:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Nekomprimovaná velikost:</value>
@@ -166,19 +169,19 @@
     <value>Upraveno:</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Naposled otevřeno:</value>
+    <value>Naposledy otevřeno:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Smazat všechny položky</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Zadejte cestu</value>
+    <value>Zadejte cestu k navigaci nebo "&gt;" pro paletu příkazů</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Hledat</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Soubory které jste dříve otevřeli se zobrazí zde</value>
+    <value>Soubory, které jste dříve otevřeli, se zobrazí zde</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Odstranit tuto položku</value>
@@ -217,10 +220,10 @@
     <value>Pokročilé</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Pokračovat kde jste přestali</value>
+    <value>Pokračovat, kde jste přestali</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Otevřít nový panel</value>
+    <value>Otevřít novou kartu</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
     <value>Otevřít konkrétní stránku nebo stránky</value>
@@ -268,7 +271,7 @@
     <value>Smazat</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Přidat k oblíbeným</value>
+    <value>Připnout k oblíbeným</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Vítejte v aplikaci Files!</value>
@@ -301,16 +304,16 @@
     <value>Systém</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Nová složka</value>
+    <value>Nová Složka</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Nový soubor</value>
+    <value>Nový Soubor</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Tato složka je prázdná.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Zpě t(Alt+Šipka Vlevo)</value>
+    <value>Zpět (Alt+Šipka Vlevo)</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Vpřed (Alt+Šipka Vpravo)</value>
@@ -331,7 +334,7 @@
     <value>Položka již existuje</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Nastavit pozadí uzamčení obrazovky</value>
+    <value>Nastavit pozadí uzamčené obrazovky</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Nepodařilo se nám odstranit tuto položku</value>
@@ -340,16 +343,16 @@
     <value>Prosím vložte potřebný disk pro přístup k této položce.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Disk odpojen</value>
+    <value>Disk Odpojen</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Soubor ke kterému se snažíte přistoupit byl přesunut nebo smazán.</value>
+    <value>Soubor, ke kterému se snažíte přístoupit, mohl být přesunut nebo odstraněn.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>Soubor nenalezen</value>
+    <value>Soubor Nenalezen</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Složka ke které se snažíte přistoupit mohla být přesunuta nebo smazána.</value>
+    <value>Složka, ke které se snažíte přístoupit, mohla být přesunuta nebo odstraněna.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Smazali jste tuto složku?</value>
@@ -379,13 +382,13 @@
     <value>před {0} hodinami</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>před {0} hodinou</value>
+    <value>před hodinou</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>před {0} minutami</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>před {0} minutou</value>
+    <value>před minutou</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>před {0} sekundami</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} volných z {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Otevřít v aplikaci</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Poslat do</value>
@@ -550,7 +550,7 @@
     <value>{0} - zástupce</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Soubory narazily na problém, na který se vývojáři ještě nepřipravili.</value>
+    <value>Files narazil na problém, na který se vývojáři ještě nepřipravili.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Něco se pokazilo!</value>
@@ -580,22 +580,22 @@
     <value>Sdílet {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Sdílet {0}{1}</value>
+    <value>Sdílet {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>Položka kterou se pokoušíte přejmenovat již neexistuje. Ověřte prosím správné umístění položky, kterou potřebujete přejmenovat.</value>
+    <value>Položka, kterou se pokoušíte přejmenovat, již neexistuje. Ověřte prosím správné umístění položky, kterou se snažíte přejmenovat.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>Položka již neexistuje</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>Zadaný název byl neplatný. Zkontrolujte prosím jméno požadované položky a zkuste to znovu.</value>
+    <value>Zadaný název byl neplatný. Zkontrolujte prosím název položky a zkuste to znovu.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
     <value>Neplatný název položky</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Délka názvu položky překaračuje maximální limit. Zkontrolujte prosím požadované jméno a zkuste to znovu.</value>
+    <value>Délka názvu položky překaračuje maximální limit. Zkontrolujte prosím požadovaný název a zkuste to znovu.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Název položky byl příliš dlouhý</value>
@@ -1018,7 +1018,7 @@
     <value>Odstranit</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Otevčít panely v režimu dvojitého panelu</value>
+    <value>Otevřít panely v režimu dvojitého panelu</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>Zobrazit možnost otevření složek v novém panelu</value>
@@ -1306,7 +1306,7 @@
     <value>Je tu jeden konfliktní název souboru.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Vytvořit složku z výběru</value>
+    <value>Vytvořit složku s výběrem</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Název:</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Datum změny:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Otevřít v</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Neznámý</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Upravit štítky</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -1900,7 +1900,7 @@
     <value>Otevřít soubory jedním kliknutím</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Umístění složky</value>
+    <value>Cesta ke složce</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Exportovat nastavení</value>
@@ -2023,7 +2023,7 @@
     <value>Nedávné soubory</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Otevřít soubory při spuštění systému Windows</value>
+    <value>Otevřít Files při spuštění systému Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atributy</value>
@@ -2101,7 +2101,7 @@
     <value>Obrázky</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Aktualizovat soubory</value>
+    <value>Aktualizovat Files</value>
   </data>
   <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
     <value>Připravuji {0} položek</value>
@@ -2155,10 +2155,10 @@
     <value>Uprav všechny sloupce</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptivní</value>
+    <value>Adaptivní rozvržení</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptivní (Ctrl+Shift+7)</value>
+    <value>Adaptivní rovržení (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
@@ -2383,7 +2383,7 @@
     <value>Nastavení</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Dvojitým kliknutím do prázdného prostoru přejít o složku nahoru</value>
+    <value>Dvojitým kliknutím do prázdného prostoru přejít o složku výše</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Zobrazit více</value>
@@ -2432,9 +2432,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Barva štítku</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Uložit změny</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nový štítek</value>
@@ -2515,7 +2512,7 @@
     <value>Připnuté položky</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Zmenšit</value>
+    <value>Zmenšit velikost</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
     <value>Zvětšit</value>
@@ -2638,7 +2635,7 @@
     <value>Sdílet vybraný soubor(y) s ostatníma</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Připnout položku (ky) na Hlavní panel</value>
+    <value>Připnout do nabídky Start</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
     <value>Odepnout položku (ky) z Hlavního panelu</value>
@@ -2986,7 +2983,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>Aplikace</value>
+    <value>App</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
@@ -3014,7 +3011,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>Znovu načíst</value>
+    <value>Obnovit</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -3317,6 +3314,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Spravovat větve</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Nahrát</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Spustit příkaz git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Synchronizovat</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Spustit git pull a potom git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} na nahrání/ {1} na stažení commitů</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Připojit GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Zadejte následující kód na přihlašovací stránce aby jste mohli začít pracovat s repozitářema GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files nemá aktuálně přístup ke GitHub.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3324,10 +3345,13 @@
     <value>Otevřít aktuální adresář ve Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS kód</value>
+    <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Otevřít aktuální adresář ve Visual Studio Code</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Zkopírovat kód</value>
   </data>
   <data name="Added" xml:space="preserve">
     <value>Přidáno</value>
@@ -3340,5 +3364,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Nesledováno</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Nelze zobrazit aktuálního vlastníka.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Výborně! Jste přihlášeni.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Inicializovat repozitář</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Inicializovat úložiště Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Název vzdáleného repozitáře</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Aktivní větev</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Sloupec cesty</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Seřadit položky dle cesty</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Otevřít složku v novém panelu</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Otevřít složku v nové kartě</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Otevřít složku v novém okně</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Otevřít vše</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Otevřít všechny položky se štítkem</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Jednotka ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Neplatný příkaz</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' není rozpoznán jako příkaz.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Příkaz není spustitelný</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Příkaz '{0}' není připraven ke spuštění.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Paleta příkazů</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Otevřít paletu příkazů</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Začít v:</value>
   </data>
 </root>

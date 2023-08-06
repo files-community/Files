@@ -1,7 +1,6 @@
 using Files.App.Data.Items;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
 using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,7 +52,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (diskRoot is not null)
 				{
-					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem);
+					ViewModel.IconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(diskRoot, 80, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
 				}
 				else
 				{

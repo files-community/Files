@@ -25,6 +25,7 @@
 	PaneOpened="NavigationView_PaneOpened"
 	SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 	mc:Ignorable="d">
+
 	<FlyoutBase.AttachedFlyout>
 		<MenuFlyout x:Name="SidebarContextMenu">
 			<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
@@ -39,16 +40,15 @@
 				Text="{helpers:ResourceString Name=FileTags}" />
 		</MenuFlyout>
 	</FlyoutBase.AttachedFlyout>
+
 	<NavigationView.Resources>
 		<ResourceDictionary>
 			<!--  Removes NavigationView background  -->
 			<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
 
-			<!--  Removes NavigationView corner radius  -->
-			<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
-
 			<!--  Removes NavigationView border from top, right and bottom  -->
-			<Thickness x:Key="NavigationViewContentGridBorderThickness">1,0,0,0</Thickness>
+			<Thickness x:Key="NavigationViewContentGridBorderThickness">0,0,0,0</Thickness>
+			<Thickness x:Key="NavigationViewMinimalContentGridBorderThickness">0,0,0,0</Thickness>
 
 			<mconv:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<mconv:StringFormatConverter x:Key="StringFormatConverter" />
@@ -303,14 +303,7 @@
 					Tag="{x:Bind Path}"
 					ToolTipService.ToolTip="{x:Bind ToolTipText}">
 					<NavigationViewItem.Icon>
-						<PathIcon Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}">
-							<PathIcon.Data>
-								<EllipseGeometry
-									Center="24,24"
-									RadiusX="24"
-									RadiusY="24" />
-							</PathIcon.Data>
-						</PathIcon>
+						<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind FileTag.Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 			</DataTemplate>
@@ -416,11 +409,18 @@
 									x:Name="ContentRoot"
 									Grid.Row="2"
 									Grid.ColumnSpan="2"
-									Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}">
+									Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}">
 									<Grid.RenderTransform>
 										<CompositeTransform x:Name="ContentTransform" />
 									</Grid.RenderTransform>
-									<Border Child="{TemplateBinding Content}" />
+									<Border
+										x:Name="FileAreaBorder"
+										Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
+										BackgroundSizing="InnerBorderEdge"
+										BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+										BorderThickness="1,1,0,0"
+										Child="{TemplateBinding Content}"
+										CornerRadius="8,0,0,0" />
 
 									<Rectangle
 										x:Name="LightDismissLayer"
@@ -1192,4 +1192,5 @@
 			LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
 			LocationNavItemTemplate="{StaticResource LocationNavItem}" />
 	</NavigationView.MenuItemTemplateSelector>
+
 </NavigationView>

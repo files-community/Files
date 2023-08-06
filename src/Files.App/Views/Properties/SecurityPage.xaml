@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:security="using:Files.App.Filesystem.Security"
+	xmlns:security="using:Files.App.Utils.Storage"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
@@ -159,7 +159,7 @@
 
 									<TextBlock
 										Grid.Column="1"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										ToolTipService.ToolTip="{x:Bind Principal.FullNameHumanized}">
 										<Run Text="{x:Bind Principal.DisplayName}" />
 										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes}" />

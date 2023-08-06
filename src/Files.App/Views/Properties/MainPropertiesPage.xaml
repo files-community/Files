@@ -87,7 +87,7 @@
 					x:Name="TitlebarFileNameTextBlock"
 					Margin="4,4,48,0"
 					VerticalAlignment="Center"
-					Style="{StaticResource CaptionTextBlockStyle}"
+					Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 					TextTrimming="CharacterEllipsis"
 					TextWrapping="NoWrap">
 					<Run Text="{helpers:ResourceString Name=Properties}" />
@@ -135,7 +135,7 @@
 									Margin="8,0,0,0"
 									VerticalAlignment="Center"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource BodyTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}"
 									Visibility="{x:Bind IsCompact, Converter={StaticResource BoolToVisibilityInverseConverter}, Mode=OneWay}" />
 

@@ -1,8 +1,11 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.App.Helpers;
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.Shared;
 using System;
 using System.Collections.Generic;
@@ -143,7 +146,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		public List<LocalizedEnumHelper<HighDpiOption>> HighDpiOptionList { get; } = Enum.GetValues(typeof(HighDpiOption)).Cast<HighDpiOption>().Select(x => new LocalizedEnumHelper<HighDpiOption>(x)).ToList();
-		public List<LocalizedEnumHelper<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Shared.HighDpiOverride.Advanced).Select(x => new LocalizedEnumHelper<HighDpiOverride>(x)).ToList();
+		public List<LocalizedEnumHelper<HighDpiOverride>> HighDpiOverrideList { get; } = Enum.GetValues(typeof(HighDpiOverride)).Cast<HighDpiOverride>().Where(x => x != Core.Data.Items.HighDpiOverride.Advanced).Select(x => new LocalizedEnumHelper<HighDpiOverride>(x)).ToList();
 		public List<LocalizedEnumHelper<OSCompatibility>> OSCompatibilityList { get; } = Enum.GetValues(typeof(OSCompatibility)).Cast<OSCompatibility>().Select(x => new LocalizedEnumHelper<OSCompatibility>(x)).ToList();
 		public List<LocalizedEnumHelper<ReducedColorMode>> ReducedColorModeList { get; } = Enum.GetValues(typeof(ReducedColorMode)).Cast<ReducedColorMode>().Select(x => new LocalizedEnumHelper<ReducedColorMode>(x)).ToList();
 

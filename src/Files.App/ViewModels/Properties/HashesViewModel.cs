@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
-using Files.App.Filesystem;
+using Files.App.Utils;
 using Files.Shared.Extensions;
 using Files.Shared.Helpers;
 using System;
@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				hashInfoItem.IsCalculating = true;
 
-				App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					try
 					{

@@ -121,7 +121,7 @@
     <value>Nuwe venster</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopieer pad</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Blaai</value>
@@ -133,10 +133,13 @@
     <value>Geskep:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Pad:</value>
+    <value>Path</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Grootte:</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Ongekomprimeerde grootte:</value>
@@ -172,7 +175,7 @@
     <value>Maak alle items skoon</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Tik 'n pad in</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Soek</value>
@@ -355,16 +358,16 @@
     <value>Het jy hierdie omslag geskrap?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Die item waartoe jy toegang probeer kry, word tans deur {0} gebruik</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Die item waartoe jy toegang probeer kry, word tans deur 'n ander toepassing gebruik</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Item is in gebruik</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Uitleg</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Leesalleen</value>
@@ -401,9 +404,6 @@
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} vry van {1}</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Maak Oop Met</value>
   </data>
   <data name="SendTo" xml:space="preserve">
     <value>Send to</value>
@@ -1318,7 +1318,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Datum gewysig:</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Maak oop met</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1337,7 +1337,7 @@
     <value>Datum geskrap kolom</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sorteer</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Groep Deur</value>
@@ -1397,10 +1397,10 @@
     <value>Earlier this year</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Verlede jaar</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Jaar {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} item</value>
@@ -1412,10 +1412,10 @@
     <value>Heropen geslote duimgids</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Hernoem</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Privaatheid</value>
   </data>
   <data name="StatusMoveCanceled" xml:space="preserve">
     <value>Skuif gekanselleer</value>
@@ -1535,7 +1535,7 @@
     <value>Laat toe</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Weier</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Volle beheer</value>
@@ -1544,10 +1544,10 @@
     <value>Lys gidsinhoud</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Verander</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Toestemmings vir {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Lees en voer uit</value>
@@ -1568,7 +1568,7 @@
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Klik op "Gevorderde toestemmings" om voort te gaan.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Eienaar:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Onbekende eienaar</value>
@@ -1604,7 +1604,7 @@
     <value>Toegang</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Toepaslik op</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1622,7 +1622,7 @@
     <value>Inherited</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Toestemmings</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Jy het nie toestemmings om die sekuriteitseienskappe van hierdie voorwerp te bekyk nie. Jy kan probeer om eienaarskap van hierdie voorwerp te neem.</value>
@@ -1802,9 +1802,9 @@
     <value>Maak oueromslag oop</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Onbekend</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Redigeer lêermerkers</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -1880,7 +1880,7 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Hulp en ondersteuning</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
@@ -2012,7 +2012,7 @@
     <value>Maak alles skoon</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
+    <value>Skep biblioteek</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
     <value>Enter Library name</value>
@@ -2156,7 +2156,7 @@
     <value>Size All Columns to Fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive</value>
+    <value>Automatically choose the best layout</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive (Ctrl+Shift+7)</value>
@@ -2433,9 +2433,6 @@
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
-  </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Save changes</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>New tag</value>
@@ -3318,6 +3315,30 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Run git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Run git pull and then git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} outgoing / {1} incoming commits</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connect to GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files cannot access GitHub right now.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
@@ -3330,6 +3351,9 @@
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
   </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
   <data name="Added" xml:space="preserve">
     <value>Added</value>
   </data>
@@ -3341,5 +3365,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Unable to display current owner.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Great! You are now authorized.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize repo</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialize a Git repository</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Remote Repository Name</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Current Branch</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Path column</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Sort items by path</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Open directory in new pane</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Open directory in new tab</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Open directory in new window</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Open all</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>

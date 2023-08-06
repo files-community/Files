@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.StorageItems;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -85,16 +84,16 @@ namespace Files.App.ViewModels.Previews
 		/// <returns>A list of details</returns>
 		public async virtual Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem);
+			var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(Item.ItemFile, 256, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
 
 			iconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
 			if (iconData is not null)
 			{
-				await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await iconData.ToBitmapAsync());
 			}
 			else
 			{
-				FileImage ??= await App.Window.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
+				FileImage ??= await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => new BitmapImage());
 			}
 
 			return new List<FileProperty>();

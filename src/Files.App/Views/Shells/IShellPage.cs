@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Filesystem.FilesystemHistory;
 using Files.App.UserControls.MultitaskingControl;
 
 namespace Files.App.Views.Shells
@@ -25,6 +24,8 @@ namespace Files.App.Views.Shells
 		bool CanNavigateBackward { get; }
 
 		bool CanNavigateForward { get; }
+
+		Task RefreshIfNoWatcherExists();
 
 		Task Refresh_Click();
 

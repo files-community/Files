@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Shell;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.App.Utils.Shell;
+using Files.Core.Storage.LocatableStorage;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 
@@ -66,7 +66,7 @@ namespace Files.App.Services
 
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
-			var handle = NativeWinApiHelper.CoreWindowHandle.ToInt64();
+			var handle = MainWindow.Instance.WindowHandle.ToInt64();
 			return NetworkDrivesAPI.OpenMapNetworkDriveDialog(handle);
 		}
 	}

@@ -133,10 +133,13 @@
     <value>Créé :</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Chemin :</value>
+    <value>Chemin</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Taille :</value>
+  </data>
+  <data name="SizeOnDiskLabel" xml:space="preserve">
+    <value>Taille sur le disque :</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Taille décompressée :</value>
@@ -166,13 +169,13 @@
     <value>Modifié :</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>Dernier accès le :</value>
+    <value>Accédé :</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Supprimer tous les éléments</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Entrer un chemin d'accès</value>
+    <value>Entrez un chemin pour naviguer ou tapez "&gt;" pour ouvrir la palette de commandes</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Rechercher</value>
@@ -402,11 +405,8 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} libre(s) sur {1}</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Ouvrir avec</value>
-  </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Envoyer à</value>
+    <value>Envoyer vers</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Le nom de l'élément ne doit pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
@@ -559,7 +559,7 @@
     <value>Signaler ce problème</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>L'élément référencé est invalide ou inaccessible.{0} Message d'erreur : {0}{1}</value>
+    <value>L'élément référencé est invalide ou inaccessible.{0}Message d'erreur :{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Élément invalide</value>
@@ -640,7 +640,7 @@
     <value>Crée un dossier vide</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
-    <value>Mode d'affichage</value>
+    <value>Mode de disposition</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Actualiser le dossier</value>
@@ -898,7 +898,7 @@
     <value>Orientation</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Cœur</value>
+    <value>Noyau</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Image</value>
@@ -1000,7 +1000,7 @@
     <value>Inclure les éléments non indexés dans les résultats de recherche</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Synchroniser les préférences d'affichage et de tri entre les répertoires</value>
+    <value>Synchroniser les préférences de disposition et de tri entre les dossiers</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
@@ -1060,7 +1060,7 @@
     <value>Nom désiré</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Basculer le volet de prévisualisation</value>
+    <value>Afficher le volet de prévisualisation</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1317,7 +1317,7 @@
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date de modification :</value>
   </data>
-  <data name="OpenItemsWithCaptionText" xml:space="preserve">
+  <data name="OpenWith" xml:space="preserve">
     <value>Ouvrir avec</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
@@ -1803,7 +1803,7 @@
   <data name="Unknown" xml:space="preserve">
     <value>Inconnu</value>
   </data>
-  <data name="SettingsEditFileTagsExpander.Title" xml:space="preserve">
+  <data name="EditTags" xml:space="preserve">
     <value>Éditer les étiquettes</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
@@ -2008,7 +2008,7 @@
     <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos propres risques.</value>
   </data>
   <data name="ClearAll" xml:space="preserve">
-    <value>Effacer tout</value>
+    <value>Tout effacer</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
@@ -2074,7 +2074,7 @@
     <value>Exécuter avec PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Ce calcul de taille consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
+    <value>Le calcul de la taille des dossiers consomme beaucoup de ressources et peut entraîner une augmentation de l'utilisation du processeur.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Tourner à gauche</value>
@@ -2125,7 +2125,7 @@
     <value>Étiquettes</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Utiliser le style compact dans la vue Détails</value>
+    <value>Utiliser le style compact dans la disposition détails</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Universel</value>
@@ -2155,7 +2155,7 @@
     <value>Adapter la largeur des colonnes</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptatif</value>
+    <value>Disposition adaptative</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptatif (Ctrl+Maj+7)</value>
@@ -2200,13 +2200,13 @@
     <value>Colonne type</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Colonnes dans la mise en page des détails</value>
+    <value>Colonnes dans la disposition détails</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ouvrir les dossiers avec un seul clic dans la disposition en colonnes</value>
+    <value>Ouvrir les dossiers d'un seul clic dans la disposition colonnes</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2266,7 +2266,7 @@
     <value>Échec de vidage de la corbeille</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Mot de passe d'archive</value>
+    <value>Mot de passe de l'archive</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Chemin</value>
@@ -2398,7 +2398,7 @@
     <value>Afficher l'option pour ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Afficher l'option pour ouvrir des dossiers dans une nouvelle fenêtre</value>
+    <value>Afficher l'option pour ouvrir les dossiers dans une nouvelle fenêtre</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Accès rapide</value>
@@ -2433,9 +2433,6 @@
   <data name="TagColor" xml:space="preserve">
     <value>Couleur de l'étiquette</value>
   </data>
-  <data name="SaveChanges" xml:space="preserve">
-    <value>Enregistrer les changements</value>
-  </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nouvelle étiquette</value>
   </data>
@@ -2449,7 +2446,7 @@
     <value>Options du menu contextuel</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Afficher les extensions de fichiers</value>
+    <value>Afficher les extensions de fichier</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Afficher les éléments masqués</value>
@@ -2521,7 +2518,7 @@
     <value>Augmenter la taille</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver la direction de tri</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nom invalide</value>
@@ -2773,7 +2770,7 @@
     <value>Trier les éléments par ordre décroissant</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver la direction de tri des éléments</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Lister et trier les dossiers avec les fichiers</value>
@@ -2818,7 +2815,7 @@
     <value>Trier les groupes en ordre décroissant</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Changer l'ordre de tri</value>
+    <value>Activer/désactiver la direction de tri des groupes</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Ouvrir nouvel onglet</value>
@@ -3291,10 +3288,10 @@
     <value>Date de validation</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Message de validation</value>
+    <value>Message de révision</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>SHA de validation</value>
+    <value>SHA de révision</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3317,17 +3314,44 @@
   <data name="ManageBranches" xml:space="preserve">
     <value>Gérer les branches</value>
   </data>
+  <data name="Push" xml:space="preserve">
+    <value>Envoyer</value>
+  </data>
+  <data name="GitPushDescription" xml:space="preserve">
+    <value>Exécuter git push</value>
+  </data>
+  <data name="GitSync" xml:space="preserve">
+    <value>Synchroniser</value>
+  </data>
+  <data name="GitSyncDescription" xml:space="preserve">
+    <value>Exécuter git pull puis git push</value>
+  </data>
+  <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
+    <value>{0} révisions sortantes / {1} révisions entrantes</value>
+  </data>
+  <data name="ConnectGitHub" xml:space="preserve">
+    <value>Connectez-vous à GitHub</value>
+  </data>
+  <data name="ConnectGitHubDescription" xml:space="preserve">
+    <value>Entrez le code suivant dans le lien ci-dessous pour commencer à travailler avec des dépôts GitHub.</value>
+  </data>
+  <data name="CannotReachGitHubError" xml:space="preserve">
+    <value>Files ne peut pas accéder à GitHub pour le moment.</value>
+  </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Ouvrir le répertoire actuel dans Visual Studio</value>
+    <value>Ouvrir le dossier actuel dans Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Ouvrir le répertoire actuel dans Visual Studio Code</value>
+    <value>Ouvrir le dossier actuel dans Visual Studio Code</value>
+  </data>
+  <data name="CopyCode" xml:space="preserve">
+    <value>Copier le code</value>
   </data>
   <data name="Added" xml:space="preserve">
     <value>Ajouté</value>
@@ -3340,5 +3364,69 @@
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Non suivi</value>
+  </data>
+  <data name="UnableToDisplayOwner" xml:space="preserve">
+    <value>Impossible d'afficher le propriétaire actuel.</value>
+  </data>
+  <data name="AuthorizationSucceded" xml:space="preserve">
+    <value>Super ! Vous êtes maintenant autorisé.</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialiser le dépôt</value>
+  </data>
+  <data name="InitRepoDescription" xml:space="preserve">
+    <value>Initialise un dépôt Git</value>
+  </data>
+  <data name="GitOriginRepositoryName" xml:space="preserve">
+    <value>Nom du dépôt distant</value>
+  </data>
+  <data name="GitCurrentBranch" xml:space="preserve">
+    <value>Branche actuelle</value>
+  </data>
+  <data name="PathColumn" xml:space="preserve">
+    <value>Colonne chemin</value>
+  </data>
+  <data name="SortByPathDescription" xml:space="preserve">
+    <value>Trier les éléments par chemin</value>
+  </data>
+  <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans un nouveau volet</value>
+  </data>
+  <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans un nouvel onglet</value>
+  </data>
+  <data name="OpenInNewWindowDescription" xml:space="preserve">
+    <value>Ouvrir le dossier dans une nouvelle fenêtre</value>
+  </data>
+  <data name="OpenAllTaggedItems" xml:space="preserve">
+    <value>Ouvrir tout</value>
+  </data>
+  <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
+    <value>Ouvrir tous les éléments étiquetés</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Disque ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Commande invalide</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' n'est pas reconnu(e) comme une commande.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Commande non exécutable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>La commande '{0}' n'est pas prête à être exécutée.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Palette de commandes</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Ouvrir la palette de commandes</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Démarrer dans :</value>
   </data>
 </root>

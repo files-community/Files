@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.ViewModels;
-using Files.Core.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -25,7 +20,9 @@ namespace Files.App.UserControls
 
 		private readonly IPreviewPaneSettingsService PaneSettingsService;
 
-		private readonly PreviewPaneViewModel ViewModel;
+		private readonly ICommandManager Commands;
+
+		public PreviewPaneViewModel ViewModel { get; private set; }
 
 		private ObservableContext Context { get; } = new();
 
@@ -33,6 +30,7 @@ namespace Files.App.UserControls
 		{
 			InitializeComponent();
 			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			ViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 

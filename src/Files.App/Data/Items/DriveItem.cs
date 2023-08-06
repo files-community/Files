@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using ByteSizeLib;
 using Files.App.Storage.WindowsStorage;
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.Enums;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.Enums;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.NestedStorage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -152,19 +152,18 @@ namespace Files.App.Data.Items
 
 		public string Name => Root.DisplayName;
 
-		public DriveItem()
-		{
-			ItemType = NavigationControlItemType.CloudDrive;
-		}
-
-		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, DriveType type, IRandomAccessStream imageStream = null)
+		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
 
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
-			item.Text = type is DriveType.Network ? $"{root.DisplayName} ({deviceId})" : root.DisplayName;
+			item.Text = type switch
+			{
+				DriveType.CDRom when !string.IsNullOrEmpty(label) => root.DisplayName.Replace(label.Left(32), label),
+				_ => root.DisplayName
+			};
 			item.Type = type;
 			item.MenuOptions = new ContextMenuOptions
 			{
@@ -178,7 +177,7 @@ namespace Files.App.Data.Items
 			item.DeviceID = deviceId;
 			item.Root = root;
 
-			_ = App.Window.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
 
 			return item;
 		}
@@ -248,7 +247,7 @@ namespace Files.App.Data.Items
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
-				
+
 				if (Root is not null)
 				{
 					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
@@ -268,25 +267,25 @@ namespace Files.App.Data.Items
 				MaxSpace.ToSizeString());
 		}
 
-		public Task<IFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFileAsync(fileName, cancellationToken);
 		}
 
-		public Task<IFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetFolderAsync(folderName, cancellationToken);
 		}
 
-		public IAsyncEnumerable<IStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
+		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetItemsAsync(kind, cancellationToken);
 		}
 
-		public Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
 			return folder.GetParentAsync(cancellationToken);

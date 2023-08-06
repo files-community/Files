@@ -1,8 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Sdk.Storage;
-using Files.Sdk.Storage.LocatableStorage;
+using Files.Core.Storage;
+using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.NestedStorage;
 using Files.Shared.Helpers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using Windows.Storage;
 namespace Files.App.Storage.WindowsStorage
 {
 	/// <inheritdoc cref="IStorable"/>
-	public abstract class WindowsStorable<TStorage> : ILocatableStorable
+	public abstract class WindowsStorable<TStorage> : ILocatableStorable, INestedStorable
 		where TStorage : class, IStorageItem
 	{
 		private string? _computedId;
@@ -34,6 +35,6 @@ namespace Files.App.Storage.WindowsStorage
 		}
 
 		/// <inheritdoc/>
-		public abstract Task<ILocatableFolder?> GetParentAsync(CancellationToken cancellationToken = default);
+		public abstract Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default);
 	}
 }

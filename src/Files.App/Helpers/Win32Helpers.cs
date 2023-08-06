@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Shell;
+using Files.App.Utils.Shell;
 using Files.Shared.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +34,7 @@ namespace Files.App.Helpers
 
 			if (runAsAdmin)
 			{
-				return await LaunchHelper.LaunchAppAsync(application, "runas", workingDirectory);
+				return await LaunchHelper.LaunchAppAsync(application, "RunAs", workingDirectory);
 			}
 			else
 			{

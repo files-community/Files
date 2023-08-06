@@ -1,17 +1,17 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Contexts;
-
 namespace Files.App.Actions
 {
 	internal class GitFetchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitFetch".GetLocalizedResource();
+		public string Label
+			=> "GitFetch".GetLocalizedResource();
 
-		public string Description { get; } = "GitFetchDescription".GetLocalizedResource();
+		public string Description
+			=> "GitFetchDescription".GetLocalizedResource();
 
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;

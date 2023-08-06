@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Services.DateTimeFormatter;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -334,7 +333,7 @@ namespace Files.App.ViewModels.Settings
 		// WINUI3
 		private FolderPicker InitializeWithWindow(FolderPicker obj)
 		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, App.WindowHandle);
+			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
 
 			return obj;
 		}

@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Commands;
+using Files.App.Data.Commands;
 using Files.App.Extensions;
 using Files.App.ViewModels;
 using System.ComponentModel;
@@ -13,24 +13,31 @@ namespace Files.App.Actions
 {
 	internal class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
-		private readonly SidebarViewModel viewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+		private readonly SidebarViewModel viewModel;
 
-		public string Label { get; } = "ToggleSidebar".GetLocalizedResource();
+		public string Label
+			=> "ToggleSidebar".GetLocalizedResource();
 
-		public string Description { get; } = "ToggleSidebarDescription".GetLocalizedResource();
+		public string Description
+			=> "ToggleSidebarDescription".GetLocalizedResource();
 
-		public HotKey HotKey { get; } = new(Keys.B, KeyModifiers.Ctrl);
+		public HotKey HotKey
+			=> new(Keys.B, KeyModifiers.Ctrl);
 
-		public bool IsOn => viewModel.IsSidebarOpen;
+		public bool IsOn
+			=> viewModel.IsSidebarOpen;
 
 		public ToggleSidebarAction()
 		{
+			viewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+
 			viewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
 			viewModel.IsSidebarOpen = !IsOn;
+
 			return Task.CompletedTask;
 		}
 

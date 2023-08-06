@@ -4,9 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Extensions;
-using Files.App.Filesystem;
-using Files.App.Filesystem.StorageEnumerators;
-using Files.App.Filesystem.StorageItems;
+using Files.App.Utils;
 using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels;
@@ -148,7 +146,7 @@ namespace Files.App.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "OpenItemsWithCaptionText".GetLocalizedResource(),
+					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
