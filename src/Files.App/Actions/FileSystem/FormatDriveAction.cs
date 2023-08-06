@@ -1,39 +1,39 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Contexts;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Shell;
-using Files.App.ViewModels;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		public string Label { get; } = "FormatDriveText".GetLocalizedResource();
+		private readonly IContentPageContext context;
 
-		public string Description { get; } = "FormatDriveDescription".GetLocalizedResource();
-		public bool IsExecutable => context.HasItem 
-		                         && !context.HasSelection
-		                         && (drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+		private readonly DrivesViewModel drivesViewModel;
+
+		public string Label
+			=> "FormatDriveText".GetLocalizedResource();
+
+		public string Description
+			=> "FormatDriveDescription".GetLocalizedResource();
+
+		public bool IsExecutable =>
+			context.HasItem &&
+			!context.HasSelection &&
+			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
+			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
 		{
-			Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
-			return Task.CompletedTask;
+			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
