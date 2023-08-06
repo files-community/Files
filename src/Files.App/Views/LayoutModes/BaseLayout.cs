@@ -723,7 +723,9 @@ namespace Files.App.Views.LayoutModes
 		{
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
+			var turnOnBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+			var manageBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
+			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem && x != turnOnBitLockerMenuItem && x != manageBitLockerMenuItem).ToList();
 			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
@@ -754,6 +756,32 @@ namespace Files.App.Views.LayoutModes
 
 				// Set items max width to current menu width (#5555)
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
+			}
+
+			var turnOnBitLockerPlaceholder = contextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "TurnOnBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
+			if (turnOnBitLockerPlaceholder is not null)
+				turnOnBitLockerPlaceholder.Visibility = Visibility.Collapsed;
+
+			if (turnOnBitLockerMenuItem is not null)
+			{
+				var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { turnOnBitLockerMenuItem });
+				contextMenuFlyout.SecondaryCommands.Insert(
+					contextMenuFlyout.SecondaryCommands.Count - 2,
+					bitLockerCommands.FirstOrDefault()
+				);
+			}
+
+			var manageBitLockerPlaceholder = contextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "ManageBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
+			if (manageBitLockerPlaceholder is not null)
+				manageBitLockerPlaceholder.Visibility = Visibility.Collapsed;
+
+			if (manageBitLockerMenuItem is not null)
+			{
+				var (_, manageBitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { manageBitLockerMenuItem });
+				contextMenuFlyout.SecondaryCommands.Insert(
+					contextMenuFlyout.SecondaryCommands.Count - 2,
+					manageBitLockerCommands.FirstOrDefault()
+				);
 			}
 
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;

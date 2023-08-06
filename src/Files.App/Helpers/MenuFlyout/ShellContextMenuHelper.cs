@@ -269,6 +269,38 @@ namespace Files.App.Helpers
 					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
 
+				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+				var turnOnBitLockerPlaceholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "TurnOnBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
+				if (turnOnBitLockerPlaceholder is not null)
+					turnOnBitLockerPlaceholder.Visibility = Visibility.Collapsed;
+
+				if (turnOnBitLocker is not null)
+				{
+					shellMenuItems.Remove(turnOnBitLocker);
+
+					var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { turnOnBitLocker });
+					itemContextMenuFlyout.SecondaryCommands.Insert(
+						itemContextMenuFlyout.SecondaryCommands.Count - 2,
+						bitLockerCommands.FirstOrDefault()
+					);
+				}
+
+				var manageBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
+				var manageBitLockerPlaceholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "ManageBitLockerPlaceholder")).FirstOrDefault() as AppBarButton;
+				if (manageBitLockerPlaceholder is not null)
+					manageBitLockerPlaceholder.Visibility = Visibility.Collapsed;
+
+				if (manageBitLocker is not null)
+				{
+					shellMenuItems.Remove(manageBitLocker);
+
+					var (_, manageBitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { manageBitLocker });
+					itemContextMenuFlyout.SecondaryCommands.Insert(
+						itemContextMenuFlyout.SecondaryCommands.Count - 2,
+						manageBitLockerCommands.FirstOrDefault()
+					);
+				}
+
 				sendToItem = showSendToMenu && UserSettingsService.GeneralSettingsService.ShowSendToMenu ? sendToItem : null;
 
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)

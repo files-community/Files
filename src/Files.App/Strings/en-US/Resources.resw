@@ -3429,4 +3429,10 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
 </root>

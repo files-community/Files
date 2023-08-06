@@ -89,6 +89,8 @@ namespace Files.App.Helpers
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
 
+			bool isDriveRoot = itemViewModel?.CurrentFolder is not null && (itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
+
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
@@ -539,6 +541,22 @@ namespace Files.App.Helpers
 					},
 					ShowInSearchPage = true,
 					ShowItem = itemsSelected && userSettingsService.GeneralSettingsService.ShowSendToMenu
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "TurnOnBitLocker".GetLocalizedResource(),
+					Tag = "TurnOnBitLockerPlaceholder",
+					CollapseLabel = true,
+					IsEnabled = false,
+					ShowItem = isDriveRoot
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageBitLocker".GetLocalizedResource(),
+					Tag = "ManageBitLockerPlaceholder",
+					CollapseLabel = true,
+					ShowItem = isDriveRoot,
+					IsEnabled = false
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
