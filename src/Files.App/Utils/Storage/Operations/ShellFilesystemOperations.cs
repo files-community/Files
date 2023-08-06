@@ -166,12 +166,13 @@ namespace Files.App.Utils.Storage
 								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
 					}
 				}
-				else if (copyResult.Items.FirstOrDefault(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge) is ShellOperationItemResult failingItem)
+				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge))
 				{
-					await DynamicDialogFactory.GetFor_FileTooLargeDialog(
-						failingItem.Source,
-						Path.GetPathRoot(failingItem.Destination)
-					).TryShowAsync();
+					var failingItems = copyResult.Items
+						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
+						.Select(item => string.Format("FileTooLargeDescription".GetLocalizedResource(), item.Source, Path.GetPathRoot(item.Destination)));
+
+					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
 				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))
