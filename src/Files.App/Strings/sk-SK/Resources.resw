@@ -139,7 +139,7 @@
     <value>Veľkosť:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Veľkosť na disku:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Nekomprimovaná veľkosť:</value>
@@ -175,7 +175,7 @@
     <value>Vymazať všetky položky</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Zadajte cestu</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Vyhľadávanie</value>
@@ -193,13 +193,13 @@
     <value>O aplikácii</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Otvorený zdroj</value>
+    <value>Open source</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Formát dátumu</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Téma</value>
+    <value>Motív</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Zobraziť prípony známych typov súborov</value>
@@ -244,7 +244,7 @@
     <value>Vzostupne</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Prilepiť</value>
+    <value>Vložiť</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nová položka</value>
@@ -649,10 +649,10 @@
     <value>Jazyk</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Presunúť rozšírenie do podponuky</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Vyžadovať potvrdenie pri mazaní súborov</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Pri ukladaní niektorých vlastností došlo k chybe.</value>
@@ -1002,7 +1002,7 @@
     <value>Zahrnúť neindexované položky vo výsledkoch vyhľadávania</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Synchronizovať predvoľby rozvrhnutie a radenie naprieč adresármi</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Prizpôsobiť kontextové menu</value>
@@ -1308,7 +1308,7 @@
     <value>Existuje jeden konfliktný názov súboru.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Vytvoriť zložku s výberom</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Názov:</value>
@@ -1389,13 +1389,13 @@
     <value>Minulý týždeň</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Začiatkom tohto mesiaca</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Minulý mesiac</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Začiatkom tohto roku</value>
   </data>
   <data name="LastYear" xml:space="preserve">
     <value>Minulý rok</value>
@@ -1569,7 +1569,7 @@
     <value>Nemáte povolenia na zobrazenie bezpečnostných vlastností tohto objektu. Pokračujte kliknutím na „Rozšírené povolenia“.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Vlastník:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Neznámý vlastník</value>
@@ -1605,7 +1605,7 @@
     <value>Prístup</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Platí pre</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1623,7 +1623,7 @@
     <value>Inherited</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Oprávnenia</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Nemáte povolenia na zobrazenie bezpečnostných vlastností tohto objektu. Môžete sa pokúsiť prevziať vlastníctvo tohto objektu.</value>
@@ -1902,7 +1902,7 @@
     <value>Otvoriť položky jedným kliknutím</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Cesta ku zložke</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Nastavenia exportu</value>
@@ -2376,7 +2376,7 @@
     <value>Vytvorenie odkazu na tomto mieste vyžaduje administrátorské oprávnenia</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Prajete si namiesto toho vytvoriť zástupcu na ploche?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>Zadané meno položky je neplatné</value>
@@ -2385,13 +2385,13 @@
     <value>Nastavenia</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Dvojitým kliknutím do prázdneho priestoru prejsť o zložku vyššie</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>Zobraziť viac</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Zobraziť výsuvné menu pre upravenie štítkov</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Show Send To menu</value>
@@ -2499,31 +2499,31 @@
     <value>An error occurred during the calculation</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Algoritmus</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>Hodnota haša</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>Vyberte haše, ktoré chcete zobraziť</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Prebieha výpočet...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Pripnuté položky</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Zmenšiť veľkosť</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Zväčšiť veľkosť</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Prepnúť smer radenia</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Neplatné meno</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
     <value>Name must not be empty or start or end with a period.</value>
@@ -2622,28 +2622,28 @@
     <value>Rename selected item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Vybrať všetky položky</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Invertovať výber</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Vymazať výber</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Prepnúť výber</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Zdieľať vybraný súbor(y) s ostatnými</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Pripnúť do ponuky Štart</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Odopnúť z ponuky Štart</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>Pripnúť k obľúbeným</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
     <value>Unpin folder(s) from Favorites</value>
@@ -2703,13 +2703,13 @@
     <value>Rotate selected image(s) to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Otvoriť stránku s nastavením</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Otvoriť zložku v terminále</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Otvoriť zložku v terminále ako administrátor</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Decrease icon size in grid view</value>
@@ -2820,7 +2820,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Otvoriť novú kartu</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -2835,7 +2835,7 @@
     <value>Duplicate current tab</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Duplikovať vybranú záložku</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
     <value>Close tabs to the left of current tab</value>
@@ -2897,7 +2897,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Space</value>
+    <value>Medzerník</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
@@ -2921,15 +2921,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Vľavo</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Vpravo</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Down</value>
+    <value>Dole</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
@@ -3001,23 +3001,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>Domov</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>Späť</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>Vpred</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>Obnoviť</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>Zastaviť</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -3208,34 +3208,34 @@
     <value>Bring my changes to '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>V tejto vetvy máte nevykonané zmeny. Čo s nimi chcete urobiť?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Prepnúť vetvu</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Vetvy</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Prepnúť</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Nová vetva</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Neplatný názov vetvy</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Vytvoriť vetvu</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Vytvoriť Vetvu</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Na základe</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Prepnúť na novú vetvu</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Create a folder with the currently selected item(s)</value>
@@ -3314,7 +3314,7 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Spravovať vetve</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
@@ -3383,7 +3383,7 @@
     <value>Remote Repository Name</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Aktuálna Vetva</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
     <value>Path column</value>
@@ -3405,5 +3405,30 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>
