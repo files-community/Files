@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.Shell;
@@ -19,6 +19,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.HasItem &&
+			!context.HasSelection &&
 			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
