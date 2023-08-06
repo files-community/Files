@@ -194,9 +194,12 @@
 									<VisualTransition From="Collapsed" To="Expanded">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible"/>
+												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="MaxHeight">
+											<DoubleAnimationUsingKeyFrames
+												EnableDependentAnimation="True"
+												Storyboard.TargetName="ChildrenPresenter"
+												Storyboard.TargetProperty="MaxHeight">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
@@ -209,9 +212,12 @@
 									<VisualTransition From="Expanded">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible"/>
+												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="MaxHeight">
+											<DoubleAnimationUsingKeyFrames
+												EnableDependentAnimation="True"
+												Storyboard.TargetName="ChildrenPresenter"
+												Storyboard.TargetProperty="MaxHeight">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
@@ -224,9 +230,12 @@
 									<VisualTransition From="NoExpansion" To="Expanded">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible"/>
+												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="MaxHeight">
+											<DoubleAnimationUsingKeyFrames
+												EnableDependentAnimation="True"
+												Storyboard.TargetName="ChildrenPresenter"
+												Storyboard.TargetProperty="MaxHeight">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
@@ -234,19 +243,19 @@
 													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Collapsed"/>
+												<DiscreteObjectKeyFrame Value="Collapsed" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconColumn" Storyboard.TargetProperty="MaxWidth">
-												<DiscreteObjectKeyFrame Value="8"/>
+												<DiscreteObjectKeyFrame Value="8" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible"/>
+												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="FontWeight">
-												<DiscreteObjectKeyFrame Value="Semibold"/>
+												<DiscreteObjectKeyFrame Value="Semibold" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemNameTextBlock" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame Value="{ThemeResource TextFillColorTertiaryBrush}"/>
+												<DiscreteObjectKeyFrame Value="{ThemeResource TextFillColorTertiaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
@@ -254,9 +263,12 @@
 									<VisualTransition From="NoExpansion" To="Compact">
 										<Storyboard>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="Visibility">
-												<DiscreteObjectKeyFrame Value="Visible"/>
+												<DiscreteObjectKeyFrame Value="Visible" />
 											</ObjectAnimationUsingKeyFrames>
-											<DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetName="ChildrenPresenter" Storyboard.TargetProperty="MaxHeight">
+											<DoubleAnimationUsingKeyFrames
+												EnableDependentAnimation="True"
+												Storyboard.TargetName="ChildrenPresenter"
+												Storyboard.TargetProperty="MaxHeight">
 												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
