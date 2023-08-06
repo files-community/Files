@@ -170,9 +170,13 @@ namespace Files.App.Utils.Storage
 				{
 					var failingItems = copyResult.Items
 						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
-						.Select(item => string.Format("FileTooLargeDescription".GetLocalizedResource(), item.Source, Path.GetPathRoot(item.Destination)));
+						.Select(item => item.Source)
+						.Concat(new string[] { @"C:\Users\user\Distros\ubuntu.iso", @"C:\Users\user\Distros\windows.iso" });
 
-					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
+					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(
+						string.Format("FileTooLargeHeader".GetLocalizedResource(), Path.GetPathRoot(copyResult.Items.First().Destination)),
+						failingItems
+					));
 				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))

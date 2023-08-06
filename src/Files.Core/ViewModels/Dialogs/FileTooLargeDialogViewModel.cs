@@ -5,11 +5,14 @@ namespace Files.Core.ViewModels.Dialogs
 {
 	public sealed class FileTooLargeDialogViewModel: ObservableObject
 	{
-		public IEnumerable<string> Errors { get; private set; }
+		public string ListHeader { get; private set; }
 
-		public FileTooLargeDialogViewModel(IEnumerable<string> errors) 
+		public IEnumerable<string> Paths { get; private set; }
+
+		public FileTooLargeDialogViewModel(string listHeader, IEnumerable<string> paths) 
 		{ 
-			Errors = errors;
+			ListHeader = listHeader;
+			Paths = paths;
 		}
 	}
 }

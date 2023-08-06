@@ -14,19 +14,23 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<ListView
-		MaxHeight="300"
-		ItemsSource="{x:Bind ViewModel.Errors}"
-		SelectionMode="None">
-		<ListView.ItemTemplate>
-			<DataTemplate x:DataType="x:String">
-				<TextBlock
-					Padding="8"
-					IsTabStop="False"
-					Text="{x:Bind}"
-					TextWrapping="Wrap" />
-			</DataTemplate>
-		</ListView.ItemTemplate>
-	</ListView>
+	<StackPanel Spacing="4">
+		<TextBlock Text="{x:Bind ViewModel.ListHeader}" />
+
+		<ListView
+			MaxHeight="300"
+			ItemsSource="{x:Bind ViewModel.Paths}"
+			SelectionMode="None">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="x:String">
+					<TextBlock
+						Padding="4"
+						IsTabStop="False"
+						Text="{x:Bind}"
+						TextWrapping="Wrap" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackPanel>
 
 </ContentDialog>
