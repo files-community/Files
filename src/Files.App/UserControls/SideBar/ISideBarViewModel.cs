@@ -10,7 +10,7 @@ namespace Files.App.UserControls.Sidebar
 
 	public interface ISidebarViewModel
 	{
-		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; }
+		public object SidebarItems { get; }
 
 		public void HandleItemDropped(ItemDroppedEventArgs args);
 

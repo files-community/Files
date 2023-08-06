@@ -48,6 +48,9 @@ namespace Files.App.Data.Items
 				SetProperty(ref toolTip, value);
 			}
 		}
+
+		public bool IsExpanded { get => false; set { } }
+
 		public IconSource? GenerateIconSource() => new BitmapIconSource()
 		{
 			UriSource = icon,

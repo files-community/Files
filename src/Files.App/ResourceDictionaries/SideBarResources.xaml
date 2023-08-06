@@ -14,7 +14,7 @@
 	<x:Double x:Key="SidebarNegativeCompactOpenPaneLength">-56</x:Double>
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
-		<local:SidebarItem AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}" Item="{Binding}" />
+		<local:SidebarItem AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}" Item="{Binding}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}"/>
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">

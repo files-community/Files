@@ -106,7 +106,11 @@ namespace Files.App.UserControls.Sidebar
 			{
 				return parent.Item!.ChildItems!;
 			}
-			return Owner.Owner.ViewModel.SidebarItems;
+			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList<INavigationControlItem> items)
+			{
+				return items;
+			}
+			return new List<INavigationControlItem>();
 		}
 	}
 }

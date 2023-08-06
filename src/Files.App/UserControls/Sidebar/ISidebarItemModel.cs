@@ -11,5 +11,6 @@ namespace Files.App.UserControls.Sidebar
 		public IconSource? GenerateIconSource();
 
 		public object ToolTip { get; }
+		public bool IsExpanded { get; set; }
 	}
 }

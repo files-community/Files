@@ -107,7 +107,6 @@ namespace Files.App.UserControls.Sidebar
 			else if(e.Property == ItemProperty)
 			{
 				item.HookupIconChangeListener(e.OldValue as INavigationControlItem, e.NewValue as INavigationControlItem);
-				item.HookupIconChangeListener(e.OldValue as INavigationControlItem, e.NewValue as INavigationControlItem);
 				item.UpdateExpansionState();
 				item.ReevaluateSelection();
 			}

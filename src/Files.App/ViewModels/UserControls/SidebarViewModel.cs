@@ -46,7 +46,8 @@ namespace Files.App.ViewModels.UserControls
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
 		private INavigationControlItem rightClickedItem;
 
-		public BulkConcurrentObservableCollection<INavigationControlItem> SidebarItems { get; init; }
+		public object SidebarItems => sidebarItems;
+		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -99,9 +100,9 @@ namespace Files.App.ViewModels.UserControls
 			var value = arg;
 
 			INavigationControlItem? item = null;
-			var sidebarItems = SidebarItems
+			var filteredItems = sidebarItems
 				.Where(x => !string.IsNullOrWhiteSpace(x.Path))
-				.Concat(SidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
+				.Concat(sidebarItems.Where(x => (x as LocationItem)?.ChildItems is not null).SelectMany(x => ((LocationItem)x).ChildItems).Where(x => !string.IsNullOrWhiteSpace(x.Path)))
 				.ToList();
 
 			if (string.IsNullOrEmpty(value))
@@ -110,13 +111,13 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-			item ??= sidebarItems.Where(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
-			item ??= sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+			item = filteredItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+			item ??= filteredItems.Where(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase)).MaxBy(x => x.Path.Length);
+			item ??= filteredItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
 
 			if (item is null && value == "Home")
-				item = sidebarItems.FirstOrDefault(x => x.Path.Equals("Home"));
+				item = filteredItems.FirstOrDefault(x => x.Path.Equals("Home"));
 
 			if (SidebarSelectedItem != item)
 				SidebarSelectedItem = item;
@@ -234,7 +235,7 @@ namespace Files.App.ViewModels.UserControls
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
-			SidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
+			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
@@ -401,7 +402,17 @@ namespace Files.App.ViewModels.UserControls
 			if (IsSidebarOpen)
 			{
 				// Restore expanded state when section has items
+				Debug.WriteLine($"Restoring expanded state for {section.Text}");
 				section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+				section.PropertyChanged += Section_PropertyChanged;
+			}
+		}
+
+		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
+			{
+				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
 			}
 		}
 
@@ -413,7 +424,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private LocationItem? GetSection(SectionType sectionType)
 		{
-			return SidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
+			return sidebarItems.FirstOrDefault(x => x.Section == sectionType) as LocationItem;
 		}
 
 		private async Task<LocationItem> CreateSection(SectionType sectionType)
@@ -559,8 +570,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private void AddSectionToSideBar(LocationItem section)
 		{
-			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => SidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
-			SidebarItems.Insert(Math.Min(index, SidebarItems.Count), section);
+			var index = SectionOrder.TakeWhile(x => x != section.Section).Select(x => sidebarItems.Any(item => item.Section == x) ? 1 : 0).Sum();
+			sidebarItems.Insert(Math.Min(index, sidebarItems.Count), section);
 		}
 
 		public async Task UpdateSectionVisibility(SectionType sectionType, bool show)
@@ -587,7 +598,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 			else
 			{
-				SidebarItems.Remove(SidebarItems.FirstOrDefault(x => x.Section == sectionType));
+				sidebarItems.Remove(sidebarItems.FirstOrDefault(x => x.Section == sectionType));
 			}
 		}
 

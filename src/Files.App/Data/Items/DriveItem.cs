@@ -75,7 +75,7 @@ namespace Files.App.Data.Items
 					{
 						ToolTip = GetSizeString();
 					}
-					
+
 					OnPropertyChanged(nameof(MaxSpaceText));
 					OnPropertyChanged(nameof(ShowDriveDetails));
 				}
@@ -117,13 +117,16 @@ namespace Files.App.Data.Items
 			=> MaxSpace.Bytes > 0d;
 
 		private DriveType type;
-		public DriveType Type { get => type; set
+		public DriveType Type
+		{
+			get => type; set
 			{
 				type = value;
-				if(value == DriveType.Network)
+				if (value == DriveType.Network)
 				{
 					ToolTip = "Network".GetLocalizedResource();
-				}else if(value == DriveType.CloudDrive)
+				}
+				else if (value == DriveType.CloudDrive)
 				{
 					ToolTip = Text;
 				}
@@ -172,18 +175,20 @@ namespace Files.App.Data.Items
 		public string Id => DeviceID;
 
 		public string Name => Root.DisplayName;
-		
+
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
 
 		private object toolTip = "";
 		public object ToolTip
 		{
-			get => toolTip; 
+			get => toolTip;
 			set
 			{
 				SetProperty(ref toolTip, value);
 			}
 		}
+
+		public bool IsExpanded { get => false; set { } }
 
 		public IconSource? GenerateIconSource() => new ImageIconSource()
 		{
