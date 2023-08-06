@@ -399,13 +399,8 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			if (IsSidebarOpen)
-			{
-				// Restore expanded state when section has items
-				Debug.WriteLine($"Restoring expanded state for {section.Text}");
-				section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
-				section.PropertyChanged += Section_PropertyChanged;
-			}
+			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+			section.PropertyChanged += Section_PropertyChanged;
 		}
 
 		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -1076,7 +1071,7 @@ namespace Files.App.ViewModels.UserControls
 		public async void HandleItemDragOver(ItemDragOverEventArgs args)
 		{
 			if (args.DropTarget is not LocationItem locationItem) return;
-			
+
 			var rawEvent = args.RawEvent;
 			var deferral = rawEvent.GetDeferral();
 
