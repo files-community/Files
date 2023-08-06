@@ -134,12 +134,14 @@ namespace Files.App.UserControls.Sidebar
 			draggingSidebarResizer = true;
 			preManipulationSidebarWidth = PaneColumnGrid.ActualWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
+			e.Handled = true;
 		}
 
 		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
 			UpdateDisplayModeForPaneWidth(newWidth);
+			e.Handled = true;
 		}
 
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -163,6 +165,7 @@ namespace Files.App.UserControls.Sidebar
 				}
 				var newWidth = OpenPaneLength + increment;
 				UpdateDisplayModeForPaneWidth(newWidth);
+				e.Handled = true;
 				return;
 			}
 			else if (DisplayMode == SidebarDisplayMode.Compact)
@@ -170,6 +173,7 @@ namespace Files.App.UserControls.Sidebar
 				if (primaryInvocation || e.Key == VirtualKey.Right)
 				{
 					DisplayMode = SidebarDisplayMode.Expanded;
+					e.Handled = true;
 				}
 			}
 		}
@@ -177,11 +181,13 @@ namespace Files.App.UserControls.Sidebar
 		private void PaneLightDismissLayer_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			IsPaneOpen = false;
+			e.Handled = true;
 		}
 
 		private void PaneLightDismissLayer_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			IsPaneOpen = false;
+			e.Handled = true;
 		}
 
 		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -189,10 +195,12 @@ namespace Files.App.UserControls.Sidebar
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
+				e.Handled = true;
 			}
 			else
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
+				e.Handled = true;
 			}
 		}
 
@@ -201,6 +209,7 @@ namespace Files.App.UserControls.Sidebar
 			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(this, "ResizerPointerOver", true);
+			e.Handled = true;
 		}
 
 		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -211,19 +220,21 @@ namespace Files.App.UserControls.Sidebar
 			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 			VisualStateManager.GoToState(this, "ResizerNormal", true);
+			e.Handled = true;
 		}
 
 		private void SidebarResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = false;
 			VisualStateManager.GoToState(this, "ResizerNormal", true);
+			e.Handled = true;
 		}
 
-		private void PaneColumnGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+		private void PaneColumnGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
 		{
-			var newArgs = new ItemContextInvokedArgs(null, args.TryGetPosition(this, out var point) ? point : default);
+			var newArgs = new ItemContextInvokedArgs(null, e.TryGetPosition(this, out var point) ? point : default);
 			ViewModel.HandleItemContextInvoked(this, newArgs);
-			args.Handled = true;
+			e.Handled = true;
 		}
 	}
 }

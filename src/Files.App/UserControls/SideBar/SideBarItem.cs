@@ -256,6 +256,7 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateSelectionState()
 		{
 			VisualStateManager.GoToState(this, ShouldShowSelectionIndicator() ? "Selected" : "Unselected", true);
+			UpdatePointerState();
 		}
 
 		private void UpdateIcon()
@@ -277,6 +278,23 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
+		private void UpdatePointerState(bool isPointerDown = false)
+		{
+			var useSelectedState = ShouldShowSelectionIndicator();
+			if (isPointerDown)
+			{
+				VisualStateManager.GoToState(this, useSelectedState ? "PressedSelected" : "Pressed", true);
+			}
+			else if (isPointerOver)
+			{
+				VisualStateManager.GoToState(this, useSelectedState ? "PointerOverSelected" : "PointerOver", true);
+			}
+			else
+			{
+				VisualStateManager.GoToState(this, useSelectedState ? "NormalSelected" : "Normal", true);
+			}
+		}
+
 		private void UpdateExpansionState()
 		{
 			if (!HasChildren || !CollapseEnabled)
@@ -285,9 +303,9 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else
 			{
-				if(childrenRepeater != null)
+				if (childrenRepeater != null)
 				{
-					if(childrenRepeater.ActualHeight > ChildrenPresenterHeight)
+					if (childrenRepeater.ActualHeight > ChildrenPresenterHeight)
 					{
 						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
 					}
@@ -300,38 +318,32 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, IsSelected ? "PointerOverSelected" : "PointerOver", true); ;
 			isPointerOver = true;
+			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
 			isPointerOver = false;
+			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
+			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
-			VisualStateManager.GoToState(this, IsSelected ? "PressedSelected" : "Pressed", true);
+			UpdatePointerState(true);
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconPressed" : "CollapsedIconPressed", true);
 		}
 
 		private void Item_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			e.Handled = true;
-			if (isPointerOver)
-			{
-				VisualStateManager.GoToState(this, IsSelected ? "PointerOverSelected" : "PointerOver", true); ;
-			}
-			else
-			{
-				VisualStateManager.GoToState(this, IsSelected ? "NormalSelected" : "Normal", true);
-			}
+			UpdatePointerState();
+
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
 			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
 			if (updateKind == PointerUpdateKind.LeftButtonReleased)
