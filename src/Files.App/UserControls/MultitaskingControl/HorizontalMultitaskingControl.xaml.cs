@@ -63,7 +63,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = !ElevationHelpers.IsAppRunAsAdmin();
 			tabHoverTimer.Stop();
 		}
 
