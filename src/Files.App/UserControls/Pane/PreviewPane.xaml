@@ -327,7 +327,7 @@
 												TextTrimming="CharacterEllipsis" />
 										</StackPanel>
 
-										<!--  Edit Tag Template  -->
+										<!--  Edit Tag Flyout  -->
 										<Button
 											x:Name="DetailsEditTags"
 											Height="28"
@@ -347,11 +347,13 @@
 													VerticalAlignment="Center"
 													Orientation="Horizontal"
 													Spacing="8">
+													<!--  Icon  -->
 													<usercontrols:OpacityIcon
 														Width="16"
 														Height="16"
 														VerticalAlignment="Center"
 														Style="{StaticResource ColorIconEditTag}" />
+													<!--  Text  -->
 													<TextBlock
 														HorizontalAlignment="Stretch"
 														VerticalAlignment="Center"
@@ -364,7 +366,6 @@
 										<VisualStateManager.VisualStateGroups>
 											<VisualStateGroup x:Name="CommonStates">
 												<VisualState x:Name="Normal" />
-
 												<VisualState x:Name="PointerOver">
 													<VisualState.Setters>
 														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
