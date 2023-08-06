@@ -3429,4 +3429,7 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
   </data>
+  <data name="FileTooLargeDescription" xml:space="preserve">
+    <value>File "{0}" is too large to be copied to drive "{1}"</value>
+  </data>
 </root>

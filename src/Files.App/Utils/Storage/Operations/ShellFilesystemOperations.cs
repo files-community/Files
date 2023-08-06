@@ -166,6 +166,13 @@ namespace Files.App.Utils.Storage
 								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
 					}
 				}
+				else if (copyResult.Items.FirstOrDefault(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge) is ShellOperationItemResult failingItem)
+				{
+					await DynamicDialogFactory.GetFor_FileTooLargeDialog(
+						failingItem.Source,
+						Path.GetPathRoot(failingItem.Destination)
+					).TryShowAsync();
+				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))
 				{

@@ -280,5 +280,20 @@ namespace Files.App.Helpers
 			});
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_FileTooLargeDialog(string? sourcePath, string? destinationRoot)
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "StatusCopyFailed".GetLocalizedResource(),
+				SubtitleText = string.Format(
+					"FileTooLargeDescription".GetLocalizedResource(),
+					sourcePath,
+					destinationRoot
+				),
+				PrimaryButtonText = "OK",
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
 	}
 }
