@@ -94,7 +94,7 @@ namespace Files.App.UserControls.Sidebar
 			if (sender is not SidebarItem item) return;
 			if (e.Property == DisplayModeProperty)
 			{
-				item.SidebarDisplayModeChanged((SidebarDisplayMode)e.NewValue);
+				item.SidebarDisplayModeChanged((SidebarDisplayMode)e.OldValue);
 			}
 			else if (e.Property == IsSelectedProperty)
 			{

@@ -22,7 +22,7 @@ namespace Files.App.UserControls.Sidebar
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 		private bool HasChildSelection => selectedChildItem != null;
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
-		private ItemsRepeater childrenRepeater;
+		private ItemsRepeater? childrenRepeater;
 
 		public SidebarItem()
 		{
@@ -229,21 +229,22 @@ namespace Files.App.UserControls.Sidebar
 			Owner?.RaiseItemInvoked(this);
 		}
 
-		private void SidebarDisplayModeChanged(SidebarDisplayMode displayMode)
+		private void SidebarDisplayModeChanged(SidebarDisplayMode oldValue)
 		{
-			switch (displayMode)
+			var useAnimations = oldValue != SidebarDisplayMode.Minimal;
+			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Expanded:
-					UpdateExpansionState();
+					UpdateExpansionState(useAnimations);
 					UpdateSelectionState();
 					SetFlyoutOpen(false);
 					break;
 				case SidebarDisplayMode.Minimal:
-					UpdateExpansionState();
+					UpdateExpansionState(useAnimations);
 					SetFlyoutOpen(false);
 					break;
 				case SidebarDisplayMode.Compact:
-					UpdateExpansionState();
+					UpdateExpansionState(useAnimations);
 					UpdateSelectionState();
 					break;
 			}
@@ -295,11 +296,11 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void UpdateExpansionState()
+		private void UpdateExpansionState(bool useAnimations = true)
 		{
 			if (!HasChildren || !CollapseEnabled)
 			{
-				VisualStateManager.GoToState(this, "NoExpansion", true);
+				VisualStateManager.GoToState(this, "NoExpansion", useAnimations);
 			}
 			else
 			{
@@ -310,8 +311,8 @@ namespace Files.App.UserControls.Sidebar
 						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
 					}
 				}
-				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", true);
-				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
+				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useAnimations);
+				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", useAnimations);
 			}
 			UpdateSelectionState();
 		}

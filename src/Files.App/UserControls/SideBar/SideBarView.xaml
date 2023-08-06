@@ -184,6 +184,9 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
 								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="MaxWidth">
+								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
+							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
 
