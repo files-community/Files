@@ -1,14 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 
 namespace Files.App.Utils.Cloud
 {
@@ -160,10 +155,15 @@ namespace Files.App.Utils.Cloud
 
 				if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.Any(x => x.Name == accountName))
 				{
+					string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+					string iconPath = Path.Combine(appDataFolder, "Local", "Microsoft", "OneDrive", "OneDrive.exe");
+					var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
+
 					oneDriveAccounts.Add(new CloudProvider(CloudProviders.OneDrive)
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
+						IconData = iconFile?.IconData,
 					});
 				}
 			}
