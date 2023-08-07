@@ -24,6 +24,7 @@ namespace Files.App.Data.Items
 			get => icon;
 			set
 			{
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				SetProperty(ref icon, value, nameof(Icon));
 			}
 		}

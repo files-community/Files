@@ -22,6 +22,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				OnPropertyChanged("Icon");
 				OnPropertyChanged(nameof(ToolTip));
 			}

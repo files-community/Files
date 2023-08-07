@@ -117,12 +117,15 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (oldItem != null)
 			{
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {newItem.Text}");
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
 				if (oldItem.ChildItems is not null)
 					oldItem.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 			if (newItem != null)
 			{
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Subscribed to property changed for {newItem.Text}");
+
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
 				if (newItem.ChildItems is not null)
 					newItem.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
@@ -160,6 +163,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (args.PropertyName == "Icon")
 			{
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Icon changed for {Item?.Text}");
 				UpdateIcon();
 			}
 		}
@@ -263,9 +267,12 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
+
 			Icon = Item?.GenerateIconSource()?.CreateIconElement();
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
+			Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Updated icon for {Item?.Text} with icon being {(Icon != null ? "not null" : "null")}");
+
 		}
 
 		private bool ShouldShowSelectionIndicator()
