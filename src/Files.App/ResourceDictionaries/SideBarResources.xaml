@@ -22,7 +22,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SidebarItem">
-					<Grid x:Name="RootPanel">
+					<Grid x:Name="RootPanel" Padding="0,2">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
@@ -44,10 +44,11 @@
 						<Grid
 							x:Name="ElementGrid"
 							Grid.Row="0"
-							Height="30"
+							Height="28"
 							Margin="4,0"
 							HorizontalAlignment="Stretch"
 							Background="{ThemeResource SubtleFillColorTransparentBrush}"
+							BackgroundSizing="InnerBorderEdge"
 							BorderThickness="1"
 							CornerRadius="{ThemeResource ControlCornerRadius}"
 							IsTabStop="True"
@@ -91,6 +92,7 @@
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
+								Margin="0,0,8,0"
 								Width="{StaticResource ExpanderChevronGlyphSize}"
 								Height="{StaticResource ExpanderChevronGlyphSize}"
 								HorizontalAlignment="Center"
@@ -162,7 +164,7 @@
 							Visibility="Collapsed"
 							XYFocusKeyboardNavigation="Enabled">
 							<ItemsRepeater.Layout>
-								<StackLayout Spacing="4" />
+								<StackLayout />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
 						<VisualStateManager.VisualStateGroups>
@@ -308,6 +310,8 @@
 								<VisualState x:Name="Selected">
 									<VisualState.Setters>
 										<Setter Target="SelectionIndicator.Opacity" Value="1" />
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
+										<Setter Target="ElementGrid.Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -323,6 +327,7 @@
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerOverSelected">
@@ -334,6 +339,7 @@
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="ElementGrid.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PressedSelected">

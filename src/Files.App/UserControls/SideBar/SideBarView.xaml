@@ -44,7 +44,6 @@
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
-			Padding="0,0,0,16"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Canvas.ZIndex="10"
@@ -58,7 +57,7 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="0,8,6,2"
+					Padding="2,8,4,2"
 					HorizontalScrollMode="Disabled"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
@@ -85,6 +84,7 @@
 			Grid.Column="1"
 			MinWidth="4"
 			Margin="0,8,0,0"
+			CornerRadius="4,0,0,0"
 			HorizontalAlignment="Right"
 			AllowFocusOnInteraction="True"
 			Background="Transparent"
@@ -287,10 +287,10 @@
 				<VisualState x:Name="ResizerPointerOver">
 					<Storyboard>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlStrokeColorDefault}" />
 						</ObjectAnimationUsingKeyFrames>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlStrokeColorDefault}" />
 						</ObjectAnimationUsingKeyFrames>
 					</Storyboard>
 				</VisualState>
@@ -298,10 +298,10 @@
 				<VisualState x:Name="ResizerPressed">
 					<Storyboard>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 					</Storyboard>
 				</VisualState>
