@@ -83,6 +83,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 
 			UpdateExpansionState();
+			UpdateIcon();
 		}
 
 		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
