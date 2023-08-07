@@ -236,14 +236,6 @@
 					<behaviors:StickyHeaderBehavior />
 				</i:Interaction.Behaviors>
 
-				<ListView.ItemContainerStyle>
-					<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-						<Setter Property="MinHeight" Value="1" />
-						<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-						<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
 				<ListView.Header>
 					<Grid
 						x:Name="HeaderGrid"
