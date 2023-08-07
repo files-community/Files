@@ -68,6 +68,7 @@
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
+						Margin="0,0,0,16"
 						XYFocusKeyboardNavigation="Enabled">
 						<ItemsRepeater.Layout>
 							<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
@@ -161,6 +162,11 @@
 						<Setter Target="SidebarResizer.Visibility" Value="Collapsed" />
 						<!--  Specific to expanded pane  -->
 						<Setter Target="PaneLightDismissLayer.Visibility" Value="Visible" />
+						<Setter Target="PaneColumnGrid.Shadow">
+							<Setter.Value>
+								<ThemeShadow />
+							</Setter.Value>
+						</Setter>
 					</VisualState.Setters>
 				</VisualState>
 
@@ -264,6 +270,13 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneLightDismissLayer" Storyboard.TargetProperty="Visibility">
 								<DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
 							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Shadow">
+								<DiscreteObjectKeyFrame KeyTime="0:0:0">
+									<DiscreteObjectKeyFrame.Value>
+										<ThemeShadow />
+									</DiscreteObjectKeyFrame.Value>
+								</DiscreteObjectKeyFrame>
+							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
 
@@ -277,6 +290,14 @@
 									KeyTime="0:0:0.35"
 									Value="{StaticResource SidebarNegativeOpenPaneLength}" />
 							</DoubleAnimationUsingKeyFrames>
+
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Shadow">
+								<DiscreteObjectKeyFrame KeyTime="0:0:0">
+									<DiscreteObjectKeyFrame.Value>
+										<ThemeShadow />
+									</DiscreteObjectKeyFrame.Value>
+								</DiscreteObjectKeyFrame>
+							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
 				</VisualStateGroup.Transitions>
