@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
+using Files.Shared.Helpers;
 
 namespace Files.App.Data.Models
 {
