@@ -403,16 +403,17 @@
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
 							Grid.Row="0"
+							Grid.RowSpan="3"
 							MaxHeight="60"
 							HorizontalAlignment="Left"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Canvas.ZIndex="1"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextWrapping="Wrap"
 							Visibility="Collapsed" />
 
 						<TextBlock
-							x:Name="ItemFileFormat"
 							Grid.Row="1"
 							HorizontalAlignment="Left"
 							FontSize="12px"
@@ -422,7 +423,6 @@
 							TextWrapping="NoWrap" />
 
 						<TextBlock
-							x:Name="ItemSize"
 							Grid.Row="2"
 							HorizontalAlignment="Left"
 							FontSize="12px"
