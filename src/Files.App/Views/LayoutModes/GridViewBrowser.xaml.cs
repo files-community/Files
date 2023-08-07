@@ -194,21 +194,21 @@ namespace Files.App.Views.LayoutModes
 			}
 			else
 			{
-				TextBlock textBlockName = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
 				Grid gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
 
-				textBox.Text = textBlockName.Text;
-				OldItemName = textBlockName.Text;
+				textBox.Text = textBlock.Text;
+				OldItemName = textBlock.Text;
 
-				textBlockName.Visibility = Visibility.Collapsed;
+				textBlock.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
 				gridMain.ColumnDefinitions[0].Width = new GridLength(0);
 				gridMain.ColumnDefinitions[1].Width = new GridLength(0);
 
 				if (textBox.FindParent<Grid>() is null)
 				{
-					textBlockName.Visibility = Visibility.Visible;
+					textBlock.Visibility = Visibility.Visible;
 					textBox.Visibility = Visibility.Collapsed;
 					gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
 					gridMain.ColumnDefinitions[1].Width = new GridLength(64);
@@ -260,11 +260,11 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
-				TextBlock? textBlockName = gridViewItem.FindDescendant("ItemName") as TextBlock;
+				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				Grid? gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
 
 				textBox.Visibility = Visibility.Collapsed;
-				textBlockName!.Visibility = Visibility.Visible;
+				textBlock!.Visibility = Visibility.Visible;
 				gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
 				gridMain.ColumnDefinitions[1].Width = new GridLength(64);
 			}
