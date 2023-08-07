@@ -638,7 +638,9 @@ namespace Files.App.Helpers
 
 		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
 		{
-			var placeholder = contextMenu.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName)).FirstOrDefault() as AppBarButton;
+			var placeholder = contextMenu.SecondaryCommands
+															.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
+															.FirstOrDefault() as AppBarButton;
 			if (placeholder is not null)
 				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
 
