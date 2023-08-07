@@ -139,7 +139,7 @@
     <value>Размер:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Размер на диске:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Размер в несжатом виде:</value>
@@ -175,7 +175,7 @@
     <value>Очистить все</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Введите путь</value>
+    <value>Введите путь для навигации или введите "&gt;", чтобы открыть командную строку</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Поиск</value>
@@ -478,7 +478,7 @@
     <value>Разные типы</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Все в папке {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Занято:</value>
@@ -1372,7 +1372,7 @@
     <value>Крошечный</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Будущее</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Сегодня</value>
@@ -1387,19 +1387,19 @@
     <value>На прошлой неделе</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Ранее в этом месяце</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>В прошлом месяце</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Ранее в этом году</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Прошлый год</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Год {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} элемент</value>
@@ -1534,7 +1534,7 @@
     <value>Разрешить</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Запретить</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Полный доступ</value>
@@ -1543,10 +1543,10 @@
     <value>Чтение</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Изменить</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Разрешения для {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Чтение и выполнение</value>
@@ -1567,7 +1567,7 @@
     <value>У Вас нет прав на просмотр свойств безопасности этого объекта. Нажмите «Расширенные разрешения», чтобы продолжить.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Владелец:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Неизвестный владелец</value>
@@ -1603,10 +1603,10 @@
     <value>Доступ</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Применяется к</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>Основные</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>файлы</value>
@@ -1618,7 +1618,7 @@
     <value>подпапки</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Унаследовано</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>Разрешения</value>
@@ -2695,10 +2695,10 @@
     <value>Извлечь элементы из выбранного(ых) архива(ов) в новую папку</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>Повернуть выбранное(ые) изображение(ия) влево</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Повернуть выбранное(ые) изображение(ия) вправо</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Открыть страницу настроек</value>
@@ -2710,31 +2710,31 @@
     <value>Открыть папку в терминале от имени администратора</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Уменьшение размера иконок в режиме просмотра сетки</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Увеличение размера иконок в режиме просмотра сетки</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Переключить на подробный вид</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Режим плиток</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Режим сетки с маленькими иконками</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Режим сетки со средними иконками</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Режим сетки с большими иконками</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Режим столбцов</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Адаптивное переключение режимов</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Сортировать элементы по имени</value>
@@ -2752,13 +2752,13 @@
     <value>Сортировать элементы по типу</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Сортировать объекты по их статусу</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
     <value>Сортировать элементы по тэгам</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Сортировать объекты по исходной папке</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
     <value>Сортировать элементы по дате удаления</value>
@@ -2770,13 +2770,13 @@
     <value>Сортировать элементы в порядке убывания</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Переключить направление сортировки объектов</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Сортировать файлы и папки вместе</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Перечислять объекты без группировки</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
     <value>Группировать элементы по имени</value>
@@ -2794,13 +2794,13 @@
     <value>Группировать элементы по типу</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Группировать объекты по их статусу</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
     <value>Группировать элементы по тэгам</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Группировать объекты по исходной папке</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
     <value>Группировать элементы по дате удаления</value>
@@ -2821,13 +2821,13 @@
     <value>Открыть новую вкладку</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Переход назад в истории навигации</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Переход вперед в истории навигации</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Переход на один каталог вверх</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>Дублировать текущую вкладку</value>
@@ -2857,22 +2857,22 @@
     <value>Восстановить последнюю закрытую вкладку</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Переход на предыдущую вкладку</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Переход на следующую вкладку</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Закрыть текущую вкладку</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Открыть новую панель</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Закрыть правую панель</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Переключить панель</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2919,15 +2919,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Влево</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Вправо</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Down</value>
+    <value>Вниз</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
@@ -2939,7 +2939,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
-    <value>End</value>
+    <value>Конец</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageDown" xml:space="preserve">
@@ -2983,15 +2983,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>App</value>
+    <value>Приложение</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
-    <value>App1</value>
+    <value>Приложение1</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
-    <value>App2</value>
+    <value>Приложение2</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
@@ -2999,19 +2999,19 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>Домой</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>Назад</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>Вперёд</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>Обновление браузера</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -3122,7 +3122,7 @@
     <value>Создать новый элемент</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Нет групп или пользователей с разрешением в этот объект. Но создатель этого объекта может назначать разрешения.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Открыть расположение элементов</value>
@@ -3137,10 +3137,10 @@
     <value>Воспроизвести выбранные медиа файлы</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Отменить последнюю операцию</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Переделать последнюю операцию</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Расположение:</value>
@@ -3155,10 +3155,10 @@
     <value>Месяц</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Включить группировку по дате</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Переключить группировку</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Год</value>
@@ -3403,5 +3403,30 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Диск ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Начало через:</value>
   </data>
 </root>

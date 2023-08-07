@@ -1418,6 +1418,7 @@
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 						</Style>
 					</ListView.ItemContainerStyle>
