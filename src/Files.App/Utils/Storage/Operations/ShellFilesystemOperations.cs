@@ -172,10 +172,7 @@ namespace Files.App.Utils.Storage
 						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
 						.Select(item => item.Source);
 
-					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(
-						string.Format("FileTooLargeHeader".GetLocalizedResource(), Path.GetPathRoot(copyResult.Items.First().Destination)),
-						failingItems
-					));
+					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
 				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))

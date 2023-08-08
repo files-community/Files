@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="{helpers:ResourceString Name=StatusCopyFailed}"
+	Title="{helpers:ResourceString Name=CopyFailureFileToLarge}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
 	PrimaryButtonText="{helpers:ResourceString Name=OK}"
@@ -14,23 +14,19 @@
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
-	<StackPanel Spacing="4">
-		<TextBlock Text="{x:Bind ViewModel.ListHeader}" />
-
-		<ListView
-			MaxHeight="300"
-			ItemsSource="{x:Bind ViewModel.Paths}"
-			SelectionMode="None">
-			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="x:String">
-					<TextBlock
-						Padding="4"
-						IsTabStop="False"
-						Text="{x:Bind}"
-						TextWrapping="Wrap" />
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
-	</StackPanel>
+	<ListView
+		MaxHeight="300"
+		ItemsSource="{x:Bind ViewModel.Paths}"
+		SelectionMode="None">
+		<ListView.ItemTemplate>
+			<DataTemplate x:DataType="x:String">
+				<TextBlock
+					Padding="4"
+					IsTabStop="False"
+					Text="{x:Bind}"
+					TextWrapping="Wrap" />
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ListView>
 
 </ContentDialog>
