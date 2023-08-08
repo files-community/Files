@@ -220,6 +220,7 @@
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
+					LosingFocus="FileList_LosingFocus"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
 					ScrollViewer.HorizontalScrollMode="Auto"

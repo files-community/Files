@@ -876,5 +876,10 @@ namespace Files.App.Views.LayoutModes
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
 		}
+
+		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			args.TryCancel();
+		}
 	}
 }
