@@ -134,13 +134,6 @@
 						SelectedItem="{x:Bind SecurityViewModel.SelectedAccessControlEntry, Mode=TwoWay}"
 						SelectionMode="Single">
 
-						<ListView.ItemContainerStyle>
-							<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-								<Setter Property="MinHeight" Value="1" />
-								<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-							</Style>
-						</ListView.ItemContainerStyle>
-
 						<ListView.ItemTemplate>
 							<DataTemplate x:DataType="security:AccessControlEntry">
 								<Grid ColumnSpacing="4">
