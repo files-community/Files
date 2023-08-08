@@ -191,6 +191,9 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="3" />
 							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Margin)">
+								<DiscreteObjectKeyFrame Value="0,0,0,0" />
+							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
 								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 							</ObjectAnimationUsingKeyFrames>
@@ -216,6 +219,9 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="3" />
 							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Margin)">
+								<DiscreteObjectKeyFrame Value="0,0,0,0" />
+							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGrid" Storyboard.TargetProperty="Background">
 								<DiscreteObjectKeyFrame Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
 							</ObjectAnimationUsingKeyFrames>
@@ -238,6 +244,9 @@
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="1" />
 							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Margin)">
+								<DiscreteObjectKeyFrame Value="2,0,0,0" />
+							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="DisplayColumn" Storyboard.TargetProperty="Width">
 								<DiscreteObjectKeyFrame Value="{StaticResource SidebarCompactOpenPaneLength}" />
 							</ObjectAnimationUsingKeyFrames>
@@ -258,6 +267,9 @@
 							</ObjectAnimationUsingKeyFrames>
 							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.ColumnSpan)">
 								<DiscreteObjectKeyFrame Value="1" />
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="(Grid.Margin)">
+								<DiscreteObjectKeyFrame Value="2,0,0,0" />
 							</ObjectAnimationUsingKeyFrames>
 						</Storyboard>
 					</VisualTransition>
@@ -284,7 +296,7 @@
 						</Storyboard>
 					</VisualTransition>
 
-					<!--  From minimal expandewd  -->
+					<!--  From minimal expanded  -->
 					<VisualTransition From="MinimalExpanded" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
@@ -312,10 +324,10 @@
 				<VisualState x:Name="ResizerPointerOver">
 					<Storyboard>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorBaseAltBrush}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorBaseAltBrush}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 					</Storyboard>
 				</VisualState>
@@ -323,10 +335,10 @@
 				<VisualState x:Name="ResizerPressed">
 					<Storyboard>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="Background">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 						<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SidebarResizer" Storyboard.TargetProperty="BorderBrush">
-							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
 						</ObjectAnimationUsingKeyFrames>
 					</Storyboard>
 				</VisualState>
