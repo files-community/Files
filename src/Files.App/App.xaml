@@ -10,8 +10,8 @@
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
 
-			<!--  Default nav menu item height  -->
-			<x:Double x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
+			<!--  Default list view item margin  -->
+			<x:Double x:Key="ListItemMargin">0</x:Double>
 
 			<!--  Fix caption buttons background  -->
 			<SolidColorBrush x:Key="WindowCaptionBackground" Color="Transparent" />

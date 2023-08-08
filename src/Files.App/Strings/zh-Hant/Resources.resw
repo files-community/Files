@@ -139,7 +139,7 @@
     <value>大小：</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>在磁碟上的大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>壓縮前的大小：</value>
@@ -175,7 +175,7 @@
     <value>清理所有檔案</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>輸入位置</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
@@ -1306,7 +1306,7 @@
     <value>有一個同名檔案已存在。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>為選取的項目建立資料夾</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>名稱：</value>
@@ -1711,7 +1711,7 @@
     <value>關閉畫面</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>進入完整檢視</value>
+    <value>進入精簡懸浮模式</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -2542,7 +2542,7 @@
     <value>切換全螢幕</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>進入完整檢視</value>
+    <value>進入精簡懸浮模式</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>返回完整檢視</value>
@@ -3399,9 +3399,34 @@
     <value>Open directory in new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>開啟所有</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>開啟所有附有標籤的項目</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>
