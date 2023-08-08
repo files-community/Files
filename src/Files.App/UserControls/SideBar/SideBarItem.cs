@@ -24,6 +24,8 @@ namespace Files.App.UserControls.Sidebar
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 		private ItemsRepeater? childrenRepeater;
 
+		private ISidebarItemModel? lastSubscriber;
+
 		public SidebarItem()
 		{
 			DefaultStyleKey = typeof(SidebarItem);
@@ -55,7 +57,7 @@ namespace Files.App.UserControls.Sidebar
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			HookupOwners();
-			HookupIconChangeListener(null, Item);
+			HookupItenChangeListener(null, Item);
 
 			if (GetTemplateChild("ElementGrid") is Grid grid)
 			{
@@ -81,7 +83,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
-			HookupIconChangeListener(null, Item);
+			HookupItenChangeListener(null, Item);
 			UpdateExpansionState();
 		}
 
@@ -112,8 +114,16 @@ namespace Files.App.UserControls.Sidebar
 			ReevaluateSelection();
 		}
 
-		private void HookupIconChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
+		private void HookupItenChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
 		{
+			if (lastSubscriber != null)
+			{
+				lastSubscriber.PropertyChanged -= ItemPropertyChangedHandler;
+				if (lastSubscriber.ChildItems is not null)
+					lastSubscriber.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {lastSubscriber.Text}");
+			}
+
 			if (oldItem != null)
 			{
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {oldItem.Text}");
@@ -126,6 +136,7 @@ namespace Files.App.UserControls.Sidebar
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Subscribed to property changed for {newItem.Text}");
 
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
+				lastSubscriber = newItem;
 				if (newItem.ChildItems is not null)
 					newItem.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
 			}
@@ -266,12 +277,10 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
-
 			Icon = Item?.IconSource?.CreateIconElement();
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 			Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Updated icon for {Item?.Text} with icon being {(Icon != null ? "not null" : "null")}");
-
 		}
 
 		private bool ShouldShowSelectionIndicator()
