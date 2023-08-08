@@ -26,7 +26,7 @@ namespace Files.App.UserControls
 
 		private ObservableContext Context { get; } = new();
 
-		public PreviewPane() 
+		public PreviewPane()
 		{
 			InitializeComponent();
 			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
@@ -66,6 +66,16 @@ namespace Files.App.UserControls
 
 		private void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e)
 			=> ViewModel?.UpdateSelectedItemPreview(true);
+
+		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "PointerOver", true);
+		}
+
+		private void FileTag_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
+		}
 
 		private class ObservableContext : ObservableObject
 		{

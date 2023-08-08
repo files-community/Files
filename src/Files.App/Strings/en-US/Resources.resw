@@ -3435,4 +3435,7 @@
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Manage BitLocker</value>
   </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
+  </data>
 </root>

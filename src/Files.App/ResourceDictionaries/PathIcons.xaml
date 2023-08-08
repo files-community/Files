@@ -138,6 +138,42 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
+			
+			<Style x:Key="ColorIconEditTag" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M2.72037 6.7794L4.67008 8.72911C5.07982 9.13885 5.5932 9.42952 6.15535 9.57006L7.65326 9.94454C9.03705 10.2905 10.2905 9.03704 9.94454 7.65326L9.57006 6.15535C9.42952 5.5932 9.13885 5.07981 8.72911 4.67008L6.7794 2.72037L7.70688 1.79289C7.89442 1.60536 8.14877 1.5 8.41399 1.5H12.9998C13.8282 1.5 14.4998 2.17157 14.4998 3V7.58579C14.4998 7.851 14.3944 8.10536 14.2069 8.29289L8.31043 14.1893C7.72465 14.7751 6.7749 14.7751 6.18911 14.1893L1.81043 9.81066C1.22465 9.22487 1.22465 8.27513 1.81043 7.68934L2.72037 6.7794Z"
+										Fill="{ThemeResource Local.IconAltBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M3.19258 0.54776L8.02201 5.37719C8.30359 5.65876 8.50334 6.01157 8.59992 6.39789L8.9744 7.89579C9.13725 8.5472 8.5472 9.13725 7.89579 8.9744L6.39789 8.59992C6.01157 8.50334 5.65876 8.30358 5.37719 8.02201L0.54776 3.19258C-0.182587 2.46223 -0.182587 1.27811 0.54776 0.54776C1.27811 -0.182587 2.46223 -0.182587 3.19258 0.54776Z"
+										Fill="{ThemeResource Local.IconAccentStrokeColor}" />
+									<Path
+										x:Name="Path3"
+										Data="M7.13248 3.0744L7.91399 2.29289C8.10152 2.10536 8.35588 2 8.62109 2H13.073C13.6253 2 14.073 2.44772 14.073 3V7.37426C14.073 7.64122 13.9663 7.89709 13.7766 8.08491L7.95863 13.8446C7.56755 14.2318 6.93712 14.2302 6.54798 13.8411L2.16399 9.45711C1.77346 9.06658 1.77346 8.43342 2.16399 8.04289L3.07345 7.13343L2.36634 6.42632L1.45688 7.33579C0.675831 8.11684 0.675832 9.38317 1.45688 10.1642L5.84088 14.5482C6.61915 15.3265 7.88 15.3297 8.66218 14.5553L14.4801 8.79556C14.8595 8.41993 15.073 7.90818 15.073 7.37426V3C15.073 1.89543 14.1776 1 13.073 1H8.62109C8.09066 1 7.58195 1.21071 7.20688 1.58579L6.42538 2.36729L7.13248 3.0744Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+									<Path
+										x:Name="Path4"
+										Data="M12.4998 4.5C12.4998 5.05228 12.0521 5.5 11.4998 5.5C10.9475 5.5 10.4998 5.05228 10.4998 4.5C10.4998 3.94772 10.9475 3.5 11.4998 3.5C12.0521 3.5 12.4998 3.94772 12.4998 4.5Z"
+										Fill="{ThemeResource Local.IconBaseBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
 
 			<Style x:Key="ColorIconEnterCompactOverlay" TargetType="local:OpacityIcon">
 				<Setter Property="Template">

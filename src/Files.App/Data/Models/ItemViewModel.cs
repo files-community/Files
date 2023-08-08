@@ -616,6 +616,7 @@ namespace Files.App.Data.Models
 
 					return;
 				}
+				var filesAndFoldersLocal = filesAndFolders.ToList();
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
@@ -643,19 +644,19 @@ namespace Files.App.Data.Models
 						}
 					}
 
-					for (var i = 0; i < filesAndFolders.Count; i++)
+					for (var i = 0; i < filesAndFoldersLocal.Count; i++)
 					{
 						if (addFilesCTS.IsCancellationRequested)
 							return;
 
 						if (i < FilesAndFolders.Count)
 						{
-							if (FilesAndFolders[i] != filesAndFolders[i])
+							if (FilesAndFolders[i] != filesAndFoldersLocal[i])
 							{
 								if (startIndex == -1)
 									startIndex = i;
 
-								tempList.Add(filesAndFolders[i]);
+								tempList.Add(filesAndFoldersLocal[i]);
 							}
 							else
 							{
@@ -665,7 +666,7 @@ namespace Files.App.Data.Models
 						else
 						{
 							ApplyBulkInsertEntries();
-							FilesAndFolders.InsertRange(i, filesAndFolders.ToList().Skip(i));
+							FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
 
 							break;
 						}
@@ -673,8 +674,8 @@ namespace Files.App.Data.Models
 
 					ApplyBulkInsertEntries();
 
-					if (FilesAndFolders.Count > filesAndFolders.Count)
-						FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
+					if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
+						FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
 
 					if (folderSettings.DirectoryGroupOption != GroupOption.None)
 						OrderGroups();
@@ -1638,9 +1639,9 @@ namespace Files.App.Data.Models
 
 						filesAndFolders.AddRange(fileList);
 
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
 					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
@@ -1688,16 +1689,9 @@ namespace Files.App.Data.Models
 
 		private void CheckForSolutionFile()
 		{
-			for (int i = 0; i < filesAndFolders.Count; i++)
-			{
-				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
-				{
-					SolutionFilePath = filesAndFolders[i].ItemPath;
-					return;
-				}
-			}
-
-			SolutionFilePath = null;
+			SolutionFilePath = filesAndFolders.ToList().AsParallel()
+				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
+				.FirstOrDefault()?.ItemPath;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)

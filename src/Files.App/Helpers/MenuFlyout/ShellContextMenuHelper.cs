@@ -179,25 +179,25 @@ namespace Files.App.Helpers
 					case "install" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								Win32API.InstallFont(path, false);
+								await Win32API.InstallFont(path, false);
 						}
 						break;
 
 					case "installAllUsers" when isFont:
 						{
 							foreach (string path in contextMenu.ItemsPath)
-								Win32API.InstallFont(path, true);
+								await Win32API.InstallFont(path, true);
 						}
 						break;
 
 					case "mount":
 						var vhdPath = contextMenu.ItemsPath[0];
-						Win32API.MountVhdDisk(vhdPath);
+						await Win32API.MountVhdDisk(vhdPath);
 						break;
 
 					case "format":
 						var drivePath = contextMenu.ItemsPath[0];
-						Win32API.OpenFormatDriveDialog(drivePath);
+						await Win32API.OpenFormatDriveDialog(drivePath);
 						break;
 
 					default:

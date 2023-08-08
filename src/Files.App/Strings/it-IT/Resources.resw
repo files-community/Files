@@ -175,7 +175,7 @@
     <value>Elimina tutti gli elementi</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Inserisci un percorso</value>
+    <value>Inserisci un percorso o digita "&gt;" per aprire la palette dei comandi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Cerca</value>
@@ -3403,5 +3403,30 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Apri tutti gli elementi etichettati</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Unità ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Comando non valido</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' non è riconosciuto come un comando.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Comando non eseguibile</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Il comando '{0}' non è pronto per essere eseguito.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Palette dei comandi</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Apri la palette dei comandi</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Avvia in:</value>
   </data>
 </root>
