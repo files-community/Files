@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class RunAsAdminAction : BaseRunAsAction
+	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
 		public override string Label
 			=> "RunAsAdministrator".GetLocalizedResource();

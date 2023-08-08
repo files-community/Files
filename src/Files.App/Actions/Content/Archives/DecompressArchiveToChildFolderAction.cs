@@ -3,52 +3,24 @@
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveToChildFolderAction : BaseUIAction, IAction
+	internal sealed class DecompressArchiveToChildFolderAction : BaseDecompressArchiveAction
 	{
-		private readonly IContentPageContext context;
-
-		public string Label
+		public override string Label
 			=> ComputeLabel();
 
-		public string Description
+		public override string Description
 			=> "DecompressArchiveToChildFolderDescription".GetLocalizedResource();
-
-		public override bool IsExecutable =>
-			IsContextPageTypeAdaptedToCommand() &&
-			ArchiveHelpers.CanDecompress(context.SelectedItems) &&
-			UIHelpers.CanShowDialog;
 
 		public DecompressArchiveToChildFolderAction()
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public override Task ExecuteAsync()
 		{
 			return ArchiveHelpers.DecompressArchiveToChildFolder(context.ShellPage);
 		}
 
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType != ContentPageTypes.None;
-		}
-
-		private string ComputeLabel()
-		{
-			if (context.SelectedItems == null || context.SelectedItems.Count == 0)
-				return string.Empty;
-
-			return context.SelectedItems.Count > 1
-				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
-				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), SystemIO.Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
@@ -63,6 +35,16 @@ namespace Files.App.Actions
 						break;
 					}
 			}
+		}
+
+		private string ComputeLabel()
+		{
+			if (context.SelectedItems == null || context.SelectedItems.Count == 0)
+				return string.Empty;
+
+			return context.SelectedItems.Count > 1
+				? string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), "*")
+				: string.Format("BaseLayoutItemContextFlyoutExtractToChildFolder".GetLocalizedResource(), SystemIO.Path.GetFileNameWithoutExtension(context.SelectedItems.First().Name));
 		}
 	}
 }

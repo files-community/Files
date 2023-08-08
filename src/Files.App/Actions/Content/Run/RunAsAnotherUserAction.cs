@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class RunAsAnotherUserAction : BaseRunAsAction
+	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
 	{
 		public override string Label
 			=> "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource();
