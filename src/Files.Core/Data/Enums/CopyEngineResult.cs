@@ -36,7 +36,7 @@ namespace Files.Core.Data.Enums
 		public const int COPYENGINE_E_ALREADY_EXISTS_SYSTEM = -2144927701;
 		public const int COPYENGINE_E_ALREADY_EXISTS_FOLDER = -2144927700;
 		// File too big
-		//public const int COPYENGINE_E_FILE_TOO_LARGE = -2144927731;
+		public const int COPYENGINE_E_FILE_TOO_LARGE = -2144927731;
 		//public const int COPYENGINE_E_REMOVABLE_FULL = -2144927730;
 		//public const int COPYENGINE_E_DISK_FULL = -2144927694;
 		//public const int COPYENGINE_E_DISK_FULL_CLEAN = -2144927693;
@@ -78,6 +78,7 @@ namespace Files.Core.Data.Enums
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_READONLY => FileSystemStatusCode.AlreadyExists,
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_SYSTEM => FileSystemStatusCode.AlreadyExists,
 				CopyEngineResult.COPYENGINE_E_ALREADY_EXISTS_FOLDER => FileSystemStatusCode.AlreadyExists,
+				CopyEngineResult.COPYENGINE_E_FILE_TOO_LARGE => FileSystemStatusCode.FileTooLarge,
 				CopyEngineResult.COPYENGINE_E_FILE_IS_FLD_DEST => FileSystemStatusCode.NotAFile,
 				CopyEngineResult.COPYENGINE_E_FLD_IS_FILE_DEST => FileSystemStatusCode.NotAFolder,
 				CopyEngineResult.COPYENGINE_E_SHARING_VIOLATION_SRC => FileSystemStatusCode.InUse,

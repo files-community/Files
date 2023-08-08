@@ -67,7 +67,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+			var cachedNewContextMenuEntries = addItemService.GetEntries();
 			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))

@@ -303,6 +303,20 @@ namespace Files.App.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "TurnOnBitLocker".GetLocalizedResource(),
+					Tag = "TurnOnBitLockerPlaceholder",
+					ShowItem = isDriveItem,
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageBitLocker".GetLocalizedResource(),
+					Tag = "ManageBitLockerPlaceholder",
+					ShowItem = isDriveItem,
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
@@ -1076,7 +1090,6 @@ namespace Files.App.UserControls
 			{
 				NavigationControlItemType.Location => LocationNavItemTemplate,
 				NavigationControlItemType.Drive => DriveNavItemTemplate,
-				NavigationControlItemType.CloudDrive => DriveNavItemTemplate,
 				NavigationControlItemType.LinuxDistro => LinuxNavItemTemplate,
 				NavigationControlItemType.FileTag => FileTagNavItemTemplate,
 				_ => null

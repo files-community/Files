@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -792,6 +791,7 @@ namespace Files.App.ViewModels.UserControls
 							Text = ">" + command.Code,
 							PrimaryDisplay = command.Description,
 							SupplementaryDisplay = command.HotKeyText,
+							SearchText = searchText,
 						}).ToList();
 					}
 					else
@@ -849,6 +849,7 @@ namespace Files.App.ViewModels.UserControls
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
 								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
 								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
 							}
 							else
 							{
@@ -865,8 +866,13 @@ namespace Files.App.ViewModels.UserControls
 						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.PrimaryDisplay).ToList())
 							NavigationBarSuggestions.Remove(s);
 
-						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.PrimaryDisplay).ToList())
-							NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+						for (int index = 0; index < suggestions.Count; index++)
+						{
+							if (NavigationBarSuggestions.Count > index && NavigationBarSuggestions[index].PrimaryDisplay == suggestions[index].PrimaryDisplay)
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+							else
+								NavigationBarSuggestions.Insert(index, suggestions[index]);
+						}
 					}
 
 					return true;
