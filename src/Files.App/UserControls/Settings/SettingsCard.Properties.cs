@@ -78,7 +78,7 @@ namespace Files.App.UserControls
 			nameof(ContentAlignment),
 			typeof(ContentAlignment),
 			typeof(SettingsCard),
-			new PropertyMetadata(defaultValue: ContentAlignment.Right));
+			new PropertyMetadata(defaultValue: ContentAlignment.Right, (d, e) => ((SettingsCard)d).OnContentPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
 
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="IsActionIconVisible"/> property.
@@ -180,6 +180,11 @@ namespace Files.App.UserControls
 		protected virtual void OnDescriptionPropertyChanged(object oldValue, object newValue)
 		{
 			OnDescriptionChanged();
+		}
+
+		protected virtual void OnContentPropertyChanged(object oldValue, object newValue)
+		{
+			OnContentChanged();
 		}
 
 		protected virtual void OnIsActionIconVisiblePropertyChanged(bool oldValue, bool newValue)

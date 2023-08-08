@@ -264,7 +264,8 @@
 								HorizontalAlignment="Right"
 								VerticalAlignment="Center"
 								HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-								Content="{TemplateBinding Content}" />
+								Content="{TemplateBinding Content}"
+								Visibility="Collapsed" />
 
 							<!--  Action Icon  -->
 							<Viewbox

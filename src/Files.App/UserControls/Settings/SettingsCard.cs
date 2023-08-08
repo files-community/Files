@@ -27,6 +27,7 @@ namespace Files.App.UserControls
 		internal const string ActionIconPresenterHolder = "ActionIconPresenterHolder";
 		internal const string HeaderPresenter = "HeaderPresenter";
 		internal const string DescriptionPresenter = "DescriptionPresenter";
+		internal const string ContentPresenter = "ContentPresenter";
 		internal const string HeaderIconPresenterHolder = "HeaderIconPresenterHolder";
 
 		/// <summary>
@@ -209,6 +210,16 @@ namespace Files.App.UserControls
 			if (GetTemplateChild(DescriptionPresenter) is FrameworkElement descriptionPresenter)
 			{
 				descriptionPresenter.Visibility = Description != null
+					? Visibility.Visible
+					: Visibility.Collapsed;
+			}
+		}
+
+		private void OnContentChanged()
+		{
+			if (GetTemplateChild(ContentPresenter) is FrameworkElement contentPresenter)
+			{
+				contentPresenter.Visibility = Content != null
 					? Visibility.Visible
 					: Visibility.Collapsed;
 			}

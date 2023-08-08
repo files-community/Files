@@ -107,75 +107,73 @@
 					</ComboBox>
 				</uc:SettingsExpander.Content>
 				<uc:SettingsExpander.Items>
-					<StackPanel>
-						<!--  Open A Specific Page On Startup  -->
-						<uc:SettingsCard Visibility="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition />
-									<RowDefinition />
-								</Grid.RowDefinitions>
-								<TextBlock
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									FontSize="16"
-									Text="{helpers:ResourceString Name=SettingsOnStartupPages/Text}" />
-								<CommandBar
-									Grid.Column="1"
-									Background="Transparent"
-									DefaultLabelPosition="Right"
-									IsOpen="False">
-									<AppBarButton Icon="Add" Label="{helpers:ResourceString Name=Add}">
-										<AppBarButton.Flyout>
-											<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{x:Bind ViewModel.AddFlyoutItemsSource, Mode=OneWay}" Placement="Bottom" />
-										</AppBarButton.Flyout>
-									</AppBarButton>
-									<AppBarButton
-										Command="{x:Bind ViewModel.ChangePageCommand}"
-										Icon="Edit"
-										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
-										Label="{helpers:ResourceString Name=Edit}" />
-									<AppBarButton
-										Command="{x:Bind ViewModel.RemovePageCommand}"
-										Icon="Delete"
-										IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
-										Label="{helpers:ResourceString Name=Remove}" />
-								</CommandBar>
+					<!--  Open A Specific Page On Startup  -->
+					<uc:SettingsCard Visibility="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<TextBlock
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								FontSize="16"
+								Text="{helpers:ResourceString Name=SettingsOnStartupPages/Text}" />
+							<CommandBar
+								Grid.Column="1"
+								Background="Transparent"
+								DefaultLabelPosition="Right"
+								IsOpen="False">
+								<AppBarButton Icon="Add" Label="{helpers:ResourceString Name=Add}">
+									<AppBarButton.Flyout>
+										<MenuFlyout helpers:MenuFlyoutHelper.ItemsSource="{x:Bind ViewModel.AddFlyoutItemsSource, Mode=OneWay}" Placement="Bottom" />
+									</AppBarButton.Flyout>
+								</AppBarButton>
+								<AppBarButton
+									Command="{x:Bind ViewModel.ChangePageCommand}"
+									Icon="Edit"
+									IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
+									Label="{helpers:ResourceString Name=Edit}" />
+								<AppBarButton
+									Command="{x:Bind ViewModel.RemovePageCommand}"
+									Icon="Delete"
+									IsEnabled="{x:Bind ViewModel.IsPageListEditEnabled, Mode=OneWay}"
+									Label="{helpers:ResourceString Name=Remove}" />
+							</CommandBar>
 
-								<ListView
-									x:Name="PagesList"
-									Grid.Row="1"
-									Grid.ColumnSpan="2"
-									Margin="0,10"
-									AllowDrop="True"
-									CanReorderItems="True"
-									IsItemClickEnabled="True"
-									ItemsSource="{x:Bind ViewModel.PagesOnStartupList, Mode=TwoWay}"
-									SelectedIndex="{x:Bind ViewModel.SelectedPageIndex, Mode=TwoWay}"
-									SelectionMode="Single">
-									<ListView.ItemTemplate>
-										<DataTemplate xmlns:vm="using:Files.App.ViewModels.Settings" x:DataType="vm:PageOnStartupViewModel">
-											<TextBlock
-												Text="{x:Bind Text}"
-												TextTrimming="CharacterEllipsis"
-												ToolTipService.ToolTip="{x:Bind Text}" />
-										</DataTemplate>
-									</ListView.ItemTemplate>
-								</ListView>
-							</Grid>
-						</uc:SettingsCard>
-						<!--  Open New Instance  -->
-						<uc:SettingsCard Header="{helpers:ResourceString Name=OpenNewInstance}">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
-								IsOn="{x:Bind ViewModel.AlwaysOpenANewInstance, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
-						</uc:SettingsCard>
-					</StackPanel>
+							<ListView
+								x:Name="PagesList"
+								Grid.Row="1"
+								Grid.ColumnSpan="2"
+								Margin="0,10"
+								AllowDrop="True"
+								CanReorderItems="True"
+								IsItemClickEnabled="True"
+								ItemsSource="{x:Bind ViewModel.PagesOnStartupList, Mode=TwoWay}"
+								SelectedIndex="{x:Bind ViewModel.SelectedPageIndex, Mode=TwoWay}"
+								SelectionMode="Single">
+								<ListView.ItemTemplate>
+									<DataTemplate xmlns:vm="using:Files.App.ViewModels.Settings" x:DataType="vm:PageOnStartupViewModel">
+										<TextBlock
+											Text="{x:Bind Text}"
+											TextTrimming="CharacterEllipsis"
+											ToolTipService.ToolTip="{x:Bind Text}" />
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</Grid>
+					</uc:SettingsCard>
+					<!--  Open New Instance  -->
+					<uc:SettingsCard Header="{helpers:ResourceString Name=OpenNewInstance}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
+							IsOn="{x:Bind ViewModel.AlwaysOpenANewInstance, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
+					</uc:SettingsCard>
 				</uc:SettingsExpander.Items>
 			</uc:SettingsExpander>
 
