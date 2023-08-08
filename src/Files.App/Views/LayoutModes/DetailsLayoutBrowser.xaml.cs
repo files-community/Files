@@ -427,9 +427,7 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
-			{
 				return;
-			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if
