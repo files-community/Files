@@ -876,5 +876,11 @@ namespace Files.App.Views.LayoutModes
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
 		}
+
+		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			// Fixes an issue where clicking an empty space would scroll to the top of the file list
+			args.TryCancel();
+		}
 	}
 }
