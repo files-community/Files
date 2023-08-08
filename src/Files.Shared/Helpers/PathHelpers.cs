@@ -44,6 +44,14 @@ namespace Files.Shared.Helpers
 			return fileName;
 		}
 
+		/// <summary>
+		/// Determines whether the <paramref name="path"/> points to any special system folders.
+		/// </summary>
+		/// <remarks>
+		///	The term "Special folder" refers to any folders that may be natively supported by a certain platform (e.g. Libraries).
+		/// </remarks>
+		/// <param name="path">The path to a folder to check.</param>
+		/// <returns>If the path points to a special folder, returns true; otherwise false.</returns>
 		public static bool IsSpecialFolder(string path)
 		{
 			foreach (Environment.SpecialFolder specialFolder in Enum.GetValues(typeof(Environment.SpecialFolder)))
