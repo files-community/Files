@@ -27,6 +27,8 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
+		private bool _hasClickedEmptySpace = false;
+
 		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
@@ -427,7 +429,10 @@ namespace Files.App.Views.LayoutModes
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
+			{
+				_hasClickedEmptySpace = true;
 				return;
+			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if
@@ -880,7 +885,11 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
-			args.TryCancel();
+			if (_hasClickedEmptySpace)
+			{
+				args.TryCancel();
+				_hasClickedEmptySpace = false;
+			}
 		}
 	}
 }
