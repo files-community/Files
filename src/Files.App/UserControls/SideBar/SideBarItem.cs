@@ -267,8 +267,13 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateIcon()
 		{
-
 			Icon = Item?.GenerateIconSource()?.CreateIconElement();
+			if(GetTemplateChild("IconPresenter") is ContentPresenter presenter)
+			{
+				presenter.Content = Icon;
+				presenter.UpdateLayout();
+			}
+			
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 			Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Updated icon for {Item?.Text} with icon being {(Icon != null ? "not null" : "null")}");
