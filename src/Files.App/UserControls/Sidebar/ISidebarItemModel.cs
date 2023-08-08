@@ -7,8 +7,8 @@ namespace Files.App.UserControls.Sidebar
 		public string Text { get; }
 
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; }
-		
-		public IconSource? GenerateIconSource();
+
+		public IconSource? IconSource { get; }
 
 		public object ToolTip { get; }
 		public bool IsExpanded { get; set; }

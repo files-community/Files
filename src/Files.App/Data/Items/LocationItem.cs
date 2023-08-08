@@ -17,6 +17,7 @@ namespace Files.App.Data.Items
 			{
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
 			}
 		}
 
@@ -58,10 +59,13 @@ namespace Files.App.Data.Items
 		public bool IsDefaultLocation { get; set; }
 
 		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
-		public IconSource? GenerateIconSource() => new ImageIconSource()
+		public IconSource? IconSource
 		{
-			ImageSource = icon
-		};
+			get => new ImageIconSource()
+			{
+				ImageSource = icon
+			};
+		}
 
 		public bool SelectsOnInvoked { get; set; } = true;
 

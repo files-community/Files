@@ -23,7 +23,7 @@ namespace Files.App.Data.Items
 			{
 				path = value;
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
-				OnPropertyChanged("Icon");
+				OnPropertyChanged(nameof(IconSource));
 				OnPropertyChanged(nameof(ToolTip));
 			}
 		}
@@ -44,12 +44,15 @@ namespace Files.App.Data.Items
 
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
 
-		public IconSource? GenerateIconSource() => new PathIconSource()
+		public IconSource? IconSource
 		{
-			Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
-			Foreground = new SolidColorBrush(FileTag.Color.ToColor())
-		};
-		
+			get => new PathIconSource()
+			{
+				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
+				Foreground = new SolidColorBrush(FileTag.Color.ToColor())
+			};
+		}
+
 		public object ToolTip => Text;
 
 		public bool IsExpanded { get => false; set { } }

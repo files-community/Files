@@ -31,6 +31,7 @@ namespace Files.App.Data.Items
 			{
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
 			}
 		}
 
@@ -52,11 +53,14 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? GenerateIconSource() => new BitmapIconSource()
+		public IconSource? IconSource
 		{
-			UriSource = icon,
-			ShowAsMonochrome = false,
-		};
+			get => new BitmapIconSource()
+			{
+				UriSource = icon,
+				ShowAsMonochrome = false,
+			};
+		}
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 	}

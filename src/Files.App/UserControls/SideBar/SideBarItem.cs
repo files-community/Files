@@ -81,9 +81,8 @@ namespace Files.App.UserControls.Sidebar
 			{
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
-
+			HookupIconChangeListener(null, Item);
 			UpdateExpansionState();
-			UpdateIcon();
 		}
 
 		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -117,7 +116,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (oldItem != null)
 			{
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {newItem.Text}");
+				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {oldItem.Text}");
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
 				if (oldItem.ChildItems is not null)
 					oldItem.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
@@ -161,7 +160,7 @@ namespace Files.App.UserControls.Sidebar
 
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
 		{
-			if (args.PropertyName == "Icon")
+			if (args.PropertyName == nameof(ISidebarItemModel.IconSource))
 			{
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Icon changed for {Item?.Text}");
 				UpdateIcon();
@@ -268,7 +267,7 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateIcon()
 		{
 
-			Icon = Item?.GenerateIconSource()?.CreateIconElement();
+			Icon = Item?.IconSource?.CreateIconElement();
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 			Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Updated icon for {Item?.Text} with icon being {(Icon != null ? "not null" : "null")}");

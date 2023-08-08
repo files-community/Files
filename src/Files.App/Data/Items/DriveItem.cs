@@ -26,6 +26,7 @@ namespace Files.App.Data.Items
 			{
 				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
 			}
 		}
 
@@ -191,10 +192,13 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? GenerateIconSource() => new ImageIconSource()
+		public IconSource? IconSource
 		{
-			ImageSource = Icon
-		};
+			get => new ImageIconSource()
+			{
+				ImageSource = Icon
+			};
+		}
 
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
