@@ -72,9 +72,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems.Any())
+			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -874,6 +875,12 @@ namespace Files.App.Views.LayoutModes
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			// Fixes an issue where clicking an empty space would scroll to the top of the file list
+			args.TryCancel();
 		}
 	}
 }

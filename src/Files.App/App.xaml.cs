@@ -3,26 +3,14 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Data.Models;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Utils.Cloud;
-using Files.App.Helpers;
-using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
-using Files.App.Utils.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
-using Files.Core.Utils.Cloud;
-using Files.Shared;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
