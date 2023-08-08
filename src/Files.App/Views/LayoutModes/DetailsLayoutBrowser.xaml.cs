@@ -27,8 +27,6 @@ namespace Files.App.Views.LayoutModes
 
 		private uint currentIconSize;
 
-		private bool _hasClickedEmptySpace = false;
-
 		private ListedItem? _nextItemToSelect;
 
 		protected override uint IconSize => currentIconSize;
@@ -430,7 +428,6 @@ namespace Files.App.Views.LayoutModes
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
 			{
-				_hasClickedEmptySpace = true;
 				return;
 			}
 
@@ -884,12 +881,11 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
+			if (args.NewFocusedElement is not ListView)
+				return;
+
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
-			if (_hasClickedEmptySpace)
-			{
-				args.TryCancel();
-				_hasClickedEmptySpace = false;
-			}
+			args.TryCancel();
 		}
 	}
 }
