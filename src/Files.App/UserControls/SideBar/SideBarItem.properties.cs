@@ -5,9 +5,9 @@ namespace Files.App.UserControls.Sidebar
 {
 	public sealed partial class SidebarItem : Control
 	{
-		public SidebarView Owner
+		public SidebarView? Owner
 		{
-			get { return (SidebarView)GetValue(OwnerProperty); }
+			get { return (SidebarView?)GetValue(OwnerProperty); }
 			set { SetValue(OwnerProperty, value); }
 		}
 		public static readonly DependencyProperty OwnerProperty =
@@ -106,9 +106,11 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else if(e.Property == ItemProperty)
 			{
-				item.HookupItenChangeListener(e.OldValue as INavigationControlItem, e.NewValue as INavigationControlItem);
-				item.UpdateExpansionState();
-				item.ReevaluateSelection();
+				item.HandleItemChange();
+			}
+			else
+			{
+				Debug.Write(e.Property.ToString());
 			}
 		}
 	}

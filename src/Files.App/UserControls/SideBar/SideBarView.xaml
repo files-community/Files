@@ -67,6 +67,7 @@
 						AutomationProperties.Name="Sidebar pane"
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+						ElementPrepared="MenuItemsHost_ElementPrepared"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled">

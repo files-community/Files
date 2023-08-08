@@ -237,5 +237,13 @@ namespace Files.App.UserControls.Sidebar
 			ViewModel.HandleItemContextInvoked(this, newArgs);
 			e.Handled = true;
 		}
+
+		private void MenuItemsHost_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
+		{
+			if(args.Element is SidebarItem sidebarItem)
+			{
+				sidebarItem.HandleItemChange();
+			}
+		}
 	}
 }

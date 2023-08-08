@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using SQLitePCL;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls.Sidebar
@@ -51,13 +50,13 @@ namespace Files.App.UserControls.Sidebar
 
 		internal void Select()
 		{
-			Owner.SelectedItem = Item!;
+			if (Owner is not null)
+				Owner.SelectedItem = Item!;
 		}
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
 		{
 			HookupOwners();
-			HookupItenChangeListener(null, Item);
 
 			if (GetTemplateChild("ElementGrid") is Grid grid)
 			{
@@ -83,8 +82,15 @@ namespace Files.App.UserControls.Sidebar
 			{
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
-			HookupItenChangeListener(null, Item);
+
+			HandleItemChange();
+		}
+
+		public void HandleItemChange()
+		{
+			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
+			ReevaluateSelection();
 		}
 
 		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -114,7 +120,7 @@ namespace Files.App.UserControls.Sidebar
 			ReevaluateSelection();
 		}
 
-		private void HookupItenChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
+		private void HookupItemChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
 		{
 			if (lastSubscriber != null)
 			{
@@ -182,17 +188,17 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (!HasChildren)
 			{
-				IsSelected = Item == Owner.SelectedItem;
+				IsSelected = Item == Owner?.SelectedItem;
 				if (IsSelected)
 				{
-					Owner.UpdateSelectedItemContainer(this);
+					Owner?.UpdateSelectedItemContainer(this);
 				}
 			}
 			else if (Item?.ChildItems is IList list)
 			{
-				if (list.Contains(Owner.SelectedItem))
+				if (list.Contains(Owner?.SelectedItem))
 				{
-					selectedChildItem = Owner.SelectedItem;
+					selectedChildItem = Owner?.SelectedItem;
 					SetFlyoutOpen(false);
 				}
 				else
@@ -390,12 +396,12 @@ namespace Files.App.UserControls.Sidebar
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			Owner.RaiseItemDragOver(this, insertsAbove, e);
+			Owner?.RaiseItemDragOver(this, insertsAbove, e);
 		}
 
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
-			Owner.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
+			Owner?.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
 			args.Handled = true;
 		}
 
@@ -407,7 +413,7 @@ namespace Files.App.UserControls.Sidebar
 		private void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
 			VisualStateManager.GoToState(this, "NoDrag", true);
-			Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)
