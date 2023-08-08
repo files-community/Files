@@ -170,6 +170,8 @@ namespace Files.App.ViewModels.LayoutModes
 			{
 				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
 				e.Handled = true;
+
+				await _associatedInstance.RefreshIfNoWatcherExists();
 			}
 
 			deferral.Complete();

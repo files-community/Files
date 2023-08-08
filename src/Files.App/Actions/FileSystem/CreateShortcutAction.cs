@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.IO;
-
 namespace Files.App.Actions
 {
 	internal class CreateShortcutAction : BaseUIAction, IAction
@@ -30,21 +28,9 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public Task ExecuteAsync()
 		{
-			var currentPath = context.ShellPage?.FilesystemViewModel.WorkingDirectory;
-
-			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
-				currentPath = library.DefaultSaveFolder;
-
-			foreach (ListedItem selectedItem in context.SelectedItems)
-			{
-				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
-				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);
-
-				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
-					await UIFilesystemHelpers.HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
-			}
+			return UIFilesystemHelpers.CreateShortcutAsync(context.ShellPage, context.SelectedItems);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
