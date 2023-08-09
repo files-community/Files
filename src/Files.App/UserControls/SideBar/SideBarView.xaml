@@ -72,7 +72,7 @@
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled">
 						<ItemsRepeater.Layout>
-							<StackLayout x:Name="MenuItemsHostLayout" Spacing="16" />
+							<StackLayout x:Name="MenuItemsHostLayout" Spacing="12" />
 						</ItemsRepeater.Layout>
 					</ItemsRepeater>
 				</ScrollViewer>
