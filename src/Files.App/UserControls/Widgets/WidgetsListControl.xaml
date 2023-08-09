@@ -13,9 +13,6 @@
 
 	<UserControl.Resources>
 
-		<!--  Custom Expander Style With Disabled Up/down Animations  -->
-		<Style BasedOn="{StaticResource NoUpDownAnimationExpanderStyle}" TargetType="Expander" />
-
 		<Thickness x:Key="ExpanderChevronMargin">0,0,0,0</Thickness>
 		<x:Double x:Key="ExpanderChevronButtonSize">16</x:Double>
 		<Thickness x:Key="ExpanderHeaderPadding">0,0,0,0</Thickness>
@@ -23,7 +20,8 @@
 		<Thickness x:Key="ExpanderHeaderInnerPadding">8,0,8,0</Thickness>
 		<x:Double x:Key="ExpanderHeaderInnerHeight">32</x:Double>
 
-		<Style x:Key="NoUpDownAnimationExpanderStyle" TargetType="Expander">
+		<!--  Custom Expander Style With Disabled Up/down Animations  -->
+		<Style x:Key="Local.NoUpDownAnimationExpanderStyle" TargetType="Expander">
 			<Setter Property="IsTabStop" Value="False" />
 			<Setter Property="Background" Value="{ThemeResource ExpanderContentBackground}" />
 			<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -440,7 +438,8 @@
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
 							AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
-							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+							Style="{StaticResource Local.NoUpDownAnimationExpanderStyle}">
 
 							<Expander.Header>
 								<TextBlock
