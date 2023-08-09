@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<Grid Padding="16,0,16,0">
+	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
@@ -57,7 +57,6 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
-
 							<Image
 								Grid.RowSpan="3"
 								Grid.Column="0"
@@ -127,7 +126,6 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap"
 								ToolTipService.ToolTip="{x:Bind Item.SpaceText, Mode=OneWay}" />
-
 						</Grid>
 					</Button>
 				</DataTemplate>

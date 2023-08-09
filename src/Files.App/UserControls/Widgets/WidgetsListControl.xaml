@@ -412,16 +412,13 @@
 	</UserControl.Resources>
 
 	<Border>
-		<ListView
-			Padding="0,0,0,16"
-			ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}"
-			SelectionMode="None">
+		<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
 
 			<!--  Remove Reveal Highlight Effect  -->
 			<ListView.ItemContainerStyle>
 				<Style TargetType="ListViewItem">
 					<!--  Spacing  -->
-					<Setter Property="Margin" Value="0" />
+					<Setter Property="Margin" Value="4" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="ListViewItem">
@@ -437,9 +434,9 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
-					<Grid Padding="0,4,0,0">
+					<Grid>
 						<Expander
-							Padding="0"
+							Padding="16,0,16,0"
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
 							AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
@@ -474,7 +471,7 @@
 							x:Name="MenuFlyout"
 							Width="36"
 							Height="32"
-							Margin="16,0"
+							Margin="0,8,50,0"
 							Padding="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
@@ -487,7 +484,7 @@
 							<FontIcon
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								FontSize="16"
+								FontSize="14"
 								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 								Glyph="&#xE712;" />
 

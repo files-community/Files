@@ -12,12 +12,11 @@
 	Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 	mc:Ignorable="d">
 
-	<StackPanel x:Name="RecentsListGrid" Padding="12,0,12,0">
+	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
 
 		<!--  Message when recent files are disabled in File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
-			Margin="4,0,4,0"
 			x:Load="{x:Bind IsRecentFilesDisabledInWindows, Mode=OneWay}"
 			IsClosable="False"
 			IsIconVisible="True"
@@ -28,7 +27,6 @@
 		<!--  Message when there are no recent files to display  -->
 		<TextBlock
 			x:Name="RecentItemDescription"
-			Margin="4,0,4,0"
 			HorizontalAlignment="Stretch"
 			x:Load="{x:Bind IsEmptyRecentsTextVisible, Mode=OneWay}"
 			FontSize="14"
@@ -51,8 +49,6 @@
 
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-					<Setter Property="Margin" Value="0" />
-					<Setter Property="Padding" Value="12,0" />
 					<Setter Property="MinHeight" Value="1" />
 					<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 					<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
@@ -62,15 +58,17 @@
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid
+						Padding="2.5"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Name}"
-						ColumnSpacing="20"
+						ColumnSpacing="14"
 						ToolTipService.ToolTip="{x:Bind RecentPath}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="1.5*" />
+							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-
 						<FontIcon
 							x:Name="RecentFolderImg"
 							Grid.Column="0"
@@ -78,10 +76,9 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FolderImg}"
 							x:Phase="1"
-							FontSize="20"
+							FontSize="24"
 							Foreground="#ffe793"
 							Glyph="&#xE8B7;" />
-
 						<FontIcon
 							x:Name="EmptyImg"
 							Grid.Column="0"
@@ -89,14 +86,13 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind EmptyImgVis}"
 							x:Phase="1"
-							FontSize="20"
+							FontSize="24"
 							Glyph="&#xE7C3;" />
-
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
-							Width="20"
-							Height="20"
+							Width="24"
+							Height="24"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							x:Load="{x:Bind FileIconVis}"
@@ -118,7 +114,6 @@
 							Text="{x:Bind RecentPath}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
-
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
