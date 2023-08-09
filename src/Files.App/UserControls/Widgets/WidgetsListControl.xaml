@@ -21,18 +21,13 @@
 		<x:Double x:Key="ExpanderHeaderInnerHeight">32</x:Double>
 
 		<!--  Custom Expander Style With Disabled Up/down Animations  -->
-		<Style x:Key="Local.NoUpDownAnimationExpanderStyle" TargetType="Expander">
-			<Setter Property="IsTabStop" Value="False" />
-			<Setter Property="Background" Value="{ThemeResource ExpanderContentBackground}" />
+		<Style
+			x:Key="NoUpDownAnimationExpanderStyle"
+			BasedOn="{StaticResource DefaultExpanderStyle}"
+			TargetType="Expander">
 			<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-			<Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
-			<Setter Property="MinHeight" Value="{StaticResource ExpanderMinHeight}" />
-			<Setter Property="BorderThickness" Value="{ThemeResource ExpanderContentDownBorderThickness}" />
-			<Setter Property="BorderBrush" Value="{ThemeResource ExpanderContentBorderBrush}" />
-			<Setter Property="Padding" Value="{StaticResource ExpanderContentPadding}" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Expander">
@@ -439,7 +434,7 @@
 							HorizontalContentAlignment="Stretch"
 							AutomationProperties.Name="{x:Bind WidgetAutomationProperties, Mode=OneWay}"
 							IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
-							Style="{StaticResource Local.NoUpDownAnimationExpanderStyle}">
+							Style="{StaticResource NoUpDownAnimationExpanderStyle}">
 
 							<Expander.Header>
 								<TextBlock
