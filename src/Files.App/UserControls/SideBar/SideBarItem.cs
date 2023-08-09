@@ -97,7 +97,10 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			ChildrenPresenterHeight = e.NewSize.Height;
+			if(e.NewSize.Height > 1)
+			{
+				ChildrenPresenterHeight = e.NewSize.Height;
+			}
 		}
 
 		private void HookupOwners()
