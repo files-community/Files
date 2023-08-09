@@ -224,7 +224,7 @@ namespace Files.App.UserControls.Sidebar
 					{
 						(args.Element as SidebarItem)!.IsSelected = false;
 					}
-					item.UpdateIcon();
+					item.HandleItemChange();
 				}
 			}
 		}
