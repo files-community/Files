@@ -14,7 +14,10 @@
 	<x:Double x:Key="SidebarNegativeCompactOpenPaneLength">-56</x:Double>
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
-		<local:SidebarItem AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}" Item="{Binding}" IsExpanded="{Binding IsExpanded, Mode=TwoWay}"/>
+		<local:SidebarItem
+			AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+			Item="{Binding}" />
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">
@@ -84,17 +87,19 @@
 							<TextBlock
 								x:Name="ItemNameTextBlock"
 								Grid.Column="1"
+								Margin="0,0,0,2"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
+								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay}" />
 
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
-								Margin="0,0,8,0"
 								Width="{StaticResource ExpanderChevronGlyphSize}"
 								Height="{StaticResource ExpanderChevronGlyphSize}"
+								Margin="0,0,8,0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								AnimatedIcon.State="NormalOff"
