@@ -470,7 +470,7 @@
 							x:Name="MenuFlyout"
 							Width="36"
 							Height="32"
-							Margin="0,8,0,0"
+							Margin="0,8,16,0"
 							Padding="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
