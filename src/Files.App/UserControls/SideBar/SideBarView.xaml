@@ -57,7 +57,7 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,2,2"
+					Padding="2,8,0,2"
 					HorizontalScrollMode="Disabled"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
