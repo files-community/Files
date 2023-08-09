@@ -445,12 +445,11 @@
 							<Expander.Header>
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource BodyStrongTextBlockStyle}"
+									Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 									Text="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" />
 							</Expander.Header>
 
 							<ContentControl
-								Margin="0,4,0,0"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="Stretch"
 								Content="{x:Bind WidgetControl, Mode=OneWay}" />
@@ -471,7 +470,7 @@
 							x:Name="MenuFlyout"
 							Width="36"
 							Height="32"
-							Margin="0,8,50,0"
+							Margin="0,8,0,0"
 							Padding="0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
