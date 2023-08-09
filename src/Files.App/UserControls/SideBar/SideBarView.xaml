@@ -57,7 +57,7 @@
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
 					x:Name="MenuItemHostScrollViewer"
-					Padding="2,8,4,2"
+					Padding="2,8,2,2"
 					HorizontalScrollMode="Disabled"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
@@ -65,9 +65,9 @@
 						Margin="0,0,0,16"
 						AutomationProperties.AccessibilityView="Content"
 						AutomationProperties.Name="Sidebar pane"
+						ElementPrepared="MenuItemsHost_ElementPrepared"
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-						ElementPrepared="MenuItemsHost_ElementPrepared"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled">
