@@ -123,7 +123,7 @@ namespace Files.App.Services.Settings
 
 		public double SizeColumnWidth
 		{
-			get => Get(140d);
+			get => Get(100d);
 			set
 			{
 				if (ShowSizeColumn)
