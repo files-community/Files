@@ -23,6 +23,14 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty InnerContentProperty =
 			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
+		public UIElement Footer
+		{
+			get { return (UIElement)GetValue(FooterProperty); }
+			set { SetValue(FooterProperty, value); }
+		}
+		public static readonly DependencyProperty FooterProperty =
+			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
 		public bool IsPaneOpen
 		{
 			get { return (bool)GetValue(IsPaneOpenProperty); }

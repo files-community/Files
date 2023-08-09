@@ -50,6 +50,11 @@
 			ContextRequested="PaneColumnGrid_ContextRequested"
 			XYFocusKeyboardNavigation="Enabled">
 
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
 			<Grid.RenderTransform>
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
@@ -65,9 +70,9 @@
 						Margin="0,0,0,16"
 						AutomationProperties.AccessibilityView="Content"
 						AutomationProperties.Name="Sidebar pane"
+						ElementPrepared="MenuItemsHost_ElementPrepared"
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-						ElementPrepared="MenuItemsHost_ElementPrepared"
 						ItemsSource="{x:Bind ViewModel.SidebarItems, Mode=OneWay}"
 						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled">
@@ -77,6 +82,14 @@
 					</ItemsRepeater>
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
+
+			<ContentPresenter
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				Content="{x:Bind Footer, Mode=OneWay}" />
 		</Grid>
 
 		<Border
