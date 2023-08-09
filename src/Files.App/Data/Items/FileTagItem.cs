@@ -22,7 +22,6 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				OnPropertyChanged(nameof(IconSource));
 				OnPropertyChanged(nameof(ToolTip));
 			}
@@ -42,7 +41,7 @@ namespace Files.App.Data.Items
 
 		public TagViewModel FileTag { get; set; }
 
-		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
+		public object? Children => null;
 
 		public IconSource? IconSource
 		{

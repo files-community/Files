@@ -1,13 +1,12 @@
-﻿using Microsoft.UI.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.Sidebar
 {
-    partial class SidebarResources : ResourceDictionary
+	// Backing dictionary for Sidebar Resources to support x:Bind
+	partial class SidebarResources : ResourceDictionary
     {
     }
 }

@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.Sidebar
@@ -10,7 +13,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register("DisplayMode", typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
+			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
 		public UIElement InnerContent
 		{
@@ -18,7 +21,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(InnerContentProperty, value); }
 		}
 		public static readonly DependencyProperty InnerContentProperty =
-			DependencyProperty.Register("InnerContent", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -26,7 +29,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsPaneOpenProperty, value); }
 		}
 		public static readonly DependencyProperty IsPaneOpenProperty =
-			DependencyProperty.Register("IsPaneOpen", typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
+			DependencyProperty.Register(nameof(IsPaneOpen), typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
 
 		public double OpenPaneLength
 		{
@@ -34,13 +37,19 @@ namespace Files.App.UserControls.Sidebar
 			set
 			{
 				SetValue(OpenPaneLengthProperty, value);
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NegativeOpenPaneLength)));
+				NegativeOpenPaneLength = -value;
 			}
 		}
 		public static readonly DependencyProperty OpenPaneLengthProperty =
-			DependencyProperty.Register("OpenPaneLength", typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
+			DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
 
-		public double NegativeOpenPaneLength => -OpenPaneLength;
+		public double NegativeOpenPaneLength
+		{
+			get { return (double)GetValue(NegativeOpenPaneLengthProperty); }
+			set { SetValue(NegativeOpenPaneLengthProperty, value); }
+		}
+		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
+			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
 
 		public ISidebarViewModel ViewModel
 		{

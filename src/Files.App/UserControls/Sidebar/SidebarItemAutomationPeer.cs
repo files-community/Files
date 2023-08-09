@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.WinUI.UI;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
@@ -7,7 +10,6 @@ namespace Files.App.UserControls.Sidebar
 {
 	public class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
-		private new SidebarItem Owner { get; init; }
 		public ExpandCollapseState ExpandCollapseState
 		{
 			get
@@ -17,10 +19,10 @@ namespace Files.App.UserControls.Sidebar
 				return ExpandCollapseState.LeafNode;
 			}
 		}
-
 		public bool IsSelected => Owner.IsSelected;
-
 		public IRawElementProviderSimple SelectionContainer => ProviderFromPeer(CreatePeerForElement(Owner.Owner));
+
+		private new SidebarItem Owner { get; init; }
 
 		public SidebarItemAutomationPeer(SidebarItem owner) : base(owner)
 		{
@@ -97,20 +99,20 @@ namespace Files.App.UserControls.Sidebar
 
 		protected override int GetPositionInSetCore()
 		{
-			return GetOwnerCollection().IndexOf((INavigationControlItem)Owner.DataContext) + 1;
+			return GetOwnerCollection().IndexOf(Owner.DataContext) + 1;
 		}
 
-		private IList<INavigationControlItem> GetOwnerCollection()
+		private IList GetOwnerCollection()
 		{
-			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent)
+			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
 			{
-				return parent.Item!.ChildItems!;
+				return list;
 			}
-			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList<INavigationControlItem> items)
+			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
 			{
 				return items;
 			}
-			return new List<INavigationControlItem>();
+			return new List<object>();
 		}
 	}
 }

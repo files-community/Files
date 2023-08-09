@@ -16,17 +16,7 @@ namespace Files.App.UserControls.Sidebar
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
 
-		private double preManipulationSidebarWidth = 0;
-
 		private const double COMPACT_MAX_WIDTH = 200;
-
-		internal SidebarItem? SelectedItemContainer = null;
-
-		/// <summary>
-		/// True if the user is currently resizing the Sidebar
-		/// </summary>
-		private bool draggingSidebarResizer;
-
 
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
@@ -34,9 +24,49 @@ namespace Files.App.UserControls.Sidebar
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
+		internal SidebarItem? SelectedItemContainer = null;
+
+		private bool draggingSidebarResizer;
+		private double preManipulationSidebarWidth = 0;
+
 		public SidebarView()
 		{
 			InitializeComponent();
+		}
+
+		internal void UpdateSelectedItemContainer(SidebarItem container)
+		{
+			SelectedItemContainer = container;
+		}
+
+		internal void RaiseItemInvoked(SidebarItem item)
+		{
+			// Only leaves can be selected
+			if (item.Item is null || item.HasChildren) return;
+
+			SelectedItem = item.Item;
+			ItemInvoked?.Invoke(item, item.Item);
+			ViewModel.HandleItemInvoked(item.Item);
+		}
+
+		internal void RaiseContextRequested(SidebarItem item, Point e)
+		{
+			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
+			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
+		}
+
+		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		{
+			if (sideBarItem.Item is null) return;
+			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+		}
+
+		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		{
+			if (sideBarItem.Item is null) return;
+			ItemDragOver?.Invoke(sideBarItem, new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDragOver(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
 		private void UpdateMinimalMode()
@@ -86,41 +116,6 @@ namespace Files.App.UserControls.Sidebar
 		private void UpdateOpenPaneLengthColumn()
 		{
 			DisplayColumn.Width = new GridLength(OpenPaneLength);
-		}
-
-		internal void UpdateSelectedItemContainer(SidebarItem container)
-		{
-			SelectedItemContainer = container;
-		}
-
-		internal void RaiseItemInvoked(SidebarItem item)
-		{
-			// Only leaves can be selected
-			if (item.Item is null || item.HasChildren) return;
-
-			SelectedItem = item.Item;
-			ItemInvoked?.Invoke(item, item.Item);
-			ViewModel.HandleItemInvoked(item.Item);
-		}
-
-		internal void RaiseContextRequested(SidebarItem item, Point e)
-		{
-			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
-			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
-		}
-
-		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
-		{
-			if (sideBarItem.Item is null) return;
-			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-		}
-
-		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
-		{
-			if (sideBarItem.Item is null) return;
-			ItemDragOver?.Invoke(sideBarItem, new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-			ViewModel.HandleItemDragOver(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)

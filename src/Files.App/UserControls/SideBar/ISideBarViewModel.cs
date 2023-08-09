@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
@@ -10,14 +13,14 @@ namespace Files.App.UserControls.Sidebar
 
 	public interface ISidebarViewModel
 	{
-		public object SidebarItems { get; }
+		object SidebarItems { get; }
 
-		public void HandleItemDropped(ItemDroppedEventArgs args);
+		void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args);
 
-		public void HandleItemDragOver(ItemDragOverEventArgs args);
+		void HandleItemDragOver(ItemDragOverEventArgs args);
 
-		public void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args);
+		void HandleItemDropped(ItemDroppedEventArgs args);
 
-		public void HandleItemInvoked(object item);
+		void HandleItemInvoked(object item);
 	}
 }

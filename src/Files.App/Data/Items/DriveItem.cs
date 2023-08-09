@@ -24,7 +24,6 @@ namespace Files.App.Data.Items
 			get => icon;
 			set
 			{
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Loaded icon for {Path}");
 				SetProperty(ref icon, value, nameof(Icon));
 				OnPropertyChanged(nameof(IconSource));
 			}
@@ -178,7 +177,7 @@ namespace Files.App.Data.Items
 
 		public string Name => Root.DisplayName;
 
-		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems => null;
+		public object? Children => null;
 
 		private object toolTip = "";
 		public object ToolTip

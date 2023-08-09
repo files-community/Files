@@ -1,20 +1,17 @@
-﻿using Microsoft.UI.Xaml.Automation.Peers;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.App.UserControls.Sidebar
 {
 	class SidebarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
 	{
-		private new SidebarView Owner { get; init; }
-
 		public bool CanSelectMultiple => false;
-
 		public bool IsSelectionRequired => true;
+
+		private new SidebarView Owner { get; init; }
 
 		public SidebarViewAutomationPeer(SidebarView owner) : base(owner)
 		{
@@ -37,7 +34,7 @@ namespace Files.App.UserControls.Sidebar
 				{
 				ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
 				};
-			return new IRawElementProviderSimple[] { };
+			return Array.Empty<IRawElementProviderSimple>();
 		}
 	}
 }

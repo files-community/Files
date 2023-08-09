@@ -8,21 +8,23 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls.Sidebar
 {
 	public sealed partial class SidebarItem : Control
 	{
+		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+
+		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
+		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
+
+		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
 		private object? selectedChildItem = null;
-
-		public bool HasChildren => Item?.ChildItems is not null && Item.ChildItems.Count > 0;
-		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
-		private bool HasChildSelection => selectedChildItem != null;
-		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 		private ItemsRepeater? childrenRepeater;
-
 		private ISidebarItemModel? lastSubscriber;
 
 		public SidebarItem()
@@ -125,26 +127,22 @@ namespace Files.App.UserControls.Sidebar
 			if (lastSubscriber != null)
 			{
 				lastSubscriber.PropertyChanged -= ItemPropertyChangedHandler;
-				if (lastSubscriber.ChildItems is not null)
-					lastSubscriber.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {lastSubscriber.Text}");
+				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
+					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 
 			if (oldItem != null)
 			{
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** UN-Subscribed to property changed for {oldItem.Text}");
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
-				if (oldItem.ChildItems is not null)
-					oldItem.ChildItems.CollectionChanged -= ChildItems_CollectionChanged;
+				if (oldItem.Children is INotifyCollectionChanged observableCollection)
+					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 			if (newItem != null)
 			{
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Subscribed to property changed for {newItem.Text}");
-
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
 				lastSubscriber = newItem;
-				if (newItem.ChildItems is not null)
-					newItem.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
+				if (newItem.Children is INotifyCollectionChanged observableCollection)
+					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
 			}
 			UpdateIcon();
 		}
@@ -156,7 +154,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
-			if (Item?.ChildItems is null) return;
+			if (Item?.Children is null) return;
 
 			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
 			if (isOpen)
@@ -179,7 +177,6 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (args.PropertyName == nameof(ISidebarItemModel.IconSource))
 			{
-				Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Icon changed for {Item?.Text}");
 				UpdateIcon();
 			}
 		}
@@ -194,7 +191,7 @@ namespace Files.App.UserControls.Sidebar
 					Owner?.UpdateSelectedItemContainer(this);
 				}
 			}
-			else if (Item?.ChildItems is IList list)
+			else if (Item?.Children is IList list)
 			{
 				if (list.Contains(Owner?.SelectedItem))
 				{
@@ -213,7 +210,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (args.Element is SidebarItem item)
 			{
-				if (Item?.ChildItems is IList enumerable)
+				if (Item?.Children is IList enumerable)
 				{
 					var newElement = enumerable[args.Index];
 					if (newElement == selectedChildItem)
@@ -286,7 +283,6 @@ namespace Files.App.UserControls.Sidebar
 			Icon = Item?.IconSource?.CreateIconElement();
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
-			Debug.WriteLine($"[{System.DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}] ** ** ** Updated icon for {Item?.Text} with icon being {(Icon != null ? "not null" : "null")}");
 		}
 
 		private bool ShouldShowSelectionIndicator()
@@ -297,7 +293,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 			else
 			{
-				return IsSelected || HasChildSelection;
+				return IsSelected || hasChildSelection;
 			}
 		}
 

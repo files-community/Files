@@ -1,16 +1,20 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.Sidebar
 {
 	public interface ISidebarItemModel : INotifyPropertyChanged
 	{
-		public string Text { get; }
+		object? Children { get; }
 
-		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; }
+		IconSource? IconSource { get; }
 
-		public IconSource? IconSource { get; }
+		bool IsExpanded { get; set; }
 
-		public object ToolTip { get; }
-		public bool IsExpanded { get; set; }
+		string Text { get; }
+
+		object ToolTip { get; }
 	}
 }
