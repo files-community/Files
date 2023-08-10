@@ -353,10 +353,7 @@
 										<Setter Target="ElementGrid.BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
 									</VisualState.Setters>
 								</VisualState>
-							</VisualStateGroup>
 
-							<VisualStateGroup x:Name="DragTargetStates">
-								<VisualState x:Name="NoDrag" />
 								<VisualState x:Name="DragInsertAbove">
 									<VisualState.Setters>
 										<Setter Target="DragTargetIndicator.Visibility" Value="Visible" />

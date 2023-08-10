@@ -19,6 +19,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
+using Files.App.Data.Items;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -661,30 +662,6 @@ namespace Files.App.ViewModels.UserControls
 			};
 		}
 
-		public async void HandleItemDropped(ItemDroppedEventArgs args)
-		{
-			if (args.DropTarget is not LocationItem locationItem) return;
-
-			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
-			{
-				var deferral = args.RawEvent.GetDeferral();
-				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section)) // Pin to Favorites section
-				{
-					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
-					foreach (var item in storageItems)
-					{
-						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							QuickAccessService.PinToSidebar(item.Path);
-					}
-				}
-				else
-				{
-					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
-				}
-				deferral.Complete();
-			}
-		}
-
 		public async void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
 
 		{
@@ -1070,8 +1047,22 @@ namespace Files.App.ViewModels.UserControls
 
 		public async void HandleItemDragOver(ItemDragOverEventArgs args)
 		{
-			if (args.DropTarget is not LocationItem locationItem) return;
+			if (args.DropTarget is LocationItem locationItem)
+			{
+				HandleLocationItemDragOver(locationItem, args);
+			}
+			else if (args.DropTarget is DriveItem driveItem)
+			{
+				HandleDriveItemDragOver(driveItem, args);
+			}
+			else if (args.DropTarget is FileTagItem fileTagItem)
+			{
+				HandleTagItemDragOver(fileTagItem, args);
+			}
+		}
 
+		private async void HandleLocationItemDragOver(LocationItem locationItem, ItemDragOverEventArgs args)
+		{
 			var rawEvent = args.RawEvent;
 			var deferral = rawEvent.GetDeferral();
 
@@ -1152,6 +1143,153 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			deferral.Complete();
+		}
+
+		private async void HandleDriveItemDragOver(DriveItem driveItem, ItemDragOverEventArgs args)
+		{
+			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
+				return;
+
+			var deferral = args.RawEvent.GetDeferral();
+			args.RawEvent.Handled = true;
+
+			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+			var hasStorageItems = storageItems.Any();
+
+			if ("Unknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
+			{
+				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			}
+			else if (!hasStorageItems)
+			{
+				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			}
+			else
+			{
+				string captionText;
+				DataPackageOperation operationType;
+				if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+				{
+					captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Link;
+				}
+				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Control))
+				{
+					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Copy;
+				}
+				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
+				{
+					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Move;
+				}
+				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
+				{
+					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Move;
+				}
+				else
+				{
+					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					operationType = DataPackageOperation.Copy;
+				}
+				CompleteDragEventArgs(args.RawEvent, captionText, operationType);
+			}
+
+			deferral.Complete();
+		}
+
+		private async void HandleTagItemDragOver(FileTagItem tagItem, ItemDragOverEventArgs args)
+		{
+			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
+				return;
+
+			var deferral = args.RawEvent.GetDeferral();
+			args.RawEvent.Handled = true;
+
+			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+
+			if (!storageItems.Any())
+			{
+				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			}
+			else
+			{
+				args.RawEvent.DragUIOverride.IsCaptionVisible = true;
+				args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
+				args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
+			}
+
+			deferral.Complete();
+		}
+
+
+		public async void HandleItemDropped(ItemDroppedEventArgs args)
+		{
+			if (args.DropTarget is LocationItem locationItem)
+			{
+				HandleLocationItemDropped(locationItem, args);
+			}
+			else if (args.DropTarget is DriveItem driveItem)
+			{
+				HandleDriveItemDropped(driveItem, args);
+			}
+			else if (args.DropTarget is FileTagItem fileTagItem)
+			{
+				HandleTagItemDropped(fileTagItem, args);
+			}
+		}
+
+		private async void HandleLocationItemDropped(LocationItem locationItem, ItemDroppedEventArgs args)
+		{
+			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
+			{
+				var deferral = args.RawEvent.GetDeferral();
+				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Favorites.Equals(locationItem.Section)) // Pin to Favorites section
+				{
+					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+					foreach (var item in storageItems)
+					{
+						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
+							QuickAccessService.PinToSidebar(item.Path);
+					}
+				}
+				else
+				{
+					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
+				}
+				deferral.Complete();
+			}
+		}
+
+		private async void HandleDriveItemDropped(DriveItem driveItem, ItemDroppedEventArgs args)
+		{
+			var deferral = args.RawEvent.GetDeferral();
+
+			await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
+
+			deferral.Complete();
+			await Task.Yield();
+		}
+
+		private async void HandleTagItemDropped(FileTagItem fileTagItem, ItemDroppedEventArgs args)
+		{
+			var deferral = args.RawEvent.GetDeferral();
+
+			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
+			{
+				var listedItem = new ListedItem(null)
+				{
+					ItemPath = item.Path,
+					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),
+					FileTags = new[] { fileTagItem.FileTag.Uid }
+				};
+			}
+
+			deferral.Complete();
+			await Task.Yield();
 		}
 
 		private static DragEventArgs CompleteDragEventArgs(DragEventArgs e, string captionText, DataPackageOperation operationType)

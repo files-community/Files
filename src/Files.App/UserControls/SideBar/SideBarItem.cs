@@ -406,12 +406,12 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ItemGrid_DragLeave(object sender, DragEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "NoDrag", true);
+			UpdatePointerState();
 		}
 
 		private void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
-			VisualStateManager.GoToState(this, "NoDrag", true);
+			UpdatePointerState();
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
