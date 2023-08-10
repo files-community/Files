@@ -142,11 +142,11 @@
 		BorderThickness="0,0,0,1">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="2*" MinHeight="100" />
+			<RowDefinition Height="2*" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*" MinWidth="100" />
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition x:Name="PropertiesColumn" Width="3*" />
 		</Grid.ColumnDefinitions>
 
