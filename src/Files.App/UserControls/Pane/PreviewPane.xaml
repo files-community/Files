@@ -138,7 +138,7 @@
 
 	<Grid
 		HorizontalAlignment="Stretch"
-		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 		BorderThickness="0,0,0,1">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -160,7 +160,7 @@
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			Background="{ThemeResource SubtleFillColorTertiaryBrush}"
-			BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4"
 			Orientation="Horizontal">
