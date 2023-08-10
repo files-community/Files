@@ -131,7 +131,7 @@
 			HorizontalAlignment="Stretch"
 			Background="{ThemeResource App.Theme.FileArea.BackgroundBrush}"
 			BackgroundSizing="InnerBorderEdge"
-			BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="1,1,0,0"
 			CornerRadius="8,0,0,0">
 			<Border
