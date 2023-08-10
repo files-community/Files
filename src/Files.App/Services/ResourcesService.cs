@@ -45,10 +45,12 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetCompactSpacing(bool useCompactSpacing)
 		{
-			var listItemHeight = useCompactSpacing ? 24 : 36;
+			var listItemHeight = useCompactSpacing ? 28 : 36;
+			var listItemMargin = useCompactSpacing ? "-2" : "0";
 			var navigationViewItemOnLeftMinHeight = useCompactSpacing ? 20 : 32;
 
 			Application.Current.Resources["ListItemHeight"] = listItemHeight;
+			Application.Current.Resources["ListItemMargin"] = listItemMargin;
 			Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = navigationViewItemOnLeftMinHeight;
 		}
 

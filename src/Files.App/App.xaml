@@ -10,6 +10,9 @@
 			<!--  Default list view item height  -->
 			<x:Double x:Key="ListItemHeight">36</x:Double>
 
+			<!--  Default list view item margin  -->
+			<x:Double x:Key="ListItemMargin">0</x:Double>
+
 			<!--  Default nav menu item height  -->
 			<x:Double x:Key="NavigationViewItemOnLeftMinHeight">32</x:Double>
 
@@ -28,7 +31,12 @@
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
+
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
+
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">

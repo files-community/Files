@@ -66,7 +66,8 @@ namespace Files.App.Views.Shells
 					NavPathParam = ColumnParams.NavPathParam,
 					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
-					AssociatedTabInstance = this
+					AssociatedTabInstance = this,
+					SelectItems = ColumnParams.SelectItems
 				});
 		}
 

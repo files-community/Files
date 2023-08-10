@@ -3,15 +3,23 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Views.Properties
 {
 	public sealed partial class DetailsPage : BasePropertiesPage
 	{
+		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+
 		public DetailsPage()
 		{
 			InitializeComponent();
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			_updateDateDisplayTimer.Start();
 		}
 
 		protected override async void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -69,8 +77,18 @@ namespace Files.App.Views.Properties
 			}
 		}
 
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			ViewModel.PropertySections.ForEach(section => section.ForEach(property =>
+			{
+				if (property.Value is DateTimeOffset)
+					property.UpdateValueText();
+			}));
+		}
+
 		public override void Dispose()
 		{
+			_updateDateDisplayTimer.Stop();
 		}
 	}
 }
