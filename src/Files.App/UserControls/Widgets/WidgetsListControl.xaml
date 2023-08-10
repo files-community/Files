@@ -218,7 +218,9 @@
 									Width="32"
 									Height="32">
 									<AnimatedIcon
-										x:Name="ExpandCollapseChevron" Height="12" Width="12"
+										x:Name="ExpandCollapseChevron"
+										Width="12"
+										Height="12"
 										AnimatedIcon.State="NormalOff"
 										AutomationProperties.AccessibilityView="Raw"
 										Foreground="{ThemeResource TextFillColorSecondary}"
