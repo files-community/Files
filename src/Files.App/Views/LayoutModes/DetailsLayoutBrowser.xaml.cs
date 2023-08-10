@@ -72,9 +72,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems.Any())
+			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -205,7 +206,6 @@ namespace Files.App.Views.LayoutModes
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			// Show original path and date deleted columns in Recycle Bin
 			if (e.IsTypeRecycleBin)
 			{
 				ColumnsViewModel.OriginalPathColumn.Show();
@@ -217,14 +217,12 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.DateDeletedColumn.Hide();
 			}
 
-			// Show cloud drive item status column
 			if (e.IsTypeCloudDrive)
 				ColumnsViewModel.StatusColumn.Show();
 			else
 				ColumnsViewModel.StatusColumn.Hide();
 
-			// Show git columns in git repository
-			if (e.IsTypeGitRepository)
+			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
 			{
 				ColumnsViewModel.GitCommitAuthorColumn.Show();
 				ColumnsViewModel.GitLastCommitDateColumn.Show();
@@ -241,7 +239,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitStatusColumn.Hide();
 			}
 
-			// Show path columns in git repository
 			if (e.IsTypeSearchResults)
 				ColumnsViewModel.PathColumn.Show();
 			else
@@ -878,6 +875,13 @@ namespace Files.App.Views.LayoutModes
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			// Fixes an issue where clicking an empty space would scroll to the top of the file list
+			if (args.NewFocusedElement == FileList)
+				args.TryCancel();
 		}
 	}
 }

@@ -474,6 +474,13 @@ namespace Files.App.Views.LayoutModes
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
 
+		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+				// Reassign values to update date display
+				ToolTipService.SetToolTip(element, item.ItemTooltipText);
+		}
+
 		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			var parent = this.FindAscendant<ModernShellPage>();

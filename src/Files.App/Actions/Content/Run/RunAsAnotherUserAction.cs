@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-
 namespace Files.App.Actions
 {
 	internal class RunAsAnotherUserAction : ObservableObject, IAction
@@ -11,7 +9,9 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
-			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
+			(FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension) ||
+			(context.SelectedItem is ShortcutItem shortcut &&
+			shortcut.IsExecutable));
 
 		public string Label
 			=> "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource();

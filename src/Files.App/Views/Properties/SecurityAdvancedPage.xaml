@@ -109,7 +109,7 @@
 					VerticalAlignment="Center"
 					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
-					Style="{StaticResource BodyTextBlockStyle}"
+					Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 					ToolTipService.ToolTip="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanized, Mode=OneWay}">
 					<Run Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.DisplayName, Mode=OneWay}" />
 					<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.FullNameHumanizedWithBrackes, Mode=OneWay}" />
@@ -121,7 +121,7 @@
 					VerticalAlignment="Center"
 					x:Load="{x:Bind SecurityAdvancedViewModel.AccessControlList.Owner.IsValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					IsTextSelectionEnabled="True"
-					Style="{StaticResource BodyTextBlockStyle}"
+					Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 					Text="{helpers:ResourceString Name=UnableToDisplayOwner}" />
 
 				<!--  Change Owner  -->
@@ -236,13 +236,6 @@
 					<behaviors:StickyHeaderBehavior />
 				</i:Interaction.Behaviors>
 
-				<ListView.ItemContainerStyle>
-					<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-						<Setter Property="MinHeight" Value="1" />
-						<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
-					</Style>
-				</ListView.ItemContainerStyle>
-
 				<ListView.Header>
 					<Grid
 						x:Name="HeaderGrid"
@@ -281,7 +274,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
-							Style="{StaticResource CaptionTextBlockStyle}"
+							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Type}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
@@ -297,7 +290,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
-							Style="{StaticResource CaptionTextBlockStyle}"
+							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Principal}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
@@ -313,7 +306,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
-							Style="{StaticResource CaptionTextBlockStyle}"
+							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Access}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
@@ -329,7 +322,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
-							Style="{StaticResource CaptionTextBlockStyle}"
+							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 							Text="{helpers:ResourceString Name=Inherited}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
@@ -345,7 +338,7 @@
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center"
 							Foreground="{ThemeResource TextFillColorSecondary}"
-							Style="{StaticResource CaptionTextBlockStyle}"
+							Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 							Text="{helpers:ResourceString Name=SecurityAdvancedAppliesTo}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />

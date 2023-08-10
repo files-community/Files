@@ -18,6 +18,20 @@ namespace Files.App.Data.Commands
 		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
+		public IRichCommand this[string code]
+		{
+			get
+			{
+				try
+				{
+					return commands[Enum.Parse<CommandCodes>(code, true)];
+				}
+				catch
+				{
+					return None;
+				}
+			}
+		}
 		public IRichCommand this[HotKey hotKey]
 			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
 			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
@@ -91,6 +105,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
+		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -252,6 +267,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
+			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),

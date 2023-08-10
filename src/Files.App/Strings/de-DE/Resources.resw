@@ -175,7 +175,7 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Pfad eingeben</value>
+    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
@@ -3403,5 +3403,30 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Alle markierten Elemente öffnen</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Laufwerk ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Ungültiger Befehl</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' wird nicht als Befehl erkannt.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Befehl ist nicht ausführbar</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Der '{0}' Befehl ist nicht für die Ausführung bereit.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Befehlspalette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Befehlspalette öffnen</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Beginnt in:</value>
   </data>
 </root>

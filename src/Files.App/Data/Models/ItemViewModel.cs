@@ -90,6 +90,8 @@ namespace Files.App.Data.Models
 
 		public string? GitDirectory { get; private set; }
 
+		public bool IsValidGitDirectory { get; private set; }
+
 		private StorageFolderWithPath? currentStorageFolder;
 		private StorageFolderWithPath workingRoot;
 
@@ -139,6 +141,7 @@ namespace Files.App.Data.Models
 			}
 
 			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
@@ -381,6 +384,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
+		public bool HasNoWatcher { get; private set; }
+
 		public ItemViewModel(FolderSettingsViewModel folderSettingsViewModel)
 		{
 			folderSettings = folderSettingsViewModel;
@@ -611,6 +616,7 @@ namespace Files.App.Data.Models
 
 					return;
 				}
+				var filesAndFoldersLocal = filesAndFolders.ToList();
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
@@ -638,19 +644,19 @@ namespace Files.App.Data.Models
 						}
 					}
 
-					for (var i = 0; i < filesAndFolders.Count; i++)
+					for (var i = 0; i < filesAndFoldersLocal.Count; i++)
 					{
 						if (addFilesCTS.IsCancellationRequested)
 							return;
 
 						if (i < FilesAndFolders.Count)
 						{
-							if (FilesAndFolders[i] != filesAndFolders[i])
+							if (FilesAndFolders[i] != filesAndFoldersLocal[i])
 							{
 								if (startIndex == -1)
 									startIndex = i;
 
-								tempList.Add(filesAndFolders[i]);
+								tempList.Add(filesAndFoldersLocal[i]);
 							}
 							else
 							{
@@ -660,7 +666,7 @@ namespace Files.App.Data.Models
 						else
 						{
 							ApplyBulkInsertEntries();
-							FilesAndFolders.InsertRange(i, filesAndFolders.ToList().Skip(i));
+							FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
 
 							break;
 						}
@@ -668,8 +674,8 @@ namespace Files.App.Data.Models
 
 					ApplyBulkInsertEntries();
 
-					if (FilesAndFolders.Count > filesAndFolders.Count)
-						FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
+					if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
+						FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
 
 					if (folderSettings.DirectoryGroupOption != GroupOption.None)
 						OrderGroups();
@@ -1376,13 +1382,16 @@ namespace Files.App.Data.Models
 				case 0:
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					var syncStatus = await CheckCloudDriveSyncStatusAsync(currentStorageFolder?.Item);
+
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs()
 					{
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
-						IsTypeGitRepository = GitDirectory is not null
+						IsTypeGitRepository = IsValidGitDirectory
 					});
-					WatchForDirectoryChanges(path, syncStatus);
-					if (GitDirectory is not null)
+          
+					if (!HasNoWatcher)
+						WatchForDirectoryChanges(path, syncStatus);
+					if (IsValidGitDirectory)
 						WatchForGitChanges();
 					break;
 
@@ -1390,13 +1399,15 @@ namespace Files.App.Data.Models
 				case 1:
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
-					WatchForStorageFolderChanges(currentStorageFolder?.Item);
+					if (!HasNoWatcher)
+						WatchForStorageFolderChanges(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
 				case 2:
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false });
-					WatchForWin32FolderChanges(path);
+					if (!HasNoWatcher)
+						WatchForWin32FolderChanges(path);
 					break;
 
 				// Enumeration failed
@@ -1429,14 +1440,16 @@ namespace Files.App.Data.Models
 			watcherCTS = new CancellationTokenSource();
 		}
 
-		public async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
+		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
 			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
+			bool isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
+			bool isShellFolder = path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
 			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
-				!path.StartsWith(@"\\?\", StringComparison.Ordinal) &&
-				!path.StartsWith(@"\\SHELL\", StringComparison.Ordinal) &&
+				!isMtp &&
+				!isShellFolder &&
 				!isWslDistro;
 			bool isFtp = FtpHelpers.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
@@ -1506,6 +1519,8 @@ namespace Files.App.Data.Models
 				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
 					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
 			}
+
+			HasNoWatcher = isFtp || isWslDistro || isMtp || currentStorageFolder?.Item is ZipStorageFolder;
 
 			if (enumFromStorageFolder)
 			{
@@ -1624,9 +1639,9 @@ namespace Files.App.Data.Models
 
 						filesAndFolders.AddRange(fileList);
 
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
 					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
@@ -1674,16 +1689,9 @@ namespace Files.App.Data.Models
 
 		private void CheckForSolutionFile()
 		{
-			for (int i = 0; i < filesAndFolders.Count; i++)
-			{
-				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
-				{
-					SolutionFilePath = filesAndFolders[i].ItemPath;
-					return;
-				}
-			}
-
-			SolutionFilePath = null;
+			SolutionFilePath = filesAndFolders.ToList().AsParallel()
+				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
+				.FirstOrDefault()?.ItemPath;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
@@ -2203,9 +2211,9 @@ namespace Files.App.Data.Models
 
 			// FILE_ATTRIBUTE_DIRECTORY
 			if ((findData.dwFileAttributes & 0x10) > 0)
-				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
 			else
-				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, GitDirectory is not null, addFilesCTS.Token);
+				listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, IsValidGitDirectory, addFilesCTS.Token);
 
 			await AddFileOrFolderAsync(listedItem);
 
@@ -2374,6 +2382,26 @@ namespace Files.App.Data.Models
 		{
 			searchCTS?.Cancel();
 		}
+
+		public void UpdateDateDisplay(bool isFormatChange)
+		{
+			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			{
+				// Reassign values to update date display
+				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
+				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
+				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
+				if (item is GitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
+					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
+			});
+		}
+
+		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;
 
 		public void Dispose()
 		{
