@@ -20,7 +20,7 @@
 		<x:Double x:Key="ExpanderChevronButtonSize">16</x:Double>
 		<Thickness x:Key="ExpanderHeaderPadding">0,0,0,0</Thickness>
 		<Thickness x:Key="ExpanderHeaderInnerMargin">16,0,16,0</Thickness>
-		<Thickness x:Key="ExpanderHeaderInnerPadding">8,0,8,0</Thickness>
+		<Thickness x:Key="ExpanderHeaderInnerPadding">0,0,12,0</Thickness>
 		<x:Double x:Key="ExpanderHeaderInnerHeight">32</x:Double>
 
 		<Style x:Key="NoUpDownAnimationExpanderStyle" TargetType="Expander">
@@ -46,7 +46,7 @@
 
 							<ToggleButton
 								x:Name="ExpanderHeader"
-								MinHeight="44"
+								MinHeight="{TemplateBinding MinHeight}"
 								Padding="{StaticResource ExpanderHeaderPadding}"
 								HorizontalAlignment="Stretch"
 								HorizontalContentAlignment="{StaticResource ExpanderHeaderHorizontalContentAlignment}"
@@ -201,7 +201,7 @@
 								Background="{ThemeResource ExpanderChevronBackground}"
 								BorderBrush="{ThemeResource ExpanderChevronBorderBrush}"
 								BorderThickness="{ThemeResource ExpanderChevronBorderThickness}"
-								ColumnSpacing="8"
+								ColumnSpacing="4"
 								CornerRadius="{StaticResource ControlCornerRadius}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
@@ -215,13 +215,13 @@
 								<Border
 									x:Name="ExpandCollapseChevronBorder"
 									Grid.Column="0"
-									Width="{StaticResource ExpanderChevronGlyphSize}"
-									Height="{StaticResource ExpanderChevronGlyphSize}">
+									Width="32"
+									Height="32">
 									<AnimatedIcon
-										x:Name="ExpandCollapseChevron"
+										x:Name="ExpandCollapseChevron" Height="12" Width="12"
 										AnimatedIcon.State="NormalOff"
 										AutomationProperties.AccessibilityView="Raw"
-										Foreground="{ThemeResource ExpanderChevronForeground}"
+										Foreground="{ThemeResource TextFillColorSecondary}"
 										RenderTransformOrigin="0.5, 0.5">
 										<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
 										<AnimatedIcon.FallbackIconSource>
@@ -261,7 +261,7 @@
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronBackground}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronForeground}" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondary}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualState>
@@ -331,7 +331,7 @@
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronBackground}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ExpandCollapseChevron" Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ExpanderChevronForeground}" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondary}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
@@ -413,12 +413,10 @@
 
 	<Border>
 		<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
-
-			<!--  Remove Reveal Highlight Effect  -->
 			<ListView.ItemContainerStyle>
 				<Style TargetType="ListViewItem">
 					<!--  Spacing  -->
-					<Setter Property="Margin" Value="4" />
+					<Setter Property="Margin" Value="0,4" />
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="ListViewItem">
@@ -444,8 +442,9 @@
 
 							<Expander.Header>
 								<TextBlock
+									FontWeight="SemiBold"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
+									Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 									Text="{x:Bind WidgetItemModel.WidgetHeader, Mode=OneWay}" />
 							</Expander.Header>
 
