@@ -45,10 +45,16 @@ namespace Files.App.Views.Properties
 				ItemFileName.Text += match.Value;
 		}
 
-		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
+		private async void DiskCleanupButton_Click(object _, RoutedEventArgs e)
 		{
 			if (BaseProperties is DriveProperties driveProps)
-				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
+				await StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
+		}
+
+		private async void FormatDiskButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (BaseProperties is DriveProperties driveProps)
+			await Win32API.OpenFormatDriveDialog(driveProps.Drive.Path);
 		}
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)

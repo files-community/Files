@@ -359,6 +359,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<!--  Space Used Progress  -->
@@ -564,6 +565,23 @@
 					Click="DiskCleanupButton_Click"
 					Content="{helpers:ResourceString Name=DiskCleanup}" />
 
+				<!--  Format Disk  -->
+				<TextBlock
+					Grid.Row="5"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
+					Margin="4,0,0,0"
+					Style="{StaticResource PropertyValueTextBlock}"
+					Text="{helpers:ResourceString Name=FormatYourDrive}" />
+
+				<Button
+					x:Name="FormatDiskButton"
+					Grid.Row="5"
+					Grid.Column="2"
+					Grid.ColumnSpan="2"
+					HorizontalAlignment="Right"
+					Click="FormatDiskButton_Click"
+					Content="{helpers:ResourceString Name=FormatDriveText}" />
 			</Grid>
 
 			<!--  Item Attributes  -->
