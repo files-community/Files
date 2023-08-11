@@ -333,8 +333,10 @@ namespace Files.App.ViewModels
 							userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
 
-						if (userSettingsService.GeneralSettingsService.LastClosedTab is string lastClosedTab)
-							BaseMultitaskingControl.PushRecentTab(new[] { TabItemArguments.Deserialize(lastClosedTab) });
+						if (!string.IsNullOrEmpty(userSettingsService.GeneralSettingsService.LastClosedTab))
+							BaseMultitaskingControl.PushRecentTab(new[] {
+								TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastClosedTab)
+							});
 					}
 					else
 					{

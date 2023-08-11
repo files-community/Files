@@ -130,7 +130,7 @@ namespace Files.App.UserControls.MultitaskingControl
 				if (RecentlyClosedTabs.TryPeek(out var result) && result.Length == 1)
 					userSettingsService.GeneralSettingsService.LastClosedTab = result[0].Serialize();
 				else
-					userSettingsService.GeneralSettingsService.LastClosedTab = null;
+					userSettingsService.GeneralSettingsService.LastClosedTab = "";
 
 				IsRestoringClosedTab = false;
 			}

@@ -69,7 +69,7 @@ namespace Files.App.Services.Settings
 
 		public string LastClosedTab
 		{
-			get => Get<string>(null);
+			get => Get("");
 			set => Set(value);
 		}
 
