@@ -1,12 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
-using Files.Core.Services.Settings;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
@@ -72,6 +67,7 @@ namespace Files.App.Services.Settings
 			// Remove session settings
 			export.Remove(nameof(GeneralSettingsService.LastSessionTabList));
 			export.Remove(nameof(GeneralSettingsService.LastCrashedTabList));
+			export.Remove(nameof(GeneralSettingsService.LastClosedTab));
 
 			return JsonSettingsSerializer.SerializeToJson(export);
 		}

@@ -1,17 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -34,6 +25,8 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
+		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
 		protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -134,6 +127,11 @@ namespace Files.App.UserControls.MultitaskingControl
 				foreach (var item in lastTab)
 					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
 
+				if (RecentlyClosedTabs.TryPeek(out var result) && result.Length == 1)
+					userSettingsService.GeneralSettingsService.LastClosedTab = result[0].Serialize();
+				else
+					userSettingsService.GeneralSettingsService.LastClosedTab = null;
+
 				IsRestoringClosedTab = false;
 			}
 		}
@@ -150,6 +148,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			RecentlyClosedTabs.Push(new TabItemArguments[] {
 					tabItem.TabItemArguments
 			});
+			userSettingsService.GeneralSettingsService.LastClosedTab = tabItem.TabItemArguments.Serialize();
 
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();
