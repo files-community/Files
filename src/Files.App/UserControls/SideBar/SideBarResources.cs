@@ -5,7 +5,9 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.UserControls.Sidebar
 {
-	// Backing dictionary for Sidebar Resources to support x:Bind
+	/// <summary>
+	/// Backing dictionary for Sidebar Resources to support x:Bind
+	/// </summary>
 	partial class SidebarResources : ResourceDictionary
     {
     }

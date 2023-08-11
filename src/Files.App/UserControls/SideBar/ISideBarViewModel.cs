@@ -13,14 +13,35 @@ namespace Files.App.UserControls.Sidebar
 
 	public interface ISidebarViewModel
 	{
+		/// <summary>
+		/// The source/list of items that will be rendered in the sidebar
+		/// </summary>
 		object SidebarItems { get; }
 
+		/// <summary>
+		/// Gets invoked when the context was requested for an item in the sidebar.
+		/// Also applies when context was requested for the pane itsself.
+		/// </summary>
+		/// <param name="sender">The sender of this event</param>
+		/// <param name="args">The <see cref="ItemContextInvokedArgs"/> for this event.</param>
 		void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args);
 
+		/// <summary>
+		/// Gets invoked when an item drags over any item of the sidebar.
+		/// </summary>
+		/// <param name="args">The <see cref="ItemDragOverEventArgs"/> for this event.</param>
 		void HandleItemDragOver(ItemDragOverEventArgs args);
 
+		/// <summary>
+		/// Gets invoked when an item is dropped on any item of the sidebar.
+		/// </summary>
+		/// <param name="args">The <see cref="ItemDroppedEventArgs"/> for this event.</param>
 		void HandleItemDropped(ItemDroppedEventArgs args);
 
+		/// <summary>
+		/// Gets invoked when an item is invoked (double clicked) on any item of the sidebar.
+		/// </summary>
+		/// <param name="item">The item that was invoked.</param>
 		void HandleItemInvoked(object item);
 	}
 }
