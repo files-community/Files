@@ -318,18 +318,25 @@ namespace Files.App.ViewModels
 						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 					}
-					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp &&
-						userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
+					else if (userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
 					{
-						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+						if (userSettingsService.GeneralSettingsService.LastSessionTabList is not null)
 						{
-							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
+							{
+								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							}
+
+							var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+
+							userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
 
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
-
-						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
+						if (!string.IsNullOrEmpty(userSettingsService.GeneralSettingsService.LastClosedTab))
+							BaseMultitaskingControl.PushRecentTab(new[] {
+								TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastClosedTab)
+							});
 					}
 					else
 					{
