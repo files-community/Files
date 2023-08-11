@@ -64,6 +64,7 @@
 					x:Name="MenuItemHostScrollViewer"
 					Padding="2,8,0,2"
 					HorizontalScrollMode="Disabled"
+					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
 						x:Name="MenuItemsHost"
