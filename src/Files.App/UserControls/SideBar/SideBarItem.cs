@@ -19,6 +19,7 @@ namespace Files.App.UserControls.Sidebar
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 
 		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
+		public bool IsGroupHeader => Item?.Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
 		private bool hasChildSelection => selectedChildItem != null;
@@ -174,6 +175,10 @@ namespace Files.App.UserControls.Sidebar
 		{
 			ReevaluateSelection();
 			UpdateExpansionState();
+			if(DisplayMode == SidebarDisplayMode.Compact && !HasChildren)
+			{
+				SetFlyoutOpen(false);
+			}
 		}
 
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
@@ -186,7 +191,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void ReevaluateSelection()
 		{
-			if (!HasChildren)
+			if (!IsGroupHeader)
 			{
 				IsSelected = Item == Owner?.SelectedItem;
 				if (IsSelected)
@@ -231,13 +236,13 @@ namespace Files.App.UserControls.Sidebar
 
 		internal void Clicked()
 		{
-			if (HasChildren)
+			if (IsGroupHeader)
 			{
 				if (CollapseEnabled)
 				{
 					IsExpanded = !IsExpanded;
 				}
-				else
+				else if(HasChildren)
 				{
 					SetFlyoutOpen(true);
 				}

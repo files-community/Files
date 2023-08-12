@@ -42,7 +42,7 @@ namespace Files.App.UserControls.Sidebar
 		internal void RaiseItemInvoked(SidebarItem item)
 		{
 			// Only leaves can be selected
-			if (item.Item is null || item.HasChildren) return;
+			if (item.Item is null || item.IsGroupHeader) return;
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, item.Item);
