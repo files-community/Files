@@ -175,6 +175,17 @@
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
 								<VisualState x:Name="NoExpansion" />
+
+								<VisualState x:Name="NoChildren">
+									<VisualState.Setters>
+										<Setter Target="IconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="IconColumn.Width" Value="8" />
+										<Setter Target="ItemNameTextBlock.FontSize" Value="12" />
+										<Setter Target="ItemNameTextBlock.FontWeight" Value="SemiBold" />
+										<Setter Target="ItemNameTextBlock.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+
 								<VisualState x:Name="Expanded">
 									<VisualState.Setters>
 										<Setter Target="ChildrenPresenter.Visibility" Value="Visible" />

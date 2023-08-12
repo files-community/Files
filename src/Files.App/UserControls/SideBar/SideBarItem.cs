@@ -319,9 +319,13 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateExpansionState(bool useAnimations = true)
 		{
-			if (!HasChildren || !CollapseEnabled)
+			if(Item?.Children is null || !CollapseEnabled)
 			{
 				VisualStateManager.GoToState(this, "NoExpansion", useAnimations);
+			}
+			else if (!HasChildren)
+			{
+				VisualStateManager.GoToState(this, "NoChildren", useAnimations);
 			}
 			else
 			{

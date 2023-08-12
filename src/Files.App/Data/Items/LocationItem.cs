@@ -57,8 +57,8 @@ namespace Files.App.Data.Items
 
 		public bool IsDefaultLocation { get; set; }
 
-		public object? Children => ChildItems;
-		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
+		public object? Children => Section == SectionType.Home ? null : ChildItems;
+		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
 		public IconSource? IconSource
 		{
 			get => new ImageIconSource()
