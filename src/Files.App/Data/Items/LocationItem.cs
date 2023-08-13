@@ -87,7 +87,7 @@ namespace Files.App.Data.Items
 		public bool IsHeader { get; set; }
 
 		private object toolTip = "";
-		public object ToolTip
+		public virtual object ToolTip
 		{
 			get => toolTip;
 			set
@@ -109,7 +109,10 @@ namespace Files.App.Data.Items
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				SpaceUsed = RecycleBinHelpers.GetSize();
+			});
 		}
 
 		private ulong spaceUsed;
@@ -118,8 +121,14 @@ namespace Files.App.Data.Items
 			get => spaceUsed;
 			set
 			{
-				SetProperty(ref spaceUsed, value);
+				if (SetProperty(ref spaceUsed, value))
+					OnPropertyChanged(nameof(ToolTip));
 			}
+		}
+
+		public override object ToolTip
+		{
+			get => SpaceUsed.ToSizeString();
 		}
 
 		public RecycleBinLocationItem()
