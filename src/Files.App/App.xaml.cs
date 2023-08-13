@@ -14,6 +14,7 @@ using Files.Core.Storage;
 #if STORE || STABLE || PREVIEW
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 #endif
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
