@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -103,31 +104,48 @@ namespace Files.App.Data.Items
 		{
 			return new T();
 		}
-	}
 
-	public class RecycleBinLocationItem : LocationItem
-	{
-		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
+		private FontIcon? itemDecorator;
+		public FrameworkElement? ItemDecorator
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
-		}
-
-		private ulong spaceUsed;
-		public ulong SpaceUsed
-		{
-			get => spaceUsed;
-			set
+			get
 			{
-				SetProperty(ref spaceUsed, value);
+				if (Section == SectionType.Favorites)
+				{
+					itemDecorator ??= new FontIcon()
+					{
+						Glyph = "\uE840"
+					};
+					return itemDecorator;
+				}
+				return null;
 			}
 		}
+	}
+}
 
-		public RecycleBinLocationItem()
+public class RecycleBinLocationItem : LocationItem
+{
+	public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
+	{
+		SpaceUsed = RecycleBinHelpers.GetSize();
+	}
+
+	private ulong spaceUsed;
+	public ulong SpaceUsed
+	{
+		get => spaceUsed;
+		set
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
-
-			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
-			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
+			SetProperty(ref spaceUsed, value);
 		}
+	}
+
+	public RecycleBinLocationItem()
+	{
+		SpaceUsed = RecycleBinHelpers.GetSize();
+
+		RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
+		RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
 	}
 }

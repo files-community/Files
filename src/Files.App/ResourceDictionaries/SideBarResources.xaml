@@ -94,6 +94,14 @@
 								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay}" />
 
+							<ContentPresenter
+								x:Name="ItemDecoratorPresenter"
+								Grid.Column="3"
+								Height="32"
+								Width="32"
+								Content="{Binding Decorator, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+								Visibility="Collapsed" />
+
 							<AnimatedIcon
 								x:Name="ExpandCollapseChevron"
 								Grid.Column="3"
@@ -174,7 +182,11 @@
 						</ItemsRepeater>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ExpansionStates">
-								<VisualState x:Name="NoExpansion" />
+								<VisualState x:Name="NoExpansion">
+									<VisualState.Setters>
+										<Setter Target="ItemDecoratorPresenter.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
 
 								<VisualState x:Name="NoChildren">
 									<VisualState.Setters>
