@@ -1,9 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Data.Items
 {
-	public class WslDistroItem : INavigationControlItem
+	public class WslDistroItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -14,20 +16,50 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
+				ToolTip = Path.Contains('?', StringComparison.Ordinal) ? Text : Path;
 			}
 		}
-
-		public string ToolTipText { get; private set; }
 
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.LinuxDistro;
 
-		public Uri Logo { get; set; }
+		private Uri icon;
+		public Uri Icon
+		{
+			get => icon;
+			set
+			{
+				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
+			}
+		}
 
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
+
+		public object? Children => null;
+
+		private object toolTip = "";
+		public object ToolTip
+		{
+			get => toolTip;
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
+
+		public bool IsExpanded { get => false; set { } }
+
+		public IconSource? IconSource
+		{
+			get => new BitmapIconSource()
+			{
+				UriSource = icon,
+				ShowAsMonochrome = false,
+			};
+		}
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 	}
