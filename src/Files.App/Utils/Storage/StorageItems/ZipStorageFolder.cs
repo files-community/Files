@@ -1,9 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using SevenZip;
-using SQLitePCL;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;

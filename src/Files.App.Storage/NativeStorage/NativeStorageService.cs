@@ -2,10 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Storage;
-using Files.Core.Storage.LocatableStorage;
+using Files.Shared.Helpers;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Files.App.Storage.NativeStorage
 {
@@ -22,12 +24,31 @@ namespace Files.App.Storage.NativeStorage
 		}
 
 		/// <inheritdoc/>
-		public Task<IFolder> GetFolderAsync(string id, CancellationToken cancellationToken = default)
+		public async Task<IFolder> GetFolderAsync(string id, CancellationToken cancellationToken = default)
 		{
 			if (!Directory.Exists(id))
 				throw new DirectoryNotFoundException();
 
-			return Task.FromResult<IFolder>(new NativeFolder(id));
+			// A special folder should use the localized name
+			if (PathHelpers.IsSpecialFolder(id))
+			{
+				var storageFolder = await TryGetStorageFolderAsync(id);
+				return new NativeFolder(id, storageFolder?.DisplayName);
+			}
+
+			return new NativeFolder(id);
+
+			async Task<StorageFolder?> TryGetStorageFolderAsync(string path)
+			{
+				try
+				{
+					return await StorageFolder.GetFolderFromPathAsync(path);
+				}
+				catch (Exception)
+				{
+					return null;
+				}
+			}
 		}
 	}
 }

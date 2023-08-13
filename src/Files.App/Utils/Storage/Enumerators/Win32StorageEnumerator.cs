@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Services.SizeProvider;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Vanara.PInvoke;

@@ -21,11 +21,11 @@ namespace Files.App.ViewModels.Widgets
 		[ObservableProperty]
 		private string _Name;
 
-		private string path;
+		private string _Path;
 		public override string Path
 		{
-			get => path;
-			set => SetProperty(ref path, value); 
+			get => _Path;
+			set => SetProperty(ref _Path, value); 
 		}
 
 		public bool IsFolder => _associatedStorable is IFolder;
@@ -35,8 +35,8 @@ namespace Files.App.ViewModels.Widgets
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
 			_Icon = icon;
-			_Name = PathHelpers.FormatName(associatedStorable.Id);
-			Path = associatedStorable.TryGetPath();
+			_Name = associatedStorable.Name;
+			_Path = associatedStorable.TryGetPath();
 			Item = this;
 		}
 
