@@ -1,7 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.Core.Helpers
+using System;
+using System.Linq;
+
+namespace Files.Shared.Helpers
 {
 	/// <summary>
 	/// Provides static extension for path extension.

@@ -17,19 +17,19 @@ namespace Files.App.Storage.NativeStorage
 		protected readonly TStorage storage;
 
 		/// <inheritdoc/>
-		public virtual string Path { get; protected set; }
+		public string Path { get; protected set; }
 
 		/// <inheritdoc/>
-		public virtual string Name { get; protected set; }
+		public string Name { get; protected set; }
 
 		/// <inheritdoc/>
 		public virtual string Id { get; }
 
-		protected NativeStorable(TStorage storage)
+		protected NativeStorable(TStorage storage, string? name = null)
 		{
 			this.storage = storage;
 			Path = storage.FullName;
-			Name = storage.Name;
+			Name = name ?? storage.Name;
 			Id = storage.FullName;
 		}
 

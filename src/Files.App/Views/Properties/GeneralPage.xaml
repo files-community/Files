@@ -343,6 +343,7 @@
 				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 				BorderThickness="1"
 				ColumnSpacing="8"
+				CornerRadius="4"
 				RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="72" />

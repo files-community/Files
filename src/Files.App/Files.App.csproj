@@ -69,6 +69,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
+      <None Remove="UserControls\Sidebar\SideBarView.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
@@ -128,6 +133,15 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="UserControls\SideBarControl\SideBarHost.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="UserControls\SideBarControl\SideBarItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
 </Project>

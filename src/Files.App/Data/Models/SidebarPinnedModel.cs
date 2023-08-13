@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Services;
 using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
 using System.IO;
@@ -99,6 +96,11 @@ namespace Files.App.Data.Models
 			};
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
+
+			if(locationItem is RecycleBinLocationItem recycleBinItem)
+			{
+				recycleBinItem.ToolTip = recycleBinItem.SpaceUsed.ToSizeString();
+			}
 
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
