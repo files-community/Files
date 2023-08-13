@@ -1300,53 +1300,6 @@ namespace Files.App.ViewModels.UserControls
 			return e;
 		}
 
-		public FrameworkElement? GetItemDecorator(object item)
-		{
-			if(item is DriveItem driveItem)
-			{
-				if (driveItem.IsRemovable)
-				{
-					var button = new Button()
-					{
-						Content = new FontIcon()
-						{
-							Glyph = "\uF847"
-						},
-						DataContext = item
-					};
-
-					button.Click += DriveEjectButtonClick;
-				}
-				else
-				{
-					return null;
-				}
-			}
-			else if(item is LocationItem locationItem)
-			{
-				if(locationItem.Section == SectionType.Favorites)
-				{
-					return new FontIcon()
-					{
-						Glyph = "\uE840"
-					};
-				}
-			}
-			return null;
-		}
-
-		private async void DriveEjectButtonClick(object sender, RoutedEventArgs e)
-		{
-			if(sender is Button button)
-			{
-				if (button.DataContext is DriveItem driveItem)
-				{
-					var result = await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
-					await UIHelpers.ShowDeviceEjectResultAsync(driveItem.Type, result);
-				}
-			}
-		}
-
 		private GridLength tabControlMargin;
 		public GridLength TabControlMargin
 		{
