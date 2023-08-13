@@ -11,6 +11,10 @@ using Files.App.UserControls.MultitaskingControl;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
+#if STORE || STABLE || PREVIEW
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+#endif
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -340,7 +344,7 @@ namespace Files.App
 		/// <summary>
 		/// Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages.
 		/// </summary>
-		public static void SaveSessionTabs() 
+		public static void SaveSessionTabs()
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -420,7 +424,7 @@ namespace Files.App
 
 			Debug.WriteLine(formattedException.ToString());
 
-			 // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
 			SaveSessionTabs();
