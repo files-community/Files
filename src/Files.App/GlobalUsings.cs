@@ -46,6 +46,7 @@ global using global::Files.App.Data.Parameters;
 global using global::Files.App.Data.TemplateSelectors;
 global using global::Files.App.Services;
 global using global::Files.App.UserControls;
+global using global::Files.App.UserControls.TabView;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
 global using global::Files.App.Views;

@@ -8,9 +8,25 @@ namespace Files.App.UserControls.TabView
 {
 	public class BaseTabView : UserControl, ITabView
 	{
+		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
+		protected ITabViewItemContent CurrentSelectedAppInstance;
+
 		public static event EventHandler<ITabView>? OnLoaded;
 
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
+
+		public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
+
+		public const string TabPathIdentifier = "FilesTabViewItemPath";
+
+		// RecentlyClosedTabs is shared between all multitasking controls
+		public static Stack<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new();
+
+		public ObservableCollection<TabViewItem> Items
+			=> MainPageViewModel.AppInstances;
+
+		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
 		private static bool isRestoringClosedTab;
 		public static bool IsRestoringClosedTab
@@ -23,15 +39,10 @@ namespace Files.App.UserControls.TabView
 			}
 		}
 
-		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-		protected ITabViewItemContent CurrentSelectedAppInstance;
-
-		public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
-
-		public const string TabPathIdentifier = "FilesTabViewItemPath";
-
-		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
+		public BaseTabView()
+		{
+			Loaded += MultitaskingControl_Loaded;
+		}
 
 		public virtual DependencyObject ContainerFromItem(ITabViewItem item)
 		{
@@ -40,16 +51,6 @@ namespace Files.App.UserControls.TabView
 
 		public void SelectionChanged()
 			=> TabStrip_SelectionChanged(null, null);
-
-		public BaseTabView()
-		{
-			Loaded += MultitaskingControl_Loaded;
-		}
-
-		public ObservableCollection<TabViewItem> Items => MainPageViewModel.AppInstances;
-
-		// RecentlyClosedTabs is shared between all multitasking controls
-		public static Stack<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new();
 
 		public static void PushRecentTab(TabItemArguments[] tab)
 		{
@@ -90,12 +91,12 @@ namespace Files.App.UserControls.TabView
 			CurrentInstanceChanged?.Invoke(this, args);
 		}
 
-		protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+		protected void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabCloseRequestedEventArgs args)
 		{
 			CloseTab(args.Item as TabViewItem);
 		}
 
-		protected async void TabView_AddTabButtonClick(TabView sender, object args)
+		protected async void TabView_AddTabButtonClick(Microsoft.UI.Xaml.Controls.TabView sender, object args)
 		{
 			await mainPageViewModel.AddNewTabAsync();
 		}

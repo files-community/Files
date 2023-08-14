@@ -137,7 +137,7 @@
 			</Grid.RowDefinitions>
 
 			<!--  Tab Control  -->
-			<usercontrols:HorizontalMultitaskingControl
+			<usercontrols:TabView
 				x:Name="TabControl"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
@@ -148,7 +148,7 @@
 				TabIndex="0"
 				TabStripVisibility="Visible"
 				Visibility="Visible">
-				<usercontrols:HorizontalMultitaskingControl.ActionsControl>
+				<usercontrols:TabView.ActionsControl>
 					<Button
 						x:Name="HorizontalMultitaskingControlAddButton"
 						Width="32"
@@ -168,8 +168,8 @@
 								Glyph="&#xE710;" />
 						</Button.Content>
 					</Button>
-				</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-			</usercontrols:HorizontalMultitaskingControl>
+				</usercontrols:TabView.ActionsControl>
+			</usercontrols:TabView>
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar

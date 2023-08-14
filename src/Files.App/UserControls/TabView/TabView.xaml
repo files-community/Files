@@ -8,8 +8,6 @@
 	xmlns:local="using:Files.App.UserControls.TabView"
 	xmlns:local1="using:Files.App"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	mc:Ignorable="d">
 
 	<local:BaseTabView.Resources>

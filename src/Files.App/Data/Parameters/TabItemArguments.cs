@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using System.Text.Json;
 
 namespace Files.App.Data.Parameters
 {
 	public class TabItemArguments
 	{
-		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
+		private static readonly KnownTypesConverter TypesConverter = new();
 
 		public Type InitialPageType { get; set; }
+
 		public object NavigationArg { get; set; }
 
-		public string Serialize() => JsonSerializer.Serialize(this, TypesConverter.Options);
+		public string Serialize()
+			=> JsonSerializer.Serialize(this, TypesConverter.Options);
 
 		public static TabItemArguments Deserialize(string obj)
 		{
