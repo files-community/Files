@@ -1,8 +1,17 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Helpers;
+using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Files.App.UserControls.MultitaskingControl
 {
@@ -25,8 +34,6 @@ namespace Files.App.UserControls.MultitaskingControl
 		}
 
 		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetService<IUserSettingsService>();
 
 		protected ITabItemContent CurrentSelectedAppInstance;
 
@@ -127,11 +134,6 @@ namespace Files.App.UserControls.MultitaskingControl
 				foreach (var item in lastTab)
 					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
 
-				if (RecentlyClosedTabs.TryPeek(out var result) && result.Length == 1)
-					userSettingsService.GeneralSettingsService.LastClosedTab = result[0].Serialize();
-				else
-					userSettingsService.GeneralSettingsService.LastClosedTab = "";
-
 				IsRestoringClosedTab = false;
 			}
 		}
@@ -143,15 +145,18 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void CloseTab(TabItem tabItem)
 		{
-			Items.Remove(tabItem);
-			tabItem?.Unload(); // Dispose and save tab arguments
-			RecentlyClosedTabs.Push(new TabItemArguments[] {
-					tabItem.TabItemArguments
-			});
-			userSettingsService.GeneralSettingsService.LastClosedTab = tabItem.TabItemArguments.Serialize();
-
-			if (Items.Count == 0)
+			if (Items.Count == 1)
+			{
 				MainWindow.Instance.Close();
+			}
+			else if (Items.Count > 1)
+			{
+				Items.Remove(tabItem);
+				tabItem?.Unload(); // Dispose and save tab arguments
+				RecentlyClosedTabs.Push(new TabItemArguments[] {
+					tabItem.TabItemArguments
+				});
+			}
 		}
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)

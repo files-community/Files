@@ -1,6 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Data.Enums;
+using System.Collections.Generic;
+using System.ComponentModel;
+
 namespace Files.Core.Services.Settings
 {
 	public interface IGeneralSettingsService : IBaseSettingsService, INotifyPropertyChanged
@@ -49,11 +53,6 @@ namespace Files.Core.Services.Settings
 		/// A list containing paths of the tabs from the previous session that crashed.
 		/// </summary>
 		List<string> LastCrashedTabList { get; set; }
-
-		/// <summary>
-		/// A path of the last closed tab.
-		/// </summary>
-		string LastClosedTab { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.

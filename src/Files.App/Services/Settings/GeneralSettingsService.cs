@@ -1,7 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Serialization;
+using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
+using System.Collections.Generic;
 
 namespace Files.App.Services.Settings
 {
@@ -64,12 +67,6 @@ namespace Files.App.Services.Settings
 		public List<string> LastCrashedTabList
 		{
 			get => Get<List<string>>(null);
-			set => Set(value);
-		}
-
-		public string LastClosedTab
-		{
-			get => Get("");
 			set => Set(value);
 		}
 
