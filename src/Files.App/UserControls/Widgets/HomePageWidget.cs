@@ -1,17 +1,26 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.Services;
+using Files.App.ViewModels;
+using Files.Core.Services.Settings;
 using Files.Core.Storage;
+using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets
 {
-	public abstract class BaseWidget : UserControl
+	public abstract class HomePageWidget : UserControl
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
@@ -32,23 +41,16 @@ namespace Files.App.UserControls.Widgets
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			var itemContextMenuFlyout = new CommandBarFlyout()
-			{
-				Placement = FlyoutPlacementMode.Full
-			};
-
+			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
-
 			if (sender is not Button widgetCardItem || widgetCardItem.DataContext is not WidgetCardItem item)
 				return;
 
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
-
 			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
 
-			secondaryElements
-				.OfType<FrameworkElement>()
-				.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+			secondaryElements.OfType<FrameworkElement>()
+							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
@@ -79,5 +81,6 @@ namespace Files.App.UserControls.Widgets
 		{
 			_ = QuickAccessService.UnpinFromSidebar(item.Path);
 		}
+
 	}
 }

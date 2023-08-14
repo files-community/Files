@@ -1,10 +1,9 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseWidget
+<local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.QuickAccessWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
@@ -27,7 +26,7 @@
 			</ItemsRepeater.Layout>
 
 			<ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="dataitems:FolderCardItem">
+				<DataTemplate x:DataType="local:FolderCardItem">
 					<Button
 						Padding="8"
 						HorizontalAlignment="Stretch"
@@ -86,4 +85,4 @@
 
 		</ItemsRepeater>
 	</Grid>
-</local:BaseWidget>
+</local:HomePageWidget>

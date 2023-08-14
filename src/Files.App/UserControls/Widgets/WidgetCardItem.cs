@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Files.App.Data.Items
+namespace Files.App.UserControls.Widgets
 {
 	public abstract class WidgetCardItem : ObservableObject
 	{

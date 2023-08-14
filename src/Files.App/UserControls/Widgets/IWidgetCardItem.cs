@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Threading.Tasks;
 
-namespace Files.App.Data.Items
+namespace Files.App.UserControls.Widgets
 {
 	public interface IWidgetCardItem<T>
 	{
