@@ -2,56 +2,53 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.Text.Json;
 
 namespace Files.App.UserControls.TabView
 {
 	public class TabViewItem : ObservableObject, ITabViewItem, ITabItemControl, IDisposable
 	{
-		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-		private string header;
-		public string Header
-		{
-			get => header;
-			set => SetProperty(ref header, value);
-		}
-
-		private string description = null;
-		public string Description
-		{
-			get => description;
-			set => SetProperty(ref description, value);
-		}
-
-		private string toolTipText;
-		public string ToolTipText
-		{
-			get => toolTipText;
-			set => SetProperty(ref toolTipText, value);
-		}
-
-		private IconSource iconSource;
+		private IconSource _IconSource;
 		public IconSource IconSource
 		{
-			get => iconSource;
-			set => SetProperty(ref iconSource, value);
+			get => _IconSource;
+			set => SetProperty(ref _IconSource, value);
+		}
+
+		private string _Header;
+		public string Header
+		{
+			get => _Header;
+			set => SetProperty(ref _Header, value);
+		}
+
+		private string _Description = null;
+		public string Description
+		{
+			get => _Description;
+			set => SetProperty(ref _Description, value);
+		}
+
+		private string _ToolTipText;
+		public string ToolTipText
+		{
+			get => _ToolTipText;
+			set => SetProperty(ref _ToolTipText, value);
+		}
+
+		private bool _AllowStorageItemDrop;
+		public bool AllowStorageItemDrop
+		{
+			get => _AllowStorageItemDrop;
+			set => SetProperty(ref _AllowStorageItemDrop, value);
+		}
+
+		private TabItemArguments _TabItemArguments;
+		public TabItemArguments TabItemArguments
+		{
+			get => Control?.NavigationArguments ?? _TabItemArguments;
 		}
 
 		public TabViewItemControl Control { get; private set; }
-
-		private bool allowStorageItemDrop;
-		public bool AllowStorageItemDrop
-		{
-			get => allowStorageItemDrop;
-			set => SetProperty(ref allowStorageItemDrop, value);
-		}
-
-		private TabItemArguments tabItemArguments;
-		public TabItemArguments TabItemArguments
-		{
-			get => Control?.NavigationArguments ?? tabItemArguments;
-		}
 
 		public TabViewItem()
 		{
@@ -60,8 +57,12 @@ namespace Files.App.UserControls.TabView
 
 		public void Unload()
 		{
+			MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 			Control.ContentChanged -= mainPageViewModel.Control_ContentChanged;
-			tabItemArguments = Control?.NavigationArguments;
+
+			_TabItemArguments = Control?.NavigationArguments;
+
 			Dispose();
 		}
 

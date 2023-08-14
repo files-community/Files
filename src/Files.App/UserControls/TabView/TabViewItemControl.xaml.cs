@@ -5,25 +5,25 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.TabView
 {
-	public sealed partial class TabViewItemControl : UserControl, ITabViewItemContainer, IDisposable
+	public sealed partial class TabViewItemControl : UserControl, IDisposable
 	{
 		public event EventHandler<TabItemArguments> ContentChanged;
 
 		public ITabViewItemContent TabItemContent
 			=> ContentFrame?.Content as ITabViewItemContent;
 
-		private TabItemArguments navigationArguments;
+		private TabItemArguments _NavigationArguments;
 		public TabItemArguments NavigationArguments
 		{
-			get => navigationArguments;
+			get => _NavigationArguments;
 			set
 			{
-				if (value != navigationArguments)
+				if (value != _NavigationArguments)
 				{
-					navigationArguments = value;
-					if (navigationArguments is not null)
+					_NavigationArguments = value;
+					if (_NavigationArguments is not null)
 					{
-						ContentFrame.Navigate(navigationArguments.InitialPageType, navigationArguments.NavigationArg);
+						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationArg);
 					}
 					else
 					{
@@ -31,15 +31,6 @@ namespace Files.App.UserControls.TabView
 					}
 				}
 			}
-		}
-
-		public void Dispose()
-		{
-			if (TabItemContent is IDisposable disposableContent)
-			{
-				disposableContent?.Dispose();
-			}
-			ContentFrame.Content = null;
 		}
 
 		public TabViewItemControl()
@@ -50,15 +41,21 @@ namespace Files.App.UserControls.TabView
 		private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
 		{
 			if (TabItemContent is not null)
-			{
 				TabItemContent.ContentChanged += TabItemContent_ContentChanged;
-			}
 		}
 
 		private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
 		{
-			navigationArguments = e;
+			_NavigationArguments = e;
 			ContentChanged?.Invoke(this, e);
+		}
+
+		public void Dispose()
+		{
+			if (TabItemContent is IDisposable disposableContent)
+				disposableContent?.Dispose();
+
+			ContentFrame.Content = null;
 		}
 	}
 }
