@@ -37,7 +37,7 @@ namespace Files.App.Utils
 					{
 						Text = folder.DisplayName,
 						Path = folder.Path,
-						Logo = logoURI,
+						Icon = logoURI,
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
 					};
 

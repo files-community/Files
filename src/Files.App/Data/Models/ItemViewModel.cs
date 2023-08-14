@@ -3,6 +3,7 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
+using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;

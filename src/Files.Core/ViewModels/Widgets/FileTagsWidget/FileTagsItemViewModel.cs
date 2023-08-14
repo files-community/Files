@@ -3,6 +3,7 @@
 
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
+using Files.Shared.Helpers;
 
 namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 {

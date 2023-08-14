@@ -1,17 +1,19 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.Sidebar;
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Data.Items
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>
+
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
-		public string Text { get; }
+		public new string Text { get; }
 
 		public string Path { get; }
 
 		public SectionType Section { get; }
-
-		public string ToolTipText { get; }
 
 		public NavigationControlItemType ItemType { get; }
 

@@ -41,7 +41,7 @@
 
 	<Grid
 		x:Name="RootGrid"
-		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 		BorderThickness="0,0,0,1">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
@@ -795,7 +795,7 @@
 									Height="120"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
-									BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 									BorderThickness="1" />
 
 								<!--  Grid Large Layout  -->
@@ -836,7 +836,7 @@
 							<Border
 								Margin="-20,0"
 								HorizontalAlignment="Stretch"
-								BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 								BorderThickness="1" />
 
 							<!--  Toggle Options  -->

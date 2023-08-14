@@ -6,7 +6,9 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -20,7 +22,11 @@ namespace Files.App.Data.Items
 		public BitmapImage Icon
 		{
 			get => icon;
-			set => SetProperty(ref icon, value);
+			set
+			{
+				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
+			}
 		}
 
 		public byte[] IconData { get; set; }
@@ -31,8 +37,6 @@ namespace Files.App.Data.Items
 			get => path;
 			set => path = value;
 		}
-
-		public string ToolTipText { get; private set; }
 
 		public string DeviceID { get; set; }
 
@@ -68,7 +72,10 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref maxSpace, value))
 				{
-					ToolTipText = GetSizeString();
+					if (Type != DriveType.CloudDrive)
+					{
+						ToolTip = GetSizeString();
+					}
 
 					OnPropertyChanged(nameof(MaxSpaceText));
 					OnPropertyChanged(nameof(ShowDriveDetails));
@@ -84,7 +91,10 @@ namespace Files.App.Data.Items
 			{
 				if (SetProperty(ref freeSpace, value))
 				{
-					ToolTipText = GetSizeString();
+					if (Type != DriveType.CloudDrive)
+					{
+						ToolTip = GetSizeString();
+					}
 
 					OnPropertyChanged(nameof(FreeSpaceText));
 				}
@@ -107,7 +117,22 @@ namespace Files.App.Data.Items
 		public bool ShowDriveDetails
 			=> MaxSpace.Bytes > 0d;
 
-		public DriveType Type { get; set; }
+		private DriveType type;
+		public DriveType Type
+		{
+			get => type; set
+			{
+				type = value;
+				if (value == DriveType.Network)
+				{
+					ToolTip = "Network".GetLocalizedResource();
+				}
+				else if (value == DriveType.CloudDrive)
+				{
+					ToolTip = Text;
+				}
+			}
+		}
 
 		private string text;
 		public string Text
@@ -151,6 +176,28 @@ namespace Files.App.Data.Items
 		public string Id => DeviceID;
 
 		public string Name => Root.DisplayName;
+
+		public object? Children => null;
+
+		private object toolTip = "";
+		public object ToolTip
+		{
+			get => toolTip;
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
+
+		public bool IsExpanded { get => false; set { } }
+
+		public IconSource? IconSource
+		{
+			get => new ImageIconSource()
+			{
+				ImageSource = Icon
+			};
+		}
 
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
@@ -255,7 +302,6 @@ namespace Files.App.Data.Items
 				}
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
-
 			Icon ??= await IconData.ToBitmapAsync();
 		}
 
