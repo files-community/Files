@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.TabView
 {
-	public class TabViewItem : ObservableObject, ITabViewItem, ITabItemControl, IDisposable
+	public class TabViewItem : ObservableObject, ITabViewItem, IDisposable
 	{
 		private IconSource _IconSource;
 		public IconSource IconSource
@@ -42,34 +42,72 @@ namespace Files.App.UserControls.TabView
 			set => SetProperty(ref _AllowStorageItemDrop, value);
 		}
 
-		private TabItemArguments _TabItemArguments;
-		public TabItemArguments TabItemArguments
+		private TabItemArguments _NavigationArguments;
+		public TabItemArguments NavigationArguments
 		{
-			get => Control?.NavigationArguments ?? _TabItemArguments;
+			get => _NavigationArguments;
+			set
+			{
+				if (value != _NavigationArguments)
+				{
+					_NavigationArguments = value;
+					if (_NavigationArguments is not null)
+					{
+						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationArg);
+					}
+					else
+					{
+						ContentFrame.Content = null;
+					}
+				}
+			}
 		}
 
-		public TabViewItemControl Control { get; private set; }
+		public Frame ContentFrame { get; private set; }
+
+		public event EventHandler<TabItemArguments> ContentChanged;
+
+		public ITabViewItemContent TabItemContent
+			=> ContentFrame?.Content as ITabViewItemContent;
 
 		public TabViewItem()
 		{
-			Control = new TabViewItemControl();
+			ContentFrame = new()
+			{
+				CacheSize = 0,
+				IsNavigationStackEnabled = false,
+			};
+
+			ContentFrame.Navigated += ContentFrame_Navigated;
 		}
 
 		public void Unload()
 		{
 			MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-			Control.ContentChanged -= mainPageViewModel.Control_ContentChanged;
-
-			_TabItemArguments = Control?.NavigationArguments;
+			ContentChanged -= mainPageViewModel.Control_ContentChanged;
 
 			Dispose();
 		}
 
+		private void ContentFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+		{
+			if (TabItemContent is not null)
+				TabItemContent.ContentChanged += TabItemContent_ContentChanged;
+		}
+
+		private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+		{
+			_NavigationArguments = e;
+			ContentChanged?.Invoke(this, e);
+		}
+
 		public void Dispose()
 		{
-			Control?.Dispose();
-			Control = null;
+			if (TabItemContent is IDisposable disposableContent)
+				disposableContent?.Dispose();
+
+			ContentFrame.Content = null;
 		}
 	}
 }

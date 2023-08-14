@@ -309,11 +309,11 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
 
@@ -351,9 +351,9 @@ namespace Files.App
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.TabItemArguments is not null)
+				if (tab is not null && tab.NavigationArguments is not null)
 				{
-					return tab.TabItemArguments.Serialize();
+					return tab.NavigationArguments.Serialize();
 				}
 				else
 				{

@@ -109,12 +109,12 @@ namespace Files.App.UserControls.TabView
 
 		public ITabViewItemContent GetCurrentSelectedTabInstance()
 		{
-			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].Control?.TabItemContent;
+			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].TabItemContent;
 		}
 
 		public List<ITabViewItemContent> GetAllTabInstances()
 		{
-			return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
+			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
 
 		public async Task ReopenClosedTab()
@@ -144,10 +144,11 @@ namespace Files.App.UserControls.TabView
 			else if (Items.Count > 1)
 			{
 				Items.Remove(tabItem);
-				tabItem?.Unload(); // Dispose and save tab arguments
-				RecentlyClosedTabs.Push(new TabItemArguments[] {
-					tabItem.TabItemArguments
-				});
+
+				// Dispose and save tab arguments
+				tabItem?.Unload();
+
+				RecentlyClosedTabs.Push(new TabItemArguments[] { tabItem.NavigationArguments });
 			}
 		}
 

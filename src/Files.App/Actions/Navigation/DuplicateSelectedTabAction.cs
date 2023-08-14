@@ -26,7 +26,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			var arguments = context.SelectedTabItem.TabItemArguments;
+			var arguments = context.SelectedTabItem.NavigationArguments;
 			if (arguments is null)
 				await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			else

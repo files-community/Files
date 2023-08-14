@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabView;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -122,12 +121,12 @@ namespace Files.App.ViewModels
 				Description = null,
 				ToolTipText = null
 			};
-			tabItem.Control.NavigationArguments = new TabItemArguments()
+			tabItem.NavigationArguments = new TabItemArguments()
 			{
 				InitialPageType = type,
 				NavigationArg = path
 			};
-			tabItem.Control.ContentChanged += Control_ContentChanged;
+			tabItem.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfo(tabItem, path);
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
@@ -158,7 +157,7 @@ namespace Files.App.ViewModels
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 
-			if (navigationArg == SelectedTabItem?.TabItemArguments?.NavigationArg)
+			if (navigationArg == SelectedTabItem?.NavigationArguments?.NavigationArg)
 				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
@@ -401,13 +400,13 @@ namespace Files.App.ViewModels
 				ToolTipText = null
 			};
 
-			tabItem.Control.NavigationArguments = new TabItemArguments()
+			tabItem.NavigationArguments = new TabItemArguments()
 			{
 				InitialPageType = type,
 				NavigationArg = tabViewItemArgs
 			};
 
-			tabItem.Control.ContentChanged += Control_ContentChanged;
+			tabItem.ContentChanged += Control_ContentChanged;
 
 			await UpdateTabInfo(tabItem, tabViewItemArgs);
 
@@ -421,7 +420,7 @@ namespace Files.App.ViewModels
 			if (sender is null)
 				return;
 
-			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabViewItemControl)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x == (Files.App.UserControls.TabView.TabViewItem)sender);
 			if (matchingTabItem is null)
 				return;
 

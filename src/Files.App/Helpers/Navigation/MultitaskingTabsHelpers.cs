@@ -44,7 +44,7 @@ namespace Files.App.Helpers
 		public static Task MoveTabToNewWindow(TabViewItem tab, ITabView multitaskingControl)
 		{
 			int index = MainPageViewModel.AppInstances.IndexOf(tab);
-			TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].TabItemArguments;
+			TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].NavigationArguments;
 
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 

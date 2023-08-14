@@ -92,14 +92,14 @@ namespace Files.App.UserControls.TabView
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).Control.TabItemContent.TabItemDrop(sender, e);
+			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
 		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
-			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).Control.TabItemContent.TabItemDragOver(sender, e);
+			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{
 				HorizontalTabView.CanReorderTabs = false;
@@ -126,7 +126,7 @@ namespace Files.App.UserControls.TabView
 
 		private void TabStrip_TabDragStarting(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabDragStartingEventArgs args)
 		{
-			var tabViewItemArgs = (args.Item as TabViewItem).TabItemArguments;
+			var tabViewItemArgs = (args.Item as TabViewItem).NavigationArguments;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 		}
@@ -209,7 +209,7 @@ namespace Files.App.UserControls.TabView
 			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
-			var tabViewItemArgs = (args.Item as TabViewItem).TabItemArguments;
+			var tabViewItemArgs = (args.Item as TabViewItem).NavigationArguments;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
 			Items.Remove(args.Item as TabViewItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
@@ -219,7 +219,8 @@ namespace Files.App.UserControls.TabView
 			}
 			else
 			{
-				(args.Item as TabViewItem)?.Unload(); // Dispose tab arguments
+				// Dispose tab arguments
+				(args.Item as TabViewItem)?.Unload();
 			}
 		}
 

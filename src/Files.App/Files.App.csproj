@@ -69,6 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ResourceDictionaries\CustomTabViewStyles.xaml" />
       <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
       <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
@@ -133,6 +134,12 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="ResourceDictionaries\CustomTabViewStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
     <ItemGroup>
