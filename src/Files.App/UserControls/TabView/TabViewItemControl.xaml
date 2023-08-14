@@ -1,6 +1,6 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <UserControl
-	x:Class="Files.App.UserControls.MultitaskingControl.TabItemControl"
+	x:Class="Files.App.UserControls.MultitaskingControl.TabViewItemControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

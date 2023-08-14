@@ -6,10 +6,10 @@ using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.Data.Items;
 using Files.App.Data.Models;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Files.App.UserControls.Sidebar;
 using Files.Core.Extensions;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -122,7 +122,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
+			if (ViewModel.MultitaskingControl is not UserControls.TabView.TabView)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);

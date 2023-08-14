@@ -12,7 +12,7 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
+	xmlns:usercontrols="using:Files.App.UserControls.TabView"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"

@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,7 +12,7 @@ using Windows.System;
 
 namespace Files.App.Views
 {
-	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
+	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabViewItemContent
 	{
 		public static readonly int DualPaneWidthThreshold = 750;
 

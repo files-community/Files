@@ -1,28 +1,18 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabView
 {
-	public class BaseMultitaskingControl : UserControl, IMultitaskingControl
+	public class BaseTabView : UserControl, ITabView
 	{
-		public static event EventHandler<IMultitaskingControl>? OnLoaded;
+		public static event EventHandler<ITabView>? OnLoaded;
 
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
 
 		private static bool isRestoringClosedTab;
-		// Avoid reopening two tabs
 		public static bool IsRestoringClosedTab
 		{
 			get => isRestoringClosedTab;
@@ -35,7 +25,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		protected ITabItemContent CurrentSelectedAppInstance;
+		protected ITabViewItemContent CurrentSelectedAppInstance;
 
 		public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
@@ -43,19 +33,20 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
-		public virtual DependencyObject ContainerFromItem(ITabItem item)
+		public virtual DependencyObject ContainerFromItem(ITabViewItem item)
 		{
 			return null;
 		}
 
-		public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
+		public void SelectionChanged()
+			=> TabStrip_SelectionChanged(null, null);
 
-		public BaseMultitaskingControl()
+		public BaseTabView()
 		{
 			Loaded += MultitaskingControl_Loaded;
 		}
 
-		public ObservableCollection<TabItem> Items => MainPageViewModel.AppInstances;
+		public ObservableCollection<TabViewItem> Items => MainPageViewModel.AppInstances;
 
 		// RecentlyClosedTabs is shared between all multitasking controls
 		public static Stack<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new();
@@ -68,7 +59,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
 		{
-			foreach (ITabItemContent instance in e.PageInstances)
+			foreach (ITabViewItemContent instance in e.PageInstances)
 			{
 				if (instance is not null)
 				{
@@ -101,7 +92,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		protected void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
 		{
-			CloseTab(args.Item as TabItem);
+			CloseTab(args.Item as TabViewItem);
 		}
 
 		protected async void TabView_AddTabButtonClick(TabView sender, object args)
@@ -115,12 +106,12 @@ namespace Files.App.UserControls.MultitaskingControl
 			OnLoaded?.Invoke(null, this);
 		}
 
-		public ITabItemContent GetCurrentSelectedTabInstance()
+		public ITabViewItemContent GetCurrentSelectedTabInstance()
 		{
 			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].Control?.TabItemContent;
 		}
 
-		public List<ITabItemContent> GetAllTabInstances()
+		public List<ITabViewItemContent> GetAllTabInstances()
 		{
 			return MainPageViewModel.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
 		}
@@ -140,10 +131,10 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
 		{
-			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabItem, this);
+			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabViewItem, this);
 		}
 
-		public void CloseTab(TabItem tabItem)
+		public void CloseTab(TabViewItem tabItem)
 		{
 			if (Items.Count == 1)
 			{
@@ -159,7 +150,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 		}
 
-		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
+		public void SetLoadingIndicatorStatus(ITabViewItem item, bool loading)
 		{
 			if (ContainerFromItem(item) is not Control tabItem)
 				return;

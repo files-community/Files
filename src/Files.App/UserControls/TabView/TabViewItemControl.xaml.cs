@@ -4,14 +4,16 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabView
 {
-	public sealed partial class TabItemControl : UserControl, ITabItemContainer, IDisposable
+	public sealed partial class TabViewItemControl : UserControl, ITabViewItemContainer, IDisposable
 	{
 		public event EventHandler<TabItemArguments> ContentChanged;
 
-		private TabItemArguments navigationArguments;
+		public ITabViewItemContent TabItemContent
+			=> ContentFrame?.Content as ITabViewItemContent;
 
+		private TabItemArguments navigationArguments;
 		public TabItemArguments NavigationArguments
 		{
 			get => navigationArguments;
@@ -41,9 +43,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			ContentFrame.Content = null;
 		}
 
-		public ITabItemContent TabItemContent => ContentFrame?.Content as ITabItemContent;
-
-		public TabItemControl()
+		public TabViewItemControl()
 		{
 			InitializeComponent();
 		}

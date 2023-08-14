@@ -1,21 +1,21 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using System.ComponentModel;
 
 namespace Files.App.Data.Contexts
 {
 	public interface IMultitaskingContext : INotifyPropertyChanged
 	{
-		IMultitaskingControl? Control { get; }
+		ITabView? Control { get; }
 
 		ushort TabCount { get; }
 
-		TabItem CurrentTabItem { get; }
+		TabViewItem CurrentTabItem { get; }
 		ushort CurrentTabIndex { get; }
 
-		TabItem SelectedTabItem { get; }
+		TabViewItem SelectedTabItem { get; }
 		ushort SelectedTabIndex { get; }
 	}
 }

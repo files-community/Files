@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabView;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -19,14 +19,14 @@ namespace Files.App.ViewModels
 		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
-		public IMultitaskingControl? MultitaskingControl { get; set; }
+		public ITabView? MultitaskingControl { get; set; }
 
-		public List<IMultitaskingControl> MultitaskingControls { get; } = new List<IMultitaskingControl>();
+		public List<ITabView> MultitaskingControls { get; } = new List<ITabView>();
 
-		public static ObservableCollection<TabItem> AppInstances { get; private set; } = new ObservableCollection<TabItem>();
+		public static ObservableCollection<Files.App.UserControls.TabView.TabViewItem> AppInstances { get; private set; } = new ObservableCollection<Files.App.UserControls.TabView.TabViewItem>();
 
-		private TabItem? selectedTabItem;
-		public TabItem? SelectedTabItem
+		private Files.App.UserControls.TabView.TabViewItem? selectedTabItem;
+		public Files.App.UserControls.TabView.TabViewItem? SelectedTabItem
 		{
 			get => selectedTabItem;
 			set => SetProperty(ref selectedTabItem, value);
@@ -115,7 +115,7 @@ namespace Files.App.ViewModels
 			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
 				path = path.Remove(path.Length - 1);
 
-			var tabItem = new TabItem()
+			var tabItem = new Files.App.UserControls.TabView.TabViewItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -162,7 +162,7 @@ namespace Files.App.ViewModels
 				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
-		public async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
+		public async Task UpdateTabInfo(Files.App.UserControls.TabView.TabViewItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -294,7 +294,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
-						BaseMultitaskingControl.PushRecentTab(items);
+						BaseTabView.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
@@ -393,7 +393,7 @@ namespace Files.App.ViewModels
 
 		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
-			var tabItem = new TabItem()
+			var tabItem = new Files.App.UserControls.TabView.TabViewItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -421,7 +421,7 @@ namespace Files.App.ViewModels
 			if (sender is null)
 				return;
 
-			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabItemControl)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x.Control == (TabViewItemControl)sender);
 			if (matchingTabItem is null)
 				return;
 
