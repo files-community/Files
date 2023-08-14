@@ -210,10 +210,13 @@ namespace Files.App.Data.Items
 				{
 					itemDecorator = new Button()
 					{
-						Content = new FontIcon()
+						Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
+						Content = new OpacityIcon()
 						{
-							Glyph = "\uF847"
-						},
+							Style = Application.Current.Resources["ColorIconCloud"] as Style,
+							Height = 14,
+							Width = 14
+						}
 					};
 					itemDecorator.Click += ItemDecorator_Click;
 				}

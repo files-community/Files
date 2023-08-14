@@ -105,16 +105,16 @@ namespace Files.App.Data.Items
 			return new T();
 		}
 
-		private FontIcon? itemDecorator;
+		private FrameworkElement? itemDecorator;
 		public FrameworkElement? ItemDecorator
 		{
 			get
 			{
 				if (Section == SectionType.Favorites)
 				{
-					itemDecorator ??= new FontIcon()
+					itemDecorator ??= new OpacityIcon()
 					{
-						Glyph = "\uE840"
+						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
 					};
 					return itemDecorator;
 				}
