@@ -11,11 +11,9 @@ using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
-	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
+	public sealed partial class FileTagsWidget : BaseWidget, IWidgetItemModel
 	{
 		private readonly IUserSettingsService userSettingsService;
 
@@ -114,11 +112,7 @@ namespace Files.App.UserControls.Widgets
 				rightClickedItem: item);
 		}
 
-		private async void LoadContextMenu(
-			FrameworkElement element,
-			RightTappedRoutedEventArgs e,
-			List<ContextMenuFlyoutItemViewModel> menuItems,
-			FileTagsItemViewModel? rightClickedItem = null)
+		private async void LoadContextMenu(FrameworkElement element, RightTappedRoutedEventArgs e, List<ContextMenuFlyoutItemViewModel> menuItems, FileTagsItemViewModel? rightClickedItem = null)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;

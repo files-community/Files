@@ -1,5 +1,5 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:HomePageWidget
+<local:BaseWidget
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -166,4 +166,5 @@
 		</ItemsRepeater.ItemTemplate>
 
 	</ItemsRepeater>
-</local:HomePageWidget>
+
+</local:BaseWidget>
