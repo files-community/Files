@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls.KeyboardShortcut
@@ -26,18 +27,19 @@ namespace Files.App.UserControls.KeyboardShortcut
 		private void OnShortcutTextChanged()
 		{
 			// Generate items
-			var splitItems = ShortcutText.Split('+').ToList();
+			var splitItems = Regex.Split(ShortcutText, @"(?<=[,+])");
 			List<KeyboardShortcutItem> items = new();
-			int index = 0;
 
 			foreach (var item in splitItems)
 			{
-				index++;
-
-				items.Add(new() { ShortcutText = item });
-
-				if (index != splitItems.Count)
-					items.Add(new() { ShortcutText = "+", IsReveal = true });
+				if (item == "+" || item == ",")
+				{
+					items.Add(new() { Text = item, IsSurrounded = false });
+				}
+				else
+				{
+					items.Add(new() { Text = item });
+				}
 			}
 
 			// Set value
