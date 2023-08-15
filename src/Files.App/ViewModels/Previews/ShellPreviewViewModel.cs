@@ -115,8 +115,8 @@ namespace Files.App.ViewModels.Previews
 			};
 
 			ID3D11Device? d3d11Device = null;
+			ID3D11DeviceContext? d3d11DeviceContext = null;
 			D3D_FEATURE_LEVEL featureLevelSupported;
-			ID3D11DeviceContext d3d11DeviceContext;
 
 			foreach (var driveType in driverTypes)
 			{
@@ -166,6 +166,7 @@ namespace Files.App.ViewModels.Previews
 			Marshal.Release(compDevicePtr);
 			Marshal.ReleaseComObject(dxgiDevice);
 			Marshal.ReleaseComObject(d3d11Device);
+			Marshal.ReleaseComObject(d3d11DeviceContext);
 
 			return DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true).Succeeded;
 		}
