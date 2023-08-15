@@ -3,48 +3,24 @@
 
 namespace Files.App.Actions
 {
-	internal class CloseOtherTabsCurrentAction : ObservableObject, IAction
+	internal sealed class CloseOtherTabsCurrentAction : CloseTabBaseAction
 	{
-		private readonly IMultitaskingContext context;
-
-		public string Label
+		public override string Label
 			=> "CloseOtherTabs".GetLocalizedResource();
 
-		public string Description
+		public override string Description
 			=> "CloseOtherTabsCurrentDescription".GetLocalizedResource();
-
-		public bool IsExecutable
-			=> GetIsExecutable();
 
 		public CloseOtherTabsCurrentAction()
 		{
-			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public override Task ExecuteAsync()
 		{
 			if (context.Control is not null)
 				MultitaskingTabsHelpers.CloseOtherTabs(context.CurrentTabItem, context.Control);
 
 			return Task.CompletedTask;
-		}
-
-		private bool GetIsExecutable()
-		{
-			return context.Control is not null && context.TabCount > 1;
-		}
-
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IMultitaskingContext.Control):
-				case nameof(IMultitaskingContext.TabCount):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
 		}
 	}
 }
