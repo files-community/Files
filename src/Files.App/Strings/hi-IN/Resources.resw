@@ -121,7 +121,7 @@
     <value>नई विंडो</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>पथ की प्रतिलिपि बनाएँ</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>ब्राउज़</value>
@@ -175,7 +175,7 @@
     <value>सभी वस्तुओं को साफ़ करें</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>एक रास्ता दर्ज करें</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -562,7 +562,7 @@
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Invalid item</value>
+    <value>अमान्य आइटम</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>संस्करण</value>
@@ -580,37 +580,37 @@
     <value>साझाकरण {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Sharing {0} {1}</value>
+    <value>साझाकरण {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>जिस आइटम का आप नाम बदलने का प्रयास कर रहे हैं वह अब मौजूद नहीं है. कृपया उस आइटम का सही स्थान सत्यापित करें जिसका आपको नाम बदलने की आवश्यकता है.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>आइटम अब मौजूद नहीं है</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>The name specified was invalid. Please check the desired item name and try again.</value>
+    <value>निर्दिष्ट नाम अमान्य था. कृपया इच्छित आइटम नाम जाँचें और पुन: प्रयास करें.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>Invalid item name</value>
+    <value>अमान्य आइटम नाम</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
+    <value>निर्दिष्ट आइटम नाम की लंबाई अधिकतम सीमा से अधिक है. कृपया इच्छित नाम जाँचें और पुन: प्रयास करें.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>Item name was too long</value>
+    <value>आइटम का नाम बहुत लंबा था</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>अधिक विकल्प दिखाएँ</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
+    <value>इन सेटिंग्स को लागू करने के लिए एप्लिकेशन को पुनरारंभ करने की आवश्यकता है, क्या आप ऐप को पुनरारंभ करना चाहेंगे?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>GitHub पर हमें प्रायोजित करें</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+    <value>हम यह आइटम बनाने में सक्षम नहीं थे</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>प्रवेश निषेध</value>
@@ -3403,5 +3403,30 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
   </data>
 </root>

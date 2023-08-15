@@ -1,20 +1,13 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.App.ViewModels.Properties
 {
 	internal class LibraryProperties : BaseProperties
 	{
-		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetService<IDateTimeFormatter>();
-
 		public LibraryItem Library { get; private set; }
 
 		public LibraryProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
@@ -67,7 +60,7 @@ namespace Files.App.ViewModels.Properties
 			BaseStorageFile libraryFile = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Library.ItemPath);
 			if (libraryFile is not null)
 			{
-				ViewModel.ItemCreatedTimestamp = dateTimeFormatter.ToShortLabel(libraryFile.DateCreated);
+				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
 				if (libraryFile.Properties is not null)
 				{
 					GetOtherProperties(libraryFile.Properties);

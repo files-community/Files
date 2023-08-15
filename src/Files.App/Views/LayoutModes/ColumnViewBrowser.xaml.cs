@@ -114,7 +114,8 @@ namespace Files.App.Views.LayoutModes
 				SearchQuery = navigationArguments.SearchQuery,
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
-				NavPathParam = path
+				NavPathParam = path,
+				SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
 			});
 
 			var index = 0;
@@ -125,7 +126,8 @@ namespace Files.App.Views.LayoutModes
 				frame.Navigate(typeof(ColumnShellPage), new ColumnParam
 				{
 					Column = ++index,
-					NavPathParam = path
+					NavPathParam = path,
+					SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
 				});
 			}
 		}
