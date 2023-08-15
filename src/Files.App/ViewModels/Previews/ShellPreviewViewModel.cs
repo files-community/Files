@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Previews
 		private static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
 
 		PreviewHandler? currentHandler;
-		ContentExternalOutputLink? m_outputLink;
+		ContentExternalOutputLink? outputLink;
 		WindowClass? wCls;
 		HWND hwnd = HWND.NULL;
 
@@ -64,8 +64,8 @@ namespace Files.App.ViewModels.Previews
 				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
 			if (currentHandler != null)
 				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
-			if (m_outputLink is not null)
-				m_outputLink.PlacementVisual.Size = new(size.Width, size.Height);
+			if (outputLink is not null)
+				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
 		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
@@ -97,15 +97,13 @@ namespace Files.App.ViewModels.Previews
 
 		public void LoadPreview(ContentPresenter presenter)
 		{
-			UnloadPreview();
-
 			var parent = MainWindow.Instance.WindowHandle;
 
 			HINSTANCE hInst = Kernel32.GetModuleHandle();
 			wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
 			hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
 
-			//var hr = ChildWindowToXaml(parent, presenter);
+			_ = ChildWindowToXaml(parent, presenter);
 		}
 
 		private bool ChildWindowToXaml(IntPtr parent, ContentPresenter presenter)
@@ -141,41 +139,45 @@ namespace Files.App.ViewModels.Previews
 			if (d3d11Device is null)
 				return false;
 			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
-			if (Functions.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var dcompDev).IsError)
+			if (Functions.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).IsError)
 				return false;
-			IDCompositionDevice m_pDevice = (IDCompositionDevice)Marshal.GetObjectForIUnknown(dcompDev);
+			IDCompositionDevice compDevice = (IDCompositionDevice)Marshal.GetObjectForIUnknown(compDevicePtr);
 
-			if (m_pDevice.CreateVisual(out var m_pControlChildVisual).IsError ||
-				m_pDevice.CreateSurfaceFromHwnd(hwnd.DangerousGetHandle(), out var m_pControlsurfaceTile).IsError ||
-				m_pControlChildVisual.SetContent(m_pControlsurfaceTile).IsError)
+			if (compDevice.CreateVisual(out var childVisual).IsError ||
+				compDevice.CreateSurfaceFromHwnd(hwnd.DangerousGetHandle(), out var controlSurface).IsError ||
+				childVisual.SetContent(controlSurface).IsError)
 				return false;
 
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
-			m_outputLink = ContentExternalOutputLink.Create(compositor);
-			IDCompositionTarget target = m_outputLink.As<IDCompositionTarget>();
-			target.SetRoot(m_pControlChildVisual);
+			outputLink = ContentExternalOutputLink.Create(compositor);
+			IDCompositionTarget target = outputLink.As<IDCompositionTarget>();
+			target.SetRoot(childVisual);
 
-			m_outputLink.PlacementVisual.Size = new(0, 0);
-			m_outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
-			ElementCompositionPreview.SetElementChildVisual(presenter, m_outputLink.PlacementVisual);
+			outputLink.PlacementVisual.Size = new(0, 0);
+			outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
-			m_pDevice.Commit();
+			compDevice.Commit();
 
-			return DwmApi.DwmSetWindowAttribute<bool>(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true).Succeeded;
+			Marshal.ReleaseComObject(target);
+			Marshal.ReleaseComObject(childVisual);
+			Marshal.ReleaseComObject(controlSurface);
+			Marshal.ReleaseComObject(compDevice);
+			Marshal.Release(compDevicePtr);
+			Marshal.ReleaseComObject(dxgiDevice);
+			Marshal.ReleaseComObject(d3d11Device);
+
+			return DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true).Succeeded;
 		}
 
 		public void UnloadPreview()
 		{
-			var parent = (HWND)MainWindow.Instance.WindowHandle;
-			if (hwnd == HWND.NULL)
-				hwnd = parent.EnumChildWindows().FirstOrDefault(x =>
-				{
-					var sb = new StringBuilder(512);
-					return GetClassName(x, sb, 512) > 0 && sb.ToString().StartsWith(GetType().Name);
-				});
-			if (hwnd == HWND.NULL)
-				return;
-			DestroyWindow(hwnd);
+			if (hwnd != HWND.NULL)
+				DestroyWindow(hwnd);
+			if (outputLink is not null)
+				outputLink.Dispose();
+			if (wCls is not null)
+				UnregisterClass(wCls.ClassName, Kernel32.GetModuleHandle());
 		}
 
 		public void GotFocus(Action focusPresenter)
