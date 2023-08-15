@@ -26,21 +26,24 @@ namespace Files.App.UserControls.KeyboardShortcut
 
 		private void OnShortcutTextChanged()
 		{
-			// Generate items
-			var splitItems = Regex.Split(ShortcutText, @"(?<=[,+])");
 			List<KeyboardShortcutItem> items = new();
 
-			foreach (var item in splitItems)
+			foreach (var item in ShortcutText.Split(',').ToList())
 			{
-				if (item == "+" || item == ",")
+				foreach (var item2 in item.Split("+").ToList())
 				{
-					items.Add(new() { Text = item, IsSurrounded = false });
+					items.Add(new() { Text = item2 });
+					items.Add(new() { Text = "+", IsSurrounded = false });
 				}
-				else
-				{
-					items.Add(new() { Text = item });
-				}
+
+				if (items.Last().Text == "+")
+					items.Remove(items.Last());
+
+				items.Add(new() { Text = ",", IsSurrounded = false });
 			}
+
+			if (items.Last().Text == ",")
+				items.Remove(items.Last());
 
 			// Set value
 			if (GetTemplateChild(KeyboardShortcutItemsRepeater) is ItemsRepeater keyboardShortcutItemsRepeater)
