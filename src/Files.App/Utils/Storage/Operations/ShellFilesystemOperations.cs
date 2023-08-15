@@ -166,6 +166,14 @@ namespace Files.App.Utils.Storage
 								await sourceMatch.Select(x => FileNameConflictResolveOptionType.ReplaceExisting).ToListAsync(), progress, cancellationToken);
 					}
 				}
+				else if (copyResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge))
+				{
+					var failingItems = copyResult.Items
+						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
+						.Select(item => item.Source);
+
+					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
+				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))
 				{

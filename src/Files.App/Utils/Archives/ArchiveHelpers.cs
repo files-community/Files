@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.Archives;
 using Files.App.ViewModels.Dialogs;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Text;
