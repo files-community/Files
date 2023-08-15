@@ -61,7 +61,7 @@ namespace Files.App.ViewModels.Previews
 		public void SizeChanged(RECT size)
 		{
 			if (hwnd != HWND.NULL)
-				User32.SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
+				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
 			if (currentHandler != null)
 				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
 			if (m_outputLink is not null)
@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.Previews
 					UnloadPreview();
 				}
 			}
-			else if (msg == (uint)WindowMessage.WM_CLOSE)
+			else if (msg == (uint)WindowMessage.WM_DESTROY)
 			{
 				if (currentHandler is not null)
 				{
@@ -92,45 +92,20 @@ namespace Files.App.ViewModels.Previews
 					currentHandler = null;
 				}
 			}
-			else if (msg == (uint)WindowMessage.WM_DESTROY)
-			{
-				User32.PostQuitMessage(0);
-			}
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public async Task LoadPreviewAsync(ContentPresenter presenter)
+		public void LoadPreview(ContentPresenter presenter)
 		{
 			UnloadPreview();
 
 			var parent = MainWindow.Instance.WindowHandle;
 
-			var windowCreated = new TaskCompletionSource();
+			HINSTANCE hInst = Kernel32.GetModuleHandle();
+			wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
+			hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
 
-			var th = new Thread(() =>
-			{
-				HINSTANCE hInst = Kernel32.GetModuleHandle();
-				wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-				hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
-				windowCreated.TrySetResult();
-
-				if (hwnd != HWND.NULL)
-				{
-					while (GetMessage(out Vanara.PInvoke.MSG msg) > 0)
-					{
-						TranslateMessage(msg);
-						DispatchMessage(msg);
-					}
-				}
-
-				User32.UnregisterClass(wCls.ClassName, hInst);
-			});
-			th.TrySetApartmentState(ApartmentState.STA);
-			th.Start();
-
-			await windowCreated.Task;
-
-			var hr = ChildWindowToXaml(parent, presenter);
+			//var hr = ChildWindowToXaml(parent, presenter);
 		}
 
 		private bool ChildWindowToXaml(IntPtr parent, ContentPresenter presenter)
@@ -191,16 +166,16 @@ namespace Files.App.ViewModels.Previews
 
 		public void UnloadPreview()
 		{
-			var parent = MainWindow.Instance.WindowHandle;
+			var parent = (HWND)MainWindow.Instance.WindowHandle;
 			if (hwnd == HWND.NULL)
-				hwnd = User32.EnumChildWindows(parent).FirstOrDefault(x =>
+				hwnd = parent.EnumChildWindows().FirstOrDefault(x =>
 				{
 					var sb = new StringBuilder(512);
-					return User32.GetClassName(x, sb, 512) > 0 && sb.ToString().StartsWith(GetType().Name);
+					return GetClassName(x, sb, 512) > 0 && sb.ToString().StartsWith(GetType().Name);
 				});
 			if (hwnd == HWND.NULL)
 				return;
-			User32.PostMessage(hwnd, (uint)WindowMessage.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+			DestroyWindow(hwnd);
 		}
 
 		public void GotFocus(Action focusPresenter)

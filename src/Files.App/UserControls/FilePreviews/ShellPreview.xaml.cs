@@ -21,9 +21,9 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel.GotFocus(() => contentPresenter.Focus(FocusState.Programmatic));
 		}
 
-		private async void PreviewHost_Loaded(object sender, RoutedEventArgs e)
+		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
-			await ViewModel.LoadPreviewAsync(contentPresenter);
+			ViewModel.LoadPreview(contentPresenter);
 			ViewModel.SizeChanged(GetPreviewSize());
 			if (XamlRoot.Content is FrameworkElement element)
 				element.SizeChanged += PreviewHost_SizeChanged;
