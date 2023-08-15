@@ -18,7 +18,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void PreviewHost_GotFocus(object sender, RoutedEventArgs e)
 		{
-			ViewModel.GotFocus(() => contentPresenter.Focus(FocusState.Programmatic));
+			ViewModel.GotFocus(contentPresenter);
 		}
 
 		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)

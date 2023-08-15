@@ -1,7 +1,7 @@
 ﻿using DirectN;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Content;
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Previews
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
-		public void LoadPreview(ContentPresenter presenter)
+		public void LoadPreview(UIElement presenter)
 		{
 			var parent = MainWindow.Instance.WindowHandle;
 
@@ -106,7 +106,7 @@ namespace Files.App.ViewModels.Previews
 			_ = ChildWindowToXaml(parent, presenter);
 		}
 
-		private bool ChildWindowToXaml(IntPtr parent, ContentPresenter presenter)
+		private bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			{
@@ -180,7 +180,7 @@ namespace Files.App.ViewModels.Previews
 				UnregisterClass(wCls.ClassName, Kernel32.GetModuleHandle());
 		}
 
-		public void GotFocus(Action focusPresenter)
+		public void GotFocus(UIElement presenter)
 		{
 			if (currentHandler != null)
 			{
@@ -189,7 +189,7 @@ namespace Files.App.ViewModels.Previews
 				{
 					var old = currentHandler;
 					currentHandler = null;
-					focusPresenter();
+					presenter.Focus(FocusState.Programmatic);
 					currentHandler = old;
 				}
 			}
