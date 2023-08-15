@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Previews
 
 		PreviewHandler? currentHandler;
 		ContentExternalOutputLink? m_outputLink;
+		WindowClass? wCls;
 		HWND hwnd = HWND.NULL;
 
 		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
@@ -76,8 +77,6 @@ namespace Files.App.ViewModels.Previews
 				{
 					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
 					currentHandler.InitWithFileWithEveryWay(Item.ItemPath);
-					//currentHandler.SetBackground();
-					//currentHandler.SetForeground();
 					currentHandler.DoPreview();
 				}
 				catch (Exception ex)
@@ -111,8 +110,8 @@ namespace Files.App.ViewModels.Previews
 			var th = new Thread(() =>
 			{
 				HINSTANCE hInst = Kernel32.GetModuleHandle();
-				var wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-				hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
+				wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
+				hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
 				windowCreated.TrySetResult();
 
 				if (hwnd != HWND.NULL)
