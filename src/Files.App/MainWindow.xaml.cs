@@ -28,9 +28,6 @@ namespace Files.App
 
 		public IntPtr WindowHandle { get; }
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		static extern bool SetPropW(IntPtr hWnd, string lpString, IntPtr hData);
-
 		private MainWindow()
 		{
 			ApplicationService = new ApplicationService();
@@ -59,7 +56,7 @@ namespace Files.App
 
 			// Workaround for full screen window messing up the taskbar
 			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
