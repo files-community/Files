@@ -244,6 +244,18 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "TurnOnBitLocker".GetLocalizedResource(),
+					Tag = "TurnOnBitLockerPlaceholder",
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageBitLocker".GetLocalizedResource(),
+					Tag = "ManageBitLockerPlaceholder",
+					IsEnabled = false
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},

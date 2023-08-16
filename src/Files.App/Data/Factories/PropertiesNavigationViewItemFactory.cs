@@ -4,6 +4,7 @@
 using Files.Core.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
+using Files.Shared.Helpers;
 
 namespace Files.App.Data.Factories
 {

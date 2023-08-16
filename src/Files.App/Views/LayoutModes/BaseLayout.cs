@@ -727,7 +727,9 @@ namespace Files.App.Views.LayoutModes
 		{
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
+			var turnOnBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+			var manageBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
+			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem && x != turnOnBitLockerMenuItem && x != manageBitLockerMenuItem).ToList();
 			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
@@ -759,6 +761,19 @@ namespace Files.App.Views.LayoutModes
 				// Set items max width to current menu width (#5555)
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
+
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"TurnOnBitLockerPlaceholder",
+				turnOnBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"ManageBitLockerPlaceholder",
+				manageBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
 
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
 			if (overflowItem is not null)

@@ -1,14 +1,10 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Cloud;
 using Files.App.ViewModels.Properties;
-using Files.Core.Helpers;
-using Files.Core.ViewModels.FileTags;
+using Files.Shared.Helpers;
 using FluentFTP;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Text;

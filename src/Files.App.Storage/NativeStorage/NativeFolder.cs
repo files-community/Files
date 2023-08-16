@@ -22,13 +22,13 @@ namespace Files.App.Storage.NativeStorage
 	/// <inheritdoc cref="IFolder"/>
 	public class NativeFolder : NativeStorable<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
     {
-		public NativeFolder(DirectoryInfo directoryInfo)
-		    : base(directoryInfo)
+		public NativeFolder(DirectoryInfo directoryInfo, string? name = null)
+		    : base(directoryInfo, name)
 	    {
 	    }
 
-	    public NativeFolder(string path)
-		    : this(new DirectoryInfo(path))
+	    public NativeFolder(string path, string? name = null)
+		    : this(new DirectoryInfo(path), name)
 	    {
 	    }
 

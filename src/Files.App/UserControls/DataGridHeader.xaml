@@ -23,7 +23,11 @@
 			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="CornerRadius" Value="0" />
-			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Background">
+				<Setter.Value>
+					<SolidColorBrush Opacity="0" />
+				</Setter.Value>
+			</Setter>
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
