@@ -198,6 +198,8 @@ namespace Files.App.Utils.Storage
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
+			if (string.IsNullOrEmpty(folder))
+				matches = matches.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.FilePath));
 
 			foreach (var match in matches)
 			{

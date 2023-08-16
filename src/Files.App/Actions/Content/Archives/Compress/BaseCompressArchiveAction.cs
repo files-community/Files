@@ -3,32 +3,27 @@
 
 namespace Files.App.Actions
 {
-	internal class DecompressArchiveHere : BaseUIAction, IAction
+	internal abstract class BaseCompressArchiveAction : BaseUIAction, IAction
 	{
-		private readonly IContentPageContext context;
+		protected readonly IContentPageContext context;
 
-		public string Label
-			=> "ExtractHere".GetLocalizedResource();
+		public abstract string Label { get; }
 
-		public string Description
-			=> "DecompressArchiveHereDescription".GetLocalizedResource();
+		public abstract string Description { get; }
 
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
-			ArchiveHelpers.CanDecompress(context.SelectedItems) &&
+			ArchiveHelpers.CanCompress(context.SelectedItems) &&
 			UIHelpers.CanShowDialog;
 
-		public DecompressArchiveHere()
+		public BaseCompressArchiveAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
-		{
-			return ArchiveHelpers.DecompressArchiveHere(context.ShellPage);
-		}
+		public abstract Task ExecuteAsync();
 
 		private bool IsContextPageTypeAdaptedToCommand()
 		{
