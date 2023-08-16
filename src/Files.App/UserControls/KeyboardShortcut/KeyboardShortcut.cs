@@ -1,5 +1,5 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;
@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using System.Text;
 
 namespace Files.App.UserControls.KeyboardShortcut
 {
@@ -19,6 +18,14 @@ namespace Files.App.UserControls.KeyboardShortcut
 		public KeyboardShortcut()
 		{
 			DefaultStyleKey = typeof(KeyboardShortcut);
+		}
+
+		private void OnItemTypeChanged()
+		{
+		}
+
+		private void OnSizeChanged()
+		{
 		}
 
 		private void OnHotKeysChanged()
@@ -32,7 +39,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			{
 				if (items.Any())
 				{
-					items.Add(new() { Text = ",", ItemType = KeyboardShortcutItemKind.Reveal });
+					items.Add(new() { Text = ",", ItemType = KeyboardShortcutItemKind.Reveal, Size = Size });
 				}
 
 				switch(item.Key, item.Modifier)
@@ -50,14 +57,14 @@ namespace Files.App.UserControls.KeyboardShortcut
 					// Keys only
 					case (_, KeyModifiers.None):
 						var key = HotKey.keys[item.Key];
-						items.Add(new() { Text = key, ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = key, ItemType = ItemType, Size = Size });
 						break;
 
 					// Others
 					default:
 						GetModifierCode(item.Modifier);
 						key = HotKey.keys[item.Key];
-						items.Add(new() { Text = key, ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = key, ItemType = ItemType, Size = Size });
 						break;
 				}
 
@@ -65,23 +72,23 @@ namespace Files.App.UserControls.KeyboardShortcut
 				{
 					if (modifier.HasFlag(KeyModifiers.Menu))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Menu], ItemType = KeyboardShortcutItemKind.Default });
-						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Menu], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Ctrl], ItemType = KeyboardShortcutItemKind.Default });
-						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Ctrl], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Shift))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Shift], ItemType = KeyboardShortcutItemKind.Default });
-						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Shift], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal, Size = Size });
 					}
 					if (modifier.HasFlag(KeyModifiers.Win))
 					{
-						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Win], ItemType = KeyboardShortcutItemKind.Default });
-						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Win], ItemType = ItemType, Size = Size });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal, Size = Size });
 					}
 				}
 			}

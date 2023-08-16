@@ -21,6 +21,19 @@ namespace Files.App.UserControls.KeyboardShortcut
 			set => SetValue(ItemTypeProperty, value);
 		}
 
+		public static readonly DependencyProperty SizeProperty =
+			DependencyProperty.Register(
+				nameof(Size),
+				typeof(KeyboardShortcutItemSize),
+				typeof(KeyboardShortcutItem),
+				new PropertyMetadata(defaultValue: KeyboardShortcutItemSize.Small, (d, e) => ((KeyboardShortcutItem)d).OnSizePropertyChanged()));
+
+		public KeyboardShortcutItemSize Size
+		{
+			get => (KeyboardShortcutItemSize)GetValue(SizeProperty);
+			set => SetValue(SizeProperty, value);
+		}
+
 		public static readonly DependencyProperty TextProperty =
 			DependencyProperty.Register(
 				nameof(Text),
@@ -30,13 +43,18 @@ namespace Files.App.UserControls.KeyboardShortcut
 
 		public string Text
 		{
-			get => (string)GetValue(ItemTypeProperty);
-			set => SetValue(ItemTypeProperty, value);
+			get => (string)GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
 
 		public void OnItemTypePropertyChanged()
 		{
 			OnItemTypeChanged();
+		}
+
+		public void OnSizePropertyChanged()
+		{
+			OnSizeChanged();
 		}
 
 		public void OnTextPropertyChanged()

@@ -306,7 +306,7 @@
 				<AutoSuggestBox.ItemTemplate>
 					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
 						<StackPanel Margin="0,4">
-							<Grid>
+							<Grid ColumnSpacing="8">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
@@ -314,22 +314,27 @@
 
 								<!--  Primary Display  -->
 								<!--  This is used to display paths or command descriptions.  -->
-								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+								<TextBlock
+									Grid.Column="0"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									MaxLines="1"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
 									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+									<!--<ToolTipService.ToolTip>
+										<TextBlock>
+											<Run Text="{x:Bind PrimaryDisplay, Mode=OneWay}" />
+											<Run Text="&#10;" />
+											<Run FontStyle="Italic" Text="Ctrl+A" />
+										</TextBlock>
+									</ToolTipService.ToolTip>-->
 								</TextBlock>
-
-								<!--  Supplementary Display  -->
-								<!--  This is used to display command hotkeys.  -->
-								<!--<TextBlock
-									Grid.Column="1"
-									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />-->
 
 								<keyboard:KeyboardShortcut
 									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
 									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+
 							</Grid>
 
 							<!--  Secondary Display  -->

@@ -7,7 +7,7 @@
 	<local:KeyboardShortcutItemStyleSelector
 		x:Key="KeyboardShortcutItemStyleSelector"
 		AccentItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
-		DefaultItemStyle="{StaticResource DefaultKeyboardShortcutItemStyle}"
+		DefaultItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
 		RevealItemStyle="{StaticResource RevealKeyboardShortcutItemStyle}" />
 
 	<Style TargetType="local:KeyboardShortcut">
@@ -35,6 +35,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
 					<Grid
+						x:Name="PART_ContentRoot"
 						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 						BorderThickness="1"
 						CornerRadius="2">
@@ -44,7 +45,6 @@
 							Grid.Column="1"
 							Margin="4,0"
 							VerticalAlignment="Center"
-							FontSize="12"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
@@ -59,15 +59,16 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
-					<Grid Background="{ThemeResource AccentFillColorDefaultBrush}" CornerRadius="2">
+					<Grid
+						x:Name="PART_ContentRoot"
+						Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+						CornerRadius="2">
 
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Grid.Column="1"
 							Margin="4,0"
 							VerticalAlignment="Center"
-							FontSize="12"
-							Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
@@ -81,14 +82,13 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
-					<Grid>
+					<Grid x:Name="PART_ContentRoot">
 
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Grid.Column="1"
 							Margin="2,0"
 							VerticalAlignment="Center"
-							FontSize="12"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />

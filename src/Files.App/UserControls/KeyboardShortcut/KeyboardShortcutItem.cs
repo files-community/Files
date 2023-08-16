@@ -1,5 +1,5 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
 
@@ -18,13 +18,12 @@ namespace Files.App.UserControls.KeyboardShortcut
 		{
 		}
 
+		private void OnSizeChanged()
+		{
+		}
+
 		private void OnTextChanged()
 		{
-			// Set value
-			if (GetTemplateChild(MainTextTextBlock) is TextBlock mainTextTextBlock)
-			{
-				mainTextTextBlock.Text = Text;
-			}
 		}
 	}
 }
