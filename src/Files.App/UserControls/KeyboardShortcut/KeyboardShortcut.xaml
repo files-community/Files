@@ -7,7 +7,7 @@
 	<local:KeyboardShortcutItemStyleSelector
 		x:Key="KeyboardShortcutItemStyleSelector"
 		AccentItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
-		DefaultItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
+		DefaultItemStyle="{StaticResource DefaultKeyboardShortcutItemStyle}"
 		RevealItemStyle="{StaticResource RevealKeyboardShortcutItemStyle}" />
 
 	<Style TargetType="local:KeyboardShortcut">
@@ -39,7 +39,6 @@
 						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 						BorderThickness="1"
 						CornerRadius="2">
-
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Grid.Column="1"
@@ -49,6 +48,31 @@
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource BodyTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -63,7 +87,6 @@
 						x:Name="PART_ContentRoot"
 						Background="{ThemeResource SystemControlBackgroundAccentBrush}"
 						CornerRadius="2">
-
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Grid.Column="1"
@@ -72,6 +95,31 @@
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource BodyTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
+										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
@@ -83,7 +131,6 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
 					<Grid x:Name="PART_ContentRoot">
-
 						<TextBlock
 							x:Name="PART_MainTextTextBlock"
 							Grid.Column="1"
@@ -93,6 +140,25 @@
 							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="SizeStates">
+								<VisualState x:Name="Small">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource CaptionTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Medium">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource BodyTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Large">
+									<VisualState.Setters>
+										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
