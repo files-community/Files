@@ -208,7 +208,7 @@
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
-					CanDragItems="True"
+					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
