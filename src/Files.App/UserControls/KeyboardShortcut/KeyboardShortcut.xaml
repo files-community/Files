@@ -53,21 +53,18 @@
 								<VisualState x:Name="Small">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource CaptionTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Medium">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource BodyTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Large">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
@@ -100,21 +97,18 @@
 								<VisualState x:Name="Small">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource CaptionTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Medium">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource BodyTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Large">
 									<VisualState.Setters>
 										<Setter Target="PART_ContentRoot.Style" Value="{StaticResource SubtitleTextBlockStyle}" />
-										<Setter Target="PART_ContentRoot.Margin" Value="4,0" />
 										<!--<Setter Target="PART_ContentRoot.MinWidth" Value="Height" />-->
 									</VisualState.Setters>
 								</VisualState>
