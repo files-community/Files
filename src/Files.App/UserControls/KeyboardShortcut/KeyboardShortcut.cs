@@ -44,6 +44,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 					// Key modifiers only
 					case (Keys.None, _):
 						GetModifierCode(item.Modifier);
+						items.RemoveAt(items.Count - 1);
 						break;
 
 					// Keys only
@@ -63,15 +64,26 @@ namespace Files.App.UserControls.KeyboardShortcut
 				void GetModifierCode(KeyModifiers modifier)
 				{
 					if (modifier.HasFlag(KeyModifiers.Menu))
+					{
 						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Menu], ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+					}
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
+					{
 						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Ctrl], ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+					}
 					if (modifier.HasFlag(KeyModifiers.Shift))
+					{
 						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Shift], ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+					}
 					if (modifier.HasFlag(KeyModifiers.Win))
+					{
 						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Win], ItemType = KeyboardShortcutItemKind.Default });
+						items.Add(new() { Text = "+", ItemType = KeyboardShortcutItemKind.Reveal });
+					}
 				}
-
 			}
 
 			// Set value

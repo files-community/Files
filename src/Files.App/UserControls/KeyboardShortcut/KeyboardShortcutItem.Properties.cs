@@ -13,7 +13,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 				nameof(ItemType),
 				typeof(KeyboardShortcutItemKind),
 				typeof(KeyboardShortcutItem),
-				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Default, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged((KeyboardShortcutItemKind)e.OldValue, (KeyboardShortcutItemKind)e.NewValue)));
+				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Default, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged()));
 
 		public KeyboardShortcutItemKind ItemType
 		{
@@ -26,7 +26,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 				nameof(Text),
 				typeof(string),
 				typeof(KeyboardShortcutItem),
-				new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((KeyboardShortcutItem)d).OnTextPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+				new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((KeyboardShortcutItem)d).OnTextPropertyChanged()));
 
 		public string Text
 		{
@@ -34,12 +34,12 @@ namespace Files.App.UserControls.KeyboardShortcut
 			set => SetValue(ItemTypeProperty, value);
 		}
 
-		public void OnItemTypePropertyChanged(KeyboardShortcutItemKind oldValue, KeyboardShortcutItemKind newValue)
+		public void OnItemTypePropertyChanged()
 		{
 			OnItemTypeChanged();
 		}
 
-		public void OnTextPropertyChanged(string oldValue, string newValue)
+		public void OnTextPropertyChanged()
 		{
 			OnTextChanged();
 		}
