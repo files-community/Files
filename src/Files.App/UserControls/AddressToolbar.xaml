@@ -327,9 +327,9 @@
 									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />-->
 
 								<keyboard:KeyboardShortcut
-									x:Name="KeyboardShortcutControl"
+									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
-									ShortcutText="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
+									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
 							</Grid>
 
 							<!--  Secondary Display  -->

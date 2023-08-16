@@ -138,7 +138,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			
+
 			<Style x:Key="ColorIconEditTag" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>

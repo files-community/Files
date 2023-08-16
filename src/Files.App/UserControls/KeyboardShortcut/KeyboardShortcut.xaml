@@ -4,17 +4,25 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.UserControls.KeyboardShortcut">
 
+	<local:KeyboardShortcutItemStyleSelector
+		x:Key="KeyboardShortcutItemStyleSelector"
+		AccentItemStyle="{StaticResource DefaultKeyboardShortcutItemStyle}"
+		DefaultItemStyle="{StaticResource AccentKeyboardShortcutItemStyle}"
+		RevealItemStyle="{StaticResource RevealKeyboardShortcutItemStyle}" />
+
 	<Style TargetType="local:KeyboardShortcut">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcut">
 					<Grid x:Name="PART_ContentRoot">
 
-						<ItemsRepeater x:Name="PART_KeyboardShortcutItemsRepeater">
-							<ItemsRepeater.Layout>
-								<StackLayout Orientation="Horizontal" />
-							</ItemsRepeater.Layout>
-						</ItemsRepeater>
+						<ItemsControl x:Name="PART_KeyboardShortcutItemsControl" ItemContainerStyleSelector="{StaticResource KeyboardShortcutItemStyleSelector}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+						</ItemsControl>
 
 					</Grid>
 				</ControlTemplate>
@@ -22,26 +30,109 @@
 		</Setter>
 	</Style>
 
-	<Style TargetType="local:KeyboardShortcutItem">
+	<Style x:Key="DefaultKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcutItem">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<Border
+							x:Name="PART_TextSurroundingBorder"
+							Grid.ColumnSpan="3"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							CornerRadius="2" />
+
+						<Grid
+							x:Name="PART_LeftPaddingGrid"
+							Grid.Column="0"
+							Margin="4,0,0,0" />
+
+						<TextBlock
+							x:Name="PART_ShortcutTextSurrounded"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							FontSize="12"
+							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Text}" />
+
+						<Grid
+							x:Name="PART_RightPaddingGrid"
+							Grid.Column="2"
+							Margin="4,0,0,0" />
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="AccentKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:KeyboardShortcutItem">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<Border
+							x:Name="PART_TextSurroundingBorder"
+							Grid.ColumnSpan="3"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							CornerRadius="2" />
+
+						<Grid
+							x:Name="PART_LeftPaddingGrid"
+							Grid.Column="0"
+							Margin="4,0,0,0" />
+
+						<TextBlock
+							x:Name="PART_ShortcutTextSurrounded"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							FontSize="12"
+							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="{TemplateBinding Text}" />
+
+						<Grid
+							x:Name="PART_RightPaddingGrid"
+							Grid.Column="2"
+							Margin="4,0,0,0" />
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="RevealKeyboardShortcutItemStyle" TargetType="local:KeyboardShortcutItem">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:KeyboardShortcutItem">
 					<Grid>
 
-						<Border
-							x:Name="PART_TextSurroundingBorder"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"
-							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-							BorderThickness="1"
-							CornerRadius="2"
-							Visibility="{TemplateBinding IsSurrounded}" />
-
 						<TextBlock
-							x:Name="PART_ShortcutText"
-							Margin="4,0"
-							FontWeight="Normal"
+							x:Name="PART_ShortcutTextSurrounded"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							FontSize="12"
 							Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+							Style="{StaticResource CaptionTextBlockStyle}"
 							Text="{TemplateBinding Text}" />
 
 					</Grid>

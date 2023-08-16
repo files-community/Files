@@ -8,17 +8,17 @@ namespace Files.App.UserControls.KeyboardShortcut
 {
 	public sealed partial class KeyboardShortcutItem
 	{
-		public static readonly DependencyProperty IsSurroundedProperty =
+		public static readonly DependencyProperty ItemTypeProperty =
 			DependencyProperty.Register(
-				nameof(IsSurrounded),
-				typeof(bool),
+				nameof(ItemType),
+				typeof(KeyboardShortcutItemKind),
 				typeof(KeyboardShortcutItem),
-				new PropertyMetadata(defaultValue: true, (d, e) => ((KeyboardShortcutItem)d).OnIsSurroundedPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Default, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged((KeyboardShortcutItemKind)e.OldValue, (KeyboardShortcutItemKind)e.NewValue)));
 
-		public bool IsSurrounded
+		public KeyboardShortcutItemKind ItemType
 		{
-			get => (bool)GetValue(IsSurroundedProperty);
-			set => SetValue(IsSurroundedProperty, value);
+			get => (KeyboardShortcutItemKind)GetValue(ItemTypeProperty);
+			set => SetValue(ItemTypeProperty, value);
 		}
 
 		public static readonly DependencyProperty TextProperty =
@@ -30,13 +30,13 @@ namespace Files.App.UserControls.KeyboardShortcut
 
 		public string Text
 		{
-			get => (string)GetValue(TextProperty);
-			set => SetValue(TextProperty, value);
+			get => (string)GetValue(ItemTypeProperty);
+			set => SetValue(ItemTypeProperty, value);
 		}
 
-		public void OnIsSurroundedPropertyChanged(bool oldValue, bool newValue)
+		public void OnItemTypePropertyChanged(KeyboardShortcutItemKind oldValue, KeyboardShortcutItemKind newValue)
 		{
-			OnIsSurroundedChanged();
+			OnItemTypeChanged();
 		}
 
 		public void OnTextPropertyChanged(string oldValue, string newValue)

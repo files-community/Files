@@ -8,22 +8,22 @@ namespace Files.App.UserControls.KeyboardShortcut
 {
 	public sealed partial class KeyboardShortcut
 	{
-		public static readonly DependencyProperty ShortcutTextProperty =
+		public static readonly DependencyProperty HotKeysProperty =
 			DependencyProperty.Register(
-				nameof(ShortcutText),
-				typeof(string),
+				nameof(HotKeys),
+				typeof(HotKeyCollection),
 				typeof(KeyboardShortcut),
-				new PropertyMetadata(defaultValue: string.Empty, (d, e) => ((KeyboardShortcut)d).OnShortcutTextPropertyChanged((string)e.OldValue, (string)e.NewValue)));
+				new PropertyMetadata(defaultValue: new(), (d, e) => ((KeyboardShortcut)d).OnHotKeysPropertyChanged()));
 
-		public string ShortcutText
+		public HotKeyCollection HotKeys
 		{
-			get => (string)GetValue(ShortcutTextProperty);
-			set => SetValue(ShortcutTextProperty, value);
+			get => (HotKeyCollection)GetValue(HotKeysProperty);
+			set => SetValue(HotKeysProperty, value);
 		}
 
-		private void OnShortcutTextPropertyChanged(string oldValue, string newValue)
+		private void OnHotKeysPropertyChanged()
 		{
-			OnShortcutTextChanged();
+			OnHotKeysChanged();
 		}
 	}
 }

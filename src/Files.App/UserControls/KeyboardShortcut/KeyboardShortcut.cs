@@ -8,47 +8,76 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
-using Windows.ApplicationModel.DataTransfer;
+using System.Text;
 
 namespace Files.App.UserControls.KeyboardShortcut
 {
 	public sealed partial class KeyboardShortcut : Control
 	{
-		internal const string KeyboardShortcutItemsRepeater = "PART_KeyboardShortcutItemsRepeater";
+		internal const string KeyboardShortcutItemsControl = "PART_KeyboardShortcutItemsControl";
 
 		public KeyboardShortcut()
 		{
 			DefaultStyleKey = typeof(KeyboardShortcut);
 		}
 
-		private void OnShortcutTextChanged()
+		private void OnHotKeysChanged()
 		{
+			if (HotKeys.IsEmpty)
+				return;
+
 			List<KeyboardShortcutItem> items = new();
 
-			foreach (var item in ShortcutText.Split(',').ToList())
+			foreach (var item in HotKeys)
 			{
-				foreach (var item2 in item.Split("+").ToList())
+				if (items.Any())
 				{
-					items.Add(new() { Text = item2 });
-					items.Add(new() { Text = "+", IsSurrounded = false });
+					items.Add(new() { Text = ",", ItemType = KeyboardShortcutItemKind.Reveal });
 				}
 
-				if (items.Last().Text == "+")
-					items.Remove(items.Last());
+				switch(item.Key, item.Modifier)
+				{
+					// No keys or modifiers specified
+					case (Keys.None, KeyModifiers.None):
+						break;
 
-				items.Add(new() { Text = ",", IsSurrounded = false });
+					// Key modifiers only
+					case (Keys.None, _):
+						GetModifierCode(item.Modifier);
+						break;
+
+					// Keys only
+					case (_, KeyModifiers.None):
+						var key = HotKey.keys[item.Key];
+						items.Add(new() { Text = key, ItemType = KeyboardShortcutItemKind.Default });
+						break;
+
+					// Others
+					default:
+						GetModifierCode(item.Modifier);
+						key = HotKey.keys[item.Key];
+						items.Add(new() { Text = key, ItemType = KeyboardShortcutItemKind.Default });
+						break;
+				}
+
+				void GetModifierCode(KeyModifiers modifier)
+				{
+					if (modifier.HasFlag(KeyModifiers.Menu))
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Menu], ItemType = KeyboardShortcutItemKind.Default });
+					if (modifier.HasFlag(KeyModifiers.Ctrl))
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Ctrl], ItemType = KeyboardShortcutItemKind.Default });
+					if (modifier.HasFlag(KeyModifiers.Shift))
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Shift], ItemType = KeyboardShortcutItemKind.Default });
+					if (modifier.HasFlag(KeyModifiers.Win))
+						items.Add(new() { Text = HotKey.modifiers[KeyModifiers.Win], ItemType = KeyboardShortcutItemKind.Default });
+				}
+
 			}
 
-			if (items.Last().Text == ",")
-				items.Remove(items.Last());
-
 			// Set value
-			if (GetTemplateChild(KeyboardShortcutItemsRepeater) is ItemsRepeater keyboardShortcutItemsRepeater)
+			if (GetTemplateChild(KeyboardShortcutItemsControl) is ItemsControl keyboardShortcutItemsControl)
 			{
-				keyboardShortcutItemsRepeater.ItemsSource = items;
+				keyboardShortcutItemsControl.ItemsSource = items;
 			}
 		}
 	}
