@@ -3429,4 +3429,13 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>作業フォルダー:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>BitLocker を有効にする</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>BitLocker の管理</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>以下のファイルは大きすぎて、このドライブにコピーできません。</value>
+  </data>
 </root>

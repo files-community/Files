@@ -3429,4 +3429,13 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>بدء في:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>تشغيل BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>إدارة BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>العناصر التالية حجمها كبير جدًا بحيث لا يمكن نسخه إلى محرك الأقراص هذا</value>
+  </data>
 </root>
