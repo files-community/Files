@@ -69,6 +69,31 @@ namespace Files.App.Data.Models
 			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
+		private bool _IsGitPropertiesEnabled;
+		public bool IsGitPropertiesEnabled
+		{
+			get => _IsGitPropertiesEnabled;
+			set
+			{
+				if (SetProperty(ref _IsGitPropertiesEnabled, value) && value)
+				{
+					filesAndFolders.ToList().ForEach(async item => {
+						if (item is GitItem gitItem && !gitItem.GitPropertiesInitialized)
+						{
+							try
+							{
+								await Task.Run(async () => await LoadGitProperties(gitItem, loadPropsCTS));
+							}
+							catch (OperationCanceledException)
+							{
+								// Ignored
+							}
+						}
+					});
+				}
+			}
+		}
+
 		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
@@ -1203,39 +1228,8 @@ namespace Files.App.Data.Models
 								}));
 						}
 
-						if (item.IsGitItem &&
-							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
-							!string.IsNullOrEmpty(repoPath))
-						{
-							cts.Token.ThrowIfCancellationRequested();
-							await SafetyExtensions.IgnoreExceptions(() =>
-							{
-								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
-								{
-									var repo = new LibGit2Sharp.Repository(repoPath);
-									GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
-
-									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-										_ => null,
-									};
-									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-
-									repo.Dispose();
-								},
-								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-							});
-						}
+						if (IsGitPropertiesEnabled && item is GitItem gitItem && !gitItem.GitPropertiesInitialized)
+							await LoadGitProperties(gitItem, cts);
 					}
 				}, cts.Token);
 			}
@@ -1246,6 +1240,42 @@ namespace Files.App.Data.Models
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
+			}
+		}
+
+		private async Task LoadGitProperties(GitItem gitItem, CancellationTokenSource cts)
+		{
+			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
+			{
+				cts.Token.ThrowIfCancellationRequested();
+				gitItem.GitPropertiesInitialized = true;
+				await SafetyExtensions.IgnoreExceptions(() =>
+				{
+					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						var repo = new Repository(repoPath);
+						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath);
+
+						gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+						{
+							ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+							ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+							ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+							ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+							_ => null,
+						};
+						gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+						gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+						gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+						gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+						gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+						gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+
+						repo.Dispose();
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				});
 			}
 		}
 

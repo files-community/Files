@@ -473,6 +473,9 @@ namespace Files.App.Views.LayoutModes
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.IsGitPropertiesEnabled = false;
 		}
 
 		public void SetSelectedItemsOnNavigation()

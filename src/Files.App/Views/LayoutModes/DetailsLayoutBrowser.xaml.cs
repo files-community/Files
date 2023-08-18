@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -123,6 +122,13 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
+
+			ParentShellPageInstance.FilesystemViewModel.IsGitPropertiesEnabled =
+				!ColumnsViewModel.GitStatusColumn.IsHidden && !ColumnsViewModel.GitStatusColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitDateColumn.IsHidden && !ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitMessageColumn.IsHidden && !ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed
+				|| !ColumnsViewModel.GitCommitAuthorColumn.IsHidden && !ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitShaColumn.IsHidden && !ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
 
 			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -559,6 +565,13 @@ namespace Files.App.Views.LayoutModes
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+
+			ParentShellPageInstance.FilesystemViewModel.IsGitPropertiesEnabled =
+				!ColumnsViewModel.GitStatusColumn.IsHidden && !ColumnsViewModel.GitStatusColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitDateColumn.IsHidden && !ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitMessageColumn.IsHidden && !ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed
+				|| !ColumnsViewModel.GitCommitAuthorColumn.IsHidden && !ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed
+				|| !ColumnsViewModel.GitLastCommitShaColumn.IsHidden && !ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
