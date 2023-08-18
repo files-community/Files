@@ -187,7 +187,7 @@
     <value>Odstranit tuto položku</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repozitář</value>
+    <value>Github repozitář</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>O aplikaci</value>
@@ -3428,5 +3428,14 @@
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Začít v:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Zapnout BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Správa BitLockeru</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Následující položky jsou příliš velké na to, aby mohly být zkopírovány na tuto jednotku</value>
   </data>
 </root>
