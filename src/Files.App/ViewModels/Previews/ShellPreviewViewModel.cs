@@ -30,6 +30,7 @@ namespace Files.App.ViewModels.Previews
 		ContentExternalOutputLink? outputLink;
 		WindowClass? wCls;
 		HWND hwnd = HWND.NULL;
+		bool isOfficePreview = false;
 
 		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
 		{
@@ -46,6 +47,7 @@ namespace Files.App.ViewModels.Previews
 				var sb = new StringBuilder(128);
 				uint cch = 64;
 				queryAssoc.GetString(ASSOCF.ASSOCF_NOTRUNCATE, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, IPreviewHandlerIid, sb, ref cch);
+				Debug.WriteLine($"Preview handler for {extension}: {sb}");
 				return Guid.Parse(sb.ToString());
 			}
 			catch
@@ -70,9 +72,13 @@ namespace Files.App.ViewModels.Previews
 
 		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
 		{
-			if (msg == (uint)WindowMessage.WM_NCCREATE)
+			if (msg == (uint)WindowMessage.WM_CREATE)
 			{
 				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd.DangerousGetHandle());
+				isOfficePreview = new Guid?[] {
+					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"),
+					Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"),
+					Guid.Parse("00020827-0000-0000-C000-000000000046") }.Contains(clsid);
 				try
 				{
 					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
@@ -183,12 +189,11 @@ namespace Files.App.ViewModels.Previews
 
 		public void PointerEntered(bool onPreview)
 		{
-			if (Item.FileExtension is ".ini")
-				return;
 			if (onPreview)
 			{
 				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
-				InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+				if (isOfficePreview)
+					InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
 			}
 			else
 			{

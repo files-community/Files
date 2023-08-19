@@ -230,21 +230,21 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (PDFPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new PDFPreview(model);
-			}
+			}*/
 
-			if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new HtmlPreview(model);
-			}
+			}*/
 
 			if (RichTextPreviewViewModel.ContainsExtension(ext))
 			{
