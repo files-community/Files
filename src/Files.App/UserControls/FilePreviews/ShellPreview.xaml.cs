@@ -16,11 +16,6 @@ namespace Files.App.UserControls.FilePreviews
 			this.InitializeComponent();
 		}
 
-		private void PreviewHost_GotFocus(object sender, RoutedEventArgs e)
-		{
-			ViewModel.GotFocus(contentPresenter);
-		}
-
 		private void PreviewHost_Loaded(object sender, RoutedEventArgs e)
 		{
 			ViewModel.LoadPreview(contentPresenter);

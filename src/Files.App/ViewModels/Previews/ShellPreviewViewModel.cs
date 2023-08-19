@@ -181,21 +181,6 @@ namespace Files.App.ViewModels.Previews
 				UnregisterClass(wCls.ClassName, Kernel32.GetModuleHandle());
 		}
 
-		public void GotFocus(UIElement presenter)
-		{
-			if (currentHandler != null)
-			{
-				currentHandler.Focus();
-				if (currentHandler.QueryFocus() == IntPtr.Zero)
-				{
-					var old = currentHandler;
-					currentHandler = null;
-					presenter.Focus(FocusState.Programmatic);
-					currentHandler = old;
-				}
-			}
-		}
-
 		public void PointerEntered(bool onPreview)
 		{
 			if (Item.FileExtension is ".ini")
