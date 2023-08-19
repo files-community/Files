@@ -133,13 +133,13 @@
     <value>बनाया गया:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>मार्ग</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>माप</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>डिस्क पर माप</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed Size:</value>
@@ -178,7 +178,7 @@
     <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>खोज</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>आपके द्वारा पहले एक्सेस की गई फ़ाइलें और फ़ोल्डर यहां दिखाई देंगे</value>
@@ -199,7 +199,7 @@
     <value>दिनांक स्वरूप</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>थीम</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Show extensions for known file types</value>
@@ -214,7 +214,7 @@
     <value>उपस्थिति</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>Background</value>
+    <value>बैकग्राउंड</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
@@ -265,7 +265,7 @@
     <value>साझा</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>कट</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>हटायें</value>
@@ -397,7 +397,7 @@
     <value>1 second ago</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>अभी</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>अनुरोधित ऑपरेशन का समर्थन नहीं किया जाता है</value>
@@ -445,22 +445,22 @@
     <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>केबी</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB</value>
+    <value>एमबी</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>GB</value>
+    <value>जीबी</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TB</value>
+    <value>टीबी</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PB</value>
+    <value>पी बी</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>बी</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} फ़ाइलें, {1:#,##0} फ़ोल्डर्स</value>
@@ -3019,7 +3019,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>खोज</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3428,5 +3428,14 @@
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
   </data>
 </root>

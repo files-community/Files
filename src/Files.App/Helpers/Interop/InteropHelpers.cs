@@ -15,6 +15,9 @@ namespace Files.App.Helpers
 		public static readonly Guid DataTransferManagerInteropIID =
 			new(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);
 
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern bool SetPropW(IntPtr hWnd, string lpString, IntPtr hData);
+
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetCursorPos(out POINT point);
