@@ -11,7 +11,9 @@
 
 	<ContentPresenter
 		Name="contentPresenter"
+		Background="Transparent"
 		GotFocus="PreviewHost_GotFocus"
 		Loaded="PreviewHost_Loaded"
+		PointerEntered="PreviewHost_PointerEntered"
 		SizeChanged="PreviewHost_SizeChanged" />
 </UserControl>

@@ -26,7 +26,10 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel.LoadPreview(contentPresenter);
 			ViewModel.SizeChanged(GetPreviewSize());
 			if (XamlRoot.Content is FrameworkElement element)
+			{
 				element.SizeChanged += PreviewHost_SizeChanged;
+				element.PointerEntered += PreviewHost_PointerEntered;
+			}
 		}
 
 		private void PreviewHost_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -51,8 +54,16 @@ namespace Files.App.UserControls.FilePreviews
 		private void PreviewHost_Unloaded(object sender, RoutedEventArgs e)
 		{
 			if (XamlRoot.Content is FrameworkElement element)
+			{
 				element.SizeChanged -= PreviewHost_SizeChanged;
+				element.PointerEntered -= PreviewHost_PointerEntered;
+			}
 			ViewModel.UnloadPreview();
+		}
+
+		private void PreviewHost_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		{
+			ViewModel.PointerEntered(sender == contentPresenter);
 		}
 	}
 }

@@ -5,6 +5,8 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Vanara.PInvoke;
+using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -47,6 +49,20 @@ namespace Files.App.Helpers
 				uiElement,
 				new object[] { cursor }
 			);
+		}
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLong")]
+		private static extern int SetWindowLongPtr32(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLongPtr")]
+		private static extern IntPtr SetWindowLongPtr64(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		public static IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+		{
+			if (IntPtr.Size == 4)
+				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
+			else
+				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
 	}
 

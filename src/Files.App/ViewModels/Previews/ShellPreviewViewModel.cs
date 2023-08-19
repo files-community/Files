@@ -195,5 +195,22 @@ namespace Files.App.ViewModels.Previews
 				}
 			}
 		}
+
+		public void PointerEntered(bool onPreview)
+		{
+			if (Item.FileExtension is ".ini")
+				return;
+			if (onPreview)
+			{
+				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, false);
+				InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
+			}
+			else
+			{
+				InteropHelpers.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
+					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
+				DwmApi.DwmSetWindowAttribute(hwnd, DwmApi.DWMWINDOWATTRIBUTE.DWMWA_CLOAK, true);
+			}
+		}
 	}
 }
