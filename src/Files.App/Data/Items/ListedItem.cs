@@ -569,11 +569,18 @@ namespace Files.App.Utils
 
 	public class GitItem : ListedItem
 	{
-		private volatile int gitPropertiesInitialized = 0;
-		public bool GitPropertiesInitialized
+		private volatile int statusPropertiesInitialized = 0;
+		public bool StatusPropertiesInitialized
 		{
-			get => gitPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref gitPropertiesInitialized, value ? 1 : 0);
+			get => statusPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
+		}
+
+		private volatile int commitPropertiesInitialized = 0;
+		public bool CommitPropertiesInitialized
+		{
+			get => commitPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
 		}
 
 		private Style? _UnmergedGitStatusIcon;

@@ -69,16 +69,17 @@ namespace Files.App.Data.Models
 			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
-		private bool _IsGitPropertiesEnabled;
-		public bool IsGitPropertiesEnabled
+		private GitProperties _EnabledGitProperties;
+		public GitProperties EnabledGitProperties
 		{
-			get => _IsGitPropertiesEnabled;
+			get => _EnabledGitProperties;
 			set
 			{
-				if (SetProperty(ref _IsGitPropertiesEnabled, value) && value)
+				if (SetProperty(ref _EnabledGitProperties, value) && value != GitProperties.None)
 				{
 					filesAndFolders.ToList().ForEach(async item => {
-						if (item is GitItem gitItem && !gitItem.GitPropertiesInitialized)
+						if (item is GitItem gitItem &&
+							!(gitItem.StatusPropertiesInitialized && gitItem.CommitPropertiesInitialized))
 						{
 							try
 							{
@@ -1228,7 +1229,7 @@ namespace Files.App.Data.Models
 								}));
 						}
 
-						if (IsGitPropertiesEnabled && item is GitItem gitItem && !gitItem.GitPropertiesInitialized)
+						if (EnabledGitProperties != GitProperties.None && item is GitItem gitItem)
 							await LoadGitProperties(gitItem, cts);
 					}
 				}, cts.Token);
@@ -1245,32 +1246,50 @@ namespace Files.App.Data.Models
 
 		private async Task LoadGitProperties(GitItem gitItem, CancellationTokenSource cts)
 		{
+			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
+			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
+
+			if (!getStatus && !getCommit)
+				return;
+
 			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
 				!string.IsNullOrEmpty(repoPath))
 			{
 				cts.Token.ThrowIfCancellationRequested();
-				gitItem.GitPropertiesInitialized = true;
+
+				if (getStatus)
+					gitItem.StatusPropertiesInitialized = true;
+
+				if (getCommit)
+					gitItem.CommitPropertiesInitialized = true;
+
 				await SafetyExtensions.IgnoreExceptions(() =>
 				{
 					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						var repo = new Repository(repoPath);
-						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath);
+						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
 
-						gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+						if (getStatus)
 						{
-							ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-							ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-							ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-							ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-							_ => null,
-						};
-						gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-						gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-						gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-						gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-						gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-						gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+							gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+							{
+								ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+								ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+								ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+								ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+								_ => null,
+							};
+							gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+						}
+						if (getCommit)
+						{
+							gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+							gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+							gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+							gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+							gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+						}
 
 						repo.Dispose();
 					},
@@ -2488,5 +2507,13 @@ namespace Files.App.Data.Models
 		/// This property may not be provided consistently if Status is not Complete
 		/// </summary>
 		public string? Path { get; set; }
+	}
+
+	public enum GitProperties
+	{
+		None,
+		Status,
+		Commit,
+		All,
 	}
 }
