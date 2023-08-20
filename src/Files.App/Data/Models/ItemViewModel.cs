@@ -75,11 +75,12 @@ namespace Files.App.Data.Models
 			get => _EnabledGitProperties;
 			set
 			{
-				if (SetProperty(ref _EnabledGitProperties, value) && value != GitProperties.None)
+				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
 				{
 					filesAndFolders.ToList().ForEach(async item => {
 						if (item is GitItem gitItem &&
-							!(gitItem.StatusPropertiesInitialized && gitItem.CommitPropertiesInitialized))
+							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
+							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
 						{
 							try
 							{
