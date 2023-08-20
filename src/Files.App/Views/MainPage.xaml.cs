@@ -4,12 +4,8 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
 using Files.App.UserControls.MultitaskingControl;
 using Files.App.UserControls.Sidebar;
-using Files.Core.Extensions;
-using Files.App.UserControls.MultitaskingControl;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -18,10 +14,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
-using Vanara.Extensions.Reflection;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
-using Windows.Storage;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -45,6 +39,8 @@ namespace Files.App.Views
 			=> App.AppModel;
 
 		private bool keyReleased = true;
+
+		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
@@ -97,6 +93,22 @@ namespace Files.App.Views
 				}
 				catch (Exception) { }
 			}
+		}
+
+		private async Task AppRunningAsAdminPrompt()
+		{
+			var runningAsAdminPrompt = new ContentDialog
+			{
+				Title = "FilesRunningAsAdmin".ToLocalized(),
+				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				PrimaryButtonText = "Ok".ToLocalized(),
+				SecondaryButtonText = "DontShowAgain".ToLocalized()
+			};
+
+			var result = await runningAsAdminPrompt.TryShowAsync();
+
+			if (result == ContentDialogResult.Secondary)
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
 		}
 
 		// WINUI3
@@ -273,6 +285,18 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
+			// Notify user that drag and drop is disabled
+			// ToDo put this in a StartupPromptService
+			if
+			(
+				isAppRunningAsAdmin == true &&
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
+			)
+			{
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+			}
+
+			// ToDo put this in a StartupPromptService
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
@@ -456,7 +480,7 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 
