@@ -213,9 +213,9 @@ namespace Files.App.Data.Items
 						Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
 						Content = new OpacityIcon()
 						{
-							Style = Application.Current.Resources["ColorIconCloud"] as Style,
-							Height = 14,
-							Width = 14
+							Style = Application.Current.Resources["ColorIconEject"] as Style,
+							Height = 16,
+							Width = 16
 						}
 					};
 					itemDecorator.Click += ItemDecorator_Click;
