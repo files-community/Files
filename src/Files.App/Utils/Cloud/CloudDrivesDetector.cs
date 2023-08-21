@@ -155,15 +155,11 @@ namespace Files.App.Utils.Cloud
 
 				if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.Any(x => x.Name == accountName))
 				{
-					string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-					string iconPath = Path.Combine(appDataFolder, "Microsoft", "OneDrive", "OneDrive.exe");
-					var iconFile = Win32API.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }, 32).FirstOrDefault();
-
 					oneDriveAccounts.Add(new CloudProvider(CloudProviders.OneDrive)
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
-						IconData = iconFile?.IconData,
+						IconData = UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.OneDrive).IconData,
 					});
 				}
 			}
