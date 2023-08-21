@@ -10,6 +10,10 @@ namespace Files.App.UserControls.CustomTabView
 	/// </summary>
 	public sealed class CustomTabViewItem : ObservableObject, ICustomTabViewItem, IDisposable
 	{
+		public Frame ContentFrame { get; private set; }
+
+		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
+
 		private IconSource _IconSource;
 		public IconSource IconSource
 		{
@@ -17,22 +21,22 @@ namespace Files.App.UserControls.CustomTabView
 			set => SetProperty(ref _IconSource, value);
 		}
 
-		private string _Header;
-		public string Header
+		private string? _Header;
+		public string? Header
 		{
 			get => _Header;
 			set => SetProperty(ref _Header, value);
 		}
 
-		private string _Description = null;
-		public string Description
+		private string? _Description = null;
+		public string? Description
 		{
 			get => _Description;
 			set => SetProperty(ref _Description, value);
 		}
 
-		private string _ToolTipText;
-		public string ToolTipText
+		private string? _ToolTipText;
+		public string? ToolTipText
 		{
 			get => _ToolTipText;
 			set => SetProperty(ref _ToolTipText, value);
@@ -65,10 +69,6 @@ namespace Files.App.UserControls.CustomTabView
 				}
 			}
 		}
-
-		public Frame ContentFrame { get; private set; }
-
-		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
 		public ICustomTabViewItemContent TabItemContent
 			=> ContentFrame?.Content as ICustomTabViewItemContent;
