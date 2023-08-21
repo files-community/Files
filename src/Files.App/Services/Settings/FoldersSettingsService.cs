@@ -215,7 +215,7 @@ namespace Files.App.Services.Settings
 
 		public bool ShowGitCommitAuthorColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 

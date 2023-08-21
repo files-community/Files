@@ -4,12 +4,7 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.UserControls.CustomTabView;
 using Files.App.UserControls.Sidebar;
-using Files.Core.Extensions;
-using Files.App.UserControls.CustomTabView;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -18,10 +13,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
-using Vanara.Extensions.Reflection;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
-using Windows.Storage;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -30,6 +23,7 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; }
+		public IApplicationService ApplicationService { get; }
 
 		public ICommandManager Commands { get; }
 
@@ -46,6 +40,8 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
+		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
 		public MainPage()
@@ -54,6 +50,7 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
@@ -97,6 +94,22 @@ namespace Files.App.Views
 				}
 				catch (Exception) { }
 			}
+		}
+
+		private async Task AppRunningAsAdminPrompt()
+		{
+			var runningAsAdminPrompt = new ContentDialog
+			{
+				Title = "FilesRunningAsAdmin".ToLocalized(),
+				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				PrimaryButtonText = "Ok".ToLocalized(),
+				SecondaryButtonText = "DontShowAgain".ToLocalized()
+			};
+
+			var result = await runningAsAdminPrompt.TryShowAsync();
+
+			if (result == ContentDialogResult.Secondary)
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
 		}
 
 		// WINUI3
@@ -273,11 +286,25 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
+			// Notify user that drag and drop is disabled
+			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
+			// ToDo put this in a StartupPromptService
+			if
+			(
+				ApplicationService.Environment is not AppEnvironment.Dev &&
+				isAppRunningAsAdmin &&
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
+			)
+			{
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+			}
+
+			// ToDo put this in a StartupPromptService
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-			if (totalLaunchCount is 10 or 20 or 30 or 40 or 50)
+			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
@@ -456,7 +483,7 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 
