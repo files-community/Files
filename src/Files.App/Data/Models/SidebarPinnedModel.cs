@@ -97,11 +97,6 @@ namespace Files.App.Data.Models
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
-			if(locationItem is RecycleBinLocationItem recycleBinItem)
-			{
-				recycleBinItem.ToolTip = recycleBinItem.SpaceUsed.ToSizeString();
-			}
-
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
 				locationItem.IsInvalid = false;

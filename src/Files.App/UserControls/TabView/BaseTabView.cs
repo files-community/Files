@@ -137,19 +137,17 @@ namespace Files.App.UserControls.TabView
 
 		public void CloseTab(TabViewItem tabItem)
 		{
-			if (Items.Count == 1)
+			Items.Remove(tabItem);
+			tabItem?.Unload();
+			
+			// Dispose and save tab arguments
+			RecentlyClosedTabs.Push(new TabItemArguments[]
 			{
+				tabItem.NavigationArguments,
+			});
+
+			if (Items.Count == 0)
 				MainWindow.Instance.Close();
-			}
-			else if (Items.Count > 1)
-			{
-				Items.Remove(tabItem);
-
-				// Dispose and save tab arguments
-				tabItem?.Unload();
-
-				RecentlyClosedTabs.Push(new TabItemArguments[] { tabItem.NavigationArguments });
-			}
 		}
 
 		public void SetLoadingIndicatorStatus(ITabViewItem item, bool loading)
@@ -158,6 +156,7 @@ namespace Files.App.UserControls.TabView
 				return;
 
 			var stateToGoName = (loading) ? "Loading" : "NotLoading";
+
 			VisualStateManager.GoToState(tabItem, stateToGoName, false);
 		}
 	}
