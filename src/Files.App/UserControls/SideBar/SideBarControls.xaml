@@ -29,12 +29,12 @@
 
 	<Style
 		x:Key="SidebarFavouritesPinnedIcon"
-		BasedOn="{StaticResource ColorIconPinToFavorites}"
+		BasedOn="{StaticResource ColorIconPin}"
 		TargetType="usercontrols:OpacityIcon">
-		<Setter Target="MinWidth" Value="20" />
-		<Setter Target="Width" Value="20" />
-		<Setter Target="MinHeight" Value="20" />
-		<Setter Target="Height" Value="20" />
+		<Setter Target="MinWidth" Value="16" />
+		<Setter Target="Width" Value="16" />
+		<Setter Target="MinHeight" Value="16" />
+		<Setter Target="Height" Value="16" />
 		<Setter Target="Padding" Value="0" />
 	</Style>
 
@@ -123,7 +123,6 @@
 								x:Name="ItemDecoratorPresenter"
 								Grid.Column="3"
 								Width="28"
-								Height="28"
 								Margin="0"
 								HorizontalContentAlignment="Center"
 								VerticalContentAlignment="Center"
