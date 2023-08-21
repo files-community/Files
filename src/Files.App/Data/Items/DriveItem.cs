@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using ByteSize = ByteSizeLib.ByteSize;
 
@@ -292,8 +293,11 @@ namespace Files.App.Data.Items
 			}
 			else
 			{
-				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+				if (string.Equals(DeviceID, "network-folder"))
+					IconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(Root, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
+
+				if (!string.IsNullOrEmpty(DeviceID))
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16);
 
 				if (Root is not null)
 				{
