@@ -91,6 +91,7 @@
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								LineHeight="16"
 								Text="{Binding Text, Mode=OneWay}" />
 
