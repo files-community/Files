@@ -3,45 +3,43 @@
 
 namespace Files.App.Actions
 {
-	internal class CloseSelectedTabAction : ObservableObject, IAction
+	internal sealed class CloseSelectedTabAction : CloseTabBaseAction
 	{
-		private readonly IMultitaskingContext context;
-
-		public string Label
+		public override string Label
 			=> "CloseTab".GetLocalizedResource();
 
-		public string Description
+		public override string Description
 			=> "CloseSelectedTabDescription".GetLocalizedResource();
 
-		public HotKey HotKey
+		public override HotKey HotKey
 			=> new(Keys.W, KeyModifiers.Ctrl);
 
-		public HotKey SecondHotKey
+		public override HotKey SecondHotKey
 			=> new(Keys.F4, KeyModifiers.Ctrl);
 
-		public RichGlyph Glyph
+		public override RichGlyph Glyph
 			=> new();
-
-		public bool IsExecutable =>
-			context.Control is not null &&
-			context.TabCount > 0 &&
-			context.CurrentTabItem is not null;
 
 		public CloseSelectedTabAction()
 		{
-			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public override Task ExecuteAsync()
 		{
 			context.Control!.CloseTab(context.CurrentTabItem);
 
 			return Task.CompletedTask;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		protected override bool GetIsExecutable()
+		{
+			return
+				context.Control is not null &&
+				context.TabCount > 0 &&
+				context.CurrentTabItem is not null;
+		}
+
+		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

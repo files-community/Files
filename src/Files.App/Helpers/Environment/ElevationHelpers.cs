@@ -1,9 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Security.Principal;
 
 namespace Files.App.Helpers
 {
@@ -18,6 +17,12 @@ namespace Files.App.Helpers
 				return false;
 
 			return _IsElevationRequired(filePath);
+		}
+
+		public static bool IsAppRunAsAdmin()
+		{
+			using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+			return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 		}
 	}
 }

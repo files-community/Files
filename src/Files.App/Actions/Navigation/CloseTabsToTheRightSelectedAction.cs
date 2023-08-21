@@ -3,40 +3,31 @@
 
 namespace Files.App.Actions
 {
-	internal class CloseTabsToTheRightSelectedAction : ObservableObject, IAction
+	internal sealed class CloseTabsToTheRightSelectedAction : CloseTabBaseAction
 	{
-		private readonly IMultitaskingContext context;
-
-		public string Label
+		public override string Label
 			=> "CloseTabsToTheRight".GetLocalizedResource();
 
-		public string Description
+		public override string Description
 			=> "CloseTabsToTheRightSelectedDescription".GetLocalizedResource();
-
-		public bool IsExecutable
-			=> GetIsExecutable();
 
 		public CloseTabsToTheRightSelectedAction()
 		{
-			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public override Task ExecuteAsync()
 		{
-			if (context.Control is not null)
-				MultitaskingTabsHelpers.CloseTabsToTheRight(context.SelectedTabItem, context.Control);
+			MultitaskingTabsHelpers.CloseTabsToTheRight(context.SelectedTabItem, context.Control!);
 
 			return Task.CompletedTask;
 		}
 
-		private bool GetIsExecutable()
+		protected override bool GetIsExecutable()
 		{
 			return context.Control is not null && context.SelectedTabIndex < context.TabCount - 1;
 		}
 
-		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

@@ -18,19 +18,7 @@ namespace Files.App.UserControls.CustomTabView
 
 		private TabViewItem? hoveredTabViewItem;
 
-		public static event EventHandler<CustomTabViewItem?>? SelectedTabItemChanged;
-
-		public Rectangle DragArea
-			=> DragAreaRectangle;
-
-		public static readonly DependencyProperty ActionsControlProperty =
-			DependencyProperty.Register(
-				nameof(FooterElement),
-				typeof(UIElement),
-				typeof(CustomTabView),
-				new PropertyMetadata(null));
-
-		public UIElement FooterElement
+		public HorizontalMultitaskingControl()
 		{
 			get => (UIElement)GetValue(ActionsControlProperty); 
 			set => SetValue(ActionsControlProperty, value); 
@@ -92,7 +80,7 @@ namespace Files.App.UserControls.CustomTabView
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			await ((sender as TabViewItem).DataContext as CustomTabViewItem).TabItemContent.TabItemDrop(sender, e);
+			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
@@ -135,7 +123,7 @@ namespace Files.App.UserControls.CustomTabView
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true;
+				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
@@ -149,13 +137,13 @@ namespace Files.App.UserControls.CustomTabView
 
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true;
-			if (sender is not TabView tabStrip)
+			if (!(sender is TabView tabStrip))
 			{
 				return;
 			}
