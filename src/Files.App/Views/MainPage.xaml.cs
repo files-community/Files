@@ -289,7 +289,7 @@ namespace Files.App.Views
 			// ToDo put this in a StartupPromptService
 			if
 			(
-				isAppRunningAsAdmin == true &&
+				isAppRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
