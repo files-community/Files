@@ -1,14 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Extensions;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Versioning;
-using System.Threading.Tasks;
 
 namespace Files.App.Utils.Cloud
 {
@@ -164,6 +159,7 @@ namespace Files.App.Utils.Cloud
 					{
 						Name = accountName,
 						SyncFolder = userFolder,
+						IconData = UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.OneDrive).IconData,
 					});
 				}
 			}
