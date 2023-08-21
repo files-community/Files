@@ -24,6 +24,7 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; }
+		public IApplicationService ApplicationService { get; }
 
 		public ICommandManager Commands { get; }
 
@@ -50,6 +51,7 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
@@ -286,9 +288,11 @@ namespace Files.App.Views
 			FindName(nameof(NavToolbar));
 
 			// Notify user that drag and drop is disabled
+			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
 			// ToDo put this in a StartupPromptService
 			if
 			(
+				ApplicationService.Environment is not AppEnvironment.Dev &&
 				isAppRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
@@ -301,7 +305,7 @@ namespace Files.App.Views
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-			if (totalLaunchCount is 10 or 20 or 30 or 40 or 50)
+			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
