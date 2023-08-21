@@ -12,8 +12,9 @@ namespace Files.App.Services
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			return (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
+			var result = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
 				.Where(link => link.IsFolder);
+			return result;
 		}
 
 		public Task PinToSidebar(string folderPath)

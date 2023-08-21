@@ -64,6 +64,11 @@ namespace Files.Core.Data.Enums
 		/// <summary>
 		/// InProgress
 		/// </summary>
-		InProgress = 1024
+		InProgress = 1024,
+
+		/// <summary>
+		/// FileTooLarge
+		/// </summary>
+		FileTooLarge = 2048
 	}
 }

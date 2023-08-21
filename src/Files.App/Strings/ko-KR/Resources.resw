@@ -139,7 +139,7 @@
     <value>크기:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>디스크 할당 크기</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>압축 해제 크기:</value>
@@ -3387,25 +3387,25 @@
     <value>Path column</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>경로로 정렬</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>새 분할 화면에서 열기</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>새 탭에서 열기</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>새 창에서 열기</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>모두 열기</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>{0} 드라이브</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
@@ -3415,7 +3415,7 @@
     <value>'{0}' is not recognized as a command.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>명령을 수행할 수 없습니다.</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
     <value>The '{0}' command is not ready to be executed.</value>
@@ -3428,5 +3428,14 @@
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>BitLocker 켜기</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>BitLocker 관리</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>다음 항목을 드라이브로 복사하기에 너무 큽니다.</value>
   </data>
 </root>

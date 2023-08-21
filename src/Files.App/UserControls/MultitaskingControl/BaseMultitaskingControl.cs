@@ -145,18 +145,14 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public void CloseTab(TabItem tabItem)
 		{
-			if (Items.Count == 1)
-			{
-				MainWindow.Instance.Close();
-			}
-			else if (Items.Count > 1)
-			{
-				Items.Remove(tabItem);
-				tabItem?.Unload(); // Dispose and save tab arguments
-				RecentlyClosedTabs.Push(new TabItemArguments[] {
+			Items.Remove(tabItem);
+			tabItem?.Unload(); // Dispose and save tab arguments
+			RecentlyClosedTabs.Push(new TabItemArguments[] {
 					tabItem.TabItemArguments
-				});
-			}
+			});
+
+			if (Items.Count == 0)
+				MainWindow.Instance.Close();
 		}
 
 		public void SetLoadingIndicatorStatus(ITabItem item, bool loading)
