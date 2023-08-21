@@ -6,12 +6,10 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using ByteSize = ByteSizeLib.ByteSize;
 
@@ -293,10 +291,7 @@ namespace Files.App.Data.Items
 			}
 			else
 			{
-				if (string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconFromStorageItemAsync(Root, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
-
-				if (!string.IsNullOrEmpty(DeviceID))
+				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
 					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16);
 
 				if (Root is not null)
@@ -304,6 +299,10 @@ namespace Files.App.Data.Items
 					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 					IconData ??= await thumbnail.ToByteArrayAsync();
 				}
+
+				if (string.Equals(DeviceID, "network-folder"))
+					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
+
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon ??= await IconData.ToBitmapAsync();
