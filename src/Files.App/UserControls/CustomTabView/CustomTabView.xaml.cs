@@ -12,16 +12,25 @@ namespace Files.App.UserControls.CustomTabView
 {
 	public sealed partial class CustomTabView : BaseCustomTabView
 	{
+		public static event EventHandler<CustomTabViewItem?>? SelectedTabItemChanged;
+
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 
 		private TabViewItem? hoveredTabViewItem;
 
-		public HorizontalMultitaskingControl()
+		public static readonly DependencyProperty FooterElementProperty =
+			DependencyProperty.Register(
+				nameof(FooterElement),
+				typeof(UIElement),
+				typeof(CustomTabView),
+				new PropertyMetadata(null));
+
+		public UIElement FooterElement
 		{
-			get => (UIElement)GetValue(ActionsControlProperty); 
-			set => SetValue(ActionsControlProperty, value); 
+			get => (UIElement)GetValue(FooterElementProperty); 
+			set => SetValue(FooterElementProperty, value); 
 		}
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
@@ -36,6 +45,13 @@ namespace Files.App.UserControls.CustomTabView
 			get => (Visibility)GetValue(TabStripVisibilityProperty);
 			set => SetValue(TabStripVisibilityProperty, value);
 		}
+
+		// Dragging makes the app crash when run as admin.
+		// For more information:
+		// - https://github.com/files-community/Files/issues/12390
+		// - https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowTabsDrag
+			=> !ElevationHelpers.IsAppRunAsAdmin();
 
 		public CustomTabView()
 		{
@@ -80,7 +96,7 @@ namespace Files.App.UserControls.CustomTabView
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
+			await ((sender as TabViewItem).DataContext as CustomTabViewItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
@@ -124,6 +140,7 @@ namespace Files.App.UserControls.CustomTabView
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
 				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
@@ -142,13 +159,13 @@ namespace Files.App.UserControls.CustomTabView
 
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
-			if (!(sender is TabView tabStrip))
-			{
-				return;
-			}
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 
-			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
+			if (!(sender is TabView tabStrip))
+				return;
+
+			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
+				!(tabViewItemPathObj is string tabViewItemString))
 			{
 				return;
 			}

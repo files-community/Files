@@ -7,14 +7,16 @@ namespace Files.App.Data.Parameters
 {
 	public sealed class CustomTabViewItemParameter
 	{
-		private static readonly KnownTypesConverter TypesConverter = new();
+		private static readonly KnownTypesConverter _typesConverter = new();
 
 		public Type InitialPageType { get; set; }
 
 		public object NavigationParameter { get; set; }
 
 		public string Serialize()
-			=> JsonSerializer.Serialize(this, TypesConverter.Options);
+		{
+			return JsonSerializer.Serialize(this, _typesConverter.Options);
+		}
 
 		public static CustomTabViewItemParameter Deserialize(string obj)
 		{
