@@ -176,7 +176,8 @@ namespace Files.App.Helpers
 					Constants.ImageRes.Libraries,
 					Constants.ImageRes.ThisPC,
 					Constants.ImageRes.CloudDrives,
-					Constants.ImageRes.Folder
+					Constants.ImageRes.Folder,
+					Constants.ImageRes.OneDrive
 				}, 32);
 
 			return imageResList;
