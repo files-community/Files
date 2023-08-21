@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -15,14 +15,14 @@ namespace Files.App.Data.Contexts
 	{
 		private bool isPopupOpen = false;
 
-		private ITabView? control;
-		public ITabView? Control => control;
+		private ICustomTabView? control;
+		public ICustomTabView? Control => control;
 
 		private ushort tabCount = 0;
 		public ushort TabCount => tabCount;
 
-		public TabViewItem CurrentTabItem => MainPageViewModel.AppInstances[currentTabIndex];
-		public TabViewItem SelectedTabItem => MainPageViewModel.AppInstances[selectedTabIndex];
+		public CustomTabViewItem CurrentTabItem => MainPageViewModel.AppInstances[currentTabIndex];
+		public CustomTabViewItem SelectedTabItem => MainPageViewModel.AppInstances[selectedTabIndex];
 
 		private ushort currentTabIndex = 0;
 		public ushort CurrentTabIndex => currentTabIndex;
@@ -34,8 +34,8 @@ namespace Files.App.Data.Contexts
 		{
 			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
-			BaseTabView.OnLoaded += BaseMultitaskingControl_OnLoaded;
-			TabView.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
+			BaseCustomTabView.OnLoaded += BaseMultitaskingControl_OnLoaded;
+			CustomTabView.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
 			FocusManager.GotFocus += FocusManager_GotFocus;
 			FocusManager.LosingFocus += FocusManager_LosingFocus;
 		}
@@ -48,13 +48,13 @@ namespace Files.App.Data.Contexts
 		{
 			UpdateCurrentTabIndex();
 		}
-		private void BaseMultitaskingControl_OnLoaded(object? sender, ITabView control)
+		private void BaseMultitaskingControl_OnLoaded(object? sender, ICustomTabView control)
 		{
 			SetProperty(ref this.control, control, nameof(Control));
 			UpdateTabCount();
 			UpdateCurrentTabIndex();
 		}
-		private void HorizontalMultitaskingControl_SelectedTabItemChanged(object? sender, TabViewItem? e)
+		private void HorizontalMultitaskingControl_SelectedTabItemChanged(object? sender, CustomTabViewItem? e)
 		{
 			isPopupOpen = e is not null;
 			int newSelectedIndex = e is null ? currentTabIndex : MainPageViewModel.AppInstances.IndexOf(e);
@@ -65,7 +65,7 @@ namespace Files.App.Data.Contexts
 			if (isPopupOpen)
 				return;
 
-			if (e.NewFocusedElement is FrameworkElement element && element.DataContext is TabViewItem tabItem)
+			if (e.NewFocusedElement is FrameworkElement element && element.DataContext is CustomTabViewItem tabItem)
 			{
 				int newSelectedIndex = MainPageViewModel.AppInstances.IndexOf(tabItem);
 				UpdateSelectedTabIndex(newSelectedIndex);

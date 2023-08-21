@@ -3,9 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.TabView
+namespace Files.App.UserControls.CustomTabView
 {
-	public interface ITabViewItem
+	/// <summary>
+	/// Represents an interface for <see cref="CustomTabViewItem"/>.
+	/// </summary>
+	public interface ICustomTabViewItem
 	{
 		IconSource IconSource { get; }
 
@@ -15,6 +18,6 @@ namespace Files.App.UserControls.TabView
 
 		bool AllowStorageItemDrop { get; }
 
-		public TabItemArguments NavigationArguments { get; }
+		public CustomTabViewItemParameter NavigationParameter { get; }
 	}
 }

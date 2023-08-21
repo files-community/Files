@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 using Files.App.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Files.App.Helpers
 {
 	public static class MultitaskingTabsHelpers
 	{
-		public static void CloseTabsToTheLeft(TabViewItem clickedTab, ITabView multitaskingControl)
+		public static void CloseTabsToTheLeft(CustomTabViewItem clickedTab, ICustomTabView multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{
@@ -21,7 +21,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static void CloseTabsToTheRight(TabViewItem clickedTab, ITabView multitaskingControl)
+		public static void CloseTabsToTheRight(CustomTabViewItem clickedTab, ICustomTabView multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{
@@ -32,7 +32,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static void CloseOtherTabs(TabViewItem clickedTab, ITabView multitaskingControl)
+		public static void CloseOtherTabs(CustomTabViewItem clickedTab, ICustomTabView multitaskingControl)
 		{
 			if (multitaskingControl is not null)
 			{
@@ -41,10 +41,10 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static Task MoveTabToNewWindow(TabViewItem tab, ITabView multitaskingControl)
+		public static Task MoveTabToNewWindow(CustomTabViewItem tab, ICustomTabView multitaskingControl)
 		{
 			int index = MainPageViewModel.AppInstances.IndexOf(tab);
-			TabItemArguments tabItemArguments = MainPageViewModel.AppInstances[index].NavigationArguments;
+			CustomTabViewItemParameter tabItemArguments = MainPageViewModel.AppInstances[index].NavigationParameter;
 
 			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
 

@@ -4,15 +4,18 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.TabView
+namespace Files.App.UserControls.CustomTabView
 {
-	public class BaseTabView : UserControl, ITabView
+	/// <summary>
+	/// Represents base class for <see cref="CustomTabView"/>.
+	/// </summary>
+	public abstract class BaseCustomTabView : UserControl, ICustomTabView
 	{
 		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		protected ITabViewItemContent CurrentSelectedAppInstance;
+		protected ICustomTabViewItemContent CurrentSelectedAppInstance;
 
-		public static event EventHandler<ITabView>? OnLoaded;
+		public static event EventHandler<ICustomTabView>? OnLoaded;
 
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
 
@@ -21,46 +24,37 @@ namespace Files.App.UserControls.TabView
 		public const string TabPathIdentifier = "FilesTabViewItemPath";
 
 		// RecentlyClosedTabs is shared between all multitasking controls
-		public static Stack<TabItemArguments[]> RecentlyClosedTabs { get; private set; } = new();
+		public static Stack<CustomTabViewItemParameter[]> RecentlyClosedTabs { get; private set; } = new();
 
-		public ObservableCollection<TabViewItem> Items
+		public ObservableCollection<CustomTabViewItem> Items
 			=> MainPageViewModel.AppInstances;
 
 		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
-		private static bool isRestoringClosedTab;
+		private static bool _IsRestoringClosedTab;
 		public static bool IsRestoringClosedTab
 		{
-			get => isRestoringClosedTab;
+			get => _IsRestoringClosedTab;
 			private set
 			{
-				isRestoringClosedTab = value;
+				_IsRestoringClosedTab = value;
 				StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(IsRestoringClosedTab)));
 			}
 		}
 
-		public BaseTabView()
+		public BaseCustomTabView()
 		{
-			Loaded += MultitaskingControl_Loaded;
+			Loaded += TabView_Loaded;
 		}
 
-		public virtual DependencyObject ContainerFromItem(ITabViewItem item)
+		public virtual DependencyObject ContainerFromItem(ICustomTabViewItem item)
 		{
 			return null;
 		}
 
-		public void SelectionChanged()
-			=> TabStrip_SelectionChanged(null, null);
-
-		public static void PushRecentTab(TabItemArguments[] tab)
+		private void TabView_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
 		{
-			RecentlyClosedTabs.Push(tab);
-			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));
-		}
-
-		private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
-		{
-			foreach (ITabViewItemContent instance in e.PageInstances)
+			foreach (ICustomTabViewItemContent instance in e.PageInstances)
 			{
 				if (instance is not null)
 				{
@@ -69,7 +63,7 @@ namespace Files.App.UserControls.TabView
 			}
 		}
 
-		protected void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
 			{
@@ -86,33 +80,39 @@ namespace Files.App.UserControls.TabView
 			}
 		}
 
+		protected void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
+		{
+			CloseTab(args.Item as CustomTabViewItem);
+		}
+
 		protected void OnCurrentInstanceChanged(CurrentInstanceChangedEventArgs args)
 		{
 			CurrentInstanceChanged?.Invoke(this, args);
 		}
 
-		protected void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabCloseRequestedEventArgs args)
+		public void TabView_Loaded(object sender, RoutedEventArgs e)
 		{
-			CloseTab(args.Item as TabViewItem);
-		}
-
-		protected async void TabView_AddTabButtonClick(Microsoft.UI.Xaml.Controls.TabView sender, object args)
-		{
-			await mainPageViewModel.AddNewTabAsync();
-		}
-
-		public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-		{
-			CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+			CurrentInstanceChanged += TabView_CurrentInstanceChanged;
 			OnLoaded?.Invoke(null, this);
 		}
 
-		public ITabViewItemContent GetCurrentSelectedTabInstance()
+		public ICustomTabViewItemContent GetCurrentSelectedTabInstance()
 		{
 			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].TabItemContent;
 		}
 
-		public List<ITabViewItemContent> GetAllTabInstances()
+		public void SelectionChanged()
+		{
+			TabView_SelectionChanged(null, null);
+		}
+
+		public static void PushRecentTab(CustomTabViewItemParameter[] tab)
+		{
+			RecentlyClosedTabs.Push(tab);
+			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));
+		}
+
+		public List<ICustomTabViewItemContent> GetAllTabInstances()
 		{
 			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
@@ -124,7 +124,7 @@ namespace Files.App.UserControls.TabView
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationArg);
+					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}
@@ -132,25 +132,25 @@ namespace Files.App.UserControls.TabView
 
 		public async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
 		{
-			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabViewItem, this);
+			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as CustomTabViewItem, this);
 		}
 
-		public void CloseTab(TabViewItem tabItem)
+		public void CloseTab(CustomTabViewItem tabItem)
 		{
 			Items.Remove(tabItem);
 			tabItem?.Unload();
 			
 			// Dispose and save tab arguments
-			RecentlyClosedTabs.Push(new TabItemArguments[]
+			RecentlyClosedTabs.Push(new CustomTabViewItemParameter[]
 			{
-				tabItem.NavigationArguments,
+				tabItem.NavigationParameter,
 			});
 
 			if (Items.Count == 0)
 				MainWindow.Instance.Close();
 		}
 
-		public void SetLoadingIndicatorStatus(ITabViewItem item, bool loading)
+		public void SetLoadingIndicatorStatus(ICustomTabViewItem item, bool loading)
 		{
 			if (ContainerFromItem(item) is not Control tabItem)
 				return;

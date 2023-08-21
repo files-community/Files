@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
@@ -123,7 +123,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, TabItemArguments e) => Update();
+		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e) => Update();
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{

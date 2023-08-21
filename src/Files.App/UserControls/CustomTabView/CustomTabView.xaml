@@ -1,16 +1,16 @@
 ﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseTabView
-	x:Class="Files.App.UserControls.TabView.TabView"
+<local:BaseCustomTabView
+	x:Class="Files.App.UserControls.CustomTabView.CustomTabView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.TabView"
+	xmlns:local="using:Files.App.UserControls.CustomTabView"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:root="using:Files.App"
 	mc:Ignorable="d">
 
-	<local:BaseTabView.Resources>
+	<local:BaseCustomTabView.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/CustomTabViewStyles.xaml" />
@@ -57,7 +57,7 @@
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
-	</local:BaseTabView.Resources>
+	</local:BaseCustomTabView.Resources>
 
 	<Border
 		x:Name="TitlebarArea"
@@ -69,25 +69,24 @@
 			Margin="0,10,0,0"
 			Padding="0"
 			VerticalAlignment="Stretch"
-			AddTabButtonClick="TabView_AddTabButtonClick"
 			AllowDropTabs="True"
 			CanDragTabs="True"
-			DragLeave="TabStrip_DragLeave"
-			IsAddTabButtonVisible="False"
+			DragLeave="TabView_DragLeave"
 			SelectedIndex="{x:Bind root:App.AppModel.TabStripSelectedIndex, Mode=TwoWay}"
-			SelectionChanged="TabStrip_SelectionChanged"
-			TabCloseRequested="TabStrip_TabCloseRequested"
-			TabDragCompleted="TabStrip_TabDragCompleted"
-			TabDragStarting="TabStrip_TabDragStarting"
-			TabDroppedOutside="TabStrip_TabDroppedOutside"
-			TabItemsChanged="HorizontalTabView_TabItemsChanged"
+			SelectionChanged="TabView_SelectionChanged"
+			TabCloseRequested="TabView_TabCloseRequested"
+			TabDragCompleted="TabView_TabDragCompleted"
+			TabDragStarting="TabView_TabDragStarting"
+			TabDroppedOutside="TabView_TabDroppedOutside"
+			TabItemsChanged="TabView_TabItemsChanged"
 			TabItemsSource="{x:Bind Items, Mode=OneWay}"
-			TabStripDragOver="TabStrip_TabStripDragOver"
-			TabStripDrop="TabStrip_TabStripDrop"
+			TabStripDragOver="TabView_TabStripDragOver"
+			TabStripDrop="TabView_TabStripDrop"
 			Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
 
+			<!--  Item Template  -->
 			<TabView.TabItemTemplate>
-				<DataTemplate x:DataType="local:TabViewItem">
+				<DataTemplate x:DataType="local:CustomTabViewItem">
 					<TabViewItem
 						AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
 						ContextFlyout="{StaticResource TabFlyout}"
@@ -102,6 +101,7 @@
 				</DataTemplate>
 			</TabView.TabItemTemplate>
 
+			<!--  TabStrip Footer  -->
 			<TabView.TabStripFooter>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -110,9 +110,10 @@
 						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
 					</Grid.ColumnDefinitions>
 
-					<ContentPresenter Grid.Column="0" Content="{x:Bind ActionsControl, Mode=OneWay}" />
+					<!--  Footer Element e.g. Add New Tab Button  -->
+					<ContentPresenter Grid.Column="0" Content="{x:Bind FooterElement, Mode=OneWay}" />
 
-					<!--  This Defines The Drag Area For The Title Bar  -->
+					<!--  Left Side Drag Area  -->
 					<Rectangle
 						x:Name="DragAreaRectangle"
 						Grid.Column="1"
@@ -127,4 +128,4 @@
 		</TabView>
 	</Border>
 
-</local:BaseTabView>
+</local:BaseCustomTabView>

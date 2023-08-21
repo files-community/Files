@@ -8,33 +8,40 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-namespace Files.App.UserControls.TabView
+namespace Files.App.UserControls.CustomTabView
 {
-	public sealed partial class TabView : BaseTabView
+	public sealed partial class CustomTabView : BaseCustomTabView
 	{
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 
-		private Microsoft.UI.Xaml.Controls.TabViewItem? hoveredTabViewItem;
+		private TabViewItem? hoveredTabViewItem;
 
-		public static event EventHandler<TabViewItem?>? SelectedTabItemChanged;
+		public static event EventHandler<CustomTabViewItem?>? SelectedTabItemChanged;
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		public UIElement ActionsControl
+		public static readonly DependencyProperty ActionsControlProperty =
+			DependencyProperty.Register(
+				nameof(FooterElement),
+				typeof(UIElement),
+				typeof(CustomTabView),
+				new PropertyMetadata(null));
+
+		public UIElement FooterElement
 		{
 			get => (UIElement)GetValue(ActionsControlProperty); 
 			set => SetValue(ActionsControlProperty, value); 
 		}
 
-		public static readonly DependencyProperty ActionsControlProperty =
+		public static readonly DependencyProperty TabStripVisibilityProperty =
 			DependencyProperty.Register(
-				nameof(ActionsControl),
-				typeof(UIElement),
-				typeof(TabView),
-				new PropertyMetadata(null));
+				nameof(TabStripVisibility),
+				typeof(Visibility),
+				typeof(CustomTabView),
+				new PropertyMetadata(Visibility.Visible));
 
 		public Visibility TabStripVisibility
 		{
@@ -42,14 +49,7 @@ namespace Files.App.UserControls.TabView
 			set => SetValue(TabStripVisibilityProperty, value);
 		}
 
-		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register(
-				nameof(TabStripVisibility),
-				typeof(Visibility),
-				typeof(TabView),
-				new PropertyMetadata(Visibility.Visible));
-
-		public TabView()
+		public CustomTabView()
 		{
 			InitializeComponent();
 
@@ -66,11 +66,11 @@ namespace Files.App.UserControls.TabView
 			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 
-		private void HorizontalTabView_TabItemsChanged(Microsoft.UI.Xaml.Controls.TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
+		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
 			{
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabViewItem);
+				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as CustomTabViewItem);
 			}
 
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
@@ -92,19 +92,19 @@ namespace Files.App.UserControls.TabView
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).TabItemContent.TabItemDrop(sender, e);
+			await ((sender as TabViewItem).DataContext as CustomTabViewItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
 		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
-			await ((sender as Microsoft.UI.Xaml.Controls.TabViewItem).DataContext as TabViewItem).TabItemContent.TabItemDragOver(sender, e);
+			await ((sender as TabViewItem).DataContext as CustomTabViewItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{
 				HorizontalTabView.CanReorderTabs = false;
 				tabHoverTimer.Start();
-				hoveredTabViewItem = sender as Microsoft.UI.Xaml.Controls.TabViewItem;
+				hoveredTabViewItem = sender as TabViewItem;
 			}
 		}
 
@@ -120,18 +120,18 @@ namespace Files.App.UserControls.TabView
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
 			{
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabViewItem);
+				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as CustomTabViewItem);
 			}
 		}
 
-		private void TabStrip_TabDragStarting(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabDragStartingEventArgs args)
+		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
 		{
-			var tabViewItemArgs = (args.Item as TabViewItem).NavigationArguments;
+			var tabViewItemArgs = (args.Item as CustomTabViewItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 		}
 
-		private void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
+		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
@@ -147,15 +147,15 @@ namespace Files.App.UserControls.TabView
 			}
 		}
 
-		private void TabStrip_DragLeave(object sender, DragEventArgs e)
+		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true;
 		}
 
-		private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true;
-			if (sender is not Microsoft.UI.Xaml.Controls.TabView tabStrip)
+			if (sender is not TabView tabStrip)
 			{
 				return;
 			}
@@ -169,7 +169,7 @@ namespace Files.App.UserControls.TabView
 
 			for (int i = 0; i < tabStrip.TabItems.Count; i++)
 			{
-				var item = tabStrip.ContainerFromIndex(i) as Microsoft.UI.Xaml.Controls.TabViewItem;
+				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
 
 				if (e.GetPosition(item).Y - item.ActualHeight < 0)
 				{
@@ -178,17 +178,17 @@ namespace Files.App.UserControls.TabView
 				}
 			}
 
-			var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
+			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
-		private void TabStrip_TabDragCompleted(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabDragCompletedEventArgs args)
+		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
 			{
-				CloseTab(args.Item as TabViewItem);
+				CloseTab(args.Item as CustomTabViewItem);
 			}
 			else
 			{
@@ -201,7 +201,7 @@ namespace Files.App.UserControls.TabView
 			}
 		}
 
-		private async void TabStrip_TabDroppedOutside(Microsoft.UI.Xaml.Controls.TabView sender, TabViewTabDroppedOutsideEventArgs args)
+		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
 			if (sender.TabItems.Count == 1)
 			{
@@ -209,25 +209,25 @@ namespace Files.App.UserControls.TabView
 			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
-			var tabViewItemArgs = (args.Item as TabViewItem).NavigationArguments;
+			var tabViewItemArgs = (args.Item as CustomTabViewItem).NavigationParameter;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
-			Items.Remove(args.Item as TabViewItem);
+			Items.Remove(args.Item as CustomTabViewItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{
-				Items.Insert(indexOfTabViewItem, args.Item as TabViewItem);
+				Items.Insert(indexOfTabViewItem, args.Item as CustomTabViewItem);
 				sender.SelectedIndex = selectedTabViewItemIndex;
 			}
 			else
 			{
 				// Dispose tab arguments
-				(args.Item as TabViewItem)?.Unload();
+				(args.Item as CustomTabViewItem)?.Unload();
 			}
 		}
 
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
-			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabViewItem);
+			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as CustomTabViewItem);
 		}
 
 		private void TabItemContextMenu_Closing(object sender, object e)
@@ -235,17 +235,19 @@ namespace Files.App.UserControls.TabView
 			SelectedTabItemChanged?.Invoke(null, null);
 		}
 
-		public override DependencyObject ContainerFromItem(ITabViewItem item)
-			=> HorizontalTabView.ContainerFromItem(item);
+		public override DependencyObject ContainerFromItem(ICustomTabViewItem item)
+		{
+			return HorizontalTabView.ContainerFromItem(item);
+		}
 
 		private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (sender is Microsoft.UI.Xaml.Controls.TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
+			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
 			{
 				control.Content = (tvi.IconSource as ImageIconSource).CreateIconElement();
-				tvi.RegisterPropertyChangedCallback(Microsoft.UI.Xaml.Controls.TabViewItem.IconSourceProperty, (s, args) =>
+				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
 				{
-					if (s is Microsoft.UI.Xaml.Controls.TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
+					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
 						iconControl.Content = (tabViewItem.IconSource as ImageIconSource).CreateIconElement();
 				});
 			}

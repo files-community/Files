@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 
 namespace Files.App.Views.Shells
 {
-	public interface IShellPage : ITabViewItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
+	public interface IShellPage : ICustomTabViewItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
 		ItemViewModel FilesystemViewModel { get; }
 
@@ -77,7 +77,7 @@ namespace Files.App.Views.Shells
 
 		public IFilesystemHelpers FilesystemHelpers { get; }
 
-		public TabItemArguments TabItemArguments { get; set; }
+		public CustomTabViewItemParameter TabItemParameter { get; set; }
 
 		public void OpenPathInNewPane(string path);
 

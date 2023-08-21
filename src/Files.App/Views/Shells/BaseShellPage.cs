@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -109,8 +109,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected TabItemArguments _TabItemArguments;
-		public TabItemArguments TabItemArguments
+		protected CustomTabViewItemParameter _TabItemArguments;
+		public CustomTabViewItemParameter TabItemParameter
 		{
 			get => _TabItemArguments;
 			set
@@ -157,7 +157,7 @@ namespace Files.App.Views.Shells
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler<TabItemArguments> ContentChanged;
+		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
@@ -511,7 +511,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.CanRefresh = false;
 				var searchInstance = new FolderSearch
 				{
-					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemArguments.NavigationArg,
+					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
 					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
@@ -585,7 +585,7 @@ namespace Files.App.Views.Shells
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
 		}
 
-		public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
+		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
 		{
 			ContentChanged?.Invoke(instance, args);
 		}

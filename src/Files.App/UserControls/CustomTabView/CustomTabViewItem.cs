@@ -3,9 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.TabView
+namespace Files.App.UserControls.CustomTabView
 {
-	public class TabViewItem : ObservableObject, ITabViewItem, IDisposable
+	/// <summary>
+	/// Represents item for <see cref="CustomTabView"/>.
+	/// </summary>
+	public sealed class CustomTabViewItem : ObservableObject, ICustomTabViewItem, IDisposable
 	{
 		private IconSource _IconSource;
 		public IconSource IconSource
@@ -42,8 +45,8 @@ namespace Files.App.UserControls.TabView
 			set => SetProperty(ref _AllowStorageItemDrop, value);
 		}
 
-		private TabItemArguments _NavigationArguments;
-		public TabItemArguments NavigationArguments
+		private CustomTabViewItemParameter _NavigationArguments;
+		public CustomTabViewItemParameter NavigationParameter
 		{
 			get => _NavigationArguments;
 			set
@@ -53,7 +56,7 @@ namespace Files.App.UserControls.TabView
 					_NavigationArguments = value;
 					if (_NavigationArguments is not null)
 					{
-						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationArg);
+						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationParameter);
 					}
 					else
 					{
@@ -65,12 +68,12 @@ namespace Files.App.UserControls.TabView
 
 		public Frame ContentFrame { get; private set; }
 
-		public event EventHandler<TabItemArguments> ContentChanged;
+		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
-		public ITabViewItemContent TabItemContent
-			=> ContentFrame?.Content as ITabViewItemContent;
+		public ICustomTabViewItemContent TabItemContent
+			=> ContentFrame?.Content as ICustomTabViewItemContent;
 
-		public TabViewItem()
+		public CustomTabViewItem()
 		{
 			ContentFrame = new()
 			{
@@ -96,7 +99,7 @@ namespace Files.App.UserControls.TabView
 				TabItemContent.ContentChanged += TabItemContent_ContentChanged;
 		}
 
-		private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
+		private void TabItemContent_ContentChanged(object sender, CustomTabViewItemParameter e)
 		{
 			_NavigationArguments = e;
 			ContentChanged?.Invoke(this, e);

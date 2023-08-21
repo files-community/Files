@@ -5,31 +5,31 @@ using System.Text.Json;
 
 namespace Files.App.Data.Parameters
 {
-	public class TabItemArguments
+	public sealed class CustomTabViewItemParameter
 	{
 		private static readonly KnownTypesConverter TypesConverter = new();
 
 		public Type InitialPageType { get; set; }
 
-		public object NavigationArg { get; set; }
+		public object NavigationParameter { get; set; }
 
 		public string Serialize()
 			=> JsonSerializer.Serialize(this, TypesConverter.Options);
 
-		public static TabItemArguments Deserialize(string obj)
+		public static CustomTabViewItemParameter Deserialize(string obj)
 		{
-			var tabArgs = new TabItemArguments();
+			var tabArgs = new CustomTabViewItemParameter();
 
 			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
-			tabArgs.InitialPageType = Type.GetType(tempArgs["InitialPageType"].GetString());
+			tabArgs.InitialPageType = Type.GetType(tempArgs[nameof(InitialPageType)].GetString());
 
 			try
 			{
-				tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+				tabArgs.NavigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs[nameof(NavigationParameter)].GetRawText());
 			}
 			catch (JsonException)
 			{
-				tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+				tabArgs.NavigationParameter = tempArgs[nameof(NavigationParameter)].GetString();
 			}
 
 			return tabArgs;

@@ -18,14 +18,14 @@ namespace Files.App.ViewModels
 		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
-		public ITabView? MultitaskingControl { get; set; }
+		public ICustomTabView? MultitaskingControl { get; set; }
 
-		public List<ITabView> MultitaskingControls { get; } = new List<ITabView>();
+		public List<ICustomTabView> MultitaskingControls { get; } = new List<ICustomTabView>();
 
-		public static ObservableCollection<Files.App.UserControls.TabView.TabViewItem> AppInstances { get; private set; } = new ObservableCollection<Files.App.UserControls.TabView.TabViewItem>();
+		public static ObservableCollection<Files.App.UserControls.CustomTabView.CustomTabViewItem> AppInstances { get; private set; } = new ObservableCollection<Files.App.UserControls.CustomTabView.CustomTabViewItem>();
 
-		private Files.App.UserControls.TabView.TabViewItem? selectedTabItem;
-		public Files.App.UserControls.TabView.TabViewItem? SelectedTabItem
+		private Files.App.UserControls.CustomTabView.CustomTabViewItem? selectedTabItem;
+		public Files.App.UserControls.CustomTabView.CustomTabViewItem? SelectedTabItem
 		{
 			get => selectedTabItem;
 			set => SetProperty(ref selectedTabItem, value);
@@ -114,17 +114,17 @@ namespace Files.App.ViewModels
 			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
 				path = path.Remove(path.Length - 1);
 
-			var tabItem = new Files.App.UserControls.TabView.TabViewItem()
+			var tabItem = new Files.App.UserControls.CustomTabView.CustomTabViewItem()
 			{
 				Header = null,
 				IconSource = null,
 				Description = null,
 				ToolTipText = null
 			};
-			tabItem.NavigationArguments = new TabItemArguments()
+			tabItem.NavigationParameter = new CustomTabViewItemParameter()
 			{
 				InitialPageType = type,
-				NavigationArg = path
+				NavigationParameter = path
 			};
 			tabItem.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfo(tabItem, path);
@@ -157,11 +157,11 @@ namespace Files.App.ViewModels
 			if (AppInstances.Count > 1)
 				windowTitle = $"{windowTitle} ({AppInstances.Count})";
 
-			if (navigationArg == SelectedTabItem?.NavigationArguments?.NavigationArg)
+			if (navigationArg == SelectedTabItem?.NavigationParameter?.NavigationParameter)
 				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
-		public async Task UpdateTabInfo(Files.App.UserControls.TabView.TabViewItem tabItem, object navigationArg)
+		public async Task UpdateTabInfo(Files.App.UserControls.CustomTabView.CustomTabViewItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -289,11 +289,11 @@ namespace Files.App.ViewModels
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
 					if (!userSettingsService.AppSettingsService.RestoreTabsOnStartup && !userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && userSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
-						var items = new TabItemArguments[userSettingsService.GeneralSettingsService.LastSessionTabList.Count];
+						var items = new CustomTabViewItemParameter[userSettingsService.GeneralSettingsService.LastSessionTabList.Count];
 						for (int i = 0; i < items.Length; i++)
-							items[i] = TabItemArguments.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
+							items[i] = CustomTabViewItemParameter.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
-						BaseTabView.PushRecentTab(items);
+						BaseCustomTabView.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
@@ -303,8 +303,8 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
 							if (!userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
@@ -322,11 +322,11 @@ namespace Files.App.ViewModels
 					{
 						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 						{
-							var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+							var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 						}
 
-						var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 
 						userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 					}
@@ -357,11 +357,11 @@ namespace Files.App.ViewModels
 						{
 							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
-								var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
+								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
-							var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 
 							userSettingsService.GeneralSettingsService.LastSessionTabList = new List<string> { defaultArg.Serialize() };
 						}
@@ -373,8 +373,8 @@ namespace Files.App.ViewModels
 					await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
 				else if (parameter is PaneNavigationArguments paneArgs)
 					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
-				else if (parameter is TabItemArguments tabArgs)
-					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+				else if (parameter is CustomTabViewItemParameter tabArgs)
+					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
 			// Load the app theme resources
@@ -392,7 +392,7 @@ namespace Files.App.ViewModels
 
 		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
-			var tabItem = new Files.App.UserControls.TabView.TabViewItem()
+			var tabItem = new Files.App.UserControls.CustomTabView.CustomTabViewItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -400,10 +400,10 @@ namespace Files.App.ViewModels
 				ToolTipText = null
 			};
 
-			tabItem.NavigationArguments = new TabItemArguments()
+			tabItem.NavigationParameter = new CustomTabViewItemParameter()
 			{
 				InitialPageType = type,
-				NavigationArg = tabViewItemArgs
+				NavigationParameter = tabViewItemArgs
 			};
 
 			tabItem.ContentChanged += Control_ContentChanged;
@@ -415,16 +415,16 @@ namespace Files.App.ViewModels
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async void Control_ContentChanged(object? sender, TabItemArguments e)
+		public async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (sender is null)
 				return;
 
-			var matchingTabItem = AppInstances.SingleOrDefault(x => x == (Files.App.UserControls.TabView.TabViewItem)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x == (Files.App.UserControls.CustomTabView.CustomTabViewItem)sender);
 			if (matchingTabItem is null)
 				return;
 
-			await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+			await UpdateTabInfo(matchingTabItem, e.NavigationParameter);
 		}
 	}
 }

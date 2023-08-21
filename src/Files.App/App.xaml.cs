@@ -7,7 +7,7 @@ using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.TabView;
+using Files.App.UserControls.CustomTabView;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -351,13 +351,13 @@ namespace Files.App
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.NavigationArguments is not null)
+				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.NavigationArguments.Serialize();
+					return tab.NavigationParameter.Serialize();
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+					var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 					return defaultArg.Serialize();
 				}
 			})
