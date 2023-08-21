@@ -94,7 +94,9 @@ namespace Files.App.Utils.Archives
 				if (cancellationToken.IsCancellationRequested) // Check if canceled
 					return;
 
-				string filePath = Path.Combine(destinationFolder.Path, entry.FileName);
+				var filePath = destinationFolder.Path;
+				foreach (var component in entry.FileName.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+					filePath = Path.Combine(filePath, component);
 
 				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 				if (hFile.IsInvalid)

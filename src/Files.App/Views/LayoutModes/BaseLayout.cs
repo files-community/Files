@@ -253,6 +253,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract ItemsControl ItemsControl { get; }
 
+		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
+		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowItemDrag => !ElevationHelpers.IsAppRunAsAdmin();
+
 		public BaseLayout()
 		{
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
@@ -469,6 +473,9 @@ namespace Files.App.Views.LayoutModes
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()

@@ -1012,7 +1012,7 @@
     <value>Hinzufügen</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Bearbeitung</value>
+    <value>Bearbeiten</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Entfernen</value>
@@ -3428,5 +3428,14 @@
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Beginnt in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>BitLocker aktivieren</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>BitLocker verwalten</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Die folgenden Elemente sind zu groß, um auf dieses Laufwerk kopiert zu werden</value>
   </data>
 </root>

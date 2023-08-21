@@ -88,21 +88,13 @@ namespace Files.App.Data.Items
 		public bool IsHeader { get; set; }
 
 		private object toolTip = "";
-		public object ToolTip
+		public virtual object ToolTip
 		{
 			get => toolTip;
 			set
 			{
 				SetProperty(ref toolTip, value);
 			}
-		}
-
-		public int CompareTo(INavigationControlItem other)
-			=> Text.CompareTo(other.Text);
-
-		public static T Create<T>() where T : LocationItem, new()
-		{
-			return new T();
 		}
 
 		private FrameworkElement? itemDecorator;
@@ -121,31 +113,48 @@ namespace Files.App.Data.Items
 				return null;
 			}
 		}
-	}
-}
 
-public class RecycleBinLocationItem : LocationItem
-{
-	public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
-	{
-		SpaceUsed = RecycleBinHelpers.GetSize();
-	}
+		public int CompareTo(INavigationControlItem other)
+			=> Text.CompareTo(other.Text);
 
-	private ulong spaceUsed;
-	public ulong SpaceUsed
-	{
-		get => spaceUsed;
-		set
+		public static T Create<T>() where T : LocationItem, new()
 		{
-			SetProperty(ref spaceUsed, value);
+			return new T();
 		}
 	}
 
-	public RecycleBinLocationItem()
+	public class RecycleBinLocationItem : LocationItem
 	{
-		SpaceUsed = RecycleBinHelpers.GetSize();
+		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
+		{
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				SpaceUsed = RecycleBinHelpers.GetSize();
+			});
+		}
 
-		RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
-		RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
+		private ulong spaceUsed;
+		public ulong SpaceUsed
+		{
+			get => spaceUsed;
+			set
+			{
+				if (SetProperty(ref spaceUsed, value))
+					OnPropertyChanged(nameof(ToolTip));
+			}
+		}
+
+		public override object ToolTip
+		{
+			get => SpaceUsed.ToSizeString();
+		}
+
+		public RecycleBinLocationItem()
+		{
+			SpaceUsed = RecycleBinHelpers.GetSize();
+
+			RecycleBinManager.Default.RecycleBinItemCreated += RefreshSpaceUsed;
+			RecycleBinManager.Default.RecycleBinItemDeleted += RefreshSpaceUsed;
+		}
 	}
 }
