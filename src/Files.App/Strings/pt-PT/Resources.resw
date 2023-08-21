@@ -3429,4 +3429,13 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Iniciar em:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Ativar BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Gerir BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Estes itens são muito grandes para poderem ser copiados para esta unidade.</value>
+  </data>
 </root>

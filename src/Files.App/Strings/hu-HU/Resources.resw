@@ -121,7 +121,7 @@
     <value>Új ablak</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Másolási útvonal</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Tallózás</value>
@@ -139,7 +139,7 @@
     <value>Méret:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Méret a lemezen:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Tömörítetlen méret:</value>
@@ -175,7 +175,7 @@
     <value>Minden elem eltávolítása</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Adja meg a navigáció útvonalát vagy írjon "&gt;"-t a parancs paletta megnyitásához</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Keresés</value>
@@ -1306,7 +1306,7 @@
     <value>Nincsenek ütköző fájlnevek.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Mappa létrehozása a kijelölt elemekkel</value>
   </data>
   <data name="ToolTipDescriptionName" xml:space="preserve">
     <value>Név:</value>
@@ -1399,7 +1399,7 @@
     <value>Utolsó év</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>{0}. Ev</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} elem</value>
@@ -1543,10 +1543,10 @@
     <value>Mappa tartalmának listázása</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Módosítás</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Jogok a {0}-hoz/hez/höz</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
     <value>Olvasás és végrehajtás</value>
@@ -2224,7 +2224,7 @@
     <value>Tömörítés folyamatban</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Tömörít</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Fájlok és mappák kiválasztása kattintás nélkül</value>
@@ -2392,7 +2392,7 @@
     <value>Címkék módosítása</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Menühöz küldés mutatása</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Mappa megnyitása új lapon</value>
@@ -2656,25 +2656,25 @@
     <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>Kiválasztott betűtípus(ok) letöltése</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>Driver(ek) letöltése a kiválasztott inf fájl(okkal/lal)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>Kiválasztott tanusítvány(ok) letöltése</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Kiválasztott alkalmazás futtatása rendszergazdaként</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Kiválasztott alkalmazás futtatása adminisztrátorként</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Kiválasztott PowerShell script futtatása</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Előnézet elindítása felugró ablakban</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected item(s)</value>
@@ -2698,16 +2698,16 @@
     <value>Rotate selected image(s) to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>Kiválasztott kép(ek) jobbra forgatása</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Beállítások oldal megnyitása</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Mappa megnyitásba terminálban</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Mappa megnyitása terminálban rendszergazdaként</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Decrease icon size in grid view</value>
@@ -3428,5 +3428,14 @@
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
   </data>
 </root>

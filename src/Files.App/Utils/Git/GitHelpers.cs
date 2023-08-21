@@ -507,36 +507,44 @@ namespace Files.App.Utils.Git
 			return false;
 		}
 
-		public static GitItemModel GetGitInformationForItem(Repository repository, string path)
+		public static GitItemModel GetGitInformationForItem(Repository repository, string path, bool getStatus = true, bool getCommit = true)
 		{
 			var rootRepoPath = repository.Info.WorkingDirectory;
 			var relativePath = path.Substring(rootRepoPath.Length).Replace('\\', '/');
 
-			var commit = GetLastCommitForFile(repository, relativePath);
-			//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
-
-			var changeKind = ChangeKind.Unmodified;
-			//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
-			foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
+			Commit? commit = null;
+			if (getCommit)
 			{
-				if (c.Path.StartsWith(relativePath))
-				{
-					changeKind = c.Status;
-					break;
-				}
+				commit = GetLastCommitForFile(repository, relativePath);
+				//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
 			}
 
+			ChangeKind? changeKind = null;
 			string? changeKindHumanized = null;
-			if (changeKind is not ChangeKind.Ignored)
+			if (getStatus)
 			{
-				changeKindHumanized = changeKind switch
+				changeKind = ChangeKind.Unmodified;
+				//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
+				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
 				{
-					ChangeKind.Added => "Added".GetLocalizedResource(),
-					ChangeKind.Deleted => "Deleted".GetLocalizedResource(),
-					ChangeKind.Modified => "Modified".GetLocalizedResource(),
-					ChangeKind.Untracked => "Untracked".GetLocalizedResource(),
-					_ => null,
-				};
+					if (c.Path.StartsWith(relativePath))
+					{
+						changeKind = c.Status;
+						break;
+					}
+				}
+
+				if (changeKind is not ChangeKind.Ignored)
+				{
+					changeKindHumanized = changeKind switch
+					{
+						ChangeKind.Added => "Added".GetLocalizedResource(),
+						ChangeKind.Deleted => "Deleted".GetLocalizedResource(),
+						ChangeKind.Modified => "Modified".GetLocalizedResource(),
+						ChangeKind.Untracked => "Untracked".GetLocalizedResource(),
+						_ => null,
+					};
+				}
 			}
 
 			var gitItemModel = new GitItemModel()

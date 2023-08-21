@@ -3429,4 +3429,13 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Aloitussijainti:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Ota BitLocker käyttöön</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Hallinnoi BitLockeria</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Seuraavat kohteet ovat liian suuria kopioitavaksi tälle asemalle</value>
+  </data>
 </root>
