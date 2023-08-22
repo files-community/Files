@@ -6,7 +6,6 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -293,13 +292,17 @@ namespace Files.App.Data.Items
 			else
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16);
 
 				if (Root is not null)
 				{
 					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 					IconData ??= await thumbnail.ToByteArrayAsync();
 				}
+
+				if (string.Equals(DeviceID, "network-folder"))
+					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
+
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon ??= await IconData.ToBitmapAsync();
