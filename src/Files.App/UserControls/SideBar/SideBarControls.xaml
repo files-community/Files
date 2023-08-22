@@ -434,7 +434,7 @@
 									<VisualState.Setters>
 										<Setter Target="RootPanel.MaxWidth" Value="{StaticResource SidebarCompactOpenPaneLength}" />
 										<Setter Target="ItemNameTextBlock.Visibility" Value="Collapsed" />
-										<Setter Target="ItemDecoratorPresenter.Width" Value="0"/>
+										<Setter Target="ItemDecoratorPresenter.Width" Value="0" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
