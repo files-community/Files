@@ -198,27 +198,23 @@ namespace Files.App.Data.Items
 			};
 		}
 
-		private Button? itemDecorator;
 		public FrameworkElement? ItemDecorator
 		{
 			get
 			{
 				if (!IsRemovable)
 					return null; // Removable items don't need the eject button
-				if (itemDecorator is null)
+				var itemDecorator = new Button()
 				{
-					itemDecorator = new Button()
+					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
+					Content = new OpacityIcon()
 					{
-						Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
-						Content = new OpacityIcon()
-						{
-							Style = Application.Current.Resources["ColorIconEject"] as Style,
-							Height = 16,
-							Width = 16
-						}
-					};
-					itemDecorator.Click += ItemDecorator_Click;
-				}
+						Style = Application.Current.Resources["ColorIconEject"] as Style,
+						Height = 16,
+						Width = 16
+					}
+				};
+				itemDecorator.Click += ItemDecorator_Click;
 				return itemDecorator;
 			}
 		}

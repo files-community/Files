@@ -97,18 +97,16 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private FrameworkElement? itemDecorator;
 		public FrameworkElement? ItemDecorator
 		{
 			get
 			{
 				if (Section == SectionType.Favorites)
 				{
-					itemDecorator ??= new OpacityIcon()
+					return new OpacityIcon()
 					{
 						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
 					};
-					return itemDecorator;
 				}
 				return null;
 			}
