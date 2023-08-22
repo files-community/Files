@@ -73,6 +73,14 @@ namespace Files.App.UserControls.Sidebar
 		public static readonly DependencyProperty IconProperty =
 			DependencyProperty.Register(nameof(Icon), typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
 
+		public FrameworkElement? Decorator
+		{
+			get { return (FrameworkElement?)GetValue(DecoratorProperty); }
+			set { SetValue(DecoratorProperty, value); }
+		}
+		public static readonly DependencyProperty DecoratorProperty =
+			DependencyProperty.Register(nameof(Decorator), typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
+
 		public SidebarDisplayMode DisplayMode
 		{
 			get { return (SidebarDisplayMode)GetValue(DisplayModeProperty); }

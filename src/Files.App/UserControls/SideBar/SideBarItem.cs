@@ -94,11 +94,14 @@ namespace Files.App.UserControls.Sidebar
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
+
+			if (Item is not null)
+				Decorator = Item.ItemDecorator;
 		}
 
 		private void ChildrenPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			if(e.NewSize.Height > 1)
+			if (e.NewSize.Height > 1)
 			{
 				ChildrenPresenterHeight = e.NewSize.Height;
 			}
@@ -175,7 +178,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			ReevaluateSelection();
 			UpdateExpansionState();
-			if(DisplayMode == SidebarDisplayMode.Compact && !HasChildren)
+			if (DisplayMode == SidebarDisplayMode.Compact && !HasChildren)
 			{
 				SetFlyoutOpen(false);
 			}
@@ -242,7 +245,7 @@ namespace Files.App.UserControls.Sidebar
 				{
 					IsExpanded = !IsExpanded;
 				}
-				else if(HasChildren)
+				else if (HasChildren)
 				{
 					SetFlyoutOpen(true);
 				}
@@ -324,7 +327,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateExpansionState(bool useAnimations = true)
 		{
-			if(Item?.Children is null || !CollapseEnabled)
+			if (Item?.Children is null || !CollapseEnabled)
 			{
 				VisualStateManager.GoToState(this, "NoExpansion", useAnimations);
 			}
