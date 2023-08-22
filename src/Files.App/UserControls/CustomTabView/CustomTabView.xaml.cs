@@ -53,6 +53,9 @@ namespace Files.App.UserControls.CustomTabView
 		public bool AllowTabsDrag
 			=> !ElevationHelpers.IsAppRunAsAdmin();
 
+		public Rectangle DragArea
+			=> DragAreaRectangle;
+
 		public CustomTabView()
 		{
 			InitializeComponent();

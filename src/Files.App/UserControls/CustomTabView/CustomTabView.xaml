@@ -73,6 +73,7 @@
 			CanDragTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
 			CanReorderTabs="{x:Bind AllowTabsDrag, Mode=OneWay}"
 			DragLeave="TabView_DragLeave"
+			IsAddTabButtonVisible="False"
 			SelectedIndex="{x:Bind root:App.AppModel.TabStripSelectedIndex, Mode=TwoWay}"
 			SelectionChanged="TabView_SelectionChanged"
 			TabCloseRequested="TabView_TabCloseRequested"
