@@ -305,6 +305,12 @@ namespace Files.App
 			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
+				// Close open content dialogs
+				var contentDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+				foreach (var popup in contentDialogs)
+					if (popup.Child is ContentDialog)
+						((ContentDialog)popup.Child).Hide();
+
 				// Cache the window istead of closing it
 				MainWindow.Instance.AppWindow.Hide();
 				args.Handled = true;
@@ -317,12 +323,6 @@ namespace Files.App
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
-
-				// Close open content dialogs
-				var contentDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
-				foreach (var popup in contentDialogs)
-					if (popup.Child is ContentDialog)
-						((ContentDialog)popup.Child).Hide();
 
 				Program.Pool = new(0, 1, "Files-Instance");
 				Thread.Yield();
