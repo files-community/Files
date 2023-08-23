@@ -306,7 +306,7 @@ namespace Files.App
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
-				var contentDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+				var contentDialogs = VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
 				foreach (var popup in contentDialogs)
 					if (popup.Child is ContentDialog)
 						((ContentDialog)popup.Child).Hide();
