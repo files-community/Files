@@ -210,7 +210,7 @@ namespace Files.App.Services.Settings
 
 		public bool LeaveAppRunning
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
