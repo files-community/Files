@@ -301,7 +301,8 @@ namespace Files.App
 				return;
 			}
 
-			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning)
+			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Cache the window istead of closing it
 				MainWindow.Instance.AppWindow.Hide();
