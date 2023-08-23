@@ -6,5 +6,4 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:winuiex="using:WinUIEx"
-	Closed="MainWindow_Closed"
 	mc:Ignorable="d" />

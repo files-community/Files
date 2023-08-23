@@ -176,7 +176,7 @@ namespace Files.App
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
-		private Frame EnsureWindowIsInitialized()
+		public Frame EnsureWindowIsInitialized()
 		{
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
@@ -283,30 +283,6 @@ namespace Files.App
 						App.OutputPath = command.Payload;
 						break;
 				}
-			}
-		}
-
-		private void MainWindow_Closed(object sender, WindowEventArgs args)
-		{
-			if (!Ioc.Default.GetRequiredService<IUserSettingsService>()?.GeneralSettingsService.LeaveAppRunning ?? true)
-				return;
-
-			AppWindow.Hide();
-
-			// Save and clear all tabs
-			App.SaveSessionTabs();
-			MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
-			MainPageViewModel.AppInstances.Clear();
-
-			args.Handled = true;
-			Program.Pool = new(0, 1, "Files-Instance");
-			Thread.Yield();
-			if (Program.Pool.WaitOne())
-			{
-				Program.Pool.Dispose();
-				AppWindow.Show();
-				Activate();
-				EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 			}
 		}
 	}

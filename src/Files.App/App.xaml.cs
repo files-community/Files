@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -297,6 +298,31 @@ namespace Files.App
 				args.Handled = true;
 				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
 				LastOpenedFlyout.Hide();
+				return;
+			}
+
+			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning)
+			{
+				// Cache the window istead of closing it
+				MainWindow.Instance.AppWindow.Hide();
+				args.Handled = true;
+
+				// Save and close all tabs
+				SaveSessionTabs();
+				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
+				MainPageViewModel.AppInstances.Clear();
+				await Task.Delay(100);
+
+				Program.Pool = new(0, 1, "Files-Instance");
+				Thread.Yield();
+				if (Program.Pool.WaitOne())
+				{
+					Program.Pool.Dispose();
+					MainWindow.Instance.AppWindow.Show();
+					MainWindow.Instance.Activate();
+					MainWindow.Instance.EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+				}
+
 				return;
 			}
 
