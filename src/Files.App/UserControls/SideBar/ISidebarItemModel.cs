@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.Sidebar
@@ -16,6 +17,11 @@ namespace Files.App.UserControls.Sidebar
 		/// The icon source used to generate the icon for the SidebarItem
 		/// </summary>
 		IconSource? IconSource { get; }
+
+		/// <summary>
+		/// Item decorator for the given item.
+		/// </summary>
+		FrameworkElement? ItemDecorator { get => null; }
 
 		/// <summary>
 		/// Determines whether the SidebarItem is expanded and the children are visible 
