@@ -21,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
@@ -316,6 +317,12 @@ namespace Files.App
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
+
+				// Close open content dialogs
+				var contentDialogs = VisualTreeHelper.GetOpenPopups(Window.Current);
+				foreach (var popup in contentDialogs)
+					if (popup.Child is ContentDialog)
+						((ContentDialog)popup.Child).Hide();
 
 				Program.Pool = new(0, 1, "Files-Instance");
 				Thread.Yield();
