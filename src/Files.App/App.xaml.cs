@@ -41,7 +41,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static TaskCompletionSource? SplashScreenLoadingTCS { get; set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -312,6 +312,9 @@ namespace Files.App
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
 				await Task.Delay(100);
+
+				// Wait for all properties windows to close
+				await FilePropertiesHelpers.WaitClosingAll();
 
 				Program.Pool = new(0, 1, "Files-Instance");
 				Thread.Yield();
