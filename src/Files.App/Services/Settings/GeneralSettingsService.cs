@@ -260,6 +260,7 @@ namespace Files.App.Services.Settings
 				case nameof(ShowOpenInNewTab):
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):
+				case nameof(LeaveAppRunning):
 				case nameof(ConflictsResolveOption):
 				case nameof(ShowHashesDictionary):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
