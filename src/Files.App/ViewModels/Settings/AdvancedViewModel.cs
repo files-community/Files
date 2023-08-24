@@ -297,6 +297,20 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref canOpenOnWindowsStartup, value);
 		}
 
+		public bool LeaveAppRunning
+		{
+			get => UserSettingsService.GeneralSettingsService.LeaveAppRunning;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.LeaveAppRunning)
+				{
+					UserSettingsService.GeneralSettingsService.LeaveAppRunning = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public async Task OpenFilesOnWindowsStartup()
 		{
 			var stateMode = await ReadState();

@@ -31,6 +31,8 @@ namespace Files.App.Utils.Storage
 		public static nint GetWindowHandle(Window w)
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
+		private static int WindowCount = 0;
+		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
 		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = new();
 
 		/// <summary>
@@ -140,8 +142,10 @@ namespace Files.App.Utils.Storage
 					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
 
-			appWindow.Move(appWindowPos);
+			if (Interlocked.Increment(ref WindowCount) == 1)
+				PropertiesWindowsClosingTCS = new();
 
+			appWindow.Move(appWindowPos);
 			appWindow.Show();
 		}
 
@@ -156,9 +160,19 @@ namespace Files.App.Utils.Storage
 				window.AppWindow.Hide();
 				window.Content = null;
 				WindowCache.Add(window);
+
+				if (Interlocked.Decrement(ref WindowCount) == 0)
+				{
+					PropertiesWindowsClosingTCS!.TrySetResult();
+					PropertiesWindowsClosingTCS = null;
+				}
 			}
 		}
 
+		/// <summary>
+		/// Destroy all cached properties windows
+		/// </summary>
+		/// <returns></returns>
 		public static void DestroyCachedWindows()
 		{
 			while (WindowCache.TryTake(out var window))
@@ -167,5 +181,11 @@ namespace Files.App.Utils.Storage
 				window.Close();
 			}
 		}
+
+		/// <summary>
+		/// Returns task to wait for all properties windows to close
+		/// </summary>
+		/// <returns>Task to wait</returns>
+		public static Task WaitClosingAll() => PropertiesWindowsClosingTCS?.Task ?? Task.CompletedTask;
 	}
 }

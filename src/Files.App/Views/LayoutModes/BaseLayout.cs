@@ -605,13 +605,17 @@ namespace Files.App.Views.LayoutModes
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
+				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
 						RemoveOverflow(BaseContextMenuFlyout);
+				}
+				else
+				{
+					RemoveOverflow(BaseContextMenuFlyout);
 				}
 			}
 			catch (Exception error)
@@ -667,13 +671,17 @@ namespace Files.App.Views.LayoutModes
 			if (InstanceViewModel!.CanTagFilesInPage)
 				AddNewFileTagsToMenu(ItemContextMenuFlyout);
 
-			if (!InstanceViewModel.IsPageTypeZipFolder)
+			if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 			{
 				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 				if (shellMenuItems.Any())
 					await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
 				else
 					RemoveOverflow(ItemContextMenuFlyout);
+			}
+			else
+			{
+				RemoveOverflow(ItemContextMenuFlyout);
 			}
 		}
 

@@ -6,7 +6,6 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -199,6 +198,33 @@ namespace Files.App.Data.Items
 			};
 		}
 
+		public FrameworkElement? ItemDecorator
+		{
+			get
+			{
+				if (!IsRemovable)
+					return null; // Removable items don't need the eject button
+				var itemDecorator = new Button()
+				{
+					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
+					Content = new OpacityIcon()
+					{
+						Style = Application.Current.Resources["ColorIconEject"] as Style,
+						Height = 16,
+						Width = 16
+					}
+				};
+				itemDecorator.Click += ItemDecorator_Click;
+				return itemDecorator;
+			}
+		}
+
+		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
+		{
+			var result = await DriveHelpers.EjectDeviceAsync(Path);
+			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);
+		}
+
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
@@ -293,13 +319,17 @@ namespace Files.App.Data.Items
 			else
 			{
 				if (!string.IsNullOrEmpty(DeviceID) && !string.Equals(DeviceID, "network-folder"))
-					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 24);
+					IconData ??= await FileThumbnailHelper.LoadIconWithoutOverlayAsync(DeviceID, 16);
 
 				if (Root is not null)
 				{
 					using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
 					IconData ??= await thumbnail.ToByteArrayAsync();
 				}
+
+				if (string.Equals(DeviceID, "network-folder"))
+					IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.NetworkDrives).IconData;
+
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
 			Icon ??= await IconData.ToBitmapAsync();

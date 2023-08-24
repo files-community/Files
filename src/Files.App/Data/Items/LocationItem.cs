@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -93,6 +94,21 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref toolTip, value);
+			}
+		}
+
+		public FrameworkElement? ItemDecorator
+		{
+			get
+			{
+				if (Section == SectionType.Favorites)
+				{
+					return new OpacityIcon()
+					{
+						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
+					};
+				}
+				return null;
 			}
 		}
 
