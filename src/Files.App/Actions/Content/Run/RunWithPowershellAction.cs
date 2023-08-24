@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
+using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
@@ -31,9 +31,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			Win32API.RunPowershellCommand($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
-
-			return Task.CompletedTask;
+			return Win32API.RunPowershellCommandAsync($"{context.ShellPage?.SlimContentPage?.SelectedItem.ItemPath}", false);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -1,48 +1,23 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
+using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal class RunAsAdminAction : ObservableObject, IAction
+	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
-		private readonly IContentPageContext context;
-
-		public string Label
+		public override string Label
 			=> "RunAsAdministrator".GetLocalizedResource();
 
-		public string Description
+		public override string Description
 			=> "RunAsAdminDescription".GetLocalizedResource();
 
-		public RichGlyph Glyph
+		public override RichGlyph Glyph
 			=> new("\uE7EF");
 
-		public bool IsExecutable =>
-			context.SelectedItem is not null &&
-			FileExtensionHelpers.IsExecutableFile(context.SelectedItem.FileExtension);
-
-		public RunAsAdminAction()
+		public RunAsAdminAction() : base("runas")
 		{
-			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-
-			context.PropertyChanged += Context_PropertyChanged;
-		}
-
-		public async Task ExecuteAsync()
-		{
-			await ContextMenu.InvokeVerb("runas", context.SelectedItem!.ItemPath);
-		}
-
-		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-				case nameof(IContentPageContext.Folder):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
 		}
 	}
 }

@@ -175,7 +175,7 @@
     <value>Limpar todos os itens</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Insira um caminho</value>
+    <value>Introduza um caminho para navegar ou digite "&gt;" para abrir a paleta de comandos</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Pesquisar</value>
@@ -3399,9 +3399,43 @@
     <value>Abrir pasta em nova janela</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Abrir tudo</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Abrir todos os itens com etiqueta</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Unidade ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Comando inválido</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' não é reconhecido como um comando.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Comando não é executável</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>O comando '{0}' não está pronto para ser executado.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Paleta de comandos</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Abrir paleta de comandos</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Iniciar em:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Ativar BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Gerir BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Estes itens são muito grandes para poderem ser copiados para esta unidade.</value>
   </data>
 </root>

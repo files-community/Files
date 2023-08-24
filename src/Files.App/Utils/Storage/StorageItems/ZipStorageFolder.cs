@@ -1,9 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using SevenZip;
-using SQLitePCL;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -229,7 +228,7 @@ namespace Files.App.Utils.Storage
 				var items = new List<IStorageItem>();
 				foreach (var entry in zipFile.ArchiveFileData) // Returns all items recursively
 				{
-					string winPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(containerPath, entry.FileName));
+					string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.FileName);
 					if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
 					{
 						var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
@@ -547,18 +546,15 @@ namespace Files.App.Utils.Storage
 		}
 		private static async Task<bool> InitArchive(Stream stream, OutArchiveFormat format)
 		{
-			if (stream.Length == 0) // File is empty
+			stream.SetLength(0);
+			var compressor = new SevenZipCompressor()
 			{
-				var compressor = new SevenZipCompressor()
-				{
-					CompressionMode = CompressionMode.Create,
-					ArchiveFormat = format
-				};
-				await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
-				await stream.FlushAsync();
-				return true;
-			}
-			return false;
+				CompressionMode = CompressionMode.Create,
+				ArchiveFormat = format
+			};
+			await compressor.CompressStreamDictionaryAsync(stream, new Dictionary<string, Stream>());
+			await stream.FlushAsync();
+			return true;
 		}
 
 		private IAsyncOperation<SevenZipExtractor> OpenZipFileAsync()

@@ -4,6 +4,7 @@
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
@@ -52,6 +53,10 @@ namespace Files.App
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+			// Workaround for full screen window messing up the taskbar
+			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
+			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -171,7 +176,7 @@ namespace Files.App
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
-		private Frame EnsureWindowIsInitialized()
+		public Frame EnsureWindowIsInitialized()
 		{
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,

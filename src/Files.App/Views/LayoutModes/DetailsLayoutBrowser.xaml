@@ -156,7 +156,7 @@
 
 			<Style
 				x:Key="ColumnContentTextBlock"
-				BasedOn="{StaticResource CaptionTextBlockStyle}"
+				BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
 				TargetType="TextBlock">
 				<Setter Property="TextWrapping" Value="NoWrap" />
 				<Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -208,7 +208,7 @@
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
-					CanDragItems="True"
+					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
@@ -220,6 +220,7 @@
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
+					LosingFocus="FileList_LosingFocus"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
 					ScrollViewer.HorizontalScrollMode="Auto"
@@ -242,7 +243,7 @@
 							Height="40"
 							Margin="0"
 							Padding="16,0,0,0"
-							BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
 							PointerPressed="Grid_PointerPressed">
 
@@ -1389,7 +1390,7 @@
 											<TextBlock
 												Margin="4,0,0,0"
 												VerticalAlignment="Center"
-												Style="{StaticResource BodyTextBlockStyle}"
+												Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 												Text="{x:Bind Model.CountText, Mode=OneWay}"
 												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -1403,7 +1404,7 @@
 
 										<TextBlock
 											Margin="0,2,0,0"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -1418,6 +1419,7 @@
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 						</Style>
 					</ListView.ItemContainerStyle>
@@ -1473,7 +1475,7 @@
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -1487,7 +1489,7 @@
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>

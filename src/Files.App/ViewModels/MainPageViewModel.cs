@@ -225,7 +225,7 @@ namespace Files.App.ViewModels
 			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
-				iconSource.ImageSource = new BitmapImage(wslDistro.Logo);
+				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
 			}
 			else
 			{

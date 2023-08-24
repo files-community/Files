@@ -1,8 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
 using Files.App.ViewModels.LayoutModes;
+using Files.Shared.Helpers;
+using Files.App.Helpers.ContextFlyouts;
+using Files.App.ViewModels.LayoutModes;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -75,7 +78,7 @@ namespace Files.App.Helpers
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel itemViewModel = null)
+			ItemViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
@@ -88,6 +91,8 @@ namespace Files.App.Helpers
 			string newArchiveName =
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
+
+			bool isDriveRoot = itemViewModel?.CurrentFolder is not null && (itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -542,8 +547,30 @@ namespace Files.App.Helpers
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "TurnOnBitLocker".GetLocalizedResource(),
+					Tag = "TurnOnBitLockerPlaceholder",
+					CollapseLabel = true,
+					IsEnabled = false,
+					ShowItem = isDriveRoot
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageBitLocker".GetLocalizedResource(),
+					Tag = "ManageBitLockerPlaceholder",
+					CollapseLabel = true,
+					ShowItem = isDriveRoot,
+					IsEnabled = false
+				},
+				// Shell extensions are not available on the FTP server or in the archive,
+				// but following items are intentionally added because icons in the context menu will not appear
+				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
+				new ContextMenuFlyoutItemViewModel()
+				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -553,6 +580,8 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					IsEnabled = false
@@ -615,6 +644,24 @@ namespace Files.App.Helpers
 			}
 
 			return list;
+		}
+
+		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
+		{
+			var placeholder = contextMenu.SecondaryCommands
+															.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
+															.FirstOrDefault() as AppBarButton;
+			if (placeholder is not null)
+				placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+
+			if (replacingItem is not null)
+			{
+				var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { replacingItem });
+				contextMenu.SecondaryCommands.Insert(
+					position,
+					bitLockerCommands.FirstOrDefault()
+				);
+			}
 		}
 	}
 }

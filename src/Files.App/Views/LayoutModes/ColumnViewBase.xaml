@@ -157,7 +157,7 @@
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="True"
+					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsStarting="FileList_DragItemsStarting"
@@ -189,9 +189,12 @@
 								x:Name="FilesRootGrid"
 								Height="30"
 								Padding="12,0,12,0"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
 								Loaded="Grid_Loaded"
+								PointerEntered="Grid_PointerEntered"
 								ToolTipService.ToolTip="{x:Bind ItemTooltipText, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="24" />
@@ -351,7 +354,7 @@
 											<TextBlock
 												Margin="4,0,0,0"
 												VerticalAlignment="Center"
-												Style="{StaticResource BodyTextBlockStyle}"
+												Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 												Text="{x:Bind Model.CountText, Mode=OneWay}"
 												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -366,7 +369,7 @@
 
 										<TextBlock
 											Margin="0,2,0,0"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -380,6 +383,7 @@
 						<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
 							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 							<Setter Property="MinHeight" Value="1" />
+							<Setter Property="Margin" Value="{ThemeResource ListItemMargin}" />
 							<Setter Property="Height" Value="{ThemeResource ListItemHeight}" />
 							<Setter Property="Padding" Value="4,0" />
 						</Style>
@@ -435,7 +439,7 @@
 											Margin="4,0,0,0"
 											VerticalAlignment="Center"
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-											Style="{StaticResource BodyTextBlockStyle}"
+											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 
@@ -452,7 +456,7 @@
 
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-										Style="{StaticResource BodyTextBlockStyle}"
+										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
 										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 

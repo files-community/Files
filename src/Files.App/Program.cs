@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -13,6 +14,20 @@ namespace Files.App
 {
 	internal class Program
 	{
+		public static Semaphore Pool;
+
+		static Program()
+		{
+			Pool = new(0, 1, "Files-Instance", out var isNew);
+			if (!isNew)
+			{
+				// Resume cached instance
+				Pool.Release();
+				Environment.Exit(0);
+			}
+			Pool.Dispose();
+		}
+
 		// Note:
 		//  We can't declare Main to be async because in a WinUI app
 		//  This prevents Narrator from reading XAML elements

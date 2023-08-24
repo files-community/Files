@@ -175,7 +175,7 @@
     <value>Очистити все</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Введіть шлях</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
@@ -520,7 +520,7 @@
     <value>Копіювати до {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Створити комбінацію клавіш</value>
+    <value>Створити ярлик</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Відкрити розташування файлу</value>
@@ -1021,7 +1021,7 @@
     <value>Відкривати вкладки в режимі подвійної панелі</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Показувати опцію відкриття тек в новій панелі</value>
+    <value>Відображати опцію відкриття папок у новій панелі</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Нова панель</value>
@@ -1060,7 +1060,7 @@
     <value>Бажане ім'я</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Перемкнути панель попереднього перегляду</value>
+    <value>Відобразити панель попереднього перегляду</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1345,7 +1345,7 @@
     <value>Дата змінення</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Початкова тека</value>
+    <value>Початкова папка</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Сортувати за</value>
@@ -1408,7 +1408,7 @@
     <value>Елементів: {0}</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Повторно відкрити закриту вкладку</value>
+    <value>Відкрити закриту вкладку</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Перейменувати</value>
@@ -1804,7 +1804,7 @@
     <value>Невідомо</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>Редагувати позначки</value>
+    <value>Редагувати теги</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Фрагмент</value>
@@ -2023,7 +2023,7 @@
     <value>Нещодавні файли</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Відкривати Files при запуску Windows</value>
+    <value>Відкривати Files під час запуску Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Атрибути:</value>
@@ -2560,7 +2560,7 @@
     <value>Перемкнути для показу розширень файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Перемкнути для показу панелі попереднього перегляду</value>
+    <value>Відобразити панель попереднього перегляду</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Перемкнути для показу бічної панелі</value>
@@ -2611,7 +2611,7 @@
     <value>Відкрити елемент(и) в обраному застосунку</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Відкрити батьківську теку пошукового елемента</value>
+    <value>Відкрити батьківську папку шуканого елемента</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>Оновити вміст сторінки</value>
@@ -2951,7 +2951,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>|</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -3390,18 +3390,52 @@
     <value>Впорядкувати елементи за шляхом</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Відкрити каталог у новій панелі</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Відкрити каталог у новій вкладці</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Відкрити каталог у новому вікні</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Відкрити все</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Відкрити всі позначені елементи</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Диск ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Некоректна команда</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' не розпізнано в якості команди.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Команду неможливо виконати</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Команда '{0}' не готова до виконання.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Панель команд</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Відкрити панель команд</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Запустити в:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
   </data>
 </root>

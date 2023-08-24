@@ -4,12 +4,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Utils.Cloud;
 using Files.App.ViewModels.Properties;
-using Files.Core.Helpers;
-using Files.Core.ViewModels.FileTags;
+using Files.Shared.Helpers;
 using FluentFTP;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Text;
@@ -576,6 +573,20 @@ namespace Files.App.Utils
 
 	public class GitItem : ListedItem
 	{
+		private volatile int statusPropertiesInitialized = 0;
+		public bool StatusPropertiesInitialized
+		{
+			get => statusPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
+		}
+
+		private volatile int commitPropertiesInitialized = 0;
+		public bool CommitPropertiesInitialized
+		{
+			get => commitPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
+		}
+
 		private Style? _UnmergedGitStatusIcon;
 		public Style? UnmergedGitStatusIcon
 		{

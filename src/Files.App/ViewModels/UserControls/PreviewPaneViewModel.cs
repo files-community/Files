@@ -3,6 +3,7 @@
 
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
@@ -330,6 +331,14 @@ namespace Files.App.ViewModels.UserControls
 					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 				}
 			}
+		}
+
+		public void UpdateDateDisplay()
+		{
+			SelectedItem?.FileDetails?.ForEach(property => {
+				if (property.Value is DateTimeOffset)
+					property.UpdateValueText();
+			});
 		}
 
 		public ICommand ShowPreviewOnlyInvoked { get; }

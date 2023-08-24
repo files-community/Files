@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -45,7 +46,7 @@ namespace Files.App.Utils.Shell
 			if (FileExtensionHelpers.IsVhdFile(application))
 			{
 				// Use PowerShell to mount Vhd Disk as this requires admin rights
-				return Win32API.MountVhdDisk(application);
+				return await Win32API.MountVhdDisk(application);
 			}
 
 			try

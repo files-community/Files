@@ -1,7 +1,7 @@
 // Copyright(c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Helpers;
+using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using System.IO;
 
@@ -39,8 +39,8 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemType = Item.ItemType;
 			ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
 				(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
-			ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
-			ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
+			ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
+			ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
@@ -109,8 +109,8 @@ namespace Files.App.ViewModels.Properties
 
 			if (Item.IsShortcut)
 			{
-				ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
-				ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
+				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
+				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
 				ViewModel.LoadLinkIcon = Item.LoadWebShortcutGlyph;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
 				{

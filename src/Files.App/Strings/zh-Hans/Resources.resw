@@ -175,7 +175,7 @@
     <value>清空所有项目</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>输入路径</value>
+    <value>输入要导航到的路径，或键入"&gt;"以打开命令面板</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
@@ -3399,9 +3399,43 @@
     <value>在新窗口中打开目录</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>全部打开</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>打开所有有标签的项目</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>驱动器 ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>无效的命令</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>无法将“{0}”识别为命令。</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>命令无法执行</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>命令“{0}”尚未准备好执行。</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>命令面板</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>打开命令面板</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>起始位置:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>打开 BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>管理 BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>以下项目过大，无法复制到此驱动器</value>
   </data>
 </root>

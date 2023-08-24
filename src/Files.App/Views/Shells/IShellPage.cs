@@ -25,6 +25,8 @@ namespace Files.App.Views.Shells
 
 		bool CanNavigateForward { get; }
 
+		Task RefreshIfNoWatcherExists();
+
 		Task Refresh_Click();
 
 		void Back_Click();

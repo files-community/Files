@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -72,9 +71,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems.Any())
+			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
+				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
 			}
 		}
@@ -122,6 +122,8 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
+
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
 			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -205,7 +207,6 @@ namespace Files.App.Views.LayoutModes
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
-			// Show original path and date deleted columns in Recycle Bin
 			if (e.IsTypeRecycleBin)
 			{
 				ColumnsViewModel.OriginalPathColumn.Show();
@@ -217,14 +218,12 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.DateDeletedColumn.Hide();
 			}
 
-			// Show cloud drive item status column
 			if (e.IsTypeCloudDrive)
 				ColumnsViewModel.StatusColumn.Show();
 			else
 				ColumnsViewModel.StatusColumn.Hide();
 
-			// Show git columns in git repository
-			if (e.IsTypeGitRepository)
+			if (e.IsTypeGitRepository && !e.IsTypeSearchResults)
 			{
 				ColumnsViewModel.GitCommitAuthorColumn.Show();
 				ColumnsViewModel.GitLastCommitDateColumn.Show();
@@ -241,7 +240,6 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitStatusColumn.Hide();
 			}
 
-			// Show path columns in git repository
 			if (e.IsTypeSearchResults)
 				ColumnsViewModel.PathColumn.Show();
 			else
@@ -562,6 +560,7 @@ namespace Files.App.Views.LayoutModes
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -878,6 +877,29 @@ namespace Files.App.Views.LayoutModes
 		private void SetToolTip(TextBlock textBlock)
 		{
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
+		}
+
+		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			// Fixes an issue where clicking an empty space would scroll to the top of the file list
+			if (args.NewFocusedElement == FileList)
+				args.TryCancel();
+		}
+
+		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
+		{
+			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
+			var enableCommit = !columnsViewModel.GitLastCommitDateColumn.IsHidden && !columnsViewModel.GitLastCommitDateColumn.UserCollapsed
+				|| !columnsViewModel.GitLastCommitMessageColumn.IsHidden && !columnsViewModel.GitLastCommitMessageColumn.UserCollapsed
+				|| !columnsViewModel.GitCommitAuthorColumn.IsHidden && !columnsViewModel.GitCommitAuthorColumn.UserCollapsed
+				|| !columnsViewModel.GitLastCommitShaColumn.IsHidden && !columnsViewModel.GitLastCommitShaColumn.UserCollapsed;
+			return (enableStatus, enableCommit) switch
+			{
+				(true, true) => GitProperties.All,
+				(true, false) => GitProperties.Status,
+				(false, true) => GitProperties.Commit,
+				(false, false) => GitProperties.None
+			};
 		}
 	}
 }
