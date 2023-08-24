@@ -313,7 +313,7 @@ namespace Files.App
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
 
-				// Cache the window istead of closing it
+				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
 				args.Handled = true;
 
