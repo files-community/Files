@@ -178,18 +178,22 @@ namespace Files.App
 				FileTagsHelper.UpdateTagsDb();
 			});
 
-			// Check for required updates
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await CheckForRequiredUpdates();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
 				if (condition)
 					await task;
 			}
+		}
+
+		private static async Task CheckForRequiredUpdates()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+			await updateService.CheckForUpdates();
+			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
+			await updateService.CheckLatestReleaseNotesAsync();
 		}
 
 		/// <summary>
@@ -331,6 +335,9 @@ namespace Files.App
 					Program.Pool.Dispose();
 					MainWindow.Instance.AppWindow.Show();
 					MainWindow.Instance.Activate();
+
+					_ = CheckForRequiredUpdates();
+
 					MainWindow.Instance.EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 				}
 
