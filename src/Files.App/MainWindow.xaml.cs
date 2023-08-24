@@ -4,11 +4,11 @@
 using Files.App.UserControls.CustomTabView;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -176,7 +176,7 @@ namespace Files.App
 				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 		}
 
-		private Frame EnsureWindowIsInitialized()
+		public Frame EnsureWindowIsInitialized()
 		{
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
