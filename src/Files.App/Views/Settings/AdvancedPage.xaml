@@ -101,7 +101,7 @@
 			<!--  Leave App Running  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsLeaveAppRunning}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE708;" />
+					<FontIcon Glyph="&#xE8E6;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}"
