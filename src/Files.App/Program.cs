@@ -21,6 +21,7 @@ namespace Files.App
 			Pool = new(0, 1, "Files-Instance", out var isNew);
 			if (!isNew)
 			{
+				// Resume cached instance
 				Pool.Release();
 				Environment.Exit(0);
 			}

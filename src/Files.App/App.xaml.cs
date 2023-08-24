@@ -326,10 +326,12 @@ namespace Files.App
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
 
+				// Sleep current instance
 				Program.Pool = new(0, 1, "Files-Instance");
 				Thread.Yield();
 				if (Program.Pool.WaitOne())
 				{
+					// Resume the instance
 					Program.Pool.Dispose();
 					MainWindow.Instance.AppWindow.Show();
 					MainWindow.Instance.Activate();
