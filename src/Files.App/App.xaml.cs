@@ -3,12 +3,6 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Data.Models;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Utils.Cloud;
-using Files.App.Helpers;
-using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
@@ -123,11 +117,11 @@ namespace Files.App
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 					.AddSingleton<IApplicationService, ApplicationService>()
-                    .AddSingleton<ISystemPinService, SystemPinService>()
+					.AddSingleton<ISystemPinService, SystemPinService>()
 #if UWP
 					.AddSingleton<IStorageService, WindowsStorageService>()
 #else
-                    .AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IStorageService, NativeStorageService>()
 #endif
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
