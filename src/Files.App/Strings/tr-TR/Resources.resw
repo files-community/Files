@@ -2155,7 +2155,7 @@
     <value>Tüm Sütunları Sığacak Şekilde Boyutlandır</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Uyarlanır düzen</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Uyarlanabilir (Ctrl+Shift+7)</value>
@@ -3239,7 +3239,7 @@
     <value>Seçili öğe(ler) ile bir klasör oluşturun</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Açık özellikler</value>
+    <value>Özellikleri aç</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Özellikler penceresini aç</value>
@@ -3282,13 +3282,13 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>Yazar</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
     <value>Date committed</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Commit mesajı</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
@@ -3312,7 +3312,7 @@
     <value>Sert</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Dalları yönet</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
@@ -3321,121 +3321,133 @@
     <value>Run git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Eşitle</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} giden / {1} gelen commit</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>GitHub'a Bağlan</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>Files, GitHub'a şu anda erişemiyor.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Mevcut dizini Visual Studio'da aç</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Mevcut dizini Visual Studio Code'da aç</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>Kodu kopyala</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Eklenen</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Silinen</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Düzenlenen</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>İzlenmeyen</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Mevcut sahip görüntülenemiyor.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Harika! Şu anda yetkilendirildiniz.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Repo başlat</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Bir Git deposu başlat</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Uzak Depo Adı</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Mevcut Dal</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Yol sütunu</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Öğeleri yola göre sırala</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Dizini yeni bölmede aç</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Dizini yeni sekmede aç</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Dizini yeni pencerede aç</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Tümünü aç</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Etiketli öğelerin tümünü aç</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Sürücü ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Geçersiz komut</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' bir komut olarak tanınmadı.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Komut çalıştırılabilir değil</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>'{0}' komutu, çalıştırılmak için hazır değil.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Komut paleti</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Komut paletini aç</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Başlama yeri:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>	
+    <value>BitLocker'ı aç</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>BitLocker'ı yönet</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>The following items are too large to be copied to this drive</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Bir daha gösterme</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files yönetici olarak çalışıyor</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Platform kısıtlamalarından dolayı sürükle ve bırak, Files yönetici olarak çalıştırıldığında kullanılamaz.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Penceresi kapatıldığında uygulamayı arka planda çalışır durumda bırak</value>
   </data>
 </root>
