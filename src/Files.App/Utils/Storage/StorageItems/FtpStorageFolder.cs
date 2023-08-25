@@ -264,6 +264,37 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
+		public IAsyncOperation<BaseStorageFolder> MoveFolderAsync(BaseStorageFolder src, BaseStorageFolder dest)
+			=> MoveFolderAsync(src, dest, CreationCollisionOption.FailIfExists);
+		public IAsyncOperation<BaseStorageFolder> MoveFolderAsync(BaseStorageFolder src, BaseStorageFolder dest, CreationCollisionOption options)
+		{
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
+			{
+				using var ftpClient = GetFtpClient();
+				if (!await ftpClient.EnsureConnectedAsync())
+				{
+					throw new IOException($"Failed to connect to FTP server.");
+				}
+				string destName = $"{(dest as FtpStorageFolder).FtpPath}/{Name}";
+				if (await ftpClient.DirectoryExists(destName))
+				{
+					var item = new FtpStorageFolder(new StorageFileWithPath(null, destName));
+					((IPasswordProtectedItem)item).CopyFrom(this);
+					return item;
+				}
+				bool replaceExisting = options is CreationCollisionOption.ReplaceExisting;
+				bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destName, token: cancellationToken);
+				if (!isSuccessful)
+				{
+					throw new IOException($"Failed to move folder from {src} to {dest}.");
+				}
+
+				var folder = new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{dest}"));
+				((IPasswordProtectedItem)folder).CopyFrom(this);
+				return folder;
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+		}
+
 		public override IAsyncAction RenameAsync(string desiredName)
 			=> RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)

@@ -351,9 +351,20 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
-
-					if (!fsResult)
+					IStorageItemWithPath item = null;
+					var fsSourceResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
+					var fsDestinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					if (fsSourceResult & fsDestinationResult)
+					{
+						if(fsSourceResult.Result is FtpStorageFolder ftpStorage)
+						{
+							var fsCreateResult = await FilesystemTasks.Wrap(() => ftpStorage.MoveFolderAsync(fsSourceResult, fsDestinationResult, CreationCollisionOption.GenerateUniqueName).AsTask());
+							fsSourceResult = fsCreateResult;
+							//item = fsCreateResult.Result.FromStorageItem();
+						}
+						
+					}
+					/*if (!fsResult)
 					{
 						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
@@ -399,9 +410,9 @@ namespace Files.App.Utils.Storage
 						{
 							// Cannot do anything, already tried with admin FTP
 						}
-					}
+					}*/
 
-					fsProgress.ReportStatus(fsResult.ErrorCode);
+					fsProgress.ReportStatus(fsSourceResult.ErrorCode);
 				}
 			}
 			else if (source.ItemType == FilesystemItemType.File)
