@@ -172,7 +172,7 @@
     <value>Consultado:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Borrar todo</value>
+    <value>Limpiar todos los elementos</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Introduzca una ruta para navegar o escriba "&gt;" para abrir la paleta de comandos</value>
@@ -3430,12 +3430,24 @@
     <value>Iniciar en:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Activar BitLocker</value>	
+    <value>Activar BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Administrar BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Los siguientes elementos son demasiado grandes para ser copiados en esta unidad</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>No mostrar de nuevo</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files se está ejecutando como administrador</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Debido a limitaciones de la plataforma, no está disponible arrastrar y soltar cuando se ejecuta Files como administrador.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Leave app running in the background when the window is closed</value>
   </data>
 </root>
