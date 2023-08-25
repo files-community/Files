@@ -3430,12 +3430,24 @@
     <value>Aloitussijainti:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Ota BitLocker käyttöön</value>	
+    <value>Ota BitLocker käyttöön</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Hallinnoi BitLockeria</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Seuraavat kohteet ovat liian suuria kopioitavaksi tälle asemalle</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Älä näytä uudelleen</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files on käynnissä järjestelmänvalvojana</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Alustan rajoitusten vuoksi vedä ja pudota -toiminto ei ole käytettävissä, kun Files on käynnissä järjestelmänvalvojana.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Jätä sovellus toimimaan taustalla, kun ikkuna suljetaan</value>
   </data>
 </root>
