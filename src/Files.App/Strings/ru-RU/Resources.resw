@@ -3430,12 +3430,24 @@
     <value>Начало через:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Включить BitLocker</value>	
+    <value>Включить BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Управление BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Следующие элементы слишком велики для копирования на этот диск</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Don't show again</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Leave app running in the background when the window is closed</value>
   </data>
 </root>
