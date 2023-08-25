@@ -142,7 +142,7 @@
     <value>Kích cỡ trên đĩa:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Cỡ không nén:</value>
+    <value>Kích thước không nén:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Không thể làm hoạt động này</value>
@@ -3430,12 +3430,24 @@
     <value>Bắt đầu trong:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Bật BitLocker</value>	
+    <value>Bật BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Quản lý BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Những mục sau là quá lớn để có thể sao chép vào ổ lưu trữ này</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Don't show again</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
   </data>
 </root>
