@@ -3430,12 +3430,24 @@
     <value>Démarrer dans :</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Activer BitLocker</value>	
+    <value>Activer BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Gérer BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Les éléments suivants sont trop volumineux pour être copiés sur ce disque dur</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Ne pas afficher à nouveau</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files est exécuté en tant qu'administrateur</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>En raison des limitations de la plateforme, le glisser-déposer n'est pas disponible lorsque vous exécutez Fichiers en tant qu'administrateur.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Laisser l'application s'exécuter en arrière-plan lorsque la fenêtre est fermée</value>
   </data>
 </root>
