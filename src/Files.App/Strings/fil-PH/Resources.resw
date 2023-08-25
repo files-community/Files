@@ -3430,12 +3430,24 @@
     <value>Simulan sa:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Paganahin ang BitLocker</value>	
+    <value>Paganahin ang BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Pamahalaan ang BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Ang mga sumusunod na item ay labis na malalaki upang mailipat sa drive na ito</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Don't show again</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Leave app running in the background when the window is closed</value>
   </data>
 </root>
