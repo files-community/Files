@@ -3430,12 +3430,24 @@
     <value>Iniciar em:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Ativar BitLocker</value>	
+    <value>Ativar BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Gerir BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Estes itens são muito grandes para poderem ser copiados para esta unidade.</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Não mostrar novamente</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>A aplicação está a ser executada no modo de administrador</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Devido a limitações da plataforma, arrastar e largar não está disponível se executar a aplicação como administrador.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Manter aplicação em segundo plano ao fechar a janela</value>
   </data>
 </root>
