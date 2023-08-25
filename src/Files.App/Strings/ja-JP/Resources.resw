@@ -3430,12 +3430,24 @@
     <value>作業フォルダー:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>BitLocker を有効にする</value>	
+    <value>BitLocker を有効にする</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>BitLocker の管理</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>以下のファイルは大きすぎて、このドライブにコピーできません。</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>次回から表示しない</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files は管理者として実行されています</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>プラットフォームの制約により、Files を管理者として実行している場合はドラッグ アンド ドロップを使用できません。</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>ウィンドウを閉じたときにアプリをバックグラウンドで実行したままにする</value>
   </data>
 </root>
