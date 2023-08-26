@@ -321,7 +321,7 @@ namespace Files.App
 				SaveSessionTabs();
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
-				await Task.Delay(100);
+				await Task.Delay(500);
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
