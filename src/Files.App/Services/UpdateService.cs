@@ -107,7 +107,7 @@ namespace Files.App.Services
 
 		private async Task DownloadAndInstall()
 		{
-			App.SaveSessionTabs();
+			AppLifecycleHelper.SaveSessionTabs();
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			await downloadOperation.AsTask();
 		}
