@@ -53,7 +53,7 @@
 			Grid.Row="1"
 			MinWidth="440"
 			MinHeight="400"
-			Padding="12"
+			Padding="20"
 			HorizontalScrollMode="Auto"
 			VerticalScrollMode="Auto">
 			<controls:MarkdownTextBlock

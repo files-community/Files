@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref releaseNotes, value);
 		}
 
-		private bool isReleaseNotesVisible = true;
+		private bool isReleaseNotesVisible;
 		public bool IsReleaseNotesVisible
 		{
 			get => isReleaseNotesVisible;
@@ -219,7 +219,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void DoViewReleaseNotes()
 		{
-			ReleaseNotes = "aaa";
 			if (ReleaseNotes is null)
 				return;
 
