@@ -181,7 +181,7 @@
 										HorizontalAlignment="Stretch"
 										local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 										AutomationProperties.AccessibilityView="Content"
-										ItemsSource="{Binding ChildItems, Mode=OneWay}"
+										ItemsSource="{Binding Children, Mode=OneWay}"
 										XYFocusKeyboardNavigation="Enabled">
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate>
@@ -203,7 +203,7 @@
 							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 							AutomationProperties.AccessibilityView="Content"
 							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-							ItemsSource="{Binding ChildItems, Mode=OneWay}"
+							ItemsSource="{Binding Children, Mode=OneWay}"
 							Visibility="Collapsed"
 							XYFocusKeyboardNavigation="Enabled">
 							<ItemsRepeater.Layout>
