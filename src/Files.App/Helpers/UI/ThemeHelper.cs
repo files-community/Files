@@ -18,6 +18,7 @@ namespace Files.App.Helpers
 		private const string selectedAppThemeKey = "theme";
 		private static Window? currentApplicationWindow;
 		private static AppWindowTitleBar? titleBar;
+		private static bool isInitialized = false;
 
 		// Keep reference so it does not get optimized/garbage collected
 		public static UISettings UiSettings;
@@ -42,8 +43,13 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static void Initialize()
+		public static bool Initialize()
 		{
+			if (isInitialized)
+				return false;
+
+			isInitialized = true;
+
 			// Save reference as this might be null when the user is in another app
 			currentApplicationWindow = MainWindow.Instance;
 
@@ -57,6 +63,8 @@ namespace Files.App.Helpers
 			// Registering to color changes, thus we notice when user changes theme system wide
 			UiSettings = new UISettings();
 			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
+
+			return true;
 		}
 
 		public static void ApplyResources()
