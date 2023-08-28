@@ -148,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}

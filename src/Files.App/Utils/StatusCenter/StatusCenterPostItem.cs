@@ -3,11 +3,11 @@
 
 namespace Files.App.Utils.StatusCenter
 {
-	public class PostedStatusBanner
+	public class StatusCenterPostItem
 	{
-		private readonly IOngoingTasksActions OngoingTasksActions;
+		private readonly StatusCenterViewModel OngoingTasksActions;
 
-		private readonly StatusBanner Banner;
+		private readonly StatusCenterItem Banner;
 
 		private readonly CancellationTokenSource cancellationTokenSource;
 
@@ -17,7 +17,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
 
-		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions)
+		public StatusCenterPostItem(StatusCenterItem banner, StatusCenterViewModel OngoingTasksActions)
 		{
 			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;
@@ -26,7 +26,7 @@ namespace Files.App.Utils.StatusCenter
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 		}
 
-		public PostedStatusBanner(StatusBanner banner, IOngoingTasksActions OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
+		public StatusCenterPostItem(StatusCenterItem banner, StatusCenterViewModel OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
 		{
 			Banner = banner;
 			this.OngoingTasksActions = OngoingTasksActions;

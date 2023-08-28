@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
 {
-	public class StatusBanner : ObservableObject
+	public class StatusCenterItem : ObservableObject
 	{
 		private readonly float initialProgress = 0.0f;
 
@@ -80,7 +80,7 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref isCancelled, value);
 		}
 
-		public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
 			Message = message;
 			Title = title;
@@ -160,7 +160,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public StatusBanner(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
+		public StatusCenterItem(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
 		{
 			Message = message;
 			Title = title;

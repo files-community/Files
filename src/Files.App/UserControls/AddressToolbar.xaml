@@ -429,7 +429,7 @@
 								contract8Present:ShouldConstrainToRootBounds="False"
 								AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
 								Placement="Bottom">
-								<uc:OngoingTasksFlyout
+								<uc:StatusCenter
 									x:Name="OngoingTasksControl"
 									Width="400"
 									MinHeight="300"

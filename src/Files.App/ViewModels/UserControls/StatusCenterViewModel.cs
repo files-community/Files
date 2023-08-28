@@ -5,9 +5,9 @@ using Files.App.Utils.StatusCenter;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
+	public class StatusCenterViewModel : ObservableObject
 	{
-		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = new();
 
 		private int medianOperationProgressValue = 0;
 		public int MedianOperationProgressValue
@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				int count = 0;
 
-				foreach (var item in StatusBannersSource)
+				foreach (var item in StatusCenterItems)
 				{
 					if (item.IsProgressing)
 						count++;
@@ -39,14 +39,14 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool AnyBannersPresent
 		{
-			get => StatusBannersSource.Any();
+			get => StatusCenterItems.Any();
 		}
 
 		public int InfoBadgeState
 		{
 			get
 			{
-				var anyFailure = StatusBannersSource.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
+				var anyFailure = StatusCenterItems.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
@@ -63,19 +63,29 @@ namespace Files.App.ViewModels.UserControls
 			get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
 		}
 
-		public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
+		public event EventHandler<StatusCenterPostItem> ProgressBannerPosted;
 
-		public OngoingTasksViewModel()
+		public StatusCenterViewModel()
 		{
-			StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
 		}
 
-		public PostedStatusBanner PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
+		/// <summary>
+		/// Posts a new banner to the Status Center control for an operation.
+		/// It may be used to return the progress, success, or failure of the respective operation.
+		/// </summary>
+		/// <param name="title">Reserved for success and error banners. Otherwise, pass an empty string for this argument.</param>
+		/// <param name="message"></param>
+		/// <param name="initialProgress"></param>
+		/// <param name="status"></param>
+		/// <param name="operation"></param>
+		/// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
+		public StatusCenterPostItem PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
 		{
-			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
-			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
+			StatusCenterItem banner = new StatusCenterItem(message, title, initialProgress, status, operation);
+			StatusCenterPostItem postedBanner = new StatusCenterPostItem(banner, this);
 
-			StatusBannersSource.Insert(0, banner);
+			StatusCenterItems.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 
 			UpdateBanner(banner);
@@ -83,16 +93,26 @@ namespace Files.App.ViewModels.UserControls
 			return postedBanner;
 		}
 
-		public PostedStatusBanner PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
+		/// <summary>
+		/// Posts a banner that represents an operation that can be canceled.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="message"></param>
+		/// <param name="initialProgress"></param>
+		/// <param name="status"></param>
+		/// <param name="operation"></param>
+		/// <param name="cancellationTokenSource"></param>
+		/// <returns></returns>
+		public StatusCenterPostItem PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
 		{
-			StatusBanner banner = new(message, title, initialProgress, status, operation)
+			StatusCenterItem banner = new(message, title, initialProgress, status, operation)
 			{
 				CancellationTokenSource = cancellationTokenSource,
 			};
 
-			PostedStatusBanner postedBanner = new(banner, this, cancellationTokenSource);
+			StatusCenterPostItem postedBanner = new(banner, this, cancellationTokenSource);
 
-			StatusBannersSource.Insert(0, banner);
+			StatusCenterItems.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 
 			UpdateBanner(banner);
@@ -100,12 +120,22 @@ namespace Files.App.ViewModels.UserControls
 			return postedBanner;
 		}
 
-		public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
+		/// <summary>
+		/// Posts a new banner with expanded height to the Status Center control. This is typically
+		/// used to represent a failure during a prior operation which must be acted upon.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="message"></param>
+		/// <param name="primaryButtonText"></param>
+		/// <param name="cancelButtonText"></param>
+		/// <param name="primaryAction"></param>
+		/// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
+		public StatusCenterPostItem PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
 		{
-			StatusBanner banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
-			PostedStatusBanner postedBanner = new(banner, this);
+			StatusCenterItem banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
+			StatusCenterPostItem postedBanner = new(banner, this);
 
-			StatusBannersSource.Insert(0, banner);
+			StatusCenterItems.Insert(0, banner);
 			ProgressBannerPosted?.Invoke(this, postedBanner);
 
 			UpdateBanner(banner);
@@ -113,19 +143,28 @@ namespace Files.App.ViewModels.UserControls
 			return postedBanner;
 		}
 
-		public bool CloseBanner(StatusBanner banner)
+		/// <summary>
+		/// Dismisses <paramref name="banner"/> and removes it from the collection
+		/// </summary>
+		/// <param name="banner">The banner to close</param>
+		/// <returns>true if operation completed successfully; otherwise false</returns>
+		public bool CloseBanner(StatusCenterItem banner)
 		{
-			if (!StatusBannersSource.Contains(banner))
+			if (!StatusCenterItems.Contains(banner))
 				return false;
 
-			StatusBannersSource.Remove(banner);
+			StatusCenterItems.Remove(banner);
 
 			UpdateBanner(banner);
 
 			return true;
 		}
 
-		public void UpdateBanner(StatusBanner banner)
+		/// <summary>
+		/// Communicates a banner's progress or status has changed
+		/// </summary>
+		/// <param name="banner"></param>
+		public void UpdateBanner(StatusCenterItem banner)
 		{
 			OnPropertyChanged(nameof(OngoingOperationsCount));
 			OnPropertyChanged(nameof(AnyOperationsOngoing));
@@ -136,7 +175,7 @@ namespace Files.App.ViewModels.UserControls
 		public void UpdateMedianProgress()
 		{
 			if (AnyOperationsOngoing)
-				MedianOperationProgressValue = (int)StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
+				MedianOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsProgressing).Average(x => x.Progress);
 		}
 	}
 }

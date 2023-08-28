@@ -2,21 +2,16 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Utils.StatusCenter;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.App.UserControls
 {
-	public sealed partial class OngoingTasksFlyout : UserControl
+	public sealed partial class StatusCenter : UserControl
 	{
-		public OngoingTasksViewModel OngoingTasksViewModel { get; set; }
+		public StatusCenterViewModel OngoingTasksViewModel;
 
-		public OngoingTasksFlyout()
+		public StatusCenter()
 		{
 			InitializeComponent();
 		}
@@ -24,23 +19,23 @@ namespace Files.App.UserControls
 		// Dismiss banner button event handler
 		private void DismissBanner(object sender, RoutedEventArgs e)
 		{
-			StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
+			StatusCenterItem itemToDismiss = (sender as Button).DataContext as StatusCenterItem;
 			OngoingTasksViewModel.CloseBanner(itemToDismiss);
 		}
 
 		// Primary action button click
 		private async void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
+			StatusCenterItem itemToDismiss = (sender as Button).DataContext as StatusCenterItem;
 			await Task.Run(itemToDismiss.PrimaryButtonClick);
 			OngoingTasksViewModel.CloseBanner(itemToDismiss);
 		}
 
 		private void DismissAllBannersButton_Click(object sender, RoutedEventArgs e)
 		{
-			for (int i = OngoingTasksViewModel.StatusBannersSource.Count - 1; i >= 0; i--)
+			for (int i = OngoingTasksViewModel.StatusCenterItems.Count - 1; i >= 0; i--)
 			{
-				var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[i];
+				var itemToDismiss = OngoingTasksViewModel.StatusCenterItems[i];
 				if (!itemToDismiss.IsProgressing)
 				{
 					OngoingTasksViewModel.CloseBanner(itemToDismiss);

@@ -1,21 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
 namespace Files.App.Utils.StatusCenter
 {
-	public static class PostBannerHelpers
+	public static class StatusCenterHelper
 	{
-		private static OngoingTasksViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		public static PostedStatusBanner PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
+		public static StatusCenterPostItem PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 
@@ -111,7 +103,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public static PostedStatusBanner PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
+		public static StatusCenterPostItem PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
@@ -156,7 +148,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public static PostedStatusBanner PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
+		public static StatusCenterPostItem PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());

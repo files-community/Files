@@ -12,7 +12,7 @@ namespace Files.App.Utils.RecycleBin
 	{
 		#region Private Members
 
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly StatusCenterViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
