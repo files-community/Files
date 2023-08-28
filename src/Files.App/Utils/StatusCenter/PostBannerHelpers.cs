@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Files.App.Helpers
+namespace Files.App.Utils.StatusCenter
 {
 	public static class PostBannerHelpers
 	{

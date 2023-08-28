@@ -5,7 +5,7 @@ using Files.App.ViewModels;
 using System;
 using System.Threading;
 
-namespace Files.App.Data.Models
+namespace Files.App.Utils.StatusCenter
 {
 	public interface IOngoingTasksActions
 	{

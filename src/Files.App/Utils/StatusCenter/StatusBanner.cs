@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
-namespace Files.App.Data.Items
+namespace Files.App.Utils.StatusCenter
 {
 	public class StatusBanner : ObservableObject
 	{
@@ -44,7 +44,8 @@ namespace Files.App.Data.Items
 		public FileOperationType Operation { get; private set; }
 
 		private string message;
-		public string Message {
+		public string Message
+		{
 			// A workaround to avoid overlapping the progress bar (#12362)
 			get => isProgressing ? message + "\n" : message;
 			private set => SetProperty(ref message, value);

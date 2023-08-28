@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
+using Files.App.Utils.StatusCenter;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
