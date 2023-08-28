@@ -1,11 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -37,14 +34,7 @@ namespace Files.App.UserControls
 
 		private void DismissAllBannersButton_Click(object sender, RoutedEventArgs e)
 		{
-			for (int i = OngoingTasksViewModel.StatusBannersSource.Count - 1; i >= 0; i--)
-			{
-				var itemToDismiss = OngoingTasksViewModel.StatusBannersSource[i];
-				if (!itemToDismiss.IsProgressing)
-				{
-					OngoingTasksViewModel.CloseBanner(itemToDismiss);
-				}
-			}
+			OngoingTasksViewModel.CloseAllBanner();
 		}
 	}
 }
