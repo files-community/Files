@@ -31,7 +31,7 @@
 				HorizontalAlignment="Left"
 				VerticalAlignment="Center"
 				FontWeight="SemiBold"
-				Text="{helpers:ResourceString Name=ReleaseNotes}" />
+				Text="{helpers:ResourceString Name=WhatsNew}" />
 
 			<Button
 				x:Name="CloseDialogButton"

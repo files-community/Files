@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit Settings File</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>What's New</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>

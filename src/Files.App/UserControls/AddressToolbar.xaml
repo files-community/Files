@@ -485,10 +485,10 @@
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
+					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
 					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
