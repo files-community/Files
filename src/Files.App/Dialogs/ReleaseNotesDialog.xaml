@@ -20,25 +20,34 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="44" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<!--  Titlebar  -->
-		<Grid Grid.Row="0" Padding="8,0,8,0">
-			<TextBlock
-				Padding="8,0,0,0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Center"
-				FontWeight="SemiBold"
-				Text="{helpers:ResourceString Name=WhatsNew}" />
+		<Grid Grid.Row="0">
+			<StackPanel
+				Padding="20"
+				Orientation="Horizontal"
+				Spacing="12">
+				<Image Width="32" Source="\Assets\AppTiles\Dev\Logo.ico" />
+
+				<TextBlock
+					VerticalAlignment="Center"
+					FontSize="20"
+					FontWeight="SemiBold"
+					LineHeight="28"
+					Text="{helpers:ResourceString Name=WhatsNew}" />
+			</StackPanel>
 
 			<Button
 				x:Name="CloseDialogButton"
 				Width="36"
 				Height="36"
+				Margin="4"
 				HorizontalAlignment="Right"
-				VerticalAlignment="Center"
+				VerticalAlignment="Top"
 				AutomationProperties.Name="{helpers:ResourceString Name=Close}"
 				Background="Transparent"
 				BorderBrush="Transparent"
@@ -49,11 +58,12 @@
 			</Button>
 		</Grid>
 
+		<!--  Markdown Content  -->
 		<ScrollViewer
 			Grid.Row="1"
 			MinWidth="440"
-			MinHeight="400"
-			Padding="20"
+			MinHeight="200"
+			Padding="20,0,20,20"
 			HorizontalScrollMode="Auto"
 			VerticalScrollMode="Auto">
 			<controls:MarkdownTextBlock
@@ -61,6 +71,19 @@
 				ListGutterWidth="16"
 				Text="{x:Bind ViewModel.ReleaseNotesMadrkdown, Mode=OneWay}" />
 		</ScrollViewer>
-	</Grid>
 
+		<!--  Footer  -->
+		<Border
+			Grid.Row="2"
+			Padding="12"
+			Background="{ThemeResource SolidBackgroundFillColorBase}"
+			BackgroundSizing="OuterBorderEdge"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="0,1,0,0">
+			<HyperlinkButton
+				HorizontalAlignment="Left"
+				Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+				NavigateUri="https://github.com/sponsors/yaira2" />
+		</Border>
+	</Grid>
 </ContentDialog>

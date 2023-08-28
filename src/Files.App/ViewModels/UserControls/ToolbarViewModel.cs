@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref releaseNotes, value);
 		}
 
-		private bool isReleaseNotesVisible;
+		private bool isReleaseNotesVisible = true;
 		public bool IsReleaseNotesVisible
 		{
 			get => isReleaseNotesVisible;

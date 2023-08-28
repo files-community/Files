@@ -2368,7 +2368,7 @@
     <value>Edit Settings File</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>What's New</value>
+    <value>What's new</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
