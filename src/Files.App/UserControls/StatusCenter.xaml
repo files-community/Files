@@ -9,6 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	d:DesignHeight="300"
 	d:DesignWidth="300"
 	mc:Ignorable="d">
@@ -32,11 +33,11 @@
 				Text="{helpers:ResourceString Name=OngoingTasks}" />
 
 			<Button
-				x:Name="DismissAllBannersButton"
+				x:Name="CloseAllItemsButton"
 				Height="24"
 				Padding="8,0"
 				HorizontalAlignment="Right"
-				Click="DismissAllBannersButton_Click"
+				Click="CloseAllItemsButton_Click"
 				Content="{helpers:ResourceString Name=ClearAll}"
 				FontSize="12"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=ClearAll}" />
@@ -58,17 +59,19 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="statuscenter:StatusCenterItem">
-					<Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
-
+					<Grid
+						x:Name="RootContent"
+						HorizontalAlignment="Stretch"
+						AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}">
 						<!--  Background  -->
-						<InfoBar
+						<!--<InfoBar
 							Title="{x:Bind FullTitle, Mode=OneWay}"
 							Background="{ThemeResource ControlFillColorDefault}"
 							IsClosable="False"
 							IsIconVisible="False"
 							IsOpen="True"
 							Message="{x:Bind Message, Mode=OneWay}"
-							Severity="{x:Bind InfoBarSeverity}">
+							Severity="{x:Bind State, Mode=OneWay}">
 
 							<ProgressBar
 								x:Name="ProgressBar"
@@ -76,22 +79,22 @@
 								IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
 								Visibility="{x:Bind IsProgressing, Mode=OneWay}"
 								Value="{x:Bind Progress, Mode=OneWay}" />
-						</InfoBar>
+						</InfoBar>-->
 
 						<!--  Close Button  -->
 						<Button
-							x:Name="DismissBannerButton"
+							x:Name="CloseItemButton"
 							Height="24"
 							Margin="8"
 							Padding="8,0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
-							x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
+							x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 							AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Click="DismissBanner"
-							DataContext="{x:Bind}"
+							Click="CloseItemButton_Click"
+							DataContext="{x:Bind Mode=OneWay}"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
 							<FontIcon FontSize="11" Glyph="&#xE711;" />
 						</Button>
@@ -115,6 +118,54 @@
 							<FontIcon FontSize="11" Glyph="&#xE711;" />
 						</Button>
 
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="TaskStates">
+								<VisualState x:Name="InProgressState">
+									<VisualState.StateTriggers>
+										<triggers:CompareStateTrigger
+											Comparison="Equal"
+											Value="{x:Bind State, Mode=OneWay}"
+											To="0" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RootContent.Background" Value="{StaticResource InfoBarInformationalBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="ErrorState">
+									<VisualState.StateTriggers>
+										<triggers:CompareStateTrigger
+											Comparison="Equal"
+											Value="{x:Bind State, Mode=OneWay}"
+											To="1" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RootContent.Background" Value="{StaticResource InfoBarInformationalBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="SuccessfulState">
+									<VisualState.StateTriggers>
+										<triggers:CompareStateTrigger
+											Comparison="Equal"
+											Value="{x:Bind State, Mode=OneWay}"
+											To="2" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RootContent.Background" Value="{StaticResource InfoBarInformationalBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="SuspendingState">
+									<VisualState.StateTriggers>
+										<triggers:CompareStateTrigger
+											Comparison="Equal"
+											Value="{x:Bind State, Mode=OneWay}"
+											To="3" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RootContent.Background" Value="{StaticResource InfoBarInformationalBackground}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>

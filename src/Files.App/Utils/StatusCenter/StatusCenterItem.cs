@@ -12,7 +12,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public string Title { get; private set; }
 
-		public InfoBarSeverity InfoBarSeverity { get; private set; }
+		public InfoBarSeverity State { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
 
@@ -128,7 +128,7 @@ namespace Files.App.Utils.StatusCenter
 					else
 					{
 						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Success;
+						State = StatusCenterItemState.Success;
 					}
 					break;
 
@@ -143,7 +143,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						// Expanded banner
 						FullTitle = Title;
-						InfoBarSeverity = InfoBarSeverity.Error;
+						State = StatusCenterItemState.Error;
 					}
 
 					break;
