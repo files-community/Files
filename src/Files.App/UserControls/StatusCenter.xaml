@@ -93,9 +93,7 @@
 							Click="DismissBanner"
 							DataContext="{x:Bind}"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
-							<Button.Content>
-								<FontIcon FontSize="11" Glyph="&#xE711;" />
-							</Button.Content>
+							<FontIcon FontSize="11" Glyph="&#xE711;" />
 						</Button>
 
 						<!--  Cancel Button  -->
@@ -106,41 +104,16 @@
 							Padding="8,0"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
-							x:Load="{x:Bind CancelButtonVisible}"
+							x:Load="{x:Bind CancelButtonVisible, Mode=OneWay}"
 							AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
 							Background="Transparent"
 							BorderBrush="Transparent"
-							Command="{x:Bind CancelCommand}"
-							DataContext="{x:Bind}"
-							IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+							Command="{x:Bind CancelCommand, Mode=OneWay}"
+							DataContext="{x:Bind Mode=OneWay}"
+							IsEnabled="{x:Bind IsCancelled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 							ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-							<Button.Content>
-								<FontIcon FontSize="11" Glyph="&#xE711;" />
-							</Button.Content>
+							<FontIcon FontSize="11" Glyph="&#xE711;" />
 						</Button>
-
-						<!--  Action Buttons  -->
-						<StackPanel
-							x:Name="solutionButtons"
-							Grid.Row="0"
-							Padding="0,4,0,0"
-							HorizontalAlignment="Right"
-							x:Load="{x:Bind SolutionButtonsVisible}"
-							Orientation="Horizontal"
-							Spacing="8">
-							<Button
-								Height="28"
-								Click="Button_Click_1"
-								Content="{x:Bind PrimaryButtonText}"
-								DataContext="{x:Bind}"
-								FontSize="10" />
-							<Button
-								Height="28"
-								Click="DismissBanner"
-								Content="{x:Bind SecondaryButtonText}"
-								DataContext="{x:Bind}"
-								FontSize="10" />
-						</StackPanel>
 
 					</Grid>
 				</DataTemplate>

@@ -5,7 +5,7 @@ namespace Files.App.Utils.StatusCenter
 {
 	public class StatusCenterPostItem
 	{
-		private readonly StatusCenterViewModel OngoingTasksActions;
+		private readonly StatusCenterViewModel _statusCenterViewModel;
 
 		private readonly StatusCenterItem Banner;
 
@@ -15,12 +15,13 @@ namespace Files.App.Utils.StatusCenter
 
 		public readonly Progress<FileSystemProgress> ProgressEventSource;
 
-		public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default;
+		public CancellationToken CancellationToken
+			=> cancellationTokenSource?.Token ?? default;
 
 		public StatusCenterPostItem(StatusCenterItem banner, StatusCenterViewModel OngoingTasksActions)
 		{
 			Banner = banner;
-			this.OngoingTasksActions = OngoingTasksActions;
+			this._statusCenterViewModel = OngoingTasksActions;
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
@@ -29,7 +30,7 @@ namespace Files.App.Utils.StatusCenter
 		public StatusCenterPostItem(StatusCenterItem banner, StatusCenterViewModel OngoingTasksActions, CancellationTokenSource cancellationTokenSource)
 		{
 			Banner = banner;
-			this.OngoingTasksActions = OngoingTasksActions;
+			this._statusCenterViewModel = OngoingTasksActions;
 			this.cancellationTokenSource = cancellationTokenSource;
 
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
@@ -89,13 +90,13 @@ namespace Files.App.Utils.StatusCenter
 				};
 			}
 
-			OngoingTasksActions.UpdateBanner(Banner);
-			OngoingTasksActions.UpdateMedianProgress();
+			_statusCenterViewModel.UpdateBanner(Banner);
+			_statusCenterViewModel.UpdateMedianProgress();
 		}
 
 		public void Remove()
 		{
-			OngoingTasksActions.CloseBanner(Banner);
+			_statusCenterViewModel.CloseBanner(Banner);
 		}
 
 		public void RequestCancellation()

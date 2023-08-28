@@ -10,9 +10,18 @@ namespace Files.App.Utils.StatusCenter
 	{
 		private readonly float initialProgress = 0.0f;
 
-		private string fullTitle;
+		public string Title { get; private set; }
 
-		private bool isCancelled;
+		public InfoBarSeverity InfoBarSeverity { get; private set; }
+
+		public FileOperationType Operation { get; private set; }
+
+		public ICommand CancelCommand { get; }
+
+		public CancellationTokenSource CancellationTokenSource { get; set; }
+
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		private int progress = 0;
 		public int Progress
@@ -32,16 +41,12 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public string Title { get; private set; }
-
 		private ReturnResult status = ReturnResult.InProgress;
 		public ReturnResult Status
 		{
 			get => status;
 			set => SetProperty(ref status, value);
 		}
-
-		public FileOperationType Operation { get; private set; }
 
 		private string message;
 		public string Message
@@ -51,29 +56,14 @@ namespace Files.App.Utils.StatusCenter
 			private set => SetProperty(ref message, value);
 		}
 
-		public InfoBarSeverity InfoBarSeverity { get; private set; } = InfoBarSeverity.Informational;
-
-		public string PrimaryButtonText { get; set; }
-
-		public string SecondaryButtonText { get; set; } = "Cancel";
-
-		public Action PrimaryButtonClick { get; }
-
-		public ICommand CancelCommand { get; }
-
-		public bool SolutionButtonsVisible { get; } = false;
-
-		public bool CancelButtonVisible
-			=> CancellationTokenSource is not null;
-
-		public CancellationTokenSource CancellationTokenSource { get; set; }
-
+		private string fullTitle;
 		public string FullTitle
 		{
 			get => fullTitle;
 			set => SetProperty(ref fullTitle, value ?? string.Empty);
 		}
 
+		private bool isCancelled;
 		public bool IsCancelled
 		{
 			get => isCancelled;
@@ -89,7 +79,7 @@ namespace Files.App.Utils.StatusCenter
 			Status = status;
 			Operation = operation;
 
-			CancelCommand = new RelayCommand(CancelOperation);
+			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
 			switch (Status)
 			{
@@ -160,31 +150,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public StatusCenterItem(string message, string title, string primaryButtonText, string secondaryButtonText, Action primaryButtonClicked)
-		{
-			Message = message;
-			Title = title;
-			PrimaryButtonText = primaryButtonText;
-			SecondaryButtonText = secondaryButtonText;
-			PrimaryButtonClick = primaryButtonClicked;
-			Status = ReturnResult.Failed;
-
-			CancelCommand = new RelayCommand(CancelOperation);
-
-			if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
-				throw new NotImplementedException();
-			else
-			{
-				if (!string.IsNullOrWhiteSpace(PrimaryButtonText))
-					SolutionButtonsVisible = true;
-
-				// Expanded banner
-				FullTitle = Title;
-				InfoBarSeverity = InfoBarSeverity.Error;
-			}
-		}
-
-		public void CancelOperation()
+		public void ExecuteCancelCommand()
 		{
 			if (CancelButtonVisible)
 			{

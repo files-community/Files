@@ -121,29 +121,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		/// <summary>
-		/// Posts a new banner with expanded height to the Status Center control. This is typically
-		/// used to represent a failure during a prior operation which must be acted upon.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="message"></param>
-		/// <param name="primaryButtonText"></param>
-		/// <param name="cancelButtonText"></param>
-		/// <param name="primaryAction"></param>
-		/// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
-		public StatusCenterPostItem PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
-		{
-			StatusCenterItem banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
-			StatusCenterPostItem postedBanner = new(banner, this);
-
-			StatusCenterItems.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, postedBanner);
-
-			UpdateBanner(banner);
-
-			return postedBanner;
-		}
-
-		/// <summary>
 		/// Dismisses <paramref name="banner"/> and removes it from the collection
 		/// </summary>
 		/// <param name="banner">The banner to close</param>
