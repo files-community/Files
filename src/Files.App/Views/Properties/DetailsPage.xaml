@@ -87,15 +87,27 @@
 												Text="{x:Bind Name, Mode=OneWay}"
 												TextWrapping="Wrap" />
 
+											<!--  Read Only Value Text Block  -->
+											<TextBlock
+												x:Name="PropertyValueTemplateTextBlock"
+												Grid.Row="0"
+												Grid.Column="1"
+												Padding="12"
+												HorizontalAlignment="Stretch"
+												IsTextSelectionEnabled="True"
+												Text="{x:Bind ValueText, Mode=TwoWay}"
+												Visibility="{x:Bind IsReadOnly}" />
+
+											<!--  Edit Value Text Box  -->
 											<TextBox
 												x:Name="PropertyValueTemplateTextBox"
 												Grid.Row="0"
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
-												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
 												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
-												Text="{x:Bind ValueText, Mode=TwoWay}" />
+												Text="{x:Bind ValueText, Mode=TwoWay}"
+												Visibility="{x:Bind IsReadOnly, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 
 										</Grid>
 									</DataTemplate>
