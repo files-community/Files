@@ -3,16 +3,13 @@
 	x:Class="Files.App.UserControls.StatusCenter"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:selectors="using:Files.App.Data.TemplateSelectors"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
-	d:DesignHeight="300"
-	d:DesignWidth="300"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -21,8 +18,8 @@
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/StatusCenterItemExpanderStyle.xaml" />
 				<ResourceDictionary>
 
-					<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
-					<converters1:EmptyCollectionToObjectConverter
+					<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+					<wctconverters:EmptyCollectionToObjectConverter
 						x:Key="EmptyCollectionToBoolConverter"
 						EmptyValue="False"
 						NotEmptyValue="True" />
@@ -391,5 +388,6 @@
 			</ListView.ItemContainerStyle>
 
 		</ListView>
+
 	</Grid>
 </UserControl>
