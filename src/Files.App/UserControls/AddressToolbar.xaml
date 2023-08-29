@@ -484,10 +484,10 @@
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
+					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
@@ -521,45 +521,6 @@
 				IsOpen="False"
 				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
 				Target="{x:Bind OngoingTasks}" />
-
-			<!--  Release Notes Teaching Tip  -->
-			<TeachingTip
-				x:Name="ReleaseNotesTeachingTip"
-				IsLightDismissEnabled="True"
-				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
-				Target="{x:Bind ViewReleaseNotesButton}">
-
-				<!--  Sponsor Button  -->
-				<TeachingTip.HeroContent>
-					<Border
-						Padding="12"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,1,0,0">
-
-						<HyperlinkButton
-							HorizontalAlignment="Center"
-							Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-							NavigateUri="https://github.com/sponsors/yaira2" />
-					</Border>
-				</TeachingTip.HeroContent>
-
-				<!--  Markdown Content  -->
-				<TeachingTip.Content>
-					<ScrollViewer
-						MinHeight="300"
-						MaxHeight="400"
-						Margin="-12"
-						Padding="12"
-						HorizontalScrollMode="Auto"
-						VerticalScrollMode="Auto">
-						<controls:MarkdownTextBlock
-							Background="Transparent"
-							ListGutterWidth="16"
-							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
-					</ScrollViewer>
-				</TeachingTip.Content>
-			</TeachingTip>
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>

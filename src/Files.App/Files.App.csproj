@@ -69,7 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
+      <None Remove="Dialogs\ReleaseNotesDialog.xaml" />
       <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
       <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
@@ -137,20 +137,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Dialogs\ReleaseNotesDialog.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
       <Page Update="UserControls\SideBarControl\SideBarHost.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
       <Page Update="UserControls\SideBarControl\SideBarItem.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-    </ItemGroup>
-
-    <ItemGroup>
-      <CustomAdditionalCompileInputs Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Resource Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
     </ItemGroup>
 
 </Project>
