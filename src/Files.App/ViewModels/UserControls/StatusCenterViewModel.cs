@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.UserControls
 			StatusCenterItems.ForEach((x) =>
 			{
 				if (x.IsProgressing)
-					ViewModel.CloseBanner(x);
+					CloseBanner(x);
 			});
 
 			StatusCenterItems.Clear();
