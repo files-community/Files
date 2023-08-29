@@ -69,6 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Dialogs\ReleaseNotesDialog.xaml" />
       <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
       <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
@@ -136,6 +137,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Dialogs\ReleaseNotesDialog.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
       <Page Update="UserControls\SideBarControl\SideBarHost.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
