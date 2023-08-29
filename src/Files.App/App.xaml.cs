@@ -312,6 +312,9 @@ namespace Files.App
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
+				
+				// Close all notification banners except in progress
+				Ioc.Default.GetRequiredService<OngoingTasksViewModel>().CloseAllBanner();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();

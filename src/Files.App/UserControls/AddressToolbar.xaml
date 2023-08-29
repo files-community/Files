@@ -435,7 +435,8 @@
 									MinHeight="300"
 									MaxHeight="500"
 									x:FieldModifier="public"
-									IsTabStop="True" />
+									IsTabStop="True"
+									OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
 							</Flyout>
 						</Button.Flyout>
 					</Button>

@@ -137,6 +137,17 @@ namespace Files.App.ViewModels.UserControls
 			return true;
 		}
 
+		public void CloseAllBanner()
+		{
+			StatusCenterItems.ForEach((x) =>
+			{
+				if (x.IsProgressing)
+					ViewModel.CloseBanner(x);
+			});
+
+			StatusCenterItems.Clear();
+		}
+
 		/// <summary>
 		/// Communicates a banner's progress or status has changed
 		/// </summary>

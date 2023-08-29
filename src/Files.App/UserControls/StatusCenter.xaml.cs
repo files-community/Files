@@ -19,13 +19,7 @@ namespace Files.App.UserControls
 
 		private void CloseAllItemsButton_Click(object sender, RoutedEventArgs e)
 		{
-			ViewModel.StatusCenterItems.ForEach((x) =>
-			{
-				if (x.IsProgressing)
-					ViewModel.CloseBanner(x);
-			});
-
-			ViewModel.StatusCenterItems.Clear();
+			ViewModel.CloseAllBanner();
 		}
 
 		private void CloseItemButton_Click(object sender, RoutedEventArgs e)
