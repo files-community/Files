@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
@@ -12,7 +11,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public string Title { get; private set; }
 
-		public InfoBarSeverity State { get; private set; }
+		public StatusCenterItemState State { get; private set; } = StatusCenterItemState.InProgress;
 
 		public FileOperationType Operation { get; private set; }
 
@@ -69,6 +68,18 @@ namespace Files.App.Utils.StatusCenter
 			get => isCancelled;
 			set => SetProperty(ref isCancelled, value);
 		}
+
+		public int StateNumber
+			=> (int)State;
+
+		public string StateIcon =>
+			State switch
+			{
+				StatusCenterItemState.InProgress => "\uF143",
+				StatusCenterItemState.Success => "\uF13E",
+				StatusCenterItemState.Error => "\uF13D",
+				_ => "\uF13D"
+			};
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{

@@ -7,10 +7,10 @@ namespace Files.Core.Data.Enums
 	{
 		InProgress,
 
-		Error,
-
 		Success,
 
-		Suspending
+		Error,
+
+		//Suspending
 	}
 }

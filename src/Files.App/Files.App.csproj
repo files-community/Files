@@ -69,6 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
       <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
       <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
@@ -142,6 +143,14 @@
       <Page Update="UserControls\SideBarControl\SideBarItem.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <CustomAdditionalCompileInputs Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Remove="resourcedictionaries\StatusCenterItemExpanderStyle.xaml" />
     </ItemGroup>
 
 </Project>
