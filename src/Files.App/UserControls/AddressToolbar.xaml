@@ -486,7 +486,7 @@
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
 					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon

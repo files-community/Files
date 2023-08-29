@@ -197,7 +197,7 @@ namespace Files.App.ViewModels.UserControls
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
+			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
@@ -217,7 +217,7 @@ namespace Files.App.ViewModels.UserControls
 				await CheckForReleaseNotesAsync();
 		}
 
-		private async void DoViewReleaseNotes()
+		private async Task ViewReleaseNotesAsync()
 		{
 			if (ReleaseNotes is null)
 				return;
@@ -444,7 +444,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesCommand { get; }
+		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
