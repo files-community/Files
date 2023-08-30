@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -27,6 +28,19 @@ namespace Files.App.UserControls
 			if (sender is Button button && button.DataContext is StatusCenterItem item)
 			{
 				ViewModel.CloseBanner(item);
+			}
+		}
+
+		private void ExpandCollapseChevronItemButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is Button button && button.DataContext is StatusCenterItem item)
+			{
+				var buttonAnimatedIcon = button.FindDescendant<AnimatedIcon>();
+
+				if (buttonAnimatedIcon is not null)
+				{
+					AnimatedIcon.SetState(buttonAnimatedIcon, item.IsExpanded ? "NormalOff" : "NormalOn");
+				}
 			}
 		}
 	}

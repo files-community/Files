@@ -5,7 +5,7 @@ namespace Files.App.Utils.StatusCenter
 {
 	public static class StatusCenterHelper
 	{
-		private static StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private static StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static StatusCenterPostItem PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
 		{
@@ -15,7 +15,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusDeletionCancelled".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ?
 							itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalizedResource() : "StatusDeleteCanceledDetails_Plural2".GetLocalizedResource()
@@ -26,7 +26,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusRecycleCancelled".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ?
 							itemsDeleted > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalizedResource() : "StatusMoveCanceledDetails_Plural2".GetLocalizedResource()
@@ -41,7 +41,7 @@ namespace Files.App.Utils.StatusCenter
 				if (permanently)
 				{
 					// deleting items from <x>
-					return OngoingTasksViewModel.PostOperationBanner(string.Empty,
+					return StatusCenterViewModel.PostOperationBanner(string.Empty,
 						string.Format(source.Count() > 1 ? "StatusDeletingItemsDetails_Plural".GetLocalizedResource() : "StatusDeletingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir),
 						0,
 						ReturnResult.InProgress,
@@ -51,7 +51,7 @@ namespace Files.App.Utils.StatusCenter
 				else
 				{
 					// "Moving items from <x> to recycle bin"
-					return OngoingTasksViewModel.PostOperationBanner(string.Empty,
+					return StatusCenterViewModel.PostOperationBanner(string.Empty,
 						string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalizedResource() : "StatusMovingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
 						0,
 						ReturnResult.InProgress,
@@ -63,7 +63,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusDeletionComplete".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalizedResource() : "StatusDeletedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, itemsDeleted),
 						0,
@@ -72,7 +72,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusRecycleComplete".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalizedResource() : "StatusMovedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
 						0,
@@ -84,7 +84,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (permanently)
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusDeletionFailed".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ? "StatusDeletionFailedDetails_Plural".GetLocalizedResource() : "StatusDeletionFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir),
 						0,
@@ -93,7 +93,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 				else
 				{
-					return OngoingTasksViewModel.PostBanner(
+					return StatusCenterViewModel.PostBanner(
 						"StatusRecycleFailed".GetLocalizedResource(),
 						string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalizedResource() : "StatusMoveFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
 						0,
@@ -110,7 +110,7 @@ namespace Files.App.Utils.StatusCenter
 
 			if (canceled)
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusCopyCanceled".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ?
 						itemsCopied > 1 ? "StatusCopyCanceledDetails_Plural".GetLocalizedResource() : "StatusCopyCanceledDetails_Plural2".GetLocalizedResource() :
@@ -121,7 +121,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return OngoingTasksViewModel.PostOperationBanner(
+				return StatusCenterViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format(source.Count() > 1 ? "StatusCopyingItemsDetails_Plural".GetLocalizedResource() : "StatusCopyingItemsDetails_Singular".GetLocalizedResource(), source.Count(), destinationDir),
 					0,
@@ -130,7 +130,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusCopyComplete".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ? "StatusCopiedItemsDetails_Plural".GetLocalizedResource() : "StatusCopiedItemsDetails_Singular".GetLocalizedResource(), source.Count(), destinationDir, itemsCopied),
 					0,
@@ -139,7 +139,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusCopyFailed".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ? "StatusCopyFailedDetails_Plural".GetLocalizedResource() : "StatusCopyFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
 					0,
@@ -155,7 +155,7 @@ namespace Files.App.Utils.StatusCenter
 
 			if (canceled)
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusMoveCanceled".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ?
 						itemsMoved > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalizedResource() : "StatusMoveCanceledDetails_Plural2".GetLocalizedResource()
@@ -166,7 +166,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return OngoingTasksViewModel.PostOperationBanner(
+				return StatusCenterViewModel.PostOperationBanner(
 					string.Empty,
 					string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalizedResource() : "StatusMovingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
 					0,
@@ -175,7 +175,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusMoveComplete".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalizedResource() : "StatusMovedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir, itemsMoved),
 					0,
@@ -184,7 +184,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 			else
 			{
-				return OngoingTasksViewModel.PostBanner(
+				return StatusCenterViewModel.PostBanner(
 					"StatusMoveFailed".GetLocalizedResource(),
 					string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalizedResource() : "StatusMoveFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
 					0,

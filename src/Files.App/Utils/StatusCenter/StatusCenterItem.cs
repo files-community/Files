@@ -69,6 +69,13 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref isCancelled, value);
 		}
 
+		private bool _IsExpanded;
+		public bool IsExpanded
+		{
+			get => _IsExpanded;
+			set => SetProperty(ref _IsExpanded, value);
+		}
+
 		public int StateNumber
 			=> (int)State;
 
