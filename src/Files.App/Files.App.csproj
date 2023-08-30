@@ -69,6 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Dialogs\ReleaseNotesDialog.xaml" />
       <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
       <None Remove="UserControls\Sidebar\SideBarView.xaml" />
     </ItemGroup>
@@ -89,8 +90,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230518007-experimental1" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -138,6 +139,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Dialogs\ReleaseNotesDialog.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
       <Page Update="UserControls\SideBarControl\SideBarHost.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>

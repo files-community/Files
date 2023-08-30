@@ -170,6 +170,11 @@ namespace Files.Core.Services.Settings
 		bool ShowSendToMenu { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to leave app running in the background.
+		/// </summary>
+		bool LeaveAppRunning { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating the default option to resolve conflicts.
 		/// </summary>
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }

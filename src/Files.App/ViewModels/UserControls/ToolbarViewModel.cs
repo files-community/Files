@@ -19,6 +19,8 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -85,13 +87,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			get => isReleaseNotesVisible;
 			set => SetProperty(ref isReleaseNotesVisible, value);
-		}
-
-		private bool isReleaseNotesOpen;
-		public bool IsReleaseNotesOpen
-		{
-			get => isReleaseNotesOpen;
-			set => SetProperty(ref isReleaseNotesOpen, value);
 		}
 
 		private bool canCopyPathInPage;
@@ -202,7 +197,7 @@ namespace Files.App.ViewModels.UserControls
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
+			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
@@ -222,9 +217,15 @@ namespace Files.App.ViewModels.UserControls
 				await CheckForReleaseNotesAsync();
 		}
 
-		private void DoViewReleaseNotes()
+		private async Task ViewReleaseNotesAsync()
 		{
-			IsReleaseNotesOpen = true;
+			if (ReleaseNotes is null)
+				return;
+
+			var viewModel = new ReleaseNotesDialogViewModel(ReleaseNotes);
+			var dialog = _dialogService.GetDialog(viewModel);
+
+			await dialog.TryShowAsync();
 		}
 
 		public async Task CheckForReleaseNotesAsync()
@@ -443,7 +444,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesCommand { get; }
+		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
