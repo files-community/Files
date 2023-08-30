@@ -149,10 +149,10 @@ namespace WinRT
 				module = null;
 				return false;
 			}
-			
+
 			module = new DllModule(
-				fileName, 
-				moduleHandle, 
+				fileName,
+				moduleHandle,
 				getActivationFactory);
 			return true;
 		}
@@ -332,7 +332,7 @@ namespace WinRT
 
 	internal sealed class ActivationFactory<T> : BaseActivationFactory
 	{
-		public ActivationFactory() : base(typeof(T).Namespace.Replace(".Private", String.Empty), typeof(T).FullName) { }
+		public ActivationFactory() : base(typeof(T).Namespace.Replace(".Private", String.Empty), typeof(T).FullName.Replace(".Private", String.Empty)) { }
 
 		static readonly ActivationFactory<T> _factory = new ActivationFactory<T>();
 		public static new I AsInterface<I>() => _factory.Value.AsInterface<I>();
@@ -340,14 +340,14 @@ namespace WinRT
 		public static IObjectReference As(Guid iid) => _factory._As(iid);
 
 #if NET
-		[UnconditionalSuppressMessage("ReflectionAnalysis", "IL2091:RequiresUnreferencedCode", 
+		[UnconditionalSuppressMessage("ReflectionAnalysis", "IL2091:RequiresUnreferencedCode",
 			Justification = "No members of the generic type are dynamically accessed in this code path.")]
 #endif
 		public static ObjectReference<I> ActivateInstance<
 #if NET
 			[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.None)]
-#endif 
-			I>() => _factory._ActivateInstance<I>();
+#endif
+		I>() => _factory._ActivateInstance<I>();
 	}
 
 	internal class ComponentActivationFactory : global::WinRT.Interop.IActivationFactory
@@ -585,30 +585,30 @@ namespace WinRT
 		{
 			if (caches.TryGetValue(thisPtr, out var cache))
 			{
-	#if !NET
+#if !NET
 						// https://devblogs.microsoft.com/pfxteam/little-known-gems-atomic-conditional-removals-from-concurrentdictionary/
 						((ICollection<KeyValuePair<int, System.WeakReference<State>>>)cache.states).Remove(
 							new KeyValuePair<int, System.WeakReference<State>>(index, state));
-	#else
-					cache.states.TryRemove(new KeyValuePair<int, System.WeakReference<State>>(index, state));
-	#endif
-					// using double-checked lock idiom
-					if (cache.states.IsEmpty)
+#else
+				cache.states.TryRemove(new KeyValuePair<int, System.WeakReference<State>>(index, state));
+#endif
+				// using double-checked lock idiom
+				if (cache.states.IsEmpty)
+				{
+					cachesLock.EnterWriteLock();
+					try
 					{
-						cachesLock.EnterWriteLock();
-						try
+						if (cache.states.IsEmpty)
 						{
-							if (cache.states.IsEmpty)
-							{
-								caches.TryRemove(thisPtr, out var _);
-							}
-						}
-						finally
-						{
-							cachesLock.ExitWriteLock();
+							caches.TryRemove(thisPtr, out var _);
 						}
 					}
+					finally
+					{
+						cachesLock.ExitWriteLock();
+					}
 				}
+			}
 		}
 	}
 
@@ -714,7 +714,7 @@ namespace WinRT
 		{
 		}
 
-		protected override ObjectReferenceValue CreateMarshaler(System.EventHandler<T> del) => 
+		protected override ObjectReferenceValue CreateMarshaler(System.EventHandler<T> del) =>
 			ABI.System.EventHandler<T>.CreateMarshaler2(del);
 
 		protected override State CreateEventState() =>
@@ -731,7 +731,7 @@ namespace WinRT
 			{
 				System.EventHandler<T> handler = (System.Object obj, T e) =>
 				{
-					var localDel = (System.EventHandler<T>) del;
+					var localDel = (System.EventHandler<T>)del;
 					if (localDel != null)
 						localDel.Invoke(obj, e);
 				};
