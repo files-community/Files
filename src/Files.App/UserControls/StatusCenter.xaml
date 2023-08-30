@@ -6,9 +6,10 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters" xmlns:livechart2="live"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	mc:Ignorable="d">
 
@@ -28,20 +29,19 @@
 						<UserControl>
 							<Grid
 								x:Name="ContentRoot"
-								Padding="16,8,8,8"
+								Padding="8,8,8,8"
 								HorizontalAlignment="Stretch"
 								AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
 								Background="{StaticResource InfoBarInformationalSeverityBackgroundBrush}"
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="1"
-								ColumnSpacing="12"
-								CornerRadius="{StaticResource ControlCornerRadius}"
+								CornerRadius="{StaticResource OverlayCornerRadius}"
 								Style="{StaticResource StatusCenterItemExpanderStyle}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
 
 								<Grid.Transitions>
 									<TransitionCollection>
@@ -49,99 +49,75 @@
 									</TransitionCollection>
 								</Grid.Transitions>
 
-								<TextBlock
-									x:Name="SeverityBackgroundFontIcon"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="16"
-									Text="&#xF136;" />
+								<!--  Header  -->
+								<Grid
+									x:Name="StatusCenterItemHeaderPanel"
+									Grid.Row="0"
+									ColumnSpacing="12">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
 
-								<TextBlock
-									x:Name="SeverityForegroundFontIcon"
-									Grid.Column="0"
-									VerticalAlignment="Center"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="16"
-									Foreground="{ThemeResource TextFillColorInverseBrush}"
-									Text="{x:Bind StateIcon}" />
+									<!--  Header Icon  -->
+									<Grid Grid.Column="0">
+										<TextBlock
+											x:Name="SeverityBackgroundFontIcon"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											FontFamily="{ThemeResource SymbolThemeFontFamily}"
+											FontSize="32"
+											Text="&#xE91F;" />
 
-								<StackPanel Grid.Column="1" VerticalAlignment="Center">
+										<TextBlock
+											x:Name="SeverityForegroundFontIcon"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											FontFamily="{ThemeResource SymbolThemeFontFamily}"
+											FontSize="18"
+											Text="&#xE73E;" />
+									</Grid>
 
-									<TextBlock
-										Style="{StaticResource BodyTextBlockStyle}"
-										Text="{x:Bind FullTitle, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
+									<!--  Header Title & Description  -->
+									<StackPanel
+										x:Name="StatusCenterItemHeadedrPanel"
+										Grid.Column="1"
+										VerticalAlignment="Center">
 
-									<TextBlock
-										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-										Style="{StaticResource CaptionTextBlockStyle}"
-										Text="{x:Bind Message, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
+										<TextBlock
+											Style="{StaticResource BodyTextBlockStyle}"
+											Text="{x:Bind FullTitle, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 
-									<ProgressBar
-										x:Name="ProgressBar"
-										Margin="0,8"
-										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-										Visibility="{x:Bind IsProgressing, Mode=OneWay}"
-										Value="{x:Bind Progress, Mode=OneWay}" />
+										<TextBlock
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											Text="{x:Bind Message, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
 
-								</StackPanel>
+									</StackPanel>
 
-								<Grid Grid.Column="2">
-
-									<Button
-										x:Name="CancelItemButton"
-										Width="32"
-										Height="32"
-										Padding="0"
-										x:Load="{x:Bind CancelButtonVisible}"
-										AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-										Background="Transparent"
-										BorderBrush="Transparent"
-										Command="{x:Bind CancelCommand}"
-										DataContext="{x:Bind}"
-										IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-										ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
-										<Button.Content>
-											<FontIcon FontSize="16" Glyph="&#xE711;" />
-										</Button.Content>
-									</Button>
-
-									<Button
-										x:Name="CloseItemButton"
-										Width="32"
-										Height="32"
-										Padding="0"
-										x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-										AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
-										Background="Transparent"
-										BorderBrush="Transparent"
-										Click="CloseItemButton_Click"
-										ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
-										<Button.Content>
-											<FontIcon FontSize="16" Glyph="&#xE711;" />
-										</Button.Content>
-									</Button>
-
-									<Button
+									<!--  Expand & Collapse Chevron  -->
+									<ToggleButton
 										x:Name="ExpandCollapseChevronItemButton"
+										Grid.Column="2"
 										Width="32"
 										Height="32"
 										Padding="0"
 										x:Load="{x:Bind IsProgressing}"
 										Background="Transparent"
 										BorderBrush="Transparent"
-										Click="ExpandCollapseChevronItemButton_Click">
+										IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
 										<AnimatedIcon
 											x:Name="ExpandCollapseChevron"
-											Width="32"
-											Height="32"
+											Width="16"
+											Height="16"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											AnimatedIcon.State="NormalOff"
+											AnimatedIcon.State="{x:Bind AnimatedIconState, Mode=OneWay}"
 											AutomationProperties.AccessibilityView="Raw"
 											RenderTransformOrigin="0.5, 0.5">
 											<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
@@ -153,9 +129,73 @@
 													IsTextScaleFactorEnabled="False" />
 											</AnimatedIcon.FallbackIconSource>
 										</AnimatedIcon>
-									</Button>
+									</ToggleButton>
 
 								</Grid>
+
+								<!--  Progress Bar & Graph Display  -->
+								<Grid
+									x:Name="StatusCenterItemRichProgressDisplayPanel"
+									Grid.Row="1"
+									ColumnSpacing="12">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+
+									<ProgressBar
+										x:Name="ProgressBar"
+										Margin="4,8,0,8"
+										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+										Visibility="{x:Bind IsProgressing, Mode=OneWay}"
+										Value="{x:Bind Progress, Mode=OneWay}" />
+
+									<livecharts2:CartesianChart Height="64" Visibility="Collapsed" />
+
+									<Grid Grid.Column="1">
+
+										<Button
+											x:Name="CancelItemButton"
+											Width="32"
+											Height="32"
+											Padding="0"
+											x:Load="{x:Bind CancelButtonVisible}"
+											AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
+											Background="Transparent"
+											BorderBrush="Transparent"
+											Command="{x:Bind CancelCommand}"
+											DataContext="{x:Bind}"
+											IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
+											Visibility="{x:Bind IsProgressing, Mode=OneWay}">
+											<Button.Content>
+												<FontIcon FontSize="16" Glyph="&#xE711;" />
+											</Button.Content>
+										</Button>
+
+										<Button
+											x:Name="CloseItemButton"
+											Width="32"
+											Height="32"
+											Padding="0"
+											x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
+											AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
+											Background="Transparent"
+											BorderBrush="Transparent"
+											Click="CloseItemButton_Click"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}"
+											Visibility="{x:Bind IsProgressing, Mode=OneWay}">
+											<Button.Content>
+												<FontIcon FontSize="16" Glyph="&#xE711;" />
+											</Button.Content>
+										</Button>
+
+									</Grid>
+
+								</Grid>
+
+								<!--  Processed Bytes & Estimated Time Display  -->
+								<Grid Grid.Row="2" />
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup>
@@ -167,8 +207,9 @@
 													To="0" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="ContentRoot.Background" Value="{ThemeResource SystemFillColorAttentionBackgroundBrush}" />
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+												<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
+												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="Success">
@@ -179,8 +220,8 @@
 													To="1" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="ContentRoot.Background" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
+												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="Error">
@@ -191,8 +232,8 @@
 													To="2" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="ContentRoot.Background" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
+												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>

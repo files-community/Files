@@ -9,19 +9,6 @@ namespace Files.App.Utils.StatusCenter
 	{
 		private readonly float initialProgress = 0.0f;
 
-		public string Title { get; private set; }
-
-		public StatusCenterItemState State { get; private set; } = StatusCenterItemState.InProgress;
-
-		public FileOperationType Operation { get; private set; }
-
-		public ICommand CancelCommand { get; }
-
-		public CancellationTokenSource CancellationTokenSource { get; set; }
-
-		public bool CancelButtonVisible
-			=> CancellationTokenSource is not null;
-
 		private int progress = 0;
 		public int Progress
 		{
@@ -73,7 +60,22 @@ namespace Files.App.Utils.StatusCenter
 		public bool IsExpanded
 		{
 			get => _IsExpanded;
-			set => SetProperty(ref _IsExpanded, value);
+			set
+			{
+				SetProperty(ref _IsExpanded, value);
+
+				if (value)
+					AnimatedIconState = "NormalOn";
+				else
+					AnimatedIconState = "NormalOff";
+			}
+		}
+
+		private string _AnimatedIconState = "NormalOff";
+		public string AnimatedIconState
+		{
+			get => _AnimatedIconState;
+			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
 		public int StateNumber
@@ -82,11 +84,24 @@ namespace Files.App.Utils.StatusCenter
 		public string StateIcon =>
 			State switch
 			{
-				StatusCenterItemState.InProgress => "\uF143",
-				StatusCenterItemState.Success => "\uF13E",
-				StatusCenterItemState.Error => "\uF13D",
-				_ => "\uF13D"
+				StatusCenterItemState.InProgress => "\uE895",
+				StatusCenterItemState.Success => "\uE73E",
+				StatusCenterItemState.Error => "\uE894",
+				_ => "\uE895"
 			};
+
+		public string Title { get; private set; }
+
+		public StatusCenterItemState State { get; private set; }
+
+		public FileOperationType Operation { get; private set; }
+
+		public CancellationTokenSource CancellationTokenSource { get; set; }
+
+		public bool CancelButtonVisible
+			=> CancellationTokenSource is not null;
+
+		public ICommand CancelCommand { get; }
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{

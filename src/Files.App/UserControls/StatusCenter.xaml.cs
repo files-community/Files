@@ -41,6 +41,8 @@ namespace Files.App.UserControls
 				{
 					AnimatedIcon.SetState(buttonAnimatedIcon, item.IsExpanded ? "NormalOff" : "NormalOn");
 				}
+
+				item.IsExpanded = !item.IsExpanded;
 			}
 		}
 	}
