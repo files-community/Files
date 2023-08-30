@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -77,6 +77,7 @@
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+        <PackageReference Include="DirectNCore" Version="1.13.2.1" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
@@ -97,6 +98,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
+        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.15" />
         <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.16" />
         <PackageReference Include="WinUIEx" Version="2.1.0" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.16" />
