@@ -65,7 +65,7 @@ namespace Files.Shared.Helpers
 			}
 
 			// Only extensions we want to browse
-			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".gz" }
+			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".gz" }
 				.FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
 
 			return ext is not null;
