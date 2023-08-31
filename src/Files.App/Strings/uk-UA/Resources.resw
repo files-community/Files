@@ -175,7 +175,7 @@
     <value>Очистити все</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Введіть шлях для переходу або введіть "&gt;", щоб відкрити меню команд</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
@@ -280,7 +280,7 @@
     <value>Надати дозвіл</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</value>
+    <value>Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити застосунок після завершення. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Відображення</value>
@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Редагувати файл налаштувань</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Список змін</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>What's new</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Створення ярлика у цьому місці потребує прав адміністратора</value>
@@ -3430,12 +3430,100 @@
     <value>Запустити в:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>	
+    <value>Увімкнути BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Керування BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Обрані елементи є завеликими для копіювання на цей диск</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Не показувати знову</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files запущений від імені адміністратора</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>У зв'язку з обмеженнями платформи, перемісти та відпусти недоступно при запуску Файлів як адміністратор.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>При закритті вікна залишати застосунок на фоні</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Blue Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Brick Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Camouflage</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Cool Blue Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Gray Dark</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iris Pastel</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Mint Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Orange Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Overcast</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Rose Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Seafoam</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Storm</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Violet Red Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Yellow Gold</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
