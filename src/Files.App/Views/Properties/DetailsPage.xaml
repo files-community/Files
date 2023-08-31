@@ -94,9 +94,9 @@
 												Grid.Column="1"
 												Padding="12"
 												HorizontalAlignment="Stretch"
+												x:Load="{x:Bind IsReadOnly, Mode=OneWay}"
 												IsTextSelectionEnabled="True"
-												Text="{x:Bind ValueText, Mode=TwoWay}"
-												Visibility="{x:Bind IsReadOnly}" />
+												Text="{x:Bind ValueText, Mode=TwoWay}" />
 
 											<!--  Edit Value Text Box  -->
 											<TextBox
@@ -104,10 +104,10 @@
 												Grid.Row="0"
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
+												x:Load="{x:Bind IsReadOnly, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
-												Text="{x:Bind ValueText, Mode=TwoWay}"
-												Visibility="{x:Bind IsReadOnly, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+												Text="{x:Bind ValueText, Mode=TwoWay}" />
 
 										</Grid>
 									</DataTemplate>

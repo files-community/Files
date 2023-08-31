@@ -94,6 +94,7 @@ namespace Files.App.Services
 
 		public async Task CheckForUpdates()
 		{
+			IsUpdateAvailable = false;
 			App.Logger.LogInformation("STORE: Checking for updates...");
 
 			await GetUpdatePackages();
