@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Editar archivo de configuración</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Notas de la versión</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>What's new</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Crear un acceso directo en esta ubicación requiere privilegios de administrador</value>
@@ -3430,12 +3430,100 @@
     <value>Iniciar en:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Activar BitLocker</value>	
+    <value>Activar BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Administrar BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Los siguientes elementos son demasiado grandes para ser copiados en esta unidad</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>No volver a mostrar</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files se está ejecutando como administrador</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Debido a limitaciones de la plataforma, arrastrar y soltar no está disponible cuando se ejecuta Files como administrador.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Permitir que la aplicación se ejecute en segundo plano al cerrar la ventana</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Blue Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Brick Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Camouflage</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Cool Blue Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Gray Dark</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iris Pastel</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Mint Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Orange Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Overcast</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Rose Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Seafoam</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Storm</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Violet Red Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Yellow Gold</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
