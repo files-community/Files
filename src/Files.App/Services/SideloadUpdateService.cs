@@ -108,6 +108,7 @@ namespace Files.App.Services
 
 		public async Task CheckForUpdates()
 		{
+			IsUpdateAvailable = false;
 			try
 			{
 				Logger?.LogInformation($"SIDELOAD: Checking for updates...");
@@ -139,7 +140,6 @@ namespace Files.App.Services
 				else
 				{
 					Logger?.LogWarning("SIDELOAD: Update not found.");
-					IsUpdateAvailable = false;
 				}
 			}
 			catch (Exception e)
