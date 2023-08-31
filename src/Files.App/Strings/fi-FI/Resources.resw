@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Muokkaa asetustiedostoa</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Julkaisutiedot</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Uudet ominaisuudet</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Pikakuvakkeen luominen tähän sijaintiin vaatii järjestelmänvalvojan oikeudet</value>
@@ -3430,12 +3430,100 @@
     <value>Aloitussijainti:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Ota BitLocker käyttöön</value>	
+    <value>Ota BitLocker käyttöön</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Hallinnoi BitLockeria</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Seuraavat kohteet ovat liian suuria kopioitavaksi tälle asemalle</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Älä näytä uudelleen</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files on käynnissä järjestelmänvalvojana</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Alustan rajoitusten vuoksi vedä ja pudota -toiminto ei ole käytettävissä, kun Files on käynnissä järjestelmänvalvojana.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Jätä sovellus toimimaan taustalla, kun ikkuna suljetaan</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Sininen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Siniharmaa</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Tiilenpunainen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Naamiointi</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Viileän kirkas sininen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Harmaa</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Tumman harmaa</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Vihreä</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iiris-pastelli</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Vaalea minttu</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Moderni punainen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Kirkas oranssi</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Pilvinen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Punainen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Kirkas ruusu</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Meren vaahto</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Myrsky</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Vaalea violetti-punainen</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Keltainen kulta</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
