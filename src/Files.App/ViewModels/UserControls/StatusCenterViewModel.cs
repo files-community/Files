@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.UserControls
 
 				foreach (var item in StatusCenterItems)
 				{
-					if (item.IsProgressing)
+					if (item.IsInProgress)
 						count++;
 				}
 
@@ -46,7 +46,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			get
 			{
-				var anyFailure = StatusCenterItems.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
+				var anyFailure = StatusCenterItems.Any(i => i.FileSystemOperationReturnResult != ReturnResult.InProgress && i.FileSystemOperationReturnResult != ReturnResult.Success);
 
 				return (anyFailure, AnyOperationsOngoing) switch
 				{
@@ -141,7 +141,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			StatusCenterItems.ForEach((x) =>
 			{
-				if (x.IsProgressing)
+				if (x.IsInProgress)
 					CloseBanner(x);
 			});
 
@@ -163,7 +163,7 @@ namespace Files.App.ViewModels.UserControls
 		public void UpdateMedianProgress()
 		{
 			if (AnyOperationsOngoing)
-				MedianOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsProgressing).Average(x => x.Progress);
+				MedianOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsInProgress).Average(x => x.ProgressPercentage);
 		}
 	}
 }

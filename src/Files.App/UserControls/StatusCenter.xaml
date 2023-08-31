@@ -18,8 +18,56 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/StatusCenterItemExpanderStyle.xaml" />
 				<ResourceDictionary>
+					<ResourceDictionary.ThemeDictionaries>
+						<ResourceDictionary x:Key="Default">
+							<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="ControlFillColorDefaultBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="ControlElevationBorderBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+						</ResourceDictionary>
+						<ResourceDictionary x:Key="HighContrast">
+							<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="SystemControlForegroundBaseHighBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="SystemControlHighlightBaseHighBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="SystemControlHighlightBaseHighBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SystemControlForegroundTransparentBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="SystemControlHighlightBaseMediumLowBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
+						</ResourceDictionary>
+						<ResourceDictionary x:Key="Light">
+							<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="ControlFillColorDefaultBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+							<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+							<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="ControlElevationBorderBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+							<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+						</ResourceDictionary>
+					</ResourceDictionary.ThemeDictionaries>
 
 					<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+					<wctconverters:EmptyStringToObjectConverter
+						x:Key="EmptyStringToBoolConverter"
+						EmptyValue="False"
+						NotEmptyValue="True" />
 					<wctconverters:EmptyCollectionToObjectConverter
 						x:Key="EmptyCollectionToBoolConverter"
 						EmptyValue="False"
@@ -76,7 +124,7 @@
 											VerticalAlignment="Center"
 											FontFamily="{ThemeResource SymbolThemeFontFamily}"
 											FontSize="18"
-											Text="&#xE73E;" />
+											Text="{x:Bind StateIcon, Mode=OneWay}" />
 									</Grid>
 
 									<!--  Header Title & Description  -->
@@ -86,13 +134,19 @@
 										VerticalAlignment="Center">
 
 										<TextBlock
+											x:Name="FullTitleTextBlock"
+											x:Load="{x:Bind FullTitle, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											MaxLines="1"
 											Style="{StaticResource BodyTextBlockStyle}"
 											Text="{x:Bind FullTitle, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
 										<TextBlock
+											x:Name="DescriptionTextBlock"
+											x:Load="{x:Bind Message, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											MaxLines="1"
 											Style="{StaticResource CaptionTextBlockStyle}"
 											Text="{x:Bind Message, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
@@ -100,36 +154,60 @@
 
 									</StackPanel>
 
-									<!--  Expand & Collapse Chevron  -->
-									<ToggleButton
-										x:Name="ExpandCollapseChevronItemButton"
+									<!--  Action Buttons  -->
+									<StackPanel
 										Grid.Column="2"
-										Width="32"
-										Height="32"
-										Padding="0"
-										x:Load="{x:Bind IsProgressing}"
-										Background="Transparent"
-										BorderBrush="Transparent"
-										IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
-										<AnimatedIcon
-											x:Name="ExpandCollapseChevron"
-											Width="16"
-											Height="16"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											AnimatedIcon.State="{x:Bind AnimatedIconState, Mode=OneWay}"
-											AutomationProperties.AccessibilityView="Raw"
-											RenderTransformOrigin="0.5, 0.5">
-											<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
-											<AnimatedIcon.FallbackIconSource>
-												<FontIconSource
-													FontFamily="{StaticResource SymbolThemeFontFamily}"
-													FontSize="16"
-													Glyph="{StaticResource ExpanderChevronDownGlyph}"
-													IsTextScaleFactorEnabled="False" />
-											</AnimatedIcon.FallbackIconSource>
-										</AnimatedIcon>
-									</ToggleButton>
+										VerticalAlignment="Center"
+										Spacing="8">
+
+										<!--  Dismiss Item  -->
+										<Button
+											x:Name="CloseItemButton"
+											Width="32"
+											Height="32"
+											Padding="0"
+											x:Load="{x:Bind IsInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+											AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
+											Background="Transparent"
+											BorderBrush="Transparent"
+											Click="CloseItemButton_Click"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
+											<Button.Content>
+												<FontIcon FontSize="16" Glyph="&#xE711;" />
+											</Button.Content>
+										</Button>
+
+										<!--  Expand & Collapse Chevron  -->
+										<ToggleButton
+											x:Name="ExpandCollapseChevronItemButton"
+											Width="32"
+											Height="32"
+											Padding="0"
+											x:Load="{x:Bind IsInProgress, Mode=OneWay}"
+											Background="Transparent"
+											BorderBrush="Transparent"
+											IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
+											<AnimatedIcon
+												x:Name="ExpandCollapseChevron"
+												Width="16"
+												Height="16"
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												AnimatedIcon.State="{x:Bind AnimatedIconState, Mode=OneWay}"
+												AutomationProperties.AccessibilityView="Raw"
+												RenderTransformOrigin="0.5, 0.5">
+												<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
+												<AnimatedIcon.FallbackIconSource>
+													<FontIconSource
+														FontFamily="{StaticResource SymbolThemeFontFamily}"
+														FontSize="16"
+														Glyph="{StaticResource ExpanderChevronDownGlyph}"
+														IsTextScaleFactorEnabled="False" />
+												</AnimatedIcon.FallbackIconSource>
+											</AnimatedIcon>
+										</ToggleButton>
+
+									</StackPanel>
 
 								</Grid>
 
@@ -137,21 +215,35 @@
 								<Grid
 									x:Name="StatusCenterItemRichProgressDisplayPanel"
 									Grid.Row="1"
-									ColumnSpacing="12">
+									Margin="0,8,0,0"
+									ColumnSpacing="12"
+									Visibility="{x:Bind IsInProgress, Mode=OneWay}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*" />
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 
+									<!--  ProgressBar  -->
 									<ProgressBar
-										x:Name="ProgressBar"
+										x:Name="MainProgressBar"
 										Margin="4,8,0,8"
+										x:Load="{x:Bind IsExpanded, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-										Visibility="{x:Bind IsProgressing, Mode=OneWay}"
-										Value="{x:Bind Progress, Mode=OneWay}" />
+										Visibility="{x:Bind IsInProgress, Mode=OneWay}"
+										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
-									<livecharts2:CartesianChart Height="64" Visibility="Collapsed" />
+									<!--  Graph  -->
+									<Grid
+										x:Name="MainGraphCartesianChartClipGrid"
+										Margin="4,8,0,8"
+										x:Load="{x:Bind IsExpanded, Mode=OneWay}"
+										BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+										BorderThickness="1"
+										CornerRadius="4">
+										<livecharts2:CartesianChart x:Name="MainGraphCartesianChart" Height="64" />
+									</Grid>
 
+									<!--  Action Buttons  -->
 									<Grid Grid.Column="1">
 
 										<Button
@@ -159,7 +251,7 @@
 											Width="32"
 											Height="32"
 											Padding="0"
-											x:Load="{x:Bind CancelButtonVisible}"
+											x:Load="{x:Bind IsCancelButtonVisible}"
 											AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
 											Background="Transparent"
 											BorderBrush="Transparent"
@@ -167,24 +259,7 @@
 											DataContext="{x:Bind}"
 											IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
-											Visibility="{x:Bind IsProgressing, Mode=OneWay}">
-											<Button.Content>
-												<FontIcon FontSize="16" Glyph="&#xE711;" />
-											</Button.Content>
-										</Button>
-
-										<Button
-											x:Name="CloseItemButton"
-											Width="32"
-											Height="32"
-											Padding="0"
-											x:Load="{x:Bind CancelButtonVisible, Converter={StaticResource BoolNegationConverter}}"
-											AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
-											Background="Transparent"
-											BorderBrush="Transparent"
-											Click="CloseItemButton_Click"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}"
-											Visibility="{x:Bind IsProgressing, Mode=OneWay}">
+											Visibility="{x:Bind IsInProgress, Mode=OneWay}">
 											<Button.Content>
 												<FontIcon FontSize="16" Glyph="&#xE711;" />
 											</Button.Content>
@@ -198,12 +273,12 @@
 								<Grid Grid.Row="2" />
 
 								<VisualStateManager.VisualStateGroups>
-									<VisualStateGroup>
+									<VisualStateGroup x:Name="ThemeColorStates">
 										<VisualState x:Name="Normal">
 											<VisualState.StateTriggers>
 												<wcttriggers:CompareStateTrigger
 													Comparison="Equal"
-													Value="{x:Bind StateNumber}"
+													Value="{x:Bind ItemStateInteger}"
 													To="0" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
@@ -216,7 +291,7 @@
 											<VisualState.StateTriggers>
 												<wcttriggers:CompareStateTrigger
 													Comparison="Equal"
-													Value="{x:Bind StateNumber}"
+													Value="{x:Bind ItemStateInteger}"
 													To="1" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
@@ -228,12 +303,24 @@
 											<VisualState.StateTriggers>
 												<wcttriggers:CompareStateTrigger
 													Comparison="Equal"
-													Value="{x:Bind StateNumber}"
+													Value="{x:Bind ItemStateInteger}"
 													To="2" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
 												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="Paused">
+											<VisualState.StateTriggers>
+												<wcttriggers:CompareStateTrigger
+													Comparison="Equal"
+													Value="{x:Bind ItemStateInteger}"
+													To="3" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}" />
+												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>

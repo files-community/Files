@@ -5,55 +5,58 @@ using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
 {
-	public class StatusCenterItem : ObservableObject
+	/// <summary>
+	/// Represents an item for Status Center operation tasks.
+	/// </summary>
+	public sealed class StatusCenterItem : ObservableObject
 	{
-		private readonly float initialProgress = 0.0f;
+		private readonly float _initialProgress = 0.0f;
 
-		private int progress = 0;
-		public int Progress
+		private int _ProgressPercentage = 0;
+		public int ProgressPercentage
 		{
-			get => progress;
-			set => SetProperty(ref progress, value);
+			get => _ProgressPercentage;
+			set => SetProperty(ref _ProgressPercentage, value);
 		}
 
-		private bool isProgressing = false;
-		public bool IsProgressing
+		private bool _IsInProgress = false;
+		public bool IsInProgress
 		{
-			get => isProgressing;
+			get => _IsInProgress;
 			set
 			{
-				if (SetProperty(ref isProgressing, value))
+				if (SetProperty(ref _IsInProgress, value))
 					OnPropertyChanged(nameof(Message));
 			}
 		}
 
-		private ReturnResult status = ReturnResult.InProgress;
-		public ReturnResult Status
+		private ReturnResult _FileSystemOperationReturnResult = ReturnResult.InProgress;
+		public ReturnResult FileSystemOperationReturnResult
 		{
-			get => status;
-			set => SetProperty(ref status, value);
+			get => _FileSystemOperationReturnResult;
+			set => SetProperty(ref _FileSystemOperationReturnResult, value);
 		}
 
-		private string message;
-		public string Message
+		private string? _Message;
+		public string? Message
 		{
 			// A workaround to avoid overlapping the progress bar (#12362)
-			get => isProgressing ? message + "\n" : message;
-			private set => SetProperty(ref message, value);
+			get => _IsInProgress ? _Message + "\n" : _Message;
+			private set => SetProperty(ref _Message, value);
 		}
 
-		private string fullTitle;
-		public string FullTitle
+		private string? _FullTitle;
+		public string? FullTitle
 		{
-			get => fullTitle;
-			set => SetProperty(ref fullTitle, value ?? string.Empty);
+			get => _FullTitle;
+			set => SetProperty(ref _FullTitle, value ?? string.Empty);
 		}
 
-		private bool isCancelled;
+		private bool _IsCancelled;
 		public bool IsCancelled
 		{
-			get => isCancelled;
-			set => SetProperty(ref isCancelled, value);
+			get => _IsCancelled;
+			set => SetProperty(ref _IsCancelled, value);
 		}
 
 		private bool _IsExpanded;
@@ -78,11 +81,14 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
-		public int StateNumber
-			=> (int)State;
+		public int ItemStateInteger
+			=> (int)ItemState;
+
+		public bool IsCancelButtonVisible
+			=> CancellationTokenSource is not null;
 
 		public string StateIcon =>
-			State switch
+			ItemState switch
 			{
 				StatusCenterItemState.InProgress => "\uE895",
 				StatusCenterItemState.Success => "\uE73E",
@@ -92,32 +98,29 @@ namespace Files.App.Utils.StatusCenter
 
 		public string Title { get; private set; }
 
-		public StatusCenterItemState State { get; private set; }
+		public StatusCenterItemState ItemState { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
 
-		public CancellationTokenSource CancellationTokenSource { get; set; }
-
-		public bool CancelButtonVisible
-			=> CancellationTokenSource is not null;
+		public CancellationTokenSource? CancellationTokenSource { get; set; }
 
 		public ICommand CancelCommand { get; }
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
+			_initialProgress = progress;
 			Message = message;
 			Title = title;
 			FullTitle = title;
-			initialProgress = progress;
-			Status = status;
+			FileSystemOperationReturnResult = status;
 			Operation = operation;
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
-			switch (Status)
+			switch (FileSystemOperationReturnResult)
 			{
 				case ReturnResult.InProgress:
-					IsProgressing = true;
+					IsInProgress = true;
 					if (string.IsNullOrWhiteSpace(Title))
 					{
 						switch (Operation)
@@ -148,12 +151,12 @@ namespace Files.App.Utils.StatusCenter
 						}
 					}
 
-					FullTitle = $"{Title} ({initialProgress}%)";
+					FullTitle = $"{Title} ({_initialProgress}%)";
 
 					break;
 
 				case ReturnResult.Success:
-					IsProgressing = false;
+					IsInProgress = false;
 					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
 						throw new NotImplementedException();
@@ -161,13 +164,13 @@ namespace Files.App.Utils.StatusCenter
 					else
 					{
 						FullTitle = Title;
-						State = StatusCenterItemState.Success;
+						ItemState = StatusCenterItemState.Success;
 					}
 					break;
 
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
-					IsProgressing = false;
+					IsInProgress = false;
 					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
 						throw new NotImplementedException();
@@ -176,7 +179,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						// Expanded banner
 						FullTitle = Title;
-						State = StatusCenterItemState.Error;
+						ItemState = StatusCenterItemState.Error;
 					}
 
 					break;
@@ -185,9 +188,9 @@ namespace Files.App.Utils.StatusCenter
 
 		public void ExecuteCancelCommand()
 		{
-			if (CancelButtonVisible)
+			if (IsCancelButtonVisible)
 			{
-				CancellationTokenSource.Cancel();
+				CancellationTokenSource?.Cancel();
 				IsCancelled = true;
 				FullTitle = $"{Title} ({"canceling".GetLocalizedResource()})";
 			}

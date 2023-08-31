@@ -22,7 +22,7 @@ namespace Files.App.Data.TemplateSelectors
 			if (itemsControl.ItemsSource is IList<StatusCenterItem> items)
 			{
 				return
-					((StatusCenterItem)itemsControl.ItemFromContainer(container)).State == StatusCenterItemState.InProgress
+					((StatusCenterItem)itemsControl.ItemFromContainer(container)).ItemState == StatusCenterItemState.InProgress
 						? ExpanderStyleItem!
 						: CardStyleItem!;
 			}

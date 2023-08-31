@@ -44,14 +44,14 @@ namespace Files.App.Utils.StatusCenter
 				return;
 
 			if (value.Status is FileSystemStatusCode status)
-				Banner.Status = status.ToStatus();
+				Banner.FileSystemOperationReturnResult = status.ToStatus();
 
-			Banner.IsProgressing = (value.Status & FileSystemStatusCode.InProgress) != 0;
+			Banner.IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is int p)
 			{
-				Banner.Progress = p;
-				Banner.FullTitle = $"{Banner.Title} ({Banner.Progress}%)";
+				Banner.ProgressPercentage = p;
+				Banner.FullTitle = $"{Banner.Title} ({Banner.ProgressPercentage}%)";
 
 				// TODO: Show detailed progress if Size/Count information available
 			}
@@ -60,22 +60,22 @@ namespace Files.App.Utils.StatusCenter
 				switch (value.TotalSize, value.ItemsCount)
 				{
 					case (not 0, not 0):
-						Banner.Progress = (int)(value.ProcessedSize * 100f / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.Progress}%)";
+						Banner.ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.ProgressPercentage}%)";
 						break;
 
 					case (not 0, _):
-						Banner.Progress = (int)(value.ProcessedSize * 100 / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.Progress}%)";
+						Banner.ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.ProgressPercentage}%)";
 						break;
 
 					case (_, not 0):
-						Banner.Progress = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.Progress}%)";
+						Banner.ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.ProgressPercentage}%)";
 						break;
 
 					default:
-						Banner.FullTitle = $"{Banner.Title} (...)";
+						Banner.FullTitle = $"{Banner.Title}";
 						break;
 				}
 			}
@@ -86,7 +86,7 @@ namespace Files.App.Utils.StatusCenter
 					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
 					(not 0, _) => $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
 					(_, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{Banner.Title} (...)",
+					_ => $"{Banner.Title}",
 				};
 			}
 

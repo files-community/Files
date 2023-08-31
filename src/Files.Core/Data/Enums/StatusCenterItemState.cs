@@ -11,6 +11,6 @@ namespace Files.Core.Data.Enums
 
 		Error,
 
-		//Suspending
+		Paused
 	}
 }
