@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			var fileStream = await Item.ItemFile.OpenReadAsync();
 			var pdf = await PdfDocument.LoadFromStreamAsync(fileStream);
-			TryLoadPagesAsync(pdf, fileStream);
+			_ = TryLoadPagesAsync(pdf, fileStream);
 
 			var details = new List<FileProperty>
 			{

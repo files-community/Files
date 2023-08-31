@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+	x:Class="Files.App.UserControls.FilePreviews.ShellPreview"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UserControls.FilePreviews"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Unloaded="PreviewHost_Unloaded"
+	mc:Ignorable="d">
+
+	<ContentPresenter
+		Name="contentPresenter"
+		Background="Transparent"
+		Loaded="PreviewHost_Loaded"
+		PointerEntered="PreviewHost_PointerEntered"
+		SizeChanged="PreviewHost_SizeChanged" />
+</UserControl>
