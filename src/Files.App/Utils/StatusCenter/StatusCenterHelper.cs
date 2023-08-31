@@ -5,7 +5,7 @@ namespace Files.App.Utils.StatusCenter
 {
 	public static class StatusCenterHelper
 	{
-		private static StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly static StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static StatusCenterPostItem PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
 		{

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Utils.Storage
+namespace Files.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents a model for file system operation progress.
@@ -73,10 +73,10 @@ namespace Files.App.Utils.Storage
 		{
 			Percentage = percentage;
 
-			if (((EnumerationCompleted &&
+			if ((EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
-				TotalSize is not 0) ||
+				TotalSize is not 0 ||
 				percentage is 100) &&
 				_Status is FileSystemStatusCode.InProgress or null)
 			{
