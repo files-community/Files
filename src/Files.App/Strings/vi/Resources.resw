@@ -142,7 +142,7 @@
     <value>Kích cỡ trên đĩa:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Cỡ không nén:</value>
+    <value>Kích thước không nén:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Không thể làm hoạt động này</value>
@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Chỉnh sửa tệp cài đặt</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Ghi chú Phát hành</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Có gì mới</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Tạo lối tắt ở vị trí này yêu cầu cấp quyền quản trị viên</value>
@@ -3430,12 +3430,100 @@
     <value>Bắt đầu trong:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Bật BitLocker</value>	
+    <value>Bật BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Quản lý BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Những mục sau là quá lớn để có thể sao chép vào ổ lưu trữ này</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Không hiện lại</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files đang chạy với quyền quản trị</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Do giới hạn của nền tảng, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Xanh dương</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Xanh xám</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Đỏ gạch</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Rằn ri</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Xanh dương sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Xám</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Xám tối</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Xanh lục</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Tím biếc</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Bạc hà sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Đỏ phai</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Cam sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Âm u</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Đỏ</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Hồng sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Bọt biển</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Giông bão</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Đỏ thẩm sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Vàng kim</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
