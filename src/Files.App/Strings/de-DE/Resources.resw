@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Einstellungs-Datei bearbeiten</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Änderungen in dieser Version</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Was ist neu</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Um eine Verknüpfung an dieser Stelle zu erstellen, werden Administrator-Rechte benötigt</value>
@@ -3430,12 +3430,100 @@
     <value>Beginnt in:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>BitLocker aktivieren</value>	
+    <value>BitLocker aktivieren</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>BitLocker verwalten</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Die folgenden Elemente sind zu groß, um auf dieses Laufwerk kopiert zu werden</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Nicht erneut anzeigen</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files wird mit Administratorrechten ausgeführt</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Aufgrund von Plattformbeschränkungen ist Drag and Drop nicht verfügbar, wenn Files als Administrator ausgeführt werden.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Beim Schließen des Fensters die App im Hintergrund laufen lassen</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blau</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Blaugrau</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Ziegelrot</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Camouflage</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Kaltes Blaues Licht</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Grau</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Dunkelgrau</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Grün</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iris Pastell</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Helle Minze</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Helles Orange</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Bedeckt</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Rot</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Helle Rose</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Gischt</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Sturm</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Violettes Rotes Licht</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Gelb Gold</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
