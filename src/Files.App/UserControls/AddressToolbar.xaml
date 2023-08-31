@@ -428,7 +428,14 @@
 							<Flyout
 								contract8Present:ShouldConstrainToRootBounds="False"
 								AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-								Placement="Bottom">
+								Placement="BottomEdgeAlignedRight">
+								<Flyout.FlyoutPresenterStyle>
+									<Style TargetType="FlyoutPresenter">
+										<Setter Property="Padding" Value="0" />
+										<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+									</Style>
+								</Flyout.FlyoutPresenterStyle>
+
 								<uc:StatusCenter
 									x:Name="OngoingTasksControl"
 									Width="400"

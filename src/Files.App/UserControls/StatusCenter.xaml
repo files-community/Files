@@ -64,6 +64,11 @@
 					</ResourceDictionary.ThemeDictionaries>
 
 					<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+					<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+					<wctconverters:BoolToObjectConverter
+						x:Key="NegateBoolToVisibilityConverter"
+						FalseValue="Visible"
+						TrueValue="Collapsed" />
 					<wctconverters:EmptyStringToObjectConverter
 						x:Key="EmptyStringToBoolConverter"
 						EmptyValue="False"
@@ -217,7 +222,7 @@
 									Grid.Row="1"
 									Margin="0,8,0,0"
 									ColumnSpacing="12"
-									Visibility="{x:Bind IsInProgress, Mode=OneWay}">
+									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*" />
 										<ColumnDefinition Width="Auto" />
@@ -227,20 +232,25 @@
 									<ProgressBar
 										x:Name="MainProgressBar"
 										Margin="4,8,0,8"
-										x:Load="{x:Bind IsExpanded, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-										Visibility="{x:Bind IsInProgress, Mode=OneWay}"
+										Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
 									<!--  Graph  -->
 									<Grid
 										x:Name="MainGraphCartesianChartClipGrid"
 										Margin="4,8,0,8"
-										x:Load="{x:Bind IsExpanded, Mode=OneWay}"
 										BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 										BorderThickness="1"
-										CornerRadius="4">
+										CornerRadius="4"
+										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 										<livecharts2:CartesianChart x:Name="MainGraphCartesianChart" Height="64" />
+										<TextBlock
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											Text="graph placeholder" />
 									</Grid>
 
 									<!--  Action Buttons  -->
@@ -259,7 +269,7 @@
 											DataContext="{x:Bind}"
 											IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
-											Visibility="{x:Bind IsInProgress, Mode=OneWay}">
+											Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 											<Button.Content>
 												<FontIcon FontSize="16" Glyph="&#xE711;" />
 											</Button.Content>
@@ -276,10 +286,7 @@
 									<VisualStateGroup x:Name="ThemeColorStates">
 										<VisualState x:Name="Normal">
 											<VisualState.StateTriggers>
-												<wcttriggers:CompareStateTrigger
-													Comparison="Equal"
-													Value="{x:Bind ItemStateInteger}"
-													To="0" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="0" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
@@ -289,10 +296,7 @@
 										</VisualState>
 										<VisualState x:Name="Success">
 											<VisualState.StateTriggers>
-												<wcttriggers:CompareStateTrigger
-													Comparison="Equal"
-													Value="{x:Bind ItemStateInteger}"
-													To="1" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="1" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
@@ -301,10 +305,7 @@
 										</VisualState>
 										<VisualState x:Name="Error">
 											<VisualState.StateTriggers>
-												<wcttriggers:CompareStateTrigger
-													Comparison="Equal"
-													Value="{x:Bind ItemStateInteger}"
-													To="2" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="2" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
@@ -313,10 +314,7 @@
 										</VisualState>
 										<VisualState x:Name="Paused">
 											<VisualState.StateTriggers>
-												<wcttriggers:CompareStateTrigger
-													Comparison="Equal"
-													Value="{x:Bind ItemStateInteger}"
-													To="3" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="3" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}" />
@@ -334,15 +332,14 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid Margin="-16">
+	<Grid x:Name="RootGrid">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!--  Header  -->
-		<Grid Padding="12">
+		<Grid x:Name="HeaderGrid" Padding="12">
 
 			<!--  Header Texts  -->
 			<TextBlock
@@ -364,18 +361,11 @@
 
 		</Grid>
 
-		<!--  Divider  -->
-		<Rectangle
-			Grid.Row="1"
-			Height="1"
-			HorizontalAlignment="Stretch"
-			Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-
 		<!--  Ongoing Tasks List  -->
 		<ListView
 			x:Name="StatusCenterItemsListView"
-			Grid.Row="2"
-			Padding="4"
+			Grid.Row="1"
+			Padding="4,0"
 			VerticalAlignment="Stretch"
 			ItemTemplate="{StaticResource StatusCenterItemCardStyleDataTemplate}"
 			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"
@@ -391,6 +381,14 @@
 			</ListView.ItemContainerStyle>
 
 		</ListView>
+
+		<!--<TextBlock
+			x:Name="NoItemsMessageTextBlock"
+			Grid.Row="1"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Text="No tasks here."
+			Visibility="{x:Bind ViewModel.StatusCenterItems, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay}" />-->
 
 	</Grid>
 </UserControl>
