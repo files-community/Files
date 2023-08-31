@@ -139,7 +139,7 @@
     <value>大小:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>占用磁盘空间</value>
+    <value>所占磁盘空间:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>未压缩大小:</value>
@@ -2367,8 +2367,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>编辑设置文件</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>发行说明</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>新变化</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置创建快捷方式需要管理员权限</value>
@@ -3430,12 +3430,100 @@
     <value>起始位置:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>打开 BitLocker</value>	
+    <value>打开 BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>管理 BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>以下项目过大，无法复制到此驱动器</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>不再显示</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files 正在以管理员身份运行</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>由于平台限制，在以管理员身份运行 Files 时，拖放将无法使用。</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>当窗口关闭后保持应用程序后台运行</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>蓝色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>蓝灰色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>砖红色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>迷彩色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>亮酷蓝色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>灰色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>暗灰色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>绿色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>粉彩鸢尾花色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>浅薄荷色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>中等红色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>亮橙色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>阴暗</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>红色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>亮玫红色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>海泡石</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>风暴</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>浅紫红色</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>金黄色</value>
+    <comment>One of the custom color themes</comment>
   </data>
 </root>
