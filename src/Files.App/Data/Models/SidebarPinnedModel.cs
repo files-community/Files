@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Text.Json.Serialization;
 using Windows.Storage.FileProperties;
+using static Files.App.Constants;
 
 namespace Files.App.Data.Models
 {
@@ -72,15 +73,15 @@ namespace Files.App.Data.Models
 			var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
 			LocationItem locationItem;
 
-			if (string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+			if (string.Equals(path, UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				locationItem = LocationItem.Create<RecycleBinLocationItem>();
 			else
 			{
 				locationItem = LocationItem.Create<LocationItem>();
 
-				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
+				if (path.Equals(UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "ThisPC".GetLocalizedResource();
-				else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+				else if (path.Equals(UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 					locationItem.Text = "Network".GetLocalizedResource();
 			}
 
@@ -92,7 +93,7 @@ namespace Files.App.Data.Models
 				ShowProperties = true,
 				ShowUnpinItem = true,
 				ShowShellItems = true,
-				ShowEmptyRecycleBin = string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
+				ShowEmptyRecycleBin = string.Equals(path, UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
 			};
 			locationItem.IsDefaultLocation = false;
 			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
@@ -100,6 +101,11 @@ namespace Files.App.Data.Models
 			if (res || (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path))
 			{
 				locationItem.IsInvalid = false;
+				if (locationItem.Path == UserEnvironmentPaths.RecycleBinPath)
+				{
+					int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+					locationItem.IconData = UIHelpers.GetSidebarIconResourceInfo(recycleBinIconIndex).IconData;
+				}
 				if (res)
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);

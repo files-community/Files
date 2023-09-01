@@ -137,8 +137,7 @@ namespace Files.App.Helpers
 
 		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{
-			var icons = UIHelpers.SidebarIconResources;
-			return icons?.FirstOrDefault(x => x.Index == index);
+			return SidebarIconResources?.FirstOrDefault(x => x.Index == index);
 		}
 
 		public static async Task<BitmapImage?> GetSidebarIconResource(int index)
@@ -161,6 +160,7 @@ namespace Files.App.Helpers
 		{
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32API.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
+					Constants.ImageRes.EmptyRecycleBin,
 					Constants.ImageRes.RecycleBin,
 					Constants.ImageRes.NetworkDrives,
 					Constants.ImageRes.Libraries,
@@ -181,6 +181,13 @@ namespace Files.App.Helpers
 				}, 16);
 
 			return imageResList.First();
+		}
+
+		public static int GetAdaptedRecycleBinIconIndex()
+		{
+			return RecycleBinHelpers.RecycleBinHasItems() 
+			? Constants.ImageRes.RecycleBin
+			: Constants.ImageRes.EmptyRecycleBin;
 		}
 	}
 }
