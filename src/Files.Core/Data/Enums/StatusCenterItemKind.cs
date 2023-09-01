@@ -3,14 +3,15 @@
 
 namespace Files.Core.Data.Enums
 {
-	public enum StatusCenterItemState
+	/// <summary>
+	/// Defines constants that specify item kind of Status Center.
+	/// </summary>
+	public enum StatusCenterItemKind
 	{
 		InProgress,
 
-		Success,
+		Successful,
 
 		Error,
-
-		Paused
 	}
 }

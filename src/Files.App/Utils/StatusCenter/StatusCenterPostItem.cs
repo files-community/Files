@@ -51,7 +51,7 @@ namespace Files.App.Utils.StatusCenter
 			if (value.Percentage is int p)
 			{
 				Banner.ProgressPercentage = p;
-				Banner.FullTitle = $"{Banner.Title} ({Banner.ProgressPercentage}%)";
+				Banner.Header = $"{Banner.HeaderBody} ({Banner.ProgressPercentage}%)";
 
 				// TODO: Show detailed progress if Size/Count information available
 			}
@@ -61,32 +61,32 @@ namespace Files.App.Utils.StatusCenter
 				{
 					case (not 0, not 0):
 						Banner.ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.ProgressPercentage}%)";
+						Banner.Header = $"{Banner.HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {Banner.ProgressPercentage}%)";
 						break;
 
 					case (not 0, _):
 						Banner.ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.ProgressPercentage}%)";
+						Banner.Header = $"{Banner.HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {Banner.ProgressPercentage}%)";
 						break;
 
 					case (_, not 0):
 						Banner.ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
-						Banner.FullTitle = $"{Banner.Title} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.ProgressPercentage}%)";
+						Banner.Header = $"{Banner.HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {Banner.ProgressPercentage}%)";
 						break;
 
 					default:
-						Banner.FullTitle = $"{Banner.Title}";
+						Banner.Header = $"{Banner.HeaderBody}";
 						break;
 				}
 			}
 			else
 			{
-				Banner.FullTitle = (value.ProcessedSize, value.ProcessedItemsCount) switch
+				Banner.Header = (value.ProcessedSize, value.ProcessedItemsCount) switch
 				{
-					(not 0, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
-					(not 0, _) => $"{Banner.Title} ({value.ProcessedSize.ToSizeString()} / ...)",
-					(_, not 0) => $"{Banner.Title} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{Banner.Title}",
+					(not 0, not 0) => $"{Banner.HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) => $"{Banner.HeaderBody} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) => $"{Banner.HeaderBody} ({value.ProcessedItemsCount} / ...)",
+					_ => $"{Banner.HeaderBody}",
 				};
 			}
 

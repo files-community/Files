@@ -9,6 +9,7 @@
 	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	mc:Ignorable="d">
@@ -84,7 +85,7 @@
 								x:Name="ContentRoot"
 								Padding="8,8,8,8"
 								HorizontalAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind FullTitle, Mode=OneWay}"
+								AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
 								Background="{StaticResource InfoBarInformationalSeverityBackgroundBrush}"
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="1"
@@ -115,6 +116,8 @@
 
 									<!--  Header Icon  -->
 									<Grid Grid.Column="0">
+
+										<!--  Circle Icon 32x32  -->
 										<TextBlock
 											x:Name="SeverityBackgroundFontIcon"
 											HorizontalAlignment="Center"
@@ -123,13 +126,15 @@
 											FontSize="32"
 											Text="&#xE91F;" />
 
-										<TextBlock
-											x:Name="SeverityForegroundFontIcon"
+										<!--  Opacity Icon 16x16  -->
+										<uc:OpacityIcon
+											x:Name="ItemTypeOpacityIcon"
+											Width="16"
+											Height="16"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											FontFamily="{ThemeResource SymbolThemeFontFamily}"
-											FontSize="18"
-											Text="{x:Bind StateIcon, Mode=OneWay}" />
+											Style="{StaticResource ColorIconGitGeneral}" />
+
 									</Grid>
 
 									<!--  Header Title & Description  -->
@@ -139,21 +144,21 @@
 										VerticalAlignment="Center">
 
 										<TextBlock
-											x:Name="FullTitleTextBlock"
-											x:Load="{x:Bind FullTitle, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											x:Name="HeaderTextBlock"
+											x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											MaxLines="1"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind FullTitle, Mode=OneWay}"
+											Text="{x:Bind Header, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
 										<TextBlock
 											x:Name="DescriptionTextBlock"
-											x:Load="{x:Bind Message, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											MaxLines="1"
 											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind Message, Mode=OneWay}"
+											Text="{x:Bind SubHeader, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
@@ -261,7 +266,7 @@
 											Width="32"
 											Height="32"
 											Padding="0"
-											x:Load="{x:Bind IsCancelButtonVisible}"
+											x:Load="{x:Bind IsCancelable, Mode=OneWay}"
 											AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
 											Background="Transparent"
 											BorderBrush="Transparent"
@@ -284,41 +289,82 @@
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup x:Name="ThemeColorStates">
-										<VisualState x:Name="Normal">
+										<VisualState x:Name="InProgressState">
 											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="0" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Mode=OneWay}" To="InProgress" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 												<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
-												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 											</VisualState.Setters>
 										</VisualState>
-										<VisualState x:Name="Success">
+										<VisualState x:Name="SuccessfulState">
 											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="1" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Mode=OneWay}" To="Successful" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
 												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
 											</VisualState.Setters>
 										</VisualState>
-										<VisualState x:Name="Error">
+										<VisualState x:Name="ErrorState">
 											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="2" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Mode=OneWay}" To="Error" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
 												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
 											</VisualState.Setters>
 										</VisualState>
-										<VisualState x:Name="Paused">
+									</VisualStateGroup>
+									<VisualStateGroup x:Name="IconStates">
+										<VisualState x:Name="CopyIconState">
 											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemStateInteger, Mode=OneWay}" To="3" />
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Copy" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}" />
-												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconGitBranches}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="MoveIconState">
+											<VisualState.StateTriggers>
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Move" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="DeleteIconState">
+											<VisualState.StateTriggers>
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Delete" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="RecycleIconState">
+											<VisualState.StateTriggers>
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Recycle" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="SuccessfulIconState">
+											<VisualState.StateTriggers>
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Successful" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconGitGeneral}" />
+											</VisualState.Setters>
+										</VisualState>
+										<VisualState x:Name="ErrorIconState">
+											<VisualState.StateTriggers>
+												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Mode=OneWay}" To="Error" />
+											</VisualState.StateTriggers>
+											<VisualState.Setters>
+												<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>

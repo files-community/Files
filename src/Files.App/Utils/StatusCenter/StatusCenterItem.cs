@@ -10,53 +10,25 @@ namespace Files.App.Utils.StatusCenter
 	/// </summary>
 	public sealed class StatusCenterItem : ObservableObject
 	{
-		private readonly float _initialProgress = 0.0f;
+		private string? _Header;
+		public string? Header
+		{
+			get => _Header;
+			set => SetProperty(ref _Header, value);
+		}
 
-		private int _ProgressPercentage = 0;
+		private string? _SubHeader;
+		public string? SubHeader
+		{
+			get => _SubHeader;
+			set => SetProperty(ref _SubHeader, value);
+		}
+
+		private int _ProgressPercentage;
 		public int ProgressPercentage
 		{
 			get => _ProgressPercentage;
 			set => SetProperty(ref _ProgressPercentage, value);
-		}
-
-		private bool _IsInProgress = false;
-		public bool IsInProgress
-		{
-			get => _IsInProgress;
-			set
-			{
-				if (SetProperty(ref _IsInProgress, value))
-					OnPropertyChanged(nameof(Message));
-			}
-		}
-
-		private ReturnResult _FileSystemOperationReturnResult = ReturnResult.InProgress;
-		public ReturnResult FileSystemOperationReturnResult
-		{
-			get => _FileSystemOperationReturnResult;
-			set => SetProperty(ref _FileSystemOperationReturnResult, value);
-		}
-
-		private string? _Message;
-		public string? Message
-		{
-			// A workaround to avoid overlapping the progress bar (#12362)
-			get => _IsInProgress ? _Message + "\n" : _Message;
-			private set => SetProperty(ref _Message, value);
-		}
-
-		private string? _FullTitle;
-		public string? FullTitle
-		{
-			get => _FullTitle;
-			set => SetProperty(ref _FullTitle, value ?? string.Empty);
-		}
-
-		private bool _IsCancelled;
-		public bool IsCancelled
-		{
-			get => _IsCancelled;
-			set => SetProperty(ref _IsCancelled, value);
 		}
 
 		private bool _IsExpanded;
@@ -81,26 +53,36 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
-		public int ItemStateInteger
-			=> (int)ItemState;
+		private bool _IsInProgress; // Item type is InProgress && is the operation in progress
+		public bool IsInProgress
+		{
+			get => _IsInProgress;
+			set
+			{
+				if (SetProperty(ref _IsInProgress, value))
+					OnPropertyChanged(nameof(SubHeader));
+			}
+		}
 
-		public bool IsCancelButtonVisible
+		private bool _IsCancelled;
+		public bool IsCancelled
+		{
+			get => _IsCancelled;
+			set => SetProperty(ref _IsCancelled, value);
+		}
+
+		public bool IsCancelable
 			=> CancellationTokenSource is not null;
 
-		public string StateIcon =>
-			ItemState switch
-			{
-				StatusCenterItemState.InProgress => "\uE895",
-				StatusCenterItemState.Success => "\uE73E",
-				StatusCenterItemState.Error => "\uE894",
-				_ => "\uE895"
-			};
+		public string HeaderBody { get; set; }
 
-		public string Title { get; private set; }
-
-		public StatusCenterItemState ItemState { get; private set; }
+		public ReturnResult FileSystemOperationReturnResult { get; set; }
 
 		public FileOperationType Operation { get; private set; }
+
+		public StatusCenterItemKind ItemKind { get; private set; }
+
+		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
 		public CancellationTokenSource? CancellationTokenSource { get; set; }
 
@@ -108,10 +90,9 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
 		{
-			_initialProgress = progress;
-			Message = message;
-			Title = title;
-			FullTitle = title;
+			SubHeader = message;
+			HeaderBody = title;
+			Header = title;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 
@@ -120,79 +101,71 @@ namespace Files.App.Utils.StatusCenter
 			switch (FileSystemOperationReturnResult)
 			{
 				case ReturnResult.InProgress:
-					IsInProgress = true;
-					if (string.IsNullOrWhiteSpace(Title))
 					{
-						switch (Operation)
+						IsInProgress = true;
+
+						if (string.IsNullOrWhiteSpace(HeaderBody))
 						{
-							case FileOperationType.Extract:
-								Title = "ExtractInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Copy:
-								Title = "CopyInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Move:
-								Title = "MoveInProgress".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Delete:
-								Title = "DeleteInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Recycle:
-								Title = "RecycleInProgress/Title".GetLocalizedResource();
-								break;
-
-							case FileOperationType.Prepare:
-								Title = "PrepareInProgress".GetLocalizedResource();
-								break;
+							HeaderBody = Operation switch
+							{
+								FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
+								FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
+								FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
+								_ => "PrepareInProgress".GetLocalizedResource()
+							};
 						}
+
+						Header = $"{HeaderBody} ({progress}%)";
+
+						break;
 					}
-
-					FullTitle = $"{Title} ({_initialProgress}%)";
-
-					break;
-
 				case ReturnResult.Success:
-					IsInProgress = false;
-					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
-						throw new NotImplementedException();
-					}
-					else
-					{
-						FullTitle = Title;
-						ItemState = StatusCenterItemState.Success;
-					}
-					break;
+						IsInProgress = false;
 
+						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
+						{
+							throw new NotImplementedException();
+						}
+						else
+						{
+							Header = HeaderBody;
+							ItemKind = StatusCenterItemKind.Successful;
+						}
+
+						break;
+					}
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
-					IsInProgress = false;
-					if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
 					{
-						throw new NotImplementedException();
-					}
-					else
-					{
-						// Expanded banner
-						FullTitle = Title;
-						ItemState = StatusCenterItemState.Error;
-					}
+						IsInProgress = false;
 
-					break;
+						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
+						{
+							throw new NotImplementedException();
+						}
+						else
+						{
+							// Expanded banner
+							Header = HeaderBody;
+							ItemKind = StatusCenterItemKind.Error;
+						}
+
+						break;
+					}
 			}
 		}
 
 		public void ExecuteCancelCommand()
 		{
-			if (IsCancelButtonVisible)
+			if (IsCancelable)
 			{
 				CancellationTokenSource?.Cancel();
 				IsCancelled = true;
-				FullTitle = $"{Title} ({"canceling".GetLocalizedResource()})";
+				Header = $"{HeaderBody} ({"canceling".GetLocalizedResource()})";
 			}
 		}
 	}
