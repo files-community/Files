@@ -61,6 +61,7 @@
 					HorizontalContentAlignment="Stretch"
 					Collapsed="Expander_Collapsed"
 					Expanding="Expander_Expanding"
+					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
 					<Expander.Header>
 						<local:SettingsDisplayControl
