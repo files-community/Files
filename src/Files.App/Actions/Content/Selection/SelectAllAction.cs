@@ -25,11 +25,14 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				/*var page = context.ShellPage;
+				var page = context.ShellPage;
+				 
 				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
+				if (isCommandPaletteOpen)
+					return true;
 				if (page is null)
 					return false;
-				if (context.PageType is ContentPageTypes.Home)
+				if (context.PageType is ContentPageTypes.Home && !isCommandPaletteOpen)
 					return false;
 
 				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
@@ -40,9 +43,7 @@ namespace Files.App.Actions
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
 				bool isRenaming = page.SlimContentPage.IsRenamingItem;
 
-				return (!isEditing && !isRenaming) || isCommandPaletteOpen;*/
-				//return isCommandPaletteOpen;
-				return true;
+				return (!isEditing && !isRenaming);
 			}
 		}
 
