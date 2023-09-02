@@ -20,13 +20,17 @@ namespace Files.App.Actions
 		{
 			get
 			{
+				var page = context.ShellPage;
+				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
+				if (isCommandPaletteOpen)
+					return true;
 				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
 				if (!context.HasSelection)
 					return false;
 
-				var page = context.ShellPage;
+				
 				if (page is null)
 					return false;
 
