@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ViewModels.UserControls;
+
 namespace Files.App.Actions
 {
 	internal class SelectAllAction : IAction
@@ -23,22 +25,24 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				if (context.PageType is ContentPageTypes.Home)
-					return false;
-
-				var page = context.ShellPage;
+				/*var page = context.ShellPage;
+				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
 				if (page is null)
+					return false;
+				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
 				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
-				if (itemCount == selectedItemCount)
+				if (itemCount == selectedItemCount && !isCommandPaletteOpen)
 					return false;
 
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
 				bool isRenaming = page.SlimContentPage.IsRenamingItem;
 
-				return !isEditing && !isRenaming;
+				return (!isEditing && !isRenaming) || isCommandPaletteOpen;*/
+				//return isCommandPaletteOpen;
+				return true;
 			}
 		}
 
