@@ -1,6 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
@@ -10,6 +14,8 @@ namespace Files.App.Utils.StatusCenter
 	/// </summary>
 	public sealed class StatusCenterItem : ObservableObject
 	{
+		private StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
 		private string? _Header;
 		public string? Header
 		{
@@ -71,8 +77,11 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelled, value);
 		}
 
+		public CancellationToken CancellationToken
+			=> _operationCancellationToken?.Token ?? default;
+
 		public bool IsCancelable
-			=> CancellationTokenSource is not null;
+			=> _operationCancellationToken is not null;
 
 		public string HeaderBody { get; set; }
 
@@ -84,17 +93,24 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public CancellationTokenSource? CancellationTokenSource { get; set; }
+		public readonly FileSystemProgress Progress;
+
+		public readonly Progress<FileSystemProgress> ProgressEventSource;
+
+		private readonly CancellationTokenSource? _operationCancellationToken;
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = null)
 		{
+			_operationCancellationToken = operationCancellationToken;
 			SubHeader = message;
 			HeaderBody = title;
 			Header = title;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -104,66 +120,120 @@ namespace Files.App.Utils.StatusCenter
 					{
 						IsInProgress = true;
 
-						if (string.IsNullOrWhiteSpace(HeaderBody))
+						HeaderBody = Operation switch
 						{
-							HeaderBody = Operation switch
-							{
-								FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
-								FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
-								FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
-								FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
-								FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
-								FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
-								_ => "PrepareInProgress".GetLocalizedResource()
-							};
-						}
+							FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
+							FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
+							_ => "PrepareInProgress".GetLocalizedResource(),
+						};
 
 						Header = $"{HeaderBody} ({progress}%)";
+						ItemKind = StatusCenterItemKind.InProgress;
+
+						ItemIconKind = Operation switch
+						{
+							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
+							FileOperationType.Copy => StatusCenterItemIconKind.Copy,
+							FileOperationType.Move => StatusCenterItemIconKind.Move,
+							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
+							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
+							_ => StatusCenterItemIconKind.Delete,
+						};
 
 						break;
 					}
 				case ReturnResult.Success:
 					{
-						IsInProgress = false;
-
 						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
-						{
 							throw new NotImplementedException();
-						}
-						else
-						{
-							Header = HeaderBody;
-							ItemKind = StatusCenterItemKind.Successful;
-						}
+
+						Header = HeaderBody;
+						ItemKind = StatusCenterItemKind.Successful;
+						ItemIconKind = StatusCenterItemIconKind.Successful;
 
 						break;
 					}
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
 					{
-						IsInProgress = false;
-
 						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
-						{
 							throw new NotImplementedException();
-						}
-						else
-						{
-							// Expanded banner
-							Header = HeaderBody;
-							ItemKind = StatusCenterItemKind.Error;
-						}
+
+						Header = HeaderBody;
+						ItemKind = StatusCenterItemKind.Error;
+						ItemIconKind = StatusCenterItemIconKind.Error;
 
 						break;
 					}
 			}
 		}
 
+		private void ReportProgressToBanner(FileSystemProgress value)
+		{
+			// File operation has been cancelled, so don't update the progress text
+			if (CancellationToken.IsCancellationRequested)
+				return;
+
+			if (value.Status is FileSystemStatusCode status)
+				FileSystemOperationReturnResult = status.ToStatus();
+
+			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
+
+			if (value.Percentage is int p)
+			{
+				ProgressPercentage = p;
+				Header = $"{HeaderBody} ({ProgressPercentage}%)";
+
+				// TODO: Show detailed progress if Size/Count information available
+			}
+			else if (value.EnumerationCompleted)
+			{
+				switch (value.TotalSize, value.ItemsCount)
+				{
+					case (not 0, not 0):
+						ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
+						break;
+
+					case (not 0, _):
+						ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
+						break;
+
+					case (_, not 0):
+						ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
+						break;
+
+					default:
+						Header = $"{HeaderBody}";
+						break;
+				}
+			}
+			else
+			{
+				Header = (value.ProcessedSize, value.ProcessedItemsCount) switch
+				{
+					(not 0, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
+					(not 0, _) => $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / ...)",
+					(_, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} / ...)",
+					_ => $"{HeaderBody}",
+				};
+			}
+
+			_viewModel.NotifyChanges();
+			_viewModel.UpdateAverageProgressValue();
+		}
+
 		public void ExecuteCancelCommand()
 		{
 			if (IsCancelable)
 			{
-				CancellationTokenSource?.Cancel();
+				_operationCancellationToken?.Cancel();
 				IsCancelled = true;
 				Header = $"{HeaderBody} ({"canceling".GetLocalizedResource()})";
 			}

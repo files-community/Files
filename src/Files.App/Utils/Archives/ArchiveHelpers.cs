@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Utils.StatusCenter;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
@@ -14,7 +13,7 @@ namespace Files.App.Utils.Archives
 {
 	public static class ArchiveHelpers
 	{
-		private static StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
 		{
@@ -70,7 +69,7 @@ namespace Files.App.Utils.Archives
 			creator.ArchivePath = archivePath;
 
 			CancellationTokenSource compressionToken = new();
-			StatusCenterPostItem banner = OngoingTasksViewModel.PostOperationBanner
+			StatusCenterItem banner = _statusCenterViewModel.AddItem
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
@@ -83,11 +82,11 @@ namespace Files.App.Utils.Archives
 			creator.Progress = banner.ProgressEventSource;
 			bool isSuccess = await creator.RunCreationAsync();
 
-			banner.Remove();
+			_statusCenterViewModel.CloseItem(banner);
 
 			if (isSuccess)
 			{
-				OngoingTasksViewModel.PostBanner
+				_statusCenterViewModel.AddItem
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionSucceded".GetLocalizedResource(), archivePath),
@@ -100,7 +99,7 @@ namespace Files.App.Utils.Archives
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
-				OngoingTasksViewModel.PostBanner
+				_statusCenterViewModel.AddItem
 				(
 					"CompressionCompleted".GetLocalizedResource(),
 					string.Format("CompressionFailed".GetLocalizedResource(), archivePath),
@@ -118,7 +117,7 @@ namespace Files.App.Utils.Archives
 
 			CancellationTokenSource extractCancellation = new();
 
-			StatusCenterPostItem banner = OngoingTasksViewModel.PostOperationBanner(
+			StatusCenterItem banner = _statusCenterViewModel.AddItem(
 				"ExtractingArchiveText".GetLocalizedResource(),
 				archive.Path,
 				0,
@@ -128,9 +127,9 @@ namespace Files.App.Utils.Archives
 
 			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
-			banner.Remove();
-			
-			OngoingTasksViewModel.PostBanner(
+			_statusCenterViewModel.CloseItem(banner);
+
+			_statusCenterViewModel.AddItem(
 				"ExtractingCompleteText".GetLocalizedResource(),
 				"ArchiveExtractionCompletedSuccessfullyText".GetLocalizedResource(),
 				0,

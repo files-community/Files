@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.StatusCenter;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -121,7 +120,7 @@ namespace Files.App.UserControls
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
 
-		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterPostItem e)
+		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
 		{
 			if (OngoingTasksViewModel is not null)
 				OngoingTasksViewModel.ProgressBannerPosted -= OngoingTasksActions_ProgressBannerPosted;

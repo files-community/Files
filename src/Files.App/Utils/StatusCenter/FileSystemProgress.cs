@@ -6,7 +6,7 @@ namespace Files.App.Utils.StatusCenter
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
-	public class FileSystemProgress
+	public class FileSystemProgress : ObservableObject
 	{
 		private readonly IProgress<FileSystemProgress>? _progress;
 

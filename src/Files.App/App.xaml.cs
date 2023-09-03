@@ -314,7 +314,7 @@ namespace Files.App
 				UIHelpers.CloseAllDialogs();
 				
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<StatusCenterViewModel>().CloseAllBanner();
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().CloseAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();

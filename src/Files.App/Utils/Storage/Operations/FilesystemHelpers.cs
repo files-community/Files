@@ -21,6 +21,8 @@ namespace Files.App.Utils.Storage
 	{
 		#region Private Members
 
+		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
 		private IShellPage associatedInstance;
 		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
@@ -178,7 +180,8 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			banner.Remove();
+			_statusCenterViewModel.CloseItem(banner);
+
 			sw.Stop();
 
 			StatusCenterHelper.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
@@ -314,7 +317,8 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				banner.Remove();
+				_statusCenterViewModel.CloseItem(banner);
+
 				return ReturnResult.Cancelled;
 			}
 
@@ -341,7 +345,7 @@ namespace Files.App.Utils.Storage
 			}
 			var itemsCopied = history?.Source.Count ?? 0;
 
-			banner.Remove();
+			_statusCenterViewModel.CloseItem(banner);
 
 			StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
 
@@ -443,7 +447,8 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				banner.Remove();
+				_statusCenterViewModel.CloseItem(banner);
+
 				return ReturnResult.Cancelled;
 			}
 
@@ -475,7 +480,8 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			banner.Remove();
+			_statusCenterViewModel.CloseItem(banner);
+
 			sw.Stop();
 
 			StatusCenterHelper.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);

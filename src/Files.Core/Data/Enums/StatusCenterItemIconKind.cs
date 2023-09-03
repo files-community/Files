@@ -16,6 +16,8 @@ namespace Files.Core.Data.Enums
 
 		Recycle,
 
+		Extract,
+
 		Successful,
 
 		Error,
