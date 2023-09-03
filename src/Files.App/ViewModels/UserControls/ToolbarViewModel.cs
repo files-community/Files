@@ -39,6 +39,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
+		public event EventHandler? CommandPaletteOpened;
+
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
 
 		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
@@ -60,6 +62,22 @@ namespace Files.App.ViewModels.UserControls
 		public event EventHandler? RefreshWidgetsRequested;
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+
+		private bool _isCommandPaletteOpen;
+
+		public bool IsCommandPaletteOpen
+		{
+			get => _isCommandPaletteOpen;
+			set
+			{
+				if (SetProperty(ref _isCommandPaletteOpen, value) && value) // Only invoke when value changes to true
+				{
+					CommandPaletteOpened?.Invoke(this, EventArgs.Empty);
+
+					// You can add additional logic here if needed
+				}
+			}
+		}
 
 		private bool isUpdating;
 		public bool IsUpdating
@@ -150,6 +168,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private string? pathText;
+
 		public string? PathText
 		{
 			get => pathText;
@@ -512,6 +531,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void OpenCommandPalette()
 		{
+			IsCommandPaletteOpen = true;  // Set to true when opened
 			PathText = ">";
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;

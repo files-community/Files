@@ -139,6 +139,11 @@ namespace Files.App.Views.Shells
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
 						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
 					break;
+
+				// Ctrl + Shift + P, Toggle Command Palette
+				case (true, true, false, true, VirtualKey.P):
+					ToolbarViewModel.IsCommandPaletteOpen = !ToolbarViewModel.IsCommandPaletteOpen;
+					break;
 			}
 		}
 
