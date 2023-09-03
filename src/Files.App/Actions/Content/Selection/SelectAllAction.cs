@@ -28,15 +28,16 @@ namespace Files.App.Actions
 				var page = context.ShellPage;
 				 
 				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
-				if (isCommandPaletteOpen)
+				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
+				int selectedItemCount = context.SelectedItems.Count;
+
+				if (isCommandPaletteOpen && itemCount != selectedItemCount)
 					return true;
 				if (page is null)
 					return false;
 				if (context.PageType is ContentPageTypes.Home && !isCommandPaletteOpen)
 					return false;
-
-				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
-				int selectedItemCount = context.SelectedItems.Count;
+				
 				if (itemCount == selectedItemCount && !isCommandPaletteOpen)
 					return false;
 

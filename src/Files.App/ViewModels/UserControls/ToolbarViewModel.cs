@@ -531,8 +531,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void OpenCommandPalette()
 		{
-			IsCommandPaletteOpen = true;  // Set to true when opened
 			PathText = ">";
+			IsCommandPaletteOpen = true;  // Set to true when opened
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;
 
@@ -807,6 +807,7 @@ namespace Files.App.ViewModels.UserControls
 
 					if (sender.Text.StartsWith(">"))
 					{
+						IsCommandPaletteOpen = true;
 						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command => command.IsExecutable &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
