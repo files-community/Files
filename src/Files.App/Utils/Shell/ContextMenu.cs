@@ -236,6 +236,7 @@ namespace Files.App.Utils.Shell
 
 						if (bitmap is not null)
 						{
+							// Make the icon background transparent
 							Color backgroundColor = bitmap.GetPixel(1, 1);
 							bitmap.MakeTransparent(backgroundColor);
 
