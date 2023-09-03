@@ -38,13 +38,14 @@ namespace Files.App.Actions
 				if (context.PageType is ContentPageTypes.Home && !isCommandPaletteOpen)
 					return false;
 				
-				if (itemCount == selectedItemCount && !isCommandPaletteOpen)
+				if (itemCount == selectedItemCount)
 					return false;
 
-				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
-				bool isRenaming = page.SlimContentPage.IsRenamingItem;
+				bool isEditing = page?.ToolbarViewModel?.IsEditModeEnabled ?? false;
+				bool isRenaming = page?.SlimContentPage?.IsRenamingItem ?? false;
 
-				return (!isEditing && !isRenaming);
+
+				return !isEditing && !isRenaming;
 			}
 		}
 
