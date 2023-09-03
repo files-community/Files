@@ -480,6 +480,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void PathboxItemFlyout_Opened(object sender, object e)
 		{
+			IsCommandPaletteOpen = false;
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
 
