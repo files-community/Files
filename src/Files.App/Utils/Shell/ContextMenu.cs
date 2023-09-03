@@ -237,8 +237,7 @@ namespace Files.App.Utils.Shell
 						if (bitmap is not null)
 						{
 							// Make the icon background transparent
-							Color backgroundColor = bitmap.GetPixel(0, 0);
-							bitmap.MakeTransparent(backgroundColor);
+							bitmap.MakeTransparent();
 
 							byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(bitmap, typeof(byte[]));
 							menuItem.Icon = bitmapData;
