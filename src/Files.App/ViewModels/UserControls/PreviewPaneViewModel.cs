@@ -262,7 +262,11 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null)
+			if
+			(
+				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+				!FileExtensionHelpers.IsFontFile(item.FileExtension)
+			)
 			{
 				var model = new ShellPreviewViewModel(item);
 				await model.LoadAsync();
