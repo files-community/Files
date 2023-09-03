@@ -524,7 +524,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (IsSearchBoxVisible)
 			{
-				CloseSearchBox();
+				CloseSearchBox(true);
 			}
 			else
 			{
@@ -545,7 +545,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		public void CloseSearchBox()
+		private void CloseSearchBox(bool doFocus = false)
 		{
 			if (searchBox.WasQuerySubmitted)
 			{
@@ -556,12 +556,15 @@ namespace Files.App.ViewModels.UserControls
 				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
 
-				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+				if (doFocus)
+				{
+					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-				if (page is StandardViewBase svb && svb.IsLoaded)
-					page.ItemManipulationModel.FocusFileList();
-				else
-					AddressToolbar?.Focus(FocusState.Programmatic);
+					if (page is StandardViewBase svb && svb.IsLoaded)
+						page.ItemManipulationModel.FocusFileList();
+					else
+						AddressToolbar?.Focus(FocusState.Programmatic);
+				}
 			}
 		}
 
@@ -583,7 +586,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
-			=> CloseSearchBox();
+			=> CloseSearchBox(true);
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
