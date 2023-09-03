@@ -15,7 +15,7 @@ namespace Files.App.Services
 			if (storable is not ILocatableStorable locatableStorable)
 				return null;
 
-			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(locatableStorable.Path, 24u, ThumbnailMode.ListView);
+			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(locatableStorable.Path, 24u, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail);
 			if (iconData is null)
 				return null;
 
@@ -30,7 +30,7 @@ namespace Files.App.Services
 
 		public async Task<IImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)
 		{
-			if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView) is byte[] imageBuffer)
+			if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail) is byte[] imageBuffer)
 				return await GetImageModelFromDataAsync(imageBuffer);
 
 			return null;
