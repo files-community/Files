@@ -23,7 +23,7 @@ namespace Files.App.Utils.StatusCenter
 				if (_Status != value)
 					_criticalReport = true;
 
-				_Status = value;
+				SetProperty(ref _Status, value);
 			}
 		}
 
@@ -36,23 +36,58 @@ namespace Files.App.Utils.StatusCenter
 				if (_EnumerationCompleted != value)
 					_criticalReport = true;
 
-				_EnumerationCompleted = value;
+				SetProperty(ref _EnumerationCompleted, value);
 			}
 		}
 
-		public string? FileName { get; set; }
+		public string? _FileName;
+		public string? FileName
+		{
+			get => _FileName;
+			set => SetProperty(ref _FileName, value);
+		}
 
-		public long TotalSize { get; set; }
+		public long _TotalSize;
+		public long TotalSize
+		{
+			get => _TotalSize;
+			set => SetProperty(ref _TotalSize, value);
+		}
 
-		public long ProcessedSize { get; set; }
+		public long _ProcessedSize;
+		public long ProcessedSize
+		{
+			get => _ProcessedSize;
+			set => SetProperty(ref _ProcessedSize, value);
+		}
 
-		public long ItemsCount { get; set; }
+		public long _ItemsCount;
+		public long ItemsCount
+		{
+			get => _ItemsCount;
+			set => SetProperty(ref _ItemsCount, value);
+		}
 
-		public long ProcessedItemsCount { get; set; }
+		public long _ProcessedItemsCount;
+		public long ProcessedItemsCount
+		{
+			get => _ProcessedItemsCount;
+			set => SetProperty(ref _ProcessedItemsCount, value);
+		}
 
-		public DateTimeOffset StartTime { get; }
+		public DateTimeOffset _StartTime;
+		public DateTimeOffset StartTime
+		{
+			get => _StartTime;
+			set => SetProperty(ref _StartTime, value);
+		}
 
-		public DateTimeOffset CompletedTime { get; private set; }
+		public DateTimeOffset _CompletedTime;
+		public DateTimeOffset CompletedTime
+		{
+			get => _CompletedTime;
+			set => SetProperty(ref _CompletedTime, value);
+		}
 
 		// Only used when detailed count isn't available.
 		public int? Percentage { get; set; }

@@ -61,7 +61,7 @@
 														x:Name="DeterminateProgressBarIndicator"
 														HorizontalAlignment="Left"
 														Fill="{TemplateBinding Foreground}"
-														Opacity="0.25"
+														Opacity="0.1"
 														RadiusX="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
 														RadiusY="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}" />
 
@@ -557,7 +557,6 @@
 										x:Name="MainGraphCartesianChartClipGrid"
 										Height="64"
 										Margin="4,8,0,8"
-										Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 										BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 										BorderThickness="1"
 										CornerRadius="4"
@@ -574,7 +573,12 @@
 											Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
 											Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
-										<livecharts2:CartesianChart x:Name="MainGraphCartesianChart" />
+										<livecharts2:CartesianChart
+											x:Name="MainCartesianChart"
+											Series="{x:Bind Series, Mode=OneWay}"
+											TooltipPosition="Hidden"
+											XAxes="{x:Bind XAxes}"
+											YAxes="{x:Bind YAxes}" />
 
 									</Grid>
 

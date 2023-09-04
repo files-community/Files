@@ -57,7 +57,7 @@ namespace Files.App.ViewModels.UserControls
 		public int InfoBadgeValue
 			=> InProgressItemCount > 0 ? InProgressItemCount : -1;
 
-		public event EventHandler<StatusCenterItem>? ProgressBannerPosted;
+		public event EventHandler<StatusCenterItem>? NewItemAdded;
 
 		public StatusCenterViewModel()
 		{
@@ -69,7 +69,7 @@ namespace Files.App.ViewModels.UserControls
 			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, banner);
+			NewItemAdded?.Invoke(this, banner);
 
 			NotifyChanges();
 

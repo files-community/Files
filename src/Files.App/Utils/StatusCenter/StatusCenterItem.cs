@@ -1,10 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using SkiaSharp;
 using LiveChartsCore;
+using LiveChartsCore.Drawing;
+using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
 using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
@@ -14,7 +16,44 @@ namespace Files.App.Utils.StatusCenter
 	/// </summary>
 	public sealed class StatusCenterItem : ObservableObject
 	{
-		private StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
+		public ObservableCollection<int> Values { get; set; }
+
+		public ObservableCollection<ISeries> Series { get; set; }
+
+		public IList<ICartesianAxis> XAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+				MaxLimit = 100,
+
+				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
+			}
+		};
+
+		public IList<ICartesianAxis> YAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+
+				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
+			}
+		};
 
 		private string? _Header;
 		public string? Header
@@ -109,8 +148,20 @@ namespace Files.App.Utils.StatusCenter
 			Header = title;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
-			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgressToBanner);
+			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
+			Values = new();
+
+			Series = new()
+			{
+				new LineSeries<int>
+				{
+					Values = Values,
+					GeometrySize = 0,
+					Stroke = new SolidColorPaint(new(25, 118, 210), 1),
+					DataPadding = new(0, 0),
+				}
+			};
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -172,23 +223,32 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		private void ReportProgressToBanner(FileSystemProgress value)
+		private void ReportProgress(FileSystemProgress value)
 		{
-			// File operation has been cancelled, so don't update the progress text
+			// The Operation has been cancelled. Do update neither progress value nor text.
 			if (CancellationToken.IsCancellationRequested)
 				return;
 
+			// Update status code
 			if (value.Status is FileSystemStatusCode status)
 				FileSystemOperationReturnResult = status.ToStatus();
 
+			// Get the operation is in progress
 			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is int p)
 			{
-				ProgressPercentage = p;
-				Header = $"{HeaderBody} ({ProgressPercentage}%)";
+				if (ProgressPercentage != value.Percentage)
+				{
+					Header = $"{HeaderBody} ({ProgressPercentage}%)";
 
-				// TODO: Show detailed progress if Size/Count information available
+					for (int index = ProgressPercentage + 1; index <= value.Percentage; index++)
+					{
+						Values.Add(index);
+					}
+
+					ProgressPercentage = p;
+				}
 			}
 			else if (value.EnumerationCompleted)
 			{
@@ -198,17 +258,14 @@ namespace Files.App.Utils.StatusCenter
 						ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
 						break;
-
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
 						break;
-
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
 						break;
-
 					default:
 						Header = $"{HeaderBody}";
 						break;

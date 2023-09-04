@@ -60,7 +60,7 @@ namespace Files.App.UserControls
 		{
 			Loading -= NavToolbar_Loading;
 			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.ProgressBannerPosted += OngoingTasksActions_ProgressBannerPosted;
+				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
 		}
 
 		private void VisiblePath_Loaded(object _, RoutedEventArgs e)
@@ -123,7 +123,7 @@ namespace Files.App.UserControls
 		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
 		{
 			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.ProgressBannerPosted -= OngoingTasksActions_ProgressBannerPosted;
+				OngoingTasksViewModel.NewItemAdded -= OngoingTasksActions_ProgressBannerPosted;
 
 			// Displays a teaching tip the first time a banner is posted
 			if (userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip)
