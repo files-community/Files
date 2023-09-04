@@ -22,6 +22,7 @@ namespace Files.App.Actions
 			{
 				var page = context.ShellPage;
 				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
+
 				if (isCommandPaletteOpen && context.HasItem)
 					return true;
 				if (context.PageType is ContentPageTypes.Home)

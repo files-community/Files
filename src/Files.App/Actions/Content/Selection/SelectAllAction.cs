@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.UserControls;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Files.App.Actions
 {
@@ -33,8 +34,10 @@ namespace Files.App.Actions
 
 				if (isCommandPaletteOpen && itemCount != selectedItemCount)
 					return true;
+
 				if (page is null)
 					return false;
+
 				if (context.PageType is ContentPageTypes.Home && !isCommandPaletteOpen)
 					return false;
 				

@@ -135,9 +135,11 @@ namespace Files.App.Views.Shells
 					_IsCurrentInstance = value;
 
 					if (!value && SlimContentPage is not ColumnViewBrowser)
+					{
 						ToolbarViewModel.IsEditModeEnabled = false;
 						ToolbarViewModel.IsCommandPaletteOpen = false;
-					NotifyPropertyChanged(nameof(IsCurrentInstance));
+						NotifyPropertyChanged(nameof(IsCurrentInstance));
+					}
 				}
 			}
 		}
