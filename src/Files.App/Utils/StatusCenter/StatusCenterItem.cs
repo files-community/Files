@@ -116,6 +116,18 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelled, value);
 		}
 
+		private int _previousWriteAmount;
+
+		private int _currentWriteAmount;
+
+		// (_currentWriteAmount[Mib,kiB,B] - _previousWriteAmount[Mib,kiB,B]) / (pasted seconds[s])
+		private string? _SpeedText;
+		public string? SpeedText
+		{
+			get => _SpeedText;
+			set => SetProperty(ref _SpeedText, value);
+		}
+
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
