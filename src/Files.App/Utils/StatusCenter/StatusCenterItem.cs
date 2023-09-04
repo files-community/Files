@@ -233,7 +233,7 @@ namespace Files.App.Utils.StatusCenter
 			if (value.Status is FileSystemStatusCode status)
 				FileSystemOperationReturnResult = status.ToStatus();
 
-			// Get the operation is in progress
+			// Get if the operation is in progress
 			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is int p)
@@ -242,6 +242,7 @@ namespace Files.App.Utils.StatusCenter
 				{
 					Header = $"{HeaderBody} ({ProgressPercentage}%)";
 
+					// TODO: Remove and replace with real speed graph values
 					for (int index = ProgressPercentage + 1; index <= value.Percentage; index++)
 					{
 						Values.Add(index);
