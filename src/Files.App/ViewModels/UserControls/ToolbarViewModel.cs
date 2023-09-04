@@ -168,7 +168,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private string? pathText;
-
 		public string? PathText
 		{
 			get => pathText;
