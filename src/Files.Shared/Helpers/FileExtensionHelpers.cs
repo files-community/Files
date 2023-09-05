@@ -52,7 +52,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the fileExtensionToCheck is a zip bundle file; otherwise, <c>false</c>.</returns>
 		public static bool IsZipFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".jar", ".gz");
+			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".jar", ".gz", ".lzh");
 		}
 
 		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
