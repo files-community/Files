@@ -18,7 +18,6 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/StatusCenterItemExpanderStyle.xaml" />
 				<ResourceDictionary>
 					<Style x:Key="CustomProgressBarStyle" TargetType="ProgressBar">
 						<Setter Property="Foreground" Value="{ThemeResource ProgressBarForeground}" />
