@@ -3526,4 +3526,7 @@
     <value>Yellow Gold</value>
     <comment>One of the custom color themes</comment>
   </data>
+  <data name="AppPackageApplicationDescription" xml:space="preserve">
+    <value>Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design, made by the community.</value>
+  </data>
 </root>

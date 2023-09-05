@@ -85,7 +85,7 @@
 
             <uap:VisualElements
                 DisplayName="Files - Dev"
-                Description="Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design, made by the community."
+                Description="ms-resource:AppPackageApplicationDescription"
                 Square150x150Logo="Assets\AppTiles\Dev\Square150x150Logo.png"
                 Square44x44Logo="Assets\AppTiles\Dev\Square44x44Logo.png"
                 BackgroundColor="transparent">
