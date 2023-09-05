@@ -22,8 +22,7 @@ namespace Files.App.Actions
 			{
 				var page = context.ShellPage;
 				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
-				if (isCommandPaletteOpen && context.HasSelection)
-					return true;
+
 				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
@@ -37,7 +36,7 @@ namespace Files.App.Actions
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
 				bool isRenaming = page.SlimContentPage.IsRenamingItem;
 
-				return !isEditing && !isRenaming;
+				return (isCommandPaletteOpen && context.HasSelection) || (!isEditing && !isRenaming);
 			}
 		}
 

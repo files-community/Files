@@ -138,8 +138,8 @@ namespace Files.App.Views.Shells
 					{
 						ToolbarViewModel.IsEditModeEnabled = false;
 						ToolbarViewModel.IsCommandPaletteOpen = false;
-						NotifyPropertyChanged(nameof(IsCurrentInstance));
 					}
+					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
 		}

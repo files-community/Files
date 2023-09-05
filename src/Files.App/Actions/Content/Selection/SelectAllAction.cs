@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.UserControls;
-using System.Diagnostics.Eventing.Reader;
-
 namespace Files.App.Actions
 {
 	internal class SelectAllAction : IAction
@@ -32,9 +29,6 @@ namespace Files.App.Actions
 				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 
-				if (isCommandPaletteOpen && itemCount != selectedItemCount)
-					return true;
-
 				if (page is null)
 					return false;
 
@@ -48,7 +42,7 @@ namespace Files.App.Actions
 				bool isRenaming = page?.SlimContentPage?.IsRenamingItem ?? false;
 
 
-				return !isEditing && !isRenaming;
+				return (isCommandPaletteOpen && itemCount != selectedItemCount) || (!isEditing && !isRenaming);
 			}
 		}
 
