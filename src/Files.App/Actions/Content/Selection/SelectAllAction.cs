@@ -23,17 +23,15 @@ namespace Files.App.Actions
 		{
 			get
 			{
-				var page = context.ShellPage;
-				 
-				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
-				int selectedItemCount = context.SelectedItems.Count;
+				if (context.PageType is ContentPageTypes.Home)
+					return false;
 
+				var page = context.ShellPage;
 				if (page is null)
 					return false;
 
-				if (context.PageType is ContentPageTypes.Home)
-					return false;
-				
+				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
+				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;
 
