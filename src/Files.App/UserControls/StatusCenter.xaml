@@ -498,7 +498,7 @@
 										</Button>
 
 										<!--  Expand & Collapse Chevron  -->
-										<ToggleButton
+										<!--<ToggleButton
 											x:Name="ExpandCollapseChevronItemButton"
 											Width="32"
 											Height="32"
@@ -525,7 +525,7 @@
 														IsTextScaleFactorEnabled="False" />
 												</AnimatedIcon.FallbackIconSource>
 											</AnimatedIcon>
-										</ToggleButton>
+										</ToggleButton>-->
 
 									</StackPanel>
 
@@ -552,7 +552,7 @@
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
 									<!--  Graph  -->
-									<Grid
+									<!--<Grid
 										x:Name="MainGraphCartesianChartClipGrid"
 										Height="64"
 										Margin="4,8,0,8"
@@ -561,7 +561,6 @@
 										CornerRadius="4"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-										<!--  ProgressBar  -->
 										<ProgressBar
 											x:Name="SecondaryProgressBar"
 											Height="64"
@@ -579,7 +578,7 @@
 											XAxes="{x:Bind XAxes}"
 											YAxes="{x:Bind YAxes}" />
 
-									</Grid>
+									</Grid>-->
 
 									<!--  Action Buttons  -->
 									<Grid Grid.Column="1">

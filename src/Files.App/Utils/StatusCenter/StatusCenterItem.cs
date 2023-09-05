@@ -18,43 +18,6 @@ namespace Files.App.Utils.StatusCenter
 	{
 		private readonly StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		public ObservableCollection<int> Values { get; set; }
-
-		public ObservableCollection<ISeries> Series { get; set; }
-
-		public IList<ICartesianAxis> XAxes { get; set; } = new ICartesianAxis[]
-		{
-			new Axis
-			{
-				Padding = new Padding(0, 0),
-				Labels = new List<string>(),
-				MaxLimit = 100,
-
-				ShowSeparatorLines = false,
-				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-				//{
-				//    StrokeThickness = 0.5F,
-				//    PathEffect = new DashEffect(new float[] { 3, 3 })
-				//}
-			}
-		};
-
-		public IList<ICartesianAxis> YAxes { get; set; } = new ICartesianAxis[]
-		{
-			new Axis
-			{
-				Padding = new Padding(0, 0),
-				Labels = new List<string>(),
-
-				ShowSeparatorLines = false,
-				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-				//{
-				//    StrokeThickness = 0.5F,
-				//    PathEffect = new DashEffect(new float[] { 3, 3 })
-				//}
-			}
-		};
-
 		private string? _Header;
 		public string? Header
 		{
@@ -116,18 +79,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelled, value);
 		}
 
-		private int _previousWriteAmount;
-
-		private int _currentWriteAmount;
-
-		// (_currentWriteAmount[Mib,kiB,B] - _previousWriteAmount[Mib,kiB,B]) / (pasted seconds[s])
-		private string? _SpeedText;
-		public string? SpeedText
-		{
-			get => _SpeedText;
-			set => SetProperty(ref _SpeedText, value);
-		}
-
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
@@ -162,18 +113,6 @@ namespace Files.App.Utils.StatusCenter
 			Operation = operation;
 			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
-			Values = new();
-
-			Series = new()
-			{
-				new LineSeries<int>
-				{
-					Values = Values,
-					GeometrySize = 0,
-					Stroke = new SolidColorPaint(new(25, 118, 210), 1),
-					DataPadding = new(0, 0),
-				}
-			};
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -253,13 +192,6 @@ namespace Files.App.Utils.StatusCenter
 				if (ProgressPercentage != value.Percentage)
 				{
 					Header = $"{HeaderBody} ({ProgressPercentage}%)";
-
-					// TODO: Remove and replace with real speed graph values
-					for (int index = ProgressPercentage + 1; index <= value.Percentage; index++)
-					{
-						Values.Add(index);
-					}
-
 					ProgressPercentage = p;
 				}
 			}
