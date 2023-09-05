@@ -21,22 +21,21 @@ namespace Files.App.Actions
 			get
 			{
 				var page = context.ShellPage;
-				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
-
+				
 				if (context.PageType is ContentPageTypes.Home)
 					return false;
 
 				if (!context.HasSelection)
 					return false;
 
-				
 				if (page is null)
 					return false;
 
+				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
 				bool isRenaming = page.SlimContentPage.IsRenamingItem;
 
-				return (isCommandPaletteOpen && context.HasSelection) || (!isEditing && !isRenaming);
+				return isCommandPaletteOpen || (!isEditing && !isRenaming);
 			}
 		}
 

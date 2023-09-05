@@ -434,6 +434,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
+					IsCommandPaletteOpen = false;
 					ManualEntryBoxLoaded = false;
 					ClickablePathLoaded = true;
 				}
@@ -822,6 +823,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
+						IsCommandPaletteOpen = false;
 						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
 						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
 						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
