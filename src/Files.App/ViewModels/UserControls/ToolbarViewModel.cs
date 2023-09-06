@@ -64,7 +64,6 @@ namespace Files.App.ViewModels.UserControls
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
 		private bool _isCommandPaletteOpen;
-
 		public bool IsCommandPaletteOpen
 		{
 			get => _isCommandPaletteOpen;
