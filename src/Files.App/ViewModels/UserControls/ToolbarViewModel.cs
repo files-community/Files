@@ -68,15 +68,7 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsCommandPaletteOpen
 		{
 			get => _isCommandPaletteOpen;
-			set
-			{
-				if (SetProperty(ref _isCommandPaletteOpen, value) && value) // Only invoke when value changes to true
-				{
-					CommandPaletteOpened?.Invoke(this, EventArgs.Empty);
-
-					// You can add additional logic here if needed
-				}
-			}
+			set => SetProperty(ref _isCommandPaletteOpen, value);
 		}
 
 		private bool isUpdating;
