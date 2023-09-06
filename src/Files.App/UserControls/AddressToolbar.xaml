@@ -399,7 +399,7 @@
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
-				<!--  Statuc Center  -->
+				<!--  Status Center  -->
 				<Button
 					x:Name="ShowStatusCenterButton"
 					Padding="0"
