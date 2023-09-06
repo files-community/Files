@@ -62,7 +62,6 @@ namespace Files.App.ViewModels.UserControls
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
 		private bool _isCommandPaletteOpen;
-
 		public bool IsCommandPaletteOpen
 		{
 			get => _isCommandPaletteOpen;
@@ -522,7 +521,7 @@ namespace Files.App.ViewModels.UserControls
 		public void OpenCommandPalette()
 		{
 			PathText = ">";
-			IsCommandPaletteOpen = true;  // Set to true when opened
+			IsCommandPaletteOpen = true;
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;
 
