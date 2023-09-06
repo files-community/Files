@@ -531,7 +531,7 @@
 
 			</StackPanel>
 
-			<!--  One-Time-Shown Statuc Center TeachingTip  -->
+			<!--  Status Center TeachingTip  -->
 			<TeachingTip
 				x:Name="StatusCenterTeachingTip"
 				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
