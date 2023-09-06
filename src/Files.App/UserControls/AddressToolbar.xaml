@@ -386,7 +386,7 @@
 			<!--  Right Side Action Buttons  -->
 			<StackPanel Grid.Column="3" Orientation="Horizontal">
 
-				<!--  Search Button Shwon When The Window Is Small  -->
+				<!--  Mini Search Button  -->
 				<Button
 					x:Name="ShowSearchButton"
 					AccessKey="I"
@@ -399,7 +399,7 @@
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
-				<!--  Statuc Center  -->
+				<!--  Status Center  -->
 				<Button
 					x:Name="ShowStatusCenterButton"
 					Padding="0"
@@ -531,7 +531,7 @@
 
 			</StackPanel>
 
-			<!--  One-Time-Shown Statuc Center TeachingTip  -->
+			<!--  Status Center TeachingTip  -->
 			<TeachingTip
 				x:Name="StatusCenterTeachingTip"
 				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
