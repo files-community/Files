@@ -27,12 +27,6 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ForceProcessTermination
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -41,9 +35,6 @@ namespace Files.App.Services.Settings
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 				case nameof(RestoreTabsOnStartup):
-					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-					break;
-				case nameof(ForceProcessTermination):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 					break;
 			}

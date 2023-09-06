@@ -33,8 +33,6 @@ namespace Files.App.Services
 
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		private string PackageName { get; } = Package.Current.Id.Name;
 
 		private Version PackageVersion { get; } = new(
@@ -231,7 +229,6 @@ namespace Files.App.Services
 			try
 			{
 				var restartStatus = RegisterApplicationRestart(null, 0);
-				UserSettingsService.AppSettingsService.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 

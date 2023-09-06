@@ -307,9 +307,7 @@ namespace Files.App
 				return;
 			}
 
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
-				!userSettingsService.AppSettingsService.ForceProcessTermination &&
+			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
@@ -343,7 +341,6 @@ namespace Files.App
 
 				return;
 			}
-			userSettingsService.AppSettingsService.ForceProcessTermination = false;
 
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
