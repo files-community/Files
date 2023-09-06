@@ -523,7 +523,7 @@ namespace Files.App.ViewModels.UserControls
 		public void OpenCommandPalette()
 		{
 			PathText = ">";
-			IsCommandPaletteOpen = true;  // Set to true when opened
+			IsCommandPaletteOpen = true;
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;
 
