@@ -229,6 +229,7 @@ namespace Files.App.Services
 			try
 			{
 				var restartStatus = RegisterApplicationRestart(null, 0);
+				App.AppModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 

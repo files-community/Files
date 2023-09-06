@@ -109,6 +109,7 @@ namespace Files.App.Services
 		private async Task DownloadAndInstall()
 		{
 			App.SaveSessionTabs();
+			App.AppModel.ForceProcessTermination = true;
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			await downloadOperation.AsTask();
 		}
