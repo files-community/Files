@@ -17,6 +17,8 @@ namespace Files.App.Services
 		private StoreContext? _storeContext;
 		private IList<StorePackageUpdate>? _updatePackages;
 
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private bool IsMandatory => _updatePackages?.Where(e => e.Mandatory).ToList().Count >= 1;
 
 		private bool _isUpdateAvailable;
@@ -109,6 +111,7 @@ namespace Files.App.Services
 		private async Task DownloadAndInstall()
 		{
 			App.SaveSessionTabs();
+			UserSettingsService.AppSettingsService.ForceProcessTermination = true;
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			await downloadOperation.AsTask();
 		}
