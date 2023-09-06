@@ -840,8 +840,15 @@ namespace Files.App.Views.LayoutModes
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					else
+					{
 						overflowItem.Visibility = Visibility.Collapsed;
+
+						// Hide separators at the end of the menu
+						while (contextMenuFlyout.SecondaryCommands.LastOrDefault(x => x is UIElement element && element.Visibility is Visibility.Visible) is AppBarSeparator separator)
+							separator.Visibility = Visibility.Collapsed;
+
+					}
 				}
 			}
 			else
