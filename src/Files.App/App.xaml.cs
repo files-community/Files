@@ -308,6 +308,7 @@ namespace Files.App
 			}
 
 			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
