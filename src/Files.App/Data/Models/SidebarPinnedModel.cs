@@ -105,8 +105,11 @@ namespace Files.App.Data.Models
 				{
 					int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
 					locationItem.IconData = UIHelpers.GetSidebarIconResourceInfo(recycleBinIconIndex).IconData;
+
+					if (locationItem.IconData is not null)
+						locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 				}
-				if (res)
+				else if (res)
 				{
 					var iconData = await FileThumbnailHelper.LoadIconFromStorageItemAsync(res.Result, 16u, ThumbnailMode.ListView, ThumbnailOptions.UseCurrentScale);
 					locationItem.IconData = iconData;
