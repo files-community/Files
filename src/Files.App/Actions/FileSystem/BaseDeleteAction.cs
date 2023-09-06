@@ -35,8 +35,8 @@ namespace Files.App.Actions
 							: FilesystemItemType.Directory));
 
 			await context.ShellPage!.FilesystemHelpers.DeleteItemsAsync(items, settings.DeleteConfirmationPolicy, permanently, true);
-
 			await context.ShellPage.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
+			Ioc.Default.GetRequiredService<SidebarViewModel>().SidebarPinnedModel.UpdateRecycleBinIcon();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
