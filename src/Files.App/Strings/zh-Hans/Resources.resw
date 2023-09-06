@@ -139,7 +139,7 @@
     <value>大小:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>所占磁盘空间:</value>
+    <value>占用空间:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>未压缩大小:</value>
@@ -3491,7 +3491,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>中等红色</value>
+    <value>现代红色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
@@ -3499,7 +3499,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>阴暗</value>
+    <value>阴天</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
