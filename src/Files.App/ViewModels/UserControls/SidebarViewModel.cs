@@ -1231,7 +1231,6 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
-
 		public async void HandleItemDropped(ItemDroppedEventArgs args)
 		{
 			if (args.DropTarget is LocationItem locationItem)

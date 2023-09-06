@@ -212,5 +212,25 @@ namespace Files.App.Data.Models
 		{
 			await UpdateItemsWithExplorer();
 		}
+
+		public async void UpdateRecycleBinIcon()
+		{
+			LocationItem? recycleBinLocationItem = RetrieveRecycleBinLocationElement();
+
+			if (recycleBinLocationItem == null)
+				return;
+
+			int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+			recycleBinLocationItem.IconData = UIHelpers.GetSidebarIconResourceInfo(recycleBinIconIndex).IconData;
+			if (recycleBinLocationItem.IconData != null)
+			{
+				recycleBinLocationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinLocationItem.IconData.ToBitmapAsync());
+			}
+		}
+
+		private LocationItem? RetrieveRecycleBinLocationElement()
+		{
+			return favoriteList.Cast<LocationItem>()?.FirstOrDefault(element => element.Path == UserEnvironmentPaths.RecycleBinPath);
+		}
 	}
 }
