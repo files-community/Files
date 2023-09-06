@@ -7,7 +7,6 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
 	xmlns:uc="using:Files.App.UserControls"
@@ -723,7 +722,7 @@
 				VerticalAlignment="Center"
 				FontSize="14"
 				Style="{StaticResource BodyStrongTextBlockStyle}"
-				Text="Status Center" />
+				Text="{helpers:ResourceString Name=StatusCenter}" />
 
 			<!--  Remove All Cards Button  -->
 			<Button
