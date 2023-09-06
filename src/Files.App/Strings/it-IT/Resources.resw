@@ -2368,7 +2368,7 @@
     <value>Modifica il file delle impostazioni</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>What's new</value>
+    <value>Novità</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creare un collegamento in questa posizione richiede i privilegi di amministratore</value>
@@ -3451,19 +3451,19 @@
     <value>Lasciare l'app in esecuzione in background quando la finestra è chiusa</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Blu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Grigio Blu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Brick Red</value>
+    <value>Rosso Mattone</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>Camouflage</value>
+    <value>Mimetica</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
@@ -3471,23 +3471,23 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>Grigio</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Gray Dark</value>
+    <value>Grigio Scuro</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Verde</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Iris Pastello</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mint Light</value>
+    <value>Menta Leggera</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
@@ -3495,27 +3495,27 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Arancione Brillante</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Nuvoloso</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Rosso</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Rosa Brillante</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Schiuma marina</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Tempesta</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
@@ -3523,7 +3523,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Giallo Oro</value>
     <comment>One of the custom color themes</comment>
   </data>
 </root>
