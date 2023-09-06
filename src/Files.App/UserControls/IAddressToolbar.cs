@@ -13,8 +13,6 @@ namespace Files.App.UserControls
 
 		public bool IsEditModeEnabled { get; set; }
 
-		public bool IsCommandPaletteOpen { get; set; }
-
 		public bool CanRefresh { get; set; }
 
 		public bool CanCopyPathInPage { get; set; }
@@ -38,8 +36,6 @@ namespace Files.App.UserControls
 		public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
 		public event EventHandler EditModeEnabled;
-
-		public event EventHandler CommandPaletteOpened;
 
 		public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 

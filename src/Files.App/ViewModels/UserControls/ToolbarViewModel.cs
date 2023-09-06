@@ -39,8 +39,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
-		public event EventHandler? CommandPaletteOpened;
-
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
 
 		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
