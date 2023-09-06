@@ -847,7 +847,6 @@ namespace Files.App.Views.LayoutModes
 						// Hide separators at the end of the menu
 						while (contextMenuFlyout.SecondaryCommands.LastOrDefault(x => x is UIElement element && element.Visibility is Visibility.Visible) is AppBarSeparator separator)
 							separator.Visibility = Visibility.Collapsed;
-
 					}
 				}
 			}
