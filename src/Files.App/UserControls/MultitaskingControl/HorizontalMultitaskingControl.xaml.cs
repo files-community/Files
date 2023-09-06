@@ -231,11 +231,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
 			{
-				control.Content = (tvi.IconSource as ImageIconSource).CreateIconElement();
+				control.Content = (tvi.IconSource as ImageIconSource)?.CreateIconElement();
 				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
 				{
 					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
-						iconControl.Content = (tabViewItem.IconSource as ImageIconSource).CreateIconElement();
+						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
 		}

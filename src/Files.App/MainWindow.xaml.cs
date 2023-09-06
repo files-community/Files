@@ -89,18 +89,19 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
-					else if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
+					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
 						rootFrame.Navigate(typeof(MainPage), launchArgs.Arguments, new SuppressNavigationTransitionInfo());
 					}
+					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+					{
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+					}
 					else
 					{
-						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-						{
-							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
-						}
+						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					}
 					break;
 
@@ -140,6 +141,9 @@ namespace Files.App
 								else
 									await InitializeFromCmdLineArgs(rootFrame, ppm);
 								break;
+							default:
+								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								break;
 						}
 					}
 					break;
@@ -154,11 +158,15 @@ namespace Files.App
 					{
 						await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
 					}
+					else
+					{
+						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					}
 					break;
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
+					if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -172,8 +180,12 @@ namespace Files.App
 					break;
 			}
 
-			if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
-				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+			if (!AppWindow.IsVisible)
+			{
+				// When resuming the cached instance
+				AppWindow.Show();
+				Activate();
+			}
 		}
 
 		public Frame EnsureWindowIsInitialized()
@@ -222,7 +234,7 @@ namespace Files.App
 					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (rootFrame.Content is MainPage)
+				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

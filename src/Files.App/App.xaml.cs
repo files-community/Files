@@ -308,6 +308,7 @@ namespace Files.App
 			}
 
 			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
@@ -324,7 +325,6 @@ namespace Files.App
 				SaveSessionTabs();
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
-				await Task.Delay(500);
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
@@ -336,12 +336,8 @@ namespace Files.App
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
-					MainWindow.Instance.AppWindow.Show();
-					MainWindow.Instance.Activate();
 
 					_ = CheckForRequiredUpdates();
-
-					MainWindow.Instance.EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 				}
 
 				return;
