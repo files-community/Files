@@ -136,6 +136,7 @@ namespace Files.App.Views.Shells
 
 					if (!value && SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
