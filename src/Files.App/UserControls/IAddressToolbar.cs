@@ -13,6 +13,11 @@ namespace Files.App.UserControls
 
 		public bool IsEditModeEnabled { get; set; }
 
+		/// <summary>
+		/// Boolean to determine if the command palette is open
+		/// </summary>
+		public bool IsCommandPaletteOpen { get; set; }
+
 		public bool CanRefresh { get; set; }
 
 		public bool CanCopyPathInPage { get; set; }
