@@ -9,17 +9,11 @@ namespace Files.Core.Data.Enums
 	public enum StatusCenterItemIconKind
 	{
 		Copy,
-
 		Move,
-
 		Delete,
-
 		Recycle,
-
 		Extract,
-
 		Successful,
-
 		Error,
 	}
 }
