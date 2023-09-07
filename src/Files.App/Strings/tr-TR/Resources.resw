@@ -220,7 +220,7 @@
     <value>Gelişmiş</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Kaldığın yerden devam et</value>
+    <value>Kaldığınız yerden devam edin</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Yeni sekmede aç</value>
