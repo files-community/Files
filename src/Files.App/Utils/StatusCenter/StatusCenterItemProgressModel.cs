@@ -6,9 +6,9 @@ namespace Files.App.Utils.StatusCenter
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
-	public class FileSystemProgress : ObservableObject
+	public class StatusCenterItemProgressModel : ObservableObject
 	{
-		private readonly IProgress<FileSystemProgress>? _progress;
+		private readonly IProgress<StatusCenterItemProgressModel>? _progress;
 
 		private readonly IntervalSampler _sampler;
 
@@ -92,7 +92,7 @@ namespace Files.App.Utils.StatusCenter
 		// Only used when detailed count isn't available.
 		public int? Percentage { get; set; }
 
-		public FileSystemProgress(IProgress<FileSystemProgress>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
+		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
 		{
 			// Initialize
 			_progress = progress;

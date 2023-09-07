@@ -84,7 +84,7 @@ namespace Files.App.Utils.Storage
 		public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			if (!IsValidForFilename(source.Name))
@@ -180,7 +180,7 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			_statusCenterViewModel.CloseItem(banner);
+			_statusCenterViewModel.RemoveItem(banner);
 
 			sw.Stop();
 
@@ -217,7 +217,7 @@ namespace Files.App.Utils.Storage
 			destination = await destination.ToListAsync();
 
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var sw = new Stopwatch();
@@ -317,7 +317,7 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				_statusCenterViewModel.CloseItem(banner);
+				_statusCenterViewModel.RemoveItem(banner);
 
 				return ReturnResult.Cancelled;
 			}
@@ -345,7 +345,7 @@ namespace Files.App.Utils.Storage
 			}
 			var itemsCopied = history?.Source.Count ?? 0;
 
-			_statusCenterViewModel.CloseItem(banner);
+			_statusCenterViewModel.RemoveItem(banner);
 
 			StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
 
@@ -447,7 +447,7 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				_statusCenterViewModel.CloseItem(banner);
+				_statusCenterViewModel.RemoveItem(banner);
 
 				return ReturnResult.Cancelled;
 			}
@@ -480,7 +480,7 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			_statusCenterViewModel.CloseItem(banner);
+			_statusCenterViewModel.RemoveItem(banner);
 
 			sw.Stop();
 
@@ -538,7 +538,7 @@ namespace Files.App.Utils.Storage
 		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			if (!IsValidForFilename(newName))
@@ -608,7 +608,7 @@ namespace Files.App.Utils.Storage
 			var source = await GetDraggedStorageItems(packageView);
 
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			source = source.Where(x => !string.IsNullOrEmpty(x.Path));

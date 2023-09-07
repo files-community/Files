@@ -20,14 +20,14 @@ namespace Files.App.UserControls
 
 		private void CloseAllItemsButton_Click(object sender, RoutedEventArgs e)
 		{
-			ViewModel.CloseAllCompletedItems();
+			ViewModel.RemoveAllCompletedItems();
 		}
 
 		private void CloseItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button button && button.DataContext is StatusCenterItem item)
 			{
-				ViewModel.CloseItem(item);
+				ViewModel.RemoveItem(item);
 			}
 		}
 

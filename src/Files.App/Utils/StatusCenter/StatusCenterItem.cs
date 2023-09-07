@@ -89,9 +89,9 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public readonly FileSystemProgress Progress;
+		public readonly StatusCenterItemProgressModel Progress;
 
-		public readonly Progress<FileSystemProgress> ProgressEventSource;
+		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
 
@@ -105,7 +105,7 @@ namespace Files.App.Utils.StatusCenter
 			Header = title;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
-			ProgressEventSource = new Progress<FileSystemProgress>(ReportProgress);
+			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
@@ -168,7 +168,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		private void ReportProgress(FileSystemProgress value)
+		private void ReportProgress(StatusCenterItemProgressModel value)
 		{
 			// The Operation has been cancelled. Do update neither progress value nor text.
 			if (CancellationToken.IsCancellationRequested)

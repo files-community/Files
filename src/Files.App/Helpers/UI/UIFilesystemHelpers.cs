@@ -98,18 +98,18 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
-						_statusCenterViewModel.CloseItem(banner);
+						_statusCenterViewModel.RemoveItem(banner);
 
 						return;
 					}
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
-					_statusCenterViewModel.CloseItem(banner);
+					_statusCenterViewModel.RemoveItem(banner);
 
 					return;
 				}
 
-				_statusCenterViewModel.CloseItem(banner);
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
@@ -198,17 +198,17 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
-						_statusCenterViewModel.CloseItem(banner);
+						_statusCenterViewModel.RemoveItem(banner);
 
 						return;
 					}
 
-					_statusCenterViewModel.CloseItem(banner);
+					_statusCenterViewModel.RemoveItem(banner);
 
 					return;
 				}
 
-				_statusCenterViewModel.CloseItem(banner);
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);

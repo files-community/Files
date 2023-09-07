@@ -82,7 +82,7 @@ namespace Files.App.Utils.Archives
 			creator.Progress = banner.ProgressEventSource;
 			bool isSuccess = await creator.RunCreationAsync();
 
-			_statusCenterViewModel.CloseItem(banner);
+			_statusCenterViewModel.RemoveItem(banner);
 
 			if (isSuccess)
 			{
@@ -127,7 +127,7 @@ namespace Files.App.Utils.Archives
 
 			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
-			_statusCenterViewModel.CloseItem(banner);
+			_statusCenterViewModel.RemoveItem(banner);
 
 			_statusCenterViewModel.AddItem(
 				"ExtractingCompleteText".GetLocalizedResource(),

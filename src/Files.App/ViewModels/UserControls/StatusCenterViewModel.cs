@@ -76,7 +76,7 @@ namespace Files.App.ViewModels.UserControls
 			return banner;
 		}
 
-		public bool CloseItem(StatusCenterItem banner)
+		public bool RemoveItem(StatusCenterItem banner)
 		{
 			if (!StatusCenterItems.Contains(banner))
 				return false;
@@ -88,12 +88,12 @@ namespace Files.App.ViewModels.UserControls
 			return true;
 		}
 
-		public void CloseAllCompletedItems()
+		public void RemoveAllCompletedItems()
 		{
 			StatusCenterItems.ForEach((x) =>
 			{
 				if (!x.IsInProgress)
-					CloseItem(x);
+					RemoveItem(x);
 			});
 		}
 

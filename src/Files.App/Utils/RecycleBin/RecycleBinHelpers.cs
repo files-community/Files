@@ -67,7 +67,7 @@ namespace Files.App.Utils.RecycleBin
 
 				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
 
-				_statusCenterViewModel.CloseItem(banner);
+				_statusCenterViewModel.RemoveItem(banner);
 
 				if (opSucceded)
 					_statusCenterViewModel.AddItem(
