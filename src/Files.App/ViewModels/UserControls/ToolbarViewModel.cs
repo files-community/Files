@@ -61,6 +61,13 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
+		private bool _isCommandPaletteOpen;
+		public bool IsCommandPaletteOpen
+		{
+			get => _isCommandPaletteOpen;
+			set => SetProperty(ref _isCommandPaletteOpen, value);
+		}
+
 		private bool isUpdating;
 		public bool IsUpdating
 		{
@@ -416,6 +423,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
+					IsCommandPaletteOpen = false;
 					ManualEntryBoxLoaded = false;
 					ClickablePathLoaded = true;
 				}
@@ -513,6 +521,7 @@ namespace Files.App.ViewModels.UserControls
 		public void OpenCommandPalette()
 		{
 			PathText = ">";
+			IsCommandPaletteOpen = true;
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;
 
@@ -787,6 +796,7 @@ namespace Files.App.ViewModels.UserControls
 
 					if (sender.Text.StartsWith(">"))
 					{
+						IsCommandPaletteOpen = true;
 						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command => command.IsExecutable &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
@@ -801,6 +811,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
+						IsCommandPaletteOpen = false;
 						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
 						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
 						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
