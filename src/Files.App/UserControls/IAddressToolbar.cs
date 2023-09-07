@@ -13,7 +13,9 @@ namespace Files.App.UserControls
 
 		public bool IsEditModeEnabled { get; set; }
 
-		// Boolean to determine if the command palette is in a state where it is being edited
+		/// <summary>
+		/// Boolean to determine if the command palette is open
+		/// </summary>
 		public bool IsCommandPaletteOpen { get; set; }
 
 		public bool CanRefresh { get; set; }
