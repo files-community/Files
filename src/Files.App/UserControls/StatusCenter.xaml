@@ -428,21 +428,14 @@
 											FontSize="32"
 											Text="&#xE91F;" />
 
-										<!--  Opacity Icon 16x16  -->
-										<!--<uc:OpacityIcon
-											x:Name="ItemTypeOpacityIcon"
+										<!--  State Icon 16x16  -->
+										<PathIcon
+											x:Name="SeverityForegroundPathIcon"
 											Width="16"
 											Height="16"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											Style="{StaticResource ColorIconGitGeneral}" />-->
-
-										<TextBlock
-											x:Name="SeverityForegroundFontIcon"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											FontFamily="{ThemeResource SymbolThemeFontFamily}"
-											FontSize="16" />
+											Data="{StaticResource ColorIconFilledTag}" />
 
 									</Grid>
 
@@ -617,8 +610,7 @@
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 												<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
-												<!--<Setter Target="ItemTypeOpacityIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="SuccessfulState">
@@ -627,8 +619,7 @@
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
-												<!--<Setter Target="ItemTypeOpacityIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="ErrorState">
@@ -637,8 +628,7 @@
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
 												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
-												<!--<Setter Target="ItemTypeOpacityIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -648,8 +638,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Copy" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconGitBranches}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE8C8;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionCopy}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="MoveIconState">
@@ -657,8 +646,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Move" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE77F;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionMove}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="DeleteIconState">
@@ -666,8 +654,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Delete" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE74D;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionDelete}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="RecycleIconState">
@@ -675,8 +662,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Recycle" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE8EE;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionDelete}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="SuccessfulIconState">
@@ -684,8 +670,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconGitGeneral}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE73E;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionSuccess}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="ErrorIconState">
@@ -693,8 +678,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<!--<Setter Target="ItemTypeOpacityIcon.Style" Value="{StaticResource ColorIconTags}" />-->
-												<Setter Target="SeverityForegroundFontIcon.Text" Value="&#xE711;" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionInfo}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
