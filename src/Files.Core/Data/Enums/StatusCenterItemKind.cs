@@ -9,9 +9,7 @@ namespace Files.Core.Data.Enums
 	public enum StatusCenterItemKind
 	{
 		InProgress,
-
 		Successful,
-
 		Error,
 	}
 }
