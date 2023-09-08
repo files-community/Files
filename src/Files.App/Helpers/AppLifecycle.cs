@@ -15,16 +15,67 @@ namespace Files.App.Helpers
 {
 	public class AppLifecycle
 	{
-		public static string SharedMemoryName = "FilesAppTabsWithID";
+		public static string SharedMemoryNameHeader = "FilesAppTabsWithID";
+		public static MemoryMappedFile? SharedMemoryNameHeaderMemory;
+		public static string SharedMemoryName = SharedMemoryNameHeader + defaultBufferSize.ToString();
 		public static string InstanceID = Process.GetCurrentProcess().Id.ToString();
 		public static List<TabItemWithIDArguments> TabsWithIDArgList = new List<TabItemWithIDArguments>();
 		public static MemoryMappedFile? SharedMemory;
 		public static long defaultBufferSize = 1024;
 		public static IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
+		/* 
+		Add SharedMemoryNameHeader because SharedMemory can't be released instantly and create a new one with the same name.
+		To dynamically expand the size of a SharedMemory, a new SharedMemory with a new name needs to be created.
+		Using SharedMemoryNameHeaderMemory, SharedMemoryName is saved and shared between all the Files instance.
+		*/
+		// Read or create the a SharedMemory(SharedMemoryNameHeader) to save and share the SharedMemoryName
+		// The SharedMemoryName is used to identify the SharedMemory
+		// The SharedMemory is used to save and share the TabItemWithIDArguments
+		protected static MemoryMappedFile GetSharedMemoryNameHeader()
+		{
+			try
+			{
+				SharedMemoryNameHeaderMemory = MemoryMappedFile.OpenExisting(SharedMemoryNameHeader);
+				using (MemoryMappedViewAccessor accessor = SharedMemoryNameHeaderMemory.CreateViewAccessor())
+				{
+					long length = accessor.Capacity;
+					byte[] buffer = new byte[length];
+					accessor.ReadArray(0, buffer, 0, buffer.Length);
+					int nullIndex = Array.IndexOf(buffer, (byte)'\0');
+					if (nullIndex > 0)
+					{
+						int Index = nullIndex;
+						byte[] truncatedBuffer = new byte[Index];
+						Array.Copy(buffer, 0, truncatedBuffer, 0, Index);
+						string bufferStr = Encoding.UTF8.GetString(truncatedBuffer);
+						SharedMemoryName = bufferStr;
+					}
+					else
+					{
+						SharedMemoryName = SharedMemoryNameHeader + defaultBufferSize.ToString();
+					}
+				}
+			}
+			catch (FileNotFoundException)
+			{
+				SharedMemoryName = SharedMemoryNameHeader + defaultBufferSize.ToString();
+				SharedMemoryNameHeaderMemory = MemoryMappedFile.CreateOrOpen(SharedMemoryNameHeader, 1024);
+				using (MemoryMappedViewAccessor accessor = SharedMemoryNameHeaderMemory.CreateViewAccessor())
+				{
+					byte[] buffer = Encoding.UTF8.GetBytes(SharedMemoryName);
+					accessor.WriteArray(0, buffer, 0, buffer.Length);
+				}
+			}
+			return SharedMemoryNameHeaderMemory;
+		}
+
+
+
 		//	Check if the SharedMemory exists, if not create it
 		protected static MemoryMappedFile CheckSharedMemory()
 		{
+			GetSharedMemoryNameHeader();
 			try
 			{
 				SharedMemory = MemoryMappedFile.OpenExisting(SharedMemoryName);
@@ -41,17 +92,24 @@ namespace Files.App.Helpers
 		{
 			SharedMemory = CheckSharedMemory();
 			long BufferSizeIn = BufferSize;
-			using (MemoryMappedViewAccessor accessor = SharedMemory.CreateViewAccessor())
+			using (MemoryMappedViewAccessor accessor0 = SharedMemory.CreateViewAccessor())
 			{
-				long length = accessor.Capacity;
+				long length = accessor0.Capacity;
 				if (length > BufferSizeIn)
 				{
 				}
 				else
 				{
 					SharedMemory.Dispose();
-					long NewBufferSize = (BufferSizeIn / defaultBufferSize) + defaultBufferSize;
+					long NewBufferSize = ((BufferSizeIn / defaultBufferSize) + 1) * defaultBufferSize;
+					SharedMemoryName = SharedMemoryNameHeader + NewBufferSize.ToString();
 					SharedMemory = MemoryMappedFile.CreateOrOpen(SharedMemoryName, NewBufferSize);
+					SharedMemoryNameHeaderMemory = MemoryMappedFile.CreateOrOpen(SharedMemoryNameHeader, 1024);
+					using (MemoryMappedViewAccessor accessor1 = SharedMemoryNameHeaderMemory.CreateViewAccessor())
+					{
+						byte[] buffer = Encoding.UTF8.GetBytes(SharedMemoryName);
+						accessor1.WriteArray(0, buffer, 0, buffer.Length);
+					}
 				}
 			}
 			return SharedMemory;
