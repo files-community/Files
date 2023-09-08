@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Files Logo" src="src/Files.App%20(Package)/Assets/AppTiles/Release/StoreLogo.scale-400.png" width="100px" />
+  <img alt="Files Logo" src="https://raw.githubusercontent.com/files-community/Website/main/static/branding/logo-dark.svg" width="100px" />
   <h1 align="center">Files</h1>
 </p>
 
@@ -52,4 +52,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ## Screenshots
 
-![Files](src/Files.App/Assets/FilesHome.png)
+![Files](assets/FilesHome.png)
