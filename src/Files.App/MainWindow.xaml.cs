@@ -142,7 +142,6 @@ namespace Files.App
 								else
 									await InitializeFromCmdLineArgs(rootFrame, ppm);
 								break;
-<<<<<<< HEAD
 							case "tabs":
 								var tabArgsListStr = JsonSerializer.Deserialize<List<string>>(unescapedValue);
 								List<TabItemArguments> tabArgsList = tabArgsListStr.Select(x => TabItemArguments.Deserialize(x)).ToList();
@@ -152,11 +151,9 @@ namespace Files.App
 									new SuppressNavigationTransitionInfo());
 								break;
 
-=======
 							default:
 								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 								break;
->>>>>>> upstream/main
 						}
 					}
 					break;
