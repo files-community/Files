@@ -214,6 +214,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool LeaveAppRunning
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public FileNameConflictResolveOptionType ConflictsResolveOption
 		{
 			get => (FileNameConflictResolveOptionType)Get((long)FileNameConflictResolveOptionType.GenerateNewName);
@@ -260,6 +266,7 @@ namespace Files.App.Services.Settings
 				case nameof(ShowOpenInNewTab):
 				case nameof(ShowOpenInNewWindow):
 				case nameof(ShowOpenInNewPane):
+				case nameof(LeaveAppRunning):
 				case nameof(ConflictsResolveOption):
 				case nameof(ShowHashesDictionary):
 					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");

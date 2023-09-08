@@ -175,7 +175,7 @@
     <value>Supprimer tous les éléments</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Entrer un chemin d'accès</value>
+    <value>Entrez un chemin pour naviguer ou tapez "&gt;" pour ouvrir la palette de commandes</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Rechercher</value>
@@ -2398,7 +2398,7 @@
     <value>Afficher l'option pour ouvrir les dossiers dans un nouvel onglet</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Afficher l'option pour ouvrir des dossiers dans une nouvelle fenêtre</value>
+    <value>Afficher l'option pour ouvrir les dossiers dans une nouvelle fenêtre</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Accès rapide</value>
@@ -2446,7 +2446,7 @@
     <value>Options du menu contextuel</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Afficher les extensions de fichiers</value>
+    <value>Afficher les extensions de fichier</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
     <value>Afficher les éléments masqués</value>
@@ -2815,7 +2815,7 @@
     <value>Trier les groupes en ordre décroissant</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Activer/désactiver le sens de tri des groupes</value>
+    <value>Activer/désactiver la direction de tri des groupes</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Ouvrir nouvel onglet</value>
@@ -3403,5 +3403,39 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Ouvrir tous les éléments étiquetés</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Disque ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Commande invalide</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' n'est pas reconnu(e) comme une commande.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Commande non exécutable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>La commande '{0}' n'est pas prête à être exécutée.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Palette de commandes</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Ouvrir la palette de commandes</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Démarrer dans :</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Activer BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Gérer BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Les éléments suivants sont trop volumineux pour être copiés sur ce disque dur</value>
   </data>
 </root>

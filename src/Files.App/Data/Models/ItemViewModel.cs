@@ -3,6 +3,7 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Core.Services.SizeProvider;
+using Files.Shared.Helpers;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Data;
@@ -66,6 +67,33 @@ namespace Files.App.Data.Models
 		{
 			get => _SolutionFilePath;
 			private set => SetProperty(ref _SolutionFilePath, value);
+		}
+
+		private GitProperties _EnabledGitProperties;
+		public GitProperties EnabledGitProperties
+		{
+			get => _EnabledGitProperties;
+			set
+			{
+				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
+				{
+					filesAndFolders.ToList().ForEach(async item => {
+						if (item is GitItem gitItem &&
+							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
+							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
+						{
+							try
+							{
+								await Task.Run(async () => await LoadGitProperties(gitItem, loadPropsCTS));
+							}
+							catch (OperationCanceledException)
+							{
+								// Ignored
+							}
+						}
+					});
+				}
+			}
 		}
 
 		public CollectionViewSource viewSource;
@@ -616,6 +644,7 @@ namespace Files.App.Data.Models
 
 					return;
 				}
+				var filesAndFoldersLocal = filesAndFolders.ToList();
 
 				// CollectionChanged will cause UI update, which may cause significant performance degradation,
 				// so suppress CollectionChanged event here while loading items heavily.
@@ -643,19 +672,19 @@ namespace Files.App.Data.Models
 						}
 					}
 
-					for (var i = 0; i < filesAndFolders.Count; i++)
+					for (var i = 0; i < filesAndFoldersLocal.Count; i++)
 					{
 						if (addFilesCTS.IsCancellationRequested)
 							return;
 
 						if (i < FilesAndFolders.Count)
 						{
-							if (FilesAndFolders[i] != filesAndFolders[i])
+							if (FilesAndFolders[i] != filesAndFoldersLocal[i])
 							{
 								if (startIndex == -1)
 									startIndex = i;
 
-								tempList.Add(filesAndFolders[i]);
+								tempList.Add(filesAndFoldersLocal[i]);
 							}
 							else
 							{
@@ -665,7 +694,7 @@ namespace Files.App.Data.Models
 						else
 						{
 							ApplyBulkInsertEntries();
-							FilesAndFolders.InsertRange(i, filesAndFolders.ToList().Skip(i));
+							FilesAndFolders.InsertRange(i, filesAndFoldersLocal.Skip(i));
 
 							break;
 						}
@@ -673,8 +702,8 @@ namespace Files.App.Data.Models
 
 					ApplyBulkInsertEntries();
 
-					if (FilesAndFolders.Count > filesAndFolders.Count)
-						FilesAndFolders.RemoveRange(filesAndFolders.Count, FilesAndFolders.Count - filesAndFolders.Count);
+					if (FilesAndFolders.Count > filesAndFoldersLocal.Count)
+						FilesAndFolders.RemoveRange(filesAndFoldersLocal.Count, FilesAndFolders.Count - filesAndFoldersLocal.Count);
 
 					if (folderSettings.DirectoryGroupOption != GroupOption.None)
 						OrderGroups();
@@ -1201,39 +1230,8 @@ namespace Files.App.Data.Models
 								}));
 						}
 
-						if (item.IsGitItem &&
-							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
-							!string.IsNullOrEmpty(repoPath))
-						{
-							cts.Token.ThrowIfCancellationRequested();
-							await SafetyExtensions.IgnoreExceptions(() =>
-							{
-								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
-								{
-									var repo = new LibGit2Sharp.Repository(repoPath);
-									GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
-
-									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-										_ => null,
-									};
-									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-
-									repo.Dispose();
-								},
-								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-							});
-						}
+						if (EnabledGitProperties != GitProperties.None && item is GitItem gitItem)
+							await LoadGitProperties(gitItem, cts);
 					}
 				}, cts.Token);
 			}
@@ -1244,6 +1242,60 @@ namespace Files.App.Data.Models
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
+			}
+		}
+
+		private async Task LoadGitProperties(GitItem gitItem, CancellationTokenSource cts)
+		{
+			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
+			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
+
+			if (!getStatus && !getCommit)
+				return;
+
+			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
+			{
+				cts.Token.ThrowIfCancellationRequested();
+
+				if (getStatus)
+					gitItem.StatusPropertiesInitialized = true;
+
+				if (getCommit)
+					gitItem.CommitPropertiesInitialized = true;
+
+				await SafetyExtensions.IgnoreExceptions(() =>
+				{
+					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						var repo = new Repository(repoPath);
+						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
+
+						if (getStatus)
+						{
+							gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+							{
+								ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+								ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+								ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+								ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+								_ => null,
+							};
+							gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+						}
+						if (getCommit)
+						{
+							gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+							gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+							gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+							gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+							gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+						}
+
+						repo.Dispose();
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				});
 			}
 		}
 
@@ -1638,9 +1690,9 @@ namespace Files.App.Data.Models
 
 						filesAndFolders.AddRange(fileList);
 
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
+						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
 
 					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
@@ -1688,16 +1740,9 @@ namespace Files.App.Data.Models
 
 		private void CheckForSolutionFile()
 		{
-			for (int i = 0; i < filesAndFolders.Count; i++)
-			{
-				if (FileExtensionHelpers.HasExtension(filesAndFolders[i].FileExtension, ".sln"))
-				{
-					SolutionFilePath = filesAndFolders[i].ItemPath;
-					return;
-				}
-			}
-
-			SolutionFilePath = null;
+			SolutionFilePath = filesAndFolders.ToList().AsParallel()
+				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
+				.FirstOrDefault()?.ItemPath;
 		}
 
 		private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
@@ -2463,5 +2508,13 @@ namespace Files.App.Data.Models
 		/// This property may not be provided consistently if Status is not Complete
 		/// </summary>
 		public string? Path { get; set; }
+	}
+
+	public enum GitProperties
+	{
+		None,
+		Status,
+		Commit,
+		All,
 	}
 }

@@ -175,7 +175,7 @@
     <value>Borrar todo</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Introduzca una ubicación</value>
+    <value>Introduzca una ruta para navegar o escriba "&gt;" para abrir la paleta de comandos</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
@@ -1204,10 +1204,10 @@
     <value>Columnas (Ctrl+Mayús+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Anclar al Menú de Inicio</value>
+    <value>Anclar al menú Inicio</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Desanclar del Menú de Inicio</value>
+    <value>Desanclar del menú Inicio</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliotecas</value>
@@ -1888,7 +1888,7 @@
     <value>Enviar informe de error</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Establecer Files como gestor de archivos predeterminado</value>
+    <value>Establecer Files como administrador de archivos predeterminado</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Usar Files como diálogo de apertura de archivos</value>
@@ -3399,9 +3399,43 @@
     <value>Abrir directorio en nueva ventana</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Abrir todo</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Abrir todos los elementos etiquetados</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Unidad ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Comando no válido</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' no es reconocido como un comando.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Comando no ejecutable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>El comando '{0}' no está listo para ser ejecutado.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Paleta de comandos</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Abrir paleta de comandos</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Iniciar en:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Activar BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Administrar BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Los siguientes elementos son demasiado grandes para ser copiados en esta unidad</value>
   </data>
 </root>

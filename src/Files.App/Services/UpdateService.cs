@@ -94,6 +94,7 @@ namespace Files.App.Services
 
 		public async Task CheckForUpdates()
 		{
+			IsUpdateAvailable = false;
 			App.Logger.LogInformation("STORE: Checking for updates...");
 
 			await GetUpdatePackages();
@@ -108,8 +109,12 @@ namespace Files.App.Services
 		private async Task DownloadAndInstall()
 		{
 			App.SaveSessionTabs();
+			App.AppModel.ForceProcessTermination = true;
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
-			await downloadOperation.AsTask();
+			var result = await downloadOperation.AsTask();
+
+			if (result.OverallState == StorePackageUpdateState.Canceled)
+				App.AppModel.ForceProcessTermination = false;
 		}
 
 		private async Task GetUpdatePackages()

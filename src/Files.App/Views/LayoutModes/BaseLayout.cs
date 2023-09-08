@@ -253,6 +253,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract ItemsControl ItemsControl { get; }
 
+		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
+		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowItemDrag => !ElevationHelpers.IsAppRunAsAdmin();
+
 		public BaseLayout()
 		{
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
@@ -469,6 +473,9 @@ namespace Files.App.Views.LayoutModes
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
+
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()
@@ -546,7 +553,10 @@ namespace Files.App.Views.LayoutModes
 				ParentShellPageInstance!.FilesystemViewModel.CancelLoadAndClearFiles();
 		}
 
-		public async void ItemContextFlyout_Opening(object? sender, object e)
+		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+		private bool shiftPressed;
+
+		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
 
@@ -557,7 +567,32 @@ namespace Files.App.Views.LayoutModes
 					ItemManipulationModel.SetSelectedItem(li);
 
 				if (IsItemSelected)
-					await LoadMenuItemsAsync();
+				{
+					// Reset menu max height
+					if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
+						itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
+
+					shellContextMenuItemCancellationToken?.Cancel();
+					shellContextMenuItemCancellationToken = new CancellationTokenSource();
+					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
+
+					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+					var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+
+					ItemContextMenuFlyout.PrimaryCommands.Clear();
+					ItemContextMenuFlyout.SecondaryCommands.Clear();
+
+					var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
+					AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
+					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
+					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
+					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
+
+					if (InstanceViewModel!.CanTagFilesInPage)
+						AddNewFileTagsToMenu(ItemContextMenuFlyout);
+
+					ItemContextMenuFlyout.Opened += ItemContextFlyout_Opened;
+				}
 			}
 			catch (Exception error)
 			{
@@ -565,9 +600,32 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+		private async void ItemContextFlyout_Opened(object? sender, object e)
+		{
+			ItemContextMenuFlyout.Opened -= ItemContextFlyout_Opened;
 
-		public async void BaseContextFlyout_Opening(object? sender, object e)
+			try
+			{
+				if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+				{
+					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+					if (shellMenuItems.Any())
+						await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+					else
+						RemoveOverflow(ItemContextMenuFlyout);
+				}
+				else
+				{
+					RemoveOverflow(ItemContextMenuFlyout);
+				}
+			}
+			catch (Exception error)
+			{
+				Debug.WriteLine(error);
+			}
+		}
+
+		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
 
@@ -582,7 +640,7 @@ namespace Files.App.Views.LayoutModes
 				shellContextMenuItemCancellationToken?.Cancel();
 				shellContextMenuItemCancellationToken = new CancellationTokenSource();
 
-				var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+				shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 				var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: new List<ListedItem> { ParentShellPageInstance!.FilesystemViewModel.CurrentFolder }, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: ParentShellPageInstance!.FilesystemViewModel, selectedItemsPropertiesViewModel: null);
 
 				BaseContextMenuFlyout.PrimaryCommands.Clear();
@@ -598,13 +656,31 @@ namespace Files.App.Views.LayoutModes
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder)
+				BaseContextMenuFlyout.Opened += BaseContextFlyout_Opened;
+			}
+			catch (Exception error)
+			{
+				Debug.WriteLine(error);
+			}
+		}
+
+		private async void BaseContextFlyout_Opened(object? sender, object e)
+		{
+			BaseContextMenuFlyout.Opened -= BaseContextFlyout_Opened;
+
+			try
+			{
+				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
 					if (shellMenuItems.Any())
 						await AddShellMenuItemsAsync(shellMenuItems, BaseContextMenuFlyout, shiftPressed);
 					else
 						RemoveOverflow(BaseContextMenuFlyout);
+				}
+				else
+				{
+					RemoveOverflow(BaseContextMenuFlyout);
 				}
 			}
 			catch (Exception error)
@@ -633,41 +709,6 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			SelectedItemsPropertiesViewModel.ItemSizeVisibility = isSizeKnown;
-		}
-
-		private async Task LoadMenuItemsAsync()
-		{
-			// Reset menu max height
-			if (ItemContextMenuFlyout.GetValue(ContextMenuExtensions.ItemsControlProperty) is ItemsControl itc)
-				itc.MaxHeight = Constants.UI.ContextMenuMaxHeight;
-
-			shellContextMenuItemCancellationToken?.Cancel();
-			shellContextMenuItemCancellationToken = new CancellationTokenSource();
-			SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
-
-			var shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-			var items = ContextFlyoutItemHelper.GetItemContextCommandsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
-
-			ItemContextMenuFlyout.PrimaryCommands.Clear();
-			ItemContextMenuFlyout.SecondaryCommands.Clear();
-
-			var (primaryElements, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(items);
-			AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
-			primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
-			secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
-			secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
-
-			if (InstanceViewModel!.CanTagFilesInPage)
-				AddNewFileTagsToMenu(ItemContextMenuFlyout);
-
-			if (!InstanceViewModel.IsPageTypeZipFolder)
-			{
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-				if (shellMenuItems.Any())
-					await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
-				else
-					RemoveOverflow(ItemContextMenuFlyout);
-			}
 		}
 
 		private void AddCloseHandler(CommandBarFlyout flyout, IList<ICommandBarElement> primaryElements, IList<ICommandBarElement> secondaryElements)
@@ -723,7 +764,9 @@ namespace Files.App.Views.LayoutModes
 		{
 			var openWithMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "openas" });
 			var sendToMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "sendto" });
-			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem).ToList();
+			var turnOnBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+			var manageBitLockerMenuItem = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "manage-bde" });
+			var shellMenuItemsFiltered = shellMenuItems.Where(x => x != openWithMenuItem && x != sendToMenuItem && x != turnOnBitLockerMenuItem && x != manageBitLockerMenuItem).ToList();
 			var mainShellMenuItems = shellMenuItemsFiltered.RemoveFrom(!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 0);
 			var overflowShellMenuItemsUnfiltered = shellMenuItemsFiltered.Except(mainShellMenuItems).ToList();
 			var overflowShellMenuItems = overflowShellMenuItemsUnfiltered.Where(
@@ -756,6 +799,19 @@ namespace Files.App.Views.LayoutModes
 				mainItems.OfType<FrameworkElement>().ForEach(x => x.MaxWidth = itemsControl.ActualWidth - Constants.UI.ContextMenuLabelMargin);
 			}
 
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"TurnOnBitLockerPlaceholder",
+				turnOnBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
+			ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				contextMenuFlyout,
+				"ManageBitLockerPlaceholder",
+				manageBitLockerMenuItem,
+				contextMenuFlyout.SecondaryCommands.Count - 2
+			);
+
 			var overflowItem = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") as AppBarButton;
 			if (overflowItem is not null)
 			{
@@ -784,8 +840,14 @@ namespace Files.App.Views.LayoutModes
 						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
-					else if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
+					else
+					{
 						overflowItem.Visibility = Visibility.Collapsed;
+
+						// Hide separators at the end of the menu
+						while (contextMenuFlyout.SecondaryCommands.LastOrDefault(x => x is UIElement element && element.Visibility is Visibility.Visible) is AppBarSeparator separator)
+							separator.Visibility = Visibility.Collapsed;
+					}
 				}
 			}
 			else

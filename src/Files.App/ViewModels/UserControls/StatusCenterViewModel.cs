@@ -123,6 +123,16 @@ namespace Files.App.ViewModels.UserControls
 			return true;
 		}
 
+		public void CloseAllBanner()
+		{
+			for (int i = StatusBannersSource.Count - 1; i >= 0; i--)
+			{
+				var itemToDismiss = StatusBannersSource[i];
+				if (!itemToDismiss.IsProgressing)
+					CloseBanner(itemToDismiss);
+			}
+		}
+
 		public void UpdateBanner(StatusBanner banner)
 		{
 			OnPropertyChanged(nameof(OngoingOperationsCount));

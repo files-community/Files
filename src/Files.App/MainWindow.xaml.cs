@@ -4,6 +4,7 @@
 using Files.App.UserControls.MultitaskingControl;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
@@ -53,6 +54,10 @@ namespace Files.App
 			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+			// Workaround for full screen window messing up the taskbar
+			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
+			InteropHelpers.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
@@ -85,18 +90,19 @@ namespace Files.App
 						else
 							await InitializeFromCmdLineArgs(rootFrame, ppm);
 					}
-					else if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
+					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
 						rootFrame.Navigate(typeof(MainPage), launchArgs.Arguments, new SuppressNavigationTransitionInfo());
 					}
+					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
+					{
+						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+					}
 					else
 					{
-						if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
-						{
-							await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
-						}
+						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					}
 					break;
 
@@ -136,6 +142,7 @@ namespace Files.App
 								else
 									await InitializeFromCmdLineArgs(rootFrame, ppm);
 								break;
+<<<<<<< HEAD
 							case "tabs":
 								var tabArgsListStr = JsonSerializer.Deserialize<List<string>>(unescapedValue);
 								List<TabItemArguments> tabArgsList = tabArgsListStr.Select(x => TabItemArguments.Deserialize(x)).ToList();
@@ -145,6 +152,11 @@ namespace Files.App
 									new SuppressNavigationTransitionInfo());
 								break;
 
+=======
+							default:
+								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+								break;
+>>>>>>> upstream/main
 						}
 					}
 					break;
@@ -159,11 +171,15 @@ namespace Files.App
 					{
 						await InitializeFromCmdLineArgs(rootFrame, parsedCommands, activationPath);
 					}
+					else
+					{
+						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					}
 					break;
 
 				case IFileActivatedEventArgs fileArgs:
 					var index = 0;
-					if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
+					if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
 						// When the navigation stack isn't restored navigate to the first page,
 						// configuring the new page by passing required information as a navigation parameter
@@ -177,11 +193,15 @@ namespace Files.App
 					break;
 			}
 
-			if (rootFrame.Content is null || rootFrame.Content as SplashScreenPage is not null)
-				rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+			if (!AppWindow.IsVisible)
+			{
+				// When resuming the cached instance
+				AppWindow.Show();
+				Activate();
+			}
 		}
 
-		private Frame EnsureWindowIsInitialized()
+		public Frame EnsureWindowIsInitialized()
 		{
 			// NOTE:
 			//  Do not repeat app initialization when the Window already has content,
@@ -227,7 +247,7 @@ namespace Files.App
 					RightPaneNavPathParam = Bounds.Width > PaneHolderPage.DualPaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
-				if (rootFrame.Content is MainPage)
+				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 					await mainPageViewModel.AddNewTabByParam(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

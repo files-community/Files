@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Files.Shared
 {
@@ -16,7 +17,9 @@ namespace Files.Shared
 
 		public ILogger CreateLogger(string categoryName)
 		{
-			return new FileLogger(path);
+			var logger = new FileLogger(path);
+			_ = Task.Run(() => logger.PurgeLogs(100));
+			return logger;
 		}
 
 		public void Dispose()

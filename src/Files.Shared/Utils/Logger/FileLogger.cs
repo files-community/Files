@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace Files.Shared
@@ -31,24 +32,49 @@ namespace Files.Shared
 
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
 		{
-			if (formatter is not null)
+			if (formatter is null)
+				return;
+			semaphoreSlim.Wait();
+
+			try
 			{
-				semaphoreSlim.Wait();
+				var message = exception?.ToString() ?? formatter(state, exception);
 
-				try
-				{
-					var message = exception?.ToString() ?? formatter(state, exception);
+				File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{message}" + Environment.NewLine);
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
+			}
+			finally
+			{
+				semaphoreSlim.Release();
+			}
+		}
 
-					File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{message}" + Environment.NewLine);
-				}
-				catch (Exception e)
+		public void PurgeLogs(int numberOfLinesKept)
+		{
+			if (!File.Exists(filePath))
+				return;
+
+			semaphoreSlim.Wait();
+
+			try
+			{
+				var lines = File.ReadAllLines(filePath);
+				if (lines.Length > numberOfLinesKept)
 				{
-					Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
+					var lastLines = lines.Skip(Math.Max(0, lines.Length - numberOfLinesKept));
+					File.WriteAllLines(filePath, lastLines);
 				}
-				finally
-				{
-					semaphoreSlim.Release();
-				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine($"Purging the log file failed with the following exception:\n{e}");
+			}
+			finally
+			{
+				semaphoreSlim.Release();
 			}
 		}
 	}

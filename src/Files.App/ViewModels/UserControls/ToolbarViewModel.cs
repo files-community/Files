@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -17,6 +18,8 @@ namespace Files.App.ViewModels.UserControls
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
@@ -58,6 +61,13 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
+		private bool _isCommandPaletteOpen;
+		public bool IsCommandPaletteOpen
+		{
+			get => _isCommandPaletteOpen;
+			set => SetProperty(ref _isCommandPaletteOpen, value);
+		}
+
 		private bool isUpdating;
 		public bool IsUpdating
 		{
@@ -84,13 +94,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			get => isReleaseNotesVisible;
 			set => SetProperty(ref isReleaseNotesVisible, value);
-		}
-
-		private bool isReleaseNotesOpen;
-		public bool IsReleaseNotesOpen
-		{
-			get => isReleaseNotesOpen;
-			set => SetProperty(ref isReleaseNotesOpen, value);
 		}
 
 		private bool canCopyPathInPage;
@@ -201,7 +204,7 @@ namespace Files.App.ViewModels.UserControls
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
+			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
@@ -221,9 +224,15 @@ namespace Files.App.ViewModels.UserControls
 				await CheckForReleaseNotesAsync();
 		}
 
-		private void DoViewReleaseNotes()
+		private async Task ViewReleaseNotesAsync()
 		{
-			IsReleaseNotesOpen = true;
+			if (ReleaseNotes is null)
+				return;
+
+			var viewModel = new ReleaseNotesDialogViewModel(ReleaseNotes);
+			var dialog = _dialogService.GetDialog(viewModel);
+
+			await dialog.TryShowAsync();
 		}
 
 		public async Task CheckForReleaseNotesAsync()
@@ -414,6 +423,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
+					IsCommandPaletteOpen = false;
 					ManualEntryBoxLoaded = false;
 					ClickablePathLoaded = true;
 				}
@@ -442,7 +452,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesCommand { get; }
+		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
@@ -511,6 +521,7 @@ namespace Files.App.ViewModels.UserControls
 		public void OpenCommandPalette()
 		{
 			PathText = ">";
+			IsCommandPaletteOpen = true;
 			ManualEntryBoxLoaded = true;
 			ClickablePathLoaded = false;
 
@@ -522,7 +533,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (IsSearchBoxVisible)
 			{
-				CloseSearchBox();
+				CloseSearchBox(true);
 			}
 			else
 			{
@@ -543,7 +554,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		public void CloseSearchBox()
+		private void CloseSearchBox(bool doFocus = false)
 		{
 			if (searchBox.WasQuerySubmitted)
 			{
@@ -554,12 +565,15 @@ namespace Files.App.ViewModels.UserControls
 				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
 
-				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+				if (doFocus)
+				{
+					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-				if (page is StandardViewBase svb && svb.IsLoaded)
-					page.ItemManipulationModel.FocusFileList();
-				else
-					AddressToolbar?.Focus(FocusState.Programmatic);
+					if (page is StandardViewBase svb && svb.IsLoaded)
+						page.ItemManipulationModel.FocusFileList();
+					else
+						AddressToolbar?.Focus(FocusState.Programmatic);
+				}
 			}
 		}
 
@@ -581,7 +595,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
-			=> CloseSearchBox();
+			=> CloseSearchBox(true);
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
@@ -782,6 +796,7 @@ namespace Files.App.ViewModels.UserControls
 
 					if (sender.Text.StartsWith(">"))
 					{
+						IsCommandPaletteOpen = true;
 						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command => command.IsExecutable &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
@@ -796,6 +811,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
+						IsCommandPaletteOpen = false;
 						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
 						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
 						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;

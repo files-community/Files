@@ -1,6 +1,7 @@
 // Copyright(c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using System.IO;
 
@@ -98,7 +99,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				string.Empty;
 
-			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
+			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
 			if (fileIconData is not null)
 			{
 				ViewModel.IconData = fileIconData;

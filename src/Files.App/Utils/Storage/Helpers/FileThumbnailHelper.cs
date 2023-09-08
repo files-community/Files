@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -44,14 +45,14 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, bool isFolder = false)
+		public static async Task<byte[]> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)
 		{
 			if (!FileExtensionHelpers.IsShortcutOrUrlFile(filePath))
 			{
 				var item = await StorageHelpers.ToStorageItem<IStorageItem>(filePath);
 				if (item is not null)
 				{
-					var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode, ThumbnailOptions.ResizeThumbnail);
+					var iconData = await LoadIconFromStorageItemAsync(item, thumbnailSize, thumbnailMode, thumbnailOptions);
 					if (iconData is not null)
 					{
 						return iconData;
