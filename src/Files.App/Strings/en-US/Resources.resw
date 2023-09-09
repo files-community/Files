@@ -3526,4 +3526,7 @@
     <value>Yellow Gold</value>
     <comment>One of the custom color themes</comment>
   </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Clear completed</value>
+  </data>
 </root>

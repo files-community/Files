@@ -391,8 +391,7 @@
 								Background="{StaticResource InfoBarInformationalSeverityBackgroundBrush}"
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="1"
-								CornerRadius="{StaticResource OverlayCornerRadius}"
-								Style="{StaticResource StatusCenterItemExpanderStyle}">
+								CornerRadius="{StaticResource OverlayCornerRadius}">
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
@@ -715,7 +714,7 @@
 				Padding="8,0"
 				HorizontalAlignment="Right"
 				Click="CloseAllItemsButton_Click"
-				Content="Clear completed"
+				Content="{helpers:ResourceString Name=ClearCompleted}"
 				FontSize="12"
 				IsEnabled="{x:Bind ViewModel.HasAnyItem, Mode=OneWay}" />
 
