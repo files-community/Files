@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-using Files.App.ViewModels.UserControls.Widgets;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -14,80 +13,9 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class QuickAccessCardEventArgs : EventArgs
-	{
-		public LocationItem Item { get; set; }
-	}
-
-	public class QuickAccessCardInvokedEventArgs : EventArgs
-	{
-		public string Path { get; set; }
-	}
-
-	public class ModifyQuickAccessEventArgs : EventArgs
-	{
-		public string[] Paths { get; set; }
-		public ShellFileItem[] Items { get; set; }
-		public bool Add;
-		public bool Pin = true;
-		public bool Reset = false;
-
-		public ModifyQuickAccessEventArgs(string[] paths, bool add)
-		{
-			Paths = paths;
-			Add = add;
-		}
-
-		public ModifyQuickAccessEventArgs(ShellFileItem[] items, bool add)
-		{
-			Paths = items.Select(x => x.FilePath).ToArray();
-			Items = items;
-			Add = add;
-		}
-	}
-
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
-	{
-		private BitmapImage thumbnail;
-		private byte[] thumbnailData;
-
-		public string AutomationProperties { get; set; }
-		public bool HasPath => !string.IsNullOrEmpty(Path);
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
-		public BitmapImage Thumbnail
-		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
-		}
-		public LocationItem Item { get; private set; }
-		public string Text { get; set; }
-		public bool IsPinned { get; set; }
-
-		public FolderCardItem(LocationItem item, string text, bool isPinned)
-		{
-			if (!string.IsNullOrWhiteSpace(text))
-			{
-				Text = text;
-				AutomationProperties = Text;
-			}
-			IsPinned = isPinned;
-			Item = item;
-			Path = item.Path;
-		}
-
-		public async Task LoadCardThumbnailAsync()
-		{
-			if (thumbnailData is null || thumbnailData.Length == 0)
-			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-			}
-			if (thumbnailData is not null && thumbnailData.Length > 0)
-			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
-			}
-		}
-	}
-
+	/// <summary>
+	/// Represents a Widget for quick accessing to storage items on Windows.
+	/// </summary>
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace Files.App.Data.Items
 {
 	public interface IWidgetItemModel : IDisposable
 	{

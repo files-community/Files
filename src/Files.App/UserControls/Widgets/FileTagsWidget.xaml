@@ -6,12 +6,11 @@
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:Files.App.ViewModels.Widgets"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
+	xmlns:vm="using:Files.App.ViewModels.UserControls.Widgets"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -22,20 +21,9 @@
 	<!--  Collection of containers  -->
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
 
-		<ItemsRepeater.Layout>
-			<UniformGridLayout
-				ItemsStretch="Fill"
-				MaximumRowsOrColumns="6"
-				MinColumnSpacing="8"
-				MinItemHeight="260"
-				MinItemWidth="220"
-				MinRowSpacing="8"
-				Orientation="Horizontal" />
-		</ItemsRepeater.Layout>
-
 		<!--  Container template  -->
 		<ItemsRepeater.ItemTemplate>
-			<DataTemplate x:DataType="vm:FileTagsContainerViewModel">
+			<DataTemplate x:DataType="dataitems:FileTagsContainerViewModel">
 				<Grid
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
@@ -164,6 +152,17 @@
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
+
+		<ItemsRepeater.Layout>
+			<UniformGridLayout
+				ItemsStretch="Fill"
+				MaximumRowsOrColumns="6"
+				MinColumnSpacing="8"
+				MinItemHeight="260"
+				MinItemWidth="220"
+				MinRowSpacing="8"
+				Orientation="Horizontal" />
+		</ItemsRepeater.Layout>
 
 	</ItemsRepeater>
 </local:HomePageWidget>

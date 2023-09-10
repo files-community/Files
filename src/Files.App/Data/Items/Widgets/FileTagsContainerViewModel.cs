@@ -4,7 +4,7 @@
 using Files.Core.Storage;
 using Files.Shared.Utils;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
 	public sealed partial class FileTagsContainerViewModel : ObservableObject, IAsyncInitialize
 	{

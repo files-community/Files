@@ -27,7 +27,7 @@ namespace Files.App.UserControls.Widgets
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
+		private ObservableCollection<RecentItem> recentItemsCollection = new();
 
 		private SemaphoreSlim refreshRecentsSemaphore;
 

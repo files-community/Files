@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
@@ -14,19 +15,8 @@
 			HorizontalAlignment="Stretch"
 			ItemsSource="{x:Bind local:QuickAccessWidget.ItemsAdded, Mode=OneWay}">
 
-			<ItemsRepeater.Layout>
-				<UniformGridLayout
-					ItemsStretch="Fill"
-					MaximumRowsOrColumns="6"
-					MinColumnSpacing="8"
-					MinItemHeight="72"
-					MinItemWidth="100"
-					MinRowSpacing="8"
-					Orientation="Horizontal" />
-			</ItemsRepeater.Layout>
-
 			<ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="local:FolderCardItem">
+				<DataTemplate x:DataType="dataitems:FolderCardItem">
 					<Button
 						Padding="8"
 						HorizontalAlignment="Stretch"
@@ -81,6 +71,17 @@
 					</Button>
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
+
+			<ItemsRepeater.Layout>
+				<UniformGridLayout
+					ItemsStretch="Fill"
+					MaximumRowsOrColumns="6"
+					MinColumnSpacing="8"
+					MinItemHeight="72"
+					MinItemWidth="100"
+					MinRowSpacing="8"
+					Orientation="Horizontal" />
+			</ItemsRepeater.Layout>
 
 		</ItemsRepeater>
 	</Grid>

@@ -3,12 +3,11 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace Files.App.Data.Items
 {
 	public class WidgetsListControlItemViewModel : ObservableObject, IDisposable
 	{
 		private readonly Action<bool> _expanderValueChangedCallback;
-
 		private readonly Func<bool> _expanderValueRequestedCallback;
 
 		private object _WidgetControl;
@@ -16,13 +15,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			get => _WidgetControl;
 			set => SetProperty(ref _WidgetControl, value);
-		}
-
-		public WidgetsListControlItemViewModel(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
-		{
-			WidgetControl = widgetControl;
-			_expanderValueChangedCallback = expanderValueChangedCallback;
-			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 		}
 
 		public bool IsExpanded
@@ -53,6 +45,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public MenuFlyoutItem MenuFlyoutItem
 		{
 			get => WidgetItemModel.MenuFlyoutItem;
+		}
+
+		public WidgetsListControlItemViewModel(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
+		{
+			WidgetControl = widgetControl;
+			_expanderValueChangedCallback = expanderValueChangedCallback;
+			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 		}
 
 		public void Dispose()

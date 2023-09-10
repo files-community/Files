@@ -2,15 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.UserControls.Widgets;
-using Files.Core.Services.Settings;
-using System.Collections.Generic;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper to handle Widgets.
+	/// </summary>
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, HomeViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
 		{
 			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(generalSettingsService);
@@ -41,24 +41,18 @@ namespace Files.App.Helpers
 		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetItemModel
 		{
 			if (typeof(TWidget) == typeof(QuickAccessWidget))
-			{
 				return generalSettingsService.ShowQuickAccessWidget;
-			}
-			if (typeof(TWidget) == typeof(DrivesWidget))
-			{
-				return generalSettingsService.ShowDrivesWidget;
-			}
-			if (typeof(TWidget) == typeof(FileTagsWidget))
-			{
-				return generalSettingsService.ShowFileTagsWidget;
-			}
-			if (typeof(TWidget) == typeof(RecentFilesWidget))
-			{
-				return generalSettingsService.ShowRecentFilesWidget;
-			}
 
-			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			if (typeof(TWidget) == typeof(DrivesWidget))
+				return generalSettingsService.ShowDrivesWidget;
+
+			if (typeof(TWidget) == typeof(FileTagsWidget))
+				return generalSettingsService.ShowFileTagsWidget;
+
+			if (typeof(TWidget) == typeof(RecentFilesWidget))
+				return generalSettingsService.ShowRecentFilesWidget;
+
+			return false; 
 		}
 	}
 }

@@ -150,6 +150,7 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<OngoingTasksViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					.AddSingleton<HomeViewModel>()
 				).Build();
 		}
 

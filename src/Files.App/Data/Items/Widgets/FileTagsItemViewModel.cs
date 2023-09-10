@@ -5,7 +5,7 @@ using Files.App.UserControls.Widgets;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.Data.Items
 {
 	public sealed partial class FileTagsItemViewModel : WidgetCardItem
 	{

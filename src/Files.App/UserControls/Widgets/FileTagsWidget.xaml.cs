@@ -3,7 +3,6 @@
 
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -12,10 +11,11 @@ using System.IO;
 using System.Windows.Input;
 using Windows.Storage;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls.Widgets
 {
+	/// <summary>
+	/// Represents a Widget for File Tags on Windows.
+	/// </summary>
 	public sealed partial class FileTagsWidget : HomePageWidget, IWidgetItemModel
 	{
 		private readonly IUserSettingsService userSettingsService;
