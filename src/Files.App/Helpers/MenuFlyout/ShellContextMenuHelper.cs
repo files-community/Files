@@ -257,7 +257,7 @@ namespace Files.App.Helpers
 
 				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => 
 					x.Tag is Win32ContextMenuItem menuItem && 
-					menuItem.CommandString.StartsWith("encrypt-bde"));
+					(menuItem.CommandString?.StartsWith("encrypt-bde") ?? false));
 
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);

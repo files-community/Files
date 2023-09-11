@@ -35,8 +35,18 @@ namespace Files.App.ViewModels.Properties
 				var props = new DriveProperties(ViewModel, drive, AppInstance);
 				BaseProperties = props;
 
+				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, "C:\\", StringComparison.OrdinalIgnoreCase));
 				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSense(props.Drive.Path));
-				ViewModel.FormatDriveCommand = new AsyncRelayCommand(() => Win32API.OpenFormatDriveDialog(props.Drive.Path));
+				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
+				{
+					try
+					{
+						await Win32API.OpenFormatDriveDialog(props.Drive.Path);
+					}
+					catch (Exception)
+					{
+					}
+				});
 			}
 			// Storage objects (multi-selected)
 			else if (np.Parameter is List<ListedItem> items)

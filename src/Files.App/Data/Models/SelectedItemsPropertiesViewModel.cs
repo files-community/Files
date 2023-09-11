@@ -467,6 +467,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref cleanupDriveCommand, value);
 		}
 
+		private bool formatVisibility = false;
+		public bool FormatVisibility
+		{
+			get => formatVisibility;
+			set => SetProperty(ref formatVisibility, value);
+		}
+
 		private ICommand formatDriveCommand;
 		public ICommand FormatDriveCommand
 		{

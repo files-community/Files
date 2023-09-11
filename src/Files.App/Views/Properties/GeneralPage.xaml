@@ -359,9 +359,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<!--  Space Used Progress  -->
@@ -540,32 +537,37 @@
 					</Button.Flyout>
 				</Button>
 
-				<!--  (Divider)  -->
-				<Border
-					Grid.Row="3"
-					Grid.Column="0"
-					Grid.ColumnSpan="4"
-					Height="1"
-					Margin="-16,0"
-					Background="{ThemeResource DividerStrokeColorDefault}" />
-
-				<!--  Disk Cleanup  -->
-				<controls:SettingsBlockControl
-					Title="{helpers:ResourceString Name=CleanupDrive}"
-					Grid.Row="4"
-					Grid.ColumnSpan="4"
-					ButtonCommand="{x:Bind ViewModel.CleanupDriveCommand}"
-					IsClickable="True" />
-
-				<!--  Format Disk  -->
-				<controls:SettingsBlockControl
-					Title="{helpers:ResourceString Name=FormatYourDrive}"
-					Grid.Row="5"
-					Grid.ColumnSpan="4"
-					ButtonCommand="{x:Bind ViewModel.FormatDriveCommand}"
-					IsClickable="True" />
-
 			</Grid>
+
+			<!--  Disk Cleanup  -->
+			<controls:SettingsBlockControl
+				x:Name="CleanupDriveBlockControl"
+				Title="{helpers:ResourceString Name=CleanupDrive}"
+				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
+				ButtonCommand="{x:Bind ViewModel.CleanupDriveCommand}"
+				IsClickable="True">
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+
+			</controls:SettingsBlockControl>
+
+			<!--  Format Disk  -->
+			<controls:SettingsBlockControl
+				x:Name="FormatDriveBlockControl"
+				Title="{helpers:ResourceString Name=FormatYourDrive}"
+				x:Load="{x:Bind ViewModel.FormatVisibility, Mode=OneWay}"
+				ButtonCommand="{x:Bind ViewModel.FormatDriveCommand}"
+				IsClickable="True">
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+
+			</controls:SettingsBlockControl>
 
 			<!--  Item Attributes  -->
 			<Expander
