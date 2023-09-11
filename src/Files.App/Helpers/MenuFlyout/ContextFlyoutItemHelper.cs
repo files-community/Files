@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.ViewModels.LayoutModes;
+using Files.Shared.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml.Controls;
@@ -559,10 +561,16 @@ namespace Files.App.Helpers
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
+				// Shell extensions are not available on the FTP server or in the archive,
+				// but following items are intentionally added because icons in the context menu will not appear
+				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -572,6 +580,8 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					IsEnabled = false

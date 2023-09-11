@@ -35,10 +35,11 @@ namespace Files.App.Actions
 				if (itemCount == selectedItemCount)
 					return false;
 
+				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
 				bool isRenaming = page.SlimContentPage.IsRenamingItem;
 
-				return !isEditing && !isRenaming;
+				return isCommandPaletteOpen || (!isEditing && !isRenaming);
 			}
 		}
 

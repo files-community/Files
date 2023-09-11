@@ -2,10 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
@@ -24,6 +20,10 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
 		private TabViewItem? hoveredTabViewItem;
+
+		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
+		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowTabsDrag => !ElevationHelpers.IsAppRunAsAdmin();
 
 		public HorizontalMultitaskingControl()
 		{
@@ -63,7 +63,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = !ElevationHelpers.IsAppRunAsAdmin();
 			tabHoverTimer.Stop();
 		}
 
@@ -105,7 +105,7 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true;
+				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
@@ -119,12 +119,12 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		private void TabStrip_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
 		private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true;
+			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 			if (!(sender is TabView tabStrip))
 			{
 				return;
@@ -231,11 +231,11 @@ namespace Files.App.UserControls.MultitaskingControl
 		{
 			if (sender is TabViewItem tvi && tvi.FindDescendant("IconControl") is ContentControl control)
 			{
-				control.Content = (tvi.IconSource as ImageIconSource).CreateIconElement();
+				control.Content = (tvi.IconSource as ImageIconSource)?.CreateIconElement();
 				tvi.RegisterPropertyChangedCallback(TabViewItem.IconSourceProperty, (s, args) =>
 				{
 					if (s is TabViewItem tabViewItem && tabViewItem.FindDescendant("IconControl") is ContentControl iconControl)
-						iconControl.Content = (tabViewItem.IconSource as ImageIconSource).CreateIconElement();
+						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
 		}

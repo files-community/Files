@@ -13,6 +13,12 @@ namespace Files.App.Services.Settings
 			get => Get(false);
 			set => Set(value);
 		}
+		
+		public bool ShowRunningAsAdminPrompt
+		{
+			get => Get(true);
+			set => Set(value);
+		}
 
 		public ApplicationSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

@@ -64,7 +64,7 @@ namespace Files.App.ViewModels.Properties
 					if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
 					{
 						// Has multiple values
-						prop.Value = null;
+						prop.Value = prop.IsReadOnly ? "MultipleValues".GetLocalizedResource() : null;
 						prop.PlaceholderText = "MultipleValues".GetLocalizedResource();
 					}
 				}

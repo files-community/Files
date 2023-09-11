@@ -3429,4 +3429,13 @@
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>起始位置:</value>
   </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>打开 BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>管理 BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>以下项目过大，无法复制到此驱动器</value>
+  </data>
 </root>

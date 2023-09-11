@@ -5,6 +5,8 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Vanara.PInvoke;
+using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -12,6 +14,9 @@ namespace Files.App.Helpers
 	{
 		public static readonly Guid DataTransferManagerInteropIID =
 			new(0xa5caee9b, 0x8708, 0x49d1, 0x8d, 0x36, 0x67, 0xd2, 0x5a, 0x8d, 0xa0, 0x0c);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern bool SetPropW(IntPtr hWnd, string lpString, IntPtr hData);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -47,6 +52,20 @@ namespace Files.App.Helpers
 				uiElement,
 				new object[] { cursor }
 			);
+		}
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLong")]
+		private static extern int SetWindowLongPtr32(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		[DllImport(Lib.User32, SetLastError = true, EntryPoint = "SetWindowLongPtr")]
+		private static extern IntPtr SetWindowLongPtr64(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong);
+
+		public static IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+		{
+			if (IntPtr.Size == 4)
+				return SetWindowLongPtr32(hWnd, nIndex, dwNewLong);
+			else
+				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
 	}
 
