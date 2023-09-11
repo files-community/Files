@@ -388,7 +388,7 @@
 								Padding="8,8,8,8"
 								HorizontalAlignment="Stretch"
 								AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
-								Background="{StaticResource InfoBarInformationalSeverityBackgroundBrush}"
+								Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
 								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 								BorderThickness="1"
 								CornerRadius="{StaticResource OverlayCornerRadius}">
@@ -433,8 +433,7 @@
 											Width="16"
 											Height="16"
 											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											Data="{StaticResource ColorIconFilledTag}" />
+											VerticalAlignment="Center" />
 
 									</Grid>
 
@@ -461,7 +460,8 @@
 											Style="{StaticResource CaptionTextBlockStyle}"
 											Text="{x:Bind SubHeader, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap" />
+											TextWrapping="NoWrap"
+											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
 
 									</StackPanel>
 
@@ -653,7 +653,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Delete" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionDelete}" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="RecycleIconState">
@@ -661,7 +661,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Recycle" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionDelete}" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="SuccessfulIconState">
@@ -669,7 +669,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionSuccess}" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionSuccess}" />
 											</VisualState.Setters>
 										</VisualState>
 										<VisualState x:Name="ErrorIconState">
@@ -677,7 +677,7 @@
 												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
 											</VisualState.StateTriggers>
 											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource Theme.PathIcon.ActionInfo}" />
+												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionInfo}" />
 											</VisualState.Setters>
 										</VisualState>
 									</VisualStateGroup>
@@ -724,7 +724,7 @@
 		<ListView
 			x:Name="StatusCenterItemsListView"
 			Grid.Row="1"
-			Padding="4,0"
+			Padding="10,0"
 			VerticalAlignment="Stretch"
 			ItemTemplate="{StaticResource StatusCenterItemCardStyleDataTemplate}"
 			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"
@@ -735,7 +735,7 @@
 			<!--  Item Style  -->
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-					<Setter Property="Padding" Value="0,2" />
+					<Setter Property="Margin" Value="0,2" />
 				</Style>
 			</ListView.ItemContainerStyle>
 
