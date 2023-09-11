@@ -121,7 +121,7 @@
 						</controls:AdaptiveGridView.ItemContainerStyle>
 
 						<controls:AdaptiveGridView.ItemTemplate>
-							<DataTemplate x:DataType="vm:FileTagsItemViewModel">
+							<DataTemplate x:DataType="dataitems:FileTagsItemViewModel">
 								<Grid
 									ColumnSpacing="8"
 									DataContext="{x:Bind}"
