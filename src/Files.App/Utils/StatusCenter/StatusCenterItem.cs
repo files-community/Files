@@ -39,12 +39,9 @@ namespace Files.App.Utils.StatusCenter
 			get => _IsExpanded;
 			set
 			{
-				SetProperty(ref _IsExpanded, value);
+				AnimatedIconState = value ? "NormalOn" : "NormalOff";
 
-				if (value)
-					AnimatedIconState = "NormalOn";
-				else
-					AnimatedIconState = "NormalOff";
+				SetProperty(ref _IsExpanded, value);
 			}
 		}
 
@@ -193,14 +190,17 @@ namespace Files.App.Utils.StatusCenter
 			{
 				switch (value.TotalSize, value.ItemsCount)
 				{
+					// In progress, displaying items count & processed size
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
 						break;
+					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
 						break;
+					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";

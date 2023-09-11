@@ -2007,9 +2007,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Clear all</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Create Library</value>
   </data>

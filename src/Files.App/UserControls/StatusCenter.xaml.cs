@@ -26,9 +26,7 @@ namespace Files.App.UserControls
 		private void CloseItemButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button button && button.DataContext is StatusCenterItem item)
-			{
 				ViewModel.RemoveItem(item);
-			}
 		}
 
 		private void ExpandCollapseChevronItemButton_Click(object sender, RoutedEventArgs e)
@@ -38,9 +36,7 @@ namespace Files.App.UserControls
 				var buttonAnimatedIcon = button.FindDescendant<AnimatedIcon>();
 
 				if (buttonAnimatedIcon is not null)
-				{
 					AnimatedIcon.SetState(buttonAnimatedIcon, item.IsExpanded ? "NormalOff" : "NormalOn");
-				}
 
 				item.IsExpanded = !item.IsExpanded;
 			}

@@ -90,11 +90,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void RemoveAllCompletedItems()
 		{
-			StatusCenterItems.ForEach((x) =>
-			{
-				if (!x.IsInProgress)
-					RemoveItem(x);
-			});
+			StatusCenterItems.ToList().RemoveAll(x => !x.IsInProgress);
 		}
 
 		public void NotifyChanges()
