@@ -7,6 +7,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
 	xmlns:uc="using:Files.App.UserControls"
@@ -543,7 +544,7 @@
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
 									<!--  Graph  -->
-									<!--<Grid
+									<Grid
 										x:Name="MainGraphCartesianChartClipGrid"
 										Height="64"
 										Margin="4,8,0,8"
@@ -564,12 +565,13 @@
 
 										<livecharts2:CartesianChart
 											x:Name="MainCartesianChart"
+											AnimationsSpeed="00:00:00.001"
 											Series="{x:Bind Series, Mode=OneWay}"
 											TooltipPosition="Hidden"
 											XAxes="{x:Bind XAxes}"
 											YAxes="{x:Bind YAxes}" />
 
-									</Grid>-->
+									</Grid>
 
 									<!--  Action Buttons  -->
 									<Grid Grid.Column="1">

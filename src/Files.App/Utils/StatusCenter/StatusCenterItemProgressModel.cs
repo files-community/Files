@@ -14,6 +14,14 @@ namespace Files.App.Utils.StatusCenter
 
 		private bool _criticalReport;
 
+		private int _previousWriteAmount;
+
+		private int _currentWriteAmount;
+
+		private DateTimeOffset _previousProgressUpdate;
+
+		private DateTimeOffset _currentProgressUpdate;
+
 		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
 		{

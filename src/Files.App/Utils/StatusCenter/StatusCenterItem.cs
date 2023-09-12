@@ -2,6 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
+using SkiaSharp;
+using LiveChartsCore;
+using LiveChartsCore.Drawing;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -70,6 +76,58 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelled, value);
 		}
 
+		private StatusCenterItemProgressModel _Progress = null!;
+		public StatusCenterItemProgressModel Progress
+		{
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
+		}
+
+		// (_currentWriteAmount[Mib,kiB,B] - _previousWriteAmount[Mib,kiB,B]) / (pasted seconds[s])
+		private string? _SpeedText;
+		public string? SpeedText
+		{
+			get => _SpeedText;
+			set => SetProperty(ref _SpeedText, value);
+		}
+
+		public ObservableCollection<int> Values { get; set; }
+
+		public ObservableCollection<ISeries> Series { get; set; }
+
+		public IList<ICartesianAxis> XAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+				MaxLimit = 100,
+
+				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
+			}
+		};
+
+		public IList<ICartesianAxis> YAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+
+				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
+			}
+		};
+
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
@@ -86,15 +144,13 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public readonly StatusCenterItemProgressModel Progress;
-
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = null)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource? operationCancellationToken = null)
 		{
 			_operationCancellationToken = operationCancellationToken;
 			SubHeader = message;
@@ -106,6 +162,19 @@ namespace Files.App.Utils.StatusCenter
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+
+			Values = new();
+
+			Series = new()
+			{
+				new LineSeries<int>
+				{
+					Values = Values,
+					GeometrySize = 0,
+					Stroke = new SolidColorPaint(new(25, 118, 210), 1),
+					DataPadding = new(0, 0),
+				}
+			};
 
 			switch (FileSystemOperationReturnResult)
 			{
