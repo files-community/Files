@@ -3,12 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.CustomTabView
+namespace Files.App.UserControls.TabBar
 {
 	/// <summary>
-	/// Represents item for <see cref="CustomTabView"/>.
+	/// Represents item for <see cref="TabBar"/>.
 	/// </summary>
-	public sealed class CustomTabViewItem : ObservableObject, ICustomTabViewItem, IDisposable
+	public sealed class TabBarItem : ObservableObject, ITabBarItem, IDisposable
 	{
 		public Frame ContentFrame { get; private set; }
 
@@ -70,10 +70,10 @@ namespace Files.App.UserControls.CustomTabView
 			}
 		}
 
-		public ICustomTabViewItemContent TabItemContent
-			=> ContentFrame?.Content as ICustomTabViewItemContent;
+		public ITabBarItemContent TabItemContent
+			=> ContentFrame?.Content as ITabBarItemContent;
 
-		public CustomTabViewItem()
+		public TabBarItem()
 		{
 			ContentFrame = new()
 			{

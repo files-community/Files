@@ -3,12 +3,12 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.CustomTabView
+namespace Files.App.UserControls.TabBar
 {
 	/// <summary>
-	/// Represents an interface for <see cref="CustomTabViewItem"/>.
+	/// Represents an interface for <see cref="TabBarItem"/>.
 	/// </summary>
-	public interface ICustomTabViewItem
+	public interface ITabBarItem
 	{
 		IconSource IconSource { get; }
 

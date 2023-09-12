@@ -18,14 +18,14 @@ namespace Files.App.ViewModels
 		private readonly NetworkDrivesViewModel networkDrivesViewModel;
 		private IResourcesService resourcesService;
 
-		public ICustomTabView? MultitaskingControl { get; set; }
+		public ITabBar? MultitaskingControl { get; set; }
 
-		public List<ICustomTabView> MultitaskingControls { get; } = new List<ICustomTabView>();
+		public List<ITabBar> MultitaskingControls { get; } = new List<ITabBar>();
 
-		public static ObservableCollection<Files.App.UserControls.CustomTabView.CustomTabViewItem> AppInstances { get; private set; } = new ObservableCollection<Files.App.UserControls.CustomTabView.CustomTabViewItem>();
+		public static ObservableCollection<Files.App.UserControls.TabBar.TabBarItem> AppInstances { get; private set; } = new ObservableCollection<Files.App.UserControls.TabBar.TabBarItem>();
 
-		private Files.App.UserControls.CustomTabView.CustomTabViewItem? selectedTabItem;
-		public Files.App.UserControls.CustomTabView.CustomTabViewItem? SelectedTabItem
+		private Files.App.UserControls.TabBar.TabBarItem? selectedTabItem;
+		public Files.App.UserControls.TabBar.TabBarItem? SelectedTabItem
 		{
 			get => selectedTabItem;
 			set => SetProperty(ref selectedTabItem, value);
@@ -114,7 +114,7 @@ namespace Files.App.ViewModels
 			else if (path.EndsWith("\\?")) // Support drives launched through jump list by stripping away the question mark at the end.
 				path = path.Remove(path.Length - 1);
 
-			var tabItem = new Files.App.UserControls.CustomTabView.CustomTabViewItem()
+			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -161,7 +161,7 @@ namespace Files.App.ViewModels
 				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
-		public async Task UpdateTabInfo(Files.App.UserControls.CustomTabView.CustomTabViewItem tabItem, object navigationArg)
+		public async Task UpdateTabInfo(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -293,7 +293,7 @@ namespace Files.App.ViewModels
 						for (int i = 0; i < items.Length; i++)
 							items[i] = CustomTabViewItemParameter.Deserialize(userSettingsService.GeneralSettingsService.LastSessionTabList[i]);
 
-						BaseCustomTabView.PushRecentTab(items);
+						BaseTabBar.PushRecentTab(items);
 					}
 
 					if (userSettingsService.AppSettingsService.RestoreTabsOnStartup)
@@ -395,7 +395,7 @@ namespace Files.App.ViewModels
 
 		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
-			var tabItem = new Files.App.UserControls.CustomTabView.CustomTabViewItem()
+			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
 				Header = null,
 				IconSource = null,
@@ -423,7 +423,7 @@ namespace Files.App.ViewModels
 			if (sender is null)
 				return;
 
-			var matchingTabItem = AppInstances.SingleOrDefault(x => x == (Files.App.UserControls.CustomTabView.CustomTabViewItem)sender);
+			var matchingTabItem = AppInstances.SingleOrDefault(x => x == (Files.App.UserControls.TabBar.TabBarItem)sender);
 			if (matchingTabItem is null)
 				return;
 

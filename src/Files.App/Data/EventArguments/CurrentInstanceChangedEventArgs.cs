@@ -5,8 +5,8 @@ namespace Files.App.Data.EventArguments
 {
 	public class CurrentInstanceChangedEventArgs : EventArgs
 	{
-		public ICustomTabViewItemContent CurrentInstance { get; set; }
+		public ITabBarItemContent CurrentInstance { get; set; }
 
-		public List<ICustomTabViewItemContent> PageInstances { get; set; }
+		public List<ITabBarItemContent> PageInstances { get; set; }
 	}
 }

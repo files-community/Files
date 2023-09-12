@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.CustomTabView;
+using Files.App.UserControls.TabBar;
 
 namespace Files.App.Actions
 {
@@ -20,15 +20,15 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.Control is not null &&
-			!BaseCustomTabView.IsRestoringClosedTab &&
-			BaseCustomTabView.RecentlyClosedTabs.Count > 0;
+			!BaseTabBar.IsRestoringClosedTab &&
+			BaseTabBar.RecentlyClosedTabs.Count > 0;
 
 		public ReopenClosedTabAction()
 		{
 			context = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
-			BaseCustomTabView.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
+			BaseTabBar.StaticPropertyChanged += BaseMultitaskingControl_StaticPropertyChanged;
 		}
 
 		public Task ExecuteAsync()

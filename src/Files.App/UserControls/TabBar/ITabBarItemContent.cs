@@ -3,12 +3,12 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UserControls.CustomTabView
+namespace Files.App.UserControls.TabBar
 {
 	/// <summary>
-	/// Represents content item for <see cref="CustomTabViewItem"/>.
+	/// Represents content item for <see cref="TabBarItem"/>.
 	/// </summary>
-	public interface ICustomTabViewItemContent
+	public interface ITabBarItemContent
 	{
 		public bool IsCurrentInstance { get; set; }
 

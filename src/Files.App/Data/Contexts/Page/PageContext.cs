@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.CustomTabView;
+using Files.App.UserControls.TabBar;
 using Files.App.Views;
 using System;
 using System.ComponentModel;
