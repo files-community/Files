@@ -36,11 +36,8 @@
 		<DataTemplate x:Key="ConflictItemDataTemplate" x:DataType="vm:FileSystemDialogConflictItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="48" />
-					<!--  Content  -->
 					<ColumnDefinition Width="*" />
-					<!--  Options  -->
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
@@ -61,34 +58,45 @@
 						Spacing="4"
 						Tapped="NameStackPanel_Tapped"
 						Visibility="{x:Bind IsTextBoxVisible, Mode=OneWay, Converter={StaticResource VisibilityInvertConverter}}">
+
 						<StackPanel Orientation="Horizontal" Spacing="8">
+
 							<TextBlock
 								FontSize="14"
 								Text="{x:Bind DisplayName, Mode=OneWay}"
 								ToolTipService.ToolTip="{x:Bind DisplayName, Mode=OneWay}" />
+
 							<FontIcon FontSize="10" Glyph="&#xE72A;" />
+
 							<TextBlock
 								FontSize="14"
 								Text="{x:Bind DestinationDisplayName, Mode=OneWay}"
 								TextTrimming="CharacterEllipsis"
 								ToolTipService.ToolTip="{x:Bind DestinationDisplayName, Mode=OneWay}" />
+
 						</StackPanel>
+
 						<StackPanel Orientation="Horizontal" Spacing="8">
+
 							<TextBlock
 								FontSize="13"
 								Foreground="{ThemeResource SystemAccentColor}"
 								Text="{x:Bind SourceDirectoryDisplayName}"
 								ToolTipService.ToolTip="{x:Bind SourcePath}" />
+
 							<FontIcon
 								FontSize="10"
 								Foreground="{ThemeResource SystemAccentColor}"
 								Glyph="&#xE72A;" />
+
 							<TextBlock
 								FontSize="13"
 								Foreground="{ThemeResource SystemAccentColor}"
 								Text="{x:Bind DestinationDirectoryDisplayName}"
 								ToolTipService.ToolTip="{x:Bind DestinationPath, Mode=OneWay}" />
+
 						</StackPanel>
+
 					</StackPanel>
 
 					<!--  Name edit box  -->
@@ -100,6 +108,7 @@
 						Loaded="NameEdit_Loaded"
 						LostFocus="NameEdit_LostFocus"
 						Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
 				</Grid>
 
 				<!--  Options  -->
@@ -118,15 +127,14 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 		</DataTemplate>
 
 		<DataTemplate x:Key="DefaultItemDataTemplate" x:DataType="vm:FileSystemDialogDefaultItemViewModel">
 			<Grid ColumnSpacing="12">
 				<Grid.ColumnDefinitions>
-					<!--  Icon  -->
 					<ColumnDefinition Width="Auto" />
-					<!--  Content  -->
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
@@ -150,6 +158,7 @@
 						Text="{x:Bind SourcePath}"
 						ToolTipService.ToolTip="{x:Bind SourcePath}" />
 				</StackPanel>
+
 			</Grid>
 		</DataTemplate>
 	</ContentDialog.Resources>
@@ -233,5 +242,6 @@
 			</ListView>
 
 		</StackPanel>
+
 	</Grid>
 </ContentDialog>

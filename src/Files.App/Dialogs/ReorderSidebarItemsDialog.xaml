@@ -56,5 +56,6 @@
 			</ListView.ItemTemplate>
 
 		</ListView>
+
 	</Grid>
 </ContentDialog>

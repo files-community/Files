@@ -85,5 +85,6 @@
 				Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
 				NavigateUri="https://github.com/sponsors/yaira2" />
 		</Border>
+
 	</Grid>
 </ContentDialog>

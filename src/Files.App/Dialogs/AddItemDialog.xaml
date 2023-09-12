@@ -29,9 +29,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid x:Name="SubtitleArea">
-			<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
-		</Grid>
+		<TextBlock x:Name="Description" Text="{helpers:ResourceString Name=AddDialogDescription/Text}" />
 
 		<Grid
 			x:Name="SelectionListContent"
@@ -47,7 +45,9 @@
 					<DataTemplate x:DataType="vm:AddItemDialogListItemViewModel">
 						<Grid Height="50">
 							<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
 								<Grid Margin="0,0,10,0" VerticalAlignment="Center">
+
 									<Viewbox
 										x:Name="IconRoot"
 										Width="24"
@@ -56,6 +56,7 @@
 										VerticalAlignment="Center">
 										<FontIcon Glyph="{x:Bind Glyph, Mode=OneWay}" />
 									</Viewbox>
+
 									<Image
 										Width="24"
 										Height="24"
@@ -64,11 +65,14 @@
 										VerticalAlignment="Center"
 										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}"
 										Stretch="Uniform" />
+
 								</Grid>
+
 								<StackPanel>
 									<TextBlock Text="{x:Bind Header, Mode=OneWay}" />
 									<TextBlock Foreground="Gray" Text="{x:Bind SubHeader, Mode=OneWay}" />
 								</StackPanel>
+
 							</StackPanel>
 						</Grid>
 					</DataTemplate>

@@ -33,10 +33,12 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
+
 			<TextBlock
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=Name}" />
+
 			<TextBox
 				x:Name="BranchNameBox"
 				Grid.Column="1"
@@ -52,6 +54,7 @@
 						Target="{x:Bind BranchNameBox}" />
 				</TextBox.Resources>
 			</TextBox>
+
 		</Grid>
 
 		<!--  Branch Options  -->
@@ -78,6 +81,7 @@
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=BasedOn}" />
+
 			<ComboBox
 				x:Name="BranchBox"
 				Grid.Row="0"
@@ -92,12 +96,14 @@
 				Grid.Column="0"
 				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=SwitchToNewBranch}" />
+
 			<ToggleSwitch
 				Grid.Row="1"
 				Grid.Column="1"
 				MinWidth="0"
 				HorizontalAlignment="Right"
 				IsOn="{x:Bind ViewModel.Checkout, Mode=TwoWay}" />
+
 		</Grid>
 
 	</StackPanel>

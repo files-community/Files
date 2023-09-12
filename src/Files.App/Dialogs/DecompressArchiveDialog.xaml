@@ -88,5 +88,6 @@
 				IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
 
 		</StackPanel>
+
 	</Border>
 </ContentDialog>
