@@ -557,7 +557,7 @@
 			<!--  Format Disk  -->
 			<controls:SettingsBlockControl
 				x:Name="FormatDriveBlockControl"
-				Title="{helpers:ResourceString Name=FormatYourDrive}"
+				Title="{helpers:ResourceString Name=FormatDrive}"
 				x:Load="{x:Bind ViewModel.FormatVisibility, Mode=OneWay}"
 				ButtonCommand="{x:Bind ViewModel.FormatDriveCommand}"
 				IsClickable="True">

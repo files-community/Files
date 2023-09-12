@@ -3435,8 +3435,8 @@
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>The following items are too large to be copied to this drive</value>
   </data>
-  <data name="FormatYourDrive" xml:space="preserve">
-    <value>Format your drive</value>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Format drive</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
     <value>Don't show again</value>
