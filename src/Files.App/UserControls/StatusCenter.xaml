@@ -724,7 +724,7 @@
 		<ListView
 			x:Name="StatusCenterItemsListView"
 			Grid.Row="1"
-			Padding="10,0"
+			Padding="12,0,12,0"
 			VerticalAlignment="Stretch"
 			ItemTemplate="{StaticResource StatusCenterItemCardStyleDataTemplate}"
 			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"
@@ -735,7 +735,8 @@
 			<!--  Item Style  -->
 			<ListView.ItemContainerStyle>
 				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-					<Setter Property="Margin" Value="0,2" />
+					<Setter Property="Margin" Value="0,2,0,2" />
+					<Setter Property="Padding" Value="0,0,0,0" />
 				</Style>
 			</ListView.ItemContainerStyle>
 
