@@ -490,7 +490,7 @@
 										</Button>
 
 										<!--  Expand & Collapse Chevron  -->
-										<!--<ToggleButton
+										<ToggleButton
 											x:Name="ExpandCollapseChevronItemButton"
 											Width="32"
 											Height="32"
@@ -517,7 +517,7 @@
 														IsTextScaleFactorEnabled="False" />
 												</AnimatedIcon.FallbackIconSource>
 											</AnimatedIcon>
-										</ToggleButton>-->
+										</ToggleButton>
 
 									</StackPanel>
 

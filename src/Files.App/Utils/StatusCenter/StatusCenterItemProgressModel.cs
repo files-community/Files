@@ -14,13 +14,9 @@ namespace Files.App.Utils.StatusCenter
 
 		private bool _criticalReport;
 
-		private int _previousWriteAmount;
+		private long _previousWriteAmount;
 
-		private int _currentWriteAmount;
-
-		private DateTimeOffset _previousProgressUpdate;
-
-		private DateTimeOffset _currentProgressUpdate;
+		private DateTimeOffset _previousProgressUpdateDate;
 
 		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
@@ -83,6 +79,13 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
+		public long _ProcessingSpeed;
+		public long ProcessingSpeed
+		{
+			get => _ProcessingSpeed;
+			set => SetProperty(ref _ProcessingSpeed, value);
+		}
+
 		public DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
 		{
@@ -131,7 +134,19 @@ namespace Files.App.Utils.StatusCenter
 
 			if (_progress is not null && (_criticalReport || _sampler.CheckNow()))
 			{
+				var span = DateTimeOffset.Now - _previousProgressUpdateDate;
+				var amountDifferent = ProcessedSize - _previousWriteAmount;
+
+				if (span.Seconds == 0 || amountDifferent == 0)
+					ProcessingSpeed = amountDifferent / span.Seconds;
+				else
+					ProcessingSpeed = 0;
+
+				_previousProgressUpdateDate = DateTimeOffset.Now;
+				_previousWriteAmount = ProcessedSize;
+
 				_progress.Report(this);
+
 				_criticalReport = false;
 			}
 		}
