@@ -59,6 +59,7 @@
 					x:Name="ExpanderControl"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
+					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 					Collapsed="Expander_Collapsed"
 					Expanding="Expander_Expanding"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">

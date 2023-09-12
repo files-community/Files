@@ -32,6 +32,7 @@ global using global::Files.App.Utils.RecentItem;
 global using global::Files.App.Utils.RecycleBin;
 global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
+global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.Storage;
 global using global::Files.App.Data.Attributes;
 global using global::Files.App.Data.Behaviors;

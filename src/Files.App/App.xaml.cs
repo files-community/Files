@@ -148,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}
@@ -308,13 +308,14 @@ namespace Files.App
 			}
 
 			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
 				
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<OngoingTasksViewModel>().CloseAllBanner();
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
@@ -324,7 +325,6 @@ namespace Files.App
 				SaveSessionTabs();
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
-				await Task.Delay(500);
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
@@ -336,12 +336,8 @@ namespace Files.App
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
-					MainWindow.Instance.AppWindow.Show();
-					MainWindow.Instance.Activate();
 
 					_ = CheckForRequiredUpdates();
-
-					MainWindow.Instance.EnsureWindowIsInitialized().Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 				}
 
 				return;

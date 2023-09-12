@@ -164,24 +164,31 @@ namespace Files.App.ViewModels
 		public async Task UpdateTabInfo(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
+
+			(string, IconSource, string) result = (null, null, null);
 			if (navigationArg is PaneNavigationArguments paneArgs)
 			{
 				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
 				{
 					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-					tabItem.Header = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
-					tabItem.IconSource = leftTabInfo.tabIcon;
+					result = ($"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}",
+						leftTabInfo.tabIcon,
+						$"{leftTabInfo.toolTipText} | {rightTabInfo.toolTipText}");
 				}
 				else
 				{
-					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					result = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
 				}
 			}
 			else if (navigationArg is string pathArgs)
 			{
-				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = await GetSelectedTabInfoAsync(pathArgs);
+				result = await GetSelectedTabInfoAsync(pathArgs);
 			}
+
+			// Don't update tabItem if the contents of the tab have already changed
+			if (result.Item1 is not null && navigationArg == tabItem.TabItemArguments.NavigationArg)
+				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
 		}
 
 		public async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
@@ -257,7 +264,7 @@ namespace Files.App.ViewModels
 
 			if (iconSource.ImageSource is null)
 			{
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, true);
+				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 24u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, true);
 				if (iconData is not null)
 					iconSource.ImageSource = await iconData.ToBitmapAsync();
 			}

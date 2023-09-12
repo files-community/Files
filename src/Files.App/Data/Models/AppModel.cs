@@ -64,5 +64,12 @@ namespace Files.App.Data.Models
 			get => isMainWindowClosed;
 			set => SetProperty(ref isMainWindowClosed, value);
 		}
+
+		private bool forceProcessTermination = false;
+		public bool ForceProcessTermination
+		{
+			get => forceProcessTermination;
+			set => SetProperty(ref forceProcessTermination, value);
+		}
 	}
 }
