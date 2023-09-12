@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify content layout types.
+	/// </summary>
 	public enum FolderLayoutModes
 	{
 		/// <summary>

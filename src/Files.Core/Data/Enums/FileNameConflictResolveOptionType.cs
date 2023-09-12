@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify option types of storage item name conflict resolve.
+	/// </summary>
 	public enum FileNameConflictResolveOptionType : uint
 	{
 		/// <summary>

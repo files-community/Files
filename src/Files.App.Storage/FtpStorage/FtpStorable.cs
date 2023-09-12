@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <summary>
+	/// Represents a storable resource that resides in FTP storage.
+	/// </summary>
 	public abstract class FtpStorable : ILocatableStorable, INestedStorable
 	{
 		/// <inheritdoc/>

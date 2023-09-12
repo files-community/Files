@@ -8,7 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
-{
+{	
+	/// <summary>
+	/// Provides static helper for FTP storage.
+	/// </summary>
 	internal static class FtpHelpers
 	{
 		public static string GetFtpPath(string path)

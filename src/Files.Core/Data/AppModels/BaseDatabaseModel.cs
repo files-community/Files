@@ -1,4 +1,7 @@
-﻿using Files.Shared.Utils;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Shared.Utils;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -10,7 +13,9 @@ namespace Files.Core.Data.AppModels
 	public abstract class BaseDatabaseModel<TDictionaryValue> : IDatabaseModel<string>
 	{
 		protected readonly IAsyncSerializer<Stream> serializer;
+
 		protected readonly SemaphoreSlim storageSemaphore;
+
 		protected readonly ConcurrentDictionary<string, TDictionaryValue> settingsCache;
 
 		protected BaseDatabaseModel(IAsyncSerializer<Stream> serializer)

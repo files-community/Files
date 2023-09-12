@@ -1,4 +1,7 @@
-﻿using Files.Core.Storage;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Core.Storage.ModifiableStorage;
 using Files.Shared.Extensions;
@@ -11,7 +14,9 @@ namespace Files.Core.Data.AppModels
 	public sealed class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>
 	{
 		private readonly string _fileName;
+
 		private readonly IModifiableFolder _settingsFolder;
+
 		private IFile? _databaseFile;
 
 		public SingleFileDatabaseModel(string fileName, IModifiableFolder settingsFolder, IAsyncSerializer<Stream> serializer)

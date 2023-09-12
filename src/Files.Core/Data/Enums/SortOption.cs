@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify unit kinds of sorting by.
+	/// </summary>
 	public enum SortOption : byte
 	{
 		/// <summary>

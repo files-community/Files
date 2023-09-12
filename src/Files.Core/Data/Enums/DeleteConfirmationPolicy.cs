@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify policy types of confirmation of storage item deletion.
+	/// </summary>
 	public enum DeleteConfirmationPolicies : byte
 	{
 		/// <summary>

@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify wallpaper setting types.
+	/// </summary>
 	public enum WallpaperType
 	{
 		/// <summary>

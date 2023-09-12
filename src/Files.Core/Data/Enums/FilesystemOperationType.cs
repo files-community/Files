@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify filesystem operation types.
+	/// </summary>
 	public enum FilesystemOperationType
 	{
 		/// <summary>

@@ -1,4 +1,7 @@
-﻿using Files.Core.Storage.Enums;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Core.Storage.Enums;
 using Files.Core.Storage.ExtendableStorage;
 using Files.Core.Storage.ModifiableStorage;
 using System;
@@ -11,8 +14,6 @@ namespace Files.Core.Storage.Extensions
 {
 	public static partial class StorageExtensions
 	{
-		#region Without Result
-
 		/// <returns>If file was found, returns the requested <see cref="IFile"/>, otherwise null.</returns>
 		/// <inheritdoc cref="IFolderExtended.GetFileAsync"/>
 		public static async Task<IFile?> TryGetFileAsync(this IFolder folder, string fileName, CancellationToken cancellationToken = default)
@@ -87,10 +88,6 @@ namespace Files.Core.Storage.Extensions
 			}
 		}
 
-		#endregion
-
-		#region Other
-
 		/// <summary>
 		/// Gets all files contained within <paramref name="folder"/>.
 		/// </summary>
@@ -120,7 +117,5 @@ namespace Files.Core.Storage.Extensions
 					yield return folderItem;
 			}
 		}
-
-		#endregion
 	}
 }

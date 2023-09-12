@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify storage item icon persistence types.
+	/// </summary>
 	public enum IconPersistenceOptions
 	{
 		/// <summary>

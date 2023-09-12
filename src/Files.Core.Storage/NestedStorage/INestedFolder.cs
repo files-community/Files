@@ -1,9 +1,12 @@
-﻿namespace Files.Core.Storage.NestedStorage
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+namespace Files.Core.Storage.NestedStorage
 {
-    /// <summary>
-    /// Represents a folder that resides within a traversable folder structure.
-    /// </summary>
-    public interface INestedFolder : IFolder, INestedStorable
-    {
-    }
+	/// <summary>
+	/// Represents a folder that resides within a traversable folder structure.
+	/// </summary>
+	public interface INestedFolder : IFolder, INestedStorable
+	{
+	}
 }

@@ -4,7 +4,7 @@
 namespace Files.Core.Data.Enums
 {
 	/// <summary>
-	/// Type of operation on Files filesystem that took place
+	/// Type of operation on Files filesystem that took place.
 	/// </summary>
 	public enum FileOperationType : byte
 	{

@@ -6,6 +6,9 @@ using System.Net;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <summary>
+	/// Provides static handler for FTP storage.
+	/// </summary>
 	public static class FtpManager
 	{
 		public static readonly Dictionary<string, NetworkCredential> Credentials = new();

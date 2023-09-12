@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify data time format kinds.
+	/// </summary>
 	public enum DateTimeFormats
 	{
 		/// <summary>

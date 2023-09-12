@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify dialog return result types.
+	/// </summary>
 	public enum DialogResult
 	{
 		/// <summary>

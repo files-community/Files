@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify filesystem return result status codes.
+	/// </summary>
 	[Flags]
 	public enum FileSystemStatusCode
 	{

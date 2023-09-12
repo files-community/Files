@@ -11,6 +11,9 @@ using Windows.UI.StartScreen;
 
 namespace Files.App.BackgroundTasks
 {
+	/// <summary>
+	/// Represents background task to update app components.
+	/// </summary>
 	public sealed class UpdateTask : IBackgroundTask
 	{
 		public async void Run(IBackgroundTaskInstance taskInstance)

@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify types of grouping by.
+	/// </summary>
 	public enum GroupOption : byte
 	{
 		/// <summary>

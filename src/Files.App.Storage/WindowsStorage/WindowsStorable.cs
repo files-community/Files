@@ -16,6 +16,7 @@ namespace Files.App.Storage.WindowsStorage
 		where TStorage : class, IStorageItem
 	{
 		private string? _computedId;
+
 		internal readonly TStorage storage;
 
 		/// <inheritdoc/>

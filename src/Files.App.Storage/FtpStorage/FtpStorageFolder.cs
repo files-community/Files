@@ -20,6 +20,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <summary>
+	/// Represents a folder that resides in FTP storage.
+	/// </summary>
 	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
 	{
 		public FtpStorageFolder(string path, string name, IFolder? parent)

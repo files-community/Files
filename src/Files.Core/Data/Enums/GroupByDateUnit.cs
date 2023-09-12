@@ -3,6 +3,9 @@
 
 namespace Files.Core.Data.Enums
 {
+	/// <summary>
+	/// Defines constants that specify unit kinds of grouping by date.
+	/// </summary>
 	public enum GroupByDateUnit : byte
 	{
 		/// <summary>

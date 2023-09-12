@@ -1,4 +1,7 @@
-﻿using Files.Shared.Utils;
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Files.Shared.Utils;
 using System.Threading;
 using System.Threading.Tasks;
 

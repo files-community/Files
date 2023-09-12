@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Storage.FtpStorage
 {
+	/// <summary>
+	/// Represents a file that resides in FTP storage.
+	/// </summary>
 	public sealed class FtpStorageFile : FtpStorable, IModifiableFile, ILocatableFile, INestedFile
 	{
 		public FtpStorageFile(string path, string name, IFolder? parent)
