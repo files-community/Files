@@ -312,6 +312,9 @@ namespace Files.App
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
+				
+				// Close all notification banners except in progress
+				Ioc.Default.GetRequiredService<OngoingTasksViewModel>().CloseAllBanner();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
@@ -321,7 +324,7 @@ namespace Files.App
 				SaveSessionTabs();
 				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
 				MainPageViewModel.AppInstances.Clear();
-				await Task.Delay(100);
+				await Task.Delay(500);
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
