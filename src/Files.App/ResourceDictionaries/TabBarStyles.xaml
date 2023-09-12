@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<Style x:Key="CustomTabViewCloseButtonStyle" TargetType="Button">
+	<Style x:Key="TabBarCloseButtonStyle" TargetType="Button">
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
@@ -57,7 +57,7 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="CustomTabViewItemStyle" TargetType="TabViewItem">
+	<Style x:Key="TabBarItemStyle" TargetType="TabViewItem">
 		<Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
@@ -198,7 +198,7 @@
 								HighContrastAdjustment="None"
 								IsTabStop="False"
 								IsTextScaleFactorEnabled="False"
-								Style="{ThemeResource CustomTabViewCloseButtonStyle}" />
+								Style="{ThemeResource TabBarCloseButtonStyle}" />
 						</Grid>
 
 						<VisualStateManager.VisualStateGroups>

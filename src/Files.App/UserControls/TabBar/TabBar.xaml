@@ -13,7 +13,7 @@
 	<local:BaseTabBar.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/CustomTabViewStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/TabBarStyles.xaml" />
 				<ResourceDictionary>
 					<MenuFlyout
 						x:Key="TabFlyout"
@@ -88,7 +88,7 @@
 
 			<!--  Item Template  -->
 			<TabView.TabItemTemplate>
-				<DataTemplate x:DataType="local:CustomTabViewItem">
+				<DataTemplate x:DataType="local:TabBarItem">
 					<TabViewItem
 						AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
 						ContextFlyout="{StaticResource TabFlyout}"
@@ -98,7 +98,7 @@
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
 						Loaded="TabViewItem_Loaded"
-						Style="{StaticResource CustomTabViewItemStyle}"
+						Style="{StaticResource TabBarItemStyle}"
 						ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneWay}" />
 				</DataTemplate>
 			</TabView.TabItemTemplate>
