@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open the terminal as administrator.
+	/// </summary>
 	internal class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
 		public override string Label

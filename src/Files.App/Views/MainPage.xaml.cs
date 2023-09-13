@@ -21,6 +21,10 @@ using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents the main page of the Files app instance window and
+	/// hosts TabBar, SideBar, the main Frame of storage content.
+	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; }

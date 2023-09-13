@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to unpin item to Windows Start.
+	/// </summary>
 	internal class UnpinFromStartAction : IAction
 	{
 		public IContentPageContext context;

@@ -4,7 +4,7 @@
 namespace Files.App.Actions
 {
 	/// <summary>
-	/// Represents base class for the UI Actions.
+	/// Represents base action against UI components.
 	/// </summary>
 	internal abstract class BaseUIAction : ObservableObject
 	{

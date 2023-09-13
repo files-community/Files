@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open storage item properties window.
+	/// </summary>
 	internal class OpenPropertiesAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

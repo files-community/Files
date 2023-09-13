@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open the Command Palette.
+	/// </summary>
 	internal class OpenCommandPaletteAction : IAction
 	{
 		private readonly IContentPageContext _context;

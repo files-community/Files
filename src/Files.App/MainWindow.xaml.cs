@@ -17,6 +17,9 @@ using IO = System.IO;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents window instance of WinUI3 and hosts the main page frame.
+	/// </summary>
 	public sealed partial class MainWindow : WindowEx
 	{
 		private readonly IApplicationService ApplicationService;

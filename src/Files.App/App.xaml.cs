@@ -36,6 +36,9 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents UI entry point for the Files app.
+	/// </summary>
 	public partial class App : Application
 	{
 		private IHost? _host;
@@ -58,12 +61,12 @@ namespace Files.App
 		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
-		/// Initializes the singleton application object. This is the first line of authored code
-		/// executed, and as such is the logical equivalent of main() or WinMain().
+		/// Initializes singleton application object and primitive UI object.
 		/// </summary>
 		public App()
 		{
 			InitializeComponent();
+
 			EnsureEarlyApp();
 		}
 

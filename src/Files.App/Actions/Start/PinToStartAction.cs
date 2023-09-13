@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to pin item to Windows Start.
+	/// </summary>
 	internal class PinToStartAction : IAction
 	{
 		public IContentPageContext context;

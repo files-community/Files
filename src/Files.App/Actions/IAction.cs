@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents interface for general actions.
+	/// </summary>
 	public interface IAction
 	{
 		/// <summary>

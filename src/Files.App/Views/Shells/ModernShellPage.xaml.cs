@@ -11,6 +11,9 @@ using Windows.System;
 
 namespace Files.App.Views.Shells
 {
+	/// <summary>
+	/// Represents handler page of general content layout pages.
+	/// </summary>
 	public sealed partial class ModernShellPage : BaseShellPage
 	{
 		public override bool CanNavigateBackward

@@ -4,7 +4,7 @@
 namespace Files.App.Actions
 {
 	/// <summary>
-	/// Represents an interface for the toggle Actions.
+	/// Represents interface for toggle actions.
 	/// </summary>
 	public interface IToggleAction : IAction
 	{

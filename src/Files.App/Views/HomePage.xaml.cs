@@ -11,6 +11,12 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents the Home page of the Files app, displaying Widgets.
+	/// <br/>
+	/// This page will be shown every time you launch another app instance
+	/// as long as the app won't restore last session tabs.
+	/// </summary>
 	public sealed partial class HomePage : Page, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

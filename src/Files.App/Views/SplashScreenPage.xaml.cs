@@ -7,7 +7,9 @@ using Microsoft.UI.Xaml.Controls;
 namespace Files.App.Views
 {
 	/// <summary>
-	/// Display the app splash screen.
+	/// Represents Splash screen page of the Files app.
+	/// <br/>
+	/// This page will be shown when the app launched at the first time.
 	/// </summary>
 	public sealed partial class SplashScreenPage : Page
 	{

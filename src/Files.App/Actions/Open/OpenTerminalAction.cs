@@ -6,6 +6,9 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open the terminal on Windows.
+	/// </summary>
 	internal class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

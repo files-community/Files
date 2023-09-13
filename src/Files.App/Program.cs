@@ -12,6 +12,11 @@ using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents entry point of the Files app.
+	/// <br/>
+	/// Every execution will call Program.Main().
+	/// </summary>
 	internal class Program
 	{
 		public static Semaphore Pool;
@@ -31,11 +36,17 @@ namespace Files.App
 			Pool.Dispose();
 		}
 
-		// Note:
-		//  We can't declare Main to be async because in a WinUI app
-		//  This prevents Narrator from reading XAML elements
-		//  https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		//  STAThread has no effect if main is async, needed for Clipboard
+		/// <summary>
+		/// Starts and synchronizes UI thread.
+		/// </summary>
+		/// <remarks>
+		/// Main cannot be declared as an async method because it would prevent Windows Narrator from reading XAML elements.
+		/// <br/>
+		/// For more information, visit
+		/// <see href="https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs">
+		/// microsoft/WindowsAppSDK-Samples/CsWinUiDesktopInstancing
+		/// </see>
+		/// </remarks>
 		[STAThread]
 		private static void Main()
 		{
@@ -169,7 +180,14 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
+		/// <summary>
+		/// Redirects to the thread already exists.
+		/// </summary>
+		/// <remarks>
+		/// Uses a non-blocking wait method to wait for the redirection to complete.
+		/// </remarks
+		/// <param name="keyInstance"></param>
+		/// <param name="args"></param>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);

@@ -12,6 +12,11 @@ using Windows.System;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents the pane holder page.
+	/// <br/>
+	/// Shown when user select the pane splitting mode.
+	/// </summary>
 	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
 	{
 		public static readonly int DualPaneWidthThreshold = 750;

@@ -11,6 +11,9 @@ using Windows.System;
 
 namespace Files.App.Views.Shells
 {
+	/// <summary>
+	/// Represents handler page of ColumnsView content layout page.
+	/// </summary>
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
 		public override bool CanNavigateBackward
