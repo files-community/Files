@@ -183,9 +183,31 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName) => throw new NotSupportedException();
-		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
+			=> MoveAsync(destinationFolder, Name, NameCollisionOption.FailIfExists);
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
+			=> MoveAsync(destinationFolder, desiredNewName, NameCollisionOption.FailIfExists);
+		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName, NameCollisionOption option)
+		{
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			{
+				using var ftpClient = GetFtpClient();
+				if (!await ftpClient.EnsureConnectedAsync())
+					throw new IOException($"Failed to connect to FTP server.");
+				
+				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
+				if (destFolder is FtpStorageFolder ftpFolder) { 
+					string destName = $"{(ftpFolder).FtpPath}/{Name}";
+					FtpRemoteExists ftpRemoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
+
+					bool isSuccessful = await ftpClient.MoveFile(FtpPath, destName, ftpRemoteExists, cancellationToken);
+					if (!isSuccessful)
+						throw new IOException($"Failed to move folder from {Path} to {destFolder}.");
+				}
+
+			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+		}
+
 
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace) => throw new NotSupportedException();
