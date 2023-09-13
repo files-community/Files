@@ -191,10 +191,12 @@ namespace Files.App.UserControls.Sidebar
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
+				e.Handled = true;
 			}
 			else
 			{
 				DisplayMode = SidebarDisplayMode.Expanded;
+				e.Handled = true;
 			}
 		}
 
