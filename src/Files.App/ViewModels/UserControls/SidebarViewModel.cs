@@ -19,7 +19,6 @@ using Windows.System;
 using Windows.UI.Core;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
-using Files.App.Data.Items;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -663,7 +662,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public async void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args)
-
 		{
 			if (sender is not FrameworkElement sidebarItem) return;
 
@@ -700,10 +698,19 @@ namespace Files.App.ViewModels.UserControls
 								.ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
-			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
-
 			if (item.MenuOptions.ShowShellItems)
-				_ = ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, item.MenuOptions);
+				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
+
+			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
+		}
+
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
+		{
+			if (sender is not CommandBarFlyout itemContextMenuFlyout)
+				return;
+
+			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
+			await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
 		public async void HandleItemInvoked(object item)

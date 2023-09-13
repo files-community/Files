@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
+using Files.App.Helpers;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
@@ -21,6 +22,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -40,7 +43,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static TaskCompletionSource? SplashScreenLoadingTCS { get; set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -145,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}
@@ -176,18 +179,22 @@ namespace Files.App
 				FileTagsHelper.UpdateTagsDb();
 			});
 
-			// Check for required updates
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await CheckForRequiredUpdates();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
 				if (condition)
 					await task;
 			}
+		}
+
+		private static async Task CheckForRequiredUpdates()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+			await updateService.CheckForUpdates();
+			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
+			await updateService.CheckLatestReleaseNotesAsync();
 		}
 
 		/// <summary>
@@ -297,6 +304,42 @@ namespace Files.App
 				args.Handled = true;
 				LastOpenedFlyout.Closed += (sender, e) => App.Current.Exit();
 				LastOpenedFlyout.Hide();
+				return;
+			}
+
+			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!AppModel.ForceProcessTermination &&
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+			{
+				// Close open content dialogs
+				UIHelpers.CloseAllDialogs();
+				
+				// Close all notification banners except in progress
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
+
+				// Cache the window instead of closing it
+				MainWindow.Instance.AppWindow.Hide();
+				args.Handled = true;
+
+				// Save and close all tabs
+				SaveSessionTabs();
+				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
+				MainPageViewModel.AppInstances.Clear();
+
+				// Wait for all properties windows to close
+				await FilePropertiesHelpers.WaitClosingAll();
+
+				// Sleep current instance
+				Program.Pool = new(0, 1, "Files-Instance");
+				Thread.Yield();
+				if (Program.Pool.WaitOne())
+				{
+					// Resume the instance
+					Program.Pool.Dispose();
+
+					_ = CheckForRequiredUpdates();
+				}
+
 				return;
 			}
 

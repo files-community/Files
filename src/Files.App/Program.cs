@@ -14,6 +14,23 @@ namespace Files.App
 {
 	internal class Program
 	{
+		public static Semaphore Pool;
+
+		static Program()
+		{
+			Pool = new(0, 1, "Files-Instance", out var isNew);
+			if (!isNew)
+			{
+				// Resume cached instance
+				Pool.Release();
+				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+				Environment.Exit(0);
+			}
+			Pool.Dispose();
+		}
+
 		// Note:
 		//  We can't declare Main to be async because in a WinUI app
 		//  This prevents Narrator from reading XAML elements

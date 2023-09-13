@@ -27,14 +27,14 @@ namespace Files.App.Utils.Storage
 		/// </returns>
 		Task<(IStorageHistory, IStorageItem)> CreateAsync(
 			IStorageItemWithPath source,
-			IProgress<FileSystemProgress> process,
+			IProgress<StatusCenterItemProgressModel> process,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
 
 		Task<IStorageHistory> CreateShortcutItemsAsync(
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace Files.App.Utils.Storage
 			IStorageItem source,
 			string destination,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Files.App.Utils.Storage
 			IStorageItemWithPath source,
 			string destination,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItem> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
 
@@ -118,7 +118,7 @@ namespace Files.App.Utils.Storage
 			IStorageItem source,
 			string destination,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -139,7 +139,7 @@ namespace Files.App.Utils.Storage
 			IStorageItemWithPath source,
 			string destination,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItem> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -159,7 +159,7 @@ namespace Files.App.Utils.Storage
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
 			IList<FileNameConflictResolveOptionType> collisions,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
 
@@ -182,7 +182,7 @@ namespace Files.App.Utils.Storage
 		/// </returns>
 		Task<IStorageHistory> DeleteAsync(
 			IStorageItem source,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
 			CancellationToken cancellationToken);
 
@@ -205,7 +205,7 @@ namespace Files.App.Utils.Storage
 		/// </returns>
 		Task<IStorageHistory> DeleteAsync(
 			IStorageItemWithPath source,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
 			CancellationToken cancellationToken);
 
@@ -214,7 +214,7 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		Task<IStorageHistory> DeleteItemsAsync(
 			IList<IStorageItem> source,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
 			CancellationToken cancellationToken);
 
@@ -223,7 +223,7 @@ namespace Files.App.Utils.Storage
 		/// </summary>
 		Task<IStorageHistory> DeleteItemsAsync(
 			IList<IStorageItemWithPath> source,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			bool permanently,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
@@ -245,7 +245,7 @@ namespace Files.App.Utils.Storage
 			IStorageItem source,
 			string newName,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -265,7 +265,7 @@ namespace Files.App.Utils.Storage
 			IStorageItemWithPath source,
 			string newName,
 			NameCollisionOption collision,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
 
@@ -285,7 +285,7 @@ namespace Files.App.Utils.Storage
 		Task<IStorageHistory> RestoreItemsFromTrashAsync(
 			IList<IStorageItem> source,
 			IList<string> destination,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -304,7 +304,7 @@ namespace Files.App.Utils.Storage
 		Task<IStorageHistory> RestoreFromTrashAsync(
 			IStorageItem source,
 			string destination,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 
 		/// <summary>
@@ -323,7 +323,7 @@ namespace Files.App.Utils.Storage
 		Task<IStorageHistory> RestoreItemsFromTrashAsync(
 			IList<IStorageItemWithPath> source,
 			IList<string> destination,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken,
 			bool asAdmin = false);
 
@@ -343,7 +343,7 @@ namespace Files.App.Utils.Storage
 		Task<IStorageHistory> RestoreFromTrashAsync(
 			IStorageItemWithPath source,
 			string destination,
-			IProgress<FileSystemProgress> progress,
+			IProgress<StatusCenterItemProgressModel> progress,
 			CancellationToken cancellationToken);
 	}
 }

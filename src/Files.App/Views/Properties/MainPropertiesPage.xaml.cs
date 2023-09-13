@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Parameters;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -13,8 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
 
@@ -45,9 +38,6 @@ namespace Files.App.Views.Properties
 			AppWindow = parameter.AppWindow;
 			Window = parameter.Window;
 
-			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
-			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-
 			base.OnNavigatedTo(e);
 
 			MainPropertiesViewModel = new(Window, AppWindow, MainContentFrame, BaseProperties, parameter);
@@ -55,6 +45,8 @@ namespace Files.App.Views.Properties
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
+			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
+			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
 			Window.Closed += Window_Closed;
 
 			UpdatePageLayout();
@@ -89,6 +81,9 @@ namespace Files.App.Views.Properties
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
+			if (Parent is null)
+				return;
+
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;

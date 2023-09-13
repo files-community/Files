@@ -198,6 +198,33 @@ namespace Files.App.Data.Items
 			};
 		}
 
+		public FrameworkElement? ItemDecorator
+		{
+			get
+			{
+				if (!IsRemovable)
+					return null; // Removable items don't need the eject button
+				var itemDecorator = new Button()
+				{
+					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
+					Content = new OpacityIcon()
+					{
+						Style = Application.Current.Resources["ColorIconEject"] as Style,
+						Height = 16,
+						Width = 16
+					}
+				};
+				itemDecorator.Click += ItemDecorator_Click;
+				return itemDecorator;
+			}
+		}
+
+		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
+		{
+			var result = await DriveHelpers.EjectDeviceAsync(Path);
+			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);
+		}
+
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
