@@ -9,7 +9,7 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
-	xmlns:tabview="using:Files.App.UserControls.TabBar"
+	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -137,7 +137,7 @@
 			</Grid.RowDefinitions>
 
 			<!--  Tab Control  -->
-			<tabview:CustomTabView
+			<tabbar:TabBar
 				x:Name="TabControl"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
@@ -148,7 +148,7 @@
 				TabIndex="0"
 				TabStripVisibility="Visible"
 				Visibility="Visible">
-				<tabview:CustomTabView.FooterElement>
+				<tabbar:TabBar.FooterElement>
 					<Button
 						x:Name="HorizontalMultitaskingControlAddButton"
 						Width="32"
@@ -168,8 +168,8 @@
 								Glyph="&#xE710;" />
 						</Button.Content>
 					</Button>
-				</tabview:CustomTabView.FooterElement>
-			</tabview:CustomTabView>
+				</tabbar:TabBar.FooterElement>
+			</tabbar:TabBar>
 
 			<!--  Address Bar  -->
 			<uc:AddressToolbar
