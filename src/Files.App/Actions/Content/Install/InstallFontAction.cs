@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to install font to the machine.
+	/// </summary>
 	internal class InstallFontAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to install INF driver file.
+	/// </summary>
 	internal class InstallInfDriverAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

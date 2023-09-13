@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to toggle selection on the current instance.
+	/// </summary>
 	internal class ToggleSelectAction : IAction
 	{
 		public string Label

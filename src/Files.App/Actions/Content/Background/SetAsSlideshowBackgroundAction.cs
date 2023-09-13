@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action set image as Windows slideshow background.
+	/// </summary>
 	internal class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
 		public override string Label

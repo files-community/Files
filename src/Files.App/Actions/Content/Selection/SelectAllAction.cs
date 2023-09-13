@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to select all items on the current instance.
+	/// </summary>
 	internal class SelectAllAction : IAction
 	{
 		private readonly IContentPageContext context;

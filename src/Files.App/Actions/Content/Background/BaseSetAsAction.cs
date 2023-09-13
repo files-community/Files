@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to set image as.
+	/// </summary>
 	internal abstract class BaseSetAsAction : ObservableObject, IAction
 	{
 		protected readonly IContentPageContext context;

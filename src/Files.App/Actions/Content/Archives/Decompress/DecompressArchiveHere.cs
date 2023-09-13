@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to decompress archive here.
+	/// </summary>
 	internal sealed class DecompressArchiveHere : BaseDecompressArchiveAction
 	{
 		public override string Label

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to launch preview popup.
+	/// </summary>
 	internal class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

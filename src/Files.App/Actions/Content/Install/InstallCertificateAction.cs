@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to install certificate file to the machine.
+	/// </summary>
 	internal class InstallCertificateAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

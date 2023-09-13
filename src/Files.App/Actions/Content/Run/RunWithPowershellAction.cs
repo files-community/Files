@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to run executable item with PowerShell.
+	/// </summary>
 	internal class RunWithPowershellAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

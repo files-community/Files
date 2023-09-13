@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to set image as Windows lockscreen background.
+	/// </summary>
 	internal class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
 		public override string Label

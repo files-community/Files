@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to run executable item as another user.
+	/// </summary>
 	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
 	{
 		public override string Label

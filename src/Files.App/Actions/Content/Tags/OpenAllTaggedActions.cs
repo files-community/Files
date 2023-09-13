@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open all tagged items on the current instance.
+	/// </summary>
     sealed class OpenAllTaggedActions: ObservableObject, IAction
     {
 		private readonly IContentPageContext _pageContext;

@@ -5,6 +5,9 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to rotate image.
+	/// </summary>
 	internal abstract class BaseRotateAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

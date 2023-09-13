@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to set image as Windows desctop wallpaper.
+	/// </summary>
 	internal class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label

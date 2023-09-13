@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to run executable item as administrator.
+	/// </summary>
 	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
 		public override string Label

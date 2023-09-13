@@ -5,6 +5,9 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to run executable item as.
+	/// </summary>
 	internal abstract class BaseRunAsAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

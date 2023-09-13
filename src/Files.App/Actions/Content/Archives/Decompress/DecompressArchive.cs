@@ -6,6 +6,9 @@ using System.IO;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to decompress archive inside of the selected archive.
+	/// </summary>
 	internal sealed class DecompressArchive : BaseDecompressArchiveAction
 	{
 		public override string Label

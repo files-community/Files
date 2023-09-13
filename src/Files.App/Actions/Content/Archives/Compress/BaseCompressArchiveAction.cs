@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to compress archive.
+	/// </summary>
 	internal abstract class BaseCompressArchiveAction : BaseUIAction, IAction
 	{
 		protected readonly IContentPageContext context;

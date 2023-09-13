@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to compress into archive.
+	/// </summary>
 	internal sealed class CompressIntoArchiveAction : BaseCompressArchiveAction
 	{
 		public override string Label

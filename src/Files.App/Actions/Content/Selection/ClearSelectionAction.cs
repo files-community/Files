@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to clear selection on the current instance.
+	/// </summary>
 	internal class ClearSelectionAction : IAction
 	{
 		private readonly IContentPageContext context;

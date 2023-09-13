@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to compress into zip.
+	/// </summary>
 	internal sealed class CompressIntoZipAction : BaseCompressArchiveAction
 	{
 		public override string Label

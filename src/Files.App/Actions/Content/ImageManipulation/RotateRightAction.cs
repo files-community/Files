@@ -5,6 +5,9 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to rotate image to the right.
+	/// </summary>
 	internal class RotateRightAction : BaseRotateAction
 	{
 		public override string Label

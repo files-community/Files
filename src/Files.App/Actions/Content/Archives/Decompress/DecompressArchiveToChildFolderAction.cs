@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to decompress archive to child folder.
+	/// </summary>
 	internal sealed class DecompressArchiveToChildFolderAction : BaseDecompressArchiveAction
 	{
 		public override string Label

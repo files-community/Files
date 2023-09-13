@@ -5,6 +5,9 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to share storage item with others.
+	/// </summary>
 	internal class ShareItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
