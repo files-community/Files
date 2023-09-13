@@ -571,6 +571,13 @@
 											XAxes="{x:Bind XAxes}"
 											YAxes="{x:Bind YAxes}" />
 
+										<TextBlock
+											x:Name="OperationSpeedPerSecTextBlock"
+											HorizontalAlignment="Right"
+											VerticalAlignment="Top"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											Text="{x:Bind SpeedText, Mode=OneWay}" />
+
 									</Grid>
 
 									<!--  Action Buttons  -->

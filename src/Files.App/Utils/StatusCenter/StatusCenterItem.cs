@@ -83,7 +83,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Progress, value);
 		}
 
-		// (_currentWriteAmount[Mib,kiB,B] - _previousWriteAmount[Mib,kiB,B]) / (pasted seconds[s])
 		private string? _SpeedText;
 		public string? SpeedText
 		{

@@ -137,10 +137,13 @@ namespace Files.App.Utils.StatusCenter
 				var span = DateTimeOffset.Now - _previousProgressUpdateDate;
 				var amountDifferent = ProcessedSize - _previousWriteAmount;
 
-				if (span.Seconds == 0 || amountDifferent == 0)
+				if (span.Seconds != 0 && amountDifferent != 0)
 					ProcessingSpeed = amountDifferent / span.Seconds;
 				else
 					ProcessingSpeed = 0;
+
+				ProcessingSpeed = 100;
+				ProcessingSpeed -= new Random().Next(10);
 
 				_previousProgressUpdateDate = DateTimeOffset.Now;
 				_previousWriteAmount = ProcessedSize;
