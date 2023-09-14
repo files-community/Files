@@ -166,11 +166,11 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public void ReportStatus(FileSystemStatusCode status)
+		public void ReportStatus(FileSystemStatusCode status, int? percentage = null)
 		{
 			Status = status;
 
-			Report();
+			Report(percentage);
 		}
 	}
 }
