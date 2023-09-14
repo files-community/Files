@@ -160,6 +160,7 @@ namespace Files.App.Utils.StatusCenter
 				{
 					if (_dirtyTracker[propertyName])
 					{
+						_dirtyTracker[propertyName] = false;
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
 				}
