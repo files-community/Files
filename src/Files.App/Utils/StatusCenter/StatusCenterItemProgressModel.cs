@@ -19,6 +19,10 @@ namespace Files.App.Utils.StatusCenter
 
 		private bool _criticalReport;
 
+		private long _previousProcessedSize;
+
+		private DateTimeOffset _previousReportTime;
+
 		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
 		{
@@ -63,11 +67,7 @@ namespace Files.App.Utils.StatusCenter
 		public long ProcessedSize
 		{
 			get => _ProcessedSize;
-			set
-			{
-				SetProperty(ref _ProcessedSize, value);
-				HistoricalSize.Add((DateTimeOffset.Now, value));
-			}
+			set => SetProperty(ref _ProcessedSize, value);
 		}
 
 		private long _ItemsCount;
@@ -84,6 +84,8 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
+		public double ProcessingSpeed => (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
 		private DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
 		{
@@ -98,8 +100,6 @@ namespace Files.App.Utils.StatusCenter
 			get => _CompletedTime;
 			set => SetProperty(ref _CompletedTime, value);
 		}
-
-		public BulkConcurrentObservableCollection<(DateTimeOffset Time, long Size)> HistoricalSize { get; } = new();
 
 		/// <summary>
 		/// Only used when detailed count isn't available.
@@ -120,7 +120,6 @@ namespace Files.App.Utils.StatusCenter
 			ItemsCount = itemsCount;
 			TotalSize = totalSize;
 			StartTime = DateTimeOffset.Now;
-			HistoricalSize.BeginBulkOperation();
 		}
 
 		private void SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
@@ -153,6 +152,7 @@ namespace Files.App.Utils.StatusCenter
 			if (_criticalReport || _sampler.CheckNow())
 			{
 				_criticalReport = false;
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingSpeed)));
 				foreach (var propertyName in _dirtyTracker.Keys)
 				{
 					if (_dirtyTracker[propertyName])
@@ -161,8 +161,8 @@ namespace Files.App.Utils.StatusCenter
 					}
 				}
 				_progress?.Report(this);
-				HistoricalSize.EndBulkOperation();
-				HistoricalSize.BeginBulkOperation();
+				_previousReportTime = DateTimeOffset.Now;
+				_previousProcessedSize = ProcessedSize;
 			}
 		}
 
