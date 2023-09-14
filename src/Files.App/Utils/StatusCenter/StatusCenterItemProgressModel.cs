@@ -123,6 +123,7 @@ namespace Files.App.Utils.StatusCenter
 			ItemsCount = itemsCount;
 			TotalSize = totalSize;
 			StartTime = DateTimeOffset.Now;
+			_previousReportTime = StartTime - TimeSpan.FromSeconds(1);
 		}
 
 		private void SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
