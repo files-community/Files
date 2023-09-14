@@ -45,12 +45,6 @@ namespace Files.App.Views.Properties
 				ItemFileName.Text += match.Value;
 		}
 
-		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
-		{
-			if (BaseProperties is DriveProperties driveProps)
-				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
-		}
-
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
 			// Reassign values to update date display
