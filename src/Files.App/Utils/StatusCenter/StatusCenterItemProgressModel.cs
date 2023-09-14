@@ -21,6 +21,8 @@ namespace Files.App.Utils.StatusCenter
 
 		private long _previousProcessedSize;
 
+		private long _previousProcessedItemsCount;
+
 		private DateTimeOffset _previousReportTime;
 
 		private FileSystemStatusCode? _Status;
@@ -84,7 +86,8 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
-		public double ProcessingSpeed => (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+		public double ProcessingSizeSpeed => (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+		public double ProcessingItemsCountSpeed => (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
 		private DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
@@ -152,7 +155,6 @@ namespace Files.App.Utils.StatusCenter
 			if (_criticalReport || _sampler.CheckNow())
 			{
 				_criticalReport = false;
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingSpeed)));
 				foreach (var propertyName in _dirtyTracker.Keys)
 				{
 					if (_dirtyTracker[propertyName])
@@ -160,9 +162,12 @@ namespace Files.App.Utils.StatusCenter
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
 				}
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
 				_progress?.Report(this);
 				_previousReportTime = DateTimeOffset.Now;
 				_previousProcessedSize = ProcessedSize;
+				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 
