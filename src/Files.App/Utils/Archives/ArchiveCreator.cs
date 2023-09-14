@@ -186,13 +186,13 @@ namespace Files.App.Utils.Archives
 			}
 			else
 			{
-				_fileSystemProgress.Report(_processedItems * 100 / _itemsAmount);
+				_fileSystemProgress.Report(_processedItems * 100.0 / _itemsAmount);
 			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			_fileSystemProgress.Report(e.PercentDelta / _itemsAmount);
+			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
 		}
 	}
 }

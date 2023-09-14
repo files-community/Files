@@ -86,8 +86,8 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
-		public double ProcessingSizeSpeed => (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-		public double ProcessingItemsCountSpeed => (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+		public double ProcessingSizeSpeed { get; private set; }
+		public double ProcessingItemsCountSpeed { get; private set; }
 
 		private DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
@@ -106,9 +106,9 @@ namespace Files.App.Utils.StatusCenter
 
 		/// <summary>
 		/// Only used when detailed count isn't available.
-		/// You should NEVER set this property directly, instead, use <see cref="Report(int?)" /> to update the percentage.
+		/// You should NEVER set this property directly, instead, use <see cref="Report(double?)" /> to update the percentage.
 		/// </summary>
-		public int? Percentage { get; private set; }
+		public double? Percentage { get; private set; }
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -136,7 +136,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public void Report(int? percentage = null)
+		public void Report(double? percentage = null)
 		{
 			Percentage = percentage;
 
@@ -144,7 +144,7 @@ namespace Files.App.Utils.StatusCenter
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
 				TotalSize is not 0 ||
-				percentage is 100) &&
+				(percentage is double p && Math.Abs(p - 100) <= double.Epsilon)) &&
 				_Status is FileSystemStatusCode.InProgress or null)
 			{
 				_Status = FileSystemStatusCode.Success;
@@ -164,6 +164,8 @@ namespace Files.App.Utils.StatusCenter
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
 				}
+				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+				ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
 				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
 				_progress?.Report(this);
@@ -173,7 +175,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public void ReportStatus(FileSystemStatusCode status, int? percentage = null)
+		public void ReportStatus(FileSystemStatusCode status, double? percentage = null)
 		{
 			Status = status;
 
