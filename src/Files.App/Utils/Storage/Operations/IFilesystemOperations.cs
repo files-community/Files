@@ -6,7 +6,7 @@ using Windows.Storage;
 namespace Files.App.Utils.Storage
 {
 	/// <summary>
-	/// Represents an interface for file system operations.
+	/// Represents interface for filesystem operations.
 	/// </summary>
 	/// <remarks>
 	/// Each operation returns <see cref="Task{IStorageHistory}"/> and the <see cref="IStorageHistory"/> is not saved automatically.

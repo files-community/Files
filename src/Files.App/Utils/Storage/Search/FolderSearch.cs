@@ -11,7 +11,10 @@ using FileAttributes = System.IO.FileAttributes;
 using WIN32_FIND_DATA = Files.Core.Helpers.NativeFindStorageItemHelper.WIN32_FIND_DATA;
 
 namespace Files.App.Utils.Storage
-{
+{	
+	/// <summary>
+	/// Represents utility to perform storage searching.
+	/// </summary>
 	public class FolderSearch
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

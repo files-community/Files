@@ -13,6 +13,9 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.GeneralViewModel"/>.
+	/// </summary>
 	public class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

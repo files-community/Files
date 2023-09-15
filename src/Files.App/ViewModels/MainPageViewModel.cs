@@ -11,6 +11,9 @@ using Windows.System;
 
 namespace Files.App.ViewModels
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="MainPage"/>.
+	/// </summary>
 	public class MainPageViewModel : ObservableObject
 	{
 		private IUserSettingsService userSettingsService;

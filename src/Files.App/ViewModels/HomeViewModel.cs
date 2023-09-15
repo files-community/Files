@@ -7,6 +7,9 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="HomePage"/>.
+	/// </summary>
 	public class HomeViewModel : ObservableObject, IDisposable
 	{
 		private readonly WidgetsListControlViewModel widgetsViewModel;

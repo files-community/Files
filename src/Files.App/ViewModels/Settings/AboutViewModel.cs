@@ -10,6 +10,9 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.AboutPage"/>.
+	/// </summary>
 	public class AboutViewModel : ObservableObject
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();

@@ -15,6 +15,9 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.AdvancedViewModel"/>.
+	/// </summary>
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

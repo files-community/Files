@@ -15,16 +15,25 @@ using Windows.System;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Represents group of filesystem actions that can be operated from UI thread and
+	/// handles StatusCenter item progress posting.
+	/// </summary>
 	public static class UIFilesystemHelpers
 	{
 		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
+		/// <summary>
+		/// Operates cut action from UI thread.
+		/// </summary>
+		/// <remarks>
+		/// If the source count is over 50, the operation will post a banner in the StatusCenter.
+		/// </remarks>
+		/// <param name="associatedInstance"></param>
+		/// <returns></returns>
+		/// <exception cref="IOException"></exception>
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
-			var dataPackage = new DataPackage()
-			{
-				RequestedOperation = DataPackageOperation.Move
-			};
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -33,6 +42,8 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+
+				// Initialize StatusCenter banner if items count is over 50
 				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
@@ -43,6 +54,8 @@ namespace Files.App.Helpers
 				try
 				{
 					var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+					// Set the operation state as in-progress
 					if (banner is not null)
 					{
 						banner.Progress.EnumerationCompleted = true;
@@ -50,28 +63,33 @@ namespace Files.App.Helpers
 						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
 					}
 
+					// Start cut operation
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
+						// Report progress
 						if (banner is not null)
 						{
 							banner.Progress.ProcessedItemsCount = itemsCount;
 							banner.Progress.Report();
 						}
 
-						// FTP don't support cut, fallback to copy
+						// Since FTP doesn't support cut operation, the operation will fallback to copy
 						if (listedItem is not FtpItem)
 						{
 							_ = dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
 							{
-								// Dim opacities accordingly
+								// Dim item UI opacity
 								listedItem.Opacity = Constants.UI.DimItemOpacity;
 							});
 						}
+
+						// Source is FTP item
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
 								items.Add(await ftpItem.ToStorageItem());
 						}
+						// storage file or zip file
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
@@ -80,6 +98,7 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
+						// Other item type
 						else
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
@@ -88,7 +107,9 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -119,6 +140,11 @@ namespace Files.App.Helpers
 			if (!items.Any())
 				return;
 
+			var dataPackage = new DataPackage()
+			{
+				RequestedOperation = DataPackageOperation.Move
+			};
+			
 			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
 			try
@@ -131,12 +157,17 @@ namespace Files.App.Helpers
 			}
 		}
 
+		/// <summary>
+		/// Operates copy action from UI thread.
+		/// </summary>
+		/// <remarks>
+		/// If the source count is over 50, the operation will post a banner in the StatusCenter.
+		/// </remarks>
+		/// <param name="associatedInstance"></param>
+		/// <returns></returns>
+		/// <exception cref="IOException"></exception>
 		public static async Task CopyItem(IShellPage associatedInstance)
 		{
-			var dataPackage = new DataPackage()
-			{
-				RequestedOperation = DataPackageOperation.Copy
-			};
 			ConcurrentBag<IStorageItem> items = new();
 
 			if (associatedInstance.SlimContentPage.IsItemSelected)
@@ -144,6 +175,8 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
+
+				// Initialize StatusCenter banner if items count is over 50
 				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
@@ -153,25 +186,31 @@ namespace Files.App.Helpers
 
 				try
 				{
+					// Set the operation state as in-progress
 					if (banner is not null)
 					{
 						banner.Progress.EnumerationCompleted = true;
 						banner.Progress.ItemsCount = items.Count;
 						banner.Progress.ReportStatus(FileSystemStatusCode.InProgress);
 					}
+
+					// Start copy operation
 					await associatedInstance.SlimContentPage.SelectedItems.ToList().ParallelForEachAsync(async listedItem =>
 					{
+						// Report progress
 						if (banner is not null)
 						{
 							banner.Progress.ProcessedItemsCount = itemsCount;
 							banner.Progress.Report();
 						}
 
+						// Source is FTP item
 						if (listedItem is FtpItem ftpItem)
 						{
 							if (ftpItem.PrimaryItemAttribute is StorageItemTypes.File or StorageItemTypes.Folder)
 								items.Add(await ftpItem.ToStorageItem());
 						}
+						// Storage file or zip file
 						else if (listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem is ZipItem)
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
@@ -180,6 +219,7 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
+						// Other types
 						else
 						{
 							var result = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
@@ -188,7 +228,9 @@ namespace Files.App.Helpers
 							if (!result)
 								throw new IOException($"Failed to process {listedItem.ItemPath}.", (int)result.ErrorCode);
 						}
-					}, 10, banner?.CancellationToken ?? default);
+					},
+					10,
+					banner?.CancellationToken ?? default);
 				}
 				catch (Exception ex)
 				{
@@ -196,21 +238,26 @@ namespace Files.App.Helpers
 					{
 						string[] filePaths = associatedInstance.SlimContentPage.SelectedItems.Select(x => x.ItemPath).ToArray();
 
+						// The app will only store paths on the Clipboard if the operation was unauthorized.
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
+						// Remove the banner
 						_statusCenterViewModel.RemoveItem(banner);
 
 						return;
 					}
 
+					// Remove the banner
 					_statusCenterViewModel.RemoveItem(banner);
 
 					return;
 				}
 
+				// Remove the banner
 				_statusCenterViewModel.RemoveItem(banner);
 			}
 
+			// Candidates are all standard storage item
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
 			if (onlyStandard)
 				items = new ConcurrentBag<IStorageItem>(await items.ToStandardStorageItemsAsync());
@@ -218,11 +265,17 @@ namespace Files.App.Helpers
 			if (!items.Any())
 				return;
 
-			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
+			var dataPackage = new DataPackage()
+			{
+				RequestedOperation = DataPackageOperation.Copy,
+				Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
+			};
+
 			dataPackage.SetStorageItems(items, false);
 
 			try
 			{
+				// Set item objects on the Clipboard
 				Clipboard.SetContent(dataPackage);
 			}
 			catch
@@ -231,13 +284,26 @@ namespace Files.App.Helpers
 			}
 		}
 
+		/// <summary>
+		/// Operates paste action from UI thread.
+		/// </summary>
+		/// <param name="destinationPath"></param>
+		/// <param name="associatedInstance"></param>
+		/// <returns></returns>
 		public static async Task PasteItemAsync(string destinationPath, IShellPage associatedInstance)
 		{
+			// Get item objects from the Clipboard
 			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+
 			if (packageView && packageView.Result is not null)
 			{
+				// Operate action
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
+
+				// Set dimmed UI items undim
 				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+
+				// Refresh content page
 				await associatedInstance.RefreshIfNoWatcherExists();
 			}
 		}

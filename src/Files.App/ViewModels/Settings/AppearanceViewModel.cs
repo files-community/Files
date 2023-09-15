@@ -8,6 +8,9 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.AppearanceViewModel"/>.
+	/// </summary>
 	public class AppearanceViewModel : ObservableObject
 	{
 		private readonly IUserSettingsService UserSettingsService;

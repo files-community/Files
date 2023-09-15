@@ -3,6 +3,9 @@
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.FoldersViewModel"/>.
+	/// </summary>
 	public class FoldersViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

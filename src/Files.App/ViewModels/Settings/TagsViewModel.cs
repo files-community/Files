@@ -5,6 +5,9 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
+	/// <summary>
+	/// Represents ViewModel of <see cref="Settings.TagsViewModel"/>.
+	/// </summary>
 	public class TagsViewModel : ObservableObject
 	{
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();

@@ -14,16 +14,16 @@ namespace Files.App.ViewModels
 	{
 		private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-		public SettingsViewModel()
-		{
-			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
-		}
+		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
 		public event EventHandler ThemeModeChanged;
 
 		public ICommand UpdateThemeElements { get; }
 
-		#region ReadAndSaveSettings
+		public SettingsViewModel()
+		{
+			UpdateThemeElements = new RelayCommand(() => ThemeModeChanged?.Invoke(this, EventArgs.Empty));
+		}
 
 		public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
 		{
@@ -102,9 +102,5 @@ namespace Files.App.ViewModels
 
 			return defaultValue;
 		}
-
-		private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
-
-		#endregion ReadAndSaveSettings
 	}
 }
