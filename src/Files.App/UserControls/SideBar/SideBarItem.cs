@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -24,6 +23,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
+		private bool isClicking = false;
 		private object? selectedChildItem = null;
 		private ItemsRepeater? childrenRepeater;
 		private ISidebarItemModel? lastSubscriber;
@@ -359,22 +359,29 @@ namespace Files.App.UserControls.Sidebar
 		private void ItemGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = false;
+			isClicking = false;
 			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			isClicking = false;
 			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			isClicking = true;
 			UpdatePointerState(true);
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconPressed" : "CollapsedIconPressed", true);
 		}
 
 		private void Item_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
+			if (!isClicking)
+				return;
+
+			isClicking = false;
 			e.Handled = true;
 			UpdatePointerState();
 
