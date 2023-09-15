@@ -73,7 +73,7 @@ namespace Files.App.Utils.Archives
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
-				0,
+				initialProgress: 0,
 				ReturnResult.InProgress,
 				FileOperationType.Compressed,
 				compressionToken

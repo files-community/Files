@@ -86,7 +86,17 @@ namespace Files.App.Utils.Archives
 			int entriesFinished = 0;
 			var minimumTime = new DateTime(1);
 
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, entriesAmount);
+			ulong totalSize = 0;
+			foreach (var item in zipFile.ArchiveFileData)
+				totalSize += item.Size;
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				enumerationCompleted: true,
+				FileSystemStatusCode.InProgress,
+				entriesAmount,
+				(long)totalSize);
+
 			fsProgress.Report();
 
 			foreach (var entry in fileEntries)

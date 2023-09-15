@@ -8,6 +8,7 @@ using LiveChartsCore.Drawing;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.Defaults;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -90,7 +91,7 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _SpeedText, value);
 		}
 
-		public ObservableCollection<int> Values { get; set; }
+		public ObservableCollection<ObservablePoint> Values { get; set; }
 
 		public ObservableCollection<ISeries> Series { get; set; }
 
@@ -166,7 +167,7 @@ namespace Files.App.Utils.StatusCenter
 
 			Series = new()
 			{
-				new LineSeries<int>
+				new LineSeries<ObservablePoint>
 				{
 					Values = Values,
 					GeometrySize = 0,
@@ -262,23 +263,25 @@ namespace Files.App.Utils.StatusCenter
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
-						SpeedText = $"{Progress.ProcessingSpeed}";
+						SpeedText = $"{value.ProcessedItemsCount:0} items ({value.ProcessingSizeSpeed:0.00} bytes) / second";
+						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
-						SpeedText = $"{Progress.ProcessingSpeed}";
+						SpeedText = $"{value.ProcessingSizeSpeed:0.00} bytes / second";
+						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
-						SpeedText = $"{Progress.ProcessingSpeed}";
+						SpeedText = $"{value.ProcessedItemsCount:0} items / second";
+						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
 						break;
 					default:
 						Header = $"{HeaderBody}";
-						SpeedText = $"{Progress.ProcessingSpeed}";
 						break;
 				}
 			}
@@ -291,7 +294,6 @@ namespace Files.App.Utils.StatusCenter
 					(_, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} / ...)",
 					_ => $"{HeaderBody}",
 				};
-				SpeedText = $"{Progress.ProcessingSpeed}";
 			}
 
 			_viewModel.NotifyChanges();
