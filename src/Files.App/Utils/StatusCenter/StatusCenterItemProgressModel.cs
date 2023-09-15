@@ -169,7 +169,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 
 				if (ProcessedSize == 0 && Percentage is not null)
-					ProcessedSize = TotalSize * (long)(Percentage / 100);
+					ProcessedSize = (long)((double)TotalSize * Percentage / 100);
 
 				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
