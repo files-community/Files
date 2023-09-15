@@ -444,7 +444,19 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			long totalSize = 0;
+			foreach (var item in fileToCopyPath)
+			{
+				totalSize += FileOperationsHelpers.GetFileSize(item);
+			}
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress,
+				fileToCopyPath.Count(),
+				totalSize);
+
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -454,24 +466,32 @@ namespace Files.App.Utils.Storage
 
 				var shellOperationResult = new ShellOperationResult();
 
-				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
-							| ShellFileOperations.OperationFlags.Silent
-							| ShellFileOperations.OperationFlags.NoErrorUI;
+				op.Options =
+					ShellFileOperations.OperationFlags.NoConfirmMkDir |
+					ShellFileOperations.OperationFlags.Silent |
+					ShellFileOperations.OperationFlags.NoErrorUI;
+
 				if (asAdmin)
 				{
-					op.Options |= ShellFileOperations.OperationFlags.ShowElevationPrompt
-								| ShellFileOperations.OperationFlags.RequireElevation;
+					op.Options |=
+						ShellFileOperations.OperationFlags.ShowElevationPrompt |
+						ShellFileOperations.OperationFlags.RequireElevation;
 				}
+
 				op.OwnerWindow = (IntPtr)ownerHwnd;
-				op.Options |= !overwriteOnCopy ? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
-					: ShellFileOperations.OperationFlags.NoConfirmation;
+				op.Options |=
+					!overwriteOnCopy
+						? ShellFileOperations.OperationFlags.PreserveFileExtensions | ShellFileOperations.OperationFlags.RenameOnCollision
+						: ShellFileOperations.OperationFlags.NoConfirmation;
 
 				for (var i = 0; i < fileToCopyPath.Length; i++)
 				{
 					if (!SafetyExtensions.IgnoreExceptions(() =>
 					{
-						using ShellItem shi = new ShellItem(fileToCopyPath[i]);
-						using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(copyDestination[i]));
+						using ShellItem shi = new(fileToCopyPath[i]);
+						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
+
+						// Performa copy operation
 						op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
 					}))
 					{
@@ -806,6 +826,24 @@ namespace Files.App.Utils.Storage
 
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
+
+		public static long GetFileSize(string path)
+		{
+			var hFile = Kernel32.CreateFile(
+				path,
+				Kernel32.FileAccess.FILE_READ_ATTRIBUTES,
+				FileShare.Read,
+				null,
+				FileMode.Open,
+				0,
+				null);
+
+			Kernel32.GetFileSizeEx(hFile, out var size);
+
+			hFile.Dispose();
+
+			return size;
+		}
 
 		private class ProgressHandler : Disposable
 		{

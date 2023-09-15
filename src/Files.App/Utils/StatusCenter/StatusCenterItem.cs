@@ -253,6 +253,9 @@ namespace Files.App.Utils.StatusCenter
 				{
 					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
+
+					SpeedText = $"{value.ProcessedItemsCount:0} items ({value.ProcessingSizeSpeed:0.00} bytes) / second";
+					Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 				}
 			}
 			else if (value.EnumerationCompleted)
