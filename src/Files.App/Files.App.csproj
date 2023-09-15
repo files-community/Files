@@ -65,7 +65,6 @@
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
 
     <ItemGroup>
