@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open a new pane.
+	/// </summary>
 	internal class OpenNewPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

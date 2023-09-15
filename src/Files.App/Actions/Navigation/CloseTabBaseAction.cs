@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to close tabs.
+	/// </summary>
 	internal abstract class CloseTabBaseAction : ObservableObject, IAction
 	{
 		protected readonly IMultitaskingContext context;

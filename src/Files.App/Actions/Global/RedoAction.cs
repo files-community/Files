@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to redo the last operation on storage item.
+	/// </summary>
 	internal class RedoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

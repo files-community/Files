@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to cut a storage item.
+	/// </summary>
 	internal class CutItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

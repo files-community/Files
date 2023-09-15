@@ -16,10 +16,11 @@ using Windows.Foundation.Metadata;
 namespace Files.App.Data.Behaviors
 {
 	/// <summary>
-	/// Performs an animation on a ListView or GridView Header to make it sticky using composition.
+	/// Performs an animation to make it sticky using composition on a ListView or GridView Header.
 	/// </summary>
 	/// <remarks>
-	/// See also, <see cref="Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}"/>
+	/// For more information, visit
+	/// <see cref="Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}"/>.
 	/// </remarks>
 	public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
 	{

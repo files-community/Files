@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to search unindexed items.
+	/// </summary>
 	internal class SearchUnindexedItemsAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

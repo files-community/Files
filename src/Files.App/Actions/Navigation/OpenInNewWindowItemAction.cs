@@ -5,6 +5,9 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open item in a new window of the app.
+	/// </summary>
 	internal class OpenInNewWindowItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to toggle option to sort directories alongside files.
+	/// </summary>
 	internal class ToggleSortDirectoriesAlongsideFilesAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;

@@ -5,6 +5,9 @@ using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to format a drive.
+	/// </summary>
 	internal class FormatDriveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

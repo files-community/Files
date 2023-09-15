@@ -6,6 +6,9 @@ using Windows.Graphics;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to toggle compact overlay mode.
+	/// </summary>
 	internal class ToggleCompactOverlayAction : ObservableObject, IToggleAction
 	{
 		private readonly IWindowContext windowContext;

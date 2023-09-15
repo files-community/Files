@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to navigate up the content page.
+	/// </summary>
 	internal class NavigateUpAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

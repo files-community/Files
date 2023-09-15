@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to rename a storage item.
+	/// </summary>
 	internal class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

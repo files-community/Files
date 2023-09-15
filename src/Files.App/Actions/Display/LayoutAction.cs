@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to change the content layout to DetailsView layout.
+	/// </summary>
 	internal class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType

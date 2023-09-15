@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to restore all storage items from Windows Recycle Bin.
+	/// </summary>
 	internal class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		public string Label

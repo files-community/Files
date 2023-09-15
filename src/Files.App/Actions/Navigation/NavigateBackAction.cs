@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to navigate back the content page.
+	/// </summary>
 	internal class NavigateBackAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

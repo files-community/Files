@@ -6,6 +6,9 @@ using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to unpin storage item to the sidebar.
+	/// </summary>
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

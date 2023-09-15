@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to create a storage folder with selection.
+	/// </summary>
 	internal class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

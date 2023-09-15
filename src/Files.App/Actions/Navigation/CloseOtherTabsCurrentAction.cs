@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to close tabs but current one.
+	/// </summary>
 	internal sealed class CloseOtherTabsCurrentAction : CloseTabBaseAction
 	{
 		public override string Label

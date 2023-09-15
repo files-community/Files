@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to fetch blob.
+	/// </summary>
 	internal class GitFetchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

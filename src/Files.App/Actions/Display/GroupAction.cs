@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to group by none.
+	/// </summary>
 	internal class GroupByNoneAction : GroupByAction
 	{
 		protected override GroupOption GroupOption

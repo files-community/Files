@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to copy storage item(s).
+	/// </summary>
 	internal class CopyItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

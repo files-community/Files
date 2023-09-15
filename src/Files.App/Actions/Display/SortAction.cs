@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents actiono to sort by name.
+	/// </summary>
 	internal class SortByNameAction : SortByAction
 	{
 		protected override SortOption SortOption

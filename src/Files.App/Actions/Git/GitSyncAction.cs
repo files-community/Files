@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to synchronize a repository
+	/// </summary>
 	internal class GitSyncAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to create a storage shortcut from the creation dialog result.
+	/// </summary>
 	internal class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

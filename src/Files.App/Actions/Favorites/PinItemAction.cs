@@ -7,6 +7,9 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to pin storage item to the sidebar.
+	/// </summary>
 	internal class PinItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

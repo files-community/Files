@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to delete a storage item permanently.
+	/// </summary>
 	internal class DeleteItemPermanentlyAction : BaseDeleteAction, IAction
 	{
 		public string Label

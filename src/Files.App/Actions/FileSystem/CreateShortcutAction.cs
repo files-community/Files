@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to create a storage shortcut item.
+	/// </summary>
 	internal class CreateShortcutAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

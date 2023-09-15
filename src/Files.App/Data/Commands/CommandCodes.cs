@@ -3,6 +3,9 @@
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Defines constants that specify kind of RichCommands.
+	/// </summary>
 	public enum CommandCodes
 	{
 		None,

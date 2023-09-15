@@ -5,6 +5,9 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to toggle full screen mode.
+	/// </summary>
 	internal class ToggleFullScreenAction : IToggleAction
 	{
 		public string Label

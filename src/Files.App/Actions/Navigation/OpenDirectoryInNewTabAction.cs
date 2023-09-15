@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open directory in a new tab.
+	/// </summary>
 	internal class OpenDirectoryInNewTabAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to paste copied storage item(s).
+	/// </summary>
 	internal class PasteItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

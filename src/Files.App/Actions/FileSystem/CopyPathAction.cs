@@ -5,6 +5,9 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to copy a storage item's path.
+	/// </summary>
 	internal class CopyPathAction : IAction
 	{
 		private readonly IContentPageContext context;

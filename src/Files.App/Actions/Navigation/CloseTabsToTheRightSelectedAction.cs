@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to close tabs to the right of the selected tab.
+	/// </summary>
 	internal sealed class CloseTabsToTheRightSelectedAction : CloseTabBaseAction
 	{
 		public override string Label

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to duplicate the selected tab.
+	/// </summary>
 	internal class DuplicateSelectedTabAction : IAction
 	{
 		private readonly IMultitaskingContext context;

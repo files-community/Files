@@ -5,6 +5,9 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents base action to delete an item.
+	/// </summary>
 	internal abstract class BaseDeleteAction : BaseUIAction
 	{
 		private readonly IFoldersSettingsService settings;

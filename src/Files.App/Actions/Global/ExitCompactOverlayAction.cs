@@ -5,6 +5,9 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to exit compact overlay mode.
+	/// </summary>
 	internal class ExitCompactOverlayAction : ObservableObject, IAction
 	{
 		private readonly IWindowContext windowContext;

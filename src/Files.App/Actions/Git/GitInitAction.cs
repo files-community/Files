@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to initialize a repository.
+	/// </summary>
     sealed class GitInitAction : ObservableObject, IAction
     {
 		private readonly IContentPageContext _context;

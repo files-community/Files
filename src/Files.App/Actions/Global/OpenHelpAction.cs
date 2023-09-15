@@ -5,6 +5,9 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open our help documentation on web browser.
+	/// </summary>
 	internal class OpenHelpAction : IAction
 	{
 		public string Label

@@ -5,6 +5,9 @@ using System.IO;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open file location.
+	/// </summary>
 	internal class OpenFileLocationAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

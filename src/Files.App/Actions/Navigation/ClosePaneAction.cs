@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to close content pane.
+	/// </summary>
 	internal class ClosePaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to restore a storage item from Windows Recycle Bin.
+	/// </summary>
 	internal class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

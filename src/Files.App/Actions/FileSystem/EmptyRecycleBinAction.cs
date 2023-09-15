@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to empty storage item(s) in Windows Recycle Bin.
+	/// </summary>
 	internal class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

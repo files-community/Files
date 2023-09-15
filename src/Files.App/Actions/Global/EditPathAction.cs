@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to focus path TextBox bar to be editable.
+	/// </summary>
 	internal class EditPathAction : IAction
 	{
 		private readonly IContentPageContext context;

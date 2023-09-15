@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to create a storage folder.
+	/// </summary>
 	internal class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

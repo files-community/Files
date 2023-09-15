@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to pull blob from origin.
+	/// </summary>
 	internal class GitPullAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

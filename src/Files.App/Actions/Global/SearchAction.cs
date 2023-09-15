@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to toggle search TextBox visibility.
+	/// </summary>
 	internal class SearchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

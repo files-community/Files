@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open a new tab.
+	/// </summary>
 	internal class NewTabAction : IAction
 	{
 		private readonly MainPageViewModel mainPageViewModel;

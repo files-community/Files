@@ -6,6 +6,9 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to open a storage item.
+	/// </summary>
 	internal class OpenItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

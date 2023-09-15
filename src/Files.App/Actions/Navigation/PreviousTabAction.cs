@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to change the current tab to the previous one.
+	/// </summary>
 	internal class PreviousTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext;

@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to push commits.
+	/// </summary>
 	internal class GitPushAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

@@ -5,6 +5,9 @@ using Files.App.UserControls.MultitaskingControl;
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to reopen closed tabs.
+	/// </summary>
 	internal class ReopenClosedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;

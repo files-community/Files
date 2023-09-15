@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to undo the last operation on storage item.
+	/// </summary>
 	internal class UndoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

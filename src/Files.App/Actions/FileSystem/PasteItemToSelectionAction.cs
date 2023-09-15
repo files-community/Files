@@ -3,6 +3,9 @@
 
 namespace Files.App.Actions
 {
+	/// <summary>
+	/// Represents action to paste copied storage item(s) to the selected item.
+	/// </summary>
 	internal class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
