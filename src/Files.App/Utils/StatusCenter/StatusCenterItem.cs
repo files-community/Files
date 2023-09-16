@@ -151,7 +151,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource? operationCancellationToken = null)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
 			SubHeader = message;
