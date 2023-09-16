@@ -9,6 +9,7 @@ using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.Defaults;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -165,14 +166,32 @@ namespace Files.App.Utils.StatusCenter
 
 			Values = new();
 
+			// TODO: One-time fetch could cause an issue where the color won't be changed when user change accent color
+			var accentBrush = App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush;
+
 			Series = new()
 			{
 				new LineSeries<ObservablePoint>
 				{
 					Values = Values,
-					GeometrySize = 0,
-					Stroke = new SolidColorPaint(new(25, 118, 210), 1),
+					GeometrySize = 0d,
 					DataPadding = new(0, 0),
+					IsHoverable = false,
+
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B),
+						1),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
+						},
+						new(0.5f, 0f),
+						new(0.5f, 1.0f),
+						new[] { 0.2f, 1.3f }),
 				}
 			};
 
@@ -254,7 +273,7 @@ namespace Files.App.Utils.StatusCenter
 					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
 
-					SpeedText = $"{value.ProcessedItemsCount:0} items ({value.ProcessingSizeSpeed:0.00} bytes) / second";
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 					Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 				}
 			}
@@ -266,21 +285,21 @@ namespace Files.App.Utils.StatusCenter
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
-						SpeedText = $"{value.ProcessedItemsCount:0} items ({value.ProcessingSizeSpeed:0.00} bytes) / second";
+						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
-						SpeedText = $"{value.ProcessingSizeSpeed:0.00} bytes / second";
+						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
-						SpeedText = $"{value.ProcessedItemsCount:0} items / second";
+						SpeedText = $"{value.ProcessedItemsCount:0} items/s";
 						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
 						break;
 					default:
