@@ -168,21 +168,25 @@ namespace Files.App.Utils.StatusCenter
 					}
 				}
 
-				if (ProcessedSize == 0 && Percentage is not null)
+				if (Percentage is not null)
 					ProcessedSize = (long)((double)TotalSize * Percentage / 100);
 
-				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+				if (ProcessedSize != _previousProcessedSize)
+				{
+					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
-				// NOTE: This won't work yet
-				ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					// NOTE: This won't work yet
+					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
+					_previousReportTime = DateTimeOffset.Now;
+					_previousProcessedSize = ProcessedSize;
+					_previousProcessedItemsCount = ProcessedItemsCount;
+				}
 
 				_progress?.Report(this);
-				_previousReportTime = DateTimeOffset.Now;
-				_previousProcessedSize = ProcessedSize;
-				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 
