@@ -10,7 +10,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Provides an archive creation support.
 	/// </summary>
-	public class ArchiveCreator : IArchiveCreator
+	public class CompressArchiveModel : ICompressArchiveModel
 	{
 		/// <summary>
 		/// Represents the total number of items to be processed.
@@ -106,16 +106,38 @@ namespace Files.App.Utils.Archives
 		/// <inheritdoc/>
 		public ArchiveSplittingSizes SplittingSize { get; init; }
 
-		public ArchiveCreator()
+		public CompressArchiveModel(
+			string[] source,
+			string directory,
+			string fileName,
+			string? password = null,
+			ArchiveFormats fileFormat = ArchiveFormats.Zip,
+			ArchiveCompressionLevels compressionLevel = ArchiveCompressionLevels.Normal,
+			ArchiveSplittingSizes splittingSize = ArchiveSplittingSizes.None)
 		{
-			// Initialize
-			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+			long totalSize = 0;
+			foreach (var item in Sources)
+			{
+				totalSize += FileOperationsHelpers.GetFileSize(item);
+			}
+
+			_fileSystemProgress = new(
+				Progress,
+				true,
+				FileSystemStatusCode.InProgress,
+				Sources.Count(),
+				totalSize);
+
 			_Progress = new Progress<StatusCenterItemProgressModel>();
+
+			Sources = source;
+			Directory = directory;
+			FileName = fileName;
+			Password = password ?? string.Empty;
 			ArchivePath = string.Empty;
-			Sources = Enumerable.Empty<string>();
-			FileFormat = ArchiveFormats.Zip;
-			CompressionLevel = ArchiveCompressionLevels.Normal;
-			SplittingSize = ArchiveSplittingSizes.None;
+			FileFormat = fileFormat;
+			CompressionLevel = compressionLevel;
+			SplittingSize = splittingSize;
 
 			_fileSystemProgress.Report(0);
 		}
@@ -131,7 +153,7 @@ namespace Files.App.Utils.Archives
 		{
 			string[] sources = Sources.ToArray();
 
-			var compressor = new SevenZipCompressor
+			var compressor = new SevenZipCompressor()
 			{
 				ArchiveFormat = SevenZipArchiveFormat,
 				CompressionLevel = SevenZipCompressionLevel,
@@ -142,6 +164,7 @@ namespace Files.App.Utils.Archives
 				PreserveDirectoryRoot = sources.Length > 1,
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
+
 			compressor.Compressing += Compressor_Compressing;
 			compressor.CompressionFinished += Compressor_CompressionFinished;
 

@@ -503,7 +503,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = itemsSelected && ArchiveHelpers.CanCompress(selectedItems)
+					ShowItem = itemsSelected && CompressHelper.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -519,7 +519,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},
-					ShowItem = ArchiveHelpers.CanDecompress(selectedItems)
+					ShowItem = CompressHelper.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

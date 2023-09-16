@@ -6,7 +6,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Represents an interface for archive creation support.
 	/// </summary>
-	public interface IArchiveCreator
+	public interface ICompressArchiveModel
 	{
 		/// <summary>
 		/// File path to archive.
