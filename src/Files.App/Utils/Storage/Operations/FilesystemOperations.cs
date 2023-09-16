@@ -114,8 +114,6 @@ namespace Files.App.Utils.Storage
 				true,
 				FileSystemStatusCode.InProgress);
 
-			// TODO: Get total size
-
 			fsProgress.Report();
 
 			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -299,8 +297,6 @@ namespace Files.App.Utils.Storage
 				true,
 				FileSystemStatusCode.InProgress);
 
-			// TODO: Get total size
-
 			fsProgress.Report();
 
 			if (source.Path == destination)
@@ -479,8 +475,6 @@ namespace Files.App.Utils.Storage
 				true,
 				FileSystemStatusCode.InProgress);
 
-			// TODO: Get total size
-
 			fsProgress.Report();
 
 			bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
@@ -571,8 +565,6 @@ namespace Files.App.Utils.Storage
 			bool asAdmin = false)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
-
-			// TODO: Get total size
 
 			fsProgress.Report();
 
