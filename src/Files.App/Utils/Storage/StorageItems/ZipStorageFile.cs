@@ -410,9 +410,9 @@ namespace Files.App.Utils.Storage
 					return zipFile.ArchiveFileData is not null;
 				}
 			}
-			catch (SevenZipOpenFailedException ex)
+			catch (SevenZipExtractionFailedException ex)
 			{
-				return ex.Result == OperationResult.WrongPassword;
+				return ex.HResult == (int)OperationResult.WrongPassword;
 			}
 			catch
 			{

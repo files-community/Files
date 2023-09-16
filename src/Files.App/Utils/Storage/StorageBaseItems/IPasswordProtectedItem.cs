@@ -16,8 +16,8 @@ namespace Files.App.Utils.Storage
 
 		async Task<TOut> RetryWithCredentials<TOut>(Func<Task<TOut>> func, Exception exception)
 		{
-			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
-				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
+			var handled = exception is SevenZipExtractionFailedException szofex && szofex.HResult == (int)OperationResult.WrongPassword ||
+				exception is ExtractionFailedException efex && efex.HResult is (int)OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
 
 			if (!handled || PasswordRequestedCallback is null)
@@ -30,8 +30,8 @@ namespace Files.App.Utils.Storage
 
 		async Task RetryWithCredentials(Func<Task> func, Exception exception)
 		{
-			var handled = exception is SevenZipOpenFailedException szofex && szofex.Result is OperationResult.WrongPassword ||
-				exception is ExtractionFailedException efex && efex.Result is OperationResult.WrongPassword ||
+			var handled = exception is SevenZipExtractionFailedException szofex && szofex.HResult == (int)OperationResult.WrongPassword ||
+				exception is ExtractionFailedException efex && efex.HResult == (int)OperationResult.WrongPassword ||
 				exception is FtpAuthenticationException;
 
 			if (!handled || PasswordRequestedCallback is null)
