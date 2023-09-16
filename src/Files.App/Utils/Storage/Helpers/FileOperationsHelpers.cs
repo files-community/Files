@@ -200,7 +200,7 @@ namespace Files.App.Utils.Storage
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
 			long totalSize = 0;
-			foreach (var item in fileToDeletePath)
+			foreach (var item in fileToCopyPath)
 			{
 				totalSize += GetFileSize(item);
 			}
@@ -209,7 +209,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				fileToDeletePath.Count(),
+				fileToCopyPath.Count(),
 				totalSize);
 
 			fsProgress.Report();
@@ -372,7 +372,7 @@ namespace Files.App.Utils.Storage
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
 			long totalSize = 0;
-			foreach (var item in fileToMovePath)
+			foreach (var item in fileToCopyPath)
 			{
 				totalSize += GetFileSize(item);
 			}
@@ -381,7 +381,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				fileToMovePath.Count(),
+				fileToCopyPath.Count(),
 				totalSize);
 
 			fsProgress.Report();
