@@ -5,6 +5,8 @@ namespace Files.App.Utils.Storage
 {
 	public class StorageHistoryHelpers : IDisposable
 	{
+		private static readonly StorageHistoryWrapper _storageHistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
+
 		private IStorageHistoryOperations operations;
 
 		private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
@@ -14,7 +16,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> TryUndo()
 		{
-			if (App.HistoryWrapper.CanUndo())
+			if (_storageHistoryWrapper.CanUndo())
 			{
 				if (!await semaphore.WaitAsync(0))
 				{
@@ -23,14 +25,14 @@ namespace Files.App.Utils.Storage
 				bool keepHistory = false;
 				try
 				{
-					ReturnResult result = await operations.Undo(App.HistoryWrapper.GetCurrentHistory());
+					ReturnResult result = await operations.Undo(_storageHistoryWrapper.GetCurrentHistory());
 					keepHistory = result is ReturnResult.Cancelled;
 					return result;
 				}
 				finally
 				{
 					if (!keepHistory)
-						App.HistoryWrapper.DecreaseIndex();
+						_storageHistoryWrapper.DecreaseIndex();
 
 					semaphore.Release();
 				}
@@ -41,7 +43,7 @@ namespace Files.App.Utils.Storage
 
 		public async Task<ReturnResult> TryRedo()
 		{
-			if (App.HistoryWrapper.CanRedo())
+			if (_storageHistoryWrapper.CanRedo())
 			{
 				if (!await semaphore.WaitAsync(0))
 				{
@@ -49,8 +51,8 @@ namespace Files.App.Utils.Storage
 				}
 				try
 				{
-					App.HistoryWrapper.IncreaseIndex();
-					return await operations.Redo(App.HistoryWrapper.GetCurrentHistory());
+					_storageHistoryWrapper.IncreaseIndex();
+					return await operations.Redo(_storageHistoryWrapper.GetCurrentHistory());
 				}
 				finally
 				{

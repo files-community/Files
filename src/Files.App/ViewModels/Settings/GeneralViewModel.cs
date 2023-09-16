@@ -15,6 +15,8 @@ namespace Files.App.ViewModels.Settings
 {
 	public class GeneralViewModel : ObservableObject, IDisposable
 	{
+		private static readonly RecentItems _recentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
@@ -164,7 +166,7 @@ namespace Files.App.ViewModels.Settings
 
 			// Ensure recent folders aren't stale since we don't update them with a watcher
 			// Then update the items source again to actually include those items
-			await App.RecentItemsManager.UpdateRecentFoldersAsync();
+			await _recentItemsManager.UpdateRecentFoldersAsync();
 			await PopulateRecentItems(recentsItem);
 		}
 
@@ -172,7 +174,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			try
 			{
-				var recentFolders = App.RecentItemsManager.RecentFolders;
+				var recentFolders = _recentItemsManager.RecentFolders;
 				var currentFolderMenus = menu.Items
 					.OfType<MenuFlyoutItemViewModel>()
 					.Where(m => m.Text != "Home".GetLocalizedResource())

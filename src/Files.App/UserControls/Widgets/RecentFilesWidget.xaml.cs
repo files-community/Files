@@ -17,6 +17,8 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class RecentFilesWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		private static readonly RecentItems _recentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
+
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -99,7 +101,7 @@ namespace Files.App.UserControls.Widgets
 			// recent files could have changed while widget wasn't loaded
 			_ = RefreshWidget();
 
-			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
+			_recentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 
 			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItem);
 			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItems);
@@ -200,8 +202,8 @@ namespace Files.App.UserControls.Widgets
 
 		public async Task RefreshWidget()
 		{
-			IsRecentFilesDisabledInWindows = App.RecentItemsManager.CheckIsRecentFilesEnabled() is false;
-			await App.RecentItemsManager.UpdateRecentFilesAsync();
+			IsRecentFilesDisabledInWindows = _recentItemsManager.CheckIsRecentFilesEnabled() is false;
+			await _recentItemsManager.UpdateRecentFilesAsync();
 		}
 
 		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -282,7 +284,7 @@ namespace Files.App.UserControls.Widgets
 
 					// case NotifyCollectionChangedAction.Reset:
 					default:
-						var recentFiles = App.RecentItemsManager.RecentFiles; // already sorted, add all in order
+						var recentFiles = _recentItemsManager.RecentFiles; // already sorted, add all in order
 						if (!recentFiles.SequenceEqual(recentItemsCollection))
 						{
 							recentItemsCollection.Clear();
@@ -342,7 +344,7 @@ namespace Files.App.UserControls.Widgets
 
 			try
 			{
-				await App.RecentItemsManager.UnpinFromRecentFiles(item);
+				await _recentItemsManager.UnpinFromRecentFiles(item);
 			}
 			finally
 			{
@@ -356,7 +358,7 @@ namespace Files.App.UserControls.Widgets
 			try
 			{
 				recentItemsCollection.Clear();
-				bool success = App.RecentItemsManager.ClearRecentItems();
+				bool success = _recentItemsManager.ClearRecentItems();
 
 				if (success)
 				{
@@ -376,7 +378,7 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
+			_recentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
 		}
 	}
 }

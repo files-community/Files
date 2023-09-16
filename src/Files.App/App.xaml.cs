@@ -38,24 +38,19 @@ namespace Files.App
 {
 	public partial class App : Application
 	{
-		private IHost? _host;
-
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
-		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
-		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
-
+		public static SecondaryTileHelper SecondaryTileHelper { get; private set; }
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
 		/// Initializes the singleton application object. This is the first line of authored code
@@ -96,6 +91,17 @@ namespace Files.App
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
+					// Transient managers
+					.AddTransient<StorageHistoryWrapper>()
+					.AddTransient<AppModel>()
+					.AddTransient<RecentItems>()
+					.AddTransient<QuickAccessManager>()
+					.AddTransient<CloudDrivesManager>()
+					.AddTransient<WSLDistroManager>()
+					.AddTransient<LibraryManager>()
+					.AddTransient<FileTagsManager>()
+					.AddTransient<SecondaryTileHelper>()
+					// Generic services
 					.AddSingleton<IUserSettingsService, UserSettingsService>()
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -105,12 +111,14 @@ namespace Files.App
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					// Contexts
 					.AddSingleton<IPageContext, PageContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					// Services
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
@@ -225,13 +233,12 @@ namespace Files.App
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
 				// Configure Host and IoC
-				_host = ConfigureHost();
-				Ioc.Default.ConfigureServices(_host.Services);
+				var host = ConfigureHost();
+				Ioc.Default.ConfigureServices(host.Services);
 
+				// NOTE: Must ensure after configured DI container
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
-				// TODO: Remove App.Logger instance and replace with DI
-				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				// Wait for the UI to update
@@ -246,15 +253,14 @@ namespace Files.App
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
-			// TODO(s): Remove initialization here and move out all classes (visible below) out of App.xaml.cs
-
-			RecentItemsManager ??= new RecentItems();
-			AppModel ??= new AppModel();
-			LibraryManager ??= new LibraryManager();
-			CloudDrivesManager ??= new CloudDrivesManager();
-			WSLDistroManager ??= new WSLDistroManager();
-			FileTagsManager ??= new FileTagsManager();
-			QuickAccessManager ??= new QuickAccessManager();
+			AppModel ??= Ioc.Default.GetRequiredService<AppModel>();
+			LibraryManager ??= Ioc.Default.GetRequiredService<LibraryManager>();
+			CloudDrivesManager ??= Ioc.Default.GetRequiredService<CloudDrivesManager>();
+			WSLDistroManager ??= Ioc.Default.GetRequiredService<WSLDistroManager>();
+			FileTagsManager ??= Ioc.Default.GetRequiredService<FileTagsManager>();
+			QuickAccessManager ??= Ioc.Default.GetRequiredService<QuickAccessManager>();
+			SecondaryTileHelper ??= Ioc.Default.GetRequiredService<SecondaryTileHelper>();
+			Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		}
 
 		private void EnsureSuperEarlyWindow()

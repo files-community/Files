@@ -19,6 +19,8 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
+		private static readonly StorageHistoryWrapper _storageHistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
+
 		#region Private Members
 
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -99,7 +101,7 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
 			{
-				App.HistoryWrapper.AddHistory(result.Item1);
+				_storageHistoryWrapper.AddHistory(result.Item1);
 			}
 
 			await Task.Yield();
@@ -175,7 +177,7 @@ namespace Files.App.Utils.Storage
 			await Task.Yield();
 
 			if (!permanently && registerHistory)
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			var itemsDeleted = history?.Source.Count ?? 0;
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
@@ -228,7 +230,7 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
 
@@ -341,7 +343,7 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			}
 			var itemsCopied = history?.Source.Count ?? 0;
 
@@ -474,7 +476,7 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			}
 			int itemsMoved = history?.Source.Count ?? 0;
 
@@ -586,7 +588,7 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
 			{
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			}
 
 			await jumpListService.RemoveFolderAsync(source.Path); // Remove items from jump list
@@ -622,7 +624,7 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory)
 			{
-				App.HistoryWrapper.AddHistory(history);
+				_storageHistoryWrapper.AddHistory(history);
 			}
 
 			await Task.Yield();

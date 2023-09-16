@@ -11,8 +11,10 @@ namespace Files.App.Helpers
 {
 	public static class NavigationHelpers
 	{
+		private static readonly RecentItems _recentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 		public static Task OpenPathInNewTab(string? path)
 			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
@@ -267,7 +269,7 @@ namespace Files.App.Helpers
 					{
 						// Add location to Recent Items List
 						if (childFolder.Item is SystemStorageFolder)
-							App.RecentItemsManager.AddToRecentItems(childFolder.Path);
+							_recentItemsManager.AddToRecentItems(childFolder.Path);
 					});
 				if (!opened)
 					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
@@ -299,7 +301,7 @@ namespace Files.App.Helpers
 						StorageFileWithPath childFile = await associatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutInfo.TargetPath);
 						// Add location to Recent Items List
 						if (childFile?.Item is SystemStorageFile)
-							App.RecentItemsManager.AddToRecentItems(childFile.Path);
+							_recentItemsManager.AddToRecentItems(childFile.Path);
 					}
 					await Win32Helpers.InvokeWin32ComponentAsync(shortcutInfo.TargetPath, associatedInstance, $"{args} {shortcutInfo.Arguments}", shortcutInfo.RunAsAdmin, shortcutInfo.WorkingDirectory);
 				}
@@ -316,7 +318,7 @@ namespace Files.App.Helpers
 					{
 						// Add location to Recent Items List
 						if (childFile.Item is SystemStorageFile)
-							App.RecentItemsManager.AddToRecentItems(childFile.Path);
+							_recentItemsManager.AddToRecentItems(childFile.Path);
 
 						if (openViaApplicationPicker)
 						{

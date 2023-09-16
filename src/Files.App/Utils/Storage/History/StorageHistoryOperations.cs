@@ -8,6 +8,8 @@ namespace Files.App.Utils.Storage
 {
 	public class StorageHistoryOperations : IStorageHistoryOperations
 	{
+		private static readonly StorageHistoryWrapper _storageHistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
+
 		private IFilesystemHelpers helpers;
 		private IFilesystemOperations operations;
 
@@ -77,7 +79,7 @@ namespace Files.App.Utils.Storage
 						returnStatus = await helpers.RestoreItemsFromTrashAsync(history.Destination, history.Source.Select(item => item.Path), false);
 						if (returnStatus is ReturnResult.IntegrityCheckFailed) // Not found, corrupted
 						{
-							App.HistoryWrapper.RemoveHistory(history, false);
+							_storageHistoryWrapper.RemoveHistory(history, false);
 						}
 					}
 					break;
@@ -87,12 +89,12 @@ namespace Files.App.Utils.Storage
 						var newHistory = await operations.DeleteItemsAsync(history.Destination, progress, false, cancellationToken);
 						if (newHistory is null)
 						{
-							App.HistoryWrapper.RemoveHistory(history, false);
+							_storageHistoryWrapper.RemoveHistory(history, false);
 						}
 						else
 						{
 							// We need to change the recycled item paths (since IDs are different) - for Redo() to work
-							App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+							_storageHistoryWrapper.ModifyCurrentHistory(newHistory);
 						}
 					}
 					break;
@@ -162,12 +164,12 @@ namespace Files.App.Utils.Storage
 						var newHistory = await operations.DeleteItemsAsync(history.Source, progress, false, cancellationToken);
 						if (newHistory is null)
 						{
-							App.HistoryWrapper.RemoveHistory(history, true);
+							_storageHistoryWrapper.RemoveHistory(history, true);
 						}
 						else
 						{
 							// We need to change the recycled item paths (since IDs are different) - for Undo() to work
-							App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+							_storageHistoryWrapper.ModifyCurrentHistory(newHistory);
 						}
 					}
 					break;
