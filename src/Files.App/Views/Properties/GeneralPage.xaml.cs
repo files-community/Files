@@ -13,6 +13,8 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class GeneralPage : BasePropertiesPage
 	{
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
@@ -101,7 +103,7 @@ namespace Files.App.Views.Properties
 			async Task<bool> SaveLibraryAsync(LibraryItem library)
 			{
 				var fsVM = AppInstance.FilesystemViewModel;
-				if (!GetNewName(out var newName) || fsVM is null || !App.LibraryManager.CanCreateLibrary(newName).result)
+				if (!GetNewName(out var newName) || fsVM is null || !_libraryManager.CanCreateLibrary(newName).result)
 					return false;
 
 				newName = $"{newName}{ShellLibraryItem.EXTENSION}";

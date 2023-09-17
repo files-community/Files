@@ -19,6 +19,8 @@ namespace Files.App.Utils.Library
 {
 	public class LibraryManager : IDisposable
 	{
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
 		private FileSystemWatcher librariesWatcher;
@@ -305,7 +307,7 @@ namespace Files.App.Utils.Library
 				PrimaryButtonAction = async (vm, e) =>
 				{
 					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
-					await App.LibraryManager.UpdateLibrariesAsync();
+					await _libraryManager.UpdateLibrariesAsync();
 				},
 				CloseButtonAction = (vm, e) => vm.HideDialog(),
 				KeyDownAction = (vm, e) =>
@@ -355,7 +357,7 @@ namespace Files.App.Utils.Library
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
-					var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);
+					var (result, reason) = _libraryManager.CanCreateLibrary(inputText.Text);
 					tipText.Text = reason;
 					tipText.Visibility = result ? Visibility.Collapsed : Visibility.Visible;
 					if (!result)
@@ -363,7 +365,7 @@ namespace Files.App.Utils.Library
 						e.Cancel = true;
 						return;
 					}
-					await App.LibraryManager.CreateNewLibrary(inputText.Text);
+					await _libraryManager.CreateNewLibrary(inputText.Text);
 				},
 				CloseButtonAction = (vm, e) =>
 				{
@@ -373,7 +375,7 @@ namespace Files.App.Utils.Library
 				{
 					if (e.Key == VirtualKey.Enter)
 					{
-						await App.LibraryManager.CreateNewLibrary(inputText.Text);
+						await _libraryManager.CreateNewLibrary(inputText.Text);
 					}
 					else if (e.Key == VirtualKey.Escape)
 					{

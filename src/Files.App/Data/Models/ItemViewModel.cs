@@ -44,6 +44,9 @@ namespace Files.App.Data.Models
 
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
+
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		private readonly IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -142,7 +145,7 @@ namespace Files.App.Data.Models
 
 			var isLibrary = false;
 			string? name = null;
-			if (App.LibraryManager.TryGetLibrary(value, out LibraryLocationItem library))
+			if (_libraryManager.TryGetLibrary(value, out LibraryLocationItem library))
 			{
 				isLibrary = true;
 				name = library.Text;
@@ -1385,7 +1388,7 @@ namespace Files.App.Data.Models
 
 				if (path.ToLowerInvariant().EndsWith(ShellLibraryItem.EXTENSION, StringComparison.Ordinal))
 				{
-					if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
+					if (_libraryManager.TryGetLibrary(path, out LibraryLocationItem library) && !library.IsEmpty)
 					{
 						var libItem = new LibraryItem(library);
 						foreach (var folder in library.Folders)

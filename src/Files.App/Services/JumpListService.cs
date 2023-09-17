@@ -10,6 +10,7 @@ namespace Files.App.Services
 	public class JumpListService : IJumpListService
 	{
 		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
 
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
@@ -138,7 +139,7 @@ namespace Files.App.Services
 						displayName = "ThisPC".GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "SidebarNetworkDrives".GetLocalizedResource();
-					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
+					else if (_libraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);
 						displayName = libName switch

@@ -14,6 +14,8 @@ namespace Files.App.Utils.Storage
 {
 	public class FolderSearch
 	{
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
@@ -73,7 +75,7 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				if (_libraryManager.TryGetLibrary(Folder, out var library))
 				{
 					return AddItemsAsyncForLibrary(library, results, token);
 				}
@@ -115,7 +117,7 @@ namespace Files.App.Utils.Storage
 			try
 			{
 				var token = CancellationToken.None;
-				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
+				if (_libraryManager.TryGetLibrary(Folder, out var library))
 				{
 					await AddItemsAsyncForLibrary(library, results, token);
 				}

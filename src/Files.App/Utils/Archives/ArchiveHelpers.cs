@@ -13,6 +13,8 @@ namespace Files.App.Utils.Archives
 {
 	public static class ArchiveHelpers
 	{
+		private readonly static LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static bool CanDecompress(IReadOnlyList<ListedItem> selectedItems)
@@ -51,7 +53,7 @@ namespace Files.App.Utils.Archives
 			string directory = associatedInstance.FilesystemViewModel.WorkingDirectory.Normalize();
 
 
-			if (App.LibraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
+			if (_libraryManager.TryGetLibrary(directory, out var library) && !library.IsEmpty)
 				directory = library.DefaultSaveFolder;
 
 			string fileName = Path.GetFileName(sources.Length is 1 ? sources[0] : directory);

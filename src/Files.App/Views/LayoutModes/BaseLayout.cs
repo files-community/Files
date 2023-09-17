@@ -39,6 +39,8 @@ namespace Files.App.Views.LayoutModes
 
 		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
 
+		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
@@ -450,7 +452,7 @@ namespace Files.App.Views.LayoutModes
 
 				if (!navigationArguments.IsLayoutSwitch)
 				{
-					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
+					var displayName = _libraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					ParentShellPageInstance.UpdatePathUIToWorkingDirectory(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
