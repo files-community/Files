@@ -184,24 +184,10 @@ namespace Files.App.Utils.Storage
 					=> await (await CreateFolderAsync(desiredName, options)).ToStorageFolderAsync());
 		}
 
-		public abstract IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder);
+		public abstract IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder);
 
-		IAsyncAction IBaseStorageFolder.MoveFolderAsync(IStorageFolder destinationFolder)
-		{
-			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await MoveFolderAsync(destinationFolder));
-		}
+		public abstract IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option);
 
-		public abstract IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder, NameCollisionOption option);
-
-		IAsyncAction IBaseStorageFolder.MoveFolderAsync(IStorageFolder destinationFolder, NameCollisionOption option)
-		{
-			return
-				AsyncInfo.Run(async (cancellationToken)
-					=> await MoveFolderAsync(destinationFolder, option));
-		}
-		
 		public abstract IAsyncAction RenameAsync(string desiredName);
 
 		public abstract IAsyncAction RenameAsync(string desiredName, NameCollisionOption option);
