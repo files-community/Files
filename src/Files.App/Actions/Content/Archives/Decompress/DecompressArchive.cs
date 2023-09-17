@@ -23,7 +23,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			return ArchiveHelpers.DecompressArchive(context.ShellPage);
+			return CompressHelper.DecompressArchive(context.ShellPage);
 		}
 
 		protected override bool CanDecompressInsideArchive()

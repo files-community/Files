@@ -139,8 +139,6 @@ namespace Files.App.Utils.StatusCenter
 
 		public void Report(double? percentage = null)
 		{
-			Percentage = percentage;
-
 			// Set the progress state as success
 			if ((EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
@@ -168,25 +166,24 @@ namespace Files.App.Utils.StatusCenter
 					}
 				}
 
-				if (Percentage is not null)
-					ProcessedSize = (long)((double)TotalSize * Percentage / 100);
-
-				if (ProcessedSize != _previousProcessedSize)
+				if (percentage is not null && Percentage != percentage)
 				{
+					ProcessedSize = (long)(TotalSize * percentage / 100);
 					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
 					// NOTE: This won't work yet
 					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-
-					PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-					PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
-
-					_previousReportTime = DateTimeOffset.Now;
-					_previousProcessedSize = ProcessedSize;
-					_previousProcessedItemsCount = ProcessedItemsCount;
 				}
 
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
+			Percentage = percentage;
+
 				_progress?.Report(this);
+				_previousReportTime = DateTimeOffset.Now;
+				_previousProcessedSize = ProcessedSize;
+				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 

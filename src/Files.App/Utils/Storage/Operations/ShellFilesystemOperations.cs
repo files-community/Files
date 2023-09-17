@@ -43,11 +43,19 @@ namespace Files.App.Utils.Storage
 				// Fallback to built-in file operations
 				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
+
+			long totalSize = 0;
+			foreach (var item in source)
+			{
+				totalSize += FileOperationsHelpers.GetFileSize(item.Path);
+			}
+
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count);
+				source.Count(),
+				totalSize);
 
 			fsProgress.Report();
 
@@ -357,7 +365,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count,
+				source.Count(),
 				totalSize);
 
 			fsProgress.Report();
@@ -483,7 +491,7 @@ namespace Files.App.Utils.Storage
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count,
+				source.Count(),
 				totalSize);
 
 			fsProgress.Report();

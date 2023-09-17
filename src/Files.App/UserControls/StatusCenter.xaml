@@ -185,7 +185,7 @@
 										x:Name="MainGraphCartesianChartClipGrid"
 										Height="64"
 										Margin="4,8,0,8"
-										BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+										BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
 										BorderThickness="1"
 										CornerRadius="4"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
@@ -202,18 +202,33 @@
 
 										<livecharts2:CartesianChart
 											x:Name="MainCartesianChart"
+											Margin="0,-2"
 											AnimationsSpeed="00:00:00.001"
 											Series="{x:Bind Series, Mode=OneWay}"
 											TooltipPosition="Hidden"
 											XAxes="{x:Bind XAxes}"
 											YAxes="{x:Bind YAxes}" />
 
-										<TextBlock
-											x:Name="OperationSpeedPerSecTextBlock"
-											HorizontalAlignment="Right"
-											VerticalAlignment="Top"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind SpeedText, Mode=OneWay}" />
+										<StackPanel Margin="8,4">
+
+											<TextBlock
+												x:Name="OperationSpeedStringTextBlock"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												FontSize="10"
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												Style="{StaticResource CaptionTextBlockStyle}"
+												Text="Speed:" />
+
+											<TextBlock
+												x:Name="OperationSpeedPerSecTextBlock"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												FontSize="13"
+												Style="{StaticResource BodyStrongTextBlockStyle}"
+												Text="{x:Bind SpeedText, Mode=OneWay}" />
+
+										</StackPanel>
 
 									</Grid>
 
@@ -352,7 +367,7 @@
 		</Grid.RowDefinitions>
 
 		<!--  Header  -->
-		<Grid x:Name="HeaderGrid" Padding="12">
+		<Grid x:Name="HeaderGrid" Padding="12,12,12,12">
 
 			<!--  Header Texts  -->
 			<TextBlock
@@ -378,7 +393,7 @@
 		<ListView
 			x:Name="StatusCenterItemsListView"
 			Grid.Row="1"
-			Padding="12,0,12,0"
+			Padding="12,0,12,12"
 			VerticalAlignment="Stretch"
 			ItemTemplate="{StaticResource StatusCenterItemCardStyleDataTemplate}"
 			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"

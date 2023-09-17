@@ -199,7 +199,19 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			long totalSize = 0;
+			foreach (var item in fileToCopyPath)
+			{
+				totalSize += GetFileSize(item);
+			}
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress,
+				fileToCopyPath.Count(),
+				totalSize);
+
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -359,7 +371,19 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			long totalSize = 0;
+			foreach (var item in fileToCopyPath)
+			{
+				totalSize += GetFileSize(item);
+			}
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress,
+				fileToCopyPath.Count(),
+				totalSize);
+
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -447,7 +471,7 @@ namespace Files.App.Utils.Storage
 			long totalSize = 0;
 			foreach (var item in fileToCopyPath)
 			{
-				totalSize += FileOperationsHelpers.GetFileSize(item);
+				totalSize += GetFileSize(item);
 			}
 
 			StatusCenterItemProgressModel fsProgress = new(

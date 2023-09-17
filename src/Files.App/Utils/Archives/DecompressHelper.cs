@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.Utils.Archives
 {
-	public static class ZipHelpers
+	public static class DecompressHelper
 	{
 		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
 		{
