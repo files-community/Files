@@ -52,4 +52,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ## Screenshots
 
-![Files](src/Files.App/Assets/FilesHome.png)
+![Files](assets/FilesScreenshot.png)

@@ -107,6 +107,7 @@
 						x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
 						Loaded="NameEdit_Loaded"
 						LostFocus="NameEdit_LostFocus"
+						PreviewKeyDown="NameEdit_PreviewKeyDown"
 						Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 				</Grid>
