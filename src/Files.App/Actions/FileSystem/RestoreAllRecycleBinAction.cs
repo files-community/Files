@@ -21,7 +21,6 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			await RecycleBinHelpers.RestoreRecycleBin();
-			Ioc.Default.GetRequiredService<SidebarViewModel>().SidebarPinnedModel.UpdateRecycleBinIcon();
 		}
 	}
 }

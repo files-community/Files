@@ -31,10 +31,7 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-			{
 				await RecycleBinHelpers.RestoreSelectionRecycleBin(context.ShellPage);
-				Ioc.Default.GetRequiredService<SidebarViewModel>().SidebarPinnedModel.UpdateRecycleBinIcon();
-			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
