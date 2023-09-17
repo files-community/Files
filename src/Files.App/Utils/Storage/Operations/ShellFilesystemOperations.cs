@@ -44,18 +44,11 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			long totalSize = 0;
-			foreach (var item in source)
-			{
-				totalSize += FileOperationsHelpers.GetFileSize(item.Path);
-			}
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count(),
-				totalSize);
+				source.Count());
 
 			fsProgress.Report();
 
@@ -355,18 +348,11 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
 			}
 
-			long totalSize = 0;
-			foreach (var item in source)
-			{
-				totalSize += FileOperationsHelpers.GetFileSize(item.Path);
-			}
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count(),
-				totalSize);
+				source.Count());
 
 			fsProgress.Report();
 
@@ -481,18 +467,11 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			long totalSize = 0;
-			foreach (var item in source)
-			{
-				totalSize += FileOperationsHelpers.GetFileSize(item.Path);
-			}
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				source.Count(),
-				totalSize);
+				source.Count());
 
 			fsProgress.Report();
 
