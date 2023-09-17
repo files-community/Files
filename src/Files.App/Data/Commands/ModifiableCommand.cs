@@ -10,6 +10,9 @@ using static Files.App.Data.Commands.CommandManager;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents RichCommand that can be modified.
+	/// </summary>
 	[DebuggerDisplay("Command {Code} (Modifiable)")]
 	internal class ModifiableCommand : ObservableObject, IRichCommand
 	{

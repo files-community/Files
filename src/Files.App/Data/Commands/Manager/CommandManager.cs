@@ -10,6 +10,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
+	/// <inheritdoc/>
 	internal class CommandManager : ICommandManager
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();

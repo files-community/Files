@@ -7,6 +7,9 @@ using Windows.UI.Core;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Provides static helper for custom keyboard hotkeys.
+	/// </summary>
 	internal static class HotKeyHelpers
 	{
 		public static KeyModifiers GetCurrentKeyModifiers()

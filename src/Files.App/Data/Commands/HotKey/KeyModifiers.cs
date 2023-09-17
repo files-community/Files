@@ -5,6 +5,9 @@ using System;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Defines constants that specify kind of keyboard hotkey modifiers or combined keyboard hotkey modifiers.
+	/// </summary>
 	[Flags]
 	public enum KeyModifiers : ushort
 	{

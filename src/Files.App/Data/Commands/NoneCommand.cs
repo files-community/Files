@@ -7,6 +7,9 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents default RichCommand.
+	/// </summary>
 	[DebuggerDisplay("Command None")]
 	internal class NoneCommand : IRichCommand
 	{

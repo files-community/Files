@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents collection of custom keyboard hotkeys.
+	/// </summary>
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKeyCollection : IEnumerable<HotKey>, IEquatable<HotKeyCollection>
 	{

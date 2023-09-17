@@ -3,6 +3,9 @@
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents manager of all globally available <see cref="IRichCommand"/>s.
+	/// </summary>
 	public interface ICommandManager : IEnumerable<IRichCommand>
 	{
 		IRichCommand this[CommandCodes code] { get; }

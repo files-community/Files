@@ -13,6 +13,9 @@ using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Git
 {
+	/// <summary>
+	/// Provides static helper for Git support.
+	/// </summary>
 	internal static class GitHelpers
 	{
 		private const string BRANCH_NAME_PATTERN = @"^(?!/)(?!.*//)[^\000-\037\177 ~^:?*[]+(?!.*\.\.)(?!.*@\{)(?!.*\\)(?<!/\.)(?<!\.)(?<!/)(?<!\.lock)$";

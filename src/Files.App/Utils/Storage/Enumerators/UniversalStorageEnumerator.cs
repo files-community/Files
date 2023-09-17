@@ -128,7 +128,10 @@ namespace Files.App.Utils.Storage
 			return tempList;
 		}
 
-		private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(BaseStorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+		private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(
+			BaseStorageFolder rootFolder,
+			uint startFrom,
+			uint itemsToIterate)
 		{
 			var tempList = new List<IStorageItem>();
 

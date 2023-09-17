@@ -5,6 +5,9 @@ using Windows.System;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Defines constants that specify kind of keyboard hotkeys.
+	/// </summary>
 	public enum Keys : ushort
 	{
 		None,

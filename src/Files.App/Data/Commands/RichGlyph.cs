@@ -9,6 +9,9 @@ using static Microsoft.UI.Xaml.Application;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents glyph information that can be either custom path glyph or default glyph.
+	/// </summary>
 	public readonly struct RichGlyph
 	{
 		public static RichGlyph None { get; } = new(string.Empty);

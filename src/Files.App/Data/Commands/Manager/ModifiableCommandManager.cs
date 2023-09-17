@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
+	/// <inheritdoc/>
 	internal class ModifiableCommandManager : IModifiableCommandManager
 	{
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();

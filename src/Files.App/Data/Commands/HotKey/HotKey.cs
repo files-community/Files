@@ -8,6 +8,9 @@ using Forms = System.Windows.Forms;
 
 namespace Files.App.Data.Commands
 {
+	/// <summary>
+	/// Represents custom keyboard hotkey.
+	/// </summary>
 	[DebuggerDisplay("{Code}")]
 	public readonly struct HotKey : IEquatable<HotKey>
 	{
