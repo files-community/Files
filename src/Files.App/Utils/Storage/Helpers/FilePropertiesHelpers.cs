@@ -17,6 +17,8 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public static class FilePropertiesHelpers
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		/// <summary>
 		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
 		/// </summary>
@@ -153,7 +155,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
+			if (!_appModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
 			{
 				args.Handled = true;
 

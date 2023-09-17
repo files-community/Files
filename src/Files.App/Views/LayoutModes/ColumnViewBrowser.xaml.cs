@@ -18,6 +18,8 @@ namespace Files.App.Views.LayoutModes
 	/// </summary>
 	public sealed partial class ColumnViewBrowser : BaseLayout
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
 		protected override ItemsControl ItemsControl => ColumnHost;
@@ -92,7 +94,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (path is not null)
 			{
-				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
+				var rootPathList = _quickAccessManager.Model.FavoriteItems.Select(NormalizePath)
 					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(GetPathRoot(path)));
 

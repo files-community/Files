@@ -10,6 +10,8 @@ namespace Files.App.Data.Contexts
 {
 	internal class MultitaskingContext : ObservableObject, IMultitaskingContext
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		private bool isPopupOpen = false;
 
 		private IMultitaskingControl? control;
@@ -30,7 +32,7 @@ namespace Files.App.Data.Contexts
 		public MultitaskingContext()
 		{
 			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
-			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+			_appModel.PropertyChanged += AppModel_PropertyChanged;
 			BaseMultitaskingControl.OnLoaded += BaseMultitaskingControl_OnLoaded;
 			HorizontalMultitaskingControl.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
 			FocusManager.GotFocus += FocusManager_GotFocus;
@@ -86,7 +88,7 @@ namespace Files.App.Data.Contexts
 		}
 		private void UpdateCurrentTabIndex()
 		{
-			if (SetProperty(ref currentTabIndex, (ushort)App.AppModel.TabStripSelectedIndex, nameof(CurrentTabIndex)))
+			if (SetProperty(ref currentTabIndex, (ushort)_appModel.TabStripSelectedIndex, nameof(CurrentTabIndex)))
 			{
 				OnPropertyChanged(nameof(CurrentTabItem));
 			}

@@ -13,6 +13,7 @@ namespace Files.App.ViewModels
 {
 	public class MainPageViewModel : ObservableObject
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
 		private IUserSettingsService userSettingsService;
 		private IAppearanceSettingsService appearanceSettingsService;
 		private readonly DrivesViewModel drivesViewModel;
@@ -97,7 +98,7 @@ namespace Files.App.ViewModels
 
 			// Only select the tab if it is in the list
 			if (indexToSelect < AppInstances.Count)
-				App.AppModel.TabStripSelectedIndex = indexToSelect;
+				_appModel.TabStripSelectedIndex = indexToSelect;
 			e.Handled = true;
 		}
 
@@ -131,7 +132,7 @@ namespace Files.App.ViewModels
 			await UpdateTabInfo(tabItem, path);
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
-			App.AppModel.TabStripSelectedIndex = index;
+			_appModel.TabStripSelectedIndex = index;
 		}
 
 		public async Task UpdateInstanceProperties(object navigationArg)
@@ -423,7 +424,7 @@ namespace Files.App.ViewModels
 
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
-			App.AppModel.TabStripSelectedIndex = index;
+			_appModel.TabStripSelectedIndex = index;
 		}
 
 		public async void Control_ContentChanged(object? sender, TabItemArguments e)

@@ -20,13 +20,17 @@ namespace Files.App.UserControls
 			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		public IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public AppModel AppModel => App.AppModel;
+		public AppModel AppModel => _appModel;
 
 		public readonly PreviewPaneViewModel PreviewPaneViewModel;
 

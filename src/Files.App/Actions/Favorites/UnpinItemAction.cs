@@ -8,6 +8,8 @@ namespace Files.App.Actions
 {
 	internal class UnpinItemAction : ObservableObject, IAction
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private readonly IContentPageContext context;
 
 		private readonly IQuickAccessService service;
@@ -30,7 +32,7 @@ namespace Files.App.Actions
 			service = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
-			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
+			_quickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -48,7 +50,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
+			string[] favorites = _quickAccessManager.Model.FavoriteItems.ToArray();
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)

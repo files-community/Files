@@ -9,6 +9,8 @@ namespace Files.App.Services
 {
 	public class JumpListService : IJumpListService
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
@@ -72,7 +74,7 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					App.QuickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+					_quickAccessManager.Model.FavoriteItems.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
 					await instance.SaveAsync();
 				}
 			}

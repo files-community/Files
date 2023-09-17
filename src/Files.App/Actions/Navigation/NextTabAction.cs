@@ -5,6 +5,8 @@ namespace Files.App.Actions
 {
 	internal class NextTabAction : ObservableObject, IAction
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		private readonly IMultitaskingContext multitaskingContext;
 
 		public string Label
@@ -28,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			App.AppModel.TabStripSelectedIndex = (App.AppModel.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
+			_appModel.TabStripSelectedIndex = (_appModel.TabStripSelectedIndex + 1) % multitaskingContext.TabCount;
 
 			return Task.CompletedTask;
 		}

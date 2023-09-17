@@ -9,12 +9,14 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public class ReorderSidebarItemsDialogViewModel : ObservableObject
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
-		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(App.QuickAccessManager.Model.favoriteList
+		public ObservableCollection<LocationItem> SidebarFavoriteItems = new(_quickAccessManager.Model.favoriteList
 			.Where(x => x is LocationItem loc && loc.Section is SectionType.Favorites && !loc.IsHeader)
 			.Cast<LocationItem>());
 

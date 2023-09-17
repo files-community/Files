@@ -8,6 +8,8 @@ namespace Files.App.Services
 {
 	internal class QuickAccessService : IQuickAccessService
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private readonly static string guid = "::{679f85cb-0220-4080-b29b-5540cc05aab6}";
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
@@ -27,9 +29,9 @@ namespace Files.App.Services
 			foreach (string folderPath in folderPaths)
 				await ContextMenu.InvokeVerb("pintohome", new[] {folderPath});
 
-			await App.QuickAccessManager.Model.LoadAsync();
+			await _quickAccessManager.Model.LoadAsync();
 			
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
+			_quickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
 		public Task UnpinFromSidebar(string folderPath)
@@ -75,29 +77,29 @@ namespace Files.App.Services
 				}
 			}
 
-			await App.QuickAccessManager.Model.LoadAsync();
+			await _quickAccessManager.Model.LoadAsync();
 			
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
+			_quickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 
 		public bool IsItemPinned(string folderPath)
 		{
-			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
+			return _quickAccessManager.Model.FavoriteItems.Contains(folderPath);
 		}
 
 		public async Task Save(string[] items)
 		{
-			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
+			if (Equals(items, _quickAccessManager.Model.FavoriteItems.ToArray()))
 				return;
 
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			_quickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
 			await UnpinFromSidebar(Array.Empty<string>());
 
 			await PinToSidebar(items);
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
-			await App.QuickAccessManager.Model.LoadAsync();
+			_quickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+			await _quickAccessManager.Model.LoadAsync();
 		}
 	}
 }

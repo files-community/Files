@@ -11,6 +11,8 @@ namespace Files.App.Data.Models
 {
 	public class SidebarPinnedModel
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
@@ -193,13 +195,13 @@ namespace Files.App.Data.Models
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			_quickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 			await LoadAsync();
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
+			_quickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
 				Reset = true
 			});
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+			_quickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 		}
 
 		public async Task LoadAsync()

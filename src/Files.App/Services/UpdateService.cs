@@ -14,6 +14,8 @@ namespace Files.App.Services
 {
 	internal sealed class UpdateService : ObservableObject, IUpdateService
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		private StoreContext? _storeContext;
 		private IList<StorePackageUpdate>? _updatePackages;
 
@@ -109,12 +111,12 @@ namespace Files.App.Services
 		private async Task DownloadAndInstall()
 		{
 			App.SaveSessionTabs();
-			App.AppModel.ForceProcessTermination = true;
+			_appModel.ForceProcessTermination = true;
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
 			var result = await downloadOperation.AsTask();
 
 			if (result.OverallState == StorePackageUpdateState.Canceled)
-				App.AppModel.ForceProcessTermination = false;
+				_appModel.ForceProcessTermination = false;
 		}
 
 		private async Task GetUpdatePackages()

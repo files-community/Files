@@ -10,6 +10,8 @@ namespace Files.App.Data.Items
 {
 	public class LocationItem : ObservableObject, INavigationControlItem
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		public BitmapImage icon;
 		public BitmapImage Icon
 		{
@@ -79,7 +81,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+		public bool IsPinned => _quickAccessManager.Model.FavoriteItems.Contains(path);
 
 		public SectionType Section { get; set; }
 

@@ -13,6 +13,8 @@ namespace Files.App.Actions
 {
 	internal class PasteItemAction : ObservableObject, IAction
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		private readonly IContentPageContext context;
 
 		public string Label
@@ -35,7 +37,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
-			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
+			_appModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
 		public async Task ExecuteAsync()
@@ -50,7 +52,7 @@ namespace Files.App.Actions
 		public bool GetIsExecutable()
 		{
 			return
-				App.AppModel.IsPasteEnabled &&
+				_appModel.IsPasteEnabled &&
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.SearchResults;

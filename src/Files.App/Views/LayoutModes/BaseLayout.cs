@@ -37,6 +37,8 @@ namespace Files.App.Views.LayoutModes
 
 		private readonly DragEventHandler Item_DragOverEventHandler;
 
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
@@ -52,7 +54,7 @@ namespace Files.App.Views.LayoutModes
 		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 
 		public AppModel AppModel
-			=> App.AppModel;
+			=> _appModel;
 
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 

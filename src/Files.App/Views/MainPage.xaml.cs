@@ -23,6 +23,8 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		public IUserSettingsService UserSettingsService { get; }
 		public IApplicationService ApplicationService { get; }
 
@@ -37,7 +39,7 @@ namespace Files.App.Views
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
 		public static AppModel AppModel
-			=> App.AppModel;
+			=> _appModel;
 
 		private bool keyReleased = true;
 

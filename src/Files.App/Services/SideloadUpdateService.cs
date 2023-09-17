@@ -15,6 +15,8 @@ namespace Files.App.Services
 {
 	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
 		private static extern uint RegisterApplicationRestart(string pwzCommandLine, int dwFlags);
 
@@ -229,7 +231,7 @@ namespace Files.App.Services
 			try
 			{
 				var restartStatus = RegisterApplicationRestart(null, 0);
-				App.AppModel.ForceProcessTermination = true;
+				_appModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 

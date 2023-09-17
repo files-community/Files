@@ -20,6 +20,8 @@ namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
 
 		private DateTimeFormats _lastDateTimeFormats;
@@ -59,7 +61,7 @@ namespace Files.App.Views.Shells
 
 		public FolderSettingsViewModel FolderSettings => InstanceViewModel.FolderSettings;
 
-		public AppModel AppModel => App.AppModel;
+		public AppModel AppModel => _appModel;
 
 		protected abstract Frame ItemDisplay { get; }
 

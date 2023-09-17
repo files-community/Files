@@ -11,14 +11,16 @@ namespace Files.App.Helpers
 {
 	public sealed class JumpListHelper
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private static IJumpListService jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 
 		public static async Task InitializeUpdatesAsync()
 		{
 			try
 			{
-				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget;
-				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget;
+				_quickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget;
+				_quickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget;
 
 				await jumpListService.RefreshPinnedFoldersAsync();
 			}

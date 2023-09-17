@@ -17,6 +17,8 @@ namespace Files.App.UserControls.MultitaskingControl
 {
 	public class BaseMultitaskingControl : UserControl, IMultitaskingControl
 	{
+		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+
 		public static event EventHandler<IMultitaskingControl>? OnLoaded;
 
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
@@ -79,7 +81,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		protected void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
+			if (_appModel.TabStripSelectedIndex >= 0 && _appModel.TabStripSelectedIndex < Items.Count)
 			{
 				CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
@@ -117,7 +119,7 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		public ITabItemContent GetCurrentSelectedTabInstance()
 		{
-			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].Control?.TabItemContent;
+			return MainPageViewModel.AppInstances[_appModel.TabStripSelectedIndex].Control?.TabItemContent;
 		}
 
 		public List<ITabItemContent> GetAllTabInstances()

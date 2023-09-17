@@ -24,6 +24,8 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -48,7 +50,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
-		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
+		public SidebarPinnedModel SidebarPinnedModel => _quickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private SidebarDisplayMode sidebarDisplayMode;
@@ -247,7 +249,7 @@ namespace Files.App.ViewModels.UserControls
 			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
+			_quickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
@@ -281,7 +283,7 @@ namespace Files.App.ViewModels.UserControls
 				var section = await GetOrCreateSection(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
-					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
+					SectionType.Favorites => _quickAccessManager.Model.Favorites,
 					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -583,7 +585,7 @@ namespace Files.App.ViewModels.UserControls
 					SectionType.WSL when generalSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
-					SectionType.Favorites => App.QuickAccessManager.Model.AddAllItemsToSidebar,
+					SectionType.Favorites => _quickAccessManager.Model.AddAllItemsToSidebar,
 					_ => () => Task.CompletedTask
 				};
 
@@ -642,7 +644,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
-			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
+			_quickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
 			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
@@ -914,7 +916,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var favoriteModel = App.QuickAccessManager.Model;
+			var favoriteModel = _quickAccessManager.Model;
 			var favoriteIndex = favoriteModel.IndexOfItem(item);
 			var favoriteCount = favoriteModel.FavoriteItems.Count;
 

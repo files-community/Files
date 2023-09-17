@@ -90,6 +90,8 @@ namespace Files.App.UserControls.Widgets
 
 	public sealed partial class QuickAccessWidget : HomePageWidget, IWidgetItemModel, INotifyPropertyChanged
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
@@ -247,7 +249,7 @@ namespace Files.App.UserControls.Widgets
 					// Add items
 					foreach (var itemToAdd in itemsToAdd)
 					{
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await _quickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
 						if (ItemsAdded.Any(x => x.Path == itemToAdd))
@@ -265,7 +267,7 @@ namespace Files.App.UserControls.Widgets
 				{
 					foreach (var itemToAdd in e.Paths)
 					{
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var item = await _quickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
 						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
 						if (ItemsAdded.Any(x => x.Path == itemToAdd))
 							continue;
@@ -291,13 +293,13 @@ namespace Files.App.UserControls.Widgets
 				Reset = true
 			});
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
+			_quickAccessManager.UpdateQuickAccessWidget += ModifyItem;
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
+			_quickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
 		}
 
 		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

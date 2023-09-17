@@ -38,13 +38,15 @@ namespace Files.App
 {
 	public partial class App : Application
 	{
-		private static bool ShowErrorNotification = false;
-		public static string OutputPath { get; set; }
+		private static bool _showErrorNotification;
+		private static QuickAccessManager _quickAccessManager;
+		private static AppModel _appModel;
+
+		public static string? OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
-		public static AppModel AppModel { get; private set; }
-		public static QuickAccessManager QuickAccessManager { get; private set; }
+		// TODO: Remove below properties
 		public static CloudDrivesManager CloudDrivesManager { get; private set; }
 		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
@@ -175,7 +177,7 @@ namespace Files.App
 					LibraryManager.UpdateLibrariesAsync(),
 					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					QuickAccessManager.InitializeAsync()
+					_quickAccessManager.InitializeAsync()
 				);
 
 				await Task.WhenAll(
@@ -253,12 +255,13 @@ namespace Files.App
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
-			AppModel ??= Ioc.Default.GetRequiredService<AppModel>();
+			_quickAccessManager ??= Ioc.Default.GetRequiredService<QuickAccessManager>();
+			_appModel ??= Ioc.Default.GetRequiredService<AppModel>();
+
 			LibraryManager ??= Ioc.Default.GetRequiredService<LibraryManager>();
 			CloudDrivesManager ??= Ioc.Default.GetRequiredService<CloudDrivesManager>();
 			WSLDistroManager ??= Ioc.Default.GetRequiredService<WSLDistroManager>();
 			FileTagsManager ??= Ioc.Default.GetRequiredService<FileTagsManager>();
-			QuickAccessManager ??= Ioc.Default.GetRequiredService<QuickAccessManager>();
 			SecondaryTileHelper ??= Ioc.Default.GetRequiredService<SecondaryTileHelper>();
 			Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 		}
@@ -282,7 +285,7 @@ namespace Files.App
 			if (args.WindowActivationState is not (WindowActivationState.CodeActivated or WindowActivationState.PointerActivated))
 				return;
 
-			ShowErrorNotification = true;
+			_showErrorNotification = true;
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
 		}
 
@@ -314,7 +317,7 @@ namespace Files.App
 			}
 
 			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
-				!AppModel.ForceProcessTermination &&
+				!_appModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
@@ -385,7 +388,7 @@ namespace Files.App
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
-			AppModel.IsMainWindowClosed = true;
+			_appModel.IsMainWindowClosed = true;
 
 			// Wait for ongoing file operations
 			FileOperationsHelpers.WaitForCompletion();
@@ -480,7 +483,7 @@ namespace Files.App
 			SaveSessionTabs();
 			App.Logger.LogError(ex, ex.Message);
 
-			if (!ShowErrorNotification || !shouldShowNotification)
+			if (!_showErrorNotification || !shouldShowNotification)
 				return;
 
 			var toastContent = new ToastContent()

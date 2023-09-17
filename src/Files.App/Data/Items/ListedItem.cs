@@ -16,6 +16,8 @@ namespace Files.App.Utils
 {
 	public class ListedItem : ObservableObject, IGroupableItem
 	{
+		private static readonly QuickAccessManager _quickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
@@ -372,7 +374,7 @@ namespace Files.App.Utils
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
-		public bool IsPinned => App.QuickAccessManager.Model.FavoriteItems.Contains(itemPath);
+		public bool IsPinned => _quickAccessManager.Model.FavoriteItems.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevated => CheckElevationRights();
 
