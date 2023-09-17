@@ -21,6 +21,8 @@ namespace Files.App.Utils.Storage
 	{
 		#region Private Members
 
+		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
 		private IShellPage associatedInstance;
 		private readonly IJumpListService jumpListService;
 		private IFilesystemOperations filesystemOperations;
@@ -82,7 +84,7 @@ namespace Files.App.Utils.Storage
 		public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			if (!IsValidForFilename(source.Name))
@@ -160,7 +162,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			// post the status banner
-			var banner = PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Delete(source, returnStatus, permanently, false, 0);
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -178,10 +180,11 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			banner.Remove();
+			_statusCenterViewModel.RemoveItem(banner);
+
 			sw.Stop();
 
-			PostBannerHelpers.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
+			StatusCenterHelper.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
 
 			return returnStatus;
 		}
@@ -214,7 +217,7 @@ namespace Files.App.Utils.Storage
 			destination = await destination.ToListAsync();
 
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var sw = new Stopwatch();
@@ -305,7 +308,7 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var banner = PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, false, 0);
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -314,7 +317,8 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				banner.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
+
 				return ReturnResult.Cancelled;
 			}
 
@@ -341,9 +345,9 @@ namespace Files.App.Utils.Storage
 			}
 			var itemsCopied = history?.Source.Count ?? 0;
 
-			banner.Remove();
+			_statusCenterViewModel.RemoveItem(banner);
 
-			PostBannerHelpers.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
+			StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
 
 			return returnStatus;
 		}
@@ -434,7 +438,7 @@ namespace Files.App.Utils.Storage
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-			var banner = PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Move(source, destination, returnStatus, false, 0);
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -443,7 +447,8 @@ namespace Files.App.Utils.Storage
 
 			if (cancelOperation)
 			{
-				banner.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
+
 				return ReturnResult.Cancelled;
 			}
 
@@ -475,10 +480,11 @@ namespace Files.App.Utils.Storage
 
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
 
-			banner.Remove();
+			_statusCenterViewModel.RemoveItem(banner);
+
 			sw.Stop();
 
-			PostBannerHelpers.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);
+			StatusCenterHelper.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);
 
 			return returnStatus;
 		}
@@ -532,7 +538,7 @@ namespace Files.App.Utils.Storage
 		public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 		{
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			if (!IsValidForFilename(newName))
@@ -602,7 +608,7 @@ namespace Files.App.Utils.Storage
 			var source = await GetDraggedStorageItems(packageView);
 
 			var returnStatus = ReturnResult.InProgress;
-			var progress = new Progress<FileSystemProgress>();
+			var progress = new Progress<StatusCenterItemProgressModel>();
 			progress.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			source = source.Where(x => !string.IsNullOrEmpty(x.Path));

@@ -148,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}
@@ -315,7 +315,7 @@ namespace Files.App
 				UIHelpers.CloseAllDialogs();
 				
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<OngoingTasksViewModel>().CloseAllBanner();
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();

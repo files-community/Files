@@ -255,7 +255,10 @@ namespace Files.App.Helpers
 					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
 
-				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => 
+					x.Tag is Win32ContextMenuItem menuItem && 
+					(menuItem.CommandString?.StartsWith("encrypt-bde") ?? false));
+
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);
 
