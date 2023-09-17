@@ -268,9 +268,9 @@ namespace Files.App.Helpers
 			var dataPackage = new DataPackage()
 			{
 				RequestedOperation = DataPackageOperation.Copy,
-				Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName
 			};
 
+			dataPackage.Properties.PackageFamilyName = Windows.ApplicationModel.Package.Current.Id.FamilyName;
 			dataPackage.SetStorageItems(items, false);
 
 			try
