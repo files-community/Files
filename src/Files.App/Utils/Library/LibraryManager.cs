@@ -19,7 +19,7 @@ namespace Files.App.Utils.Library
 {
 	public class LibraryManager : IDisposable
 	{
-		private readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+		private static readonly LibraryManager _libraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 

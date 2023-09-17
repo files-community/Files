@@ -17,7 +17,7 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public static class FilePropertiesHelpers
 	{
-		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+		private static readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
 
 		/// <summary>
 		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)

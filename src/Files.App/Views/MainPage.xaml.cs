@@ -23,7 +23,7 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		private readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
+		private static readonly AppModel _appModel = Ioc.Default.GetRequiredService<AppModel>();
 
 		public IUserSettingsService UserSettingsService { get; }
 		public IApplicationService ApplicationService { get; }
