@@ -173,17 +173,18 @@ namespace Files.App.Utils.StatusCenter
 
 					// NOTE: This won't work yet
 					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
+					Percentage = percentage;
+
+					_previousReportTime = DateTimeOffset.Now;
+					_previousProcessedSize = ProcessedSize;
+					_previousProcessedItemsCount = ProcessedItemsCount;
 				}
 
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
-
-			Percentage = percentage;
-
 				_progress?.Report(this);
-				_previousReportTime = DateTimeOffset.Now;
-				_previousProcessedSize = ProcessedSize;
-				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 
