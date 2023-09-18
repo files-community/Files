@@ -566,9 +566,9 @@ namespace Files.App.Views.LayoutModes
 
 			try
 			{
-				// Wait until the pane and column become current
 				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
 				{
+					// Wait until the pane and column become current
 					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
 					// Wait a little longer to ensure the page context is updated
 					await Task.Delay(10);
@@ -648,9 +648,9 @@ namespace Files.App.Views.LayoutModes
 
 			try
 			{
-				// Wait until the pane and column become current
 				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
 				{
+					// Wait until the pane and column become current
 					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
 					// Wait a little longer to ensure the page context is updated
 					await Task.Delay(10);
