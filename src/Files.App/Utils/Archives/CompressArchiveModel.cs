@@ -78,17 +78,11 @@ namespace Files.App.Utils.Archives
 			{
 				_Progress = value;
 
-				long totalSize = 0;
-				
-				if (Sources is not null)
-					totalSize = Sources.Select(FileOperationsHelpers.GetFileSize).Sum();
-
 				_fileSystemProgress = new(
 					Progress,
 					true,
 					FileSystemStatusCode.InProgress,
-					Sources is null ? 0 : Sources.Count(),
-					totalSize);
+					Sources is null ? 0 : Sources.Count());
 
 				_fileSystemProgress.Report(0);
 			}
@@ -166,6 +160,7 @@ namespace Files.App.Utils.Archives
 
 			compressor.Compressing += Compressor_Compressing;
 			compressor.CompressionFinished += Compressor_CompressionFinished;
+			compressor.FileCompressionStarted += Compressor_FileCompressionStarted;
 
 			try
 			{
@@ -200,6 +195,12 @@ namespace Files.App.Utils.Archives
 			}
 		}
 
+		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
+		{
+			_fileSystemProgress.FileName = e.FileName;
+			_fileSystemProgress.Report();
+		}
+
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
 			if (++_processedItems == _itemsAmount)
@@ -214,6 +215,8 @@ namespace Files.App.Utils.Archives
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
+			// TODO: edit lib to get total/current bytes
+
 			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
 		}
 	}

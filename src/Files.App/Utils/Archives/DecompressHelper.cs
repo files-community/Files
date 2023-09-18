@@ -86,16 +86,13 @@ namespace Files.App.Utils.Archives
 			int entriesFinished = 0;
 			var minimumTime = new DateTime(1);
 
-			ulong totalSize = 0;
-			foreach (var item in zipFile.ArchiveFileData)
-				totalSize += item.Size;
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				enumerationCompleted: true,
 				FileSystemStatusCode.InProgress,
-				entriesAmount,
-				(long)totalSize);
+				entriesAmount);
+
+			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
 
 			fsProgress.Report();
 
@@ -111,6 +108,9 @@ namespace Files.App.Utils.Archives
 				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 				if (hFile.IsInvalid)
 					return; // TODO: handle error
+
+				fsProgress.FileName = entry.FileName;
+				fsProgress.Report();
 
 				// We don't close hFile because FileStream.Dispose() already does that
 				using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))

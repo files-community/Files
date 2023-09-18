@@ -199,14 +199,11 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			long totalSize = fileToDeletePath.Select(GetFileSize).Sum();
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				fileToDeletePath.Count(),
-				totalSize);
+				fileToDeletePath.Count());
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -267,6 +264,20 @@ namespace Files.App.Utils.Storage
 					// E_FAIL, stops operation
 					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
+				};
+
+				op.PreDeleteItem += (s, e) =>
+				{
+					fsProgress.FileName = e.SourceItem.Name;
+					fsProgress.Report();
+				};
+				op.PostDeleteItem += (s, e) =>
+				{
+					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
+					var op = progressHandler.GetOperation(operationID);
+					op.ProcessedSize += fileSize;
+					if (op.Progress is not 0)
+						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
 				// Right after deleted item
@@ -382,14 +393,11 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			long totalSize = fileToMovePath.Select(GetFileSize).Sum();
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				fileToMovePath.Count(),
-				totalSize);
+				fileToMovePath.Count());
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -443,6 +451,20 @@ namespace Files.App.Utils.Storage
 
 				var moveTcs = new TaskCompletionSource<bool>();
 
+				op.PreMoveItem += (s, e) =>
+				{
+					fsProgress.FileName = e.SourceItem.Name;
+					fsProgress.Report();
+				};
+				op.PostMoveItem += (s, e) =>
+				{
+					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
+					var op = progressHandler.GetOperation(operationID);
+					op.ProcessedSize += fileSize;
+					if (op.Progress is not 0)
+						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
+				};
+
 				op.PostMoveItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -489,14 +511,11 @@ namespace Files.App.Utils.Storage
 		{
 			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
 
-			long totalSize = fileToCopyPath.Select(GetFileSize).Sum();
-
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
 				true,
 				FileSystemStatusCode.InProgress,
-				fileToCopyPath.Count(),
-				totalSize);
+				fileToCopyPath.Count());
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -551,6 +570,20 @@ namespace Files.App.Utils.Storage
 				progressHandler.AddOperation(operationID);
 
 				var copyTcs = new TaskCompletionSource<bool>();
+				op.PreCopyItem += (s, e) =>
+				{
+					fsProgress.FileName = e.SourceItem.Name;
+					fsProgress.Report();
+				};
+				op.PostCopyItem += (s, e) =>
+				{
+					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
+					var op = progressHandler.GetOperation(operationID);
+					op.ProcessedSize += fileSize;
+					if (op.Progress is not 0)
+						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
+				};
+
 				op.PostCopyItem += (s, e) =>
 				{
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -643,7 +676,7 @@ namespace Files.App.Utils.Storage
 						ipf.GetUrl(out var retVal);
 						return retVal;
 					});
-					return string.IsNullOrEmpty(targetPath) ? 
+					return string.IsNullOrEmpty(targetPath) ?
 						new ShellLinkItem
 						{
 							TargetPath = string.Empty,
@@ -745,7 +778,7 @@ namespace Files.App.Utils.Storage
 							if (attribs.Any() && attribs[0] is byte[] objectSid)
 								return new SecurityIdentifier(objectSid, 0).Value;
 						}
-						catch {}
+						catch { }
 					}
 				}
 
@@ -876,7 +909,7 @@ namespace Files.App.Utils.Storage
 
 		public static long GetFileSize(string path)
 		{
-			var hFile = Kernel32.CreateFile(
+			using var hFile = Kernel32.CreateFile(
 				path,
 				Kernel32.FileAccess.FILE_READ_ATTRIBUTES,
 				FileShare.Read,
@@ -885,21 +918,21 @@ namespace Files.App.Utils.Storage
 				0,
 				null);
 
-			Kernel32.GetFileSizeEx(hFile, out var size);
+			if (!hFile.IsInvalid && Kernel32.GetFileSizeEx(hFile, out var size))
+				return size;
 
-			hFile.Dispose();
-
-			return size;
+			return 0;
 		}
 
 		private class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 
-			private class OperationWithProgress
+			public class OperationWithProgress
 			{
 				public double Progress { get; set; }
 				public bool Canceled { get; set; }
+				public double ProcessedSize { get; set; }
 			}
 
 			private readonly Shell32.ITaskbarList4 taskbar;
@@ -947,6 +980,13 @@ namespace Files.App.Utils.Storage
 					op.Progress = progress;
 					UpdateTaskbarProgress();
 				}
+			}
+
+			public OperationWithProgress GetOperation(string uid)
+			{
+				if (operations.TryGetValue(uid, out var op))
+					return op;
+				throw new KeyNotFoundException();
 			}
 
 			public bool CheckCanceled(string uid)
