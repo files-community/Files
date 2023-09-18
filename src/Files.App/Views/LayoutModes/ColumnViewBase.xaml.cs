@@ -361,7 +361,10 @@ namespace Files.App.Views.LayoutModes
 
 		private void HandleRightClick()
 		{
-			(ParentShellPageInstance as UIElement)?.Focus(FocusState.Programmatic);
+			if (ParentShellPageInstance is UIElement element &&
+				(!ParentShellPageInstance.IsCurrentPane
+				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+				element.Focus(FocusState.Programmatic);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
