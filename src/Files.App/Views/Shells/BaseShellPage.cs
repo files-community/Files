@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -141,6 +140,8 @@ namespace Files.App.Views.Shells
 				}
 			}
 		}
+
+		public virtual bool IsCurrentPane => IsCurrentInstance;
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{

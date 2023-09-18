@@ -13,6 +13,9 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
+		public override bool IsCurrentPane
+			=> this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+
 		public override bool CanNavigateBackward
 			=> false;
 
