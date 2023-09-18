@@ -426,11 +426,11 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Deleting files</value>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Delete in progress</value>
   </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Moving files to the Recycle Bin</value>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Recycle in progress</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
@@ -1176,22 +1176,22 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Deletion Failed</value>
+  <data name="StatusCenter_DeleteError_Header" xml:space="preserve">
+    <value>Delete error</value>
   </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Deletion complete</value>
+  <data name="StatusCenter_DeleteSuccessful_Header" xml:space="preserve">
+    <value>Delete done successfully</value>
   </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+  <data name="StatusCenter_DeleteCancel_Header" xml:space="preserve">
+    <value>Canceled deleting</value>
   </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recycle complete</value>
+  <data name="StatusCenter_RecycleSuccessful_Header" xml:space="preserve">
+    <value>Recycle done successfully</value>
   </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Move complete</value>
+  <data name="StatusCenter_MoveSuccessful_Header" xml:space="preserve">
+    <value>Move successfully</value>
   </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
+  <data name="StatusCenter_CopySuccessful_Header" xml:space="preserve">
     <value>Copy complete</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
@@ -1416,101 +1416,95 @@
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
+  <data name="StatusCenter_MoveCancel_Header" xml:space="preserve">
+    <value>Canceled move</value>
   </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
+  <data name="StatusCenter_CopyCancel_Header" xml:space="preserve">
+    <value>Canceled copying</value>
   </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
+  <data name="StatusCenter_MoveInProgress_SubHeader_Singular" xml:space="preserve">
+    <value>Move in progress</value>
   </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
+  <data name="StatusCenter_CopySuccessful_SubHeader_Plural" xml:space="preserve">
     <value>Successfully copied {0} items to {1}</value>
   </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
+  <data name="StatusCenter_MoveCancel_SubHeader_Singular" xml:space="preserve">
+    <value>Canceled move</value>
   </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
+  <data name="StatusCenter_MoveCancel_SubHeader_Plural" xml:space="preserve">
+    <value>Canceled move</value>
   </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
+  <data name="StatusCenter_MoveCancel_SubHeader_Plural2" xml:space="preserve">
+    <value>Canceled move</value>
   </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
+  <data name="StatusCenter_MoveInProgress_SubHeader_Plural" xml:space="preserve">
+    <value>Move in progress</value>
   </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
+  <data name="StatusCenter_MoveSuccessful_SubHeader_Singular" xml:space="preserve">
+    <value>Move successfully</value>
   </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
+  <data name="StatusCenter_MoveSuccessful_SubHeader_Plural" xml:space="preserve">
+    <value>Move successfully</value>
   </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
+  <data name="StatusCenter_MoveError_SubHeader_Singular" xml:space="preserve">
+    <value>Move error</value>
   </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
+  <data name="StatusCenter_MoveError_SubHeader_Plural" xml:space="preserve">
+    <value>Move error</value>
   </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+  <data name="StatusCenter_CopyCancel_SubHeader_Singular" xml:space="preserve">
+    <value>{0} item copied to "{1}"</value>
+  </data>
+  <data name="StatusCenter_CopyCancel_SubHeader_Plural" xml:space="preserve">
+    <value>{0} / {1} items copied to"{2}"</value>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader_Singular" xml:space="preserve">
+    <value>Copying {0} item to {1}</value>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader_Plural" xml:space="preserve">
+    <value>Copying {0} items to {1}</value>
+  </data>
+  <data name="StatusCenter_CopySuccessful_SubHeader_Singular" xml:space="preserve">
+    <value>Successfully copied {0} item to {1}</value>
+  </data>
+  <data name="StatusCenter_DeleteCancel_SubHeader_Singular" xml:space="preserve">
+    <value>Canceled deleting</value>
+  </data>
+  <data name="StatusCenter_DeleteCancel_SubHeader_Plural" xml:space="preserve">
+    <value>Canceled deleting</value>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_SubHeader_Singular" xml:space="preserve">
+    <value>Delete in progress</value>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_SubHeader_Plural" xml:space="preserve">
+    <value>Delete in progress</value>
+  </data>
+  <data name="StatusCenter_DeleteSuccessful_SubHeader_Singular" xml:space="preserve">
+    <value>Delete done successfully</value>
+  </data>
+  <data name="StatusCenter_DeleteSuccessful_SubHeader_Plural" xml:space="preserve">
+    <value>Delete done successfully</value>
+  </data>
+  <data name="StatusCenter_DeleteError_SubHeader_Singular" xml:space="preserve">
+    <value>Delete error</value>
+  </data>
+  <data name="StatusCenter_DeleteError_SubHeader_Plural" xml:space="preserve">
+    <value>Delete error</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>the Recycle Bin</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Moving items</value>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Move in progress</value>
   </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
     <value>Copying items</value>
   </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
+  <data name="StatusCenter_RecycleError_Header" xml:space="preserve">
+    <value>Recycle error</value>
   </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
+  <data name="StatusCenter_RecycleCancel_Header" xml:space="preserve">
+    <value>Canceled recycling</value>
   </data>
   <data name="canceling" xml:space="preserve">
     <value>canceling</value>
@@ -1791,11 +1785,11 @@
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
   </data>
-  <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Decompress in progress</value>
   </data>
-  <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+  <data name="StatusCenter_DecompressSuccessful_Header" xml:space="preserve">
+    <value>Decompress done successfully</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
     <value>Open parent folder</value>
@@ -2097,23 +2091,23 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
+  <data name="StatusCenter_PrepareInProgress_SubHeader_Plural" xml:space="preserve">
     <value>Preparing {0} items</value>
   </data>
-  <data name="PrepareInProgress" xml:space="preserve">
+  <data name="StatusCenter_PrepareInProgress_Header_Plural" xml:space="preserve">
     <value>Preparing items</value>
   </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copy failed</value>
+  <data name="StatusCenter_CopyError_Header" xml:space="preserve">
+    <value>Copy unsuccessful</value>
   </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
+  <data name="StatusCenter_CopyError_SubHeader_Plural" xml:space="preserve">
+    <value>{0} items failed to copy to {1}</value>
   </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
+  <data name="StatusCenter_CopyError_SubHeader_Singular" xml:space="preserve">
+    <value>{0} item failed to copy to {1}</value>
   </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Move failed</value>
+  <data name="StatusCenter_MoveError_Header" xml:space="preserve">
+    <value>Move error</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Tags</value>
@@ -2205,17 +2199,17 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
   </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
+  <data name="StatusCenter_CompressSuccessful_Header" xml:space="preserve">
+    <value>Archive "{0}" created</value>
   </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
+  <data name="StatusCenter_CompressSuccessful_SubHeader" xml:space="preserve">
+    <value>Archive "{0}" created</value>
   </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
+  <data name="StatusCenter_CompressError_SubHeader" xml:space="preserve">
+    <value>Failed to create an archive</value>
   </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Creating archive "{0}"</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
@@ -3525,5 +3519,35 @@
   </data>
   <data name="ClearCompleted" xml:space="preserve">
     <value>Clear completed</value>
+  </data>
+  <data name="StatusCenter_CompressCancel_Header" xml:space="preserve">
+    <value>Canceled creating archive "{0}"</value>
+  </data>
+  <data name="StatusCenter_CompressCancel_SubHeader" xml:space="preserve">
+    <value>Canceled creating archive "{0}"</value>
+  </data>
+  <data name="StatusCenter_CompressError_Header" xml:space="preserve">
+    <value>Failed to create an archive</value>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Creating archive "{0}"</value>
+  </data>
+  <data name="StatusCenter_DecompressCancel_Header" xml:space="preserve">
+    <value>Decompress cancel</value>
+  </data>
+  <data name="StatusCenter_DecompressCancel_SubHeader" xml:space="preserve">
+    <value>Decompress cancel</value>
+  </data>
+  <data name="StatusCenter_DecompressError_Header" xml:space="preserve">
+    <value>Decompress error</value>
+  </data>
+  <data name="StatusCenter_DecompressError_SubHeader" xml:space="preserve">
+    <value>Decompress error</value>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Decompress in progress</value>
+  </data>
+  <data name="StatusCenter_DecompressSuccessful_SubHeader" xml:space="preserve">
+    <value>Decompress done successfully</value>
   </data>
 </root>
