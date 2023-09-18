@@ -27,6 +27,8 @@ namespace Files.App.Views.Shells
 
 		bool IsCurrentPane { get; }
 
+		Task WhenIsCurrent();
+
 		Task RefreshIfNoWatcherExists();
 
 		Task Refresh_Click();

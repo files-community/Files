@@ -567,8 +567,12 @@ namespace Files.App.Views.LayoutModes
 			try
 			{
 				// Wait until the pane and column become current
-				for (int i = 0; i < 50 && !(ParentShellPageInstance!.IsCurrentInstance && ParentShellPageInstance.IsCurrentPane); i++)
+				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
+				{
+					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
+					// Wait a little longer to ensure the page context is updated
 					await Task.Delay(10);
+				}
 
 				// Workaround for item sometimes not getting selected
 				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
@@ -645,8 +649,12 @@ namespace Files.App.Views.LayoutModes
 			try
 			{
 				// Wait until the pane and column become current
-				for (int i = 0; i < 50 && !(ParentShellPageInstance!.IsCurrentInstance && ParentShellPageInstance.IsCurrentPane); i++)
+				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
+				{
+					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
+					// Wait a little longer to ensure the page context is updated
 					await Task.Delay(10);
+				}
 
 				ItemManipulationModel.ClearSelection();
 
