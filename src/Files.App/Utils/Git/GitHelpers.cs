@@ -64,6 +64,9 @@ namespace Files.App.Utils.Git
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
+			if (string.IsNullOrEmpty(root))
+				return null;
+
 			if (root.EndsWith('\\'))
 				root = root.Substring(0, root.Length - 1);
 
@@ -491,7 +494,7 @@ namespace Files.App.Utils.Git
 			repoRootPath = path;
 
 			var rootPath = SystemIO.Path.GetPathRoot(path);
-			if (rootPath is null)
+			if (string.IsNullOrEmpty(rootPath))
 				return false;
 
 			var repositoryRootPath = GetGitRepositoryPath(path, rootPath);
