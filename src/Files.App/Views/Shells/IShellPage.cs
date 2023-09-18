@@ -27,6 +27,10 @@ namespace Files.App.Views.Shells
 
 		bool IsCurrentPane { get; }
 
+		/// <summary>
+		/// Returns a <see cref="Task"/> to wait until the pane and column become current.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
 		Task WhenIsCurrent();
 
 		Task RefreshIfNoWatcherExists();
