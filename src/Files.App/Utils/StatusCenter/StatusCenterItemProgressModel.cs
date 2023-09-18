@@ -9,6 +9,11 @@ namespace Files.App.Utils.StatusCenter
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
+	/// <remarks>
+	/// Every instance that have the same <see cref="IProgress{T}"/> instance will update the same progress.
+	/// <br/>
+	/// Therefore, the storage operation classes can portably instance this class and update progress from everywhere with the same <see cref="IProgress{T}"/> instance.
+	/// </remarks>
 	public class StatusCenterItemProgressModel : INotifyPropertyChanged
 	{
 		private readonly IProgress<StatusCenterItemProgressModel>? _progress;

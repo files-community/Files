@@ -82,7 +82,7 @@
 										VerticalAlignment="Center">
 
 										<TextBlock
-											x:Name="HeaderTextBlock"
+											x:Name="StatusCenterItemHeaderTextBlock"
 											x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											MaxLines="1"
 											Style="{StaticResource BodyTextBlockStyle}"
@@ -91,7 +91,7 @@
 											TextWrapping="NoWrap" />
 
 										<TextBlock
-											x:Name="DescriptionTextBlock"
+											x:Name="StatusCenterItemSubHeaderTextBlock"
 											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											MaxLines="1"
@@ -99,7 +99,8 @@
 											Text="{x:Bind SubHeader, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
+											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}"
+											Visibility="{x:Bind IsInProgress, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}" />
 
 									</StackPanel>
 
@@ -160,13 +161,17 @@
 
 								</Grid>
 
-								<!--  Progress Bar & Graph Display  -->
+								<!--  Progress & Footer  -->
 								<Grid
 									x:Name="StatusCenterItemRichProgressDisplayPanel"
 									Grid.Row="1"
-									Margin="0,8,0,0"
-									ColumnSpacing="12"
+									Margin="0,8"
+									ColumnSpacing="4"
 									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*" />
 										<ColumnDefinition Width="Auto" />
@@ -175,7 +180,8 @@
 									<!--  ProgressBar  -->
 									<ProgressBar
 										x:Name="MainProgressBar"
-										Margin="4,8,0,8"
+										Margin="4,4,4,4"
+										VerticalAlignment="Top"
 										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
@@ -184,7 +190,8 @@
 									<Grid
 										x:Name="MainGraphCartesianChartClipGrid"
 										Height="64"
-										Margin="4,8,0,8"
+										Margin="4,4,4,4"
+										VerticalAlignment="Top"
 										BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
 										BorderThickness="1"
 										CornerRadius="4"
@@ -232,8 +239,27 @@
 
 									</Grid>
 
+									<!--  Processed Bytes & Estimated Time Display  -->
+									<Grid
+										Grid.Row="1"
+										Margin="4,0"
+										VerticalAlignment="Top">
+										<TextBlock
+											x:Name="StatusCenterItemSubFooterTextBlock"
+											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											MaxLines="1"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											Text="{x:Bind SubHeader, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap"
+											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}"
+											Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+									</Grid>
+
 									<!--  Action Buttons  -->
-									<Grid Grid.Column="1">
+									<Grid Grid.RowSpan="2" Grid.Column="1" VerticalAlignment="Top">
 
 										<Button
 											x:Name="CancelItemButton"
@@ -257,9 +283,6 @@
 									</Grid>
 
 								</Grid>
-
-								<!--  Processed Bytes & Estimated Time Display  -->
-								<Grid Grid.Row="2" />
 
 								<VisualStateManager.VisualStateGroups>
 									<VisualStateGroup x:Name="ThemeColorStates">

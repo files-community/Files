@@ -77,7 +77,19 @@ namespace Files.App.Utils.Archives
 			set
 			{
 				_Progress = value;
-				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
+
+				long totalSize = 0;
+				
+				if (Sources is not null)
+					totalSize = Sources.Select(FileOperationsHelpers.GetFileSize).Sum();
+
+				_fileSystemProgress = new(
+					Progress,
+					true,
+					FileSystemStatusCode.InProgress,
+					Sources is null ? 0 : Sources.Count(),
+					totalSize);
+
 				_fileSystemProgress.Report(0);
 			}
 		}
@@ -115,19 +127,6 @@ namespace Files.App.Utils.Archives
 			ArchiveCompressionLevels compressionLevel = ArchiveCompressionLevels.Normal,
 			ArchiveSplittingSizes splittingSize = ArchiveSplittingSizes.None)
 		{
-			long totalSize = 0;
-			foreach (var item in Sources)
-			{
-				totalSize += FileOperationsHelpers.GetFileSize(item);
-			}
-
-			_fileSystemProgress = new(
-				Progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				Sources.Count(),
-				totalSize);
-
 			_Progress = new Progress<StatusCenterItemProgressModel>();
 
 			Sources = source;

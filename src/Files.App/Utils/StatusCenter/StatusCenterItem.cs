@@ -105,11 +105,6 @@ namespace Files.App.Utils.StatusCenter
 				MaxLimit = 100,
 
 				ShowSeparatorLines = false,
-				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-				//{
-				//    StrokeThickness = 0.5F,
-				//    PathEffect = new DashEffect(new float[] { 3, 3 })
-				//}
 			}
 		};
 
@@ -121,11 +116,6 @@ namespace Files.App.Utils.StatusCenter
 				Labels = new List<string>(),
 
 				ShowSeparatorLines = false,
-				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
-				//{
-				//    StrokeThickness = 0.5F,
-				//    PathEffect = new DashEffect(new float[] { 3, 3 })
-				//}
 			}
 		};
 
@@ -284,21 +274,24 @@ namespace Files.App.Utils.StatusCenter
 					// In progress, displaying items count & processed size
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
 						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
 						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
 						SpeedText = $"{value.ProcessedItemsCount:0} items/s";
 						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
 						break;
