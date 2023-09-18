@@ -205,6 +205,11 @@ namespace Files.App.Utils.Storage
 				FileSystemStatusCode.InProgress,
 				fileToDeletePath.Count());
 
+			var cts = new CancellationTokenSource();
+			async Task ComputeTotalSize()
+				=> fsProgress.TotalSize = await Task.Run(() => fileToDeletePath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+			var sizeTask = ComputeTotalSize();
+
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -273,10 +278,12 @@ namespace Files.App.Utils.Storage
 				};
 				op.PostDeleteItem += (s, e) =>
 				{
+					if (sizeTask.IsCompleted)
+						return;
 					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
 					var op = progressHandler.GetOperation(operationID);
 					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0)
+					if (op.Progress is not 0 && fsProgress.TotalSize < op.ProcessedSize)
 						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
@@ -317,6 +324,8 @@ namespace Files.App.Utils.Storage
 				}
 
 				progressHandler.RemoveOperation(operationID);
+
+				cts.Cancel();
 
 				return (await deleteTcs.Task, shellOperationResult);
 			});
@@ -399,6 +408,11 @@ namespace Files.App.Utils.Storage
 				FileSystemStatusCode.InProgress,
 				fileToMovePath.Count());
 
+			var cts = new CancellationTokenSource();
+			async Task ComputeTotalSize()
+				=> fsProgress.TotalSize = await Task.Run(() => fileToMovePath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+			var sizeTask = ComputeTotalSize();
+
 			fsProgress.Report();
 			progressHandler ??= new();
 
@@ -458,6 +472,8 @@ namespace Files.App.Utils.Storage
 				};
 				op.PostMoveItem += (s, e) =>
 				{
+					if (sizeTask.IsCompleted)
+						return;
 					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
 					var op = progressHandler.GetOperation(operationID);
 					op.ProcessedSize += fileSize;
@@ -503,6 +519,8 @@ namespace Files.App.Utils.Storage
 
 				progressHandler.RemoveOperation(operationID);
 
+				cts.Cancel();
+
 				return (await moveTcs.Task, shellOperationResult);
 			});
 		}
@@ -516,6 +534,11 @@ namespace Files.App.Utils.Storage
 				true,
 				FileSystemStatusCode.InProgress,
 				fileToCopyPath.Count());
+
+			var cts = new CancellationTokenSource();
+			async Task ComputeTotalSize()
+				=> fsProgress.TotalSize = await Task.Run(() => fileToCopyPath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+			var sizeTask = ComputeTotalSize();
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -577,10 +600,12 @@ namespace Files.App.Utils.Storage
 				};
 				op.PostCopyItem += (s, e) =>
 				{
+					if (sizeTask.IsCompleted)
+						return;
 					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
 					var op = progressHandler.GetOperation(operationID);
 					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0)
+					if (op.Progress is not 0 && fsProgress.TotalSize < op.ProcessedSize)
 						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
@@ -621,6 +646,8 @@ namespace Files.App.Utils.Storage
 				}
 
 				progressHandler.RemoveOperation(operationID);
+
+				cts.Cancel();
 
 				return (await copyTcs.Task, shellOperationResult);
 			});
@@ -922,6 +949,53 @@ namespace Files.App.Utils.Storage
 				return size;
 
 			return 0;
+		}
+
+		public static ulong GetFileOrFolderSize(string path, CancellationToken token)
+		{
+			ulong size = 0;
+
+			using var hFile = Kernel32.FindFirstFileEx(
+				path + "\\*.*",
+				Kernel32.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out WIN32_FIND_DATA findData,
+				Kernel32.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				Kernel32.FIND_FIRST.FIND_FIRST_EX_LARGE_FETCH);
+
+			if (!hFile.IsInvalid)
+			{
+				do
+				{
+					if ((findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+						// Skip symbolic links and junctions
+						continue;
+
+					if ((findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+					{
+						size += findData.FileSize;
+					}
+					else if (findData.cFileName != "." && findData.cFileName != "..")
+					{
+						var itemPath = Path.Combine(path, findData.cFileName);
+
+						var folderSize = GetFileOrFolderSize(itemPath, token);
+						size += folderSize;
+					}
+
+					if (token.IsCancellationRequested)
+						break;
+				}
+				while (Kernel32.FindNextFile(hFile, out findData));
+
+				Kernel32.FindClose(hFile.DangerousGetHandle());
+
+				return size;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		private class ProgressHandler : Disposable
