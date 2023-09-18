@@ -207,7 +207,7 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToDeletePath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+				=> fsProgress.TotalSize = await Task.Run(() => fileToDeletePath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
 			var sizeTask = ComputeTotalSize();
 
 			fsProgress.Report();
@@ -283,7 +283,7 @@ namespace Files.App.Utils.Storage
 					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
 					var op = progressHandler.GetOperation(operationID);
 					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0 && fsProgress.TotalSize < op.ProcessedSize)
+					if (op.Progress is not 0)
 						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
@@ -410,7 +410,7 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToMovePath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+				=> fsProgress.TotalSize = await Task.Run(() => fileToMovePath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
 			var sizeTask = ComputeTotalSize();
 
 			fsProgress.Report();
@@ -537,7 +537,7 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToCopyPath.Select(e => (long)GetFileOrFolderSize(e, cts.Token)).Sum());
+				=> fsProgress.TotalSize = await Task.Run(() => fileToCopyPath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
 			var sizeTask = ComputeTotalSize();
 
 			fsProgress.Report();
@@ -605,7 +605,7 @@ namespace Files.App.Utils.Storage
 					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
 					var op = progressHandler.GetOperation(operationID);
 					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0 && fsProgress.TotalSize < op.ProcessedSize)
+					if (op.Progress is not 0)
 						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
@@ -934,6 +934,12 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
+		public static long GetFileOrFolderSize(string path, CancellationToken token)
+		{
+			var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+			return isDirectory ? (long)GetFolderSize(path, token) : GetFileSize(path);
+		}
+
 		public static long GetFileSize(string path)
 		{
 			using var hFile = Kernel32.CreateFile(
@@ -951,7 +957,7 @@ namespace Files.App.Utils.Storage
 			return 0;
 		}
 
-		public static ulong GetFileOrFolderSize(string path, CancellationToken token)
+		public static ulong GetFolderSize(string path, CancellationToken token)
 		{
 			ulong size = 0;
 
@@ -979,7 +985,7 @@ namespace Files.App.Utils.Storage
 					{
 						var itemPath = Path.Combine(path, findData.cFileName);
 
-						var folderSize = GetFileOrFolderSize(itemPath, token);
+						var folderSize = GetFolderSize(itemPath, token);
 						size += folderSize;
 					}
 
