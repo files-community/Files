@@ -566,7 +566,7 @@ namespace Files.App.Views.LayoutModes
 
 			try
 			{
-				// Wait until the pane or column is current
+				// Wait until the pane and column become current
 				for (int i = 0; i < 50 && !(ParentShellPageInstance!.IsCurrentInstance && ParentShellPageInstance.IsCurrentPane); i++)
 					await Task.Delay(10);
 
@@ -644,7 +644,7 @@ namespace Files.App.Views.LayoutModes
 
 			try
 			{
-				// Wait until the pane or column is current
+				// Wait until the pane and column become current
 				for (int i = 0; i < 50 && !(ParentShellPageInstance!.IsCurrentInstance && ParentShellPageInstance.IsCurrentPane); i++)
 					await Task.Delay(10);
 
