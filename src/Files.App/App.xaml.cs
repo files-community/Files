@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Helpers;
+using Files.App.Helpers.ServiceRegistration;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
@@ -41,6 +42,8 @@ namespace Files.App
 		private IHost? _host;
 
 		private static bool ShowErrorNotification = false;
+
+		private AppLifecycleHelper _appLifecycleHelper = new AppLifecycleHelper();
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
@@ -86,71 +89,6 @@ namespace Files.App
 				App.Logger.LogWarning(ex, "AppCenter could not be started.");
 			}
 #endif
-		}
-
-		private IHost ConfigureHost()
-		{
-			return Host.CreateDefaultBuilder()
-				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
-				.ConfigureLogging(builder => builder
-					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
-					.SetMinimumLevel(LogLevel.Information))
-				.ConfigureServices(services => services
-					.AddSingleton<IUserSettingsService, UserSettingsService>()
-					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>(sp => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
-					.AddSingleton<IPageContext, PageContext>()
-					.AddSingleton<IContentPageContext, ContentPageContext>()
-					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
-					.AddSingleton<IWindowContext, WindowContext>()
-					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
-					.AddSingleton<ITagsContext, TagsContext>()
-					.AddSingleton<IDialogService, DialogService>()
-					.AddSingleton<IImageService, ImagingService>()
-					.AddSingleton<IThreadingService, ThreadingService>()
-					.AddSingleton<ILocalizationService, LocalizationService>()
-					.AddSingleton<ICloudDetector, CloudDetector>()
-					.AddSingleton<IFileTagsService, FileTagsService>()
-					.AddSingleton<ICommandManager, CommandManager>()
-					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IApplicationService, ApplicationService>()
-#if UWP
-					.AddSingleton<IStorageService, WindowsStorageService>()
-#else
-					.AddSingleton<IStorageService, NativeStorageService>()
-#endif
-					.AddSingleton<IFtpStorageService, FtpStorageService>()
-					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW
-					.AddSingleton<IUpdateService, SideloadUpdateService>()
-#else
-					.AddSingleton<IUpdateService, UpdateService>()
-#endif
-					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
-					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
-					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
-					.AddSingleton<ISizeProvider, UserSizeProvider>()
-					.AddSingleton<IQuickAccessService, QuickAccessService>()
-					.AddSingleton<IResourcesService, ResourcesService>()
-					.AddSingleton<IJumpListService, JumpListService>()
-					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
-					.AddSingleton<MainPageViewModel>()
-					.AddSingleton<PreviewPaneViewModel>()
-					.AddSingleton<SidebarViewModel>()
-					.AddSingleton<SettingsViewModel>()
-					.AddSingleton<DrivesViewModel>()
-					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<StatusCenterViewModel>()
-					.AddSingleton<AppearanceViewModel>()
-				).Build();
 		}
 
 		private static async Task InitializeAppComponentsAsync()
@@ -225,9 +163,9 @@ namespace Files.App
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
 				// Configure Host and IoC
-				_host = ConfigureHost();
+				_host = _appLifecycleHelper.ConfigureHost();
+				
 				Ioc.Default.ConfigureServices(_host.Services);
-
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
 				// TODO: Remove App.Logger instance and replace with DI
