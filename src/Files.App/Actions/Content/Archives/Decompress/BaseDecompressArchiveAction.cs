@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			(IsContextPageTypeAdaptedToCommand() &&
-			DecompressHelper.CanDecompress(context.SelectedItems) ||
+			CompressHelper.CanDecompress(context.SelectedItems) ||
 			CanDecompressInsideArchive()) &&
 			UIHelpers.CanShowDialog;
 

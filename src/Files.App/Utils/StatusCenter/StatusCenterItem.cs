@@ -105,6 +105,11 @@ namespace Files.App.Utils.StatusCenter
 				MaxLimit = 100,
 
 				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
 			}
 		};
 
@@ -116,6 +121,11 @@ namespace Files.App.Utils.StatusCenter
 				Labels = new List<string>(),
 
 				ShowSeparatorLines = false,
+				//SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray)
+				//{
+				//    StrokeThickness = 0.5F,
+				//    PathEffect = new DashEffect(new float[] { 3, 3 })
+				//}
 			}
 		};
 
@@ -143,17 +153,14 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = default)
 		{
-			Header = title;
-			HeaderBody = title;
+			_operationCancellationToken = operationCancellationToken;
 			SubHeader = message;
-
+			HeaderBody = title;
+			Header = title;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
-
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
-
-			_operationCancellationToken = operationCancellationToken;
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -196,14 +203,13 @@ namespace Files.App.Utils.StatusCenter
 
 						HeaderBody = Operation switch
 						{
-							FileOperationType.Compressed => "StatusCenter_CompressInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Extract =>    "StatusCenter_DecompressInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Copy =>       "StatusCenter_CopyInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Move =>       "StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Delete =>     "StatusCenter_DeleteInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Recycle =>    "StatusCenter_RecycleInProgress_Header".GetLocalizedResource(),
-							FileOperationType.Prepare =>    "StatusCenter_PrepareInProgress_Header_Plural".GetLocalizedResource(),
-							_ => "StatusCenter_PrepareInProgress_Header_Plural".GetLocalizedResource(),
+							FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
+							FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
+							FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
+							_ => "PrepareInProgress".GetLocalizedResource(),
 						};
 
 						Header = $"{HeaderBody} ({progress}%)";
@@ -211,12 +217,11 @@ namespace Files.App.Utils.StatusCenter
 
 						ItemIconKind = Operation switch
 						{
-							FileOperationType.Compressed => StatusCenterItemIconKind.Extract,
-							FileOperationType.Extract =>    StatusCenterItemIconKind.Extract,
-							FileOperationType.Copy =>       StatusCenterItemIconKind.Copy,
-							FileOperationType.Move =>       StatusCenterItemIconKind.Move,
-							FileOperationType.Delete =>     StatusCenterItemIconKind.Delete,
-							FileOperationType.Recycle =>    StatusCenterItemIconKind.Recycle,
+							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
+							FileOperationType.Copy => StatusCenterItemIconKind.Copy,
+							FileOperationType.Move => StatusCenterItemIconKind.Move,
+							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
+							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
@@ -279,24 +284,21 @@ namespace Files.App.Utils.StatusCenter
 					// In progress, displaying items count & processed size
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
+						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
 						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
+						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
 						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
+						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
 						SpeedText = $"{value.ProcessedItemsCount:0} items/s";
 						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
 						break;

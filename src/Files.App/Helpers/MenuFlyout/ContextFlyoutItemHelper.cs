@@ -519,7 +519,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},
-					ShowItem = DecompressHelper.CanDecompress(selectedItems)
+					ShowItem = CompressHelper.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
