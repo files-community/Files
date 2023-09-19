@@ -351,39 +351,62 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
-					var sourceResult = await source.ToStorageItemResult();
-					FilesystemResult fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
+					var fsResult = (FilesystemResult)await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination));
 
-					if (fsResult)
+					if (!fsResult)
 					{
-						if (sourceResult.Result is IPasswordProtectedItem ppis)
-							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-						var folder = (BaseStorageFolder)sourceResult;
-						FilesystemResult fsResultMove;
-						fsResultMove = await FilesystemTasks.Wrap(() => folder.MoveFolderAsync(destinationResult.Result, collision).AsTask());
+						var fsSourceFolder = await source.ToStorageItemResult();
+						var fsDestinationFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+						fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
-						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.PasswordRequestedCallback = null;
-
-						if (fsResultMove == FileSystemStatusCode.AlreadyExists)
+						if (fsResult)
 						{
-							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-							return null;
+							var srcFolder = (BaseStorageFolder)fsSourceFolder;
+							var fsResultMove = await FilesystemTasks.Wrap(() => srcFolder.MoveAsync(fsDestinationFolder.Result, collision).AsTask());
+
+							if (!fsResultMove) // Use generic move folder operation (move folder items one by one)
+							{
+								// Moving folders using Storage API can result in data loss, copy instead
+								//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+
+								if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
+									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+							}
+
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+								ppiu.PasswordRequestedCallback = null;
+
+							if (fsResultMove == FileSystemStatusCode.AlreadyExists)
+							{
+								fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+
+								return null;
+							}
+
+							if (fsResultMove)
+							{
+								if (NativeFileOperationsHelper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+								{
+									// The source folder was hidden, apply hidden attribute to destination
+									NativeFileOperationsHelper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
+								}
+
+								movedItem = (BaseStorageFolder)fsResultMove;
+							}
+							fsResult = fsResultMove;
 						}
-
-						if (fsResultMove)
-							movedItem = folder;
-
-						fsResult = fsResultMove;
+						if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
+						{
+							// Cannot do anything, already tried with admin FTP
+						}
 					}
-					if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
-					{
-						// Cannot do anything, already tried with admin FTP
-					}
-					fsProgress.ReportStatus(sourceResult.ErrorCode);
+
+					fsProgress.ReportStatus(fsResult.ErrorCode);
 				}
 			}
 			else if (source.ItemType == FilesystemItemType.File)
@@ -404,8 +427,7 @@ namespace Files.App.Utils.Storage
 							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
 						var file = (BaseStorageFile)sourceResult;
-						FilesystemResult fsResultMove;
-						fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
 
 						if (sourceResult.Result is IPasswordProtectedItem ppiu)
 							ppiu.PasswordRequestedCallback = null;
@@ -436,9 +458,10 @@ namespace Files.App.Utils.Storage
 				return null;
 			}
 
-			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) == 
+			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) ==
 				PathNormalization.GetParentDir(source.Path);
-			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder) { 
+			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
+			{
 				await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
 				await _associatedInstance.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
@@ -703,7 +726,6 @@ namespace Files.App.Utils.Storage
 					if (fsResult)
 					{
 						// Moving folders using Storage API can result in data loss, copy instead
-
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
 
 						if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))

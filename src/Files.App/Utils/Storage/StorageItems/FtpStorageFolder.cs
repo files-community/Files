@@ -264,22 +264,33 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 
-		public override IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder)
-			=> MoveFolderAsync(destinationFolder, NameCollisionOption.FailIfExists);
-		public override IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder, NameCollisionOption option)
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder)
+			=> MoveAsync(destinationFolder, NameCollisionOption.FailIfExists);
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
 			{
-				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
 					throw new IOException($"Failed to connect to FTP server.");
-				
-				string destName = $"{(destFolder as FtpStorageFolder).FtpPath}/{Name}";
-				FtpRemoteExists ftpRemoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
-				bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destName, ftpRemoteExists, token: cancellationToken);
-				if (!isSuccessful)
-					throw new IOException($"Failed to move folder from {Path} to {destFolder}.");
+
+				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
+
+				if (destFolder is FtpStorageFolder ftpFolder)
+				{
+					string destName = $"{ftpFolder.FtpPath}/{Name}";
+					FtpRemoteExists ftpRemoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
+
+					bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destName, ftpRemoteExists, token: cancellationToken);
+					if (!isSuccessful)
+						throw new IOException($"Failed to move folder from {Path} to {destFolder}.");
+
+					var folder = new FtpStorageFolder(new StorageFileWithPath(null, destName));
+					((IPasswordProtectedItem)folder).CopyFrom(this);
+					return folder;
+				}
+				else
+					throw new NotSupportedException();
 			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
 

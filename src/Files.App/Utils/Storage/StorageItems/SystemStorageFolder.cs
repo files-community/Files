@@ -86,8 +86,8 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
 			=> AsyncInfo.Run<BaseStorageFolder>(async (cancellationToken) => new SystemStorageFolder(await Folder.CreateFolderAsync(desiredName, options)));
 
-		public override IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
-		public override IAsyncAction MoveFolderAsync(IStorageFolder destinationFolder, NameCollisionOption option) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncAction RenameAsync(string desiredName) => Folder.RenameAsync(desiredName);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option) => Folder.RenameAsync(desiredName, option);
