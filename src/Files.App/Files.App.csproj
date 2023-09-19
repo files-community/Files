@@ -65,7 +65,6 @@
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -84,7 +83,7 @@
         <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.2" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.10" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
@@ -100,7 +99,7 @@
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.16" />
-        <PackageReference Include="WinUIEx" Version="2.1.0" />
+        <PackageReference Include="WinUIEx" Version="2.3.0" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Shell" Version="3.4.16" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />

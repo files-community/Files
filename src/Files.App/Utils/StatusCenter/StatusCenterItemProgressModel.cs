@@ -1,18 +1,29 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+
 namespace Files.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
-	public class StatusCenterItemProgressModel : ObservableObject
+	public class StatusCenterItemProgressModel : INotifyPropertyChanged
 	{
 		private readonly IProgress<StatusCenterItemProgressModel>? _progress;
+
+		private readonly ConcurrentDictionary<string, bool> _dirtyTracker;
 
 		private readonly IntervalSampler _sampler;
 
 		private bool _criticalReport;
+
+		private long _previousProcessedSize;
+
+		private long _previousProcessedItemsCount;
+
+		private DateTimeOffset _previousReportTime;
 
 		private FileSystemStatusCode? _Status;
 		public FileSystemStatusCode? Status
@@ -40,71 +51,92 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		public string? _FileName;
+		private string? _FileName;
 		public string? FileName
 		{
 			get => _FileName;
 			set => SetProperty(ref _FileName, value);
 		}
 
-		public long _TotalSize;
+		private long _TotalSize;
 		public long TotalSize
 		{
 			get => _TotalSize;
 			set => SetProperty(ref _TotalSize, value);
 		}
 
-		public long _ProcessedSize;
+		private long _ProcessedSize;
 		public long ProcessedSize
 		{
 			get => _ProcessedSize;
 			set => SetProperty(ref _ProcessedSize, value);
 		}
 
-		public long _ItemsCount;
+		private long _ItemsCount;
 		public long ItemsCount
 		{
 			get => _ItemsCount;
 			set => SetProperty(ref _ItemsCount, value);
 		}
 
-		public long _ProcessedItemsCount;
+		private long _ProcessedItemsCount;
 		public long ProcessedItemsCount
 		{
 			get => _ProcessedItemsCount;
 			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
-		public DateTimeOffset _StartTime;
+		public double ProcessingSizeSpeed { get; private set; }
+		public double ProcessingItemsCountSpeed { get; private set; }
+
+		private DateTimeOffset _StartTime;
 		public DateTimeOffset StartTime
 		{
 			get => _StartTime;
 			set => SetProperty(ref _StartTime, value);
 		}
 
-		public DateTimeOffset _CompletedTime;
+		private DateTimeOffset _CompletedTime;
+
 		public DateTimeOffset CompletedTime
 		{
 			get => _CompletedTime;
 			set => SetProperty(ref _CompletedTime, value);
 		}
 
-		// Only used when detailed count isn't available.
-		public int? Percentage { get; set; }
+		/// <summary>
+		/// Only used when detailed count isn't available.
+		/// You should NEVER set this property directly, instead, use <see cref="Report(double?)" /> to update the percentage.
+		/// </summary>
+		public double? Percentage { get; private set; }
+
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
 		{
 			// Initialize
 			_progress = progress;
 			_sampler = new(samplerInterval);
+			_dirtyTracker = new();
 			EnumerationCompleted = enumerationCompleted;
 			Status = status;
 			ItemsCount = itemsCount;
 			TotalSize = totalSize;
 			StartTime = DateTimeOffset.Now;
+			_previousReportTime = StartTime - TimeSpan.FromSeconds(1);
 		}
 
-		public void Report(int? percentage = null)
+		private void SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+		{
+			field = value;
+
+			if (propertyName is not null)
+			{
+				_dirtyTracker[propertyName] = true;
+			}
+		}
+
+		public void Report(double? percentage = null)
 		{
 			Percentage = percentage;
 
@@ -112,7 +144,7 @@ namespace Files.App.Utils.StatusCenter
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
 				TotalSize is not 0 ||
-				percentage is 100) &&
+				(percentage is double p && Math.Abs(p - 100) <= double.Epsilon)) &&
 				_Status is FileSystemStatusCode.InProgress or null)
 			{
 				_Status = FileSystemStatusCode.Success;
@@ -121,18 +153,33 @@ namespace Files.App.Utils.StatusCenter
 			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
 
-			if (_progress is not null && (_criticalReport || _sampler.CheckNow()))
+			if (_criticalReport || _sampler.CheckNow())
 			{
-				_progress.Report(this);
 				_criticalReport = false;
+				foreach (var propertyName in _dirtyTracker.Keys)
+				{
+					if (_dirtyTracker[propertyName])
+					{
+						_dirtyTracker[propertyName] = false;
+						PropertyChanged?.Invoke(this, new(propertyName));
+					}
+				}
+				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+				ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+				_progress?.Report(this);
+				_previousReportTime = DateTimeOffset.Now;
+				_previousProcessedSize = ProcessedSize;
+				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 
-		public void ReportStatus(FileSystemStatusCode status)
+		public void ReportStatus(FileSystemStatusCode status, double? percentage = null)
 		{
 			Status = status;
 
-			Report();
+			Report(percentage);
 		}
 	}
 }

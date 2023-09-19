@@ -178,12 +178,12 @@ namespace Files.App.Utils.StatusCenter
 			// Get if the operation is in progress
 			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
-			if (value.Percentage is int p)
+			if (value.Percentage is double p)
 			{
 				if (ProgressPercentage != value.Percentage)
 				{
-					Header = $"{HeaderBody} ({ProgressPercentage}%)";
-					ProgressPercentage = p;
+					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+					ProgressPercentage = (int)p;
 				}
 			}
 			else if (value.EnumerationCompleted)
@@ -192,17 +192,17 @@ namespace Files.App.Utils.StatusCenter
 				{
 					// In progress, displaying items count & processed size
 					case (not 0, not 0):
-						ProgressPercentage = (int)(value.ProcessedSize * 100f / value.TotalSize);
+						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
-						ProgressPercentage = (int)(value.ProcessedSize * 100 / value.TotalSize);
+						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
 						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
-						ProgressPercentage = (int)(value.ProcessedItemsCount * 100 / value.ItemsCount);
+						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
 						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
 						break;
 					default:
