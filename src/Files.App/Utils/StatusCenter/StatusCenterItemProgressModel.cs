@@ -74,7 +74,6 @@ namespace Files.App.Utils.StatusCenter
 		public long ProcessedSize
 		{
 			get => _ProcessedSize;
-			set => SetProperty(ref _ProcessedSize, value);
 		}
 
 		private long _ItemsCount;
@@ -88,7 +87,6 @@ namespace Files.App.Utils.StatusCenter
 		public long ProcessedItemsCount
 		{
 			get => _ProcessedItemsCount;
-			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
 		public double ProcessingSizeSpeed { get; private set; }
@@ -129,6 +127,18 @@ namespace Files.App.Utils.StatusCenter
 			ItemsCount = itemsCount;
 			StartTime = DateTimeOffset.Now;
 			_previousReportTime = StartTime - TimeSpan.FromSeconds(1);
+		}
+
+		public void AddProcessedItemsCount(long value)
+		{
+			Interlocked.Add(ref _ProcessedItemsCount, value);
+			_dirtyTracker[nameof(ProcessedItemsCount)] = true;
+		}
+
+		public void AddProcessedSize(long value)
+		{
+			Interlocked.Add(ref _ProcessedSize, value);
+			_dirtyTracker[nameof(ProcessedSize)] = true;
 		}
 
 		private void SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
@@ -172,21 +182,16 @@ namespace Files.App.Utils.StatusCenter
 
 				if (percentage is not null && Percentage != percentage)
 				{
-					if (TotalSize is not 0)
-					{
-						ProcessedSize = (long)(TotalSize * percentage / 100);
-						ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
-						// NOTE: This won't work yet
-						ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
-						PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-						PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+					PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
 
-						_previousReportTime = DateTimeOffset.Now;
-						_previousProcessedSize = ProcessedSize;
-						_previousProcessedItemsCount = ProcessedItemsCount;
-					}
+					_previousReportTime = DateTimeOffset.Now;
+					_previousProcessedSize = ProcessedSize;
+					_previousProcessedItemsCount = ProcessedItemsCount;
 
 					Percentage = percentage;
 				}

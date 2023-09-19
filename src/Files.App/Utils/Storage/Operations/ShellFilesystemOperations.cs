@@ -302,7 +302,7 @@ namespace Files.App.Utils.Storage
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
 
-			var items = source.Zip(destination, (src, dest, index) => new { src, dest, index }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
+			var items = source.Zip(destination, (src, dest) => new { src, dest }).Where(x => !string.IsNullOrEmpty(x.src.Path) && !string.IsNullOrEmpty(x.dest));
 			foreach (var item in items)
 			{
 				var result = await FileOperationsHelpers.CreateOrUpdateLinkAsync(item.dest, item.src.Path);
@@ -316,7 +316,7 @@ namespace Files.App.Utils.Storage
 					createdDestination.Add(StorageHelpers.FromPathAndType(item.dest, FilesystemItemType.File));
 				}
 
-				fsProgress.ProcessedItemsCount = item.index;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 
