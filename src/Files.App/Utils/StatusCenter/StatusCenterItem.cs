@@ -264,7 +264,7 @@ namespace Files.App.Utils.StatusCenter
 					ProgressPercentage = (int)p;
 
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
-					Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
+					Values.Add(new(value.Percentage, value.ProcessingSizeSpeed));
 				}
 			}
 			else if (value.EnumerationCompleted)
