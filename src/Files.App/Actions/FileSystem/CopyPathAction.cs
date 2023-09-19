@@ -1,7 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Input;
+using Microsoft.VisualBasic.Devices;
 using Windows.ApplicationModel.DataTransfer;
+using static Vanara.PInvoke.User32.RAWINPUT;
 
 namespace Files.App.Actions
 {
@@ -36,6 +39,12 @@ namespace Files.App.Actions
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
+
+				// Check if Ctrl + Shift is pressed, if so put quotes arround the path
+				var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+				if (ctrlPressed && shiftPressed)
+					path = "\"" + path + "\"";
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
