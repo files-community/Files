@@ -25,6 +25,9 @@ namespace Files.App.Views.Shells
 
 		bool CanNavigateForward { get; }
 
+		/// <summary>
+		/// True if the pane that contains this page is current.
+		/// </summary>
 		bool IsCurrentPane { get; }
 
 		/// <summary>
