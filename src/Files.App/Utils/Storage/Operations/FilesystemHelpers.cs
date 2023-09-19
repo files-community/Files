@@ -19,6 +19,8 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
+		#region Private Members
+
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
@@ -28,6 +30,9 @@ namespace Files.App.Utils.Storage
 		private ItemManipulationModel itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
 
 		private readonly CancellationToken cancellationToken;
+
+		#region Helpers Members
+
 		private static char[] RestrictedCharacters
 		{
 			get
@@ -50,7 +55,18 @@ namespace Files.App.Utils.Storage
 				"LPT6", "LPT7", "LPT8", "LPT9"
 		};
 
+		#endregion Helpers Members
+
+		#endregion Private Members
+
+		#region Properties
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		#endregion
+
+		#region Constructor
+
 		public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
 		{
 			this.associatedInstance = associatedInstance;
@@ -58,6 +74,13 @@ namespace Files.App.Utils.Storage
 			jumpListService = Ioc.Default.GetRequiredService<IJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
+
+		#endregion Constructor
+
+		#region IFilesystemHelpers
+
+		#region Create
+
 		public async Task<(ReturnResult, IStorageItem)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
 		{
 			var returnStatus = ReturnResult.InProgress;
@@ -82,6 +105,10 @@ namespace Files.App.Utils.Storage
 			await Task.Yield();
 			return (returnStatus, result.Item2);
 		}
+
+		#endregion Create
+
+		#region Delete
 
 		public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 		{
@@ -171,6 +198,10 @@ namespace Files.App.Utils.Storage
 		public Task<ReturnResult> DeleteItemAsync(IStorageItem source, DeleteConfirmationPolicies showDialog, bool permanently, bool registerHistory)
 			=> DeleteItemAsync(source.FromStorageItem(), showDialog, permanently, registerHistory);
 
+		#endregion Delete
+
+		#region Restore
+
 		public Task<ReturnResult> RestoreItemFromTrashAsync(IStorageItem source, string destination, bool registerHistory)
 			=> RestoreItemFromTrashAsync(source.FromStorageItem(), destination, registerHistory);
 
@@ -206,13 +237,14 @@ namespace Files.App.Utils.Storage
 			return returnStatus;
 		}
 
-		public async Task<ReturnResult> PerformOperationTypeAsync(
-			DataPackageOperation operation,
-			DataPackageView packageView,
-			string destination,
-			bool showDialog,
-			bool registerHistory,
-			bool isTargetExecutable = false)
+		#endregion Restore
+
+		public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation,
+																  DataPackageView packageView,
+																  string destination,
+																  bool showDialog,
+																  bool registerHistory,
+																  bool isTargetExecutable = false)
 		{
 			try
 			{
@@ -260,6 +292,8 @@ namespace Files.App.Utils.Storage
 				packageView.ReportOperationCompleted(packageView.RequestedOperation);
 			}
 		}
+
+		#region Copy
 
 		public Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 			=> CopyItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
@@ -384,6 +418,10 @@ namespace Files.App.Utils.Storage
 			return ReturnResult.BadArgumentException;
 		}
 
+		#endregion Copy
+
+		#region Move
+
 		public Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool showDialog, bool registerHistory)
 			=> MoveItemsAsync(source.Select((item) => item.FromStorageItem()), destination, showDialog, registerHistory);
 
@@ -490,6 +528,10 @@ namespace Files.App.Utils.Storage
 			return returnStatus;
 		}
 
+		#endregion Move
+
+		#region Rename
+
 		public Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory, bool showExtensionDialog = true)
 			=> RenameAsync(source.FromStorageItem(), newName, collision, registerHistory, showExtensionDialog);
 
@@ -553,6 +595,8 @@ namespace Files.App.Utils.Storage
 			return returnStatus;
 		}
 
+		#endregion Rename
+
 		public async Task<ReturnResult> CreateShortcutFromClipboard(DataPackageView packageView, string destination, bool showDialog, bool registerHistory)
 		{
 			if (!HasDraggedStorageItems(packageView))
@@ -601,6 +645,9 @@ namespace Files.App.Utils.Storage
 
 			return returnStatus;
 		}
+
+		#endregion IFilesystemHelpers
+
 		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
@@ -680,6 +727,8 @@ namespace Files.App.Utils.Storage
 
 			return (newCollisions, false, itemsResult ?? new List<IFileSystemDialogConflictItemViewModel>());
 		}
+
+		#region Public Helpers
 
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
@@ -816,6 +865,10 @@ namespace Files.App.Utils.Storage
 			return false;
 		}
 
+		#endregion Public Helpers
+
+		#region IDisposable
+
 		public void Dispose()
 		{
 			filesystemOperations?.Dispose();
@@ -823,5 +876,7 @@ namespace Files.App.Utils.Storage
 			associatedInstance = null;
 			filesystemOperations = null;
 		}
+
+		#endregion IDisposable
 	}
 }

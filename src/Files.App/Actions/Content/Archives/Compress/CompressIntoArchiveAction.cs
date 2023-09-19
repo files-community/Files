@@ -20,7 +20,7 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync()
 		{
-			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
+			var (sources, directory, fileName) = ArchiveHelpers.GetCompressDestination(context.ShellPage);
 
 			var dialog = new CreateArchiveDialog
 			{
@@ -32,16 +32,18 @@ namespace Files.App.Actions
 			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
 				return;
 
-			ICompressArchiveModel creator = new CompressArchiveModel(
-				sources,
-				directory,
-				dialog.FileName,
-				dialog.Password,
-				dialog.FileFormat,
-				dialog.CompressionLevel,
-				dialog.SplittingSize);
+			IArchiveCreator creator = new ArchiveCreator
+			{
+				Sources = sources,
+				Directory = directory,
+				FileName = dialog.FileName,
+				Password = dialog.Password,
+				FileFormat = dialog.FileFormat,
+				CompressionLevel = dialog.CompressionLevel,
+				SplittingSize = dialog.SplittingSize,
+			};
 
-			await CompressHelper.CompressArchiveAsync(creator);
+			await ArchiveHelpers.CompressArchiveAsync(creator);
 		}
 	}
 }

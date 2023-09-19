@@ -44,12 +44,7 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.CopyItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			StatusCenterItemProgressModel fsProgress = new(
-				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				source.Count());
-
+			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
@@ -348,12 +343,7 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.DeleteItemsAsync(source, progress, permanently, cancellationToken);
 			}
 
-			StatusCenterItemProgressModel fsProgress = new(
-				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				source.Count());
-
+			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			var deleteFilePaths = source.Select(s => s.Path).Distinct();
@@ -467,12 +457,7 @@ namespace Files.App.Utils.Storage
 				return await _filesystemOperations.MoveItemsAsync(source, destination, collisions, progress, cancellationToken);
 			}
 
-			StatusCenterItemProgressModel fsProgress = new(
-				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				source.Count());
-
+			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 			fsProgress.Report();
 
 			var sourceNoSkip = source.Zip(collisions, (src, coll) => new { src, coll }).Where(item => item.coll != FileNameConflictResolveOptionType.Skip).Select(item => item.src);
