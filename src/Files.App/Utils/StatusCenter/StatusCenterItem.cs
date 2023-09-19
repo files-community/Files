@@ -287,7 +287,13 @@ namespace Files.App.Utils.StatusCenter
 					break;
 				default:
 					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
-					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
+					SpeedText = (value.ProcessedSize, value.ProcessedItemsCount) switch
+					{
+						(not 0, not 0) => $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s",
+						(not 0, _) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
+						(_, not 0) => $"{value.ProcessingItemsCountSpeed:0} items/s",
+						_ => "N/A",
+					};
 					break;
 			}
 
