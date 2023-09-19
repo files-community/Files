@@ -5,6 +5,10 @@ namespace Files.App.Actions
 {
 	internal class OpenNewPaneAction : ObservableObject, IAction
 	{
+		private DateTime lastExecuted = DateTime.MinValue;
+
+		private readonly TimeSpan debounceTime = TimeSpan.FromMilliseconds(800);
+
 		private readonly IContentPageContext context;
 
 		public string Label
@@ -35,6 +39,18 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
+			DateTime now = DateTime.Now;
+
+			if (now - lastExecuted < debounceTime)
+			{
+				// Too soon since the last execution, return immediately
+				return Task.CompletedTask;
+			}
+
+			// Record the current execution time
+			lastExecuted = now;
+
+			// Existing logic
 			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
 
 			return Task.CompletedTask;
