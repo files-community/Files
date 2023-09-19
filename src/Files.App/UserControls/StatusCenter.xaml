@@ -259,7 +259,10 @@
 									</Grid>
 
 									<!--  Action Buttons  -->
-									<Grid Grid.RowSpan="2" Grid.Column="1" VerticalAlignment="Top">
+									<Grid
+										Grid.RowSpan="2"
+										Grid.Column="1"
+										VerticalAlignment="Top">
 
 										<Button
 											x:Name="CancelItemButton"
