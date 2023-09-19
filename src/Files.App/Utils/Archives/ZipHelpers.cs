@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.Utils.Archives
 {
-	public static class DecompressHelper
+	public static class ZipHelpers
 	{
 		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
 		{
@@ -86,14 +86,7 @@ namespace Files.App.Utils.Archives
 			int entriesFinished = 0;
 			var minimumTime = new DateTime(1);
 
-			StatusCenterItemProgressModel fsProgress = new(
-				progress,
-				enumerationCompleted: true,
-				FileSystemStatusCode.InProgress,
-				entriesAmount);
-
-			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
-
+			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, entriesAmount);
 			fsProgress.Report();
 
 			foreach (var entry in fileEntries)
@@ -108,9 +101,6 @@ namespace Files.App.Utils.Archives
 				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
 				if (hFile.IsInvalid)
 					return; // TODO: handle error
-
-				fsProgress.FileName = entry.FileName;
-				fsProgress.Report();
 
 				// We don't close hFile because FileStream.Dispose() already does that
 				using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))

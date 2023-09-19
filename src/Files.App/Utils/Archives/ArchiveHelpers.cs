@@ -11,10 +11,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils.Archives
 {
-	/// <summary>
-	/// Provides static helper for compressing archive.
-	/// </summary>
-	public static class CompressHelper
+	public static class ArchiveHelpers
 	{
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
@@ -62,7 +59,7 @@ namespace Files.App.Utils.Archives
 			return (sources, directory, fileName);
 		}
 
-		public static async Task CompressArchiveAsync(ICompressArchiveModel creator)
+		public static async Task CompressArchiveAsync(IArchiveCreator creator)
 		{
 			var archivePath = creator.GetArchivePath();
 
@@ -76,7 +73,7 @@ namespace Files.App.Utils.Archives
 			(
 				"CompressionInProgress".GetLocalizedResource(),
 				archivePath,
-				initialProgress: 0,
+				0,
 				ReturnResult.InProgress,
 				FileOperationType.Compressed,
 				compressionToken
@@ -113,8 +110,6 @@ namespace Files.App.Utils.Archives
 			}
 		}
 
-		// TODO: Move all below code to DecompressHelper class
-
 		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
 		{
 			if (archive is null || destinationFolder is null)
@@ -130,7 +125,7 @@ namespace Files.App.Utils.Archives
 				FileOperationType.Extract,
 				extractCancellation);
 
-			await FilesystemTasks.Wrap(() => DecompressHelper.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
+			await FilesystemTasks.Wrap(() => ZipHelpers.ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
 			_statusCenterViewModel.RemoveItem(banner);
 
@@ -154,7 +149,7 @@ namespace Files.App.Utils.Archives
 			if (archive is null)
 				return;
 
-			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive));
+			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive));
 			var password = string.Empty;
 
 			DecompressArchiveDialog decompressArchiveDialog = new();
@@ -202,7 +197,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
@@ -237,7 +232,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
 
-				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
+				if (await FilesystemTasks.Wrap(() => ZipHelpers.IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)

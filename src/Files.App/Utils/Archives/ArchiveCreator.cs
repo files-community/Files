@@ -10,7 +10,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Provides an archive creation support.
 	/// </summary>
-	public class CompressArchiveModel : ICompressArchiveModel
+	public class ArchiveCreator : IArchiveCreator
 	{
 		/// <summary>
 		/// Represents the total number of items to be processed.
@@ -77,13 +77,7 @@ namespace Files.App.Utils.Archives
 			set
 			{
 				_Progress = value;
-
-				_fileSystemProgress = new(
-					Progress,
-					true,
-					FileSystemStatusCode.InProgress,
-					Sources is null ? 0 : Sources.Count());
-
+				_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
 				_fileSystemProgress.Report(0);
 			}
 		}
@@ -112,25 +106,16 @@ namespace Files.App.Utils.Archives
 		/// <inheritdoc/>
 		public ArchiveSplittingSizes SplittingSize { get; init; }
 
-		public CompressArchiveModel(
-			string[] source,
-			string directory,
-			string fileName,
-			string? password = null,
-			ArchiveFormats fileFormat = ArchiveFormats.Zip,
-			ArchiveCompressionLevels compressionLevel = ArchiveCompressionLevels.Normal,
-			ArchiveSplittingSizes splittingSize = ArchiveSplittingSizes.None)
+		public ArchiveCreator()
 		{
+			// Initialize
+			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
 			_Progress = new Progress<StatusCenterItemProgressModel>();
-
-			Sources = source;
-			Directory = directory;
-			FileName = fileName;
-			Password = password ?? string.Empty;
 			ArchivePath = string.Empty;
-			FileFormat = fileFormat;
-			CompressionLevel = compressionLevel;
-			SplittingSize = splittingSize;
+			Sources = Enumerable.Empty<string>();
+			FileFormat = ArchiveFormats.Zip;
+			CompressionLevel = ArchiveCompressionLevels.Normal;
+			SplittingSize = ArchiveSplittingSizes.None;
 
 			_fileSystemProgress.Report(0);
 		}
@@ -146,7 +131,7 @@ namespace Files.App.Utils.Archives
 		{
 			string[] sources = Sources.ToArray();
 
-			var compressor = new SevenZipCompressor()
+			var compressor = new SevenZipCompressor
 			{
 				ArchiveFormat = SevenZipArchiveFormat,
 				CompressionLevel = SevenZipCompressionLevel,
@@ -157,10 +142,8 @@ namespace Files.App.Utils.Archives
 				PreserveDirectoryRoot = sources.Length > 1,
 				EventSynchronization = EventSynchronizationStrategy.AlwaysAsynchronous,
 			};
-
 			compressor.Compressing += Compressor_Compressing;
 			compressor.CompressionFinished += Compressor_CompressionFinished;
-			compressor.FileCompressionStarted += Compressor_FileCompressionStarted;
 
 			try
 			{
@@ -195,12 +178,6 @@ namespace Files.App.Utils.Archives
 			}
 		}
 
-		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
-		{
-			_fileSystemProgress.FileName = e.FileName;
-			_fileSystemProgress.Report();
-		}
-
 		private void Compressor_CompressionFinished(object? sender, EventArgs e)
 		{
 			if (++_processedItems == _itemsAmount)
@@ -215,8 +192,6 @@ namespace Files.App.Utils.Archives
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			// TODO: edit lib to get total/current bytes
-
 			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
 		}
 	}
