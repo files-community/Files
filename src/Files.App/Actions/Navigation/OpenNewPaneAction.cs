@@ -47,10 +47,8 @@ namespace Files.App.Actions
 				return Task.CompletedTask;
 			}
 
-			// Record the current execution time
 			lastExecuted = now;
 
-			// Existing logic
 			context.ShellPage!.PaneHolder.OpenPathInNewPane("Home");
 
 			return Task.CompletedTask;
