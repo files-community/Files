@@ -210,6 +210,7 @@ namespace Files.App.Utils.Storage
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
+				fsProgress.TotalSize = 0;
 				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
 				fsProgress.EnumerationCompleted = true;
 				fsProgress.Report();

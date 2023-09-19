@@ -270,20 +270,24 @@ namespace Files.App.Utils.StatusCenter
 				// In progress, displaying items count & processed size
 				case (not 0, not 0):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s";
 					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
 					break;
 				// In progress, displaying processed size
 				case (not 0, _):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
 					break;
 				// In progress, displaying items count
 				case (_, not 0):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount), 0, 100);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
 					point = new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed);
 					break;
 				default:
 					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
 					break;
 			}
 
@@ -295,7 +299,6 @@ namespace Files.App.Utils.StatusCenter
 			Values.Add(point);
 
 			Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-			SpeedText = $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s";
 
 			if (value.FileName is not null)
 			{
