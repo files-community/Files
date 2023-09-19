@@ -9,6 +9,11 @@ namespace Files.App.Utils.StatusCenter
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
+	/// <remarks>
+	/// Every instance that have the same <see cref="IProgress{T}"/> instance will update the same progress.
+	/// <br/>
+	/// Therefore, the storage operation classes can portably instance this class and update progress from everywhere with the same <see cref="IProgress{T}"/> instance.
+	/// </remarks>
 	public class StatusCenterItemProgressModel : INotifyPropertyChanged
 	{
 		private readonly IProgress<StatusCenterItemProgressModel>? _progress;
@@ -87,6 +92,7 @@ namespace Files.App.Utils.StatusCenter
 		}
 
 		public double ProcessingSizeSpeed { get; private set; }
+
 		public double ProcessingItemsCountSpeed { get; private set; }
 
 		private DateTimeOffset _StartTime;
@@ -112,7 +118,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
+		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, int samplerInterval = 100)
 		{
 			// Initialize
 			_progress = progress;
@@ -121,7 +127,6 @@ namespace Files.App.Utils.StatusCenter
 			EnumerationCompleted = enumerationCompleted;
 			Status = status;
 			ItemsCount = itemsCount;
-			TotalSize = totalSize;
 			StartTime = DateTimeOffset.Now;
 			_previousReportTime = StartTime - TimeSpan.FromSeconds(1);
 		}
@@ -138,8 +143,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public void Report(double? percentage = null)
 		{
-			Percentage = percentage;
-
+			// Set the progress state as success
 			if ((EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
@@ -150,6 +154,7 @@ namespace Files.App.Utils.StatusCenter
 				_Status = FileSystemStatusCode.Success;
 			}
 
+			// Set time at completed when succeed
 			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
 
@@ -164,14 +169,29 @@ namespace Files.App.Utils.StatusCenter
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
 				}
-				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-				ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
+				if (percentage is not null && Percentage != percentage)
+				{
+					if (TotalSize is not 0)
+					{
+						ProcessedSize = (long)(TotalSize * percentage / 100);
+						ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
+						// NOTE: This won't work yet
+						ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
+						PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
+						PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
+						_previousReportTime = DateTimeOffset.Now;
+						_previousProcessedSize = ProcessedSize;
+						_previousProcessedItemsCount = ProcessedItemsCount;
+					}
+
+					Percentage = percentage;
+				}
+
 				_progress?.Report(this);
-				_previousReportTime = DateTimeOffset.Now;
-				_previousProcessedSize = ProcessedSize;
-				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 

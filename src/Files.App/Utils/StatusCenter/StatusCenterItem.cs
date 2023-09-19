@@ -2,6 +2,14 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
+using SkiaSharp;
+using LiveChartsCore;
+using LiveChartsCore.Drawing;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.Defaults;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -70,6 +78,47 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelled, value);
 		}
 
+		private StatusCenterItemProgressModel _Progress = null!;
+		public StatusCenterItemProgressModel Progress
+		{
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
+		}
+
+		private string? _SpeedText;
+		public string? SpeedText
+		{
+			get => _SpeedText;
+			set => SetProperty(ref _SpeedText, value);
+		}
+
+		public ObservableCollection<ObservablePoint> Values { get; set; }
+
+		public ObservableCollection<ISeries> Series { get; set; }
+
+		public IList<ICartesianAxis> XAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+				MaxLimit = 100,
+
+				ShowSeparatorLines = false,
+			}
+		};
+
+		public IList<ICartesianAxis> YAxes { get; set; } = new ICartesianAxis[]
+		{
+			new Axis
+			{
+				Padding = new Padding(0, 0),
+				Labels = new List<string>(),
+
+				ShowSeparatorLines = false,
+			}
+		};
+
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
@@ -86,15 +135,13 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public readonly StatusCenterItemProgressModel Progress;
-
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = null)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
 			SubHeader = message;
@@ -106,6 +153,37 @@ namespace Files.App.Utils.StatusCenter
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+
+			Values = new();
+
+			// TODO: One-time fetch could cause an issue where the color won't be changed when user change accent color
+			var accentBrush = App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush;
+
+			Series = new()
+			{
+				new LineSeries<ObservablePoint>
+				{
+					Values = Values,
+					GeometrySize = 0d,
+					DataPadding = new(0, 0),
+					IsHoverable = false,
+
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B),
+						1),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
+						},
+						new(0.5f, 0f),
+						new(0.5f, 1.0f),
+						new[] { 0.2f, 1.3f }),
+				}
+			};
 
 			switch (FileSystemOperationReturnResult)
 			{
@@ -184,6 +262,9 @@ namespace Files.App.Utils.StatusCenter
 				{
 					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
+
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+					Values.Add(new(value.Percentage, value.ProcessingSizeSpeed));
 				}
 			}
 			else if (value.EnumerationCompleted)
@@ -193,17 +274,26 @@ namespace Files.App.Utils.StatusCenter
 					// In progress, displaying items count & processed size
 					case (not 0, not 0):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
+						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying processed size
 					case (not 0, _):
 						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
+						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
 						break;
 					// In progress, displaying items count
 					case (_, not 0):
 						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
+						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
+						SpeedText = $"{value.ProcessedItemsCount:0} items/s";
+						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
 						break;
 					default:
 						Header = $"{HeaderBody}";
