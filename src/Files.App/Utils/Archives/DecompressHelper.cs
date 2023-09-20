@@ -83,7 +83,6 @@ namespace Files.App.Utils.Archives
 
 			byte[] buffer = new byte[4096];
 			int entriesAmount = fileEntries.Count;
-			int entriesFinished = 0;
 			var minimumTime = new DateTime(1);
 
 			StatusCenterItemProgressModel fsProgress = new(
@@ -132,8 +131,7 @@ namespace Files.App.Utils.Archives
 					LastWriteTime = entry.LastWriteTime,
 				};
 
-				entriesFinished++;
-				fsProgress.ProcessedItemsCount = entriesFinished;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 		}

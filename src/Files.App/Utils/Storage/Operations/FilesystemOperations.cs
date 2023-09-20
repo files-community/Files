@@ -89,7 +89,7 @@ namespace Files.App.Utils.Storage
 						break;
 				}
 
-				fsProgress.ProcessedItemsCount = 1;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.ReportStatus(fsResult);
 				return item is not null
 					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
@@ -681,7 +681,7 @@ namespace Files.App.Utils.Storage
 
 				rawStorageHistory.Add(await RestoreFromTrashAsync(source[i], destination[i], null, token));
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -832,7 +832,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -876,7 +876,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 
@@ -911,7 +911,7 @@ namespace Files.App.Utils.Storage
 				permanently = RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 
