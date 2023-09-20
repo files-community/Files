@@ -3526,4 +3526,11 @@
   <data name="ClearCompleted" xml:space="preserve">
     <value>Clear completed</value>
   </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in expanded StatusCenter card item when an file system operation is being held.</comment>
+  </data>
 </root>

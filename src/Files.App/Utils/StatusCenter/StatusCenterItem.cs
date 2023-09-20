@@ -27,6 +27,7 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
+		// TODO: Remove this string and its resources too
 		private string? _SubHeader;
 		public string? SubHeader
 		{
@@ -38,7 +39,11 @@ namespace Files.App.Utils.StatusCenter
 		public int ProgressPercentage
 		{
 			get => _ProgressPercentage;
-			set => SetProperty(ref _ProgressPercentage, value);
+			set
+			{
+				ProgressPercentageText = $"{value}%";
+				SetProperty(ref _ProgressPercentage, value);
+			}
 		}
 
 		private bool _IsExpanded;
@@ -48,9 +53,17 @@ namespace Files.App.Utils.StatusCenter
 			set
 			{
 				AnimatedIconState = value ? "NormalOn" : "NormalOff";
+				IsSubFooterVisible = !value;
 
 				SetProperty(ref _IsExpanded, value);
 			}
+		}
+
+		private bool _IsSubFooterVisible;
+		public bool IsSubFooterVisible
+		{
+			get => _IsSubFooterVisible;
+			set => SetProperty(ref _IsSubFooterVisible, value);
 		}
 
 		private string _AnimatedIconState = "NormalOff";
@@ -90,6 +103,27 @@ namespace Files.App.Utils.StatusCenter
 		{
 			get => _SpeedText;
 			set => SetProperty(ref _SpeedText, value);
+		}
+
+		private string? _CurrentProcessingItemNameText;
+		public string? CurrentProcessingItemNameText
+		{
+			get => _CurrentProcessingItemNameText;
+			set => SetProperty(ref _CurrentProcessingItemNameText, value);
+		}
+
+		private string? _CurrentProcessedSizeText;
+		public string? CurrentProcessedSizeText
+		{
+			get => _CurrentProcessedSizeText;
+			set => SetProperty(ref _CurrentProcessedSizeText, value);
+		}
+
+		private string? _ProgressPercentageText;
+		public string? ProgressPercentageText
+		{
+			get => _ProgressPercentageText;
+			set => SetProperty(ref _ProgressPercentageText, value);
 		}
 
 		public ObservableCollection<ObservablePoint> Values { get; set; }
@@ -263,8 +297,18 @@ namespace Files.App.Utils.StatusCenter
 					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
 
+					CurrentProcessedSizeText = string.Format(
+						"StatusCenter_ProcessedSize".GetLocalizedResource(),
+						value.ProcessedSize.ToSizeString(),
+						value.TotalSize.ToSizeString());
+
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
 					Values.Add(new(value.Percentage, value.ProcessingSizeSpeed));
+				}
+
+				if (CurrentProcessingItemNameText != value.FileName)
+				{
+					CurrentProcessingItemNameText = value.FileName;
 				}
 			}
 			else if (value.EnumerationCompleted)

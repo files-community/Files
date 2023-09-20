@@ -43,10 +43,7 @@
 								</Grid.Transitions>
 
 								<!--  Header  -->
-								<Grid
-									x:Name="StatusCenterItemHeaderPanel"
-									Grid.Row="0"
-									ColumnSpacing="12">
+								<Grid x:Name="StatusCenterItemHeaderPanel" Grid.Row="0">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="*" />
@@ -79,6 +76,7 @@
 									<StackPanel
 										x:Name="StatusCenterItemHeadedrPanel"
 										Grid.Column="1"
+										Margin="12,0"
 										VerticalAlignment="Center">
 
 										<TextBlock
@@ -105,10 +103,7 @@
 									</StackPanel>
 
 									<!--  Action Buttons  -->
-									<StackPanel
-										Grid.Column="2"
-										VerticalAlignment="Center"
-										Spacing="8">
+									<StackPanel Grid.Column="2" VerticalAlignment="Center">
 
 										<!--  Dismiss Item  -->
 										<Button
@@ -165,7 +160,7 @@
 								<Grid
 									x:Name="StatusCenterItemRichProgressDisplayPanel"
 									Grid.Row="1"
-									Margin="0,8"
+									Margin="0,8,0,8"
 									ColumnSpacing="4"
 									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 									<Grid.RowDefinitions>
@@ -177,7 +172,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 
-									<!--  ProgressBar  -->
+									<!--  Extended ProgressBar  -->
 									<ProgressBar
 										x:Name="MainProgressBar"
 										Margin="4,4,4,4"
@@ -187,63 +182,70 @@
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
 									<!--  Graph  -->
-									<Grid
+									<Border
 										x:Name="MainGraphCartesianChartClipGrid"
-										Height="64"
-										Margin="4,4,4,4"
+										Height="72"
+										Margin="4,4,4,12"
 										VerticalAlignment="Top"
 										BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
 										BorderThickness="1"
 										CornerRadius="4"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-										<ProgressBar
-											x:Name="SecondaryProgressBar"
-											Height="64"
-											MinHeight="64"
-											CornerRadius="4,0,0,4"
-											IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
-											Style="{StaticResource CustomProgressBarStyle}"
-											Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-											Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
+										<Grid>
+											<ProgressBar
+												x:Name="SecondaryProgressBar"
+												Height="70"
+												MinHeight="70"
+												VerticalAlignment="Stretch"
+												CornerRadius="4,0,0,4"
+												IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+												Style="{StaticResource CustomProgressBarStyle}"
+												Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+												Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
-										<livecharts2:CartesianChart
-											x:Name="MainCartesianChart"
-											Margin="0,-2"
-											AnimationsSpeed="00:00:00.001"
-											Series="{x:Bind Series, Mode=OneWay}"
-											TooltipPosition="Hidden"
-											XAxes="{x:Bind XAxes}"
-											YAxes="{x:Bind YAxes}" />
+											<livecharts2:CartesianChart
+												x:Name="MainCartesianChart"
+												Height="48"
+												Margin="0,-2"
+												VerticalAlignment="Bottom"
+												AnimationsSpeed="00:00:00.001"
+												Series="{x:Bind Series, Mode=OneWay}"
+												TooltipPosition="Hidden"
+												XAxes="{x:Bind XAxes}"
+												YAxes="{x:Bind YAxes}" />
 
-										<StackPanel Margin="8,4">
+											<StackPanel Margin="8,4">
 
-											<TextBlock
-												x:Name="OperationSpeedStringTextBlock"
-												HorizontalAlignment="Right"
-												VerticalAlignment="Top"
-												FontSize="10"
-												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-												Style="{StaticResource CaptionTextBlockStyle}"
-												Text="Speed:" />
+												<TextBlock
+													x:Name="OperationSpeedStringTextBlock"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													FontSize="10"
+													Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+													Style="{StaticResource CaptionTextBlockStyle}"
+													Text="Speed:" />
 
-											<TextBlock
-												x:Name="OperationSpeedPerSecTextBlock"
-												HorizontalAlignment="Right"
-												VerticalAlignment="Top"
-												FontSize="13"
-												Style="{StaticResource BodyStrongTextBlockStyle}"
-												Text="{x:Bind SpeedText, Mode=OneWay}" />
+												<TextBlock
+													x:Name="OperationSpeedPerSecTextBlock"
+													HorizontalAlignment="Right"
+													VerticalAlignment="Top"
+													FontSize="13"
+													Style="{StaticResource BodyStrongTextBlockStyle}"
+													Text="{x:Bind SpeedText, Mode=OneWay}" />
 
-										</StackPanel>
+											</StackPanel>
+										</Grid>
 
-									</Grid>
+									</Border>
 
-									<!--  Processed Bytes & Estimated Time Display  -->
+									<!--  Footer  -->
 									<Grid
 										Grid.Row="1"
 										Margin="4,0"
 										VerticalAlignment="Top">
+
+										<!--  SubFooter (Displayed When Graph Expanded)  -->
 										<TextBlock
 											x:Name="StatusCenterItemSubFooterTextBlock"
 											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
@@ -254,7 +256,38 @@
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap"
 											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}"
-											Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+											Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+										<!--  Detailed Info (Displayed When Graph Collapsed)  -->
+										<StackPanel Spacing="2" Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
+
+											<TextBlock
+												x:Name="StatusCenterItemCurrentProcessingItemNameTextBlock"
+												x:Load="{x:Bind CurrentProcessingItemNameText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+												MaxLines="1"
+												Style="{StaticResource BodyTextBlockStyle}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap"
+												ToolTipService.ToolTip="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}">
+												<Run Text="{helpers:ResourceString Name=NameWithColon}" />
+												<Run Text="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}" />
+											</TextBlock>
+
+											<TextBlock
+												x:Name="StatusCenterItemProcessedBytesAndProgressTextBlock"
+												x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												MaxLines="1"
+												Style="{StaticResource CaptionTextBlockStyle}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap"
+												Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+												<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
+												<Run Text="-" />
+												<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
+											</TextBlock>
+
+										</StackPanel>
 
 									</Grid>
 
