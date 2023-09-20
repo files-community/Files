@@ -260,55 +260,55 @@ namespace Files.App.Utils.StatusCenter
 			{
 				if (ProgressPercentage != value.Percentage)
 				{
-					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
+				}
+			}
 
+			ObservablePoint point;
+			switch (value.TotalSize, value.ItemsCount)
+			{
+				// In progress, displaying items count & processed size
+				case (not 0, not 0):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s";
+					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+					break;
+				// In progress, displaying processed size
+				case (not 0, _):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
-					Values.Add(new(value.Percentage, value.ProcessingSizeSpeed));
-				}
+					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+					break;
+				// In progress, displaying items count
+				case (_, not 0):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount), 0, 100);
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
+					point = new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed);
+					break;
+				default:
+					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
+					SpeedText = (value.ProcessedSize, value.ProcessedItemsCount) switch
+					{
+						(not 0, not 0) => $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s",
+						(not 0, _) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
+						(_, not 0) => $"{value.ProcessingItemsCountSpeed:0} items/s",
+						_ => "N/A",
+					};
+					break;
 			}
-			else if (value.EnumerationCompleted)
+
+			if (Values.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
 			{
-				switch (value.TotalSize, value.ItemsCount)
-				{
-					// In progress, displaying items count & processed size
-					case (not 0, not 0):
-						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
-						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
-						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
-						break;
-					// In progress, displaying processed size
-					case (not 0, _):
-						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
-						SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
-						Values.Add(new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed));
-						break;
-					// In progress, displaying items count
-					case (_, not 0):
-						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
-						Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
-
-						SpeedText = $"{value.ProcessedItemsCount:0} items/s";
-						Values.Add(new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed));
-						break;
-					default:
-						Header = $"{HeaderBody}";
-						break;
-				}
+				Values.Remove(existingPoint);
 			}
-			else
+
+			Values.Add(point);
+
+			Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
+
+			if (value.FileName is not null)
 			{
-				Header = (value.ProcessedSize, value.ProcessedItemsCount) switch
-				{
-					(not 0, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
-					(not 0, _) => $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / ...)",
-					(_, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{HeaderBody}",
-				};
+				SubHeader = value.FileName;
 			}
 
 			_viewModel.NotifyChanges();

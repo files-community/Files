@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Storage.Operations;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -201,14 +202,19 @@ namespace Files.App.Utils.Storage
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				fileToDeletePath.Count());
+				false,
+				FileSystemStatusCode.InProgress);
 
 			var cts = new CancellationTokenSource();
-			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToDeletePath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
-			var sizeTask = ComputeTotalSize();
+			var sizeCalculator = new FileSizeCalculator(fileToDeletePath);
+			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+			sizeTask.ContinueWith(_ =>
+			{
+				fsProgress.TotalSize = 0;
+				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report();
+			});
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -269,27 +275,23 @@ namespace Files.App.Utils.Storage
 					// E_FAIL, stops operation
 					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
-				};
 
-				op.PreDeleteItem += (s, e) =>
-				{
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
-				};
-				op.PostDeleteItem += (s, e) =>
-				{
-					if (sizeTask.IsCompleted)
-						return;
-					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
-					var op = progressHandler.GetOperation(operationID);
-					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0)
-						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
 				// Right after deleted item
 				op.PostDeleteItem += (s, e) =>
 				{
+					if (!e.SourceItem.IsFolder)
+					{
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						{
+							fsProgress.AddProcessedItemsCount(1);
+						}
+					}
+
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
@@ -404,14 +406,19 @@ namespace Files.App.Utils.Storage
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				fileToMovePath.Count());
+				false,
+				FileSystemStatusCode.InProgress);
 
 			var cts = new CancellationTokenSource();
-			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToMovePath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
-			var sizeTask = ComputeTotalSize();
+			var sizeCalculator = new FileSizeCalculator(fileToMovePath);
+			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+			sizeTask.ContinueWith(_ =>
+			{
+				fsProgress.TotalSize = sizeCalculator.Size;
+				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report();
+			});
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -467,22 +474,22 @@ namespace Files.App.Utils.Storage
 
 				op.PreMoveItem += (s, e) =>
 				{
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
-				};
-				op.PostMoveItem += (s, e) =>
-				{
-					if (sizeTask.IsCompleted)
-						return;
-					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
-					var op = progressHandler.GetOperation(operationID);
-					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0)
-						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
 				op.PostMoveItem += (s, e) =>
 				{
+					if (!e.SourceItem.IsFolder)
+					{
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
+						{
+							fsProgress.AddProcessedSize(size);
+							fsProgress.AddProcessedItemsCount(1);
+						}
+					}
+
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
@@ -490,10 +497,9 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
+					
+					UpdateFileTagsDb(e, "move");
 				};
-
-				op.PostMoveItem += (_, e)
-					=> UpdateFileTagsDb(e, "move");
 
 				op.FinishOperations += (s, e)
 					=> moveTcs.TrySetResult(e.Result.Succeeded);
@@ -531,14 +537,19 @@ namespace Files.App.Utils.Storage
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
-				true,
-				FileSystemStatusCode.InProgress,
-				fileToCopyPath.Count());
+				false,
+				FileSystemStatusCode.InProgress);
 
 			var cts = new CancellationTokenSource();
-			async Task ComputeTotalSize()
-				=> fsProgress.TotalSize = await Task.Run(() => fileToCopyPath.Select(e => GetFileOrFolderSize(e, cts.Token)).Sum());
-			var sizeTask = ComputeTotalSize();
+			var sizeCalculator = new FileSizeCalculator(fileToCopyPath);
+			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+			sizeTask.ContinueWith(_ =>
+			{
+				fsProgress.TotalSize = sizeCalculator.Size;
+				fsProgress.ItemsCount = sizeCalculator.ItemsCount;
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report();
+			});
 
 			fsProgress.Report();
 			progressHandler ??= new();
@@ -595,22 +606,22 @@ namespace Files.App.Utils.Storage
 				var copyTcs = new TaskCompletionSource<bool>();
 				op.PreCopyItem += (s, e) =>
 				{
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
-				};
-				op.PostCopyItem += (s, e) =>
-				{
-					if (sizeTask.IsCompleted)
-						return;
-					var fileSize = GetFileSize(e.SourceItem.FileSystemPath);
-					var op = progressHandler.GetOperation(operationID);
-					op.ProcessedSize += fileSize;
-					if (op.Progress is not 0)
-						fsProgress.TotalSize = (long)(op.ProcessedSize/op.Progress*100); // Estimate
 				};
 
 				op.PostCopyItem += (s, e) =>
 				{
+					if (!e.SourceItem.IsFolder)
+					{
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
+						{
+							fsProgress.AddProcessedSize(size);
+							fsProgress.AddProcessedItemsCount(1);
+						}
+					}
+
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
 					{
 						Succeeded = e.Result.Succeeded,
@@ -618,10 +629,9 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
+					
+					UpdateFileTagsDb(e, "copy");
 				};
-
-				op.PostCopyItem += (_, e)
-					=> UpdateFileTagsDb(e, "copy");
 
 				op.FinishOperations += (s, e)
 					=> copyTcs.TrySetResult(e.Result.Succeeded);
@@ -993,8 +1003,6 @@ namespace Files.App.Utils.Storage
 						break;
 				}
 				while (Kernel32.FindNextFile(hFile, out findData));
-
-				Kernel32.FindClose(hFile.DangerousGetHandle());
 
 				return size;
 			}

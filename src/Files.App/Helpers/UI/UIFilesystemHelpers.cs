@@ -54,7 +54,7 @@ namespace Files.App.Helpers
 					{
 						if (banner is not null)
 						{
-							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.AddProcessedItemsCount(1);
 							banner.Progress.Report();
 						}
 
@@ -163,7 +163,7 @@ namespace Files.App.Helpers
 					{
 						if (banner is not null)
 						{
-							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.AddProcessedItemsCount(1);
 							banner.Progress.Report();
 						}
 
