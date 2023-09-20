@@ -1512,8 +1512,8 @@
   <data name="StatusRecycleCancelled" xml:space="preserve">
     <value>Recycle cancelled</value>
   </data>
-  <data name="canceling" xml:space="preserve">
-    <value>canceling</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling...</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>

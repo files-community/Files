@@ -365,7 +365,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				_operationCancellationToken?.Cancel();
 				IsCancelled = true;
-				Header = $"{HeaderBody} ({"canceling".GetLocalizedResource()})";
+				Header = $"{HeaderBody} ({"Canceling".GetLocalizedResource()})";
 			}
 		}
 	}
