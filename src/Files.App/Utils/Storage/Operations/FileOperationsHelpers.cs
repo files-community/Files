@@ -481,7 +481,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -611,7 +611,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
