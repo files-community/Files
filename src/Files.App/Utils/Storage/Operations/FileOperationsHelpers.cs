@@ -287,9 +287,7 @@ namespace Files.App.Utils.Storage
 					if (!e.SourceItem.IsFolder)
 					{
 						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
-						{
 							fsProgress.AddProcessedItemsCount(1);
-						}
 					}
 
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -483,11 +481,8 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
-						{
-							fsProgress.AddProcessedSize(size);
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
 							fsProgress.AddProcessedItemsCount(1);
-						}
 					}
 
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -616,11 +611,8 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out var size))
-						{
-							fsProgress.AddProcessedSize(size);
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
 							fsProgress.AddProcessedItemsCount(1);
-						}
 					}
 
 					shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -1021,7 +1013,6 @@ namespace Files.App.Utils.Storage
 			{
 				public double Progress { get; set; }
 				public bool Canceled { get; set; }
-				public double ProcessedSize { get; set; }
 			}
 
 			private readonly Shell32.ITaskbarList4 taskbar;
