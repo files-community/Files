@@ -135,9 +135,9 @@ namespace Files.App.Utils.StatusCenter
 			_dirtyTracker[nameof(ProcessedItemsCount)] = true;
 		}
 
-		public void AddProcessedSize(long value)
+		public void SetProcessedSize(long value)
 		{
-			Interlocked.Add(ref _ProcessedSize, value);
+			Interlocked.Exchange(ref _ProcessedSize, value);
 			_dirtyTracker[nameof(ProcessedSize)] = true;
 		}
 
@@ -182,6 +182,8 @@ namespace Files.App.Utils.StatusCenter
 
 				if (percentage is not null && Percentage != percentage)
 				{
+					SetProcessedSize((long)(TotalSize * percentage / 100));
+
 					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
 
 					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
