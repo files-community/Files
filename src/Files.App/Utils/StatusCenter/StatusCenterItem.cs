@@ -309,31 +309,42 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			ObservablePoint point;
+
 			switch (value.TotalSize, value.ItemsCount)
 			{
 				// In progress, displaying items count & processed size
 				case (not 0, not 0):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
-					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s";
+
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+
 					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+
 					break;
 				// In progress, displaying processed size
 				case (not 0, _):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+
 					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+
 					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+
 					break;
 				// In progress, displaying items count
 				case (_, not 0):
 					ProgressPercentage = Math.Clamp((int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount), 0, 100);
+
 					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
+
 					point = new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed);
+
 					break;
 				default:
 					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
+
 					SpeedText = (value.ProcessedSize, value.ProcessedItemsCount) switch
 					{
-						(not 0, not 0) => $"{value.ProcessingItemsCountSpeed:0} items ({value.ProcessingSizeSpeed.ToSizeString()})/s",
+						(not 0, not 0) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
 						(not 0, _) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
 						(_, not 0) => $"{value.ProcessingItemsCountSpeed:0} items/s",
 						_ => "N/A",
