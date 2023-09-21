@@ -330,7 +330,7 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, "Files-Instance");
+				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
 				if (Program.Pool.WaitOne())
 				{

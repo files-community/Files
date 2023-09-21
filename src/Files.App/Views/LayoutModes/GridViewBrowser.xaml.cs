@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.EventArguments;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;

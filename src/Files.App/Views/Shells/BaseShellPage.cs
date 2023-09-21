@@ -124,6 +124,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
+		protected TaskCompletionSource _IsCurrentInstanceTCS = new();
 		protected bool _IsCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
@@ -137,10 +138,19 @@ namespace Files.App.Views.Shells
 					if (!value && SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
+					if (value)
+						_IsCurrentInstanceTCS.TrySetResult();
+					else
+						_IsCurrentInstanceTCS = new();
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
 		}
+
+		public virtual bool IsCurrentPane => IsCurrentInstance;
+
+		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{

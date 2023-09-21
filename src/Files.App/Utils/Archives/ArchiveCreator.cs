@@ -182,20 +182,17 @@ namespace Files.App.Utils.Archives
 		{
 			if (++_processedItems == _itemsAmount)
 			{
-				_fileSystemProgress.Percentage = null;
 				_fileSystemProgress.ReportStatus(FileSystemStatusCode.Success);
 			}
 			else
 			{
-				_fileSystemProgress.Percentage = _processedItems * 100 / _itemsAmount;
-				_fileSystemProgress.Report(_fileSystemProgress.Percentage);
+				_fileSystemProgress.Report(_processedItems * 100.0 / _itemsAmount);
 			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			_fileSystemProgress.Percentage += e.PercentDelta / _itemsAmount;
-			_fileSystemProgress.Report(_fileSystemProgress.Percentage);
+			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
 		}
 	}
 }
