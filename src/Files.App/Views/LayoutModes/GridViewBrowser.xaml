@@ -407,7 +407,7 @@
 							Grid.Row="0"
 							Grid.RowSpan="3"
 							MaxHeight="60"
-							HorizontalAlignment="Left"
+							HorizontalAlignment="Stretch"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 							Canvas.ZIndex="1"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"
