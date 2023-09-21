@@ -32,6 +32,8 @@ namespace Files.App.Services
 				{ typeof(ReorderSidebarItemsDialogViewModel), () => new ReorderSidebarItemsDialog() },
 				{ typeof(AddBranchDialogViewModel), () => new AddBranchDialog() },
 				{ typeof(GitHubLoginDialogViewModel), () => new GitHubLoginDialog() },
+				{ typeof(FileTooLargeDialogViewModel), () => new FileTooLargeDialog() },
+				{ typeof(ReleaseNotesDialogViewModel), () => new ReleaseNotesDialog() },
 			};
 		}
 

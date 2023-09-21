@@ -12,12 +12,17 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+
+		private DateTimeFormats _lastDateTimeFormats;
+
 		private Task _gitFetch = Task.CompletedTask;
 
 		private CancellationTokenSource _gitFetchToken = new CancellationTokenSource();
@@ -118,6 +123,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
+		protected TaskCompletionSource _IsCurrentInstanceTCS = new();
 		protected bool _IsCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
@@ -131,10 +137,19 @@ namespace Files.App.Views.Shells
 					if (!value && SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
+					if (value)
+						_IsCurrentInstanceTCS.TrySetResult();
+					else
+						_IsCurrentInstanceTCS = new();
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
 		}
+
+		public virtual bool IsCurrentPane => IsCurrentInstance;
+
+		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{
@@ -194,6 +209,12 @@ namespace Files.App.Views.Shells
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+			_updateDateDisplayTimer.Start();
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -724,6 +745,19 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
+			{
+				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+				FilesystemViewModel?.UpdateDateDisplay(true);
+			}
+			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
+			{
+				FilesystemViewModel?.UpdateDateDisplay(false);
+			}
+		}
+
 		public virtual void Dispose()
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
@@ -762,6 +796,8 @@ namespace Files.App.Views.Shells
 				disposableContent?.Dispose();
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

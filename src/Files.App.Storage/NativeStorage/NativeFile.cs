@@ -15,13 +15,13 @@ namespace Files.App.Storage.NativeStorage
 	/// <inheritdoc cref="IFile"/>
 	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
 	{
-		public NativeFile(FileInfo fileInfo)
-			: base(fileInfo)
+		public NativeFile(FileInfo fileInfo, string? name = null)
+			: base(fileInfo, name)
 		{
 		}
 
-		public NativeFile(string path)
-			: this(new FileInfo(path))
+		public NativeFile(string path, string? name = null)
+			: this(new FileInfo(path), name)
 		{
 		}
 

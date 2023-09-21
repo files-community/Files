@@ -198,6 +198,8 @@ namespace Files.App.Utils.Storage
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
+			if (string.IsNullOrEmpty(folder))
+				matches = matches.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.FilePath));
 
 			foreach (var match in matches)
 			{
@@ -384,7 +386,7 @@ namespace Files.App.Utils.Storage
 			}
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, isFolder)
+				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail, isFolder)
 					.ContinueWith((t) =>
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)

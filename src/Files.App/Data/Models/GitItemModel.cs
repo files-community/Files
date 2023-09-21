@@ -14,7 +14,7 @@ namespace Files.App.Data.Models
 		/// <remarks>
 		/// This is often showed as A(Added), D(Deleted), M(Modified), U(Untracked) in VS Code.
 		/// </remarks>
-		public ChangeKind Status { get; init; }
+		public ChangeKind? Status { get; init; }
 		
 		/// <summary>
 		/// Gets or initializes file change kind icon

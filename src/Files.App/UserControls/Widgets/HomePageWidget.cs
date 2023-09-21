@@ -1,21 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Helpers;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.Services;
-using Files.App.ViewModels;
-using Files.Core.Services.Settings;
 using Files.Core.Storage;
-using Files.Shared.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.UserControls.Widgets
@@ -36,6 +27,7 @@ namespace Files.App.UserControls.Widgets
 		public ICommand UnpinFromFavoritesCommand;
 
 		protected CommandBarFlyout ItemContextMenuFlyout;
+		protected string FlyouItemPath;
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
@@ -54,13 +46,18 @@ namespace Files.App.UserControls.Widgets
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
+			FlyouItemPath = item.Path;
+			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
-
-			_ = ShellContextmenuHelper.LoadShellMenuItems(item.Path, itemContextMenuFlyout);
 
 			e.Handled = true;
 		}
 
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
+		{
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
+			await ShellContextmenuHelper.LoadShellMenuItems(FlyouItemPath, ItemContextMenuFlyout);
+		}
 
 		public async Task OpenInNewTab(WidgetCardItem item)
 		{

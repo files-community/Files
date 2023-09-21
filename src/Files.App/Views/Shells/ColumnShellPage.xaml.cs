@@ -13,6 +13,9 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
+		public override bool IsCurrentPane
+			=> this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+
 		public override bool CanNavigateBackward
 			=> false;
 
@@ -66,7 +69,8 @@ namespace Files.App.Views.Shells
 					NavPathParam = ColumnParams.NavPathParam,
 					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
-					AssociatedTabInstance = this
+					AssociatedTabInstance = this,
+					SelectItems = ColumnParams.SelectItems
 				});
 		}
 
@@ -174,6 +178,9 @@ namespace Files.App.Views.Shells
 			this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.NavigateHome();
 		}
 
+		public override Task WhenIsCurrent()
+			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
@@ -195,8 +202,5 @@ namespace Files.App.Views.Shells
 
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
-
-		private async Task CreateNewShortcutFromDialog()
-			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

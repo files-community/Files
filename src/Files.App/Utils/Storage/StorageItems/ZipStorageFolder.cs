@@ -1,9 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using SevenZip;
-using SQLitePCL;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -229,7 +228,7 @@ namespace Files.App.Utils.Storage
 				var items = new List<IStorageItem>();
 				foreach (var entry in zipFile.ArchiveFileData) // Returns all items recursively
 				{
-					string winPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(containerPath, entry.FileName));
+					string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.FileName);
 					if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
 					{
 						var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
@@ -333,6 +332,9 @@ namespace Files.App.Utils.Storage
 				return folder;
 			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
 		}
+
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option) => throw new NotSupportedException();
 
 		public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)

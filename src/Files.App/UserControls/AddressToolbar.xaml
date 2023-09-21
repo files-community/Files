@@ -208,12 +208,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		x:Name="ToolbarGrid"
-		HorizontalAlignment="Stretch"
-		VerticalAlignment="Stretch"
-		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
-		ColumnSpacing="0">
+	<Grid x:Name="RootGrid" Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}">
 		<Grid Padding="8" ColumnSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -222,6 +217,7 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Page Navigation Actions  -->
 			<StackPanel
 				Grid.Row="1"
 				Orientation="Horizontal"
@@ -278,6 +274,7 @@
 				</Button>
 			</StackPanel>
 
+			<!--  Path Box  -->
 			<AutoSuggestBox
 				x:Name="VisiblePath"
 				Grid.Column="1"
@@ -337,6 +334,7 @@
 				</AutoSuggestBox.ItemTemplate>
 			</AutoSuggestBox>
 
+			<!--  Path Breadcrumb Bar  -->
 			<Grid
 				x:Name="ClickablePath"
 				Grid.Column="1"
@@ -368,6 +366,7 @@
 					Glyph="&#xE70D;" />
 			</Grid>
 
+			<!--  Storage Search Box  -->
 			<uc:SearchBox
 				x:Name="SearchRegion"
 				Grid.Column="2"
@@ -384,9 +383,12 @@
 				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
+			<!--  Right Side Action Buttons  -->
 			<StackPanel Grid.Column="3" Orientation="Horizontal">
+
+				<!--  Mini Search Button  -->
 				<Button
-					x:Name="SearchButton"
+					x:Name="ShowSearchButton"
 					AccessKey="I"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
 					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
@@ -397,59 +399,70 @@
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
-				<Grid Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
-					<Button
-						x:Name="OngoingTasks"
-						Padding="0"
-						AccessKey="T"
-						AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-						Style="{StaticResource AddressToolbarButtonStyle}"
-						ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}">
-						<Button.Content>
-							<Grid>
-								<FontIcon
-									x:Name="OngoingTasksFontIcon"
-									x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									FontSize="16"
-									Glyph="&#xF16A;" />
-
-								<ProgressRing
-									x:Name="MedianOperationProgressRing"
-									Width="20"
-									Height="20"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
-									IsIndeterminate="False"
-									Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
-							</Grid>
-						</Button.Content>
-						<Button.Flyout>
-							<Flyout
-								contract8Present:ShouldConstrainToRootBounds="False"
-								AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-								Placement="Bottom">
-								<uc:OngoingTasksFlyout
-									x:Name="OngoingTasksControl"
-									Width="400"
-									MinHeight="300"
-									MaxHeight="500"
-									x:FieldModifier="public"
-									IsTabStop="True"
-									OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
-							</Flyout>
-						</Button.Flyout>
-					</Button>
-					<InfoBadge
-						x:Name="StatusInfoBadge"
-						HorizontalAlignment="Right"
-						VerticalAlignment="Top"
-						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
-				</Grid>
-
-				<!--  Install Update Notification  -->
+				<!--  Status Center  -->
 				<Button
-					x:Name="UpdateButton"
+					x:Name="ShowStatusCenterButton"
+					Padding="0"
+					AccessKey="T"
+					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
+					Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
+
+					<Grid Margin="-16">
+
+						<FontIcon
+							x:Name="OngoingTasksFontIcon"
+							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							FontSize="16"
+							Glyph="&#xF16A;" />
+
+						<ProgressRing
+							x:Name="MedianOperationProgressRing"
+							Width="20"
+							Height="20"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
+							Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+							IsIndeterminate="False"
+							Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
+
+						<InfoBadge
+							x:Name="StatusInfoBadge"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+
+					</Grid>
+
+					<Button.Flyout>
+						<Flyout
+							contract8Present:ShouldConstrainToRootBounds="False"
+							AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+							Placement="BottomEdgeAlignedRight">
+							<Flyout.FlyoutPresenterStyle>
+								<Style TargetType="FlyoutPresenter">
+									<Setter Property="Padding" Value="0" />
+									<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+								</Style>
+							</Flyout.FlyoutPresenterStyle>
+
+							<uc:StatusCenter
+								x:Name="OngoingTasksControl"
+								Width="400"
+								MinHeight="300"
+								MaxHeight="500"
+								x:FieldModifier="public"
+								IsTabStop="True" />
+						</Flyout>
+					</Button.Flyout>
+
+				</Button>
+
+				<!--  Update The Files App Button When An Update Available  -->
+				<Button
+					x:Name="UpdateAppButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
@@ -478,23 +491,24 @@
 					</Grid>
 				</Button>
 
-				<!--  Update Release Notes  -->
+				<!--  Show The Latest Version Release Note  -->
 				<Button
-					x:Name="ViewReleaseNotesButton"
+					x:Name="ShowReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
+					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
 						Glyph="&#xF133;" />
 				</Button>
 
+				<!--  Show The Files App Settings Dialog  -->
 				<Button
 					x:Name="SettingsButton"
 					AccessKey="I"
@@ -514,53 +528,16 @@
 						</AnimatedIcon.FallbackIconSource>
 					</AnimatedIcon>
 				</Button>
+
 			</StackPanel>
 
+			<!--  Status Center TeachingTip  -->
 			<TeachingTip
 				x:Name="StatusCenterTeachingTip"
 				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
 				IsOpen="False"
 				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
-				Target="{x:Bind OngoingTasks}" />
-
-			<!--  Release Notes Teaching Tip  -->
-			<TeachingTip
-				x:Name="ReleaseNotesTeachingTip"
-				IsLightDismissEnabled="True"
-				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
-				Target="{x:Bind ViewReleaseNotesButton}">
-
-				<!--  Sponsor Button  -->
-				<TeachingTip.HeroContent>
-					<Border
-						Padding="12"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,1,0,0">
-
-						<HyperlinkButton
-							HorizontalAlignment="Center"
-							Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-							NavigateUri="https://github.com/sponsors/yaira2" />
-					</Border>
-				</TeachingTip.HeroContent>
-
-				<!--  Markdown Content  -->
-				<TeachingTip.Content>
-					<ScrollViewer
-						MinHeight="300"
-						MaxHeight="400"
-						Margin="-12"
-						Padding="12"
-						HorizontalScrollMode="Auto"
-						VerticalScrollMode="Auto">
-						<controls:MarkdownTextBlock
-							Background="Transparent"
-							ListGutterWidth="16"
-							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
-					</ScrollViewer>
-				</TeachingTip.Content>
-			</TeachingTip>
+				Target="{x:Bind ShowStatusCenterButton}" />
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>

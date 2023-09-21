@@ -146,17 +146,6 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 		}
 
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-			}
-		}
-
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ListViewTextBoxItemName");
@@ -248,12 +237,7 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (!IsRenamingItem)
-				HandleRightClick(sender, e);
-		}
-
-		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
-		{
-			HandleRightClick(e.OriginalSource);
+				HandleRightClick();
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -372,24 +356,15 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
-			HandleRightClick(sender, e);
+			HandleRightClick();
 		}
 
-		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
+		private void HandleRightClick()
 		{
-			HandleRightClick(e.OriginalSource);
-		}
-
-		private void HandleRightClick(object pressed)
-		{
-			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
-
-			// Check if RightTapped row is currently selected
-			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
-				return;
-
-			// The following code is only reachable when a user RightTapped an unselected row
-			ItemManipulationModel.SetSelectedItem(objectPressed);
+			if (ParentShellPageInstance is UIElement element &&
+				(!ParentShellPageInstance.IsCurrentPane
+				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+				element.Focus(FocusState.Programmatic);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -472,6 +447,13 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+				// Reassign values to update date display
+				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
 		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)

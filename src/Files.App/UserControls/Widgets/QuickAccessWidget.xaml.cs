@@ -1,29 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
-
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Helpers;
-using Files.App.ViewModels;
 using Files.App.ViewModels.Widgets;
-using Files.Core.Services.Settings;
-using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
@@ -76,7 +60,6 @@ namespace Files.App.UserControls.Widgets
 			set => SetProperty(ref thumbnail, value);
 		}
 		public LocationItem Item { get; private set; }
-		public ICommand SelectCommand { get; set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
 
@@ -96,7 +79,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			if (thumbnailData is null || thumbnailData.Length == 0)
 			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem);
+				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
@@ -109,13 +92,16 @@ namespace Files.App.UserControls.Widgets
 	{
 		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		public ObservableCollection<FolderCardItem> ItemsAdded = new();
+		public static ObservableCollection<FolderCardItem> ItemsAdded = new();
+
+		static QuickAccessWidget()
+		{
+			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
+		}
 
 		public QuickAccessWidget()
 		{
 			InitializeComponent();
-
-			QuickAccessCardCommand = new AsyncRelayCommand<FolderCardItem>(OpenCard);
 
 			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
@@ -126,8 +112,6 @@ namespace Files.App.UserControls.Widgets
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
 			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
 			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
-
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -151,8 +135,6 @@ namespace Files.App.UserControls.Widgets
 		public bool ShowMenuFlyout => false;
 
 		public MenuFlyoutItem? MenuFlyoutItem => null;
-
-		public ICommand QuickAccessCardCommand { get; }
 
 		public ICommand OpenPropertiesCommand;
 		public ICommand OpenInNewPaneCommand;
@@ -274,7 +256,6 @@ namespace Files.App.UserControls.Widgets
 						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
-							SelectCommand = QuickAccessCardCommand
 						});
 					}
 
@@ -291,7 +272,6 @@ namespace Files.App.UserControls.Widgets
 						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
-							SelectCommand = QuickAccessCardCommand
 						});
 					}
 				}
@@ -306,16 +286,10 @@ namespace Files.App.UserControls.Widgets
 			Loaded -= QuickAccessWidget_Loaded;
 
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-
-			foreach (var itemToAdd in itemsToAdd)
+			ModifyItem(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
 			{
-				var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd.FilePath);
-				ItemsAdded.Add(new FolderCardItem(item, Path.GetFileName(item.Text), (bool?)itemToAdd.Properties["System.Home.IsPinned"] ?? false)
-				{
-					Path = item.Path,
-					SelectCommand = QuickAccessCardCommand
-				});
-			}
+				Reset = true
+			});
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
 		}
@@ -326,7 +300,7 @@ namespace Files.App.UserControls.Widgets
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
 		}
 
-		private async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
@@ -402,22 +376,22 @@ namespace Files.App.UserControls.Widgets
 			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
-		private Task OpenCard(FolderCardItem item)
+		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (string.IsNullOrEmpty(item.Path))
-			{
-				return Task.CompletedTask;
-			}
+			string ClickedCard = (sender as Button).Tag.ToString();
+			string NavigationPath = ClickedCard; // path to navigate
+
+			if (string.IsNullOrEmpty(NavigationPath))
+				return;
 
 			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				return NavigationHelpers.OpenPathInNewTab(item.Path);
+				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
+				return;
 			}
 
-			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
-
-			return Task.CompletedTask;
+			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = NavigationPath });
 		}
 
 		public Task RefreshWidget()
@@ -427,7 +401,6 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose() 
 		{
-			ItemsAdded.CollectionChanged -= ItemsAdded_CollectionChanged;
 		}
 	}
 }

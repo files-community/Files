@@ -1,9 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Services;
 using Files.App.UserControls.Widgets;
 using System.Collections.Specialized;
 using System.IO;

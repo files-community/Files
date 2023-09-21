@@ -1,11 +1,17 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using CommunityToolkit.WinUI.Helpers;
+using Files.App.Converters;
 using Files.Core.ViewModels.FileTags;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public class FileTagItem : INavigationControlItem
+	public class FileTagItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -16,7 +22,8 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = Text;
+				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(ToolTip));
 			}
 		}
 
@@ -33,5 +40,20 @@ namespace Files.App.Data.Items
 			=> Text.CompareTo(other.Text);
 
 		public TagViewModel FileTag { get; set; }
+
+		public object? Children => null;
+
+		public IconSource? IconSource
+		{
+			get => new PathIconSource()
+			{
+				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["ColorIconFilledTag"]),
+				Foreground = new SolidColorBrush(FileTag.Color.ToColor())
+			};
+		}
+
+		public object ToolTip => Text;
+
+		public bool IsExpanded { get => false; set { } }
 	}
 }

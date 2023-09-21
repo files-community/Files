@@ -1,13 +1,10 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.UserControls.MultitaskingControl;
-using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
-using System.ComponentModel;
 
 namespace Files.App.Data.Contexts
 {
@@ -46,7 +43,8 @@ namespace Files.App.Data.Contexts
 		}
 		private void AppModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			UpdateCurrentTabIndex();
+			if (e.PropertyName is nameof(AppModel.TabStripSelectedIndex))
+				UpdateCurrentTabIndex();
 		}
 		private void BaseMultitaskingControl_OnLoaded(object? sender, IMultitaskingControl control)
 		{
