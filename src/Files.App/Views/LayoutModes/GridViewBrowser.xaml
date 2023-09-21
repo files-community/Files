@@ -248,7 +248,6 @@
 		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
-					x:Name="MainGrid"
 					MaxHeight="68"
 					Padding="0"
 					HorizontalAlignment="Left"
