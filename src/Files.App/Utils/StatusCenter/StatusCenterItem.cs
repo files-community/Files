@@ -27,14 +27,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
-		// TODO: Remove this string and its resources too
-		private string? _SubHeader;
-		public string? SubHeader
-		{
-			get => _SubHeader;
-			set => SetProperty(ref _SubHeader, value);
-		}
-
 		private int _ProgressPercentage;
 		public int ProgressPercentage
 		{
@@ -77,11 +69,7 @@ namespace Files.App.Utils.StatusCenter
 		public bool IsInProgress
 		{
 			get => _IsInProgress;
-			set
-			{
-				if (SetProperty(ref _IsInProgress, value))
-					OnPropertyChanged(nameof(SubHeader));
-			}
+			set => SetProperty(ref _IsInProgress, value);
 		}
 
 		private bool _IsCancelled;
@@ -124,6 +112,13 @@ namespace Files.App.Utils.StatusCenter
 		{
 			get => _ProgressPercentageText;
 			set => SetProperty(ref _ProgressPercentageText, value);
+		}
+
+		private string? _ProgressOverviewText;
+		public string? ProgressOverviewText
+		{
+			get => _ProgressOverviewText;
+			set => SetProperty(ref _ProgressOverviewText, value);
 		}
 
 		public ObservableCollection<ObservablePoint> Values { get; set; }
@@ -178,7 +173,6 @@ namespace Files.App.Utils.StatusCenter
 		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
-			SubHeader = message;
 			HeaderBody = title;
 			Header = title;
 			FileSystemOperationReturnResult = status;
@@ -245,7 +239,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case ReturnResult.Success:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
+						if (string.IsNullOrWhiteSpace(HeaderBody))
 							throw new NotImplementedException();
 
 						Header = HeaderBody;
@@ -257,7 +251,7 @@ namespace Files.App.Utils.StatusCenter
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
+						if (string.IsNullOrWhiteSpace(HeaderBody))
 							throw new NotImplementedException();
 
 						Header = HeaderBody;
@@ -295,9 +289,7 @@ namespace Files.App.Utils.StatusCenter
 				}
 
 				if (CurrentProcessingItemNameText != value.FileName)
-				{
 					CurrentProcessingItemNameText = value.FileName;
-				}
 			}
 
 			ObservablePoint point;
@@ -345,16 +337,12 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			if (Values.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
-			{
 				Values.Remove(existingPoint);
-			}
 
 			Values.Add(point);
 
 			Header = $"{HeaderBody} ({ProgressPercentage}%)";
-
-			if (value.FileName is not null)
-				SubHeader = value.FileName;
+			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} - {ProgressPercentage}%";
 
 			_viewModel.NotifyChanges();
 			_viewModel.UpdateAverageProgressValue();

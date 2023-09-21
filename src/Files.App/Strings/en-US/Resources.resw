@@ -3494,4 +3494,7 @@
     <value>{0} of {1} processed</value>
     <comment>Shown in expanded StatusCenter card item when an file system operation is being held.</comment>
   </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>items</value>
+  </data>
 </root>
