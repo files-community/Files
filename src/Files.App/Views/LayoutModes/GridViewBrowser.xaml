@@ -409,7 +409,6 @@
 							HorizontalAlignment="Stretch"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 							Canvas.ZIndex="1"
-							ScrollViewer.VerticalScrollBarVisibility="Auto"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextWrapping="Wrap"
 							Visibility="Collapsed" />
