@@ -426,12 +426,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Deleting files</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Moving files to the Recycle Bin</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
@@ -1176,23 +1170,101 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Deletion Failed</value>
+  <data name="StatusCenter_CompressCanceled" xml:space="preserve">
+    <value>Canceled compress "{0}" items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Deletion complete</value>
+  <data name="StatusCenter_CompressComplete" xml:space="preserve">
+    <value>Successfully {0} items compressed</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Deletion cancelled</value>
+  <data name="StatusCenter_CompressFailed" xml:space="preserve">
+    <value>Failed to compress items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recycle complete</value>
+  <data name="StatusCenter_CompressInProgress" xml:space="preserve">
+    <value>Compressing {0} items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Move complete</value>
+  <data name="StatusCenter_CopyCanceled" xml:space="preserve">
+    <value>Canceled copy {0} items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Copy complete</value>
+  <data name="StatusCenter_CopyComplete" xml:space="preserve">
+    <value>Successfully {0} items copied</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed" xml:space="preserve">
+    <value>Failed to copy items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress" xml:space="preserve">
+    <value>Copying {0} items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled" xml:space="preserve">
+    <value>Canceled decompress "{0}"</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete" xml:space="preserve">
+    <value>Successfully "{0}" extracted</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed" xml:space="preserve">
+    <value>Failed to extract "{0}"</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress" xml:space="preserve">
+    <value>Extracting {0} items</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled" xml:space="preserve">
+    <value>Canceled delete {0} items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete" xml:space="preserve">
+    <value>Successfully {0} items permanently deleted</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed" xml:space="preserve">
+    <value>Failed to delete items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress" xml:space="preserve">
+    <value>Parmanently deleting {0} items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled" xml:space="preserve">
+    <value>Canceled recycle {0} items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete" xml:space="preserve">
+    <value>Successfully {0} items recycled</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed" xml:space="preserve">
+    <value>Failed to recycle items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress" xml:space="preserve">
+    <value>Recycling {0} items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled" xml:space="preserve">
+    <value>Canceled move {0} items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete" xml:space="preserve">
+    <value>Successfully {0} items moved</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress" xml:space="preserve">
+    <value>Moving {0} items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed" xml:space="preserve">
+    <value>Failed to move items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>This action requires administrator rights</value>
@@ -1416,101 +1488,8 @@
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Move canceled</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Copy canceled</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2} was canceled</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} items</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2} was canceled after moving {3} item</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Moving {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>the Recycle Bin</value>
-  </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Moving items</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Copying items</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
   </data>
   <data name="Canceling" xml:space="preserve">
     <value>Canceling...</value>
@@ -2096,24 +2075,6 @@
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
-  </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copy failed</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Move failed</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Tags</value>

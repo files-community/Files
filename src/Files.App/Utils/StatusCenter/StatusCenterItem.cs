@@ -225,16 +225,8 @@ namespace Files.App.Utils.StatusCenter
 					{
 						IsInProgress = true;
 
-						HeaderBody = Operation switch
-						{
-							FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
-							FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
-							_ => "PrepareInProgress".GetLocalizedResource(),
-						};
+						if (Operation is FileOperationType.Prepare)
+							HeaderBody = "StatusCenter_PrepareInProgress".GetLocalizedResource();
 
 						Header = $"{HeaderBody} ({progress}%)";
 						ItemKind = StatusCenterItemKind.InProgress;
@@ -359,12 +351,10 @@ namespace Files.App.Utils.StatusCenter
 
 			Values.Add(point);
 
-			Header = $"{HeaderBody}";
+			Header = $"{HeaderBody} ({ProgressPercentage}%)";
 
 			if (value.FileName is not null)
-			{
 				SubHeader = value.FileName;
-			}
 
 			_viewModel.NotifyChanges();
 			_viewModel.UpdateAverageProgressValue();
