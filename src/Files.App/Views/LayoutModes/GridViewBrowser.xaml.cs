@@ -183,35 +183,25 @@ namespace Files.App.Views.LayoutModes
 			{
 				Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				Grid gridMain = gridViewItem.FindDescendant("GridViewBrowserListedItem") as Grid;
-
 				textBox = popup.Child as TextBox;
 				textBox.Text = textBlock.Text;
 				textBlock.Opacity = 0;
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
-				gridMain.RowDefinitions[0].Height = new GridLength(0);
 			}
 			else
 			{
 				TextBlock textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
-				Grid gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
-
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;
-
 				textBlock.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
-				gridMain.ColumnDefinitions[0].Width = new GridLength(0);
-				gridMain.ColumnDefinitions[1].Width = new GridLength(0);
 
 				if (textBox.FindParent<Grid>() is null)
 				{
 					textBlock.Visibility = Visibility.Visible;
 					textBox.Visibility = Visibility.Collapsed;
-					gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
-					gridMain.ColumnDefinitions[1].Width = new GridLength(64);
 					return;
 				}
 			}
@@ -252,21 +242,14 @@ namespace Files.App.Views.LayoutModes
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				Grid? gridMain = gridViewItem.FindDescendant("GridViewBrowserListedItem") as Grid;
-
 				popup!.IsOpen = false;
 				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
-				gridMain.RowDefinitions[0].Height = GridLength.Auto;
 			}
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
-				Grid? gridMain = gridViewItem.FindDescendant("MainGrid") as Grid;
-
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
-				gridMain.ColumnDefinitions[0].Width = GridLength.Auto;
-				gridMain.ColumnDefinitions[1].Width = new GridLength(64);
 			}
 
 			textBox!.LostFocus -= RenameTextBox_LostFocus;
