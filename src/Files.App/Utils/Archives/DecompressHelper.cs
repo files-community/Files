@@ -162,7 +162,7 @@ namespace Files.App.Utils.Archives
 
 			_statusCenterViewModel.RemoveItem(banner);
 
-			var banner = StatusCenterHelper.PostBanner_Decompress(
+			StatusCenterHelper.PostBanner_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.Success,
