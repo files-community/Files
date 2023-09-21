@@ -135,7 +135,13 @@ namespace Files.App.Utils.Storage
 			}
 
 			// post the status banner
-			var banner = StatusCenterHelper.PostBanner_Delete(source, returnStatus, permanently, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Delete(
+				source,
+				returnStatus,
+				permanently,
+				false,
+				0);
+
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -157,7 +163,12 @@ namespace Files.App.Utils.Storage
 
 			sw.Stop();
 
-			StatusCenterHelper.PostBanner_Delete(source, returnStatus, permanently, token.IsCancellationRequested, itemsDeleted);
+			StatusCenterHelper.PostBanner_Delete(
+				source,
+				returnStatus,
+				permanently,
+				token.IsCancellationRequested,
+				itemsDeleted);
 
 			return returnStatus;
 		}
@@ -274,7 +285,13 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var banner = StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Copy(
+				source,
+				destination,
+				returnStatus,
+				false,
+				0);
+
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -313,7 +330,12 @@ namespace Files.App.Utils.Storage
 
 			_statusCenterViewModel.RemoveItem(banner);
 
-			StatusCenterHelper.PostBanner_Copy(source, destination, returnStatus, token.IsCancellationRequested, itemsCopied);
+			StatusCenterHelper.PostBanner_Copy(
+				source,
+				destination,
+				returnStatus,
+				token.IsCancellationRequested,
+				itemsCopied);
 
 			return returnStatus;
 		}
@@ -400,7 +422,13 @@ namespace Files.App.Utils.Storage
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-			var banner = StatusCenterHelper.PostBanner_Move(source, destination, returnStatus, false, 0);
+			var banner = StatusCenterHelper.PostBanner_Move(
+				source,
+				destination,
+				returnStatus,
+				false,
+				0);
+
 			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
@@ -446,7 +474,12 @@ namespace Files.App.Utils.Storage
 
 			sw.Stop();
 
-			StatusCenterHelper.PostBanner_Move(source, destination, returnStatus, token.IsCancellationRequested, itemsMoved);
+			StatusCenterHelper.PostBanner_Move(
+				source,
+				destination,
+				returnStatus,
+				token.IsCancellationRequested,
+				itemsMoved);
 
 			return returnStatus;
 		}

@@ -2166,18 +2166,6 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
   </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
-  </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
   </data>

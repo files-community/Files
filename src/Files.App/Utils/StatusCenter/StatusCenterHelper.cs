@@ -186,5 +186,91 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Move);
 			}
 		}
+
+		public static StatusCenterItem PostBanner_Compress(IEnumerable<string> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCompressed)
+		{
+			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+			if (canceled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveCanceled".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Cancelled,
+					FileOperationType.Move);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveInProgress".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.InProgress,
+					FileOperationType.Move, new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveComplete".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Success,
+					FileOperationType.Move);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveFailed".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Failed,
+					FileOperationType.Move);
+			}
+		}
+
+		public static StatusCenterItem PostBanner_Decompress(IEnumerable<string> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsDecompressed)
+		{
+			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+			if (canceled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveCanceled".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Cancelled,
+					FileOperationType.Move);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveInProgress".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.InProgress,
+					FileOperationType.Move, new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveComplete".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Success,
+					FileOperationType.Move);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveFailed".GetLocalizedResource(),
+					string.Empty,
+					0,
+					ReturnResult.Failed,
+					FileOperationType.Move);
+			}
+		}
 	}
 }
