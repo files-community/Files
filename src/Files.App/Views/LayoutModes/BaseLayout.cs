@@ -555,13 +555,25 @@ namespace Files.App.Views.LayoutModes
 
 		private CancellationTokenSource? shellContextMenuItemCancellationToken;
 		private bool shiftPressed;
+		private Task waitFlyoutOpeningTask;
 
 		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
+			ItemContextMenuFlyout.Opened += ItemContextFlyout_Opened;
+			var waitFlyoutOpeningTCS = new TaskCompletionSource();
+			waitFlyoutOpeningTask = waitFlyoutOpeningTCS.Task;
 
 			try
 			{
+				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
+				{
+					// Wait until the pane and column become current
+					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
+					// Wait a little longer to ensure the page context is updated
+					await Task.Delay(10);
+				}
+
 				// Workaround for item sometimes not getting selected
 				if (!IsItemSelected && (sender as CommandBarFlyout)?.Target is ListViewItem { Content: ListedItem li })
 					ItemManipulationModel.SetSelectedItem(li);
@@ -590,19 +602,21 @@ namespace Files.App.Views.LayoutModes
 
 					if (InstanceViewModel!.CanTagFilesInPage)
 						AddNewFileTagsToMenu(ItemContextMenuFlyout);
-
-					ItemContextMenuFlyout.Opened += ItemContextFlyout_Opened;
 				}
 			}
 			catch (Exception error)
 			{
 				Debug.WriteLine(error);
 			}
+
+			waitFlyoutOpeningTCS.TrySetResult();
 		}
 
+		// Workaround for WASDK 1.4. See #13288 on GitHub.
 		private async void ItemContextFlyout_Opened(object? sender, object e)
 		{
 			ItemContextMenuFlyout.Opened -= ItemContextFlyout_Opened;
+			await waitFlyoutOpeningTask;
 
 			try
 			{
@@ -628,9 +642,20 @@ namespace Files.App.Views.LayoutModes
 		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
+			BaseContextMenuFlyout.Opened += BaseContextFlyout_Opened;
+			var waitFlyoutOpeningTCS = new TaskCompletionSource();
+			waitFlyoutOpeningTask = waitFlyoutOpeningTCS.Task;
 
 			try
 			{
+				if (!ParentShellPageInstance!.IsCurrentInstance || !ParentShellPageInstance.IsCurrentPane)
+				{
+					// Wait until the pane and column become current
+					await Task.WhenAny(ParentShellPageInstance.WhenIsCurrent(), Task.Delay(500));
+					// Wait a little longer to ensure the page context is updated
+					await Task.Delay(10);
+				}
+
 				ItemManipulationModel.ClearSelection();
 
 				// Reset menu max height
@@ -655,18 +680,20 @@ namespace Files.App.Views.LayoutModes
 				// Set menu min width
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-
-				BaseContextMenuFlyout.Opened += BaseContextFlyout_Opened;
 			}
 			catch (Exception error)
 			{
 				Debug.WriteLine(error);
 			}
+
+			waitFlyoutOpeningTCS.TrySetResult();
 		}
 
+		// Workaround for WASDK 1.4. See #13288 on GitHub.
 		private async void BaseContextFlyout_Opened(object? sender, object e)
 		{
 			BaseContextMenuFlyout.Opened -= BaseContextFlyout_Opened;
+			await waitFlyoutOpeningTask;
 
 			try
 			{
