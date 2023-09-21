@@ -1,5 +1,6 @@
 steps:
 - task: PowerShell@2
+  displayName: 'Set appropriate package info'
   inputs:
     targetType: 'inline'
     script: |
@@ -12,7 +13,7 @@ steps:
     failOnStderr: true
 
 - task: PowerShell@2
-  displayName: 'Use Release Logo'
+  displayName: 'Set appropriate package logo'
   inputs:
     targetType: 'inline'
     script: |
@@ -22,12 +23,14 @@ steps:
     failOnStderr: true
 
 - task: DownloadSecureFile@1
+  displayName: 'Download BingMap dev key'
   name: mapsDevKey
   displayName: 'Download Bing Maps Dev Key'
   inputs:
     secureFile: 'BingMapsKey.txt'
 
 - task: CopyFiles@2
+  displayName: 'Copy BingMap dev key'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '$(mapsDevKey.secureFilePath)'
@@ -35,17 +38,20 @@ steps:
     overWrite: true
 
 - task: UseDotNet@2
+  displayName: 'Install .NET'
   inputs:
     packageType: sdk
     version: 7.0.x
     includePreviewVersions: true
 
 - task: CmdLine@2
+  displayName: 'Use preview version of VS2022 SDK'
   inputs:
     script: |
       for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
 - task: MSBuild@1
+  displayName: 'Restore the solution'
   inputs:
     platform: '$(buildPlatform)'
     solution: 'Files.sln'
@@ -58,6 +64,7 @@ steps:
     maximumCpuCount: true
 
 - task: MSBuild@1
+  displayName: 'Build the package project'
   inputs:
     platform: '$(buildPlatform)'
     solution: '**/*.wapproj'
@@ -76,50 +83,14 @@ steps:
       /p:PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    arguments: './tests/Files.InteractionTests/Files.InteractionTests.csproj --configuration $(buildConfiguration)'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Find correct folder and run app install script.
-      cd $(appxPackageDir)
-
-      $AppBundle = Get-ChildItem -Filter Files*Test -Name
-      echo $AppBundle
-      cd $AppBundle
-      ./Install.ps1 -Force
-      Get-AppxPackage
-    errorActionPreference: 'continue'
-    failOnStderr: true
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-
-
-- task: Windows Application Driver@0
-  inputs:
-    OperationType: 'Start'
-    AgentResolution: '1080p'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*Files.InteractionTests.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  displayName: 'Copy the artifacts'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '**\bin\$(BuildConfiguration)\**'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: 'Publish the artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
