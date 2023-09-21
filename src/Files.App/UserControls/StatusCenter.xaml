@@ -88,18 +88,6 @@
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
-										<TextBlock
-											x:Name="StatusCenterItemSubHeaderTextBlock"
-											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											MaxLines="1"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind SubHeader, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}"
-											Visibility="{x:Bind IsInProgress, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}" />
-
 									</StackPanel>
 
 									<!--  Action Buttons  -->
