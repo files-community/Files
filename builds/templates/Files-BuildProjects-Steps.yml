@@ -52,9 +52,9 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '
       /t:restore
-      /p:Configuration=$(buildConfiguration);
-      Platform="$(buildPlatform)";
-      PublishReadyToRun=true'
+      /p:Configuration=$(buildConfiguration)
+      /p:Platform="$(buildPlatform)"
+      /p:PublishReadyToRun=true'
     maximumCpuCount: true
 
 - task: MSBuild@1
@@ -64,15 +64,16 @@ steps:
     configuration: '$(buildConfiguration)'
     msbuildArguments: '
       /t:build;_GenerateAppxPackage
-      /p:Configuration="$(buildConfiguration)";
-      Platform="$(buildPlatform)";
-      AppxBundle=Always;
-      AppxBundlePlatforms="$(buildPlatform)";
-      AppxPackageDir="$(appxPackageDir)";
-      AppxPackageSigningEnabled=true;
-      UapAppxPackageBuildMode=SideloadOnly;
-      PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";
-      PackageCertificatePassword="";PackageCertificateThumbprint=""'
+      /p:Configuration="$(buildConfiguration)"
+      /p:Platform="$(buildPlatform)"
+      /p:AppxBundle=Always
+      /p:AppxBundlePlatforms="$(buildPlatform)"
+      /p:AppxPackageDir="$(appxPackageDir)"
+      /p:AppxPackageSigningEnabled=true
+      /p:UapAppxPackageBuildMode=SideloadOnly
+      /p:PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx"
+      /p:PackageCertificatePassword=""
+      /p:PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
 - task: DotNetCoreCLI@2
