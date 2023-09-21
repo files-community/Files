@@ -6,7 +6,7 @@ name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 stages:
 - stage: Build
   jobs:
-  - job: Build
+  - job: Platform
     pool:
       vmImage: 'windows-latest'
     timeoutInMinutes: 120

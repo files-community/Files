@@ -47,18 +47,32 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    platform: 'x64'
-    solution: '**/*.sln'
+    platform: '$(buildPlatform)'
+    solution: 'Files.sln'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:restore /p:Configuration=Debug;Platform="$(buildPlatform)";PublishReadyToRun=true'
+    msbuildArguments: '
+      /t:restore
+      /p:Configuration=$(buildConfiguration);
+      Platform="$(buildPlatform)";
+      PublishReadyToRun=true'
     maximumCpuCount: true
 
 - task: MSBuild@1
   inputs:
-    platform: 'x64'
+    platform: '$(buildPlatform)'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Debug;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";AppxPackageDir="$(appxPackageDir)";AppxPackageSigningEnabled=true;UapAppxPackageBuildMode=SideloadOnly;PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";PackageCertificatePassword="";PackageCertificateThumbprint=""'
+    msbuildArguments: '
+      /t:build;_GenerateAppxPackage
+      /p:Configuration="$(buildConfiguration)";
+      Platform="$(buildPlatform)";
+      AppxBundle=Always;
+      AppxBundlePlatforms="$(buildPlatform)";
+      AppxPackageDir="$(appxPackageDir)";
+      AppxPackageSigningEnabled=true;
+      UapAppxPackageBuildMode=SideloadOnly;
+      PackageCertificateKeyFile="$(Build.SourcesDirectory)\builds\Files_SelfSigned.pfx";
+      PackageCertificatePassword="";PackageCertificateThumbprint=""'
     maximumCpuCount: true
 
 - task: DotNetCoreCLI@2
