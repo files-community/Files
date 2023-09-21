@@ -25,7 +25,6 @@ steps:
 - task: DownloadSecureFile@1
   displayName: 'Download BingMap dev key'
   name: mapsDevKey
-  displayName: 'Download Bing Maps Dev Key'
   inputs:
     secureFile: 'BingMapsKey.txt'
 
