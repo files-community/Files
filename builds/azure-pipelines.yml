@@ -8,11 +8,13 @@ name: $(BuildDefinitionName)_$(date:yyMM).$(date:dd)$(rev:rrr)
 
 stages:
 - stage: Build
+
+  pool:
+    vmImage: 'windows-latest'
+
   jobs:
   - job: Platform
 
-    pool:
-      vmImage: 'windows-latest'
     timeoutInMinutes: 120
     strategy:
       maxParallel: 10
@@ -34,14 +36,16 @@ stages:
           buildConfiguration: 'Release'
 
     variables:
-      solution: 'Files.sln'
-      appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+      solutionPath: 'Files.sln'
+      packagingProjectPath: './tests/Files.App (Package)/Files.Package.wapproj'
+      interactionTestsProjectPath: './tests/Files.InteractionTests/Files.InteractionTests.csproj'
+      appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages'
 
     steps:
     - template: templates/Files-BuildProjects-Steps.yml
 
-#- stage: Test
-#  dependsOn: Build
-#  jobs:
+- stage: Test
+  dependsOn: Build
+  jobs:
 
-#  - template: AzurePipelinesTemplates\Files-RunInteractionTest-Steps.yml
+  - template: templates\Files-RunInteractionTest-Steps.yml

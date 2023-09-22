@@ -6,7 +6,7 @@ steps:
   displayName: 'Restore the solution'
   inputs:
     platform: '$(buildPlatform)'
-    solution: 'Files.sln'
+    solution: '$(variables.solutionPath)'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '
       /t:restore
