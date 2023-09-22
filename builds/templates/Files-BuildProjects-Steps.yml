@@ -1,66 +1,16 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT license. See the LICENSE.
+
 steps:
-- task: PowerShell@2
-  displayName: 'Set appropriate package info'
-  inputs:
-    targetType: 'inline'
-    script: |
-      [xml]$xmlDoc = Get-Content '$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest'
-      $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
-      $xmlDoc.Package.Properties.DisplayName="Files"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
-      $xmlDoc.Save('$(Build.SourcesDirectory)\src\Files.App (Package)\Package.appxmanifest')
-    failOnStderr: true
+- template: Files-UpdatePackage-Steps.yml
 
-- task: PowerShell@2
-  displayName: 'Set appropriate package logo'
-  inputs:
-    targetType: 'inline'
-    script: |
-      gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj -recurse | ForEach -Process {
-      (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTilesDev", "Assets\AppTiles"}) | Set-Content $_ -NoNewline
-      }
-    failOnStderr: true
+- template: Files-InstallDotNetSDK-Steps.yml
 
-- task: DownloadSecureFile@1
-  displayName: 'Download BingMap dev key'
-  name: mapsDevKey
-  inputs:
-    secureFile: 'BingMapsKey.txt'
+- template: Files-SetupBingMapSecrets-Steps.yml
 
-- task: CopyFiles@2
-  displayName: 'Copy BingMap dev key'
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: '$(mapsDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
-    overWrite: true
+- template: Files-UseVS2022Preview-Steps.yml
 
-- task: UseDotNet@2
-  displayName: 'Install .NET'
-  inputs:
-    packageType: sdk
-    version: 7.0.x
-    includePreviewVersions: true
-
-- task: CmdLine@2
-  displayName: 'Use preview version of VS2022 SDK'
-  inputs:
-    script: |
-      for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
-- task: MSBuild@1
-  displayName: 'Restore the solution'
-  inputs:
-    platform: '$(buildPlatform)'
-    solution: 'Files.sln'
-    configuration: '$(buildConfiguration)'
-    msbuildArguments: '
-      /t:restore
-      /p:Configuration=$(buildConfiguration)
-      /p:Platform="$(buildPlatform)"
-      /p:PublishReadyToRun=true'
-    maximumCpuCount: true
+- template: Files-PrepareTheSolution.yml
 
 - task: MSBuild@1
   displayName: 'Build the package project'
@@ -81,15 +31,3 @@ steps:
       /p:PackageCertificatePassword=""
       /p:PackageCertificateThumbprint=""'
     maximumCpuCount: true
-
-- task: CopyFiles@2
-  displayName: 'Copy the artifacts'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish the artifacts'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'

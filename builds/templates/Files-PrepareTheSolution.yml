@@ -1,0 +1,16 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT license. See the LICENSE.
+
+steps:
+- task: MSBuild@1
+  displayName: 'Restore the solution'
+  inputs:
+    platform: '$(buildPlatform)'
+    solution: 'Files.sln'
+    configuration: '$(buildConfiguration)'
+    msbuildArguments: '
+      /t:restore
+      /p:Configuration=$(buildConfiguration)
+      /p:Platform="$(buildPlatform)"
+      /p:PublishReadyToRun=true'
+    maximumCpuCount: true

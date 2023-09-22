@@ -1,3 +1,6 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT license. See the LICENSE.
+
 trigger:
 - main
 
@@ -7,6 +10,7 @@ stages:
 - stage: Build
   jobs:
   - job: Platform
+
     pool:
       vmImage: 'windows-latest'
     timeoutInMinutes: 120
@@ -28,8 +32,16 @@ stages:
         Release_Arm64:
           buildPlatform: 'arm64'
           buildConfiguration: 'Release'
+
     variables:
       solution: 'Files.sln'
       appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+
     steps:
     - template: templates/Files-BuildProjects-Steps.yml
+
+#- stage: Test
+#  dependsOn: Build
+#  jobs:
+
+#  - template: AzurePipelinesTemplates\Files-RunInteractionTest-Steps.yml

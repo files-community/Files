@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT license. See the LICENSE.
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET'
+  inputs:
+    packageType: sdk
+    version: 7.0.x
+    includePreviewVersions: true

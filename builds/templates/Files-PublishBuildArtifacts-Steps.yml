@@ -1,0 +1,16 @@
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT license. See the LICENSE.
+
+steps:
+- task: CopyFiles@2
+  displayName: 'Copy the artifacts'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish the artifacts'
+  inputs:
+    ArtifactName: 'PackageArtifactsOfDevCondition'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
