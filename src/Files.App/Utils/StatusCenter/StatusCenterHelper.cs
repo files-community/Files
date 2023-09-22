@@ -16,8 +16,8 @@ namespace Files.App.Utils.StatusCenter
 				if (permanently)
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteCanceled".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_DeleteCanceled_Header".GetLocalizedResource(),
+						"StatusCenter_DeleteCanceled_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Cancelled,
 						FileOperationType.Delete);
@@ -25,8 +25,8 @@ namespace Files.App.Utils.StatusCenter
 				else
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleCanceled".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_RecycleCanceled_Header".GetLocalizedResource(),
+						"StatusCenter_RecycleCanceled_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Cancelled,
 						FileOperationType.Recycle);
@@ -38,8 +38,8 @@ namespace Files.App.Utils.StatusCenter
 				{
 					// deleting items from <x>
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteInProgress".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_DeleteInProgress_Header".GetLocalizedResource(),
+						"StatusCenter_DeleteInProgress_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.InProgress,
 						FileOperationType.Delete,
@@ -49,8 +49,8 @@ namespace Files.App.Utils.StatusCenter
 				{
 					// "Moving items from <x> to recycle bin"
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleInProgress".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_RecycleInProgress_Header".GetLocalizedResource(),
+						"StatusCenter_RecycleInProgress_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.InProgress,
 						FileOperationType.Recycle,
@@ -62,8 +62,8 @@ namespace Files.App.Utils.StatusCenter
 				if (permanently)
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteComplete".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_DeleteComplete_Header".GetLocalizedResource(),
+						"StatusCenter_DeleteComplete_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Success,
 						FileOperationType.Delete);
@@ -71,8 +71,8 @@ namespace Files.App.Utils.StatusCenter
 				else
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleComplete".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_RecycleComplete_Header".GetLocalizedResource(),
+						"StatusCenter_RecycleComplete_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Success,
 						FileOperationType.Recycle);
@@ -83,8 +83,8 @@ namespace Files.App.Utils.StatusCenter
 				if (permanently)
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteFailed".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_DeleteFailed_Header".GetLocalizedResource(),
+						"StatusCenter_DeleteFailed_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Failed,
 						FileOperationType.Delete);
@@ -92,8 +92,8 @@ namespace Files.App.Utils.StatusCenter
 				else
 				{
 					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleFailed".GetLocalizedResource(),
-						string.Empty,
+						"StatusCenter_RecycleFailed_Header".GetLocalizedResource(),
+						"StatusCenter_RecycleFailed_SubHeader".GetLocalizedResource(),
 						0,
 						ReturnResult.Failed,
 						FileOperationType.Recycle);
@@ -109,8 +109,8 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyCanceled".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_CopyCanceled_Header".GetLocalizedResource(),
+					"StatusCenter_CopyCanceled_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Copy);
@@ -118,8 +118,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyInProgress".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_CopyInProgress_Header".GetLocalizedResource(),
+					"StatusCenter_CopyInProgress_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
 					FileOperationType.Copy, new CancellationTokenSource());
@@ -127,8 +127,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyComplete".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_CopyComplete_Header".GetLocalizedResource(),
+					"StatusCenter_CopyComplete_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Success,
 					FileOperationType.Copy);
@@ -136,8 +136,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyFailed".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_CopyFailed_Header".GetLocalizedResource(),
+					"StatusCenter_CopyFailed_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Failed,
 					FileOperationType.Copy);
@@ -152,8 +152,8 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveCanceled_Header".GetLocalizedResource(),
+					"StatusCenter_MoveCanceled_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Move);
@@ -161,8 +161,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
+					"StatusCenter_MoveInProgress_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
 					FileOperationType.Move, new CancellationTokenSource());
@@ -170,8 +170,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveComplete_Header".GetLocalizedResource(),
+					"StatusCenter_MoveComplete_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Success,
 					FileOperationType.Move);
@@ -179,8 +179,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveFailed_Header".GetLocalizedResource(),
+					"StatusCenter_MoveFailed_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Failed,
 					FileOperationType.Move);
@@ -195,8 +195,8 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveCanceled_Header".GetLocalizedResource(),
+					"StatusCenter_MoveCanceled_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Move);
@@ -204,8 +204,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
+					"StatusCenter_MoveInProgress_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
 					FileOperationType.Move, new CancellationTokenSource());
@@ -213,8 +213,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveComplete_Header".GetLocalizedResource(),
+					"StatusCenter_MoveComplete_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Success,
 					FileOperationType.Move);
@@ -222,8 +222,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveFailed_Header".GetLocalizedResource(),
+					"StatusCenter_MoveFailed_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Failed,
 					FileOperationType.Move);
@@ -238,8 +238,8 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveCanceled_Header".GetLocalizedResource(),
+					"StatusCenter_MoveCanceled_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Move);
@@ -247,8 +247,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
+					"StatusCenter_MoveInProgress_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
 					FileOperationType.Move, new CancellationTokenSource());
@@ -256,8 +256,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveComplete_Header".GetLocalizedResource(),
+					"StatusCenter_MoveComplete_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Success,
 					FileOperationType.Move);
@@ -265,8 +265,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed".GetLocalizedResource(),
-					string.Empty,
+					"StatusCenter_MoveFailed_Header".GetLocalizedResource(),
+					"StatusCenter_MoveFailed_SubHeader".GetLocalizedResource(),
 					0,
 					ReturnResult.Failed,
 					FileOperationType.Move);

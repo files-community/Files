@@ -88,6 +88,15 @@
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
+										<TextBlock
+											x:Name="StatusCenterItemSubHeaderTextBlock"
+											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											MaxLines="1"
+											Style="{StaticResource BodyTextBlockStyle}"
+											Text="{x:Bind SubHeader, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap" />
+
 									</StackPanel>
 
 									<!--  Action Buttons  -->

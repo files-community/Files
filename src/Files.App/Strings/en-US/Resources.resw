@@ -1170,99 +1170,195 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
   </data>
-  <data name="StatusCenter_CompressCanceled" xml:space="preserve">
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compress "{0}" items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusCenter_CompressComplete" xml:space="preserve">
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compress "{0}" items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
     <value>Successfully {0} items compressed</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusCenter_CompressFailed" xml:space="preserve">
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Successfully {0} items compressed</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
     <value>Failed to compress items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusCenter_CompressInProgress" xml:space="preserve">
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
     <value>Compressing {0} items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
-  <data name="StatusCenter_CopyCanceled" xml:space="preserve">
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} items</value>
+    <comment>Shown in StatusCenter card item handling compress operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Canceled copy {0} items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
-  <data name="StatusCenter_CopyComplete" xml:space="preserve">
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copy {0} items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
     <value>Successfully {0} items copied</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
-  <data name="StatusCenter_CopyFailed" xml:space="preserve">
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Successfully {0} items copied</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
     <value>Failed to copy items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
-  <data name="StatusCenter_CopyInProgress" xml:space="preserve">
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
     <value>Copying {0} items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
-  <data name="StatusCenter_DecompressCanceled" xml:space="preserve">
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} items</value>
+    <comment>Shown in StatusCenter card item handling copy operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Canceled decompress "{0}"</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
-  <data name="StatusCenter_DecompressComplete" xml:space="preserve">
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled decompress "{0}"</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
     <value>Successfully "{0}" extracted</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
-  <data name="StatusCenter_DecompressFailed" xml:space="preserve">
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Successfully "{0}" extracted</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
     <value>Failed to extract "{0}"</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
-  <data name="StatusCenter_DecompressInProgress" xml:space="preserve">
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}"</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
     <value>Extracting {0} items</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
-  <data name="StatusCenter_DeleteCanceled" xml:space="preserve">
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting {0} items</value>
+    <comment>Shown in StatusCenter card item handling decompress operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
     <value>Canceled delete {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
-  <data name="StatusCenter_DeleteComplete" xml:space="preserve">
+  <data name="StatusCenter_DeleteCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled delete {0} items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Successfully {0} items permanently deleted</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
-  <data name="StatusCenter_DeleteFailed" xml:space="preserve">
+  <data name="StatusCenter_DeleteComplete_SubHeader" xml:space="preserve">
+    <value>Successfully {0} items permanently deleted</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
     <value>Failed to delete items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
-  <data name="StatusCenter_DeleteInProgress" xml:space="preserve">
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to delete items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
     <value>Parmanently deleting {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
-  <data name="StatusCenter_RecycleCanceled" xml:space="preserve">
+  <data name="StatusCenter_DeleteInProgress_SubHeader" xml:space="preserve">
+    <value>Parmanently deleting {0} items</value>
+    <comment>Shown in StatusCenter card item handling deleting operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
     <value>Canceled recycle {0} items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
-  <data name="StatusCenter_RecycleComplete" xml:space="preserve">
+  <data name="StatusCenter_RecycleCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled recycle {0} items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
     <value>Successfully {0} items recycled</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
-  <data name="StatusCenter_RecycleFailed" xml:space="preserve">
+  <data name="StatusCenter_RecycleComplete_SubHeader" xml:space="preserve">
+    <value>Successfully {0} items recycled</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
     <value>Failed to recycle items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
-  <data name="StatusCenter_RecycleInProgress" xml:space="preserve">
+  <data name="StatusCenter_RecycleFailed_SubHeader" xml:space="preserve">
+    <value>Failed to recycle items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
     <value>Recycling {0} items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
-  <data name="StatusCenter_MoveCanceled" xml:space="preserve">
+  <data name="StatusCenter_RecycleInProgress_SubHeader" xml:space="preserve">
+    <value>Recycling {0} items</value>
+    <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
     <value>Canceled move {0} items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
-  <data name="StatusCenter_MoveComplete" xml:space="preserve">
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled move {0} items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
     <value>Successfully {0} items moved</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
-  <data name="StatusCenter_MoveInProgress" xml:space="preserve">
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Successfully {0} items moved</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
     <value>Moving {0} items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
-  <data name="StatusCenter_MoveFailed" xml:space="preserve">
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Failed to move items</value>
+    <comment>Shown in StatusCenter card item handling move operation.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
     <value>Failed to move items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
@@ -3478,7 +3574,7 @@
   <data name="NameWithColon" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="StatusCenter_ProcessedSize" xml:space="preserve">
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
     <comment>Shown in expanded StatusCenter card item when an file system operation is being held.</comment>
   </data>

@@ -27,6 +27,13 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
+		private string? _SubHeader;
+		public string? SubHeader
+		{
+			get => _SubHeader;
+			set => SetProperty(ref _SubHeader, value);
+		}
+
 		private int _ProgressPercentage;
 		public int ProgressPercentage
 		{
@@ -175,6 +182,7 @@ namespace Files.App.Utils.StatusCenter
 			_operationCancellationToken = operationCancellationToken;
 			HeaderBody = title;
 			Header = title;
+			SubHeader = message;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
@@ -239,9 +247,6 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case ReturnResult.Success:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody))
-							throw new NotImplementedException();
-
 						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Successful;
 						ItemIconKind = StatusCenterItemIconKind.Successful;
@@ -251,9 +256,6 @@ namespace Files.App.Utils.StatusCenter
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody))
-							throw new NotImplementedException();
-
 						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Error;
 						ItemIconKind = StatusCenterItemIconKind.Error;
