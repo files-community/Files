@@ -17,7 +17,7 @@ namespace Files.App.Utils.Storage
 		public string Text
 		{
 			get => text ?? ""; // Text is bound to AutomationProperties.Name and can't be null
-			set => SetPropertyWithUpdateDelay(ref text, value );
+			set => SetPropertyWithUpdateDelay(ref text, value);
 	}
 
 		private string subtext;
