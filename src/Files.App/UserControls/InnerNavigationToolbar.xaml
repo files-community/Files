@@ -72,9 +72,9 @@
 								AccessKey="D"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
 								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateFolder.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.CreateFolder.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+								Text="{x:Bind Commands.CreateFolder.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE8B7;" />
 								</MenuFlyoutItem.Icon>
@@ -85,9 +85,9 @@
 								AutomationProperties.AutomationId="File"
 								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
 								CommandParameter="{x:Null}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=File}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" >
+								Text="{helpers:ResourceString Name=File}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE7C3;" />
 								</MenuFlyoutItem.Icon>
@@ -97,9 +97,9 @@
 								AccessKey="S"
 								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
 								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateShortcutFromDialog.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" >
+								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="&#xE71B;" />
 								</MenuFlyoutItem.Icon>
@@ -121,10 +121,10 @@
 					AccessKey="X"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCutButton"
 					Command="{x:Bind Commands.CutItem}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.CutItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CutItem.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.CutItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CutItem.OpacityStyle}" />
 				</AppBarButton>
 
@@ -136,10 +136,10 @@
 					AccessKey="C"
 					AutomationProperties.AutomationId="InnerNavigationToolbarCopyButton"
 					Command="{x:Bind Commands.CopyItem}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.CopyItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.CopyItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.CopyItem.OpacityStyle}" />
 				</AppBarButton>
 
@@ -151,10 +151,10 @@
 					AccessKey="V"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPasteButton"
 					Command="{x:Bind ModifiableCommands.PasteItem}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind ModifiableCommands.PasteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind ModifiableCommands.PasteItem.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind ModifiableCommands.PasteItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind ModifiableCommands.PasteItem.OpacityStyle}" />
 				</AppBarButton>
 
@@ -166,11 +166,11 @@
 					AccessKey="M"
 					AutomationProperties.AutomationId="InnerNavigationToolbarRenameButton"
 					Command="{x:Bind Commands.Rename, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					IsEnabled="{x:Bind Commands.Rename.IsExecutable, Mode=OneWay}"
 					Label="{x:Bind Commands.Rename.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.Rename.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.Rename.OpacityStyle}" />
 				</AppBarButton>
 
@@ -181,11 +181,11 @@
 					MinWidth="40"
 					AccessKey="H"
 					Command="{x:Bind Commands.ShareItem, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					IsEnabled="{x:Bind Commands.ShareItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.ShareItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.ShareItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.ShareItem.OpacityStyle}" />
 				</AppBarButton>
 
@@ -196,10 +196,10 @@
 					MinWidth="40"
 					AutomationProperties.AutomationId="InnerNavigationToolbarDeleteButton"
 					Command="{x:Bind ModifiableCommands.DeleteItem}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind ModifiableCommands.DeleteItem.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind ModifiableCommands.DeleteItem.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind ModifiableCommands.DeleteItem.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind ModifiableCommands.DeleteItem.OpacityStyle}" />
 				</AppBarButton>
 
@@ -211,12 +211,12 @@
 					AccessKey="O"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
 					Command="{x:Bind Commands.OpenProperties, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
 					KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenProperties.HotKeyText, Mode=OneWay}"
 					Label="{x:Bind Commands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle, Mode=OneTime}" />
 				</AppBarButton>
 
@@ -229,9 +229,9 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="B"
 					Command="{x:Bind Commands.EmptyRecycleBin}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.EmptyRecycleBin.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.EmptyRecycleBin.Label}">
 					<local:OpacityIcon Style="{x:Bind Commands.EmptyRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
@@ -241,10 +241,10 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreAllRecycleBin}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.RestoreAllRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreAllRecycleBin.Label}"
-					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
 					<local:OpacityIcon Style="{x:Bind Commands.RestoreAllRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
@@ -254,10 +254,10 @@
 					x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay, FallbackValue=False}"
 					AccessKey="R"
 					Command="{x:Bind Commands.RestoreRecycleBin}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.RestoreRecycleBin.Label}"
 					ToolTipService.ToolTip="{x:Bind Commands.RestoreRecycleBin.Label}"
-					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					Visibility="{x:Bind Commands.RestoreRecycleBin.IsExecutable, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.RestoreRecycleBin.OpacityStyle}" />
 				</AppBarButton>
 
@@ -280,25 +280,25 @@
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.DecompressArchive.Label}"
-								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{x:Bind Commands.DecompressArchiveHere.Label}"
-								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractTo"
 								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}"
-								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 
@@ -312,10 +312,10 @@
 					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="RunWithPowerShell"
 					Command="{x:Bind Commands.RunWithPowershell}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -339,9 +339,9 @@
 							<MenuFlyoutItem
 								x:Name="SetAsBackgroundFlyoutItem"
 								Command="{x:Bind Commands.SetAsWallpaperBackground}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsWallpaperBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Desktop}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+								Text="{helpers:ResourceString Name=Desktop}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
@@ -349,9 +349,9 @@
 							<MenuFlyoutItem
 								x:Name="SetAsLockscreenFlyoutItem"
 								Command="{x:Bind Commands.SetAsLockscreenBackground}"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsLockscreenBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Lockscreen}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+								Text="{helpers:ResourceString Name=Lockscreen}">
 								<MenuFlyoutItem.Icon>
 									<FontIcon Glyph="{x:Bind Commands.SetAsLockscreenBackground.Glyph.BaseGlyph}" />
 								</MenuFlyoutItem.Icon>
@@ -368,21 +368,21 @@
 					MinWidth="40"
 					x:Load="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.SetAsSlideshowBackground}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Icon="{x:Bind Commands.SetAsSlideshowBackground.FontIcon}"
 					Label="{x:Bind Commands.SetAsSlideshowBackground.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}" />
 
 				<!--  Install Inf  -->
 				<AppBarButton
 					x:Name="InstallInfButton"
 					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallInfDriver, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.InstallInfDriver.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.InstallInfDriver.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -393,10 +393,10 @@
 					x:Name="RotateImageLeftButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.RotateLeft, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.RotateLeft.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
 					<local:OpacityIcon Style="{StaticResource ColorIconRotateLeft}" />
 				</AppBarButton>
 
@@ -405,10 +405,10 @@
 					x:Name="RotateImageRightButton"
 					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.RotateRight, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.RotateRight.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
 					<local:OpacityIcon Style="{StaticResource ColorIconRotateRight}" />
 				</AppBarButton>
 
@@ -417,10 +417,10 @@
 					x:Name="InstallFontButton"
 					x:Load="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallFont, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.InstallFont.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.InstallFont.Glyph.BaseGlyph, Mode=OneTime}" />
 					</AppBarButton.Icon>
@@ -431,10 +431,10 @@
 					x:Name="InstallCertificateButton"
 					x:Load="{x:Bind Commands.InstallCertificate.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallCertificate, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.InstallCertificate.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.InstallCertificate.Glyph.BaseGlyph, Mode=OneTime}" />
 					</AppBarButton.Icon>
@@ -445,11 +445,11 @@
 					x:Name="PlayAllMediaButton"
 					x:Load="{x:Bind Commands.PlayAll.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.PlayAll, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText, Mode=OneWay}"
 					Label="{x:Bind Commands.PlayAll.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.PlayAll.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -485,26 +485,26 @@
 							x:Name="SelectAllMFI"
 							AccessKey="A"
 							Command="{x:Bind Commands.SelectAll}"
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 							Icon="{x:Bind Commands.SelectAll.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.SelectAll.HotKeyText, Mode=OneWay}"
-							Text="{x:Bind Commands.SelectAll.Label}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+							Text="{x:Bind Commands.SelectAll.Label}" />
 						<MenuFlyoutItem
 							x:Name="InvertSelectionMFI"
 							AccessKey="I"
 							Command="{x:Bind Commands.InvertSelection}"
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 							Icon="{x:Bind Commands.InvertSelection.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.InvertSelection.HotKeyText, Mode=OneWay}"
-							Text="{x:Bind Commands.InvertSelection.Label}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+							Text="{x:Bind Commands.InvertSelection.Label}" />
 						<MenuFlyoutItem
 							x:Name="ClearSelectionMFI"
 							AccessKey="C"
 							Command="{x:Bind Commands.ClearSelection}"
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 							Icon="{x:Bind Commands.ClearSelection.FontIcon}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.ClearSelection.HotKeyText, Mode=OneWay}"
-							Text="{x:Bind Commands.ClearSelection.Label}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+							Text="{x:Bind Commands.ClearSelection.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
@@ -530,161 +530,157 @@
 						<MenuFlyoutSubItem
 							AccessKey="S"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
-							Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+							Text="{helpers:ResourceString Name=NavToolbarSortByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByName.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortByName.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByName.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByDateModified.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortByDateModified.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByDateModified.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByDateCreated.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortByDateCreated.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByDateCreated.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortBySize.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortBySize.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortBySize.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByType.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortByType.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByType.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortBySyncStatus.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortBySyncStatus.Label}" 
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortBySyncStatus.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByTag.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortByTag.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByTag.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByPath.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByPath.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByOriginalFolder.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByOriginalFolder.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByOriginalFolder.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortByDateDeleted.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.SortByDateDeleted.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.SortByDateDeleted.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortByDateDeleted.Label}" />
 							<MenuFlyoutSeparator />
 							<ToggleMenuFlyoutItem
 								AccessKey="A"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortAscending.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortAscending.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortAscending.Label}" />
 							<ToggleMenuFlyoutItem
 								AccessKey="D"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.SortDescending.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.SortDescending.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.SortDescending.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSubItem
 							AccessKey="G"
 							AccessKeyInvoked="SortGroup_AccessKeyInvoked"
-							Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+							Text="{helpers:ResourceString Name=NavToolbarGroupByRadioButtons/Text}">
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByNone.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.GroupByNone.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupByNone.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByName.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.GroupByName.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
-							<MenuFlyoutSubItem
-								Text="{x:Bind Commands.GroupByDateModified.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+								Text="{x:Bind Commands.GroupByName.Label}" />
+							<MenuFlyoutSubItem FontFamily="{ThemeResource ContentControlThemeFontFamily}" Text="{x:Bind Commands.GroupByDateModified.Label}">
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateModifiedYear.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateModifiedYear.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateModifiedYear.Label}" />
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateModifiedMonth.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateModifiedMonth.Label}" />
 							</MenuFlyoutSubItem>
-							<MenuFlyoutSubItem
-								Text="{x:Bind Commands.GroupByDateCreated.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+							<MenuFlyoutSubItem FontFamily="{ThemeResource ContentControlThemeFontFamily}" Text="{x:Bind Commands.GroupByDateCreated.Label}">
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateCreatedYear.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateCreatedYear.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateCreatedYear.Label}" />
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateCreatedMonth.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateCreatedMonth.Label}" />
 							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupBySize.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.GroupBySize.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupBySize.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByType.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.GroupByType.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupByType.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupBySyncStatus.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupBySyncStatus.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupBySyncStatus.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupBySyncStatus.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByTag.IsOn, Mode=TwoWay}"
-								Text="{x:Bind Commands.GroupByTag.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupByTag.Label}" />
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByOriginalFolder.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByOriginalFolder.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByOriginalFolder.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupByOriginalFolder.Label}" />
 							<MenuFlyoutSubItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsEnabled="{x:Bind Commands.GroupByDateDeleted.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByDateDeleted.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+								Text="{x:Bind Commands.GroupByDateDeleted.Label}">
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateDeletedYear.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateDeletedYear.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateDeletedYear.Label}" />
 								<ToggleMenuFlyoutItem
+									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									IsChecked="{x:Bind Commands.GroupByDateDeletedMonth.IsOn, Mode=TwoWay}"
-									Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}"
-									FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+									Text="{x:Bind Commands.GroupByDateDeletedMonth.Label}" />
 							</MenuFlyoutSubItem>
 							<ToggleMenuFlyoutItem
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupByFolderPath.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupByFolderPath.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupByFolderPath.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupByFolderPath.Label}" />
 							<MenuFlyoutSeparator />
 							<ToggleMenuFlyoutItem
 								AccessKey="A"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupAscending.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupAscending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupAscending.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupAscending.Label}" />
 							<ToggleMenuFlyoutItem
 								AccessKey="D"
+								FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 								IsChecked="{x:Bind Commands.GroupDescending.IsOn, Mode=TwoWay}"
 								IsEnabled="{x:Bind Commands.GroupDescending.IsExecutable, Mode=OneWay}"
-								Text="{x:Bind Commands.GroupDescending.Label}"
-								FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+								Text="{x:Bind Commands.GroupDescending.Label}" />
 						</MenuFlyoutSubItem>
 						<MenuFlyoutSeparator />
 						<ToggleMenuFlyoutItem
 							AccessKey="A"
+							FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 							IsChecked="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.IsOn, Mode=TwoWay}"
-							Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}"
-							FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+							Text="{x:Bind Commands.ToggleSortDirectoriesAlongsideFiles.Label}" />
 					</MenuFlyout>
 				</AppBarButton.Flyout>
 
@@ -1040,9 +1036,9 @@
 					x:Name="NavToolbarNewPane"
 					x:Load="{x:Bind Commands.OpenNewPane.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.OpenNewPane, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.OpenNewPane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.OpenNewPane.LabelWithHotKey, Mode=OneWay}">
 					<local:OpacityIcon Style="{x:Bind Commands.OpenNewPane.OpacityStyle}" />
 				</AppBarButton>
 
@@ -1051,9 +1047,9 @@
 					x:Name="NavToolbarClosePane"
 					x:Load="{x:Bind Commands.ClosePane.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.ClosePane, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Label="{x:Bind Commands.ClosePane.Label}"
-					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey, Mode=OneWay}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					ToolTipService.ToolTip="{x:Bind Commands.ClosePane.LabelWithHotKey, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Glyph="{x:Bind Commands.ClosePane.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -1063,9 +1059,9 @@
 				<AppBarButton
 					x:Name="NavToolbarNewWindow"
 					Command="{x:Bind ViewModel.OpenNewWindowCommand, Mode=OneWay}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					KeyboardAcceleratorTextOverride="{helpers:ResourceString Name=NavigationToolbarNewWindow/KeyboardAcceleratorTextOverride}"
-					Label="{helpers:ResourceString Name=NavigationToolbarNewWindow/Label}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					Label="{helpers:ResourceString Name=NavigationToolbarNewWindow/Label}">
 					<local:OpacityIcon Style="{StaticResource ColorIconOpenNewWindow}" />
 					<AppBarButton.KeyboardAccelerators>
 						<KeyboardAccelerator
@@ -1080,8 +1076,8 @@
 					x:Name="NavToolbarEnterCompactOverlay"
 					x:Load="{x:Bind Commands.EnterCompactOverlay.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.EnterCompactOverlay}"
-					Label="{x:Bind Commands.EnterCompactOverlay.Label}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+					Label="{x:Bind Commands.EnterCompactOverlay.Label}">
 					<local:OpacityIcon Style="{x:Bind Commands.EnterCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 
@@ -1090,8 +1086,8 @@
 					x:Name="NavToolbarExitCompactOverlay"
 					x:Load="{x:Bind Commands.ExitCompactOverlay.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.ExitCompactOverlay}"
-					Label="{x:Bind Commands.ExitCompactOverlay.Label}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}">
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+					Label="{x:Bind Commands.ExitCompactOverlay.Label}">
 					<local:OpacityIcon Style="{x:Bind Commands.ExitCompactOverlay.OpacityStyle}" />
 				</AppBarButton>
 

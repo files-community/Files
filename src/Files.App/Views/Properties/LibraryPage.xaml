@@ -63,22 +63,22 @@
 				IsOpen="False">
 				<AppBarButton
 					Command="{x:Bind AddLocationCommand}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Icon="Add"
-					Label="{helpers:ResourceString Name=Add}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+					Label="{helpers:ResourceString Name=Add}" />
 				<AppBarButton
 					Command="{x:Bind SetDefaultLocationCommand}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Icon="Accept"
 					IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
 					Label="{helpers:ResourceString Name=Default}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsDefaultSavePath}" />
 				<AppBarButton
 					Command="{x:Bind RemoveLocationCommand}"
+					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					Icon="Delete"
 					IsEnabled="{x:Bind IsNotDefaultFolderSelected, Mode=OneWay}"
-					Label="{helpers:ResourceString Name=Remove}"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
+					Label="{helpers:ResourceString Name=Remove}" />
 			</CommandBar>
 
 			<!--  (Divider)  -->
