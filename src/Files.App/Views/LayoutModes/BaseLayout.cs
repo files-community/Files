@@ -176,7 +176,6 @@ namespace Files.App.Views.LayoutModes
 					if (jumpedToItem is not null)
 					{
 						ItemManipulationModel.SetSelectedItem(jumpedToItem);
-						ItemManipulationModel.ScrollIntoView(jumpedToItem);
 						ItemManipulationModel.FocusSelectedItems();
 					}
 

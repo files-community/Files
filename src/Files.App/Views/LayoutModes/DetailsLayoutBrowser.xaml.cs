@@ -66,7 +66,11 @@ namespace Files.App.Views.LayoutModes
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
 			FileList.ScrollIntoView(e);
-			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, true); // Scroll to index * item height
+			ContentScroller?.ChangeView(
+				null,
+				(FileList.Items.IndexOf(e) + 1.5) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]) - ContentScroller?.ActualHeight + HeaderGrid.Height,
+				null,
+				true);
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
