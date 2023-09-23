@@ -1,20 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.Core.Services.Settings;
-using Files.Core.ViewModels.FileTags;
-using Files.Shared.Extensions;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using static Files.App.Helpers.MenuFlyoutHelper;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
+using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.UserControls.Menus
 {
@@ -32,6 +23,7 @@ namespace Files.App.UserControls.Menus
 				{
 					var tagItem = new ToggleMenuFlyoutItem()
 					{
+						FontFamily = MenuFlyoutHelper.FontFamily,
 						Text = tag.Name,
 						Tag = tag
 					};

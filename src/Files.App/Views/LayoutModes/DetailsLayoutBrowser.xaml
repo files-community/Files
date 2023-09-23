@@ -255,7 +255,8 @@
 									<MenuFlyoutItem
 										x:Name="AllColumnsToFitMenuflyoutItem"
 										Click="SizeAllColumnsToFit_Click"
-										Text="{helpers:ResourceString Name=SizeAllColumnsToFit}" />
+										Text="{helpers:ResourceString Name=SizeAllColumnsToFit}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
@@ -264,7 +265,8 @@
 									<MenuFlyoutSubItem
 										x:Name="GitColumnsVisibilityMenuFlyoutSubItem"
 										Text="{helpers:ResourceString Name=Git}"
-										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}">
+										Visibility="{x:Bind InstanceViewModel.IsGitRepository, Mode=OneWay}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}">
 
 										<!--  Git Unmerged File Kind  -->
 										<ToggleMenuFlyoutItem
@@ -272,7 +274,8 @@
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitStatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=GitStatus}"
-											Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 										<!--  Git Last Commit Date  -->
 										<ToggleMenuFlyoutItem
@@ -280,7 +283,8 @@
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=DateCommitted}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 										<!--  Git Last Commit Message  -->
 										<ToggleMenuFlyoutItem
@@ -288,7 +292,8 @@
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitMessage}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 										<!--  Git Last Commit Author  -->
 										<ToggleMenuFlyoutItem
@@ -296,7 +301,8 @@
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=Author}"
-											Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 										<!--  Git Last Commit SHA  -->
 										<ToggleMenuFlyoutItem
@@ -304,7 +310,8 @@
 											Click="ToggleMenuFlyoutItem_Click"
 											IsChecked="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 											Text="{helpers:ResourceString Name=CommitSha}"
-											Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+											FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									</MenuFlyoutSubItem>
 
@@ -314,7 +321,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.TagColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=Tag}"
-										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.TagColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Path  -->
 									<ToggleMenuFlyoutItem
@@ -322,7 +330,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.PathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=PathColumn}"
-										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.PathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Original Path  -->
 									<ToggleMenuFlyoutItem
@@ -330,7 +339,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.OriginalPathColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowOriginalPath/Text}"
-										Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Date Deleted  -->
 									<ToggleMenuFlyoutItem
@@ -338,7 +348,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateDeletedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateDeleted/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Date Modified  -->
 									<ToggleMenuFlyoutItem
@@ -346,7 +357,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateModifiedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateModified/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Date Created  -->
 									<ToggleMenuFlyoutItem
@@ -354,7 +366,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.DateCreatedColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowDateCreated/Text}"
-										Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Type  -->
 									<ToggleMenuFlyoutItem
@@ -362,7 +375,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.ItemTypeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemType/Text}"
-										Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Item Size  -->
 									<ToggleMenuFlyoutItem
@@ -370,7 +384,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.SizeColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowItemSize/Text}"
-										Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.SizeColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  Cloud Sync Status  -->
 									<ToggleMenuFlyoutItem
@@ -378,7 +393,8 @@
 										Click="ToggleMenuFlyoutItem_Click"
 										IsChecked="{x:Bind ColumnsViewModel.StatusColumn.UserCollapsed, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
 										Text="{helpers:ResourceString Name=DetailsViewHeaderFlyout_ShowSyncStatus/Text}"
-										Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ColumnsViewModel.StatusColumn.IsHidden, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 									<!--  (Divider)  -->
 									<MenuFlyoutSeparator />
@@ -387,7 +403,8 @@
 									<MenuFlyoutItem
 										x:Name="SetCurrentColumnsAsDefaultMenuFlyoutItem"
 										Click="SetDetailsColumnsAsDefault_Click"
-										Text="{helpers:ResourceString Name=SetAsDefault}" />
+										Text="{helpers:ResourceString Name=SetAsDefault}"
+										FontFamily="{ThemeResource ContentControlThemeFontFamily}" />
 
 								</MenuFlyout>
 							</Grid.ContextFlyout>

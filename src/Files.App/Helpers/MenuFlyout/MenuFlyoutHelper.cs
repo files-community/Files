@@ -1,13 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Files.App.Helpers
@@ -15,6 +11,10 @@ namespace Files.App.Helpers
 	public class MenuFlyoutHelper : DependencyObject
 	{
 		#region View Models
+
+		public static readonly IAppearanceSettingsService Appearance = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+
+		public static readonly FontFamily FontFamily = new (Appearance.AppThemeFontFamily);
 
 		public interface IMenuFlyoutItemViewModel { }
 
@@ -125,6 +125,7 @@ namespace Files.App.Helpers
 				{
 					var mfi = new MenuFlyoutItem
 					{
+						FontFamily = FontFamily,
 						Text = vm.Text,
 						Command = vm.Command,
 						CommandParameter = vm.CommandParameter,

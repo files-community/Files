@@ -30,6 +30,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
 					var placeolder = new MenuFlyoutItem()
 					{
+						FontFamily = MenuFlyoutHelper.FontFamily,
 						Text = menuFlyoutSubItem.Text,
 						Tag = menuFlyoutSubItem.Tag,
 						Icon = menuFlyoutSubItem.Icon,
@@ -105,6 +106,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				var item = new MenuFlyoutItemWithImage()
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Text = i.Text,
 					Tag = i.Tag,
 					Command = i.Command,
@@ -126,6 +128,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				flyoutItem = new ToggleMenuFlyoutItem()
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Text = i.Text,
 					Tag = i.Tag,
 					Command = i.Command,
@@ -152,6 +155,7 @@ namespace Files.App.Helpers.ContextFlyouts
 
 				flyoutItem = new MenuFlyoutItem()
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Text = i.Text,
 					Tag = i.Tag,
 					Command = i.Command,
@@ -229,6 +233,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				element = new AppBarToggleButton()
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Label = item.Text,
 					Tag = item.Tag,
 					Command = item.Command,
@@ -259,6 +264,7 @@ namespace Files.App.Helpers.ContextFlyouts
 			{
 				element = new AppBarButton()
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Label = item.Text,
 					Tag = item.Tag,
 					Command = item.Command,

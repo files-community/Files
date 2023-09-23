@@ -620,6 +620,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Icon = new FontIcon { Glyph = "\uE7BA" },
 					Text = "SubDirectoryAccessDenied".GetLocalizedResource(),
 					//Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
@@ -643,6 +644,7 @@ namespace Files.App.ViewModels.UserControls
 
 				var flyoutItem = new MenuFlyoutItem
 				{
+					FontFamily = MenuFlyoutHelper.FontFamily,
 					Icon = new FontIcon
 					{
 						Glyph = "\uED25",

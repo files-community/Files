@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.LayoutModes;
-using Files.Shared.Helpers;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.LayoutModes;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
