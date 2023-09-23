@@ -280,5 +280,16 @@ namespace Files.App.Helpers
 			});
 			return dialog;
 		}
+
+		public static DynamicDialog GetFor_GitCannotInitializeqRepositoryHere()
+		{
+			return new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = "Error".GetLocalizedResource(),
+				SubtitleText = "CannotInitializeGitRepositoryHere".GetLocalizedResource(),
+				PrimaryButtonText = "Close".GetLocalizedResource(),
+				DynamicButtons = DynamicDialogButtons.Primary
+			});
+		}
 	}
 }
