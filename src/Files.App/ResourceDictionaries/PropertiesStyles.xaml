@@ -44,18 +44,6 @@
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 	</Style>
 
-	<Style x:Key="PropertyValueAppBarButton" TargetType="AppBarButton">
-		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-	</Style>
-
-	<Style x:Key="PropertyValueMenuFlyoutItem" TargetType="MenuFlyoutItem">
-		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-	</Style>
-
-	<Style x:Key="PropertyValueMenuFlyoutSubItem" TargetType="MenuFlyoutSubItem">
-		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-	</Style>
-
 	<Style
 		x:Key="PropertyValueTextBox"
 		BasedOn="{StaticResource DefaultTextBoxStyle}"
