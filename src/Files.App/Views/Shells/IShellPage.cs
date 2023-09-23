@@ -25,6 +25,17 @@ namespace Files.App.Views.Shells
 
 		bool CanNavigateForward { get; }
 
+		/// <summary>
+		/// True if the pane that contains this page is current.
+		/// </summary>
+		bool IsCurrentPane { get; }
+
+		/// <summary>
+		/// Returns a <see cref="Task"/> to wait until the pane and column become current.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
+		Task WhenIsCurrent();
+
 		Task RefreshIfNoWatcherExists();
 
 		Task Refresh_Click();
