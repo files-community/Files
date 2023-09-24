@@ -65,22 +65,16 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
-			FileList.ScrollIntoView(e);
-			// The item will be seen at the bottom of the page
-			ContentScroller?.ChangeView(
-				null,
-				(FileList.Items.IndexOf(e) + 1.5) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]) - ContentScroller?.ActualHeight + HeaderGrid.Height,
-				null,
-				true);
+			(FileList.ContainerFromItem(e) as ListViewItem)?.StartBringIntoView();
 		}
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
 			{
-				FileList.ScrollIntoView(SelectedItems.Last());
-				ContentScroller?.ChangeView(null, FileList.Items.IndexOf(SelectedItems.Last()) * Convert.ToInt32(Application.Current.Resources["ListItemHeight"]), null, false);
-				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
+				var listViewItem = FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem;
+				listViewItem?.StartBringIntoView();
+				listViewItem?.Focus(FocusState.Keyboard);
 			}
 		}
 
