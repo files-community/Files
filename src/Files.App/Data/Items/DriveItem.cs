@@ -6,17 +6,61 @@ using Files.Core.Storage;
 using Files.Core.Storage.Enums;
 using Files.Core.Storage.LocatableStorage;
 using Files.Core.Storage.NestedStorage;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
+
 	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
+		// Property to handle alternating background colors for network drives
+		private static int BackgroundColorIndex = 0;
+
+		// Define an array of colors for alternating background
+		private static readonly Color[] BackgroundColors =
+		{
+		Colors.LightYellow,
+		Colors.LightPink,
+		Colors.LightBlue,
+		Colors.LightGreen,
+		Colors.LightCoral,
+		Colors.LightSeaGreen,
+		Colors.LightSteelBlue,
+		Colors.LightGoldenrodYellow,
+		Colors.LightSlateGray,
+		Colors.LightCyan
+		
+        // Add more colors as needed
+    };
+
+		// Property to handle alternating background colors for network drives
+		public SolidColorBrush BackgroundColor
+		{
+			get
+			{
+				if (Type == DriveType.Network)
+				{
+					// Get the next color from the array
+					Color nextColor = BackgroundColors[BackgroundColorIndex++ % BackgroundColors.Length];
+					return new SolidColorBrush(nextColor);
+				}
+				else
+				{
+					// Non-network drives have no color
+					return null; 
+				}
+			}
+		}
+
+
 		private BitmapImage icon;
 		public BitmapImage Icon
 		{
