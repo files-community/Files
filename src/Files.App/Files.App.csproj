@@ -65,7 +65,6 @@
         <Content Update="Assets\FilesOpenDialog\Files.App.Launcher.exe">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Remove="Assets\FilesHome.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -85,7 +84,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230822000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -94,7 +93,7 @@
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.16" />
-        <PackageReference Include="WinUIEx" Version="2.1.0" />
+        <PackageReference Include="WinUIEx" Version="2.3.0" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Shell" Version="3.4.16" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />

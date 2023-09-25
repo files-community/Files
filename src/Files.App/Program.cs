@@ -18,7 +18,7 @@ namespace Files.App
 
 		static Program()
 		{
-			Pool = new(0, 1, "Files-Instance", out var isNew);
+			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
 			if (!isNew)
 			{
 				// Resume cached instance

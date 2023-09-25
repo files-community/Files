@@ -168,7 +168,7 @@ namespace Files.App.Data.Models
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			OnPropertyChanged(nameof(WorkingDirectory));
