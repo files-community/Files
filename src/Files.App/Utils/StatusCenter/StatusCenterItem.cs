@@ -128,6 +128,8 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProgressOverviewText, value);
 		}
 
+		public string? HeaderStringResource { get; set; }
+
 		public ObservableCollection<ObservablePoint> Values { get; set; }
 
 		public ObservableCollection<ISeries> Series { get; set; }
@@ -181,8 +183,10 @@ namespace Files.App.Utils.StatusCenter
 		{
 			_operationCancellationToken = operationCancellationToken;
 			HeaderBody = title;
+			HeaderStringResource = title;
 			Header = title;
 			SubHeader = message;
+			SubHeaderStringResource = message;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
@@ -267,7 +271,7 @@ namespace Files.App.Utils.StatusCenter
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
 		{
-			// The Operation has been cancelled. Do update neither progress value nor text.
+			// The operation has been canceled. Do update neither progress value nor text.
 			if (CancellationToken.IsCancellationRequested)
 				return;
 
@@ -293,6 +297,8 @@ namespace Files.App.Utils.StatusCenter
 				if (CurrentProcessingItemNameText != value.FileName)
 					CurrentProcessingItemNameText = value.FileName;
 			}
+
+			StatusCenterHelper.UpdateCardStrings(this, new List<string>(), new List<string>(), value.ProcessedItemsCount, value.ItemsCount);
 
 			ObservablePoint point;
 
@@ -344,7 +350,7 @@ namespace Files.App.Utils.StatusCenter
 			Values.Add(point);
 
 			Header = $"{HeaderBody} ({ProgressPercentage}%)";
-			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} - {ProgressPercentage}%";
+			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} {"items".GetLocalizedResource()}";
 
 			_viewModel.NotifyChanges();
 			_viewModel.UpdateAverageProgressValue();

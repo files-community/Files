@@ -90,10 +90,10 @@
 
 										<TextBlock
 											x:Name="StatusCenterItemSubHeaderTextBlock"
-											x:Load="{x:Bind SubHeader, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											x:Load="{x:Bind ProgressOverviewText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											MaxLines="1"
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind SubHeader, Mode=OneWay}"
+											Text="{x:Bind ProgressOverviewText, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
@@ -249,11 +249,14 @@
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											MaxLines="1"
 											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind ProgressOverviewText, Mode=OneWay}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap"
 											ToolTipService.ToolTip="{x:Bind ProgressOverviewText, Mode=OneWay}"
-											Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+											Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+											<Run Text="{x:Bind ProgressOverviewText, Mode=OneWay}" />
+											<Run Text="-" />
+											<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
+										</TextBlock>
 
 										<!--  Detailed Info (Displayed When Graph Collapsed)  -->
 										<StackPanel Spacing="2" Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">

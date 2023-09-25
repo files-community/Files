@@ -135,7 +135,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			// post the status banner
-			var banner = StatusCenterHelper.PostBanner_Delete(
+			var banner = StatusCenterHelper.AddCard_Delete(
 				source,
 				returnStatus,
 				permanently,
@@ -163,7 +163,7 @@ namespace Files.App.Utils.Storage
 
 			sw.Stop();
 
-			StatusCenterHelper.PostBanner_Delete(
+			StatusCenterHelper.AddCard_Delete(
 				source,
 				returnStatus,
 				permanently,
@@ -285,7 +285,7 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var banner = StatusCenterHelper.PostBanner_Copy(
+			var banner = StatusCenterHelper.AddCard_Copy(
 				source,
 				destination,
 				returnStatus,
@@ -330,7 +330,7 @@ namespace Files.App.Utils.Storage
 
 			_statusCenterViewModel.RemoveItem(banner);
 
-			StatusCenterHelper.PostBanner_Copy(
+			StatusCenterHelper.AddCard_Copy(
 				source,
 				destination,
 				returnStatus,
@@ -422,7 +422,7 @@ namespace Files.App.Utils.Storage
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-			var banner = StatusCenterHelper.PostBanner_Move(
+			var banner = StatusCenterHelper.AddCard_Move(
 				source,
 				destination,
 				returnStatus,
@@ -474,7 +474,7 @@ namespace Files.App.Utils.Storage
 
 			sw.Stop();
 
-			StatusCenterHelper.PostBanner_Move(
+			StatusCenterHelper.AddCard_Move(
 				source,
 				destination,
 				returnStatus,

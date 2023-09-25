@@ -150,7 +150,7 @@ namespace Files.App.Utils.Archives
 
 			CancellationTokenSource extractCancellation = new();
 
-			var banner = StatusCenterHelper.PostBanner_Decompress(
+			var banner = StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.InProgress,
@@ -162,7 +162,7 @@ namespace Files.App.Utils.Archives
 
 			_statusCenterViewModel.RemoveItem(banner);
 
-			StatusCenterHelper.PostBanner_Decompress(
+			StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.Success,

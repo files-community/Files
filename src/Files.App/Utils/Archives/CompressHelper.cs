@@ -69,7 +69,7 @@ namespace Files.App.Utils.Archives
 
 			creator.ArchivePath = archivePath;
 
-			var banner = StatusCenterHelper.PostBanner_Compress(
+			var banner = StatusCenterHelper.AddCard_Compress(
 				creator.Sources,
 				archivePath.CreateEnumerable(),
 				ReturnResult.InProgress,
@@ -84,7 +84,7 @@ namespace Files.App.Utils.Archives
 
 			if (isSuccess)
 			{
-				StatusCenterHelper.PostBanner_Compress(
+				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,
 					archivePath.CreateEnumerable(),
 					ReturnResult.Success,
@@ -95,7 +95,7 @@ namespace Files.App.Utils.Archives
 			{
 				NativeFileOperationsHelper.DeleteFileFromApp(archivePath);
 
-				StatusCenterHelper.PostBanner_Compress(
+				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,
 					archivePath.CreateEnumerable(),
 					ReturnResult.Failed,
