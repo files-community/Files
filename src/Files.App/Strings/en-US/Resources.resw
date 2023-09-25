@@ -1171,7 +1171,7 @@
     <value>Item count</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compress "{0}" items</value>
+    <value>Canceled compressing "{0}" items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
@@ -1187,7 +1187,7 @@
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copy {0} items</value>
+    <value>Canceled copying {0} items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
@@ -1203,7 +1203,7 @@
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled decompress "{0}"</value>
+    <value>Canceled decompressing "{0}"</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
@@ -1219,7 +1219,7 @@
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled delete {0} items</value>
+    <value>Canceled deleting {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
@@ -1235,7 +1235,7 @@
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Canceled recycle {0} items</value>
+    <value>Canceled recycling {0} items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
@@ -1251,7 +1251,7 @@
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled move {0} items</value>
+    <value>Canceled moving {0} items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
