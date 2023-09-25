@@ -64,9 +64,9 @@ namespace Files.App.ViewModels.UserControls
 			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasAnyItem));
 		}
 
-		public StatusCenterItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource = null)
+		public StatusCenterItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, IEnumerable<string> source, IEnumerable<string> destination, CancellationTokenSource cancellationTokenSource = null)
 		{
-			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, cancellationTokenSource);
+			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, source, destination, cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);
 			NewItemAdded?.Invoke(this, banner);

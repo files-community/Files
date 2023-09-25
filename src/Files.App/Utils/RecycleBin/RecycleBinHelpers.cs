@@ -63,7 +63,9 @@ namespace Files.App.Utils.RecycleBin
 					"EmptyingRecycleBin".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
-					FileOperationType.Delete);
+					FileOperationType.Delete,
+					null,
+					null);
 
 				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
 
@@ -75,14 +77,18 @@ namespace Files.App.Utils.RecycleBin
 						"BinEmptyingSucceded".GetLocalizedResource(),
 						100,
 						ReturnResult.Success,
-						FileOperationType.Delete);
+						FileOperationType.Delete,
+						null,
+						null);
 				else
 					_statusCenterViewModel.AddItem(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
 						100,
 						ReturnResult.Failed,
-						FileOperationType.Delete);
+						FileOperationType.Delete,
+						null,
+						null);
 			}
 		}
 

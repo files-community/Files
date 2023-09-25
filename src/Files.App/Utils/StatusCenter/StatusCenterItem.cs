@@ -173,24 +173,29 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
+		public IEnumerable<string> Source { get; private set; }
+
+		public IEnumerable<string> Destination { get; private set; }
+
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = default)
+		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, IEnumerable<string> source, IEnumerable<string> destination, CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
 			HeaderBody = title;
 			HeaderStringResource = title;
 			Header = title;
 			SubHeader = message;
-			SubHeaderStringResource = message;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
+			Source = source;
+			Destination = destination;
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -267,6 +272,8 @@ namespace Files.App.Utils.StatusCenter
 						break;
 					}
 			}
+
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, 0, 0);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -298,7 +305,7 @@ namespace Files.App.Utils.StatusCenter
 					CurrentProcessingItemNameText = value.FileName;
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, new List<string>(), new List<string>(), value.ProcessedItemsCount, value.ItemsCount);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ProcessedItemsCount, value.ItemsCount);
 
 			ObservablePoint point;
 

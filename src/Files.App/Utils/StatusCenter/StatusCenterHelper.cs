@@ -20,7 +20,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Cancelled,
-						FileOperationType.Delete);
+						FileOperationType.Delete,
+						source.Select(x => x.Path),
+						null);
 				}
 				else
 				{
@@ -29,7 +31,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Cancelled,
-						FileOperationType.Recycle);
+						FileOperationType.Recycle,
+						source.Select(x => x.Path),
+						null);
 				}
 			}
 			else if (returnStatus == ReturnResult.InProgress)
@@ -43,6 +47,8 @@ namespace Files.App.Utils.StatusCenter
 						0,
 						ReturnResult.InProgress,
 						FileOperationType.Delete,
+						source.Select(x => x.Path),
+						null,
 						new CancellationTokenSource());
 				}
 				else
@@ -54,6 +60,8 @@ namespace Files.App.Utils.StatusCenter
 						0,
 						ReturnResult.InProgress,
 						FileOperationType.Recycle,
+						source.Select(x => x.Path),
+						null,
 						new CancellationTokenSource());
 				}
 			}
@@ -66,7 +74,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Success,
-						FileOperationType.Delete);
+						FileOperationType.Delete,
+						source.Select(x => x.Path),
+						null);
 				}
 				else
 				{
@@ -75,7 +85,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Success,
-						FileOperationType.Recycle);
+						FileOperationType.Recycle,
+						source.Select(x => x.Path),
+						null);
 				}
 			}
 			else
@@ -87,7 +99,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Failed,
-						FileOperationType.Delete);
+						FileOperationType.Delete,
+						source.Select(x => x.Path),
+						null);
 				}
 				else
 				{
@@ -96,7 +110,9 @@ namespace Files.App.Utils.StatusCenter
 						string.Empty,
 						0,
 						ReturnResult.Failed,
-						FileOperationType.Recycle);
+						FileOperationType.Recycle,
+						source.Select(x => x.Path),
+						null);
 				}
 			}
 		}
@@ -113,7 +129,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Cancelled,
-					FileOperationType.Copy);
+					FileOperationType.Copy,
+					source.Select(x => x.Path),
+					destination);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
@@ -122,7 +140,10 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.InProgress,
-					FileOperationType.Copy, new CancellationTokenSource());
+					FileOperationType.Copy,
+					source.Select(x => x.Path),
+					destination,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
@@ -131,7 +152,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Success,
-					FileOperationType.Copy);
+					FileOperationType.Copy,
+					source.Select(x => x.Path),
+					destination);
 			}
 			else
 			{
@@ -140,7 +163,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Failed,
-					FileOperationType.Copy);
+					FileOperationType.Copy,
+					source.Select(x => x.Path),
+					destination);
 			}
 		}
 
@@ -156,7 +181,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Cancelled,
-					FileOperationType.Move);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
@@ -165,7 +192,10 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.InProgress,
-					FileOperationType.Move, new CancellationTokenSource());
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
@@ -174,7 +204,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Success,
-					FileOperationType.Move);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination);
 			}
 			else
 			{
@@ -183,7 +215,9 @@ namespace Files.App.Utils.StatusCenter
 					string.Empty,
 					0,
 					ReturnResult.Failed,
-					FileOperationType.Move);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination);
 			}
 		}
 
@@ -195,38 +229,47 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled_Header",
+					"StatusCenter_CompressCanceled_Header",
 					string.Empty,
 					0,
 					ReturnResult.Cancelled,
-					FileOperationType.Move);
+					FileOperationType.Compressed,
+					source,
+					destination);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress_Header",
+					"StatusCenter_CompressInProgress_Header",
 					string.Empty,
 					0,
 					ReturnResult.InProgress,
-					FileOperationType.Move, new CancellationTokenSource());
+					FileOperationType.Compressed,
+					source,
+					destination,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete_Header",
+					"StatusCenter_CompressComplete_Header",
 					string.Empty,
 					0,
 					ReturnResult.Success,
-					FileOperationType.Move);
+					FileOperationType.Compressed,
+					source,
+					destination);
 			}
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed_Header",
+					"StatusCenter_CompressFailed_Header",
 					string.Empty,
 					0,
 					ReturnResult.Failed,
-					FileOperationType.Move);
+					FileOperationType.Compressed,
+					source,
+					destination);
 			}
 		}
 
@@ -238,38 +281,47 @@ namespace Files.App.Utils.StatusCenter
 			if (canceled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled_Header",
+					"StatusCenter_DecompressCanceled_Header",
 					string.Empty,
 					0,
 					ReturnResult.Cancelled,
-					FileOperationType.Move);
+					FileOperationType.Extract,
+					source,
+					destination);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress_Header",
+					"StatusCenter_DecompressInProgress_Header",
 					string.Empty,
 					0,
 					ReturnResult.InProgress,
-					FileOperationType.Move, new CancellationTokenSource());
+					FileOperationType.Extract,
+					source,
+					destination,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete_Header",
+					"StatusCenter_DecompressComplete_Header",
 					string.Empty,
 					0,
 					ReturnResult.Success,
-					FileOperationType.Move);
+					FileOperationType.Extract,
+					source,
+					destination);
 			}
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed_Header",
+					"StatusCenter_DecompressFailed_Header",
 					string.Empty,
 					0,
 					ReturnResult.Failed,
-					FileOperationType.Move);
+					FileOperationType.Extract,
+					source,
+					destination);
 			}
 		}
 
