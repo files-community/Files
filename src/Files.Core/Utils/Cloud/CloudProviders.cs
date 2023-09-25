@@ -42,5 +42,7 @@ namespace Files.Core.Utils.Cloud
 		Autodesk,
 
 		ownCloud,
+
+		ProtonDrive
 	}
 }
