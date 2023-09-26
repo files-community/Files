@@ -304,7 +304,7 @@ namespace Files.App.Utils.StatusCenter
 					ProgressPercentage = (int)p;
 
 					CurrentProcessedSizeText = string.Format(
-						"StatusCenter_ProcessedSize".GetLocalizedResource(),
+						"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
 						value.ProcessedSize.ToSizeString(),
 						value.TotalSize.ToSizeString());
 				}

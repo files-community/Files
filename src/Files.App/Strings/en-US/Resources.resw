@@ -3492,4 +3492,7 @@
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
     <value>Failed to empty the Rrecycle Bin</value>
   </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
 </root>

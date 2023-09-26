@@ -421,7 +421,7 @@ namespace Files.App.Utils.StatusCenter
 				false);
 		}
 
-		public static void UpdateCardStrings(StatusCenterItem card, IEnumerable<string> source, IEnumerable<string> destination, long totalItemCount)
+		public static void UpdateCardStrings(StatusCenterItem card, IEnumerable<string>? source, IEnumerable<string>? destination, long totalItemCount)
 		{
 			if (string.IsNullOrWhiteSpace(card.HeaderStringResource))
 				return;
@@ -432,13 +432,13 @@ namespace Files.App.Utils.StatusCenter
 
 			string fileName = string.Empty;
 
-			if (source is not null && source.Count() != 0)
+			if (source is not null && source.Any())
 			{
 				sourceDir = PathNormalization.GetParentDir(source.First());
 				fileName = source.First().Split('\\').Last();
 			}
 
-			if (destination is not null && destination.Count() != 0)
+			if (destination is not null && destination.Any())
 				destinationDir = PathNormalization.GetParentDir(destination.First());
 
 			// Update string resources

@@ -224,7 +224,7 @@
 													FontSize="10"
 													Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 													Style="{StaticResource CaptionTextBlockStyle}"
-													Text="Speed:" />
+													Text="{helpers:ResourceString Name=SpeedWithColon}" />
 
 												<TextBlock
 													x:Name="OperationSpeedPerSecTextBlock"
