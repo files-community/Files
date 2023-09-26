@@ -199,7 +199,7 @@
 												MinHeight="70"
 												VerticalAlignment="Stretch"
 												CornerRadius="4,0,0,4"
-												IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
+												IsIndeterminate="False"
 												Style="{StaticResource CustomProgressBarStyle}"
 												Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
 												Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
@@ -239,11 +239,12 @@
 
 									</Border>
 
-									<!--  Footer  -->
+									<!--  Footer For Accurate Progress  -->
 									<Grid
 										Grid.Row="1"
 										Margin="4,0"
-										VerticalAlignment="Top">
+										VerticalAlignment="Top"
+										Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
 
 										<!--  SubFooter (Displayed When Graph Collapsed)  -->
 										<TextBlock
@@ -290,6 +291,21 @@
 										</StackPanel>
 
 									</Grid>
+
+									<!--  Footer For Inaccurate Progress  -->
+									<TextBlock
+										x:Name="StatusCenterItemSubFooterTextBlock"
+										Grid.Row="1"
+										Margin="4,0"
+										VerticalAlignment="Top"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										MaxLines="1"
+										Style="{StaticResource CaptionTextBlockStyle}"
+										Text="{helpers:ResourceString Name=ProcessingItems}"
+										TextTrimming="CharacterEllipsis"
+										TextWrapping="NoWrap"
+										ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
+										Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 
 									<!--  Action Buttons  -->
 									<Grid

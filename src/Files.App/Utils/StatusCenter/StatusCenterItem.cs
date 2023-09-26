@@ -245,6 +245,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						IsExpandable = canProvideProgress;
 						IsInProgress = true;
+						IsIndeterminateProgress = !canProvideProgress;
 
 						if (Operation is FileOperationType.Prepare)
 							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
@@ -281,7 +282,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, 0);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, Source.Count());
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -294,19 +295,28 @@ namespace Files.App.Utils.StatusCenter
 			if (value.Status is FileSystemStatusCode status)
 				FileSystemOperationReturnResult = status.ToStatus();
 
-			// Get if the operation is in progress
-			IsExpandable = (value.Status & FileSystemStatusCode.InProgress) != 0;
-
 			if (value.Percentage is double p)
 			{
 				if (ProgressPercentage != value.Percentage)
 				{
 					ProgressPercentage = (int)p;
 
-					CurrentProcessedSizeText = string.Format(
-						"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
-						value.ProcessedSize.ToSizeString(),
-						value.TotalSize.ToSizeString());
+					if (Operation == FileOperationType.Recycle ||
+						Operation == FileOperationType.Delete)
+					{
+						CurrentProcessedSizeText = string.Format(
+							"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
+							value.ProcessedItemsCount,
+							value.ItemsCount);
+					}
+					else
+					{
+						CurrentProcessedSizeText = string.Format(
+							"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
+							value.ProcessedSize.ToSizeString(),
+							value.TotalSize.ToSizeString());
+					}
+
 				}
 
 				if (CurrentProcessingItemNameText != value.FileName)
@@ -379,6 +389,8 @@ namespace Files.App.Utils.StatusCenter
 				IsIndeterminateProgress = true;
 				IsCancelable = false;
 				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
+				IsExpanded = false;
+				IsExpandable = false;
 			}
 		}
 	}

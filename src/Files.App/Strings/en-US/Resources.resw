@@ -3389,7 +3389,7 @@
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Failed to compress items</value>
+    <value>Failed to compress {0} items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
@@ -3425,7 +3425,7 @@
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting {0} items</value>
+    <value>Extracting "{0}"</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
@@ -3492,7 +3492,13 @@
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
     <value>Failed to empty the Rrecycle Bin</value>
   </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} items processed</value>
   </data>
 </root>

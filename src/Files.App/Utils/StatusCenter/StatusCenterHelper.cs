@@ -246,6 +246,8 @@ namespace Files.App.Utils.StatusCenter
 
 		public static StatusCenterItem AddCard_Compress(IEnumerable<string> source, IEnumerable<string> destination, ReturnResult returnStatus)
 		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
@@ -259,7 +261,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Compressed,
 					source,
 					destination,
-					true);
+					false);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
@@ -271,7 +273,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Compressed,
 					source,
 					destination,
-					true,
+					false,
 					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
@@ -284,7 +286,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Compressed,
 					source,
 					destination,
-					true);
+					false);
 			}
 			else
 			{
@@ -296,12 +298,14 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Compressed,
 					source,
 					destination,
-					true);
+					false);
 			}
 		}
 
 		public static StatusCenterItem AddCard_Decompress(IEnumerable<string> source, IEnumerable<string> destination, ReturnResult returnStatus)
 		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
@@ -315,7 +319,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Extract,
 					source,
 					destination,
-					true);
+					false);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
@@ -327,7 +331,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Extract,
 					source,
 					destination,
-					true,
+					false,
 					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
@@ -340,7 +344,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Extract,
 					source,
 					destination,
-					true);
+					false);
 			}
 			else
 			{
@@ -352,12 +356,14 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Extract,
 					source,
 					destination,
-					true);
+					false);
 			}
 		}
 
 		public static StatusCenterItem AddCard_EmptyRecycleBin(ReturnResult returnStatus)
 		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
