@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal class CommandManager : ICommandManager
+	public class CommandManager : ICommandManager
 	{
 		private readonly IGeneralSettingsService settings = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
@@ -37,6 +37,11 @@ namespace Files.App.Data.Commands
 			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
 
+		public delegate void CommandExecutedEventHandler(object sender, CommandExecutedEventArgs e);
+
+		public event CommandExecutedEventHandler CommandExecuted;
+
+		#region Command Declaration
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
@@ -181,6 +186,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand GitPush => commands[CommandCodes.GitPush];
 		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
+
+		#endregion Command Declaration
 
 		public CommandManager()
 		{
@@ -392,6 +399,11 @@ namespace Files.App.Data.Commands
 				UpdateHotKeys();
 		}
 
+		private void NotifyCommandExecuted(CommandCodes code)
+		{
+			CommandExecuted?.Invoke(this, new CommandExecutedEventArgs { Code = code} );
+		}
+
 		[DebuggerDisplay("Command {Code}")]
 		internal class ActionCommand : ObservableObject, IRichCommand
 		{
@@ -488,7 +500,12 @@ namespace Files.App.Data.Commands
 				if (IsExecutable)
 				{
 					Analytics.TrackEvent($"Triggered {Code} action");
-					return Action.ExecuteAsync();
+					Action.ExecuteAsync();
+					return Task.Run(async () => 
+					{
+						await Action.ExecuteAsync();
+						manager.NotifyCommandExecuted(Code);
+					}) ;
 				}
 
 				return Task.CompletedTask;
@@ -553,5 +570,10 @@ namespace Files.App.Data.Commands
 				}
 			}
 		}
+	}
+
+	public class CommandExecutedEventArgs
+	{
+		public CommandCodes Code;
 	}
 }

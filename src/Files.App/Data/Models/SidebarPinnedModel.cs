@@ -214,18 +214,5 @@ namespace Files.App.Data.Models
 			if (locationItem.IconData is not null)
 				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync());
 		}
-
-		public async void UpdateRecycleBinIcon()
-		{
-			LocationItem? recycleBinLocationItem = favoriteList.Cast<LocationItem>()?
-															   .FirstOrDefault(element => element.Path == UserEnvironmentPaths.RecycleBinPath);
-
-			if (recycleBinLocationItem == null)
-				return;
-
-			int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
-			recycleBinLocationItem.IconData = UIHelpers.GetSidebarIconResourceInfo(recycleBinIconIndex).IconData;
-			await UpdateLocationItemIcon(recycleBinLocationItem);
-		}
 	}
 }

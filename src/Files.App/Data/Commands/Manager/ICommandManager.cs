@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using static Files.App.Data.Commands.CommandManager;
+
 namespace Files.App.Data.Commands
 {
 	public interface ICommandManager : IEnumerable<IRichCommand>
@@ -8,6 +10,8 @@ namespace Files.App.Data.Commands
 		IRichCommand this[CommandCodes code] { get; }
 		IRichCommand this[string code] { get; }
 		IRichCommand this[HotKey customHotKey] { get; }
+
+		event CommandExecutedEventHandler CommandExecuted;
 
 		IRichCommand None { get; }
 

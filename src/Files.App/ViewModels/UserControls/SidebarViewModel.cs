@@ -19,6 +19,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
+using static Files.App.Constants;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -254,6 +255,7 @@ namespace Files.App.ViewModels.UserControls
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
+			Commands.CommandExecuted += OnCommandExecuted;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
@@ -1296,6 +1298,37 @@ namespace Files.App.ViewModels.UserControls
 
 			deferral.Complete();
 			await Task.Yield();
+		}
+
+		private async void UpdateRecycleBinIcon()
+		{
+			LocationItem? recycleBinLocationItem = SidebarPinnedModel.Favorites
+																	 .Cast<LocationItem>()?
+																	 .FirstOrDefault(element => element.Path == UserEnvironmentPaths.RecycleBinPath);
+
+			if (recycleBinLocationItem == null)
+				return;
+
+			int recycleBinIconIndex = UIHelpers.GetAdaptedRecycleBinIconIndex();
+			recycleBinLocationItem.IconData = UIHelpers.GetSidebarIconResourceInfo(recycleBinIconIndex).IconData;
+			if (recycleBinLocationItem.IconData is not null)
+				recycleBinLocationItem.Icon = await recycleBinLocationItem.IconData.ToBitmapAsync();
+		}
+
+		private void OnCommandExecuted(object sender, CommandExecutedEventArgs e)
+		{
+			switch(e.Code)
+			{
+				case CommandCodes.DeleteItem:
+				case CommandCodes.DeleteItemPermanently:
+				case CommandCodes.EmptyRecycleBin:
+				case CommandCodes.RestoreRecycleBin:
+				case CommandCodes.RestoreAllRecycleBin:
+					UpdateRecycleBinIcon();
+					break;
+				default:
+					return;
+			}
 		}
 
 		private static DragEventArgs CompleteDragEventArgs(DragEventArgs e, string captionText, DataPackageOperation operationType)
