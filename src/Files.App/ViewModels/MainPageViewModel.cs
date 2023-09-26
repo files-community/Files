@@ -213,6 +213,11 @@ namespace Files.App.ViewModels
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
 				tabLocationHeader = "RecycleBin".GetLocalizedResource();
+
+				// Use 48 for higher resolution, the other items look fine with 16.
+				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
+				if (iconData is not null)
+					iconSource.ImageSource = await iconData.ToBitmapAsync();
 			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
 			{
