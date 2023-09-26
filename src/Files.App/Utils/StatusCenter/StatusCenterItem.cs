@@ -121,6 +121,13 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProgressOverviewText, value);
 		}
 
+		private bool _IsCancelable;
+		public bool IsCancelable
+		{
+			get => _IsCancelable;
+			set => SetProperty(ref _IsCancelable, value);
+		}
+
 		public string? HeaderStringResource { get; set; }
 
 		public ObservableCollection<ObservablePoint> Values { get; set; }
@@ -152,9 +159,6 @@ namespace Files.App.Utils.StatusCenter
 
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
-
-		public bool IsCancelable
-			=> _operationCancellationToken is not null;
 
 		public bool IsInProgress { get; set; }
 
@@ -194,6 +198,7 @@ namespace Files.App.Utils.StatusCenter
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
+			IsCancelable = _operationCancellationToken is not null;
 
 			if (source is not null)
 				Source = source;
