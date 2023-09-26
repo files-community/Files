@@ -177,7 +177,7 @@
 										x:Name="MainProgressBar"
 										Margin="4,4,4,4"
 										VerticalAlignment="Top"
-										IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+										IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
 										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
@@ -199,7 +199,7 @@
 												MinHeight="70"
 												VerticalAlignment="Stretch"
 												CornerRadius="4,0,0,4"
-												IsIndeterminate="{x:Bind IsCancelled, Mode=OneWay}"
+												IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
 												Style="{StaticResource CustomProgressBarStyle}"
 												Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
 												Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
@@ -248,15 +248,14 @@
 										<!--  SubFooter (Displayed When Graph Collapsed)  -->
 										<TextBlock
 											x:Name="StatusCenterItemSubFooterTextBlock"
-											x:Load="{x:Bind ProgressOverviewText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											MaxLines="1"
 											Style="{StaticResource CaptionTextBlockStyle}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind ProgressOverviewText, Mode=OneWay}"
+											ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
 											Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
-											<Run Text="{x:Bind ProgressOverviewText, Mode=OneWay}" />
+											<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
 											<Run Text="-" />
 											<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
 										</TextBlock>
@@ -278,7 +277,6 @@
 
 											<TextBlock
 												x:Name="StatusCenterItemProcessedBytesAndProgressTextBlock"
-												x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 												MaxLines="1"
 												Style="{StaticResource CaptionTextBlockStyle}"
@@ -310,7 +308,7 @@
 											BorderBrush="Transparent"
 											Command="{x:Bind CancelCommand}"
 											DataContext="{x:Bind}"
-											IsEnabled="{x:Bind IsCancelled, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+											IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
 											Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 											<Button.Content>

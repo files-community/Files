@@ -45,7 +45,7 @@ namespace Files.App.Utils.StatusCenter
 			set
 			{
 				AnimatedIconState = value ? "NormalOn" : "NormalOff";
-				IsSubFooterVisible = !value;
+				IsSubFooterVisible = value;
 
 				SetProperty(ref _IsExpanded, value);
 			}
@@ -72,11 +72,11 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsExpandable, value);
 		}
 
-		private bool _IsCancelled;
-		public bool IsCancelled
+		private bool _IsIndeterminateProgress;
+		public bool IsIndeterminateProgress
 		{
-			get => _IsCancelled;
-			set => SetProperty(ref _IsCancelled, value);
+			get => _IsIndeterminateProgress;
+			set => SetProperty(ref _IsIndeterminateProgress, value);
 		}
 
 		private StatusCenterItemProgressModel _Progress = null!;
@@ -371,7 +371,8 @@ namespace Files.App.Utils.StatusCenter
 			if (IsCancelable)
 			{
 				_operationCancellationToken?.Cancel();
-				IsCancelled = true;
+				IsIndeterminateProgress = true;
+				IsCancelable = false;
 				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
 			}
 		}
