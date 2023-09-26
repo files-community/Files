@@ -3401,7 +3401,7 @@
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items copied</value>
+    <value>Successfully copied {0} items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
