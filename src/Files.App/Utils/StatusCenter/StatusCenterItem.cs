@@ -282,7 +282,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, Source.Count());
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, Source?.Count() ?? 0);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
