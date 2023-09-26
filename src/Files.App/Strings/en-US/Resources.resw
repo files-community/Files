@@ -3417,7 +3417,7 @@
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Successfully "{0}" extracted</value>
+    <value>Successfully extracted "{0}"</value>
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
