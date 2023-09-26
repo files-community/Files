@@ -324,6 +324,7 @@ namespace Files.App.Views
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
+			((UIElement)sender).RightTapped += Pane_RightTapped;
 		}
 
 		private async void Pane_GotFocus(object sender, RoutedEventArgs e)
@@ -353,6 +354,12 @@ namespace Files.App.Views
 					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
 				}
 			}
+		}
+
+		private void Pane_RightTapped(object sender, RoutedEventArgs e)
+		{
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnViewBrowser)
+				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 
 		public void Dispose()
