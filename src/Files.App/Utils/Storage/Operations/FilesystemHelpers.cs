@@ -92,19 +92,24 @@ namespace Files.App.Utils.Storage
 			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
 			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
 
-			if (showDialog is DeleteConfirmationPolicies.Always
-				|| showDialog is DeleteConfirmationPolicies.PermanentOnly && (permanently || !canBeSentToBin))
+			if (showDialog is DeleteConfirmationPolicies.Always ||
+				showDialog is DeleteConfirmationPolicies.PermanentOnly &&
+				(permanently || !canBeSentToBin))
 			{
 				var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
 				List<ShellFileItem>? binItems = null;
+
 				foreach (var src in source)
 				{
 					if (RecycleBinHelpers.IsPathUnderRecycleBin(src.Path))
 					{
 						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
-						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
+
+						// Might still be null because we're deserializing the list from Json
+						if (!binItems.IsEmpty())
 						{
-							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path); // Get original file name
+							// Get original file name
+							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == src.Path);
 							incomingItems.Add(new FileSystemDialogDefaultItemViewModel() { SourcePath = src.Path, DisplayName = matchingItem?.FileName ?? src.Name });
 						}
 					}
@@ -123,26 +128,27 @@ namespace Files.App.Utils.Storage
 
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
+				// Return if the result isn't delete
 				if (await dialogService.ShowDialogAsync(dialogViewModel) != DialogResult.Primary)
-					return ReturnResult.Cancelled; // Return if the result isn't delete
+					return ReturnResult.Cancelled;
 
 				// Delete selected items if the result is Yes
 				permanently = dialogViewModel.DeletePermanently;
 			}
 			else
 			{
-				permanently |= !canBeSentToBin; // delete permanently if recycle bin is not supported
+				// Delete permanently if recycle bin is not supported
+				permanently |= !canBeSentToBin;
 			}
 
-			// post the status banner
+			// Add an in-progress card in the StatusCenter
 			var banner = StatusCenterHelper.AddCard_Delete(
-				source,
 				returnStatus,
 				permanently,
-				false,
-				0);
+				source);
 
-			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e)
+				=> returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
@@ -155,20 +161,22 @@ namespace Files.App.Utils.Storage
 
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
+
 			var itemsDeleted = history?.Source.Count ?? 0;
 
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
+			// Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
+			// Remove the in-progress card from the StatusCenter
 			_statusCenterViewModel.RemoveItem(banner);
 
 			sw.Stop();
 
+			// Add a complete card in the StatusCenter
 			StatusCenterHelper.AddCard_Delete(
-				source,
-				returnStatus,
+				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				permanently,
-				token.IsCancellationRequested,
-				itemsDeleted);
+				source);
 
 			return returnStatus;
 		}
@@ -286,13 +294,12 @@ namespace Files.App.Utils.Storage
 			var returnStatus = ReturnResult.InProgress;
 
 			var banner = StatusCenterHelper.AddCard_Copy(
-				source,
-				destination,
 				returnStatus,
-				false,
-				0);
+				source,
+				destination);
 
-			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e)
+				=> returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
@@ -301,14 +308,15 @@ namespace Files.App.Utils.Storage
 			if (cancelOperation)
 			{
 				_statusCenterViewModel.RemoveItem(banner);
-
 				return ReturnResult.Cancelled;
 			}
 
 			itemManipulationModel?.ClearSelection();
 
 			IStorageHistory history = await filesystemOperations.CopyItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -326,16 +334,13 @@ namespace Files.App.Utils.Storage
 				}
 				App.HistoryWrapper.AddHistory(history);
 			}
-			var itemsCopied = history?.Source.Count ?? 0;
 
 			_statusCenterViewModel.RemoveItem(banner);
 
 			StatusCenterHelper.AddCard_Copy(
+				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				source,
-				destination,
-				returnStatus,
-				token.IsCancellationRequested,
-				itemsCopied);
+				destination);
 
 			return returnStatus;
 		}
@@ -419,17 +424,13 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
-
 			var banner = StatusCenterHelper.AddCard_Move(
-				source,
-				destination,
 				returnStatus,
-				false,
-				0);
+				source,
+				destination);
 
-			banner.ProgressEventSource.ProgressChanged += (s, e) => returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
+			banner.ProgressEventSource.ProgressChanged += (s, e)
+				=> returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
 
 			var token = banner.CancellationToken;
 
@@ -448,7 +449,9 @@ namespace Files.App.Utils.Storage
 			itemManipulationModel?.ClearSelection();
 
 			IStorageHistory history = await filesystemOperations.MoveItemsAsync((IList<IStorageItemWithPath>)source, (IList<string>)destination, collisions, banner.ProgressEventSource, token);
+
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
+
 			await Task.Yield();
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
@@ -464,22 +467,21 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
+
 				App.HistoryWrapper.AddHistory(history);
 			}
-			int itemsMoved = history?.Source.Count ?? 0;
 
-			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path)); // Remove items from jump list
+			// Remove items from jump list
+			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
 			_statusCenterViewModel.RemoveItem(banner);
 
 			sw.Stop();
 
 			StatusCenterHelper.AddCard_Move(
+				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				source,
-				destination,
-				returnStatus,
-				token.IsCancellationRequested,
-				itemsMoved);
+				destination);
 
 			return returnStatus;
 		}

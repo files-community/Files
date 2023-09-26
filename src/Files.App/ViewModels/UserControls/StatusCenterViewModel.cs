@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.UserControls
 
 				foreach (var item in StatusCenterItems)
 				{
-					if (item.IsInProgress)
+					if (item.IsExpandable)
 						count++;
 				}
 
@@ -64,9 +64,27 @@ namespace Files.App.ViewModels.UserControls
 			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasAnyItem));
 		}
 
-		public StatusCenterItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, IEnumerable<string> source, IEnumerable<string> destination, CancellationTokenSource cancellationTokenSource = null)
+		public StatusCenterItem AddItem(
+			string header,
+			string headerResource,
+			int initialProgress,
+			ReturnResult status,
+			FileOperationType operation,
+			IEnumerable<string>? source,
+			IEnumerable<string>? destination,
+			bool canProvideProgress = true,
+			CancellationTokenSource cancellationTokenSource = null)
 		{
-			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, source, destination, cancellationTokenSource);
+			var banner = new StatusCenterItem(
+				header,
+				headerResource,
+				initialProgress,
+				status,
+				operation,
+				source,
+				destination,
+				canProvideProgress,
+				cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);
 			NewItemAdded?.Invoke(this, banner);
@@ -92,7 +110,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			for (var i = StatusCenterItems.Count - 1; i >= 0; i--)
 			{
-				if (!StatusCenterItems[i].IsInProgress)
+				if (!StatusCenterItems[i].IsExpandable)
 					StatusCenterItems.RemoveAt(i);
 			}
 
@@ -111,7 +129,7 @@ namespace Files.App.ViewModels.UserControls
 		public void UpdateAverageProgressValue()
 		{
 			if (HasAnyItemInProgress)
-				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsInProgress).Average(x => x.ProgressPercentage);
+				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsExpandable).Average(x => x.ProgressPercentage);
 		}
 	}
 }

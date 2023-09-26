@@ -27,13 +27,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
-		private string? _SubHeader;
-		public string? SubHeader
-		{
-			get => _SubHeader;
-			set => SetProperty(ref _SubHeader, value);
-		}
-
 		private int _ProgressPercentage;
 		public int ProgressPercentage
 		{
@@ -72,11 +65,11 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
-		private bool _IsInProgress; // Item type is InProgress && is the operation in progress
-		public bool IsInProgress
+		private bool _IsExpandable; // Item type is InProgress && is the operation in progress
+		public bool IsExpandable
 		{
-			get => _IsInProgress;
-			set => SetProperty(ref _IsInProgress, value);
+			get => _IsExpandable;
+			set => SetProperty(ref _IsExpandable, value);
 		}
 
 		private bool _IsCancelled;
@@ -163,7 +156,7 @@ namespace Files.App.Utils.StatusCenter
 		public bool IsCancelable
 			=> _operationCancellationToken is not null;
 
-		public string HeaderBody { get; set; }
+		public bool IsInProgress { get; set; }
 
 		public ReturnResult FileSystemOperationReturnResult { get; set; }
 
@@ -183,19 +176,30 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, IEnumerable<string> source, IEnumerable<string> destination, CancellationTokenSource operationCancellationToken = default)
+		public StatusCenterItem(
+			string header,
+			string headerResource,
+			float progress,
+			ReturnResult status,
+			FileOperationType operation,
+			IEnumerable<string>? source,
+			IEnumerable<string>? destination,
+			bool canProvideProgress = false,
+			CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
-			HeaderBody = title;
-			HeaderStringResource = title;
-			Header = title;
-			SubHeader = message;
+			Header = header;
+			HeaderStringResource = headerResource;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
-			Source = source;
-			Destination = destination;
+
+			if (source is not null)
+				Source = source;
+
+			if (destination is not null)
+				Destination = destination;
 
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 
@@ -234,12 +238,13 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case ReturnResult.InProgress:
 					{
+						IsExpandable = canProvideProgress;
 						IsInProgress = true;
 
 						if (Operation is FileOperationType.Prepare)
-							HeaderBody = "StatusCenter_PrepareInProgress".GetLocalizedResource();
+							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
 
-						Header = $"{HeaderBody} ({progress}%)";
+						Header = $"{Header} ({progress}%)";
 						ItemKind = StatusCenterItemKind.InProgress;
 
 						ItemIconKind = Operation switch
@@ -256,7 +261,6 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case ReturnResult.Success:
 					{
-						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Successful;
 						ItemIconKind = StatusCenterItemIconKind.Successful;
 
@@ -265,7 +269,6 @@ namespace Files.App.Utils.StatusCenter
 				case ReturnResult.Failed:
 				case ReturnResult.Cancelled:
 					{
-						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Error;
 						ItemIconKind = StatusCenterItemIconKind.Error;
 
@@ -273,7 +276,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, 0, 0);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, 0);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -287,7 +290,7 @@ namespace Files.App.Utils.StatusCenter
 				FileSystemOperationReturnResult = status.ToStatus();
 
 			// Get if the operation is in progress
-			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
+			IsExpandable = (value.Status & FileSystemStatusCode.InProgress) != 0;
 
 			if (value.Percentage is double p)
 			{
@@ -305,7 +308,7 @@ namespace Files.App.Utils.StatusCenter
 					CurrentProcessingItemNameText = value.FileName;
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ProcessedItemsCount, value.ItemsCount);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ItemsCount);
 
 			ObservablePoint point;
 
@@ -356,7 +359,7 @@ namespace Files.App.Utils.StatusCenter
 
 			Values.Add(point);
 
-			Header = $"{HeaderBody} ({ProgressPercentage}%)";
+			Header = $"{Header} ({ProgressPercentage}%)";
 			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} {"items".GetLocalizedResource()}";
 
 			_viewModel.NotifyChanges();
@@ -369,7 +372,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				_operationCancellationToken?.Cancel();
 				IsCancelled = true;
-				Header = $"{HeaderBody} ({"Canceling".GetLocalizedResource()})";
+				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
 			}
 		}
 	}

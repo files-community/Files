@@ -153,9 +153,7 @@ namespace Files.App.Utils.Archives
 			var banner = StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
-				ReturnResult.InProgress,
-				false,
-				0);
+				ReturnResult.InProgress);
 
 			await FilesystemTasks.Wrap(() => 
 				ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
@@ -165,9 +163,7 @@ namespace Files.App.Utils.Archives
 			StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
-				ReturnResult.Success,
-				false,
-				0);
+				ReturnResult.Success);
 		}
 
 		public static async Task DecompressArchive(IShellPage associatedInstance)

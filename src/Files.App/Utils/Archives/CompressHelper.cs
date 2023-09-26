@@ -72,9 +72,7 @@ namespace Files.App.Utils.Archives
 			var banner = StatusCenterHelper.AddCard_Compress(
 				creator.Sources,
 				archivePath.CreateEnumerable(),
-				ReturnResult.InProgress,
-				false,
-				0);
+				ReturnResult.InProgress);
 
 			creator.Progress = banner.ProgressEventSource;
 
@@ -87,9 +85,7 @@ namespace Files.App.Utils.Archives
 				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,
 					archivePath.CreateEnumerable(),
-					ReturnResult.Success,
-					false,
-					0);
+					ReturnResult.Success);
 			}
 			else
 			{
@@ -98,9 +94,7 @@ namespace Files.App.Utils.Archives
 				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,
 					archivePath.CreateEnumerable(),
-					ReturnResult.Failed,
-					false,
-					0);
+					ReturnResult.Failed);
 			}
 		}
 	}
