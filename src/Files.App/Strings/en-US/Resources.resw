@@ -3526,7 +3526,7 @@
   <data name="ClearCompleted" xml:space="preserve">
     <value>Clear completed</value>
   </data>
-  <data name="CannotInitializeGitRepositoryHere" xml:space="preserve">
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files can't initialize this directory as a Git repository.</value>
   </data>
 </root>
