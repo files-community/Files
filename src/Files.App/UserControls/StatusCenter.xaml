@@ -294,7 +294,7 @@
 
 									<!--  Footer For Inaccurate Progress  -->
 									<TextBlock
-										x:Name="StatusCenterItemSubFooterTextBlock"
+										x:Name="StatusCenterItemProcessingSubFooterTextBlock"
 										Grid.Row="1"
 										Margin="4,0"
 										VerticalAlignment="Top"
