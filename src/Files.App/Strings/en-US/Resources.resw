@@ -3385,7 +3385,7 @@
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items compressed</value>
+    <value>Successfully compressed {0} items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
