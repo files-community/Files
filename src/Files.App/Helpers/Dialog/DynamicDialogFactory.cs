@@ -286,7 +286,7 @@ namespace Files.App.Helpers
 			return new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = "Error".GetLocalizedResource(),
-				SubtitleText = "CannotInitializeGitRepositoryHere".GetLocalizedResource(),
+				SubtitleText = "CannotInitializeGitRepo".GetLocalizedResource(),
 				PrimaryButtonText = "Close".GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary
 			});
