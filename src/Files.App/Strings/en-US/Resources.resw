@@ -3449,7 +3449,7 @@
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items recycled</value>
+    <value>Successfully recycled {0} items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
