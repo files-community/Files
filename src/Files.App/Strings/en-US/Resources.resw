@@ -3465,7 +3465,7 @@
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items moved</value>
+    <value>Successfully moved {0} items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
