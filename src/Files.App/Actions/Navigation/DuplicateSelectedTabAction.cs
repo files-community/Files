@@ -26,11 +26,11 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			var arguments = context.SelectedTabItem.TabItemArguments;
+			var arguments = context.SelectedTabItem.NavigationParameter;
 			if (arguments is null)
 				await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			else
-				await mainPageViewModel.AddNewTabByParam(arguments.InitialPageType, arguments.NavigationArg, context.SelectedTabIndex + 1);
+				await mainPageViewModel.AddNewTabByParam(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
 		}
 	}
 }

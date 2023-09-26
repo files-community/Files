@@ -8,7 +8,7 @@ using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -352,11 +352,11 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
 
@@ -394,13 +394,13 @@ namespace Files.App
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.TabItemArguments is not null)
+				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.TabItemArguments.Serialize();
+					return tab.NavigationParameter.Serialize();
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+					var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 					return defaultArg.Serialize();
 				}
 			})
