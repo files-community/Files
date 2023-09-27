@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -115,10 +115,10 @@ namespace Files.App.Views.Shells
 			}
 
 			var parameters = e.Parameter as NavigationArguments;
-			TabItemArguments = new TabItemArguments()
+			TabItemParameter = new CustomTabViewItemParameter()
 			{
 				InitialPageType = typeof(ColumnShellPage),
-				NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+				NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
 			};
 		}
 
