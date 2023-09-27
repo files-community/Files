@@ -46,6 +46,10 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
     overWrite: true
 
+- task: CmdLine@2
+  inputs:
+    script: 'type $(mapsDevKey.secureFilePath)'
+
 - task: UseDotNet@2
   inputs:
     packageType: sdk
