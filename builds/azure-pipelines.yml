@@ -46,9 +46,10 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)\src\Files.App\Resources'
     overWrite: true
 
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
-    script: 'type $(mapsDevKey.secureFilePath)'
+    script: |
+      Get-Content $(mapsDevKey.secureFilePath)
 
 - task: UseDotNet@2
   inputs:
