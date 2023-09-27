@@ -3487,7 +3487,7 @@
     <value>Canceled recycling {0} items</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items recycled</value>
+    <value>Successfully recycled {0} items</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
     <value>Emptying the Recycle Bin</value>
