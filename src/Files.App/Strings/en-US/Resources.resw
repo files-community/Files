@@ -3436,7 +3436,7 @@
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Successfully {0} items permanently deleted</value>
+    <value>Permanently deleted {0} items </value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
