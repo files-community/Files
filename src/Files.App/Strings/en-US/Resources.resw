@@ -1284,9 +1284,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Create folder with selection</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Name:</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type:</value>
   </data>

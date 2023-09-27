@@ -65,11 +65,11 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
-		private bool _IsExpandable; // Item type is InProgress && is the operation in progress
-		public bool IsExpandable
+		private bool _IsSpeedAndProgressAvailable; // Item type is InProgress && is the operation in progress. If true, the chevron won't be shown
+		public bool IsSpeedAndProgressAvailable
 		{
-			get => _IsExpandable;
-			set => SetProperty(ref _IsExpandable, value);
+			get => _IsSpeedAndProgressAvailable;
+			set => SetProperty(ref _IsSpeedAndProgressAvailable, value);
 		}
 
 		private bool _IsIndeterminateProgress;
@@ -242,7 +242,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case ReturnResult.InProgress:
 					{
-						IsExpandable = canProvideProgress;
+						IsSpeedAndProgressAvailable = canProvideProgress;
 						IsInProgress = true;
 						IsIndeterminateProgress = !canProvideProgress;
 
@@ -392,7 +392,7 @@ namespace Files.App.Utils.StatusCenter
 				IsCancelable = false;
 				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
 				IsExpanded = false;
-				IsExpandable = false;
+				IsSpeedAndProgressAvailable = false;
 			}
 		}
 	}

@@ -128,7 +128,7 @@
 											Width="32"
 											Height="32"
 											Padding="0"
-											x:Load="{x:Bind IsExpandable, Mode=OneWay}"
+											x:Load="{x:Bind IsSpeedAndProgressAvailable, Mode=OneWay}"
 											Background="Transparent"
 											BorderBrush="Transparent"
 											IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
