@@ -300,7 +300,9 @@ namespace Files.App.Utils.StatusCenter
 					ProgressPercentage = (int)p;
 
 					if (Operation == FileOperationType.Recycle ||
-						Operation == FileOperationType.Delete)
+						Operation == FileOperationType.Delete ||
+						Operation == FileOperationType.Extract ||
+						Operation == FileOperationType.Compressed)
 					{
 						CurrentProcessedSizeText = string.Format(
 							"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
