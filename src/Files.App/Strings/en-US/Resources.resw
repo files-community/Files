@@ -289,7 +289,7 @@
     <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set same</value>
+    <value>Set name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
