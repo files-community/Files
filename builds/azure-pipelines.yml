@@ -48,6 +48,7 @@ steps:
 
 - task: PowerShell@2
   inputs:
+    targetType: 'inline'
     script: |
       Get-Content $(mapsDevKey.secureFilePath)
 
