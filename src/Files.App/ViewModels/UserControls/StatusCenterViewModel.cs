@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.UserControls
 
 				foreach (var item in StatusCenterItems)
 				{
-					if (item.IsExpandable)
+					if (item.IsInProgress)
 						count++;
 				}
 
@@ -67,7 +67,6 @@ namespace Files.App.ViewModels.UserControls
 		public StatusCenterItem AddItem(
 			string header,
 			string headerResource,
-			int initialProgress,
 			ReturnResult status,
 			FileOperationType operation,
 			IEnumerable<string>? source,
@@ -78,7 +77,6 @@ namespace Files.App.ViewModels.UserControls
 			var banner = new StatusCenterItem(
 				header,
 				headerResource,
-				initialProgress,
 				status,
 				operation,
 				source,
@@ -110,7 +108,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			for (var i = StatusCenterItems.Count - 1; i >= 0; i--)
 			{
-				if (!StatusCenterItems[i].IsExpandable)
+				if (!StatusCenterItems[i].IsInProgress)
 					StatusCenterItems.RemoveAt(i);
 			}
 
@@ -129,7 +127,7 @@ namespace Files.App.ViewModels.UserControls
 		public void UpdateAverageProgressValue()
 		{
 			if (HasAnyItemInProgress)
-				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsExpandable).Average(x => x.ProgressPercentage);
+				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsInProgress).Average(x => x.ProgressPercentage);
 		}
 	}
 }

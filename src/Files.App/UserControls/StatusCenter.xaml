@@ -249,6 +249,7 @@
 										<!--  SubFooter (Displayed When Graph Collapsed)  -->
 										<TextBlock
 											x:Name="StatusCenterItemSubFooterTextBlock"
+											x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 											MaxLines="1"
 											Style="{StaticResource CaptionTextBlockStyle}"
@@ -298,6 +299,7 @@
 										Grid.Row="1"
 										Margin="4,0"
 										VerticalAlignment="Top"
+										x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 										MaxLines="1"
 										Style="{StaticResource CaptionTextBlockStyle}"

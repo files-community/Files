@@ -131,8 +131,6 @@ namespace Files.App.Utils.Archives
 			FileFormat = fileFormat;
 			CompressionLevel = compressionLevel;
 			SplittingSize = splittingSize;
-
-			_fileSystemProgress.Report(0);
 		}
 
 		/// <inheritdoc/>

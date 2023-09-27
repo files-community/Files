@@ -21,7 +21,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_DeleteCanceled_Header".GetLocalizedResource(),
 						"StatusCenter_DeleteCanceled_Header",
-						0,
 						ReturnResult.Cancelled,
 						FileOperationType.Delete,
 						source?.Select(x => x.Path) ?? string.Empty.CreateEnumerable(),
@@ -33,7 +32,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_RecycleCanceled_Header".GetLocalizedResource(),
 						"StatusCenter_RecycleCanceled_Header",
-						0,
 						ReturnResult.Cancelled,
 						FileOperationType.Recycle,
 						source?.Select(x => x.Path),
@@ -48,7 +46,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_DeleteInProgress_Header".GetLocalizedResource(),
 						"StatusCenter_DeleteInProgress_Header",
-						0,
 						ReturnResult.InProgress,
 						FileOperationType.Delete,
 						source?.Select(x => x.Path),
@@ -61,7 +58,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_RecycleInProgress_Header".GetLocalizedResource(),
 						"StatusCenter_RecycleInProgress_Header",
-						0,
 						ReturnResult.InProgress,
 						FileOperationType.Recycle,
 						source?.Select(x => x.Path),
@@ -77,7 +73,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_DeleteComplete_Header".GetLocalizedResource(),
 						"StatusCenter_DeleteComplete_Header",
-						0,
 						ReturnResult.Success,
 						FileOperationType.Delete,
 						source?.Select(x => x.Path),
@@ -89,7 +84,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_RecycleComplete_Header".GetLocalizedResource(),
 						"StatusCenter_RecycleComplete_Header",
-						0,
 						ReturnResult.Success,
 						FileOperationType.Recycle,
 						source?.Select(x => x.Path),
@@ -104,7 +98,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_DeleteFailed_Header".GetLocalizedResource(),
 						"StatusCenter_DeleteFailed_Header",
-						0,
 						ReturnResult.Failed,
 						FileOperationType.Delete,
 						source?.Select(x => x.Path),
@@ -116,7 +109,6 @@ namespace Files.App.Utils.StatusCenter
 					return _statusCenterViewModel.AddItem(
 						"StatusCenter_RecycleFailed_Header",
 						"StatusCenter_RecycleFailed_Header",
-						0,
 						ReturnResult.Failed,
 						FileOperationType.Recycle,
 						source?.Select(x => x.Path),
@@ -142,7 +134,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CopyCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_CopyCanceled_Header",
-					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -154,7 +145,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CopyInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_CopyInProgress_Header",
-					0,
 					ReturnResult.InProgress,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -167,7 +157,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CopyComplete_Header".GetLocalizedResource(),
 					"StatusCenter_CopyComplete_Header",
-					0,
 					ReturnResult.Success,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -179,7 +168,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CopyFailed_Header".GetLocalizedResource(),
 					"StatusCenter_CopyFailed_Header",
-					0,
 					ReturnResult.Failed,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -198,7 +186,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_MoveCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_MoveCanceled_Header",
-					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -210,7 +197,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_MoveInProgress_Header",
-					0,
 					ReturnResult.InProgress,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -223,7 +209,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_MoveComplete_Header".GetLocalizedResource(),
 					"StatusCenter_MoveComplete_Header",
-					0,
 					ReturnResult.Success,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -235,7 +220,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_MoveFailed_Header".GetLocalizedResource(),
 					"StatusCenter_MoveFailed_Header",
-					0,
 					ReturnResult.Failed,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -256,7 +240,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CompressCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_CompressCanceled_Header",
-					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Compressed,
 					source,
@@ -268,7 +251,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CompressInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_CompressInProgress_Header",
-					0,
 					ReturnResult.InProgress,
 					FileOperationType.Compressed,
 					source,
@@ -281,7 +263,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CompressComplete_Header".GetLocalizedResource(),
 					"StatusCenter_CompressComplete_Header",
-					0,
 					ReturnResult.Success,
 					FileOperationType.Compressed,
 					source,
@@ -293,7 +274,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_CompressFailed_Header".GetLocalizedResource(),
 					"StatusCenter_CompressFailed_Header",
-					0,
 					ReturnResult.Failed,
 					FileOperationType.Compressed,
 					source,
@@ -314,7 +294,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DecompressCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressCanceled_Header",
-					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Extract,
 					source,
@@ -326,7 +305,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DecompressInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressInProgress_Header",
-					0,
 					ReturnResult.InProgress,
 					FileOperationType.Extract,
 					source,
@@ -339,7 +317,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DecompressComplete_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressComplete_Header",
-					0,
 					ReturnResult.Success,
 					FileOperationType.Extract,
 					source,
@@ -351,7 +328,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DecompressFailed_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressFailed_Header",
-					0,
 					ReturnResult.Failed,
 					FileOperationType.Extract,
 					source,
@@ -369,7 +345,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinCancel_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinCancel_Header",
-					0,
 					ReturnResult.Cancelled,
 					FileOperationType.Delete,
 					null,
@@ -381,7 +356,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinInProgress_Header",
-					0,
 					ReturnResult.InProgress,
 					FileOperationType.Delete,
 					null,
@@ -393,7 +367,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinComplete_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinComplete_Header",
-					0,
 					ReturnResult.Success,
 					FileOperationType.Delete,
 					null,
@@ -405,7 +378,6 @@ namespace Files.App.Utils.StatusCenter
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinFailed_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinFailed_Header",
-					0,
 					ReturnResult.Failed,
 					FileOperationType.Delete,
 					null,
@@ -419,7 +391,6 @@ namespace Files.App.Utils.StatusCenter
 			return _statusCenterViewModel.AddItem(
 				"StatusCenter_Prepare_Header".GetLocalizedResource(),
 				"StatusCenter_Prepare_Header",
-				0,
 				ReturnResult.InProgress,
 				FileOperationType.Prepare,
 				null,

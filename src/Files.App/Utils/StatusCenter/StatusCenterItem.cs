@@ -170,9 +170,9 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public IEnumerable<string> Source { get; private set; }
+		public IEnumerable<string>? Source { get; private set; }
 
-		public IEnumerable<string> Destination { get; private set; }
+		public IEnumerable<string>? Destination { get; private set; }
 
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
@@ -183,7 +183,6 @@ namespace Files.App.Utils.StatusCenter
 		public StatusCenterItem(
 			string header,
 			string headerResource,
-			float progress,
 			ReturnResult status,
 			FileOperationType operation,
 			IEnumerable<string>? source,
@@ -250,7 +249,6 @@ namespace Files.App.Utils.StatusCenter
 						if (Operation is FileOperationType.Prepare)
 							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
 
-						Header = $"{Header} ({progress}%)";
 						ItemKind = StatusCenterItemKind.InProgress;
 
 						ItemIconKind = Operation switch
@@ -374,7 +372,9 @@ namespace Files.App.Utils.StatusCenter
 
 			Values.Add(point);
 
-			Header = $"{Header} ({ProgressPercentage}%)";
+			if (!IsIndeterminateProgress)
+				Header = $"{Header} ({ProgressPercentage}%)";
+
 			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} {"items".GetLocalizedResource()}";
 
 			_viewModel.NotifyChanges();
