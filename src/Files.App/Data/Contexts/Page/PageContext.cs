@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Files.App.Views;
 using System;
 using System.ComponentModel;
@@ -38,7 +38,7 @@ namespace Files.App.Data.Contexts
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, TabItemArguments e)
+		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			UpdateContent();
 		}
