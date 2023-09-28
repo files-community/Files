@@ -426,9 +426,20 @@ namespace Files.App.Views.LayoutModes
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = clickedItem?.DataContext as ListedItem;
 			if (item is null)
+			{
+				if (IsRenamingItem)
+				{
+					ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					if (listViewItem is not null)
+					{
+						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+						await CommitRename(textBox);
+					}
+				}
 				return;
+			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if

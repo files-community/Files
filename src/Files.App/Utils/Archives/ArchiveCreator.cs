@@ -23,7 +23,7 @@ namespace Files.App.Utils.Archives
 
 		private int _processedItems = 0;
 
-		private FileSystemProgress _fileSystemProgress;
+		private StatusCenterItemProgressModel _fileSystemProgress;
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -70,8 +70,8 @@ namespace Files.App.Utils.Archives
 			_ => throw new ArgumentOutOfRangeException(nameof(SplittingSize)),
 		};
 
-		private IProgress<FileSystemProgress> _Progress;
-		public IProgress<FileSystemProgress> Progress
+		private IProgress<StatusCenterItemProgressModel> _Progress;
+		public IProgress<StatusCenterItemProgressModel> Progress
 		{
 			get => _Progress;
 			set
@@ -110,7 +110,7 @@ namespace Files.App.Utils.Archives
 		{
 			// Initialize
 			_fileSystemProgress = new(Progress, true, FileSystemStatusCode.InProgress);
-			_Progress = new Progress<FileSystemProgress>();
+			_Progress = new Progress<StatusCenterItemProgressModel>();
 			ArchivePath = string.Empty;
 			Sources = Enumerable.Empty<string>();
 			FileFormat = ArchiveFormats.Zip;
@@ -182,20 +182,17 @@ namespace Files.App.Utils.Archives
 		{
 			if (++_processedItems == _itemsAmount)
 			{
-				_fileSystemProgress.Percentage = null;
 				_fileSystemProgress.ReportStatus(FileSystemStatusCode.Success);
 			}
 			else
 			{
-				_fileSystemProgress.Percentage = _processedItems * 100 / _itemsAmount;
-				_fileSystemProgress.Report(_fileSystemProgress.Percentage);
+				_fileSystemProgress.Report(_processedItems * 100.0 / _itemsAmount);
 			}
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			_fileSystemProgress.Percentage += e.PercentDelta / _itemsAmount;
-			_fileSystemProgress.Report(_fileSystemProgress.Percentage);
+			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
 		}
 	}
 }

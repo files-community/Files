@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
@@ -33,7 +33,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -98,15 +98,18 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
-						banner?.Remove();
+						_statusCenterViewModel.RemoveItem(banner);
+
 						return;
 					}
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-					banner?.Remove();
+
+					_statusCenterViewModel.RemoveItem(banner);
+
 					return;
 				}
 
-				banner?.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
@@ -141,7 +144,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -195,14 +198,17 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
-						banner?.Remove();
+						_statusCenterViewModel.RemoveItem(banner);
+
 						return;
 					}
-					banner?.Remove();
+
+					_statusCenterViewModel.RemoveItem(banner);
+
 					return;
 				}
 
-				banner?.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);

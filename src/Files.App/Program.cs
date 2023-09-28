@@ -18,11 +18,14 @@ namespace Files.App
 
 		static Program()
 		{
-			Pool = new(0, 1, "Files-Instance", out var isNew);
+			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
 			if (!isNew)
 			{
 				// Resume cached instance
 				Pool.Release();
+				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
 				Environment.Exit(0);
 			}
 			Pool.Dispose();

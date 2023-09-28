@@ -47,6 +47,9 @@ namespace Files.App.Utils.Storage
 
 		new IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options);
 
+		IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder);
+		IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option);
+
 		new BaseStorageItemQueryResult CreateItemQueryWithOptions(QueryOptions queryOptions);
 
 		new BaseStorageFileQueryResult CreateFileQueryWithOptions(QueryOptions queryOptions);
