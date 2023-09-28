@@ -439,6 +439,34 @@ namespace Files.App.Utils.Storage
 				return (await moveTcs.Task, shellOperationResult);
 			});
 		}
+		
+		/*********************************************************************************************
+		  This function generates a unique new name for a file in the specified destination folder.
+		  If the destination folder is not accessible, an InvalidOperationException is thrown.
+		**********************************************************************************************/
+		private static string GetUniqueNewName(ShellFolder destination, string originalName)
+		{
+			if (destination == null)
+			{
+				throw new InvalidOperationException("Destination folder is not accessible.");
+			}
+
+			string newName = originalName;
+			int counter = 2;
+
+			// Iterate through the children of the destination folder and check if the new name already exists.
+			// If it does, append a counter to make it unique.
+			foreach (var existingItem in destination.EnumerateChildren(FolderItemFilter.Storage))
+			{
+				if (string.Equals(newName, existingItem.Name, StringComparison.OrdinalIgnoreCase))
+				{
+					newName = $"{originalName} ({counter})";
+					counter++;
+				}
+			}
+
+			return newName;
+		}
 
 		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
 		{
