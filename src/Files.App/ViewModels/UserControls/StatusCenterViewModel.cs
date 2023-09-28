@@ -72,6 +72,8 @@ namespace Files.App.ViewModels.UserControls
 			IEnumerable<string>? source,
 			IEnumerable<string>? destination,
 			bool canProvideProgress = true,
+			long itemsCount = 0,
+			long totalSize = 0,
 			CancellationTokenSource cancellationTokenSource = null)
 		{
 			var banner = new StatusCenterItem(
@@ -82,6 +84,8 @@ namespace Files.App.ViewModels.UserControls
 				source,
 				destination,
 				canProvideProgress,
+				itemsCount = 0,
+				totalSize = 0,
 				cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);

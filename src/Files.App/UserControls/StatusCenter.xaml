@@ -17,422 +17,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/StatusCenterStyles.xaml" />
-				<ResourceDictionary>
-
-					<DataTemplate x:Name="StatusCenterItemCardStyleDataTemplate" x:DataType="statuscenter:StatusCenterItem">
-						<UserControl>
-							<Grid
-								x:Name="ContentRoot"
-								Padding="8,8,8,8"
-								HorizontalAlignment="Stretch"
-								AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
-								Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-								BorderThickness="1"
-								CornerRadius="{StaticResource OverlayCornerRadius}">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-
-								<Grid.Transitions>
-									<TransitionCollection>
-										<RepositionThemeTransition />
-									</TransitionCollection>
-								</Grid.Transitions>
-
-								<!--  Header  -->
-								<Grid x:Name="StatusCenterItemHeaderPanel" Grid.Row="0">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-
-									<!--  Header Icon  -->
-									<Grid Grid.Column="0">
-
-										<!--  Circle Icon 32x32  -->
-										<TextBlock
-											x:Name="SeverityBackgroundFontIcon"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											FontFamily="{ThemeResource SymbolThemeFontFamily}"
-											FontSize="32"
-											Text="&#xE91F;" />
-
-										<!--  State Icon 16x16  -->
-										<PathIcon
-											x:Name="SeverityForegroundPathIcon"
-											Width="16"
-											Height="16"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center" />
-
-									</Grid>
-
-									<!--  Header Title & Description  -->
-									<StackPanel
-										x:Name="StatusCenterItemHeadedrPanel"
-										Grid.Column="1"
-										Margin="12,0"
-										VerticalAlignment="Center">
-
-										<TextBlock
-											x:Name="StatusCenterItemHeaderTextBlock"
-											x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-											MaxLines="1"
-											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind Header, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
-
-										<!--<TextBlock
-											x:Name="StatusCenterItemSubHeaderTextBlock"
-											x:Load="{x:Bind ProgressOverviewText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											MaxLines="1"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind ProgressOverviewText, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind ProgressOverviewText, Mode=OneWay}" />-->
-
-									</StackPanel>
-
-									<!--  Action Buttons  -->
-									<StackPanel Grid.Column="2" VerticalAlignment="Center">
-
-										<!--  Dismiss Item  -->
-										<Button
-											x:Name="CloseItemButton"
-											Width="32"
-											Height="32"
-											Padding="0"
-											x:Load="{x:Bind IsInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-											AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
-											Background="Transparent"
-											BorderBrush="Transparent"
-											Click="CloseItemButton_Click"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
-											<Button.Content>
-												<FontIcon FontSize="16" Glyph="&#xE711;" />
-											</Button.Content>
-										</Button>
-
-										<!--  Expand & Collapse Chevron  -->
-										<ToggleButton
-											x:Name="ExpandCollapseChevronItemButton"
-											Width="32"
-											Height="32"
-											Padding="0"
-											x:Load="{x:Bind IsSpeedAndProgressAvailable, Mode=OneWay}"
-											Background="Transparent"
-											BorderBrush="Transparent"
-											IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
-											<AnimatedIcon
-												x:Name="ExpandCollapseChevron"
-												Width="16"
-												Height="16"
-												HorizontalAlignment="Center"
-												VerticalAlignment="Center"
-												AnimatedIcon.State="{x:Bind AnimatedIconState, Mode=OneWay}"
-												AutomationProperties.AccessibilityView="Raw"
-												RenderTransformOrigin="0.5, 0.5">
-												<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
-												<AnimatedIcon.FallbackIconSource>
-													<FontIconSource
-														FontFamily="{StaticResource SymbolThemeFontFamily}"
-														FontSize="16"
-														Glyph="{StaticResource ExpanderChevronDownGlyph}"
-														IsTextScaleFactorEnabled="False" />
-												</AnimatedIcon.FallbackIconSource>
-											</AnimatedIcon>
-										</ToggleButton>
-
-									</StackPanel>
-
-								</Grid>
-
-								<!--  Progress & Footer  -->
-								<Grid
-									x:Name="StatusCenterItemRichProgressDisplayPanel"
-									Grid.Row="1"
-									Margin="0,8,0,8"
-									ColumnSpacing="4"
-									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-
-									<!--  Extended ProgressBar  -->
-									<ProgressBar
-										x:Name="MainProgressBar"
-										Margin="4,4,4,4"
-										VerticalAlignment="Top"
-										IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
-										Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
-										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
-
-									<!--  Graph  -->
-									<Border
-										x:Name="MainGraphCartesianChartClipGrid"
-										Height="72"
-										Margin="4,4,4,12"
-										VerticalAlignment="Top"
-										BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
-										BorderThickness="1"
-										CornerRadius="4"
-										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-
-										<Grid>
-											<ProgressBar
-												x:Name="SecondaryProgressBar"
-												Height="70"
-												MinHeight="70"
-												VerticalAlignment="Stretch"
-												CornerRadius="4,0,0,4"
-												IsIndeterminate="False"
-												Style="{StaticResource CustomProgressBarStyle}"
-												Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-												Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
-
-											<livecharts2:CartesianChart
-												x:Name="MainCartesianChart"
-												Height="48"
-												Margin="0,-2"
-												VerticalAlignment="Bottom"
-												AnimationsSpeed="00:00:00.001"
-												Series="{x:Bind Series, Mode=OneWay}"
-												TooltipPosition="Hidden"
-												XAxes="{x:Bind XAxes}"
-												YAxes="{x:Bind YAxes}" />
-
-											<StackPanel Margin="8,4">
-
-												<TextBlock
-													x:Name="OperationSpeedStringTextBlock"
-													HorizontalAlignment="Right"
-													VerticalAlignment="Top"
-													FontSize="10"
-													Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-													Style="{StaticResource CaptionTextBlockStyle}"
-													Text="{helpers:ResourceString Name=SpeedWithColon}" />
-
-												<TextBlock
-													x:Name="OperationSpeedPerSecTextBlock"
-													HorizontalAlignment="Right"
-													VerticalAlignment="Top"
-													FontSize="13"
-													Style="{StaticResource BodyStrongTextBlockStyle}"
-													Text="{x:Bind SpeedText, Mode=OneWay}" />
-
-											</StackPanel>
-										</Grid>
-
-									</Border>
-
-									<!--  Footer For Accurate Progress  -->
-									<Grid
-										Grid.Row="1"
-										Margin="4,0"
-										VerticalAlignment="Top"
-										Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
-
-										<!--  SubFooter (Displayed When Graph Collapsed)  -->
-										<TextBlock
-											x:Name="StatusCenterItemSubFooterTextBlock"
-											x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											MaxLines="1"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
-											Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
-											<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
-											<Run Text="-" />
-											<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
-										</TextBlock>
-
-										<!--  Detailed Info (Displayed When Graph Expanded)  -->
-										<StackPanel Spacing="2" Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-
-											<TextBlock
-												x:Name="StatusCenterItemCurrentProcessingItemNameTextBlock"
-												x:Load="{x:Bind CurrentProcessingItemNameText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-												MaxLines="1"
-												Style="{StaticResource BodyTextBlockStyle}"
-												TextTrimming="CharacterEllipsis"
-												TextWrapping="NoWrap"
-												ToolTipService.ToolTip="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}">
-												<Run Text="{helpers:ResourceString Name=NameWithColon}" />
-												<Run Text="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}" />
-											</TextBlock>
-
-											<TextBlock
-												x:Name="StatusCenterItemProcessedBytesAndProgressTextBlock"
-												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-												MaxLines="1"
-												Style="{StaticResource CaptionTextBlockStyle}"
-												TextTrimming="CharacterEllipsis"
-												TextWrapping="NoWrap">
-												<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
-												<Run Text="-" />
-												<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
-											</TextBlock>
-
-										</StackPanel>
-
-									</Grid>
-
-									<!--  Footer For Inaccurate Progress  -->
-									<TextBlock
-										x:Name="StatusCenterItemProcessingSubFooterTextBlock"
-										Grid.Row="1"
-										Margin="4,0"
-										VerticalAlignment="Top"
-										x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-										MaxLines="1"
-										Style="{StaticResource CaptionTextBlockStyle}"
-										Text="{helpers:ResourceString Name=ProcessingItems}"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap"
-										ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
-										Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-
-									<!--  Action Buttons  -->
-									<Grid
-										Grid.RowSpan="2"
-										Grid.Column="1"
-										VerticalAlignment="Top">
-
-										<Button
-											x:Name="CancelItemButton"
-											Width="32"
-											Height="32"
-											Padding="0"
-											x:Load="{x:Bind IsCancelable, Mode=OneWay}"
-											AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-											Background="Transparent"
-											BorderBrush="Transparent"
-											Command="{x:Bind CancelCommand}"
-											DataContext="{x:Bind}"
-											IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
-											ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
-											Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-											<Button.Content>
-												<FontIcon FontSize="16" Glyph="&#xE711;" />
-											</Button.Content>
-										</Button>
-
-									</Grid>
-
-								</Grid>
-
-								<VisualStateManager.VisualStateGroups>
-									<VisualStateGroup x:Name="ThemeColorStates">
-										<VisualState x:Name="InProgressState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="InProgress" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-												<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
-												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="SuccessfulState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBackgroundBrush}" />
-												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="ErrorState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
-												<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
-											</VisualState.Setters>
-										</VisualState>
-									</VisualStateGroup>
-									<VisualStateGroup x:Name="IconStates">
-										<VisualState x:Name="CopyIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Copy" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionCopy}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="MoveIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Move" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionMove}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="DeleteIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Delete" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="RecycleIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Recycle" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="ExtractIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Extract" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionCopy}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="SuccessfulIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionSuccess}" />
-											</VisualState.Setters>
-										</VisualState>
-										<VisualState x:Name="ErrorIconState">
-											<VisualState.StateTriggers>
-												<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
-											</VisualState.StateTriggers>
-											<VisualState.Setters>
-												<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionInfo}" />
-											</VisualState.Setters>
-										</VisualState>
-									</VisualStateGroup>
-								</VisualStateManager.VisualStateGroups>
-							</Grid>
-						</UserControl>
-					</DataTemplate>
-
-				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
@@ -472,7 +56,6 @@
 			Grid.Row="1"
 			Padding="12,0,12,12"
 			VerticalAlignment="Stretch"
-			ItemTemplate="{StaticResource StatusCenterItemCardStyleDataTemplate}"
 			ItemsSource="{x:Bind ViewModel.StatusCenterItems, Mode=OneWay}"
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
 			ScrollViewer.VerticalScrollMode="Enabled"
@@ -485,6 +68,420 @@
 					<Setter Property="Padding" Value="0,0,0,0" />
 				</Style>
 			</ListView.ItemContainerStyle>
+
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="statuscenter:StatusCenterItem">
+					<UserControl>
+						<Grid
+							x:Name="ContentRoot"
+							Padding="8,8,8,8"
+							HorizontalAlignment="Stretch"
+							AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
+							Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							CornerRadius="{StaticResource OverlayCornerRadius}">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+
+							<Grid.Transitions>
+								<TransitionCollection>
+									<RepositionThemeTransition />
+								</TransitionCollection>
+							</Grid.Transitions>
+
+							<!--  Header  -->
+							<Grid x:Name="StatusCenterItemHeaderPanel" Grid.Row="0">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Header Icon  -->
+								<Grid Grid.Column="0">
+
+									<!--  Circle Icon 32x32  -->
+									<TextBlock
+										x:Name="SeverityBackgroundFontIcon"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="32"
+										Text="&#xE91F;" />
+
+									<!--  State Icon 16x16  -->
+									<PathIcon
+										x:Name="SeverityForegroundPathIcon"
+										Width="16"
+										Height="16"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+
+								</Grid>
+
+								<!--  Header Title & Description  -->
+								<StackPanel
+									x:Name="StatusCenterItemHeadedrPanel"
+									Grid.Column="1"
+									Margin="12,0"
+									VerticalAlignment="Center">
+
+									<TextBlock
+										x:Name="StatusCenterItemHeaderTextBlock"
+										x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+										MaxLines="1"
+										Style="{StaticResource BodyTextBlockStyle}"
+										Text="{x:Bind Header, Mode=OneWay}"
+										TextTrimming="CharacterEllipsis"
+										TextWrapping="NoWrap"
+										ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
+
+									<!--<TextBlock
+											x:Name="StatusCenterItemSubHeaderTextBlock"
+											x:Load="{x:Bind ProgressOverviewText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											MaxLines="1"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											Text="{x:Bind ProgressOverviewText, Mode=OneWay}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap"
+											ToolTipService.ToolTip="{x:Bind ProgressOverviewText, Mode=OneWay}" />-->
+
+								</StackPanel>
+
+								<!--  Action Buttons  -->
+								<StackPanel Grid.Column="2" VerticalAlignment="Center">
+
+									<!--  Dismiss Item  -->
+									<Button
+										x:Name="CloseItemButton"
+										Width="32"
+										Height="32"
+										Padding="0"
+										x:Load="{x:Bind IsInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										AutomationProperties.Name="{helpers:ResourceString Name=Clear}"
+										Background="Transparent"
+										BorderBrush="Transparent"
+										Click="CloseItemButton_Click"
+										ToolTipService.ToolTip="{helpers:ResourceString Name=Clear}">
+										<Button.Content>
+											<FontIcon FontSize="16" Glyph="&#xE711;" />
+										</Button.Content>
+									</Button>
+
+									<!--  Expand & Collapse Chevron  -->
+									<ToggleButton
+										x:Name="ExpandCollapseChevronItemButton"
+										Width="32"
+										Height="32"
+										Padding="0"
+										x:Load="{x:Bind IsSpeedAndProgressAvailable, Mode=OneWay}"
+										Background="Transparent"
+										BorderBrush="Transparent"
+										IsChecked="{x:Bind IsExpanded, Mode=TwoWay}">
+										<AnimatedIcon
+											x:Name="ExpandCollapseChevron"
+											Width="16"
+											Height="16"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											AnimatedIcon.State="{x:Bind AnimatedIconState, Mode=OneWay}"
+											AutomationProperties.AccessibilityView="Raw"
+											RenderTransformOrigin="0.5, 0.5">
+											<animatedvisuals:AnimatedChevronUpDownSmallVisualSource />
+											<AnimatedIcon.FallbackIconSource>
+												<FontIconSource
+													FontFamily="{StaticResource SymbolThemeFontFamily}"
+													FontSize="16"
+													Glyph="{StaticResource ExpanderChevronDownGlyph}"
+													IsTextScaleFactorEnabled="False" />
+											</AnimatedIcon.FallbackIconSource>
+										</AnimatedIcon>
+									</ToggleButton>
+
+								</StackPanel>
+
+							</Grid>
+
+							<!--  Progress & Footer  -->
+							<Grid
+								x:Name="StatusCenterItemRichProgressDisplayPanel"
+								Grid.Row="1"
+								Margin="0,8,0,8"
+								ColumnSpacing="4"
+								Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Extended ProgressBar  -->
+								<ProgressBar
+									x:Name="MainProgressBar"
+									Margin="4,4,4,4"
+									VerticalAlignment="Top"
+									IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
+									Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
+									Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
+
+								<!--  Graph  -->
+								<Border
+									x:Name="MainGraphCartesianChartClipGrid"
+									Height="72"
+									Margin="4,4,4,12"
+									VerticalAlignment="Top"
+									BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									CornerRadius="4"
+									Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+
+									<Grid>
+										<ProgressBar
+											x:Name="SecondaryProgressBar"
+											Height="70"
+											MinHeight="70"
+											VerticalAlignment="Stretch"
+											CornerRadius="4,0,0,4"
+											IsIndeterminate="False"
+											Style="{StaticResource CustomProgressBarStyle}"
+											Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+											Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
+
+										<livecharts2:CartesianChart
+											x:Name="MainCartesianChart"
+											Height="48"
+											Margin="0,-2"
+											VerticalAlignment="Bottom"
+											AnimationsSpeed="00:00:00.001"
+											Series="{x:Bind Series, Mode=OneWay}"
+											TooltipPosition="Hidden"
+											XAxes="{x:Bind XAxes}"
+											YAxes="{x:Bind YAxes}" />
+
+										<StackPanel Margin="8,4">
+
+											<TextBlock
+												x:Name="OperationSpeedStringTextBlock"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												FontSize="10"
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												Style="{StaticResource CaptionTextBlockStyle}"
+												Text="{helpers:ResourceString Name=SpeedWithColon}" />
+
+											<TextBlock
+												x:Name="OperationSpeedPerSecTextBlock"
+												HorizontalAlignment="Right"
+												VerticalAlignment="Top"
+												FontSize="13"
+												Style="{StaticResource BodyStrongTextBlockStyle}"
+												Text="{x:Bind SpeedText, Mode=OneWay}" />
+
+										</StackPanel>
+									</Grid>
+
+								</Border>
+
+								<!--  Footer For Accurate Progress  -->
+								<Grid
+									Grid.Row="1"
+									Margin="4,0"
+									VerticalAlignment="Top"
+									Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
+
+									<!--  SubFooter (Displayed When Graph Collapsed)  -->
+									<TextBlock
+										x:Name="StatusCenterItemSubFooterTextBlock"
+										x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										MaxLines="1"
+										Style="{StaticResource CaptionTextBlockStyle}"
+										TextTrimming="CharacterEllipsis"
+										TextWrapping="NoWrap"
+										ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
+										Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
+										<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
+										<Run Text="-" />
+										<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
+									</TextBlock>
+
+									<!--  Detailed Info (Displayed When Graph Expanded)  -->
+									<StackPanel Spacing="2" Visibility="{x:Bind IsSubFooterVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+
+										<TextBlock
+											x:Name="StatusCenterItemCurrentProcessingItemNameTextBlock"
+											x:Load="{x:Bind CurrentProcessingItemNameText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+											MaxLines="1"
+											Style="{StaticResource BodyTextBlockStyle}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap"
+											ToolTipService.ToolTip="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}">
+											<Run Text="{helpers:ResourceString Name=NameWithColon}" />
+											<Run Text="{x:Bind CurrentProcessingItemNameText, Mode=OneWay}" />
+										</TextBlock>
+
+										<TextBlock
+											x:Name="StatusCenterItemProcessedBytesAndProgressTextBlock"
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+											MaxLines="1"
+											Style="{StaticResource CaptionTextBlockStyle}"
+											TextTrimming="CharacterEllipsis"
+											TextWrapping="NoWrap">
+											<Run Text="{x:Bind CurrentProcessedSizeText, Mode=OneWay}" />
+											<Run Text="-" />
+											<Run Text="{x:Bind ProgressPercentageText, Mode=OneWay}" />
+										</TextBlock>
+
+									</StackPanel>
+
+								</Grid>
+
+								<!--  Footer For Inaccurate Progress  -->
+								<TextBlock
+									x:Name="StatusCenterItemProcessingSubFooterTextBlock"
+									Grid.Row="1"
+									Margin="4,0"
+									VerticalAlignment="Top"
+									x:Load="{x:Bind CurrentProcessedSizeText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									MaxLines="1"
+									Style="{StaticResource CaptionTextBlockStyle}"
+									Text="{helpers:ResourceString Name=ProcessingItems}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind CurrentProcessedSizeText, Mode=OneWay}"
+									Visibility="{x:Bind IsIndeterminateProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+								<!--  Action Buttons  -->
+								<Grid
+									Grid.RowSpan="2"
+									Grid.Column="1"
+									VerticalAlignment="Top">
+
+									<Button
+										x:Name="CancelItemButton"
+										Width="32"
+										Height="32"
+										Padding="0"
+										x:Load="{x:Bind IsCancelable, Mode=OneWay}"
+										AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
+										Background="Transparent"
+										BorderBrush="Transparent"
+										Command="{x:Bind CancelCommand}"
+										DataContext="{x:Bind}"
+										IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
+										ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
+										Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+										<Button.Content>
+											<FontIcon FontSize="16" Glyph="&#xE711;" />
+										</Button.Content>
+									</Button>
+
+								</Grid>
+
+							</Grid>
+
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="ThemeColorStates">
+									<VisualState x:Name="InProgressState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="InProgress" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="SuccessfulState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}" />
+											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="ErrorState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}" />
+											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="IconStates">
+									<VisualState x:Name="CopyIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Copy" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionCopy}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="MoveIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Move" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionMove}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="DeleteIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Delete" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="RecycleIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Recycle" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionDelete}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="ExtractIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Extract" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionCopy}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="SuccessfulIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionSuccess}" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="ErrorIconState">
+										<VisualState.StateTriggers>
+											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemIconKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
+										</VisualState.StateTriggers>
+										<VisualState.Setters>
+											<Setter Target="SeverityForegroundPathIcon.Data" Value="{StaticResource App.Theme.PathIcon.ActionInfo}" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</UserControl>
+				</DataTemplate>
+			</ListView.ItemTemplate>
 
 		</ListView>
 

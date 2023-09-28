@@ -167,6 +167,8 @@ namespace Files.App.Utils.Storage
 			// Remove items from jump list
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
+			var itemsCount = banner.Progress.ItemsCount;
+
 			// Remove the in-progress card from the StatusCenter
 			_statusCenterViewModel.RemoveItem(banner);
 
@@ -176,7 +178,8 @@ namespace Files.App.Utils.Storage
 			StatusCenterHelper.AddCard_Delete(
 				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				permanently,
-				source);
+				source,
+				itemsCount);
 
 			return returnStatus;
 		}
@@ -335,12 +338,15 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
+			var itemsCount = banner.Progress.ItemsCount;
+
 			_statusCenterViewModel.RemoveItem(banner);
 
 			StatusCenterHelper.AddCard_Copy(
 				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				source,
-				destination);
+				destination,
+				itemsCount);
 
 			return returnStatus;
 		}
@@ -474,6 +480,8 @@ namespace Files.App.Utils.Storage
 			// Remove items from jump list
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
+			var itemsCount = banner.Progress.ItemsCount;
+
 			_statusCenterViewModel.RemoveItem(banner);
 
 			sw.Stop();
@@ -481,7 +489,8 @@ namespace Files.App.Utils.Storage
 			StatusCenterHelper.AddCard_Move(
 				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
 				source,
-				destination);
+				destination,
+				itemsCount);
 
 			return returnStatus;
 		}

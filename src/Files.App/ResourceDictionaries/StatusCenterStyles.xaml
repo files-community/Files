@@ -6,7 +6,8 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters">
 
 	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Default">
+		<ResourceDictionary x:Key="Dark">
+
 			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
@@ -19,6 +20,23 @@
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+
+			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
+
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="HighContrast">
 			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SystemControlBackgroundBaseLowBrush" />
@@ -33,20 +51,6 @@
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="SystemControlHighlightBaseMediumLowBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="SystemControlDisabledTransparentBrush" />
-		</ResourceDictionary>
-		<ResourceDictionary x:Key="Light">
-			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 

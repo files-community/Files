@@ -188,6 +188,8 @@ namespace Files.App.Utils.StatusCenter
 			IEnumerable<string>? source,
 			IEnumerable<string>? destination,
 			bool canProvideProgress = false,
+			long itemsCount = 0,
+			long totalSize = 0,
 			CancellationTokenSource operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
@@ -280,7 +282,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, Source?.Count() ?? 0);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, itemsCount);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -316,7 +318,6 @@ namespace Files.App.Utils.StatusCenter
 							value.ProcessedSize.ToSizeString(),
 							value.TotalSize.ToSizeString());
 					}
-
 				}
 
 				if (CurrentProcessingItemNameText != value.FileName)
