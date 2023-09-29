@@ -1494,8 +1494,8 @@ namespace Files.App.Data.Models
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
-			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
-			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
+			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
+			bool isWslDistro = WSLDistroManager.TryGetDistro(path, out _);
 			bool isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
 			bool isShellFolder = path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
 			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&

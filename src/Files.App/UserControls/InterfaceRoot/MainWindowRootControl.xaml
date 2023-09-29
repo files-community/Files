@@ -5,10 +5,9 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.InterfaceRoot"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Loaded="MainWindowRootControl_Loaded"
 	mc:Ignorable="d">
 
 	<!--  Root  -->
-	<Grid>
-		<ContentControl />
-	</Grid>
+	<ContentControl x:Name="Root" />
 </UserControl>

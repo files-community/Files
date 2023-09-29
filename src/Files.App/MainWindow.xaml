@@ -9,5 +9,5 @@
 	xmlns:winuiex="using:WinUIEx"
 	mc:Ignorable="d">
 
-	<uc:MainWindowRootControl />
+	<uc:MainWindowRootControl x:Name="RootControl" x:FieldModifier="public" />
 </winuiex:WindowEx>
