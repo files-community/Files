@@ -3529,4 +3529,7 @@
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files can't initialize this directory as a Git repository.</value>
   </data>
+  <data name="Contributing Artist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
 </root>
