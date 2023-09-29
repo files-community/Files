@@ -167,7 +167,7 @@ namespace Files.App.Utils.Storage
 			// Remove items from jump list
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
-			var itemsCount = banner.Progress.ItemsCount;
+			var itemsCount = banner.TotalItemsCount;
 
 			// Remove the in-progress card from the StatusCenter
 			_statusCenterViewModel.RemoveItem(banner);
@@ -338,7 +338,7 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 			}
 
-			var itemsCount = banner.Progress.ItemsCount;
+			var itemsCount = banner.TotalItemsCount;
 
 			_statusCenterViewModel.RemoveItem(banner);
 
@@ -480,7 +480,7 @@ namespace Files.App.Utils.Storage
 			// Remove items from jump list
 			source.ForEach(async x => await jumpListService.RemoveFolderAsync(x.Path));
 
-			var itemsCount = banner.Progress.ItemsCount;
+			var itemsCount = banner.TotalItemsCount;
 
 			_statusCenterViewModel.RemoveItem(banner);
 

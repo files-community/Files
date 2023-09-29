@@ -160,6 +160,10 @@ namespace Files.App.Utils.StatusCenter
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
+		public long TotalSize { get; set; }
+
+		public long TotalItemsCount { get; set; }
+
 		public bool IsInProgress { get; set; }
 
 		public ReturnResult FileSystemOperationReturnResult { get; set; }
@@ -200,6 +204,8 @@ namespace Files.App.Utils.StatusCenter
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
 			IsCancelable = _operationCancellationToken is not null;
+			TotalItemsCount = itemsCount;
+			TotalSize = totalSize;
 
 			if (source is not null)
 				Source = source;
@@ -282,12 +288,13 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, itemsCount);
+			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, TotalItemsCount);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
 		{
-			// The operation has been canceled. Do update neither progress value nor text.
+			// The operation has been canceled.
+			// Do update neither progress value nor text.
 			if (CancellationToken.IsCancellationRequested)
 				return;
 
@@ -325,6 +332,12 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ItemsCount);
+
+			if (TotalItemsCount < value.ItemsCount)
+				TotalItemsCount = value.ItemsCount;
+
+			if (TotalSize < value.TotalSize)
+				TotalSize = value.TotalSize;
 
 			ObservablePoint point;
 
@@ -391,9 +404,9 @@ namespace Files.App.Utils.StatusCenter
 				_operationCancellationToken?.Cancel();
 				IsIndeterminateProgress = true;
 				IsCancelable = false;
-				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
 				IsExpanded = false;
 				IsSpeedAndProgressAvailable = false;
+				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
 			}
 		}
 	}

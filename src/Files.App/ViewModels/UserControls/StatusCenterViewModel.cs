@@ -84,8 +84,8 @@ namespace Files.App.ViewModels.UserControls
 				source,
 				destination,
 				canProvideProgress,
-				itemsCount = 0,
-				totalSize = 0,
+				itemsCount,
+				totalSize,
 				cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);

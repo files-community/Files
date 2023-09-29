@@ -77,7 +77,7 @@
 							Padding="8,8,8,8"
 							HorizontalAlignment="Stretch"
 							AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
-							Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+							Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 							BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 							BorderThickness="1"
 							CornerRadius="{StaticResource OverlayCornerRadius}">
@@ -104,13 +104,13 @@
 								<Grid Grid.Column="0">
 
 									<!--  Circle Icon 32x32  -->
-									<TextBlock
-										x:Name="SeverityBackgroundFontIcon"
+									<Border
+										x:Name="SeverityBackgroundBorder"
+										Width="32"
+										Height="32"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
-										FontFamily="{ThemeResource SymbolThemeFontFamily}"
-										FontSize="32"
-										Text="&#xE91F;" />
+										CornerRadius="16" />
 
 									<!--  State Icon 16x16  -->
 									<PathIcon
@@ -138,17 +138,6 @@
 										TextTrimming="CharacterEllipsis"
 										TextWrapping="NoWrap"
 										ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
-
-									<!--<TextBlock
-											x:Name="StatusCenterItemSubHeaderTextBlock"
-											x:Load="{x:Bind ProgressOverviewText, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											MaxLines="1"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind ProgressOverviewText, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap"
-											ToolTipService.ToolTip="{x:Bind ProgressOverviewText, Mode=OneWay}" />-->
 
 								</StackPanel>
 
@@ -395,8 +384,8 @@
 											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="InProgress" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="SeverityBackgroundFontIcon.Opacity" Value="0.1" />
-											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+											<Setter Target="SeverityBackgroundBorder.Opacity" Value="0.1" />
+											<Setter Target="SeverityBackgroundBorder.Background" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
 										</VisualState.Setters>
 									</VisualState>
@@ -405,7 +394,7 @@
 											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Successful" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}" />
+											<Setter Target="SeverityBackgroundBorder.Background" Value="{ThemeResource InfoBarSuccessSeverityBackgroundBrush}" />
 											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource InfoBarSuccessSeverityIconBackground}" />
 										</VisualState.Setters>
 									</VisualState>
@@ -414,7 +403,7 @@
 											<wcttriggers:IsEqualStateTrigger Value="{x:Bind ItemKind, Converter={StaticResource EnumToStringConverter}, Mode=OneWay}" To="Error" />
 										</VisualState.StateTriggers>
 										<VisualState.Setters>
-											<Setter Target="SeverityBackgroundFontIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}" />
+											<Setter Target="SeverityBackgroundBorder.Background" Value="{ThemeResource InfoBarErrorSeverityBackgroundBrush}" />
 											<Setter Target="SeverityForegroundPathIcon.Foreground" Value="{ThemeResource InfoBarErrorSeverityIconBackground}" />
 										</VisualState.Setters>
 									</VisualState>
