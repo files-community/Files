@@ -170,10 +170,10 @@ namespace Files.App.Views.Shells
 
 			var parameters = e.Parameter as NavigationArguments;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
-			TabItemArguments = new()
+			TabItemParameter = new()
 			{
 				InitialPageType = typeof(ModernShellPage),
-				NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
+				NavigationParameter = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
 			};
 
 			if (parameters.IsLayoutSwitch)
@@ -320,7 +320,7 @@ namespace Files.App.Views.Shells
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
 						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
-					(TabItemArguments?.NavigationArg is not string navArg ||
+					(TabItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{

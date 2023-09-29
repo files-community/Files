@@ -18,6 +18,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable => 
 			_context.Folder is not null &&
+			_context.Folder.ItemPath != SystemIO.Path.GetPathRoot(_context.Folder.ItemPath) &&
 			!_context.IsGitRepository;
 
 		public GitInitAction()
@@ -29,8 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			GitHelpers.InitializeRepository(_context.Folder?.ItemPath);
-			return Task.CompletedTask;
+			return GitHelpers.InitializeRepository(_context.Folder?.ItemPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -371,12 +371,17 @@ namespace Files.App.Utils.Storage
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
 								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-							// Moving folders using Storage API can result in data loss, copy instead
-							//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
-							var fsResultMove = new FilesystemResult<BaseStorageFolder>(null, FileSystemStatusCode.Generic);
+							var srcFolder = (BaseStorageFolder)fsSourceFolder;
+							var fsResultMove = await FilesystemTasks.Wrap(() => srcFolder.MoveAsync(fsDestinationFolder.Result, collision).AsTask());
 
-							if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
-								fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+							if (!fsResultMove) // Use generic move folder operation (move folder items one by one)
+							{
+								// Moving folders using Storage API can result in data loss, copy instead
+								//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+
+								if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
+									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+							}
 
 							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
 								ppiu.PasswordRequestedCallback = null;
@@ -456,6 +461,14 @@ namespace Files.App.Utils.Storage
 			{
 				// Cannot undo overwrite operation
 				return null;
+			}
+
+			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath) ==
+				PathNormalization.GetParentDir(source.Path);
+			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
+			{
+				await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
+				await _associatedInstance.FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 
 			var pathWithType = movedItem.FromStorageItem(destination, source.ItemType);
@@ -728,7 +741,6 @@ namespace Files.App.Utils.Storage
 					if (fsResult)
 					{
 						// Moving folders using Storage API can result in data loss, copy instead
-
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
 
 						if (await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalizedResource(), "ErrorDialogUnsupportedMoveOperation".GetLocalizedResource(), "OK", "Cancel".GetLocalizedResource()))
