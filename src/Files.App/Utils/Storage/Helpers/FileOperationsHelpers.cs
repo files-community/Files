@@ -444,7 +444,7 @@ namespace Files.App.Utils.Storage
 		  This function generates a unique new name for a file in the specified destination folder.
 		  If the destination folder is not accessible, an InvalidOperationException is thrown.
 		**********************************************************************************************/
-		private static string GetUniqueNewName(ShellFolder destination, string originalName)
+		public static string GetUniqueNewName(ShellFolder destination, string originalName)
 		{
 			if (destination == null)
 			{
