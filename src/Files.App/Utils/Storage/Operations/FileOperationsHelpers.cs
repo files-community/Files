@@ -937,74 +937,6 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
-		public static long GetFileOrFolderSize(string path, CancellationToken token)
-		{
-			var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
-			return isDirectory ? (long)GetFolderSize(path, token) : GetFileSize(path);
-		}
-
-		public static long GetFileSize(string path)
-		{
-			using var hFile = Kernel32.CreateFile(
-				path,
-				Kernel32.FileAccess.FILE_READ_ATTRIBUTES,
-				FileShare.Read,
-				null,
-				FileMode.Open,
-				0,
-				null);
-
-			if (!hFile.IsInvalid && Kernel32.GetFileSizeEx(hFile, out var size))
-				return size;
-
-			return 0;
-		}
-
-		public static ulong GetFolderSize(string path, CancellationToken token)
-		{
-			ulong size = 0;
-
-			using var hFile = Kernel32.FindFirstFileEx(
-				path + "\\*.*",
-				Kernel32.FINDEX_INFO_LEVELS.FindExInfoBasic,
-				out WIN32_FIND_DATA findData,
-				Kernel32.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-				IntPtr.Zero,
-				Kernel32.FIND_FIRST.FIND_FIRST_EX_LARGE_FETCH);
-
-			if (!hFile.IsInvalid)
-			{
-				do
-				{
-					if ((findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
-						// Skip symbolic links and junctions
-						continue;
-
-					if ((findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-					{
-						size += findData.FileSize;
-					}
-					else if (findData.cFileName != "." && findData.cFileName != "..")
-					{
-						var itemPath = Path.Combine(path, findData.cFileName);
-
-						var folderSize = GetFolderSize(itemPath, token);
-						size += folderSize;
-					}
-
-					if (token.IsCancellationRequested)
-						break;
-				}
-				while (Kernel32.FindNextFile(hFile, out findData));
-
-				return size;
-			}
-			else
-			{
-				return 0;
-			}
-		}
-
 		private class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
@@ -1060,13 +992,6 @@ namespace Files.App.Utils.Storage
 					op.Progress = progress;
 					UpdateTaskbarProgress();
 				}
-			}
-
-			public OperationWithProgress GetOperation(string uid)
-			{
-				if (operations.TryGetValue(uid, out var op))
-					return op;
-				throw new KeyNotFoundException();
 			}
 
 			public bool CheckCanceled(string uid)
