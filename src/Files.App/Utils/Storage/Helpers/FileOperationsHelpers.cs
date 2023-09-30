@@ -386,6 +386,7 @@ namespace Files.App.Utils.Storage
 					{
 						using ShellItem shi = new ShellItem(fileToMovePath[i]);
 						using ShellFolder shd = new ShellFolder(Path.GetDirectoryName(moveDestination[i]));
+						string newName = GetUniqueNewName(shd, Path.GetFileName(fileToMovePath[i]));
 						op.QueueMoveOperation(shi, shd, Path.GetFileName(moveDestination[i]));
 					}))
 					{
