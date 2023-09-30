@@ -15,17 +15,12 @@ namespace Files.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents an item for Status Center operation tasks.
+	/// <br/>
+	/// Handles all operation's functionality and UI.
 	/// </summary>
 	public sealed class StatusCenterItem : ObservableObject
 	{
 		private readonly StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-
-		private string? _Header;
-		public string? Header
-		{
-			get => _Header;
-			set => SetProperty(ref _Header, value);
-		}
 
 		private int _ProgressPercentage;
 		public int ProgressPercentage
@@ -38,52 +33,18 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		private bool _IsExpanded;
-		public bool IsExpanded
+		private string? _Header;
+		public string? Header
 		{
-			get => _IsExpanded;
-			set
-			{
-				AnimatedIconState = value ? "NormalOn" : "NormalOff";
-				IsSubFooterVisible = value;
-
-				SetProperty(ref _IsExpanded, value);
-			}
+			get => _Header;
+			set => SetProperty(ref _Header, value);
 		}
 
-		private bool _IsSubFooterVisible;
-		public bool IsSubFooterVisible
+		private string? _Message;
+		public string? Message
 		{
-			get => _IsSubFooterVisible;
-			set => SetProperty(ref _IsSubFooterVisible, value);
-		}
-
-		private string _AnimatedIconState = "NormalOff";
-		public string AnimatedIconState
-		{
-			get => _AnimatedIconState;
-			set => SetProperty(ref _AnimatedIconState, value);
-		}
-
-		private bool _IsSpeedAndProgressAvailable; // Item type is InProgress && is the operation in progress. If true, the chevron won't be shown
-		public bool IsSpeedAndProgressAvailable
-		{
-			get => _IsSpeedAndProgressAvailable;
-			set => SetProperty(ref _IsSpeedAndProgressAvailable, value);
-		}
-
-		private bool _IsIndeterminateProgress;
-		public bool IsIndeterminateProgress
-		{
-			get => _IsIndeterminateProgress;
-			set => SetProperty(ref _IsIndeterminateProgress, value);
-		}
-
-		private StatusCenterItemProgressModel _Progress = null!;
-		public StatusCenterItemProgressModel Progress
-		{
-			get => _Progress;
-			set => SetProperty(ref _Progress, value);
+			get => _Message;
+			set => SetProperty(ref _Message, value);
 		}
 
 		private string? _SpeedText;
@@ -93,20 +54,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _SpeedText, value);
 		}
 
-		private string? _CurrentProcessingItemNameText;
-		public string? CurrentProcessingItemNameText
-		{
-			get => _CurrentProcessingItemNameText;
-			set => SetProperty(ref _CurrentProcessingItemNameText, value);
-		}
-
-		private string? _CurrentProcessedSizeText;
-		public string? CurrentProcessedSizeText
-		{
-			get => _CurrentProcessedSizeText;
-			set => SetProperty(ref _CurrentProcessedSizeText, value);
-		}
-
 		private string? _ProgressPercentageText;
 		public string? ProgressPercentageText
 		{
@@ -114,13 +61,61 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _ProgressPercentageText, value);
 		}
 
-		private string? _ProgressOverviewText;
-		public string? ProgressOverviewText
+		// Gets or sets the value that represents the current processing item name.
+		private string? _CurrentProcessingItemName;
+		public string? CurrentProcessingItemName
 		{
-			get => _ProgressOverviewText;
-			set => SetProperty(ref _ProgressOverviewText, value);
+			get => _CurrentProcessingItemName;
+			set => SetProperty(ref _CurrentProcessingItemName, value);
 		}
 
+		// TODO: Remove and replace with Message
+		private string? _CurrentProcessedSizeText;
+		public string? CurrentProcessedSizeHumanized
+		{
+			get => _CurrentProcessedSizeText;
+			set => SetProperty(ref _CurrentProcessedSizeText, value);
+		}
+
+		// This property is basically handled by an UI element - ToggleButton
+		private bool _IsExpanded;
+		public bool IsExpanded
+		{
+			get => _IsExpanded;
+			set
+			{
+				AnimatedIconState = value ? "NormalOn" : "NormalOff";
+
+				SetProperty(ref _IsExpanded, value);
+			}
+		}
+
+		// This property is used for AnimatedIcon state
+		private string _AnimatedIconState;
+		public string AnimatedIconState
+		{
+			get => _AnimatedIconState;
+			set => SetProperty(ref _AnimatedIconState, value);
+		}
+
+		// If true, the chevron won't be shown.
+		// This property will be false basically if the proper progress report is not supported in the operation.
+		private bool _IsSpeedAndProgressAvailable;
+		public bool IsSpeedAndProgressAvailable
+		{
+			get => _IsSpeedAndProgressAvailable;
+			set => SetProperty(ref _IsSpeedAndProgressAvailable, value);
+		}
+
+		// This property will be true basically if the operation was canceled or the operation doesn't support proper progress update.
+		private bool _IsIndeterminateProgress;
+		public bool IsIndeterminateProgress
+		{
+			get => _IsIndeterminateProgress;
+			set => SetProperty(ref _IsIndeterminateProgress, value);
+		}
+
+		// This property will be true if the item card is for in-progress and the operation supports cancellation token also.
 		private bool _IsCancelable;
 		public bool IsCancelable
 		{
@@ -128,45 +123,18 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _IsCancelable, value);
 		}
 
-		public string? HeaderStringResource { get; set; }
-
-		public ObservableCollection<ObservablePoint> Values { get; set; }
-
-		public ObservableCollection<ISeries> Series { get; set; }
-
-		public IList<ICartesianAxis> XAxes { get; set; } = new ICartesianAxis[]
+		// This property is not updated for now. Should be removed.
+		private StatusCenterItemProgressModel _Progress = null!;
+		public StatusCenterItemProgressModel Progress
 		{
-			new Axis
-			{
-				Padding = new Padding(0, 0),
-				Labels = new List<string>(),
-				MaxLimit = 100,
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
+		}
 
-				ShowSeparatorLines = false,
-			}
-		};
 
-		public IList<ICartesianAxis> YAxes { get; set; } = new ICartesianAxis[]
-		{
-			new Axis
-			{
-				Padding = new Padding(0, 0),
-				Labels = new List<string>(),
 
-				ShowSeparatorLines = false,
-			}
-		};
 
-		public CancellationToken CancellationToken
-			=> _operationCancellationToken?.Token ?? default;
-
-		public long TotalSize { get; set; }
-
-		public long TotalItemsCount { get; set; }
-
-		public bool IsInProgress { get; set; }
-
-		public ReturnResult FileSystemOperationReturnResult { get; set; }
+		public ReturnResult FileSystemOperationReturnResult { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
 
@@ -174,9 +142,30 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
+		public long TotalSize { get; private set; }
+
+		public long TotalItemsCount { get; private set; }
+
+		public bool IsInProgress { get; private set; }
+
 		public IEnumerable<string>? Source { get; private set; }
 
 		public IEnumerable<string>? Destination { get; private set; }
+
+		public string? HeaderStringResource { get; private set; }
+
+		public ObservableCollection<ObservablePoint> Values { get; private set; }
+
+		public ObservableCollection<ISeries> Series { get; private set; }
+
+		public IList<ICartesianAxis> XAxes { get; private set; }
+
+		public IList<ICartesianAxis> YAxes { get; private set; }
+
+		public double IconBackgroundCircleBorderOpacity { get; private set; }
+
+		public CancellationToken CancellationToken
+			=> _operationCancellationToken?.Token ?? default;
 
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
@@ -206,6 +195,8 @@ namespace Files.App.Utils.StatusCenter
 			IsCancelable = _operationCancellationToken is not null;
 			TotalItemsCount = itemsCount;
 			TotalSize = totalSize;
+			IconBackgroundCircleBorderOpacity = 1;
+			AnimatedIconState = "NormalOff";
 
 			if (source is not null)
 				Source = source;
@@ -217,8 +208,7 @@ namespace Files.App.Utils.StatusCenter
 
 			Values = new();
 
-			// TODO: One-time fetch could cause an issue where the color won't be changed when user change accent color
-			var accentBrush = App.Current.Resources["AccentFillColorDefaultBrush"] as SolidColorBrush;
+			var accentBrush = App.Current.Resources["AppThemeFillColorAttentionBrush"] as SolidColorBrush;
 
 			Series = new()
 			{
@@ -246,6 +236,29 @@ namespace Files.App.Utils.StatusCenter
 				}
 			};
 
+			XAxes = new ICartesianAxis[]
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+					MaxLimit = 100,
+
+					ShowSeparatorLines = false,
+				}
+			};
+
+			YAxes = new ICartesianAxis[]
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+
+					ShowSeparatorLines = false,
+				}
+			};
+
 			switch (FileSystemOperationReturnResult)
 			{
 				case ReturnResult.InProgress:
@@ -253,6 +266,7 @@ namespace Files.App.Utils.StatusCenter
 						IsSpeedAndProgressAvailable = canProvideProgress;
 						IsInProgress = true;
 						IsIndeterminateProgress = !canProvideProgress;
+						IconBackgroundCircleBorderOpacity = 0.1d;
 
 						if (Operation is FileOperationType.Prepare)
 							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
@@ -313,22 +327,24 @@ namespace Files.App.Utils.StatusCenter
 						Operation == FileOperationType.Extract ||
 						Operation == FileOperationType.Compressed)
 					{
-						CurrentProcessedSizeText = string.Format(
-							"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
-							value.ProcessedItemsCount,
-							value.ItemsCount);
+						Message =
+							$"{string.Format(
+								"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
+								value.ProcessedItemsCount,
+								value.ItemsCount)} - {ProgressPercentage}%";
 					}
 					else
 					{
-						CurrentProcessedSizeText = string.Format(
-							"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
-							value.ProcessedSize.ToSizeString(),
-							value.TotalSize.ToSizeString());
+						Message =
+							$"{string.Format(
+								"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
+								value.ProcessedSize.ToSizeString(),
+								value.TotalSize.ToSizeString())} - {ProgressPercentage}%";
 					}
 				}
 
-				if (CurrentProcessingItemNameText != value.FileName)
-					CurrentProcessingItemNameText = value.FileName;
+				if (CurrentProcessingItemName != value.FileName)
+					CurrentProcessingItemName = value.FileName;
 			}
 
 			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ItemsCount);
@@ -388,10 +404,10 @@ namespace Files.App.Utils.StatusCenter
 
 			Values.Add(point);
 
-			if (!IsIndeterminateProgress)
+			if (IsIndeterminateProgress)
+				Message = "ProcessingItems".GetLocalizedResource();
+			else
 				Header = $"{Header} ({ProgressPercentage}%)";
-
-			ProgressOverviewText = $"{value.ProcessedItemsCount}/{value.ItemsCount} {"items".GetLocalizedResource()}";
 
 			_viewModel.NotifyChanges();
 			_viewModel.UpdateAverageProgressValue();
@@ -406,7 +422,7 @@ namespace Files.App.Utils.StatusCenter
 				IsCancelable = false;
 				IsExpanded = false;
 				IsSpeedAndProgressAvailable = false;
-				Header = $"{Header} ({"Canceling".GetLocalizedResource()})";
+				Header = $"{"Canceling".GetLocalizedResource()} - {Header}";
 			}
 		}
 	}

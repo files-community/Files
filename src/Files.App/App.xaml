@@ -30,8 +30,9 @@
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
 				<!--  Styles for the custom icons  -->
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-				<ResourceDictionary Source="/UserControls/SideBar/SideBarControls.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/AppThemeGeneric.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
+				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>

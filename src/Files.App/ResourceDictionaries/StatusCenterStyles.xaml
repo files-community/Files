@@ -6,24 +6,7 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters">
 
 	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Dark">
-
-			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
-			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
-			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
-			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
-
-		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
-
 			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
 			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
 			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
@@ -36,7 +19,20 @@
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
 			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
-
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="ControlFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="ControlFillColorTertiaryBrush" />
+			<StaticResource x:Key="ToggleButtonBackgroundCheckedDisabled" ResourceKey="ControlFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="TextFillColorPrimaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="TextFillColorSecondaryBrush" />
+			<StaticResource x:Key="ToggleButtonForegroundCheckedDisabled" ResourceKey="TextFillColorDisabledBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="SubtleFillColorTransparentBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="ControlStrokeColorDefaultBrush" />
+			<StaticResource x:Key="ToggleButtonBorderBrushCheckedDisabled" ResourceKey="ControlStrokeColorDefaultBrush" />
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="HighContrast">
 			<StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="SystemControlBackgroundBaseLowBrush" />
@@ -55,6 +51,16 @@
 	</ResourceDictionary.ThemeDictionaries>
 
 	<converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+	<converters:StatusCenterStateToStateIconConverter x:Key="StatusCenterStateToStateIconConverter" />
+	<converters:StatusCenterStateToBrushConverter
+		x:Key="StatusCenterStateToBrushConverter"
+		ErrorBackgroundBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+		ErrorForegroundBrush="{ThemeResource SystemFillColorCriticalBrush}"
+		InProgressBackgroundBrush="{ThemeResource AppThemeFillColorAttentionBrush}"
+		InProgressForegroundBrush="{ThemeResource AppThemeFillColorAttentionBrush}"
+		SuccessfulBackgroundBrush="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
+		SuccessfulForegroundBrush="{ThemeResource SystemFillColorSuccessBrush}" />
+
 	<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 	<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 	<wctconverters:BoolToObjectConverter
@@ -111,7 +117,7 @@
 										x:Name="DeterminateProgressBarIndicator"
 										HorizontalAlignment="Left"
 										Fill="{TemplateBinding Foreground}"
-										Opacity="0.1"
+										Opacity="0.2"
 										RadiusX="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TopLeftCornerRadiusDoubleValueConverter}}"
 										RadiusY="{Binding CornerRadius, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BottomRightCornerRadiusDoubleValueConverter}}" />
 
