@@ -8,7 +8,7 @@ using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -148,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}
@@ -315,7 +315,7 @@ namespace Files.App
 				UIHelpers.CloseAllDialogs();
 				
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<OngoingTasksViewModel>().CloseAllBanner();
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
@@ -330,7 +330,7 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, "Files-Instance");
+				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
 				if (Program.Pool.WaitOne())
 				{
@@ -352,11 +352,11 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
 
@@ -394,13 +394,13 @@ namespace Files.App
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.TabItemArguments is not null)
+				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.TabItemArguments.Serialize();
+					return tab.NavigationParameter.Serialize();
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+					var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 					return defaultArg.Serialize();
 				}
 			})

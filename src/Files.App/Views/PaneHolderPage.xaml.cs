@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,7 +12,7 @@ using Windows.System;
 
 namespace Files.App.Views
 {
-	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent
+	public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabBarItemContent
 	{
 		public static readonly int DualPaneWidthThreshold = 750;
 
@@ -26,15 +26,15 @@ namespace Files.App.Views
 		public bool IsRightPaneActive
 			=> ActivePane == PaneRight;
 
-		public event EventHandler<TabItemArguments> ContentChanged;
+		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> ActivePane?.FilesystemHelpers;
 
-		private TabItemArguments tabItemArguments;
-		public TabItemArguments TabItemArguments
+		private CustomTabViewItemParameter tabItemArguments;
+		public CustomTabViewItemParameter TabItemParameter
 		{
 			get => tabItemArguments;
 			set
@@ -238,10 +238,10 @@ namespace Files.App.Views
 				IsRightPaneVisible = IsMultiPaneEnabled && paneArgs.RightPaneNavPathParam is not null;
 			}
 
-			TabItemArguments = new()
+			TabItemParameter = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
-				NavigationArg = new PaneNavigationArguments()
+				NavigationParameter = new PaneNavigationArguments()
 				{
 					LeftPaneNavPathParam = NavParamsLeft?.NavPath,
 					LeftPaneSelectItemParam = NavParamsLeft?.SelectItem,
@@ -259,15 +259,15 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
-		private void Pane_ContentChanged(object sender, TabItemArguments e)
+		private void Pane_ContentChanged(object sender, CustomTabViewItemParameter e)
 		{
-			TabItemArguments = new()
+			TabItemParameter = new()
 			{
 				InitialPageType = typeof(PaneHolderPage),
-				NavigationArg = new PaneNavigationArguments()
+				NavigationParameter = new PaneNavigationArguments()
 				{
-					LeftPaneNavPathParam = PaneLeft.TabItemArguments?.NavigationArg as string ?? e?.NavigationArg as string,
-					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemArguments?.NavigationArg as string : null
+					LeftPaneNavPathParam = PaneLeft.TabItemParameter?.NavigationParameter as string ?? e?.NavigationParameter as string,
+					RightPaneNavPathParam = IsRightPaneVisible ? PaneRight?.TabItemParameter?.NavigationParameter as string : null
 				}
 			};
 		}
@@ -324,6 +324,7 @@ namespace Files.App.Views
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
 			((UIElement)sender).GotFocus += Pane_GotFocus;
+			((UIElement)sender).RightTapped += Pane_RightTapped;
 		}
 
 		private async void Pane_GotFocus(object sender, RoutedEventArgs e)
@@ -353,6 +354,12 @@ namespace Files.App.Views
 					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
 				}
 			}
+		}
+
+		private void Pane_RightTapped(object sender, RoutedEventArgs e)
+		{
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnViewBrowser)
+				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 
 		public void Dispose()

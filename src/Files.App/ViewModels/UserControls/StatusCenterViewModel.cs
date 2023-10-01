@@ -3,26 +3,26 @@
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class OngoingTasksViewModel : ObservableObject, IOngoingTasksActions
+	public class StatusCenterViewModel : ObservableObject
 	{
-		public ObservableCollection<StatusBanner> StatusBannersSource { get; private set; } = new ObservableCollection<StatusBanner>();
+		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = new();
 
-		private int medianOperationProgressValue = 0;
-		public int MedianOperationProgressValue
+		private int _AverageOperationProgressValue = 0;
+		public int AverageOperationProgressValue
 		{
-			get => medianOperationProgressValue;
-			private set => SetProperty(ref medianOperationProgressValue, value);
+			get => _AverageOperationProgressValue;
+			private set => SetProperty(ref _AverageOperationProgressValue, value);
 		}
 
-		public int OngoingOperationsCount
+		public int InProgressItemCount
 		{
 			get
 			{
 				int count = 0;
 
-				foreach (var item in StatusBannersSource)
+				foreach (var item in StatusCenterItems)
 				{
-					if (item.IsProgressing)
+					if (item.IsInProgress)
 						count++;
 				}
 
@@ -30,121 +30,88 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public bool AnyOperationsOngoing
-		{
-			get => OngoingOperationsCount > 0;
-		}
+		public bool HasAnyItemInProgress
+			=> InProgressItemCount > 0;
 
-		public bool AnyBannersPresent
-		{
-			get => StatusBannersSource.Any();
-		}
+		public bool HasAnyItem
+			=> StatusCenterItems.Any();
 
 		public int InfoBadgeState
 		{
 			get
 			{
-				var anyFailure = StatusBannersSource.Any(i => i.Status != ReturnResult.InProgress && i.Status != ReturnResult.Success);
+				var anyFailure = StatusCenterItems.Any(i =>
+					i.FileSystemOperationReturnResult != ReturnResult.InProgress &&
+					i.FileSystemOperationReturnResult != ReturnResult.Success);
 
-				return (anyFailure, AnyOperationsOngoing) switch
+				return (anyFailure, HasAnyItemInProgress) switch
 				{
-					(false, false) => 0, // All success
-					(false, true) => 1,  // Ongoing
-					(true, true) => 2,   // Ongoing with failure
-					(true, false) => 3   // Completed with failure
+					(false, false) => 0, // All successful
+					(false, true) => 1,  // In progress
+					(true, true) => 2,   // In progress with an error
+					(true, false) => 3   // Completed with an error
 				};
 			}
 		}
 
 		public int InfoBadgeValue
+			=> InProgressItemCount > 0 ? InProgressItemCount : -1;
+
+		public event EventHandler<StatusCenterItem>? NewItemAdded;
+
+		public StatusCenterViewModel()
 		{
-			get => OngoingOperationsCount > 0 ? OngoingOperationsCount : -1;
+			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasAnyItem));
 		}
 
-		public event EventHandler<PostedStatusBanner> ProgressBannerPosted;
-
-		public OngoingTasksViewModel()
+		public StatusCenterItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource = null)
 		{
-			StatusBannersSource.CollectionChanged += (s, e) => OnPropertyChanged(nameof(AnyBannersPresent));
+			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, cancellationTokenSource);
+
+			StatusCenterItems.Insert(0, banner);
+			NewItemAdded?.Invoke(this, banner);
+
+			NotifyChanges();
+
+			return banner;
 		}
 
-		public PostedStatusBanner PostBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation)
+		public bool RemoveItem(StatusCenterItem banner)
 		{
-			StatusBanner banner = new StatusBanner(message, title, initialProgress, status, operation);
-			PostedStatusBanner postedBanner = new PostedStatusBanner(banner, this);
-
-			StatusBannersSource.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, postedBanner);
-
-			UpdateBanner(banner);
-
-			return postedBanner;
-		}
-
-		public PostedStatusBanner PostOperationBanner(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource)
-		{
-			StatusBanner banner = new(message, title, initialProgress, status, operation)
-			{
-				CancellationTokenSource = cancellationTokenSource,
-			};
-
-			PostedStatusBanner postedBanner = new(banner, this, cancellationTokenSource);
-
-			StatusBannersSource.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, postedBanner);
-
-			UpdateBanner(banner);
-
-			return postedBanner;
-		}
-
-		public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
-		{
-			StatusBanner banner = new(message, title, primaryButtonText, cancelButtonText, primaryAction);
-			PostedStatusBanner postedBanner = new(banner, this);
-
-			StatusBannersSource.Insert(0, banner);
-			ProgressBannerPosted?.Invoke(this, postedBanner);
-
-			UpdateBanner(banner);
-
-			return postedBanner;
-		}
-
-		public bool CloseBanner(StatusBanner banner)
-		{
-			if (!StatusBannersSource.Contains(banner))
+			if (!StatusCenterItems.Contains(banner))
 				return false;
 
-			StatusBannersSource.Remove(banner);
+			StatusCenterItems.Remove(banner);
 
-			UpdateBanner(banner);
+			NotifyChanges();
 
 			return true;
 		}
 
-		public void CloseAllBanner()
+		public void RemoveAllCompletedItems()
 		{
-			for (int i = StatusBannersSource.Count - 1; i >= 0; i--)
+			for (var i = StatusCenterItems.Count - 1; i >= 0; i--)
 			{
-				var itemToDismiss = StatusBannersSource[i];
-				if (!itemToDismiss.IsProgressing)
-					CloseBanner(itemToDismiss);
+				if (!StatusCenterItems[i].IsInProgress)
+					StatusCenterItems.RemoveAt(i);
 			}
+
+			NotifyChanges();
 		}
 
-		public void UpdateBanner(StatusBanner banner)
+		public void NotifyChanges()
 		{
-			OnPropertyChanged(nameof(OngoingOperationsCount));
-			OnPropertyChanged(nameof(AnyOperationsOngoing));
+			OnPropertyChanged(nameof(InProgressItemCount));
+			OnPropertyChanged(nameof(HasAnyItemInProgress));
+			OnPropertyChanged(nameof(HasAnyItem));
 			OnPropertyChanged(nameof(InfoBadgeState));
 			OnPropertyChanged(nameof(InfoBadgeValue));
 		}
 
-		public void UpdateMedianProgress()
+		public void UpdateAverageProgressValue()
 		{
-			if (AnyOperationsOngoing)
-				MedianOperationProgressValue = (int)StatusBannersSource.Where((item) => item.IsProgressing).Average(x => x.Progress);
+			if (HasAnyItemInProgress)
+				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsInProgress).Average(x => x.ProgressPercentage);
 		}
 	}
 }

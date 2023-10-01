@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -125,7 +125,7 @@ namespace Files.App
 						{
 							case "tab":
 								rootFrame.Navigate(typeof(MainPage),
-									new MainPageNavigationArguments() { Parameter = TabItemArguments.Deserialize(unescapedValue), IgnoreStartupSettings = true },
+									new MainPageNavigationArguments() { Parameter = CustomTabViewItemParameter.Deserialize(unescapedValue), IgnoreStartupSettings = true },
 									new SuppressNavigationTransitionInfo());
 								break;
 

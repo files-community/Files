@@ -51,7 +51,7 @@ namespace Files.App.Utils.Archives
 		/// <summary>
 		/// Archiving progress.
 		/// </summary>
-		IProgress<FileSystemProgress> Progress { get; set; }
+		IProgress<StatusCenterItemProgressModel> Progress { get; set; }
 
 		/// <summary>
 		/// Get path which target will be archived to.
