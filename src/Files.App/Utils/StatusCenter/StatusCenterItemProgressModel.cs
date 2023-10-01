@@ -20,7 +20,7 @@ namespace Files.App.Utils.StatusCenter
 
 		private readonly ConcurrentDictionary<string, bool> _dirtyTracker;
 
-		private readonly IntervalSampler _sampler;
+		private readonly IntervalSampler _sampler, _sampler2;
 
 		private bool _criticalReport;
 
@@ -121,6 +121,7 @@ namespace Files.App.Utils.StatusCenter
 			// Initialize
 			_progress = progress;
 			_sampler = new(samplerInterval);
+			_sampler2 = new(samplerInterval);
 			_dirtyTracker = new();
 			EnumerationCompleted = enumerationCompleted;
 			Status = status;
@@ -168,6 +169,26 @@ namespace Files.App.Utils.StatusCenter
 			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
 
+			if (percentage is not null && Percentage != percentage)
+			{
+				SetProcessedSize((long)(TotalSize * percentage / 100));
+
+				if (_sampler2.CheckNow())
+				{
+					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
+					_dirtyTracker[nameof(ProcessingSizeSpeed)] = true;
+					_dirtyTracker[nameof(ProcessingItemsCountSpeed)] = true;
+
+					_previousReportTime = DateTimeOffset.Now;
+					_previousProcessedSize = ProcessedSize;
+					_previousProcessedItemsCount = ProcessedItemsCount;
+				}
+
+				Percentage = percentage;
+			}
+
 			if (_criticalReport || _sampler.CheckNow())
 			{
 				_criticalReport = false;
@@ -178,24 +199,6 @@ namespace Files.App.Utils.StatusCenter
 						_dirtyTracker[propertyName] = false;
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
-				}
-
-				if (percentage is not null && Percentage != percentage)
-				{
-					SetProcessedSize((long)(TotalSize * percentage / 100));
-
-					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-
-					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-
-					PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-					PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
-
-					_previousReportTime = DateTimeOffset.Now;
-					_previousProcessedSize = ProcessedSize;
-					_previousProcessedItemsCount = ProcessedItemsCount;
-
-					Percentage = percentage;
 				}
 
 				_progress?.Report(this);
