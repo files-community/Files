@@ -22,6 +22,7 @@ namespace Files.App.Converters
 					StatusCenterItemIconKind.Delete =>  Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
 					StatusCenterItemIconKind.Recycle => Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
 					StatusCenterItemIconKind.Extract => Application.Current.Resources["App.Theme.PathIcon.ActionCopy"] as string,
+					StatusCenterItemIconKind.Compress => Application.Current.Resources["App.Theme.PathIcon.ActionCopy"] as string,
 					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
 					StatusCenterItemIconKind.Error =>   Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
 					_ => ""
