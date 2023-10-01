@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Storage.Operations;
 using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
@@ -12,18 +13,9 @@ namespace Files.App.Utils.Archives
 	/// </summary>
 	public class CompressArchiveModel : ICompressArchiveModel
 	{
-		/// <summary>
-		/// Represents the total number of items to be processed.
-		/// </summary>
-		/// <remarks>
-		/// It is used to calculate a weighted progress with this formula:
-		/// <code>Progress = [OldProgress + (ProgressDelta / ItemsAmount)]</code>
-		/// </remarks>
-		private int _itemsAmount = 1;
-
-		private int _processedItems = 0;
-
 		private StatusCenterItemProgressModel _fileSystemProgress;
+
+		private FileSizeCalculator _sizeCalculator;
 
 		private string ArchiveExtension => FileFormat switch
 		{
@@ -80,9 +72,8 @@ namespace Files.App.Utils.Archives
 
 				_fileSystemProgress = new(
 					Progress,
-					true,
-					FileSystemStatusCode.InProgress,
-					Sources is null ? 0 : Sources.Count());
+					false,
+					FileSystemStatusCode.InProgress);
 
 				_fileSystemProgress.Report(0);
 			}
@@ -157,15 +148,25 @@ namespace Files.App.Utils.Archives
 			};
 
 			compressor.Compressing += Compressor_Compressing;
-			compressor.CompressionFinished += Compressor_CompressionFinished;
 			compressor.FileCompressionStarted += Compressor_FileCompressionStarted;
+			compressor.FileCompressionFinished += Compressor_FileCompressionFinished;
+
+			var cts = new CancellationTokenSource();
 
 			try
 			{
 				var files = sources.Where(File.Exists).ToArray();
 				var directories = sources.Where(SystemIO.Directory.Exists);
 
-				_itemsAmount = files.Length + directories.Count();
+				_sizeCalculator = new FileSizeCalculator(files.Concat(directories).ToArray());
+				var sizeTask = _sizeCalculator.ComputeSizeAsync(cts.Token);
+				_ = sizeTask.ContinueWith(_ =>
+				{
+					_fileSystemProgress.TotalSize = _sizeCalculator.Size;
+					_fileSystemProgress.ItemsCount = _sizeCalculator.ItemsCount;
+					_fileSystemProgress.EnumerationCompleted = true;
+					_fileSystemProgress.Report();
+				});
 
 				foreach (string directory in directories)
 				{
@@ -182,6 +183,8 @@ namespace Files.App.Utils.Archives
 						await compressor.CompressFilesEncryptedAsync(ArchivePath, Password, files);
 				}
 
+				cts.Cancel();
+
 				return true;
 			}
 			catch (Exception ex)
@@ -189,33 +192,29 @@ namespace Files.App.Utils.Archives
 				var logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				logger?.LogWarning(ex, $"Error compressing folder: {ArchivePath}");
 
+				cts.Cancel();
+
 				return false;
 			}
 		}
 
 		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
 		{
+			_sizeCalculator.ForceComputeFileSize(e.FilePath);
 			_fileSystemProgress.FileName = e.FileName;
 			_fileSystemProgress.Report();
 		}
 
-		private void Compressor_CompressionFinished(object? sender, EventArgs e)
+		private void Compressor_FileCompressionFinished(object? sender, EventArgs e)
 		{
-			if (++_processedItems == _itemsAmount)
-			{
-				_fileSystemProgress.ReportStatus(FileSystemStatusCode.Success);
-			}
-			else
-			{
-				_fileSystemProgress.Report(_processedItems * 100.0 / _itemsAmount);
-			}
+			_fileSystemProgress.AddProcessedItemsCount(1);
+			_fileSystemProgress.Report();
 		}
 
 		private void Compressor_Compressing(object? _, ProgressEventArgs e)
 		{
-			// TODO: edit lib to get total/current bytes
-
-			_fileSystemProgress.Report((double)e.PercentDelta / _itemsAmount);
+			if (_fileSystemProgress.TotalSize > 0)
+				_fileSystemProgress.Report((_fileSystemProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / _fileSystemProgress.TotalSize * 100);
 		}
 	}
 }

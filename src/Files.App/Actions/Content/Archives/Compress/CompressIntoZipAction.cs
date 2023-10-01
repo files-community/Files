@@ -23,7 +23,7 @@ namespace Files.App.Actions
 				sources,
 				directory,
 				fileName,
-				fileFormat: ArchiveFormats.SevenZip);
+				fileFormat: ArchiveFormats.Zip);
 
 			return CompressHelper.CompressArchiveAsync(creator);
 		}
