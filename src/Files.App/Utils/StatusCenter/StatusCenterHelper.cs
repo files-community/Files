@@ -309,7 +309,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Compressed,
 					source,
 					destination,
-					false,
+					true,
 					itemsCount,
 					totalSize,
 					new CancellationTokenSource());
