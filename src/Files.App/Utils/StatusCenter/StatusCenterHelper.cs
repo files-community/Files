@@ -376,7 +376,7 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.Extract,
 					source,
 					destination,
-					false,
+					true,
 					itemsCount,
 					totalSize,
 					new CancellationTokenSource());
