@@ -120,7 +120,7 @@ namespace Files.App.Utils.Storage
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
 					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
-					model.Text = System.IO.Path.GetFileName(parentPath);
+					model.Text = SystemIO.Path.GetFileName(parentPath);
 					model.Subtext = parentPath;
 				}, null),
 				_ => (null, null)

@@ -9,5 +9,8 @@
 	mc:Ignorable="d">
 
 	<!--  Root  -->
-	<ContentControl x:Name="Root" />
+	<ContentControl
+		x:Name="Root"
+		HorizontalContentAlignment="Stretch"
+		VerticalContentAlignment="Stretch" />
 </UserControl>

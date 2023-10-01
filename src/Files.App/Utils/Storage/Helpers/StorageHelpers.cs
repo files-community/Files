@@ -36,7 +36,7 @@ namespace Files.App.Helpers
 			if (exists) // Exists on local storage
 			{
 				// Directory
-				if (itemAttributes.dwFileAttributes.HasFlag(System.IO.FileAttributes.Directory))
+				if (itemAttributes.dwFileAttributes.HasFlag(SystemIO.FileAttributes.Directory))
 				{
 					if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested))) // Wanted file
 					{
@@ -75,7 +75,7 @@ namespace Files.App.Helpers
 				}
 				else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
 				{
-					if (System.IO.Path.HasExtension(path)) // Possibly a file
+					if (SystemIO.Path.HasExtension(path)) // Possibly a file
 					{
 						await GetFile();
 					}

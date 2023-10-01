@@ -9,13 +9,15 @@ using Windows.Storage;
 
 namespace Files.App.Services
 {
-	public class RemovableDrivesService : IRemovableDrivesService
+	public sealed class RemovableDrivesService : IRemovableDrivesService
 	{
+		/// <inheritdoc/>
 		public IStorageDeviceWatcher CreateWatcher()
 		{
 			return new WindowsStorageDeviceWatcher();
 		}
 
+		/// <inheritdoc/>
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
@@ -47,12 +49,13 @@ namespace Files.App.Services
 			}
 		}
 
+		/// <inheritdoc/>
 		public async Task<ILocatableFolder> GetPrimaryDriveAsync()
 		{
-			string cDrivePath = @"C:\";
-			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync(cDrivePath));
+			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync("C:\\"));
 		}
 
+		/// <inheritdoc/>
 		public async Task UpdateDrivePropertiesAsync(ILocatableFolder drive)
 		{
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());

@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
 
@@ -229,7 +228,7 @@ namespace Files.App.ViewModels
 			}
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
+				var libName = SystemIO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
@@ -255,7 +254,7 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+					tabLocationHeader = currentPath.TrimEnd(SystemIO.Path.DirectorySeparatorChar, SystemIO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
 					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentPath));
 					if (rootItem)
@@ -277,16 +276,12 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async Task OnNavigatedTo(NavigationEventArgs e)
+		public async Task OnNavigatedTo(object parameter)
 		{
-			if (e.NavigationMode == NavigationMode.Back)
-				return;
-
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
 			var isInitialized = ThemeHelper.Initialize();
 
-			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
 			{

@@ -36,17 +36,18 @@ namespace Files.App
 	public partial class App : Application
 	{
 		private IHost? _host;
-
 		private static bool ShowErrorNotification = false;
-		public static string OutputPath { get; set; }
-		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
+
+		// TODO: Temporary property to hold activation args (used in MainWindow.InitializeApplication) until a better approach is found
+		public static object ActivationArgs { get; private set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
-		public static AppModel AppModel { get; private set; }
-		public static RecentItems RecentItemsManager { get; private set; }
+		public static AppModel AppModel { get; } = new();
+		public static RecentItems RecentItemsManager { get; } = new();
+		public static LibraryManager LibraryManager { get; } = new();
+		public static string OutputPath { get; set; }
+		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
-		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
@@ -145,6 +146,8 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+
+				// DO NOT ADD VIEW MODELS TO HOST!!
 				).Build();
 		}
 
@@ -159,14 +162,16 @@ namespace Files.App
 
 			async Task ActivateAsync()
 			{
+				// Configure Host and IoC
+				_host = ConfigureHost(); // TODO(hp)
+				Ioc.Default.ConfigureServices(_host.Services);
+				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+
 				// Initialize and activate MainWindow
 				EnsureSuperEarlyWindow();
 
 				// Wait for the Window to initialize
 				await Task.Delay(10);
-
-				SplashScreenLoadingTCS = new TaskCompletionSource();
-				MainWindow.Instance.ShowSplashScreen();
 
 				// Get AppActivationArguments
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
@@ -175,27 +180,15 @@ namespace Files.App
 				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
-				// Configure Host and IoC
-				_host = ConfigureHost(); // TODO(hp)
-				Ioc.Default.ConfigureServices(_host.Services);
-
 				EnsureSettingsAndConfigurationAreBootstrapped(); // TODO(hp) - unnecessary hot-path
 
-				// Wait for the UI to update
-				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
-				SplashScreenLoadingTCS = null;
-
-				_ = MainWindow.Instance.InitializeApplication(appActivationArguments.Data); // TODO(hp)
+				ActivationArgs = appActivationArguments.Data;
 			}
 		}
 
 		private static void EnsureSettingsAndConfigurationAreBootstrapped()
 		{
 			// TODO(s): Remove initialization here and move out all classes (visible below) out of App.xaml.cs
-
-			RecentItemsManager ??= new RecentItems();
-			AppModel ??= new AppModel();
-			LibraryManager ??= new LibraryManager();
 			FileTagsManager ??= new FileTagsManager();
 			QuickAccessManager ??= new QuickAccessManager();
 		}
@@ -229,7 +222,7 @@ namespace Files.App
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.InitializeApplication(data));
+			//_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.InitializeApplication(data));
 		}
 
 		/// <summary>
@@ -358,7 +351,7 @@ namespace Files.App
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private static void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-			=> AppUnhandledException(e.Exception, true);
+			=> AppUnhandledException(e.Exception, true, () => e.Handled = true);
 
 		private void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
 			=> AppUnhandledException(e.ExceptionObject as Exception, false);
@@ -370,11 +363,14 @@ namespace Files.App
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private static void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
-			=> AppUnhandledException(e.Exception, false);
+			=> AppUnhandledException(e.Exception, false, e.SetObserved);
 
-		private static void AppUnhandledException(Exception? ex, bool shouldShowNotification)
+		private static void AppUnhandledException(Exception? ex, bool shouldShowNotification, Action? tryHandle = null)
 		{
-			StringBuilder formattedException = new StringBuilder() { Capacity = 200 };
+			// The tryHandle delegate is for debugging purposes. Invoke this function to handle exceptions, if possible
+			_ = tryHandle;
+
+			var formattedException = new StringBuilder() { Capacity = 200 };
 
 			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
 

@@ -46,7 +46,7 @@ namespace Files.App.Services
 			{
 				var networkItem = new DriveItem
 				{
-					Text = System.IO.Path.GetFileNameWithoutExtension(item.FileName),
+					Text = SystemIO.Path.GetFileNameWithoutExtension(item.FileName),
 					Path = item.TargetPath,
 					DeviceID = item.FilePath,
 					Type = DriveType.Network,
