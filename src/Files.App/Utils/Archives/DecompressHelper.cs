@@ -99,8 +99,13 @@ namespace Files.App.Utils.Archives
 				entriesAmount);
 
 			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
-
 			fsProgress.Report();
+
+			zipFile.Extracting += (s, e) =>
+			{
+				if (fsProgress.TotalSize > 0)
+					fsProgress.Report((fsProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / fsProgress.TotalSize * 100);
+			};
 
 			foreach (var entry in fileEntries)
 			{
@@ -155,7 +160,7 @@ namespace Files.App.Utils.Archives
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.InProgress);
 
-			await FilesystemTasks.Wrap(() => 
+			await FilesystemTasks.Wrap(() =>
 				ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
 
 			_statusCenterViewModel.RemoveItem(banner);

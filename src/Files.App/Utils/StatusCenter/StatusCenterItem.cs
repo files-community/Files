@@ -280,6 +280,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Move => StatusCenterItemIconKind.Move,
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
+							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
