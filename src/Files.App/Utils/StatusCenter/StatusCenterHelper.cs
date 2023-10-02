@@ -559,11 +559,11 @@ namespace Files.App.Utils.StatusCenter
 				case FileOperationType.Compressed:
 					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
+						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
+						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
+						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
+						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
 					};
 					break;
 			}

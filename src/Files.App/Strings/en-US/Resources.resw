@@ -3381,7 +3381,7 @@
     <value>Files can't initialize this directory as a Git repository.</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing "{0}" items</value>
+    <value>Canceled compressing {0} items</value>
     <comment>Shown in StatusCenter card item handling compress operation.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
@@ -3429,19 +3429,19 @@
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} items</value>
+    <value>Canceled deleting {0} items permanently</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} items </value>
+    <value>Permanently deleted {0} items  permanently</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Failed to delete items</value>
+    <value>Failed to delete items permanently</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Parmanently deleting {0} items</value>
+    <value>Parmanently deleting {0} items permanently</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
@@ -3477,20 +3477,20 @@
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing operation...</value>
+    <value>Preparing the operation...</value>
     <comment>Shown in StatusCenter card item initializing an operation.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled recycling {0} items</value>
+    <value>Canceled deleting all items permanently from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Successfully recycled {0} items</value>
+    <value>Successfully delete all items permanently from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying the Recycle Bin</value>
+    <value>Deleting all items permanently from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Failed to empty the Rrecycle Bin</value>
+    <value>Failed to delete all items permanently from the Recycle Bin</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
