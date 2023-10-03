@@ -216,6 +216,7 @@
 					Drop="ItemsLayout_Drop"
 					FocusVisualPrimaryThickness="0"
 					FocusVisualSecondaryThickness="0"
+					GettingFocus="FileList_GettingFocus"
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"

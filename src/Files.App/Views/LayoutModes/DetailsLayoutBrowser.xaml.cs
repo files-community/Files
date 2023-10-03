@@ -890,6 +890,13 @@ namespace Files.App.Views.LayoutModes
 			ToolTipService.SetToolTip(textBlock, textBlock.IsTextTrimmed ? textBlock.Text : null);
 		}
 
+		private void FileList_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			// Fixes an issue where list view would scroll to the top when window was refocused and no items had been selected (#13220)
+			if (args.NewFocusedElement == FileList)
+				args.TryCancel();
+		}
+
 		private void FileList_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
