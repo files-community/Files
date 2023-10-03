@@ -904,13 +904,6 @@ namespace Files.App.Views.LayoutModes
 				args.TryCancel();
 		}
 
-		private void FileList_GettingFocus(UIElement sender, GettingFocusEventArgs args)
-		{
-			// Fixes an issue where list view would scroll to the top when window was refocused and no items had been selected (#13220)
-			if (args.NewFocusedElement == FileList)
-				args.TryCancel();
-		}
-
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
 		{
 			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
