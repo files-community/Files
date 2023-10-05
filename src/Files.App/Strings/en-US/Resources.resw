@@ -3405,7 +3405,7 @@
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Failed to copy items</value>
+    <value>Failed to copy {0} items</value>
     <comment>Shown in StatusCenter card item handling copy operation.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
@@ -3429,19 +3429,19 @@
     <comment>Shown in StatusCenter card item handling decompress operation.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} items permanently</value>
+    <value>Canceled deleting {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} items</value>
+    <value>Successfully deleted {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Failed to delete items permanently</value>
+    <value>Failed to delete {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Parmanently deleting {0} items</value>
+    <value>Deleting {0} items</value>
     <comment>Shown in StatusCenter card item handling deleting operation.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
@@ -3453,7 +3453,7 @@
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Failed to recycle items</value>
+    <value>Failed to recycle {0} items</value>
     <comment>Shown in StatusCenter card item handling recycle (move items to Recycle Bin) operation.</comment>
   </data>
   <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
@@ -3473,7 +3473,7 @@
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Failed to move items</value>
+    <value>Failed to move {0} items</value>
     <comment>Shown in StatusCenter card item handling move operation.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
@@ -3481,16 +3481,16 @@
     <comment>Shown in StatusCenter card item initializing an operation.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled deleting all items permanently from the Recycle Bin</value>
+    <value>Canceled deleting all items from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Successfully delete all items permanently from the Recycle Bin</value>
+    <value>Successfully delete all items from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Deleting all items permanently from the Recycle Bin</value>
+    <value>Deleting all items from the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Failed to delete all items permanently from the Recycle Bin</value>
+    <value>Failed to delete all items from the Recycle Bin</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
