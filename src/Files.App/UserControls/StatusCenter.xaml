@@ -9,8 +9,6 @@
 	xmlns:livecharts2="using:LiveChartsCore.SkiaSharpView.WinUI"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
-	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -32,6 +30,7 @@
 
 			<!--  Header Texts  -->
 			<TextBlock
+				Margin="4"
 				VerticalAlignment="Center"
 				FontSize="14"
 				Style="{StaticResource BodyStrongTextBlockStyle}"
@@ -140,7 +139,7 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
 
 							</StackPanel>
 
@@ -283,6 +282,7 @@
 
 							</Border>
 
+							<!--  Footer  -->
 							<Grid
 								Grid.Row="1"
 								Margin="4,0"
@@ -364,6 +364,7 @@
 
 		</ListView>
 
+		<!--  No Items  -->
 		<TextBlock
 			x:Name="NoItemsMessageTextBlock"
 			Grid.Row="1"

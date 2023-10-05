@@ -142,10 +142,9 @@ namespace Files.App.Utils.Storage
 			}
 
 			// Add an in-progress card in the StatusCenter
-			var banner = StatusCenterHelper.AddCard_Delete(
-				returnStatus,
-				permanently,
-				source);
+			var banner = permanently
+				? StatusCenterHelper.AddCard_Delete(returnStatus, source)
+				: StatusCenterHelper.AddCard_Recycle(returnStatus, source);
 
 			banner.ProgressEventSource.ProgressChanged += (s, e)
 				=> returnStatus = returnStatus < ReturnResult.Failed ? e.Status!.Value.ToStatus() : returnStatus;
@@ -175,11 +174,9 @@ namespace Files.App.Utils.Storage
 			sw.Stop();
 
 			// Add a complete card in the StatusCenter
-			StatusCenterHelper.AddCard_Delete(
-				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
-				permanently,
-				source,
-				itemsCount);
+			_ = permanently
+				? StatusCenterHelper.AddCard_Delete(token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus, source, itemsCount)
+				: StatusCenterHelper.AddCard_Recycle(token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus, source, itemsCount);
 
 			return returnStatus;
 		}

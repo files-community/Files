@@ -40,6 +40,14 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
+		// Currently, shown on the tooltip
+		private string? _SubHeader;
+		public string? SubHeader
+		{
+			get => _SubHeader;
+			set => SetProperty(ref _SubHeader, value);
+		}
+
 		private string? _Message;
 		public string? Message
 		{
@@ -91,8 +99,8 @@ namespace Files.App.Utils.StatusCenter
 		}
 
 		// This property is used for AnimatedIcon state
-		private string _AnimatedIconState;
-		public string AnimatedIconState
+		private string? _AnimatedIconState;
+		public string? AnimatedIconState
 		{
 			get => _AnimatedIconState;
 			set => SetProperty(ref _AnimatedIconState, value);
@@ -131,9 +139,6 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Progress, value);
 		}
 
-
-
-
 		public ReturnResult FileSystemOperationReturnResult { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
@@ -154,13 +159,15 @@ namespace Files.App.Utils.StatusCenter
 
 		public string? HeaderStringResource { get; private set; }
 
-		public ObservableCollection<ObservablePoint> Values { get; private set; }
+		public string? SubHeaderStringResource { get; private set; }
 
-		public ObservableCollection<ISeries> Series { get; private set; }
+		public ObservableCollection<ObservablePoint> SpeedGraphValues { get; private set; }
 
-		public IList<ICartesianAxis> XAxes { get; private set; }
+		public ObservableCollection<ISeries> SpeedGraphSeries { get; private set; }
 
-		public IList<ICartesianAxis> YAxes { get; private set; }
+		public IList<ICartesianAxis> SpeedGraphXAxes { get; private set; }
+
+		public IList<ICartesianAxis> SpeedGraphYAxes { get; private set; }
 
 		public double IconBackgroundCircleBorderOpacity { get; private set; }
 
@@ -174,8 +181,8 @@ namespace Files.App.Utils.StatusCenter
 		public ICommand CancelCommand { get; }
 
 		public StatusCenterItem(
-			string header,
 			string headerResource,
+			string subHeaderResource,
 			ReturnResult status,
 			FileOperationType operation,
 			IEnumerable<string>? source,
@@ -183,11 +190,13 @@ namespace Files.App.Utils.StatusCenter
 			bool canProvideProgress = false,
 			long itemsCount = 0,
 			long totalSize = 0,
-			CancellationTokenSource operationCancellationToken = default)
+			CancellationTokenSource? operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
-			Header = header;
+			Header = headerResource.GetLocalizedResource();
 			HeaderStringResource = headerResource;
+			SubHeader = subHeaderResource.GetLocalizedResource();
+			SubHeaderStringResource = subHeaderResource;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
@@ -197,6 +206,9 @@ namespace Files.App.Utils.StatusCenter
 			TotalSize = totalSize;
 			IconBackgroundCircleBorderOpacity = 1;
 			AnimatedIconState = "NormalOff";
+			SpeedGraphValues = new();
+			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+			Message = "ProcessingItems".GetLocalizedResource();
 
 			if (source is not null)
 				Source = source;
@@ -204,17 +216,14 @@ namespace Files.App.Utils.StatusCenter
 			if (destination is not null)
 				Destination = destination;
 
-			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+			if (App.Current.Resources["AppThemeFillColorAttentionBrush"] is not SolidColorBrush accentBrush)
+				return;
 
-			Values = new();
-
-			var accentBrush = App.Current.Resources["AppThemeFillColorAttentionBrush"] as SolidColorBrush;
-
-			Series = new()
+			SpeedGraphSeries = new()
 			{
 				new LineSeries<ObservablePoint>
 				{
-					Values = Values,
+					Values = SpeedGraphValues,
 					GeometrySize = 0d,
 					DataPadding = new(0, 0),
 					IsHoverable = false,
@@ -236,29 +245,28 @@ namespace Files.App.Utils.StatusCenter
 				}
 			};
 
-			XAxes = new ICartesianAxis[]
+			SpeedGraphXAxes = new ICartesianAxis[]
 			{
 				new Axis
 				{
 					Padding = new Padding(0, 0),
 					Labels = new List<string>(),
 					MaxLimit = 100,
-
 					ShowSeparatorLines = false,
 				}
 			};
 
-			YAxes = new ICartesianAxis[]
+			SpeedGraphYAxes = new ICartesianAxis[]
 			{
 				new Axis
 				{
 					Padding = new Padding(0, 0),
 					Labels = new List<string>(),
-
 					ShowSeparatorLines = false,
 				}
 			};
 
+			// Set icon and initialize string resources
 			switch (FileSystemOperationReturnResult)
 			{
 				case ReturnResult.InProgress:
@@ -267,11 +275,10 @@ namespace Files.App.Utils.StatusCenter
 						IsInProgress = true;
 						IsIndeterminateProgress = !canProvideProgress;
 						IconBackgroundCircleBorderOpacity = 0.1d;
+						ItemKind = StatusCenterItemKind.InProgress;
 
 						if (Operation is FileOperationType.Prepare)
 							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
-
-						ItemKind = StatusCenterItemKind.InProgress;
 
 						ItemIconKind = Operation switch
 						{
@@ -303,7 +310,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, TotalItemsCount);
+			StatusCenterHelper.UpdateCardStrings(this);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -348,16 +355,21 @@ namespace Files.App.Utils.StatusCenter
 					CurrentProcessingItemName = value.FileName;
 			}
 
-			StatusCenterHelper.UpdateCardStrings(this, Source, Destination, value.ItemsCount);
-
+			// Set total count
 			if (TotalItemsCount < value.ItemsCount)
 				TotalItemsCount = value.ItemsCount;
 
+			// Set total size
 			if (TotalSize < value.TotalSize)
 				TotalSize = value.TotalSize;
 
+			// Update UI for strings
+			StatusCenterHelper.UpdateCardStrings(this);
+
+			// Graph item point
 			ObservablePoint point;
 
+			// Set speed text and percentage
 			switch (value.TotalSize, value.ItemsCount)
 			{
 				// In progress, displaying items count & processed size
@@ -400,18 +412,19 @@ namespace Files.App.Utils.StatusCenter
 					break;
 			}
 
-			if (Values.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
-				Values.Remove(existingPoint);
+			// Remove the same point
+			if (SpeedGraphValues.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
+				SpeedGraphValues.Remove(existingPoint);
 
-			Values.Add(point);
+			// Add a new point
+			SpeedGraphValues.Add(point);
 
-			if (IsIndeterminateProgress)
-				Message = "ProcessingItems".GetLocalizedResource();
-			else
+			// Add percentage to the header
+			if (!IsIndeterminateProgress)
 				Header = $"{Header} ({ProgressPercentage}%)";
 
+			// Update UI of the address bar
 			_viewModel.NotifyChanges();
-			_viewModel.UpdateAverageProgressValue();
 		}
 
 		public void ExecuteCancelCommand()

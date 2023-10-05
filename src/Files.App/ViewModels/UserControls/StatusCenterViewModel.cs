@@ -65,8 +65,8 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public StatusCenterItem AddItem(
-			string header,
 			string headerResource,
+			string subHeaderResource,
 			ReturnResult status,
 			FileOperationType operation,
 			IEnumerable<string>? source,
@@ -77,8 +77,8 @@ namespace Files.App.ViewModels.UserControls
 			CancellationTokenSource cancellationTokenSource = null)
 		{
 			var banner = new StatusCenterItem(
-				header,
 				headerResource,
+				subHeaderResource,
 				status,
 				operation,
 				source,
@@ -126,6 +126,8 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAnyItem));
 			OnPropertyChanged(nameof(InfoBadgeState));
 			OnPropertyChanged(nameof(InfoBadgeValue));
+
+			UpdateAverageProgressValue();
 		}
 
 		public void UpdateAverageProgressValue()

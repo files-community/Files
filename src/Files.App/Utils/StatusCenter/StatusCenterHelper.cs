@@ -3,141 +3,12 @@
 
 namespace Files.App.Utils.StatusCenter
 {
+	/// <summary>
+	/// Provide static helper for the StatusCenter.
+	/// </summary>
 	public static class StatusCenterHelper
 	{
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-
-		public static StatusCenterItem AddCard_Delete(
-			ReturnResult returnStatus,
-			bool permanently,
-			IEnumerable<IStorageItemWithPath>? source,
-			long itemsCount = 0,
-			long totalSize = 0)
-		{
-			string? sourceDir = string.Empty;
-			
-			if (source is not null && source.Any())
-				sourceDir = PathNormalization.GetParentDir(source.First().Path);
-
-			if (returnStatus == ReturnResult.Cancelled)
-			{
-				if (permanently)
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteCanceled_Header".GetLocalizedResource(),
-						"StatusCenter_DeleteCanceled_Header",
-						ReturnResult.Cancelled,
-						FileOperationType.Delete,
-						source?.Select(x => x.Path) ?? string.Empty.CreateEnumerable(),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-				else
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleCanceled_Header".GetLocalizedResource(),
-						"StatusCenter_RecycleCanceled_Header",
-						ReturnResult.Cancelled,
-						FileOperationType.Recycle,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-			}
-			else if (returnStatus == ReturnResult.InProgress)
-			{
-				if (permanently)
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteInProgress_Header".GetLocalizedResource(),
-						"StatusCenter_DeleteInProgress_Header",
-						ReturnResult.InProgress,
-						FileOperationType.Delete,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize,
-						new CancellationTokenSource());
-				}
-				else
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleInProgress_Header".GetLocalizedResource(),
-						"StatusCenter_RecycleInProgress_Header",
-						ReturnResult.InProgress,
-						FileOperationType.Recycle,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize,
-						new CancellationTokenSource());
-				}
-			}
-			else if (returnStatus == ReturnResult.Success)
-			{
-				if (permanently)
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteComplete_Header".GetLocalizedResource(),
-						"StatusCenter_DeleteComplete_Header",
-						ReturnResult.Success,
-						FileOperationType.Delete,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-				else
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleComplete_Header".GetLocalizedResource(),
-						"StatusCenter_RecycleComplete_Header",
-						ReturnResult.Success,
-						FileOperationType.Recycle,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-			}
-			else
-			{
-				if (permanently)
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_DeleteFailed_Header".GetLocalizedResource(),
-						"StatusCenter_DeleteFailed_Header",
-						ReturnResult.Failed,
-						FileOperationType.Delete,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-				else
-				{
-					return _statusCenterViewModel.AddItem(
-						"StatusCenter_RecycleFailed_Header",
-						"StatusCenter_RecycleFailed_Header",
-						ReturnResult.Failed,
-						FileOperationType.Recycle,
-						source?.Select(x => x.Path),
-						null,
-						true,
-						itemsCount,
-						totalSize);
-				}
-			}
-		}
 
 		public static StatusCenterItem AddCard_Copy(
 			ReturnResult returnStatus,
@@ -171,8 +42,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_CopyInProgress_Header",
+					"StatusCenter_CopyInProgress_SubHeader",
 					ReturnResult.InProgress,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -185,8 +56,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyComplete_Header".GetLocalizedResource(),
 					"StatusCenter_CopyComplete_Header",
+					"StatusCenter_CopyComplete_SubHeader",
 					ReturnResult.Success,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -198,8 +69,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyFailed_Header".GetLocalizedResource(),
 					"StatusCenter_CopyFailed_Header",
+					"StatusCenter_CopyFailed_SubHeader",
 					ReturnResult.Failed,
 					FileOperationType.Copy,
 					source?.Select(x => x.Path),
@@ -223,8 +94,8 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_MoveCanceled_Header",
+					"StatusCenter_MoveCanceled_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -236,8 +107,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_MoveInProgress_Header",
+					"StatusCenter_MoveInProgress_SubHeader",
 					ReturnResult.InProgress,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -250,8 +121,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveComplete_Header".GetLocalizedResource(),
 					"StatusCenter_MoveComplete_Header",
+					"StatusCenter_MoveComplete_SubHeader",
 					ReturnResult.Success,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
@@ -263,12 +134,144 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_MoveFailed_Header".GetLocalizedResource(),
 					"StatusCenter_MoveFailed_Header",
+					"StatusCenter_MoveFailed_SubHeader",
 					ReturnResult.Failed,
 					FileOperationType.Move,
 					source.Select(x => x.Path),
 					destination,
+					true,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Recycle(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath>? source,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			string? sourceDir = string.Empty;
+
+			if (source is not null && source.Any())
+				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleCanceled_Header",
+					"StatusCenter_RecycleCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleInProgress_Header",
+					"StatusCenter_RecycleInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleComplete_Header",
+					"StatusCenter_RecycleComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleFailed_Header",
+					"StatusCenter_RecycleFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Delete(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath>? source,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			string? sourceDir = string.Empty;
+			
+			if (source is not null && source.Any())
+				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteCanceled_Header",
+					"StatusCenter_DeleteCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path) ?? string.Empty.CreateEnumerable(),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteInProgress_Header",
+					"StatusCenter_DeleteInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteComplete_Header",
+					"StatusCenter_DeleteComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteFailed_Header",
+					"StatusCenter_DeleteFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
 					true,
 					itemsCount,
 					totalSize);
@@ -290,8 +293,8 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CompressCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_CompressCanceled_Header",
+					"StatusCenter_CompressCanceled_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.Compressed,
 					source,
@@ -303,8 +306,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CompressInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_CompressInProgress_Header",
+					"StatusCenter_CompressInProgress_SubHeader",
 					ReturnResult.InProgress,
 					FileOperationType.Compressed,
 					source,
@@ -317,8 +320,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CompressComplete_Header".GetLocalizedResource(),
 					"StatusCenter_CompressComplete_Header",
+					"StatusCenter_CompressComplete_SubHeader",
 					ReturnResult.Success,
 					FileOperationType.Compressed,
 					source,
@@ -330,8 +333,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CompressFailed_Header".GetLocalizedResource(),
 					"StatusCenter_CompressFailed_Header",
+					"StatusCenter_CompressFailed_SubHeader",
 					ReturnResult.Failed,
 					FileOperationType.Compressed,
 					source,
@@ -357,8 +360,8 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_DecompressCanceled_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressCanceled_Header",
+					"StatusCenter_DecompressCanceled_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.Extract,
 					source,
@@ -370,8 +373,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_DecompressInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressInProgress_Header",
+					"StatusCenter_DecompressInProgress_SubHeader",
 					ReturnResult.InProgress,
 					FileOperationType.Extract,
 					source,
@@ -384,8 +387,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_DecompressComplete_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressComplete_Header",
+					"StatusCenter_DecompressComplete_SubHeader",
 					ReturnResult.Success,
 					FileOperationType.Extract,
 					source,
@@ -397,8 +400,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_DecompressFailed_Header".GetLocalizedResource(),
 					"StatusCenter_DecompressFailed_Header",
+					"StatusCenter_DecompressFailed_SubHeader",
 					ReturnResult.Failed,
 					FileOperationType.Extract,
 					source,
@@ -419,8 +422,8 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_EmptyRecycleBinCancel_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinCancel_Header",
+					"StatusCenter_EmptyRecycleBinCancel_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.Delete,
 					null,
@@ -432,8 +435,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.InProgress)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_EmptyRecycleBinInProgress_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinInProgress_Header",
+					"StatusCenter_EmptyRecycleBinInProgress_SubHeader",
 					ReturnResult.InProgress,
 					FileOperationType.Delete,
 					null,
@@ -446,8 +449,8 @@ namespace Files.App.Utils.StatusCenter
 			else if (returnStatus == ReturnResult.Success)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_EmptyRecycleBinComplete_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinComplete_Header",
+					"StatusCenter_EmptyRecycleBinComplete_SubHeader",
 					ReturnResult.Success,
 					FileOperationType.Delete,
 					null,
@@ -459,8 +462,8 @@ namespace Files.App.Utils.StatusCenter
 			else
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_EmptyRecycleBinFailed_Header".GetLocalizedResource(),
 					"StatusCenter_EmptyRecycleBinFailed_Header",
+					"StatusCenter_EmptyRecycleBinFailed_SubHeader",
 					ReturnResult.Failed,
 					FileOperationType.Delete,
 					null,
@@ -483,9 +486,9 @@ namespace Files.App.Utils.StatusCenter
 				false);
 		}
 
-		public static void UpdateCardStrings(StatusCenterItem card, IEnumerable<string>? source, IEnumerable<string>? destination, long totalItemCount)
+		public static void UpdateCardStrings(StatusCenterItem card)
 		{
-			if (string.IsNullOrWhiteSpace(card.HeaderStringResource))
+			if (string.IsNullOrWhiteSpace(card.HeaderStringResource) || string.IsNullOrWhiteSpace(card.SubHeaderStringResource))
 				return;
 
 			// Aren't used for now
@@ -494,78 +497,141 @@ namespace Files.App.Utils.StatusCenter
 
 			string fileName = string.Empty;
 
-			if (source is not null && source.Any())
+			if (card.Source is not null && card.Source.Any())
 			{
-				sourceDir = PathNormalization.GetParentDir(source.First());
-				fileName = source.First().Split('\\').Last();
+				sourceDir = PathNormalization.GetParentDir(card.Source.First());
+				fileName = card.Source.First().Split('\\').Last();
 			}
 
-			if (destination is not null && destination.Any())
-				destinationDir = PathNormalization.GetParentDir(destination.First());
+			if (card.Destination is not null && card.Destination.Any())
+				destinationDir = PathNormalization.GetParentDir(card.Destination.First());
 
 			// Update string resources
 			switch (card.Operation)
 			{
 				case FileOperationType.Copy:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource()),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-					};
-					break;
+
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+						};
+						break;
+					}
 				case FileOperationType.Move:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource()),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-					};
-					break;
+
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+						};
+						break;
+					}
 				case FileOperationType.Delete:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource()),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-					};
-					break;
+
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+						};
+						break;
+					}
 				case FileOperationType.Recycle:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource()),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-					};
-					break;
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+						};
+						break;
+					}
 				case FileOperationType.Extract:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-					};
-					break;
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+						};
+						break;
+					}
 				case FileOperationType.Compressed:
-					card.Header = card.FileSystemOperationReturnResult switch
 					{
-						ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-						_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), totalItemCount),
-					};
-					break;
+						card.Header = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+						};
+						card.SubHeader = card.FileSystemOperationReturnResult switch
+						{
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+						};
+						break;
+					}
 			}
 		}
 	}
