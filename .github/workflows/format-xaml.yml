@@ -1,0 +1,77 @@
+name: Format XAML
+on:
+  issue_comment:
+    types: [created]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.FILES_BOT_TOKEN }}
+
+jobs:
+  check-formatting:
+    if: github.event.issue.pull_request && github.event.comment.body == '/format'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Check if PR can be committed to
+        run: |
+          if (!(gh pr view 1 --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
+          { 
+            gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
+            exit 0
+          }
+
+      - uses: actions/checkout@v4
+
+      - name: Checkout PR
+        run: gh pr checkout ${{ github.event.issue.number }} -b pr
+  
+      - name: Install Xaml Styler
+        run: dotnet tool install --global XamlStyler.Console
+  
+      - name: Format XAML files
+        run: xstyler -l None -r -d src/Files.App
+
+      - name: Commit formatted files
+        run: |
+          git add .
+          git commit -m "Formatted XAML files"
+
+      - name: Push to PR
+        run: |
+          # this is all to get the right repo and branch to push to 
+
+          $owner = 'files-community'
+          $name = 'Files'
+          $number = ${{ github.event.issue.number }}
+
+          $data = gh api graphql -f query='query($owner:String!, $name:String!, $number:Int!) {
+            repository(owner:$owner, name:$name) {
+              pullRequest(number:$number) {
+                headRef {
+                  name
+                }
+                headRepository {
+                  url
+                }
+              }
+            }
+          }' -F owner=$owner -F name=$name -F number=$number --jq '{Branch: .data.repository.pullRequest.headRef.name, Url: .data.repository.pullRequest.headRepository.url}' | ConvertFrom-Json
+          
+          git push $data.Url pr:$($data.Branch)
+
+          if ($LASTEXITCODE -eq 0)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "Successfully formatted XAML files."
+          }
+          else
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "Failed to format XAML files, check logs for more information."
+          }
+
+        continue-on-error: true
+
+  
