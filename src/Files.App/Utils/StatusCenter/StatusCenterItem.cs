@@ -161,13 +161,13 @@ namespace Files.App.Utils.StatusCenter
 
 		public string? SubHeaderStringResource { get; private set; }
 
-		public ObservableCollection<ObservablePoint> SpeedGraphValues { get; private set; }
+		public ObservableCollection<ObservablePoint>? SpeedGraphValues { get; private set; }
 
-		public ObservableCollection<ISeries> SpeedGraphSeries { get; private set; }
+		public ObservableCollection<ISeries>? SpeedGraphSeries { get; private set; }
 
-		public IList<ICartesianAxis> SpeedGraphXAxes { get; private set; }
+		public IList<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
 
-		public IList<ICartesianAxis> SpeedGraphYAxes { get; private set; }
+		public IList<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
 
 		public double IconBackgroundCircleBorderOpacity { get; private set; }
 

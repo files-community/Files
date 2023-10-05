@@ -141,6 +141,17 @@
 									TextWrapping="NoWrap"
 									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
 
+								<TextBlock
+									x:Name="StatusCenterItemSubHeaderTextBlock"
+									x:Load="{x:Bind IsInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									MaxLines="1"
+									Style="{StaticResource CaptionTextBlockStyle}"
+									Text="{x:Bind SubHeader, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
+
 							</StackPanel>
 
 							<!--  Action Buttons  -->
@@ -253,10 +264,10 @@
 										Margin="0,-2"
 										VerticalAlignment="Bottom"
 										AnimationsSpeed="00:00:00.001"
-										Series="{x:Bind Series, Mode=OneWay}"
+										Series="{x:Bind SpeedGraphSeries, Mode=OneWay}"
 										TooltipPosition="Hidden"
-										XAxes="{x:Bind XAxes}"
-										YAxes="{x:Bind YAxes}" />
+										XAxes="{x:Bind SpeedGraphXAxes}"
+										YAxes="{x:Bind SpeedGraphYAxes}" />
 
 									<StackPanel Margin="8,4">
 

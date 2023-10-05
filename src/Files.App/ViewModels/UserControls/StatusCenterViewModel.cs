@@ -96,12 +96,12 @@ namespace Files.App.ViewModels.UserControls
 			return banner;
 		}
 
-		public bool RemoveItem(StatusCenterItem banner)
+		public bool RemoveItem(StatusCenterItem card)
 		{
-			if (!StatusCenterItems.Contains(banner))
+			if (!StatusCenterItems.Contains(card))
 				return false;
 
-			StatusCenterItems.Remove(banner);
+			StatusCenterItems.Remove(card);
 
 			NotifyChanges();
 
