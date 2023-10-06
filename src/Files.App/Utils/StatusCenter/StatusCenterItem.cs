@@ -174,6 +174,9 @@ namespace Files.App.Utils.StatusCenter
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
+		public string? HeaderTooltipText
+			=> IsInProgress ? SubHeader : Header;
+
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
@@ -209,6 +212,8 @@ namespace Files.App.Utils.StatusCenter
 			SpeedGraphValues = new();
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 			Message = "ProcessingItems".GetLocalizedResource();
+
+			OnPropertyChanged(nameof(HeaderTooltipText));
 
 			if (source is not null)
 				Source = source;

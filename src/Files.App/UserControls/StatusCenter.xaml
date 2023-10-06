@@ -139,7 +139,7 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind HeaderTooltipText, Mode=OneWay}" />
 
 								<TextBlock
 									x:Name="StatusCenterItemSubHeaderTextBlock"
