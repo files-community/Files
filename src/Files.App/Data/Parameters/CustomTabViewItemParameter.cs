@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Files.App.Data.Parameters
 {
-	public sealed class CustomTabViewItemParameter
+	public class CustomTabViewItemParameter
 	{
 		private static readonly KnownTypesConverter _typesConverter = new();
 

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
-using Files.App.UserControls.MultitaskingControl;
 using Files.App.Helpers;
 
 namespace Files.App.Helpers
@@ -176,7 +175,7 @@ namespace Files.App.Helpers
 		private static List<TabItemWithIDArguments> AddTabsWithID()
 		{
 			List<TabItemWithIDArguments> OtherTabsWithIDArgList = TabsWithIDArgList.FindAll(x => x.InstanceID != InstanceID).ToList();
-			List<string> ThisInstanceTabsStr = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(x => x.TabItemArguments.Serialize()).ToList();
+			List<string> ThisInstanceTabsStr = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(x => x.NavigationParameter.Serialize()).ToList();
 
 			List<TabItemWithIDArguments> ThisInstanceTabsWithIDArgList = ThisInstanceTabsStr.Select(x => TabItemWithIDArguments.Deserialize(x)).ToList();
 			List<TabItemWithIDArguments> NewTabsWithIDArgList = OtherTabsWithIDArgList.ToList();
@@ -235,8 +234,8 @@ namespace Files.App.Helpers
 				List<TabItemWithIDArguments> TabsWithIDToBeRestoredForInstance = TabsWithIDToBeRestored
 					.Where(x => x.InstanceID == InstanceID)
 					.ToList();
-				List<TabItemArguments> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
-					.Select(x => x as TabItemArguments)
+				List<CustomTabViewItemParameter> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
+					.Select(x => x as CustomTabViewItemParameter)
 					.ToList();
 				List<string> TabsToBeRestoredForInstanceStr = TabsToBeRestoredForInstance
 					.Select(x => x.Serialize())
@@ -276,8 +275,8 @@ namespace Files.App.Helpers
 				List<TabItemWithIDArguments> TabsWithIDToBeRestoredForInstance = TabsWithIDToBeRestored
 					.Where(x => x.InstanceID == InstanceID)
 					.ToList();
-				List<TabItemArguments> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
-					.Select(x => x as TabItemArguments)
+				List<CustomTabViewItemParameter> TabsToBeRestoredForInstance = TabsWithIDToBeRestoredForInstance
+					.Select(x => x as CustomTabViewItemParameter)
 					.ToList();
 				List<string> TabsToBeRestoredForInstanceStr = TabsToBeRestoredForInstance
 					.Select(x => x.Serialize())
@@ -286,7 +285,7 @@ namespace Files.App.Helpers
 				{
 					foreach (var tabArgs in TabsToBeRestoredForInstance)
 					{
-						mainPageViewModel.AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+						mainPageViewModel.AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 					}
 				}
 				else
@@ -299,7 +298,7 @@ namespace Files.App.Helpers
 	}
 
 
-	public class TabItemWithIDArguments : TabItemArguments
+	public class TabItemWithIDArguments : CustomTabViewItemParameter
 	{
 		public string InstanceID { get; set; }
 		private static readonly KnownTypesConverter TypesConverter = new KnownTypesConverter();
@@ -325,11 +324,11 @@ namespace Files.App.Helpers
 
 			try
 			{
-				tabArgs.NavigationArg = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationArg"].GetRawText());
+				tabArgs.NavigationParameter = JsonSerializer.Deserialize<PaneNavigationArguments>(tempArgs["NavigationParameter"].GetRawText());
 			}
 			catch (JsonException)
 			{
-				tabArgs.NavigationArg = tempArgs["NavigationArg"].GetString();
+				tabArgs.NavigationParameter = tempArgs["NavigationParameter"].GetString();
 			}
 			if (tempArgs.ContainsKey("InstanceID"))
 			{
@@ -342,7 +341,7 @@ namespace Files.App.Helpers
 			return tabArgs;
 		}
 
-		public static TabItemWithIDArguments CreateFromTabItemArg(TabItemArguments tabItemArg)
+		public static TabItemWithIDArguments CreateFromTabItemArg(CustomTabViewItemParameter tabItemArg)
 		{
 			string json = JsonSerializer.Serialize(tabItemArg);
 			var tabItemWithIDArg = JsonSerializer.Deserialize<TabItemWithIDArguments>(json);
@@ -350,10 +349,10 @@ namespace Files.App.Helpers
 			return tabItemWithIDArg;
 		}
 
-		public TabItemArguments ExportToTabItemArg()
+		public CustomTabViewItemParameter ExportToTabItemArg()
 		{
 			string json = JsonSerializer.Serialize(this);
-			var tabItemArg = JsonSerializer.Deserialize<TabItemArguments>(json);
+			var tabItemArg = JsonSerializer.Deserialize<CustomTabViewItemParameter>(json);
 			return tabItemArg;
 		}
 	}

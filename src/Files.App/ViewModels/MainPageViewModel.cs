@@ -402,11 +402,11 @@ namespace Files.App.ViewModels
 					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
 				else if (parameter is CustomTabViewItemParameter tabArgs)
 					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
-				else if (parameter is List<TabItemArguments> tabArgsList)
+				else if (parameter is List<CustomTabViewItemParameter> tabArgsList)
 				{
-					foreach (TabItemArguments tabArgItem in tabArgsList)
+					foreach (CustomTabViewItemParameter tabArgItem in tabArgsList)
 					{
-						await AddNewTabByParam(tabArgItem.InitialPageType, tabArgItem.NavigationArg);
+						await AddNewTabByParam(tabArgItem.InitialPageType, tabArgItem.NavigationParameter);
 					}
 				}
 				else

@@ -144,7 +144,7 @@ namespace Files.App
 								break;
 							case "tabs":
 								var tabArgsListStr = JsonSerializer.Deserialize<List<string>>(unescapedValue);
-								List<TabItemArguments> tabArgsList = tabArgsListStr.Select(x => TabItemArguments.Deserialize(x)).ToList();
+								List<CustomTabViewItemParameter> tabArgsList = tabArgsListStr.Select(x => CustomTabViewItemParameter.Deserialize(x)).ToList();
 
 								rootFrame.Navigate(typeof(MainPage),
 									new MainPageNavigationArguments() { Parameter = tabArgsList, IgnoreStartupSettings = true },
