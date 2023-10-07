@@ -28,6 +28,16 @@ jobs:
 
       - name: Checkout PR
         run: gh pr checkout ${{ github.event.issue.number }} -b pr
+
+      - name: Check if PR has modified XAML files
+        run: |
+          $baseRef = gh pr view ${{ github.event.issue.number }} --json baseRefName --jq '.baseRefName'
+          $changedFiles = (git diff --name-only pr..$baseRef) -split "\n" | Where-Object {$_ -like "*.xaml"}
+          if ($changedFiles.Count -eq 0)
+          {
+            gh pr comment ${{ github.event.issue.number }} -b "No XAML files found to format."
+            exit 0
+          }
   
       - name: Install Xaml Styler
         run: dotnet tool install --global XamlStyler.Console
@@ -73,5 +83,3 @@ jobs:
           }
 
         continue-on-error: true
-
-  
