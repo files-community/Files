@@ -27,6 +27,12 @@ namespace Files.App.Converters
 		public static readonly DependencyProperty ErrorForegroundBrushProperty =
 			DependencyProperty.Register(nameof(ErrorForegroundBrush), typeof(SolidColorBrush), typeof(StatusCenterStateToBrushConverter), new PropertyMetadata(null));
 
+		public static readonly DependencyProperty CanceledBackgroundBrushProperty =
+			DependencyProperty.Register(nameof(CanceledBackgroundBrush), typeof(SolidColorBrush), typeof(StatusCenterStateToBrushConverter), new PropertyMetadata(null));
+
+		public static readonly DependencyProperty CanceledForegroundBrushProperty =
+			DependencyProperty.Register(nameof(CanceledForegroundBrush), typeof(SolidColorBrush), typeof(StatusCenterStateToBrushConverter), new PropertyMetadata(null));
+
 		public SolidColorBrush InProgressBackgroundBrush
 		{
 			get => (SolidColorBrush)GetValue(InProgressBackgroundBrushProperty);
@@ -63,6 +69,18 @@ namespace Files.App.Converters
 			set => SetValue(ErrorForegroundBrushProperty, value);
 		}
 
+		public SolidColorBrush CanceledBackgroundBrush
+		{
+			get => (SolidColorBrush)GetValue(CanceledBackgroundBrushProperty);
+			set => SetValue(CanceledBackgroundBrushProperty, value);
+		}
+
+		public SolidColorBrush CanceledForegroundBrush
+		{
+			get => (SolidColorBrush)GetValue(CanceledForegroundBrushProperty);
+			set => SetValue(CanceledForegroundBrushProperty, value);
+		}
+
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value is StatusCenterItemKind state)
@@ -74,7 +92,8 @@ namespace Files.App.Converters
 						StatusCenterItemKind.InProgress => InProgressBackgroundBrush,
 						StatusCenterItemKind.Successful => SuccessfulBackgroundBrush,
 						StatusCenterItemKind.Error => ErrorBackgroundBrush,
-						_ => InProgressBackgroundBrush
+						StatusCenterItemKind.Canceled => CanceledBackgroundBrush,
+						_ => CanceledBackgroundBrush
 					};
 				}
 				else
@@ -84,7 +103,8 @@ namespace Files.App.Converters
 						StatusCenterItemKind.InProgress => InProgressForegroundBrush,
 						StatusCenterItemKind.Successful => SuccessfulForegroundBrush,
 						StatusCenterItemKind.Error => ErrorForegroundBrush,
-						_ => InProgressForegroundBrush
+						StatusCenterItemKind.Canceled => CanceledForegroundBrush,
+						_ => CanceledForegroundBrush
 					};
 				}
 			}

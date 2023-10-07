@@ -11,5 +11,6 @@ namespace Files.Core.Data.Enums
 		InProgress,
 		Successful,
 		Error,
+		Canceled,
 	}
 }

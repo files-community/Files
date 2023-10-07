@@ -29,7 +29,7 @@ namespace Files.App.Utils.StatusCenter
 			if (returnStatus == ReturnResult.Cancelled)
 			{
 				return _statusCenterViewModel.AddItem(
-					"StatusCenter_CopyCanceled_Header".GetLocalizedResource(),
+					"StatusCenter_CopyCanceled_Header",
 					"StatusCenter_CopyCanceled_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.Copy,
@@ -477,8 +477,8 @@ namespace Files.App.Utils.StatusCenter
 		public static StatusCenterItem AddCard_Prepare()
 		{
 			return _statusCenterViewModel.AddItem(
-				"StatusCenter_Prepare_Header".GetLocalizedResource(),
 				"StatusCenter_Prepare_Header",
+				string.Empty,
 				ReturnResult.InProgress,
 				FileOperationType.Prepare,
 				null,
@@ -511,7 +511,6 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case FileOperationType.Copy:
 					{
-
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
 							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
@@ -532,7 +531,6 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Move:
 					{
-
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
 							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
@@ -553,7 +551,6 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Delete:
 					{
-
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
 							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),

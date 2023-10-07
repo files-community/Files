@@ -280,11 +280,11 @@ namespace Files.App.Utils.StatusCenter
 						IsInProgress = true;
 						IsIndeterminateProgress = !canProvideProgress;
 						IconBackgroundCircleBorderOpacity = 0.1d;
-						ItemKind = StatusCenterItemKind.InProgress;
 
 						if (Operation is FileOperationType.Prepare)
 							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
 
+						ItemKind = StatusCenterItemKind.InProgress;
 						ItemIconKind = Operation switch
 						{
 							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
@@ -306,10 +306,27 @@ namespace Files.App.Utils.StatusCenter
 						break;
 					}
 				case ReturnResult.Failed:
-				case ReturnResult.Cancelled:
 					{
 						ItemKind = StatusCenterItemKind.Error;
 						ItemIconKind = StatusCenterItemIconKind.Error;
+
+						break;
+					}
+				case ReturnResult.Cancelled:
+					{
+						IconBackgroundCircleBorderOpacity = 0.1d;
+
+						ItemKind = StatusCenterItemKind.Canceled;
+						ItemIconKind = Operation switch
+						{
+							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
+							FileOperationType.Copy => StatusCenterItemIconKind.Copy,
+							FileOperationType.Move => StatusCenterItemIconKind.Move,
+							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
+							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
+							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
+							_ => StatusCenterItemIconKind.Delete,
+						};
 
 						break;
 					}
@@ -418,11 +435,11 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			// Remove the same point
-			if (SpeedGraphValues.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
+			if (SpeedGraphValues?.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
 				SpeedGraphValues.Remove(existingPoint);
 
 			// Add a new point
-			SpeedGraphValues.Add(point);
+			SpeedGraphValues?.Add(point);
 
 			// Add percentage to the header
 			if (!IsIndeterminateProgress)
