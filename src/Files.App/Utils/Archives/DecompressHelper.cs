@@ -153,15 +153,13 @@ namespace Files.App.Utils.Archives
 			if (archive is null || destinationFolder is null)
 				return;
 
-			CancellationTokenSource extractCancellation = new();
-
 			var banner = StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.InProgress);
 
 			await FilesystemTasks.Wrap(() =>
-				ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, extractCancellation.Token));
+				ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, banner.CancellationToken));
 
 			_statusCenterViewModel.RemoveItem(banner);
 
