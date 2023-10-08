@@ -120,7 +120,7 @@ namespace Files.App.Utils.Storage
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
 					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
-					model.Text = IsUNCPath(parentPath) ? GetUNCFileName(parentPath) : System.IO.Path.GetFileName(parentPath);
+					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),
 				_ => (null, null)
@@ -166,16 +166,7 @@ namespace Files.App.Utils.Storage
 			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		};
 
-		public static bool IsUNCPath(string path)
-		{
-			if (!string.IsNullOrEmpty(path))
-			{
-				return path.StartsWith("\\\\", StringComparison.OrdinalIgnoreCase);
-			}
-			return false;
-		}
-
-		public static string GetUNCFileName(string path)
+		public static string GetFolderName(string path)
 		{
 			if (path == null)
 				return null;
