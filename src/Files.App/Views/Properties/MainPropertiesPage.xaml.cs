@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI;
 
@@ -38,6 +37,8 @@ namespace Files.App.Views.Properties
 			AppWindow = parameter.AppWindow;
 
 			Window.Closed += Window_Closed;
+
+			AppThemeHelper.ThemeModeChanged += AppSettings_ThemeModeChanged;
 
 			MainPropertiesViewModel = new(Window, AppWindow, MainContentFrame, BaseProperties, parameter);
 
@@ -82,32 +83,7 @@ namespace Files.App.Views.Properties
 
 		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
 		{
-			if (Parent is null)
-				return;
-
-			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
-			{
-				((Frame)Parent).RequestedTheme = AppThemeHelper.RootTheme;
-
-				AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-				AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-				switch (AppThemeHelper.RootTheme)
-				{
-					case ElementTheme.Default:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-						AppWindow.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-						break;
-					case ElementTheme.Light:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0, 0, 0);
-						AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
-						break;
-					case ElementTheme.Dark:
-						AppWindow.TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF);
-						AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-						break;
-				}
-			});
+			AppThemeHelper.ApplyTheme(Window, AppThemeHelper.RootTheme, false);
 		}
 
 		private void Window_Closed(object sender, WindowEventArgs args)

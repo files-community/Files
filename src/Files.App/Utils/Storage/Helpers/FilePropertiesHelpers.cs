@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 
 namespace Files.App.Utils.Storage
