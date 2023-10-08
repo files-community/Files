@@ -68,12 +68,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Dialogs\ReleaseNotesDialog.xaml" />
-      <None Remove="UserControls\Sidebar\SideBarItem.xaml" />
-      <None Remove="UserControls\Sidebar\SideBarView.xaml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
         <PackageReference Include="DirectNCore" Version="1.13.2.1" />
@@ -91,7 +85,7 @@
         <PackageReference Include="SevenZipSharp" Version="1.0.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
+        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.0" />
         <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302" PrivateAssets="all" />
         <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
@@ -99,7 +93,7 @@
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Extensions" Version="3.4.16" />
-        <PackageReference Include="WinUIEx" Version="2.3.0" />
+        <PackageReference Include="WinUIEx" Version="2.3.1" />
         <PackageReference Include="Vanara.PInvoke.Mpr" Version="3.4.16" />
         <PackageReference Include="Vanara.Windows.Shell" Version="3.4.16" />
         <PackageReference Include="Microsoft.Management.Infrastructure" Version="2.0.0" />
@@ -135,18 +129,6 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Dialogs\ReleaseNotesDialog.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
-      <Page Update="UserControls\SideBarControl\SideBarHost.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
-      <Page Update="UserControls\SideBarControl\SideBarItem.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
     </ItemGroup>
 
 </Project>

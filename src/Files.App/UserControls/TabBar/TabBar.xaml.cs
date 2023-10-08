@@ -8,39 +8,76 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
-namespace Files.App.UserControls.MultitaskingControl
+namespace Files.App.UserControls.TabBar
 {
-	public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
+	public sealed partial class TabBar : BaseTabBar
 	{
-		public static event EventHandler<TabItem?>? SelectedTabItemChanged;
+		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+		private readonly DispatcherTimer tabHoverTimer = new();
+
 		private TabViewItem? hoveredTabViewItem;
 
-		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
-		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
-		public bool AllowTabsDrag => !ElevationHelpers.IsAppRunAsAdmin();
+		public static readonly DependencyProperty FooterElementProperty =
+			DependencyProperty.Register(
+				nameof(FooterElement),
+				typeof(UIElement),
+				typeof(TabBar),
+				new PropertyMetadata(null));
 
-		public HorizontalMultitaskingControl()
+		public UIElement FooterElement
+		{
+			get => (UIElement)GetValue(FooterElementProperty); 
+			set => SetValue(FooterElementProperty, value); 
+		}
+
+		public static readonly DependencyProperty TabStripVisibilityProperty =
+			DependencyProperty.Register(
+				nameof(TabStripVisibility),
+				typeof(Visibility),
+				typeof(TabBar),
+				new PropertyMetadata(Visibility.Visible));
+
+		public Visibility TabStripVisibility
+		{
+			get => (Visibility)GetValue(TabStripVisibilityProperty);
+			set => SetValue(TabStripVisibilityProperty, value);
+		}
+
+		// Dragging makes the app crash when run as admin.
+		// For more information:
+		// - https://github.com/files-community/Files/issues/12390
+		// - https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowTabsDrag
+			=> !ElevationHelpers.IsAppRunAsAdmin();
+
+		public Rectangle DragArea
+			=> DragAreaRectangle;
+
+		public TabBar()
 		{
 			InitializeComponent();
+
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var appWindow = MainWindow.Instance.AppWindow;
-			double rightPaddingColumnWidth = FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft ? appWindow.TitleBar.LeftInset : appWindow.TitleBar.RightInset;
-			RightPaddingColumn.Width = new GridLength(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
+
+			double rightPaddingColumnWidth =
+				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+					? appWindow.TitleBar.LeftInset
+					: appWindow.TitleBar.RightInset;
+
+			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 		}
 
-		private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
+		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
 			{
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
+				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
 			}
 
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
@@ -62,14 +99,14 @@ namespace Files.App.UserControls.MultitaskingControl
 
 		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
-			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
-			HorizontalTabView.CanReorderTabs = !ElevationHelpers.IsAppRunAsAdmin();
+			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDrop(sender, e);
+			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
 		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
-			await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
+			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
 			{
 				HorizontalTabView.CanReorderTabs = false;
@@ -90,22 +127,23 @@ namespace Files.App.UserControls.MultitaskingControl
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
 			{
-				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabItem);
+				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
 			}
 		}
 
-		private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
+		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
 		{
-			var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
+			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 		}
 
-		private void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
+		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
 				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
@@ -117,20 +155,20 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 		}
 
-		private void TabStrip_DragLeave(object sender, DragEventArgs e)
+		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
-		private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
-			if (!(sender is TabView tabStrip))
-			{
-				return;
-			}
 
-			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
+			if (!(sender is TabView tabStrip))
+				return;
+
+			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
+				!(tabViewItemPathObj is string tabViewItemString))
 			{
 				return;
 			}
@@ -148,17 +186,17 @@ namespace Files.App.UserControls.MultitaskingControl
 				}
 			}
 
-			var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
+			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
+			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
-		private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
+		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
 			{
-				CloseTab(args.Item as TabItem);
+				CloseTab(args.Item as TabBarItem);
 			}
 			else
 			{
@@ -171,7 +209,7 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 		}
 
-		private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
 			if (sender.TabItems.Count == 1)
 			{
@@ -179,53 +217,36 @@ namespace Files.App.UserControls.MultitaskingControl
 			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
-			var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
+			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
-			Items.Remove(args.Item as TabItem);
+			Items.Remove(args.Item as TabBarItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{
-				Items.Insert(indexOfTabViewItem, args.Item as TabItem);
+				Items.Insert(indexOfTabViewItem, args.Item as TabBarItem);
 				sender.SelectedIndex = selectedTabViewItemIndex;
 			}
 			else
 			{
-				(args.Item as TabItem)?.Unload(); // Dispose tab arguments
+				// Dispose tab arguments
+				(args.Item as TabBarItem)?.Unload();
 			}
 		}
 
 		private void TabItemContextMenu_Opening(object sender, object e)
 		{
 			MenuItemMoveTabToNewWindow.IsEnabled = Items.Count > 1;
-			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabItem);
+			SelectedTabItemChanged?.Invoke(null, ((MenuFlyout)sender).Target.DataContext as TabBarItem);
 		}
+
 		private void TabItemContextMenu_Closing(object sender, object e)
 		{
 			SelectedTabItemChanged?.Invoke(null, null);
 		}
 
-		public override DependencyObject ContainerFromItem(ITabItem item) => HorizontalTabView.ContainerFromItem(item);
-
-		public UIElement ActionsControl
+		public override DependencyObject ContainerFromItem(ITabBarItem item)
 		{
-			get { return (UIElement)GetValue(ActionsControlProperty); }
-			set { SetValue(ActionsControlProperty, value); }
+			return HorizontalTabView.ContainerFromItem(item);
 		}
-
-		// Using a DependencyProperty as the backing store for ActionsControl.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ActionsControlProperty =
-			DependencyProperty.Register("ActionsControl", typeof(UIElement), typeof(HorizontalMultitaskingControl), new PropertyMetadata(null));
-
-		public Visibility TabStripVisibility
-		{
-			get { return (Visibility)GetValue(TabStripVisibilityProperty); }
-			set { SetValue(TabStripVisibilityProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for TabStripVisibility.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register("TabStripVisibility", typeof(Visibility), typeof(HorizontalMultitaskingControl), new PropertyMetadata(Visibility.Visible));
-
-		public Rectangle DragArea => DragAreaRectangle;
 
 		private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
 		{

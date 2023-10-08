@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.UserControls.MultitaskingControl;
 using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -136,7 +135,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
+			if (ViewModel.MultitaskingControl is not UserControls.TabBar.TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
@@ -151,12 +150,12 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
+		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
-			var paneArgs = e.NavigationArg as PaneNavigationArguments;
+			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
 
@@ -171,7 +170,7 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
-			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
+			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
@@ -192,7 +191,7 @@ namespace Files.App.Views
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemParameter?.NavigationParameter?.ToString());
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();

@@ -561,12 +561,20 @@ namespace Files.App.Utils.Git
 			return gitItemModel;
 		}
 
-		public static void InitializeRepository(string? path)
+		public static async Task InitializeRepository(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return;
 
-			Repository.Init(path);
+			try
+			{
+				Repository.Init(path);
+			}
+			catch (LibGit2SharpException ex)
+			{
+				_logger.LogWarning(ex.Message);
+				await DynamicDialogFactory.GetFor_GitCannotInitializeqRepositoryHere().TryShowAsync();
+			}
 		}
 
 		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
@@ -591,7 +599,7 @@ namespace Files.App.Utils.Git
 			try
 			{
 				return branch.TrackingDetails;
-			} 
+			}
 			catch (LibGit2SharpException)
 			{
 				return null;
