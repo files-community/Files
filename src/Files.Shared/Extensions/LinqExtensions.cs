@@ -23,7 +23,7 @@ namespace Files.Shared.Extensions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="enumerable"></param>
 		/// <returns></returns>
-		public static bool IsEmpty<T>(this IEnumerable<T> enumerable)
+		public static bool IsEmpty<T>(this IEnumerable<T>? enumerable)
 		{
 			return enumerable is null || !enumerable.Any();
 		}

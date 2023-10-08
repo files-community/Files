@@ -276,7 +276,7 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async Task OnNavigatedTo(object parameter)
+		public async Task OnNavigatedTo(object? parameter)
 		{
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
@@ -319,7 +319,7 @@ namespace Files.App.ViewModels
 						}
 					}
 					else if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
-						userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+						!userSettingsService.GeneralSettingsService.TabsOnStartupList.IsEmpty())
 					{
 						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);

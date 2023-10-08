@@ -22,7 +22,7 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, IAsyncInitialize, INotifyPropertyChanged
 	{
-		private readonly object _activationArgs;
+		private readonly object? _activationArgs;
 		public IUserSettingsService UserSettingsService { get; }
 		public IApplicationService ApplicationService { get; }
 
@@ -45,7 +45,7 @@ namespace Files.App.Views
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
-		public MainPage(object activationArgs)
+		public MainPage(object? activationArgs)
 		{
 			InitializeComponent();
 			_activationArgs = activationArgs;

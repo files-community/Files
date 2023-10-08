@@ -27,7 +27,7 @@ namespace Files.App.UserControls.InterfaceRoot
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
 			await CreateSplashScreenAsync();
-			_ = InitializeAppComponentsAsync(cancellationToken);
+			_ = InitializeAppComponentsAsync();
 			await ShowMainScreenAsync(cancellationToken);
 			_ = CheckForRequiredUpdates(cancellationToken);
 		}
@@ -36,9 +36,9 @@ namespace Files.App.UserControls.InterfaceRoot
 		{
 			Root.Content = new SplashScreenPage();
 
-			// Double await to allow splash-screen icon to load
-			await Task.Delay(10);
-			await Task.Delay(10);
+			// Delay to allow splash-screen to load
+			await Task.Delay(100);
+			await Task.Delay(15);
 		}
 
 		private async Task ShowMainScreenAsync(CancellationToken cancellationToken)
@@ -49,36 +49,35 @@ namespace Files.App.UserControls.InterfaceRoot
 			await mainPage.InitAsync(cancellationToken);
 		}
 
-		private async Task InitializeAppComponentsAsync(CancellationToken cancellationToken)
+		private async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
-			{
-				await Task.WhenAll(
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					App.LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTask(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					App.QuickAccessManager.InitializeAsync()
-				);
+			await Task.WhenAll(
+				OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				App.LibraryManager.UpdateLibrariesAsync(),
+				OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTask(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				App.QuickAccessManager.InitializeAsync()
+			);
 
-				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+			await Task.WhenAll(
+				JumpListHelper.InitializeUpdatesAsync(),
+				addItemService.InitializeAsync(),
+				ContextMenu.WarmUpQueryContextMenuAsync()
+			);
 
-				FileTagsHelper.UpdateTagsDb();
-			}, cancellationToken);
+			FileTagsHelper.UpdateTagsDb();
 
-			static async Task OptionalTask(Task task, bool condition)
+			static Task OptionalTask(Task task, bool condition)
 			{
 				if (condition)
-					await task;
+					return task;
+
+				return Task.CompletedTask;
 			}
 		}
 
