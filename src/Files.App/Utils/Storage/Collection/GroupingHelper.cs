@@ -166,7 +166,7 @@ namespace Files.App.Utils.Storage
 			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		};
 
-		public static string GetFolderName(string path)
+		private static string GetFolderName(string path)
 		{
 			if (path == null)
 				return null;
