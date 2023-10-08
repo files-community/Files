@@ -145,7 +145,6 @@ namespace Files.App
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<PreviewPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
-					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI;
 
@@ -18,8 +19,6 @@ namespace Files.App.Views.Properties
 		private AppWindow AppWindow;
 
 		private Window Window;
-
-		private SettingsViewModel AppSettings { get; set; }
 
 		private MainPropertiesViewModel MainPropertiesViewModel { get; set; }
 
@@ -35,25 +34,27 @@ namespace Files.App.Views.Properties
 		{
 			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
 
-			AppWindow = parameter.AppWindow;
 			Window = parameter.Window;
+			AppWindow = parameter.AppWindow;
 
-			base.OnNavigatedTo(e);
+			Window.Closed += Window_Closed;
 
 			MainPropertiesViewModel = new(Window, AppWindow, MainContentFrame, BaseProperties, parameter);
+
+			base.OnNavigatedTo(e);
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
-			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
-			Window.Closed += Window_Closed;
+			AppSettings_ThemeModeChanged(null, null);
 
 			UpdatePageLayout();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-			=> UpdatePageLayout();
+		{
+			UpdatePageLayout();
+		}
 
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
@@ -86,9 +87,12 @@ namespace Files.App.Views.Properties
 
 			await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				((Frame)Parent).RequestedTheme = ThemeHelper.RootTheme;
+				((Frame)Parent).RequestedTheme = AppThemeHelper.RootTheme;
 
-				switch (ThemeHelper.RootTheme)
+				AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+				AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+				switch (AppThemeHelper.RootTheme)
 				{
 					case ElementTheme.Default:
 						AppWindow.TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
@@ -108,7 +112,7 @@ namespace Files.App.Views.Properties
 
 		private void Window_Closed(object sender, WindowEventArgs args)
 		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			AppThemeHelper.ThemeModeChanged -= AppSettings_ThemeModeChanged;
 			Window.Closed -= Window_Closed;
 
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&

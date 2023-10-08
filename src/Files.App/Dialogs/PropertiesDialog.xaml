@@ -7,7 +7,7 @@
 	xmlns:local2="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	x:Name="PropertiesDialogMarkup"
-	RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind local2:AppThemeHelper.RootTheme}"
 	mc:Ignorable="d">
 
 	<ContentDialog.Resources>

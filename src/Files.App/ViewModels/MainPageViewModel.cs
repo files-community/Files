@@ -284,7 +284,7 @@ namespace Files.App.ViewModels
 
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
-			var isInitialized = ThemeHelper.Initialize();
+			var isInitialized = AppThemeHelper.Initialize();
 
 			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;

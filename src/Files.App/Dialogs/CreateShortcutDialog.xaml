@@ -11,7 +11,7 @@
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
 	PrimaryButtonCommand="{x:Bind ViewModel.PrimaryButtonCommand}"
 	PrimaryButtonText="{helpers:ResourceString Name=Create}"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:AppThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">

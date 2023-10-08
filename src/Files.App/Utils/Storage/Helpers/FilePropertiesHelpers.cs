@@ -93,7 +93,7 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = ThemeHelper.RootTheme
+				RequestedTheme = AppThemeHelper.RootTheme
 			};
 
 			WinUIEx.WindowEx propertiesWindow;
@@ -113,12 +113,13 @@ namespace Files.App.Utils.Storage
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
 			var appWindow = propertiesWindow.AppWindow;
-			appWindow.Title = "Properties".GetLocalizedResource();
+			appWindow.Title = $"{"Properties".GetLocalizedResource()} - Files";
 			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-			appWindow.SetIcon(applicationService.AppIcoPath);
+			var ApplicationService = new ApplicationService();
+			appWindow.SetIcon(SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, ApplicationService.AppIcoPath));
 
 			frame.Navigate(
 				typeof(Views.Properties.MainPropertiesPage),

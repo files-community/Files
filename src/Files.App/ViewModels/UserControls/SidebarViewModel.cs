@@ -399,7 +399,10 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "SidebarFavorites".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
+			var key = $"section:{section.Text.Replace('\\', '_')}";
+
+			ApplicationData.Current.LocalSettings.Values.Get(key, section.Text == "SidebarFavorites".GetLocalizedResource());
+
 			section.PropertyChanged += Section_PropertyChanged;
 		}
 
@@ -407,7 +410,9 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
 			{
-				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
+				var key = $"section:{section.Text.Replace('\\', '_')}";
+
+				ApplicationData.Current.LocalSettings.Values[key] = section.IsExpanded;
 			}
 		}
 

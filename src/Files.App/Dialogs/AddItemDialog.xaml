@@ -14,7 +14,7 @@
 	BorderThickness="0"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	Loaded="AddItemDialog_Loaded"
-	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	RequestedTheme="{x:Bind helpers:AppThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
