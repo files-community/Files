@@ -6,9 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
+	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	mc:Ignorable="d">
 
 	<Border>
@@ -22,12 +20,12 @@
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="0" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="0" />
 					</VisualState.StateTriggers>
 				</VisualState>
 				<VisualState x:Name="FolderEmptyState">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="1" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="1" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="EmptyText.Visibility" Value="Visible" />
@@ -35,14 +33,15 @@
 				</VisualState>
 				<VisualState x:Name="NoSearchResultsFoundState">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="2" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind EmptyTextType, Mode=OneWay}" To="2" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="EmptyText.Visibility" Value="Visible" />
-						<Setter Target="EmptyText.Text" Value="{x:Bind GetTranslated('NoSearchResultsFound')}" />
+						<Setter Target="EmptyText.Text" Value="{helpers:ResourceString Name=NoSearchResultsFound}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 	</Border>
+
 </UserControl>

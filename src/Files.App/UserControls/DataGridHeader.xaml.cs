@@ -12,10 +12,10 @@ namespace Files.App.UserControls
 	public sealed partial class DataGridHeader : UserControl, INotifyPropertyChanged
 	{
 		public ICommand Command { get; set; }
+
 		public object CommandParameter { get; set; }
 
 		private string header;
-
 		public string Header
 		{
 			get { return header; }
@@ -30,7 +30,6 @@ namespace Files.App.UserControls
 		}
 
 		private bool canBeSorted = true;
-
 		public bool CanBeSorted
 		{
 			get { return canBeSorted; }
@@ -45,7 +44,6 @@ namespace Files.App.UserControls
 		}
 
 		private SortDirection? columnSortOption;
-
 		public SortDirection? ColumnSortOption
 		{
 			get { return columnSortOption; }

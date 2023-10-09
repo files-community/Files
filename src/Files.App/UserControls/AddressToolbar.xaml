@@ -5,7 +5,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,8 +16,6 @@
 	xmlns:uc="using:Files.App.UserControls"
 	x:Name="NavToolbar"
 	Height="50"
-	d:DesignHeight="50"
-	d:DesignWidth="800"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
@@ -541,13 +538,13 @@
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>
+
 			<VisualStateGroup>
 				<VisualState x:Name="SearchBoxAlwaysShown">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
 					</VisualState.StateTriggers>
 				</VisualState>
-
 				<VisualState x:Name="SearchBoxCollapse">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
@@ -559,52 +556,42 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
+
 			<VisualStateGroup>
-				<VisualState x:Name="TasksSuccess">
+				<VisualState x:Name="TasksSuccessfulVisualState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="0" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" To="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource SuccessIconInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="TasksOnging">
+				<VisualState x:Name="TasksInProgressVisualState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="1" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" To="1" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource AttentionValueInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="TasksFailure">
+				<VisualState x:Name="TasksErrorVisualState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="2" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" To="2" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalValueInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="TasksCompletionWithFailure">
+				<VisualState x:Name="TasksDoneWithErrorVisualState">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="3" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}" To="3" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
+
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 
