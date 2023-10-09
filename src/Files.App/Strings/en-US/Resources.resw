@@ -3392,7 +3392,7 @@
     <value>Canceled compressing {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Completed - compressed {0} items</value>
+    <value>Compressed {0} items</value>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
     <value>Successfully compressed {0} items from {1} to {2}</value>
@@ -3416,7 +3416,7 @@
     <value>Canceled copying {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Completed - copied {0} items</value>
+    <value>Copied {0} items</value>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
     <value>Successfully copied {0} items from {1} to {2}</value>
@@ -3440,7 +3440,7 @@
     <value>Canceled extracting "{0}" from {1} to {2}</value>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Completed - extracted "{0}"</value>
+    <value>Extracted "{0}"</value>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
     <value>Successfully extracted "{0}" from {1} to {2}</value>
@@ -3464,7 +3464,7 @@
     <value>Canceled deleting {0} items from {1}</value>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Completed - deleted {0} items</value>
+    <value>Deleted {0} items</value>
   </data>
   <data name="StatusCenter_DeleteComplete_SubHeader" xml:space="preserve">
     <value>Successfully deleted {0} items from {1}</value>
@@ -3488,7 +3488,7 @@
     <value>Canceled recycling {0} items from {1}</value>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Completed - recycled {0} items</value>
+    <value>Recycled {0} items</value>
   </data>
   <data name="StatusCenter_RecycleComplete_SubHeader" xml:space="preserve">
     <value>Successfully recycled {0} items from {1}</value>
@@ -3512,7 +3512,7 @@
     <value>Canceled moving {0} items from {1} to {2}</value>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Completed - moved {0} items</value>
+    <value>Moved {0} items</value>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
     <value>Successfully moved {0} items from {1} to {2}</value>
@@ -3536,7 +3536,7 @@
     <value>Canceled emptying the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Completed - emptied the Recycle Bin</value>
+    <value>Emptied the Recycle Bin</value>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_SubHeader" xml:space="preserve">
     <value>Successfully emptied the  Recycle Bin</value>
