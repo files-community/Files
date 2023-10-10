@@ -3,7 +3,7 @@
 
 using Files.App.ViewModels.Properties;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	internal class ShortcutPreviewViewModel : BasePreviewModel
 	{

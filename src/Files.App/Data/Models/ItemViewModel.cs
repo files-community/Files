@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.Previews;
+using Files.App.ViewModels.UserControls.Previews;
 using Files.Core.Services.SizeProvider;
 using Files.Shared.Helpers;
 using LibGit2Sharp;

@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class WidgetsListControlViewModel : ObservableObject, IDisposable
 	{
@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.Widgets
 
 		public bool CanAddWidget(string widgetName)
 		{
-			return !(Widgets.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+			return !Widgets.Any((item) => item.WidgetItemModel.WidgetName == widgetName);
 		}
 
 		public void RemoveWidgetAt(int index)

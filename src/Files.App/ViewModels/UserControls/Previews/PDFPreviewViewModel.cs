@@ -9,7 +9,7 @@ using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class PDFPreviewViewModel : BasePreviewModel
 	{

@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.Utils;
 using Files.App.ViewModels;
-using Files.App.ViewModels.Previews;
+using Files.App.ViewModels.UserControls.Previews;
 using Files.Core.Services.Settings;
 using IniParser.Model;
 using System;

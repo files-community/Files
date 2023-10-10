@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class ImagePreviewViewModel : BasePreviewModel
 	{

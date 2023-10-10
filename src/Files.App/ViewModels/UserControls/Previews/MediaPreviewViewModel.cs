@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Windows.Media.Core;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class MediaPreviewViewModel : BasePreviewModel
 	{

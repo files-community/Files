@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
 using Files.App.Data.Items;
 using Files.App.Utils.Shell;
-using Files.App.ViewModels.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

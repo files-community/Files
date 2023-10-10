@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class WidgetsListControlItemViewModel : ObservableObject, IDisposable
 	{
@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.Widgets
 		{
 			get => WidgetItemModel.ShowMenuFlyout;
 		}
-		
+
 		public MenuFlyoutItem MenuFlyoutItem
 		{
 			get => WidgetItemModel.MenuFlyoutItem;

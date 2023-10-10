@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 using SevenZip;
 using System.IO;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class ArchivePreviewViewModel : BasePreviewModel
 	{

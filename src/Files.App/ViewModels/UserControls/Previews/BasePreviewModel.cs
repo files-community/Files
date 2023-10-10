@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public abstract class BasePreviewModel : ObservableObject
 	{
@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Previews
 				}
 			});
 
-			Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(detailsFull);
+			Item.FileDetails = new ObservableCollection<FileProperty>(detailsFull);
 		}
 
 		/// <summary>

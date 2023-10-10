@@ -1,4 +1,4 @@
-using Files.App.ViewModels.Previews;
+using Files.App.ViewModels.UserControls.Previews;
 using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
+using Files.App.ViewModels.UserControls.Widgets;
 using Files.Core.Services.Settings;
 using System.Collections.Generic;
 

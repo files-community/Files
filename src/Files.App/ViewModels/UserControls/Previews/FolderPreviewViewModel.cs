@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage.FileProperties;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class FolderPreviewViewModel
 	{
@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.Previews
 				var headName = GitHelpers.GetRepositoryHeadName(gitDirectory);
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
-				if(!string.IsNullOrEmpty(gitDirectory))
+				if (!string.IsNullOrEmpty(gitDirectory))
 					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
 
 				if (!string.IsNullOrWhiteSpace(headName))

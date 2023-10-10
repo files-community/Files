@@ -4,7 +4,7 @@
 using Files.App.ViewModels.Properties;
 using Windows.Storage.Streams;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class RichTextPreviewViewModel : BasePreviewModel
 	{

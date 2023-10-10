@@ -4,7 +4,7 @@
 using ColorCode;
 using Files.App.ViewModels.Properties;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class CodePreviewViewModel : BasePreviewModel
 	{

@@ -10,7 +10,7 @@ using WinRT;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
 
-namespace Files.App.ViewModels.Previews
+namespace Files.App.ViewModels.UserControls.Previews
 {
 	public class ShellPreviewViewModel : BasePreviewModel
 	{
@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Previews
 		HWND hwnd = HWND.NULL;
 		bool isOfficePreview = false;
 
-		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
+		public static Guid? FindPreviewHandlerFor(string extension, nint hwnd)
 		{
 			if (string.IsNullOrEmpty(extension))
 				return null;
@@ -43,7 +43,7 @@ namespace Files.App.ViewModels.Previews
 			{
 				if (queryAssoc == null)
 					return null;
-				queryAssoc.Init(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, extension, IntPtr.Zero, hwnd);
+				queryAssoc.Init(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, extension, nint.Zero, hwnd);
 				var sb = new StringBuilder(128);
 				uint cch = 64;
 				queryAssoc.GetString(ASSOCF.ASSOCF_NOTRUNCATE, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, IPreviewHandlerIid, sb, ref cch);
@@ -70,7 +70,7 @@ namespace Files.App.ViewModels.Previews
 				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
-		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
+		private nint WndProc(HWND hwnd, uint msg, nint wParam, nint lParam)
 		{
 			if (msg == (uint)WindowMessage.WM_CREATE)
 			{
@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.Previews
 			_ = ChildWindowToXaml(parent, presenter);
 		}
 
-		private bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
+		private bool ChildWindowToXaml(nint parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			{
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 				var hr = D3D11Functions.D3D11CreateDevice(
 					null,
 					driveType,
-					IntPtr.Zero,
+					nint.Zero,
 					(uint)D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 					null,
 					0,
@@ -160,7 +160,7 @@ namespace Files.App.ViewModels.Previews
 			target.SetRoot(childVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);
-			outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			outputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
 			compDevice.Commit();
