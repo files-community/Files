@@ -204,7 +204,7 @@
 				x:Name="VSCodeDivider"
 				Width="1"
 				Height="18"
-				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
+				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 			<Button
