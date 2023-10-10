@@ -171,8 +171,7 @@
 				VerticalAlignment="Center"
 				x:Load="{x:Bind converters:MultiBooleanConverter.AndNotConvert(Commands.OpenInVSCode.IsExecutable, Commands.OpenInVS.IsExecutable), Mode=OneWay}"
 				Background="Transparent"
-				BorderBrush="Transparent"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Open}">
+				BorderBrush="Transparent">
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<usercontrols:OpacityIcon
