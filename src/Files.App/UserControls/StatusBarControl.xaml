@@ -169,7 +169,7 @@
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
-				x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
+				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="Transparent"
 				BorderBrush="Transparent">
 				<Button.Content>
