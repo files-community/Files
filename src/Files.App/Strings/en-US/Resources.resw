@@ -3332,12 +3332,6 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Open solution file in Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the solution file in Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>Open folder in VS Code</value>
   </data>

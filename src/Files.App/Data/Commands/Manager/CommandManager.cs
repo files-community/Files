@@ -98,7 +98,6 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
-		public IRichCommand OpenInVS => commands[CommandCodes.OpenInVS];
 		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
@@ -260,7 +259,6 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
-			[CommandCodes.OpenInVS] = new OpenInVSAction(),
 			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),

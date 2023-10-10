@@ -185,12 +185,6 @@
 				<Button.Flyout>
 					<MenuFlyout>
 						<MenuFlyoutItem
-							x:Name="OpenInVSButton"
-							x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
-							Command="{x:Bind Commands.OpenInVS}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVS.HotKeys, Mode=OneWay}"
-							Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
-						<MenuFlyoutItem
 							x:Name="OpenFolderInVSCodeButton"
 							x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenInVSCode}"
