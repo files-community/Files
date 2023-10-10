@@ -22,16 +22,16 @@ namespace Files.App.UserControls
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		public ToolbarViewModel ViewModel
+		public AddressToolbarViewModel ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(
 				nameof(ViewModel),
-				typeof(ToolbarViewModel),
+				typeof(AddressToolbarViewModel),
 				typeof(InnerNavigationToolbar),
 				new PropertyMetadata(null));
 

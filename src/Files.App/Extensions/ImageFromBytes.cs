@@ -5,7 +5,7 @@ using Files.App.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls
+namespace Files.App.Extensions
 {
 	public class ImageFromBytes : DependencyObject
 	{

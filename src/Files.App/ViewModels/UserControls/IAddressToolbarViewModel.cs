@@ -1,13 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Views;
-using Microsoft.UI.Xaml.Controls;
-using Windows.ApplicationModel.DataTransfer;
-
-namespace Files.App.UserControls
+namespace Files.App.ViewModels.UserControls
 {
-	public interface IAddressToolbar
+	public interface IAddressToolbarViewModel
 	{
 		public bool IsSearchBoxVisible { get; set; }
 
@@ -50,6 +46,6 @@ namespace Files.App.UserControls
 
 		public void SwitchSearchBoxVisibility();
 
-		public ISearchBox SearchBox { get; }
+		public ISearchBoxViewModel SearchBox { get; }
 	}
 }

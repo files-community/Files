@@ -60,13 +60,13 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(
 				nameof(ViewModel),
-				typeof(ToolbarViewModel),
+				typeof(AddressToolbarViewModel),
 				typeof(AddressToolbar),
 				new PropertyMetadata(null));
 
-		public ToolbarViewModel ViewModel
+		public AddressToolbarViewModel ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 

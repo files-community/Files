@@ -6,26 +6,26 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	internal class OpacityIcon : Control
+	public class OpacityIcon : Control
 	{
 		internal const string NormalState = "Normal";
 		internal const string SelectedState = "Selected";
 		internal const string DisabledState = "Disabled";
 
-		internal static readonly DependencyProperty IsSelectedProperty =
+		public static readonly DependencyProperty IsSelectedProperty =
 			DependencyProperty.Register(
 				nameof(IsSelected),
 				typeof(bool),
 				typeof(OpacityIcon),
-				new PropertyMetadata(null, (d, e) => ((OpacityIcon)d).OnIsEnabledChanged(d, e));
+				new PropertyMetadata(null, (d, e) => ((OpacityIcon)d).OnIsEnabledChanged(d, e)));
 
-		internal bool IsSelected
+		public bool IsSelected
 		{
 			get => (bool)GetValue(IsSelectedProperty);
 			set => SetValue(IsSelectedProperty, value);
 		}
 
-		internal OpacityIcon()
+		public OpacityIcon()
 		{
 			this.DefaultStyleKey = typeof(OpacityIcon);
 		}
