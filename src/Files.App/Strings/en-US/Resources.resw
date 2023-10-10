@@ -3339,7 +3339,7 @@
     <value>Open the current directory in Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open in VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
