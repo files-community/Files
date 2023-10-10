@@ -19,7 +19,8 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&
-			_context.Folder is not null;
+			_context.Folder is not null &&
+			_context.ShellPage!.InstanceViewModel.IsGitRepository;
 
 		public OpenRepoInVSCodeAction()
 		{
