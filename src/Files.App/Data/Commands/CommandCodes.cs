@@ -98,6 +98,7 @@ namespace Files.App.Data.Commands
 		// Open
 		OpenInVS,
 		OpenInVSCode,
+		OpenRepoInVSCode,
 		OpenProperties,
 		OpenSettings,
 		OpenTerminal,

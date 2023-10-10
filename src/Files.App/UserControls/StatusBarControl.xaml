@@ -164,7 +164,7 @@
 			Spacing="4">
 
 			<!--  Open in VS Code Button  -->
-			<Button
+			<SplitButton
 				x:Name="OpenInVSCodeButton"
 				Height="24"
 				Padding="8,0,8,0"
@@ -174,7 +174,7 @@
 				BorderBrush="Transparent"
 				Command="{x:Bind Commands.OpenInVSCode}"
 				ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}">
-				<Button.Content>
+				<SplitButton.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<usercontrols:OpacityIcon
 							Width="16"
@@ -182,8 +182,17 @@
 							Style="{StaticResource ColorIconOpen}" />
 						<TextBlock Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 					</StackPanel>
-				</Button.Content>
-			</Button>
+				</SplitButton.Content>
+
+				<SplitButton.Flyout>
+					<MenuFlyout>
+						<MenuFlyoutItem
+							Command="{x:Bind Commands.OpenRepoInVSCode}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}" />
+					</MenuFlyout>
+				</SplitButton.Flyout>
+			</SplitButton>
 			<!--  Divider  -->
 			<Border
 				x:Name="VSCodeDivider"

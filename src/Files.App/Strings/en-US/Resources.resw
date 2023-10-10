@@ -3339,10 +3339,16 @@
     <value>Open the current directory in Visual Studio</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copy code</value>
