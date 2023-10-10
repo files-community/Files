@@ -1,15 +1,21 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class StatusBarControl : UserControl
+	public sealed partial class StatusBar : UserControl
 	{
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
+			DependencyProperty.Register(
+				nameof(DirectoryPropertiesViewModel),
+				typeof(DirectoryPropertiesViewModel),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
 
 		public DirectoryPropertiesViewModel? DirectoryPropertiesViewModel
 		{
@@ -17,9 +23,12 @@ namespace Files.App.UserControls
 			set => SetValue(DirectoryPropertiesViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for DirectoryPropertiesViewModel.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty DirectoryPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(DirectoryPropertiesViewModel), typeof(DirectoryPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
+			DependencyProperty.Register(
+				nameof(SelectedItemsPropertiesViewModel),
+				typeof(SelectedItemsPropertiesViewModel),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
 		{
@@ -27,8 +36,12 @@ namespace Files.App.UserControls
 			set => SetValue(SelectedItemsPropertiesViewModelProperty, value);
 		}
 
-		public static readonly DependencyProperty SelectedItemsPropertiesViewModelProperty =
-			DependencyProperty.Register(nameof(SelectedItemsPropertiesViewModel), typeof(SelectedItemsPropertiesViewModel), typeof(StatusBarControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty ShowInfoTextProperty =
+			DependencyProperty.Register(
+				nameof(ShowInfoText),
+				typeof(bool),
+				typeof(StatusBar),
+				new PropertyMetadata(null));
 
 		public bool ShowInfoText
 		{
@@ -36,11 +49,7 @@ namespace Files.App.UserControls
 			set => SetValue(ShowInfoTextProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowInfoTextProperty =
-			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
-
-		public StatusBarControl()
+		public StatusBar()
 		{
 			InitializeComponent();
 		}

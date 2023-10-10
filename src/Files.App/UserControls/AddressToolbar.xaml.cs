@@ -100,10 +100,11 @@ namespace Files.App.UserControls
 		{
 			if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
 			{
-				var ptrPt = e.GetCurrentPoint(NavToolbar);
+				var ptrPt = e.GetCurrentPoint(this);
 				if (ptrPt.Properties.IsMiddleButtonPressed)
 					return;
 			}
+
 			ViewModel.IsEditModeEnabled = true;
 		}
 

@@ -14,8 +14,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	x:Name="NavToolbar"
-	Height="50"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
@@ -205,337 +204,340 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid x:Name="RootGrid" Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}">
-		<Grid Padding="8" ColumnSpacing="4">
+	<Grid
+		x:Name="RootGrid"
+		Height="50"
+		Padding="8"
+		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
+		ColumnSpacing="4">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<!--  Page Navigation Actions  -->
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal"
+			Spacing="4">
+			<Button
+				x:Name="Back"
+				x:FieldModifier="public"
+				AccessKey="B"
+				AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
+				AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
+				Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+			</Button>
+
+			<Button
+				x:Name="Forward"
+				x:FieldModifier="public"
+				AccessKey="F"
+				AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
+				AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
+				Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+			</Button>
+
+			<Button
+				x:Name="Up"
+				x:FieldModifier="public"
+				AccessKey="U"
+				AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
+				AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
+				Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+			</Button>
+
+			<Button
+				x:Name="Refresh"
+				x:FieldModifier="public"
+				AccessKey="R"
+				AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
+				Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
+				IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
+				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+			</Button>
+		</StackPanel>
+
+		<!--  Path Box  -->
+		<AutoSuggestBox
+			x:Name="VisiblePath"
+			Grid.Column="1"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
+			BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+			BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			FocusDisengaged="VisiblePath_LostFocus"
+			FontWeight="SemiBold"
+			ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
+			Loaded="VisiblePath_Loaded"
+			LostFocus="VisiblePath_LostFocus"
+			PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
+			PreviewKeyDown="VisiblePath_KeyDown"
+			QuerySubmitted="VisiblePath_QuerySubmitted"
+			ScrollViewer.HorizontalScrollBarVisibility="Auto"
+			ScrollViewer.VerticalScrollBarVisibility="Hidden"
+			Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
+			TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
+			TextMemberPath="Text"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+			<AutoSuggestBox.ItemTemplate>
+				<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
+					<StackPanel Margin="0,4">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<!--  Primary Display  -->
+							<!--  This is used to display paths or command descriptions.  -->
+							<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+							</TextBlock>
+
+							<!--  Supplementary Display  -->
+							<!--  This is used to display command hotkeys.  -->
+							<TextBlock
+								Grid.Column="1"
+								FontWeight="Normal"
+								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+								Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
+						</Grid>
+
+						<!--  Secondary Display  -->
+						<TextBlock
+							x:Name="SecondaryDisplayBlock"
+							x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+							FontWeight="Normal"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
+					</StackPanel>
+				</DataTemplate>
+			</AutoSuggestBox.ItemTemplate>
+		</AutoSuggestBox>
+
+		<!--  Path Breadcrumb Bar  -->
+		<Grid
+			x:Name="ClickablePath"
+			Grid.Column="1"
+			MinHeight="33"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			extensions:FrameworkElementExtensions.Cursor="Hand"
+			x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
+			Background="{ThemeResource TextControlBackground}"
+			BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+			BorderThickness="1"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			PointerPressed="ManualPathEntryItem_Click"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-
-			<!--  Page Navigation Actions  -->
-			<StackPanel
-				Grid.Row="1"
-				Orientation="Horizontal"
-				Spacing="4">
-				<Button
-					x:Name="Back"
-					x:FieldModifier="public"
-					AccessKey="B"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
-				</Button>
-
-				<Button
-					x:Name="Forward"
-					x:FieldModifier="public"
-					AccessKey="F"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
-				</Button>
-
-				<Button
-					x:Name="Up"
-					x:FieldModifier="public"
-					AccessKey="U"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
-				</Button>
-
-				<Button
-					x:Name="Refresh"
-					x:FieldModifier="public"
-					AccessKey="R"
-					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
-					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
-				</Button>
-			</StackPanel>
-
-			<!--  Path Box  -->
-			<AutoSuggestBox
-				x:Name="VisiblePath"
+			<uc:PathBreadcrumb
+				Grid.Column="0"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+			<FontIcon
 				Grid.Column="1"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
-				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				FocusDisengaged="VisiblePath_LostFocus"
-				FontWeight="SemiBold"
-				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
-				Loaded="VisiblePath_Loaded"
-				LostFocus="VisiblePath_LostFocus"
-				PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
-				PreviewKeyDown="VisiblePath_KeyDown"
-				QuerySubmitted="VisiblePath_QuerySubmitted"
-				ScrollViewer.HorizontalScrollBarVisibility="Auto"
-				ScrollViewer.VerticalScrollBarVisibility="Hidden"
-				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
-				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-				TextMemberPath="Text"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<AutoSuggestBox.ItemTemplate>
-					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
-						<StackPanel Margin="0,4">
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
+				Margin="12"
+				FontSize="16"
+				Glyph="&#xE70D;" />
+		</Grid>
 
-								<!--  Primary Display  -->
-								<!--  This is used to display paths or command descriptions.  -->
-								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
-									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
-								</TextBlock>
+		<!--  Storage Search Box  -->
+		<uc:SearchBox
+			x:Name="SearchRegion"
+			Grid.Column="2"
+			Width="240"
+			Height="34"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			AccessKey="K"
+			AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
+			Canvas.ZIndex="100"
+			CornerRadius="{StaticResource ControlCornerRadius}"
+			GotFocus="SearchRegion_OnGotFocus"
+			LostFocus="SearchRegion_LostFocus"
+			SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
+			Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
-								<!--  Supplementary Display  -->
-								<!--  This is used to display command hotkeys.  -->
-								<TextBlock
-									Grid.Column="1"
-									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
-							</Grid>
+		<!--  Right Side Action Buttons  -->
+		<StackPanel Grid.Column="3" Orientation="Horizontal">
 
-							<!--  Secondary Display  -->
-							<TextBlock
-								x:Name="SecondaryDisplayBlock"
-								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-								FontWeight="Normal"
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
-						</StackPanel>
-					</DataTemplate>
-				</AutoSuggestBox.ItemTemplate>
-			</AutoSuggestBox>
+			<!--  Mini Search Button  -->
+			<Button
+				x:Name="ShowSearchButton"
+				AccessKey="I"
+				AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
+				Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
+				Visibility="Collapsed">
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+			</Button>
 
-			<!--  Path Breadcrumb Bar  -->
-			<Grid
-				x:Name="ClickablePath"
-				Grid.Column="1"
-				MinHeight="33"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				extensions:FrameworkElementExtensions.Cursor="Hand"
-				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-				Background="{ThemeResource TextControlBackground}"
-				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-				BorderThickness="1"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				PointerPressed="ManualPathEntryItem_Click"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<uc:PathBreadcrumb
-					Grid.Column="0"
-					VerticalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-				<FontIcon
-					Grid.Column="1"
-					Margin="12"
-					FontSize="16"
-					Glyph="&#xE70D;" />
-			</Grid>
+			<!--  Status Center  -->
+			<Button
+				x:Name="ShowStatusCenterButton"
+				Padding="0"
+				AccessKey="T"
+				AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
+				Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
 
-			<!--  Storage Search Box  -->
-			<uc:SearchBox
-				x:Name="SearchRegion"
-				Grid.Column="2"
-				Width="240"
-				Height="34"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				AccessKey="K"
-				AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
-				Canvas.ZIndex="100"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				GotFocus="SearchRegion_OnGotFocus"
-				LostFocus="SearchRegion_LostFocus"
-				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+				<Grid Margin="-16">
 
-			<!--  Right Side Action Buttons  -->
-			<StackPanel Grid.Column="3" Orientation="Horizontal">
-
-				<!--  Mini Search Button  -->
-				<Button
-					x:Name="ShowSearchButton"
-					AccessKey="I"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
-					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
-					Visibility="Collapsed">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-				</Button>
-
-				<!--  Status Center  -->
-				<Button
-					x:Name="ShowStatusCenterButton"
-					Padding="0"
-					AccessKey="T"
-					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
-					Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
-
-					<Grid Margin="-16">
-
-						<FontIcon
-							x:Name="OngoingTasksFontIcon"
-							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							FontSize="16"
-							Glyph="&#xF16A;" />
-
-						<ProgressRing
-							x:Name="MedianOperationProgressRing"
-							Width="20"
-							Height="20"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
-							Background="{ThemeResource SubtleFillColorSecondaryBrush}"
-							IsIndeterminate="False"
-							Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
-
-						<InfoBadge
-							x:Name="StatusInfoBadge"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Top"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
-
-					</Grid>
-
-					<Button.Flyout>
-						<Flyout
-							contract8Present:ShouldConstrainToRootBounds="False"
-							AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
-							Placement="BottomEdgeAlignedRight">
-							<Flyout.FlyoutPresenterStyle>
-								<Style TargetType="FlyoutPresenter">
-									<Setter Property="Padding" Value="0" />
-									<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
-								</Style>
-							</Flyout.FlyoutPresenterStyle>
-
-							<uc:StatusCenter
-								x:Name="OngoingTasksControl"
-								Width="400"
-								MinHeight="300"
-								MaxHeight="500"
-								x:FieldModifier="public"
-								IsTabStop="True" />
-						</Flyout>
-					</Button.Flyout>
-
-				</Button>
-
-				<!--  Update The Files App Button When An Update Available  -->
-				<Button
-					x:Name="UpdateAppButton"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
-					AccessKey="1"
-					AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
-					Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
-					<Grid>
-						<!--  Icon  -->
-						<FontIcon
-							x:Name="UpdateIcon"
-							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-							FontSize="14"
-							Foreground="{ThemeResource SystemAccentColor}"
-							Glyph="&#xE896;" />
-
-						<!--  Progress  -->
-						<ProgressRing
-							x:Name="UpdateProgressRing"
-							Width="20"
-							Height="20"
-							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
-							IsIndeterminate="True" />
-					</Grid>
-				</Button>
-
-				<!--  Show The Latest Version Release Note  -->
-				<Button
-					x:Name="ShowReleaseNotesButton"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
-					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon
+						x:Name="OngoingTasksFontIcon"
+						x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						FontSize="16"
+						Glyph="&#xF16A;" />
+
+					<ProgressRing
+						x:Name="MedianOperationProgressRing"
+						Width="20"
+						Height="20"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
+						Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+						IsIndeterminate="False"
+						Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
+
+					<InfoBadge
+						x:Name="StatusInfoBadge"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Top"
+						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+
+				</Grid>
+
+				<Button.Flyout>
+					<Flyout
+						contract8Present:ShouldConstrainToRootBounds="False"
+						AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+						Placement="BottomEdgeAlignedRight">
+						<Flyout.FlyoutPresenterStyle>
+							<Style TargetType="FlyoutPresenter">
+								<Setter Property="Padding" Value="0" />
+								<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+							</Style>
+						</Flyout.FlyoutPresenterStyle>
+
+						<uc:StatusCenter
+							x:Name="OngoingTasksControl"
+							Width="400"
+							MinHeight="300"
+							MaxHeight="500"
+							x:FieldModifier="public"
+							IsTabStop="True" />
+					</Flyout>
+				</Button.Flyout>
+
+			</Button>
+
+			<!--  Update The Files App Button When An Update Available  -->
+			<Button
+				x:Name="UpdateAppButton"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
+				AccessKey="1"
+				AutomationProperties.Name="{helpers:ResourceString Name=UpdateFiles}"
+				Command="{x:Bind ViewModel.UpdateCommand, Mode=OneWay}"
+				IsEnabled="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
+				<Grid>
+					<!--  Icon  -->
+					<FontIcon
+						x:Name="UpdateIcon"
+						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
-						Glyph="&#xF133;" />
-				</Button>
+						Glyph="&#xE896;" />
 
-				<!--  Show The Files App Settings Dialog  -->
-				<Button
-					x:Name="SettingsButton"
-					AccessKey="I"
-					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.Placement="Bottom"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
-					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
-						<AnimatedIcon.Source>
-							<animatedvisuals:AnimatedSettingsVisualSource />
-						</AnimatedIcon.Source>
-						<AnimatedIcon.FallbackIconSource>
-							<SymbolIconSource Symbol="Setting" />
-						</AnimatedIcon.FallbackIconSource>
-					</AnimatedIcon>
-				</Button>
+					<!--  Progress  -->
+					<ProgressRing
+						x:Name="UpdateProgressRing"
+						Width="20"
+						Height="20"
+						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
+						IsIndeterminate="True" />
+				</Grid>
+			</Button>
 
-			</StackPanel>
+			<!--  Show The Latest Version Release Note  -->
+			<Button
+				x:Name="ShowReleaseNotesButton"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
+				AccessKey="2"
+				AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
+				Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource SystemAccentColor}"
+					Glyph="&#xF133;" />
+			</Button>
 
-			<!--  Status Center TeachingTip  -->
-			<TeachingTip
-				x:Name="StatusCenterTeachingTip"
-				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
-				IsOpen="False"
-				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
-				Target="{x:Bind ShowStatusCenterButton}" />
-		</Grid>
+			<!--  Show The Files App Settings Dialog  -->
+			<Button
+				x:Name="SettingsButton"
+				AccessKey="I"
+				AutomationProperties.AutomationId="SettingsButton"
+				AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
+				Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.Placement="Bottom"
+				ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
+				Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
+				<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
+					<AnimatedIcon.Source>
+						<animatedvisuals:AnimatedSettingsVisualSource />
+					</AnimatedIcon.Source>
+					<AnimatedIcon.FallbackIconSource>
+						<SymbolIconSource Symbol="Setting" />
+					</AnimatedIcon.FallbackIconSource>
+				</AnimatedIcon>
+			</Button>
+
+		</StackPanel>
+
+		<!--  Status Center TeachingTip  -->
+		<TeachingTip
+			x:Name="StatusCenterTeachingTip"
+			Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
+			IsOpen="False"
+			Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
+			Target="{x:Bind ShowStatusCenterButton}" />
 
 		<VisualStateManager.VisualStateGroups>
 

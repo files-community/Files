@@ -9,8 +9,6 @@
 	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -70,6 +68,7 @@
 				<TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
 			</StackPanel>
 		</DataTemplate>
+
 	</UserControl.Resources>
 
 	<AutoSuggestBox
@@ -85,6 +84,7 @@
 		TextBoxStyle="{StaticResource TextBoxStyle}"
 		TextChanged="SearchRegion_TextChanged"
 		UpdateTextOnSelect="False">
+
 		<AutoSuggestBox.QueryIcon>
 			<AnimatedIcon x:Name="SearchAnimatedIcon" Height="16">
 				<AnimatedIcon.Source>
@@ -95,9 +95,11 @@
 				</AnimatedIcon.FallbackIconSource>
 			</AnimatedIcon>
 		</AutoSuggestBox.QueryIcon>
+
 		<AutoSuggestBox.KeyboardAccelerators>
 			<KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
 		</AutoSuggestBox.KeyboardAccelerators>
+
 	</AutoSuggestBox>
 
 </UserControl>

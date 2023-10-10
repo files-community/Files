@@ -35,6 +35,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///UserControls/DataGridHeader/DataGridHeader.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -149,7 +150,7 @@
 				</Setter>
 			</Style>
 
-			<Style TargetType="uc:DataGridHeader">
+			<Style BasedOn="{StaticResource DefaultDataGridHeaderStyle}" TargetType="uc:DataGridHeader">
 				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 				<Setter Property="Margin" Value="-4,0" />
 			</Style>

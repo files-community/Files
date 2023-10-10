@@ -1,34 +1,26 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Commands;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
 	public sealed partial class InnerNavigationToolbar : UserControl
 	{
-		public InnerNavigationToolbar()
-		{
-			InitializeComponent();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
-		}
+		private readonly IAddItemService _addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		public IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-
-		public AppModel AppModel => App.AppModel;
+		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 
 		public readonly PreviewPaneViewModel PreviewPaneViewModel;
+
+		public static AppModel AppModel
+			=> App.AppModel;
 
 		public ToolbarViewModel ViewModel
 		{
@@ -36,29 +28,45 @@ namespace Files.App.UserControls
 			set => SetValue(ViewModelProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(ToolbarViewModel),
+				typeof(InnerNavigationToolbar),
+				new PropertyMetadata(null));
 
 		public bool ShowViewControlButton
 		{
-			get { return (bool)GetValue(ShowViewControlButtonProperty); }
-			set { SetValue(ShowViewControlButtonProperty, value); }
+			get => (bool)GetValue(ShowViewControlButtonProperty);
+			set => SetValue(ShowViewControlButtonProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ShowViewControlButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowViewControlButtonProperty =
-			DependencyProperty.Register("ShowViewControlButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowViewControlButton),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
 
 		public bool ShowPreviewPaneButton
 		{
-			get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
-			set { SetValue(ShowPreviewPaneButtonProperty, value); }
+			get => (bool)GetValue(ShowPreviewPaneButtonProperty);
+			set => SetValue(ShowPreviewPaneButtonProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(
+				nameof(ShowPreviewPaneButton),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
+
+		public InnerNavigationToolbar()
+		{
+			InitializeComponent();
+			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+		}
+
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
 			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
@@ -67,7 +75,7 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
-			var cachedNewContextMenuEntries = addItemService.GetEntries();
+			var cachedNewContextMenuEntries = _addItemService.GetEntries();
 			if (cachedNewContextMenuEntries is null)
 				return;
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
