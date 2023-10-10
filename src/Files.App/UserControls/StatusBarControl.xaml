@@ -163,9 +163,9 @@
 			Orientation="Horizontal"
 			Spacing="4">
 
-			<!--  Open in VS Code Button  -->
+			<!--  Open in IDE Button  -->
 			<Button
-				x:Name="OpenInVSCodeButton"
+				x:Name="OpenInIDEButton"
 				Height="24"
 				Padding="8,0,8,0"
 				VerticalAlignment="Center"
@@ -185,19 +185,19 @@
 				<Button.Flyout>
 					<MenuFlyout>
 						<MenuFlyoutItem
-							x:Name="OpenInVS"
+							x:Name="OpenInVSButton"
 							x:Load="{x:Bind Commands.OpenInVS.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenInVS}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVS.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenInVS.Label, Mode=OneWay}" />
 						<MenuFlyoutItem
-							x:Name="OpenFolderInVSCode"
+							x:Name="OpenFolderInVSCodeButton"
 							x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 						<MenuFlyoutItem
-							x:Name="OpenRepoInVSCode"
+							x:Name="OpenRepoInVSCodeButton"
 							x:Load="{x:Bind Commands.OpenRepoInVSCode.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenRepoInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
