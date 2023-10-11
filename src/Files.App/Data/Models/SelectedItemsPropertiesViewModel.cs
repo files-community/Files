@@ -688,8 +688,8 @@ namespace Files.App.Data.Models
 		private bool isUnblockFileSelected;
 		public bool IsUnblockFileSelected
 		{
-			get => isUnblocking;
-			set => SetProperty(ref isUnblocking, value);
+			get => isUnblockFileSelected;
+			set => SetProperty(ref isUnblockFileSelected, value);
 		}
 	}
 }
