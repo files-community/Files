@@ -678,7 +678,7 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=UnblockDownloadedFile}"
-							IsChecked="{x:Bind ViewModel.IsUnblocking, Mode=TwoWay}" />
+							IsChecked="{x:Bind ViewModel.IsUnblockFileSelected, Mode=TwoWay}" />
 
 					</Grid>
 				</Expander.Content>
