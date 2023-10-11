@@ -404,9 +404,13 @@
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
 							Grid.Row="0"
-							HorizontalAlignment="Left"
+							Grid.RowSpan="3"
+							MaxHeight="60"
+							HorizontalAlignment="Stretch"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Canvas.ZIndex="1"
 							Text="{x:Bind Name, Mode=OneWay}"
+							TextWrapping="Wrap"
 							Visibility="Collapsed" />
 
 						<TextBlock
