@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Collections.Specialized;
@@ -116,12 +115,10 @@ namespace Files.App.Utils.RecentItem
 		{
 			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
-			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
+			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0).Take(20).ToList();
 
-			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
+			RecentItem GetRecentItemFromLink(string linkPath)
 			{
-				return Task.Run(() =>
-				{
 					try
 					{
 						using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
@@ -143,13 +140,10 @@ namespace Files.App.Utils.RecentItem
 					}
 
 					return null;
-				});
 			}
 
-			var recentFolderTasks = linkFilePaths.Select(GetRecentItemFromLink);
-			var result = await Task.WhenAll(recentFolderTasks);
-
-			return result.OfType<RecentItem>().ToList();
+			recentItems = linkFilePaths.Select(GetRecentItemFromLink).OfType<RecentItem>().ToList();
+			return recentItems;
 		}
 
 		/// <summary>
