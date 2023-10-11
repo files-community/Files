@@ -130,13 +130,12 @@
 							</Grid.RowDefinitions>
 							<Button Margin="12,0,0,0">
 								<Button.Flyout>
-									<MenuFlyout>
-										<MenuFlyoutItem Command="{x:Bind ViewModel.AddPageCommand}" Text="Browse..." />
-										<MenuFlyoutSeparator />
+									<MenuFlyout Placement="RightEdgeAlignedBottom">
 										<MenuFlyoutItem
 											Command="{x:Bind ViewModel.AddPageCommand}"
 											CommandParameter="Home"
 											Text="Home" />
+										<MenuFlyoutItem Command="{x:Bind ViewModel.AddPageCommand}" Text="Browse..." />
 									</MenuFlyout>
 								</Button.Flyout>
 								<StackPanel Orientation="Horizontal" Spacing="8">
