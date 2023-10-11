@@ -5,10 +5,6 @@ namespace Files.App.Actions
 {
 	internal class RefreshItemsAction : ObservableObject, IAction
 	{
-		private DateTime lastExecuted = DateTime.MinValue;
-
-		private readonly TimeSpan debounceTime = TimeSpan.FromMilliseconds(800);
-
 		private readonly IContentPageContext context;
 
 		public string Label
@@ -38,16 +34,6 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			DateTime now = DateTime.Now;
-
-			if (now - lastExecuted < debounceTime)
-			{
-				// Too soon since the last execution, return immediately
-				return;
-			}
-
-			lastExecuted = now;
-
 			context.ShellPage?.Refresh_Click();
 		}
 

@@ -5,10 +5,6 @@ namespace Files.App.Actions
 {
 	internal class ClosePaneAction : ObservableObject, IAction
 	{
-		private DateTime lastExecuted = DateTime.MinValue;
-
-		private readonly TimeSpan debounceTime = TimeSpan.FromMilliseconds(800);
-
 		private readonly IContentPageContext context;
 
 		public string Label
@@ -35,15 +31,6 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			DateTime now = DateTime.Now;
-
-			if (now - lastExecuted < debounceTime) // Execute only if enough time has passed since the last execution
-			{
-				return Task.CompletedTask;
-			}
-			
-			lastExecuted = now;
-
 			context.ShellPage!.PaneHolder.CloseActivePane();
 
 			return Task.CompletedTask;
