@@ -677,5 +677,19 @@ namespace Files.App.Data.Models
 			get => isPropertiesLoaded;
 			set => SetProperty(ref isPropertiesLoaded, value);
 		}
+
+		private bool isDownloadedFile;
+		public bool IsDownloadedFile
+		{
+			get => isDownloadedFile;
+			set => SetProperty(ref isDownloadedFile, value);
+		}
+
+		private bool isUnblocking;
+		public bool IsUnblocking
+		{
+			get => isUnblocking;
+			set => SetProperty(ref isUnblocking, value);
+		}
 	}
 }

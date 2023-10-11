@@ -148,6 +148,9 @@ namespace Files.App.Views.Properties
 					);
 				}
 
+				if (ViewModel.IsUnblocking)
+					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+
 				if (!GetNewName(out var newName))
 					return true;
 
