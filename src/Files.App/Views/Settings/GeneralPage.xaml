@@ -134,8 +134,8 @@
 										<MenuFlyoutItem
 											Command="{x:Bind ViewModel.AddPageCommand}"
 											CommandParameter="Home"
-											Text="Home" />
-										<MenuFlyoutItem Command="{x:Bind ViewModel.AddPageCommand}" Text="Browse..." />
+											Text="{helpers:ResourceString Name=Home}" />
+										<MenuFlyoutItem Command="{x:Bind ViewModel.AddPageCommand}" Text="{helpers:ResourceString Name=Browse}" />
 									</MenuFlyout>
 								</Button.Flyout>
 								<StackPanel Orientation="Horizontal" Spacing="8">
@@ -176,7 +176,10 @@
 												Text="{x:Bind Text}"
 												TextTrimming="CharacterEllipsis"
 												ToolTipService.ToolTip="{x:Bind Text}" />
-											<Button HorizontalAlignment="Right" Click="DeleteTag">
+											<Button
+												HorizontalAlignment="Right"
+												Click="DeleteTag"
+												ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
 												<FontIcon FontSize="16" Glyph="&#xE74D;" />
 											</Button>
 										</Grid>
