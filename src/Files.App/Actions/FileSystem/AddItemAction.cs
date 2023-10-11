@@ -36,19 +36,9 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await dialogService.ShowDialogAsync(viewModel);
+			await UIFilesystemHelpers.CreateFileFromDialogResultType(
+			AddItemDialogItemType.Folder, null, context.ShellPage!);
 
-			if (viewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
-			{
-				await Ioc.Default.GetRequiredService<ICommandManager>().CreateShortcutFromDialog.ExecuteAsync();
-			}
-			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
-			{
-				await UIFilesystemHelpers.CreateFileFromDialogResultType(
-					viewModel.ResultType.ItemType,
-					viewModel.ResultType.ItemInfo,
-					context.ShellPage!);
-			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
