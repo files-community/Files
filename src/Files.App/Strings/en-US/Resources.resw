@@ -3532,4 +3532,7 @@
   <data name="AddPage" xml:space="preserve">
     <value>Add page</value>
   </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
+  </data>
 </root>
