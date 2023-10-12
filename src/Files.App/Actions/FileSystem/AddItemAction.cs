@@ -17,9 +17,6 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddItemDescription".GetLocalizedResource();
 
-		public HotKey HotKey
-			=> new(Keys.N, KeyModifiers.CtrlShift);
-
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 
@@ -36,8 +33,19 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await UIFilesystemHelpers.CreateFileFromDialogResultType(
-			AddItemDialogItemType.Folder, null, context.ShellPage!);
+			await dialogService.ShowDialogAsync(viewModel);
+
+			if (viewModel.ResultType.ItemType == AddItemDialogItemType.Shortcut)
+			{
+				await Ioc.Default.GetRequiredService<ICommandManager>().CreateShortcutFromDialog.ExecuteAsync();
+			}
+			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
+			{
+				await UIFilesystemHelpers.CreateFileFromDialogResultType(
+					viewModel.ResultType.ItemType,
+					viewModel.ResultType.ItemInfo,
+					context.ShellPage!);
+			}
 
 		}
 
