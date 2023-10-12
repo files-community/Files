@@ -81,7 +81,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task UpdateRecentFoldersAsync()
 		{
-			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync);	// run off the UI thread
+			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync); // run off the UI thread
 			if (enumeratedFolders is not null)
 			{
 				lock (recentFolders)
@@ -113,12 +113,13 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
-			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
-			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0).Take(20).ToList();
+			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
-			RecentItem GetRecentItemFromLink(string linkPath)
+			Task<RecentItem?> GetRecentItemFromLink(string linkPath)
 			{
+				return Task.Run(() =>
+				{
 					try
 					{
 						using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
@@ -140,10 +141,11 @@ namespace Files.App.Utils.RecentItem
 					}
 
 					return null;
+				});
 			}
 
-			recentItems = linkFilePaths.Select(GetRecentItemFromLink).OfType<RecentItem>().ToList();
-			return recentItems;
+			var recentItems = await Task.WhenAll(linkFilePaths.Select(GetRecentItemFromLink));
+			return recentItems.OfType<RecentItem>().ToList();
 		}
 
 		/// <summary>
