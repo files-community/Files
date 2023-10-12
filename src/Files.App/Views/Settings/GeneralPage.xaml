@@ -140,10 +140,10 @@
 								</Button.Flyout>
 								<StackPanel Orientation="Horizontal" Spacing="8">
 									<FontIcon
-										Margin="0,1,0,0"
-										FontSize="16"
+										VerticalAlignment="Center"
+										FontSize="14"
 										Glyph="&#xE710;" />
-									<TextBlock Text="Add Page" />
+									<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=AddPage}" />
 								</StackPanel>
 							</Button>
 
