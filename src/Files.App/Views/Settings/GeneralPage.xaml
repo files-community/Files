@@ -119,7 +119,7 @@
 						IsSelected="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</ComboBox>
 				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
+					<StackPanel x:Load="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
 						<Grid
 							Padding="8"
 							HorizontalAlignment="Stretch"
@@ -178,6 +178,7 @@
 												ToolTipService.ToolTip="{x:Bind Text}" />
 											<Button
 												HorizontalAlignment="Right"
+												AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
 												Click="DeleteTag"
 												ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
 												<FontIcon FontSize="16" Glyph="&#xE74D;" />
