@@ -46,7 +46,6 @@ namespace Files.App.Actions
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);
 			}
-
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
