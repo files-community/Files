@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Actions;
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
 using Files.Shared.Helpers;
@@ -59,7 +60,7 @@ namespace Files.App.Utils.Archives
 			return (sources, directory, fileName);
 		}
 
-		public static async Task CompressArchiveAsync(IArchiveCreator creator)
+		public static async Task CompressArchiveAsync(IArchiveCreator creator, IShellPage associated)
 		{
 			var archivePath = creator.GetArchivePath();
 
@@ -108,6 +109,7 @@ namespace Files.App.Utils.Archives
 					FileOperationType.Compressed
 				);
 			}
+			await associated.Refresh_Click();
 		}
 
 		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)

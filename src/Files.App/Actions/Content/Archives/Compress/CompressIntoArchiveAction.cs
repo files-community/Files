@@ -43,7 +43,7 @@ namespace Files.App.Actions
 				SplittingSize = dialog.SplittingSize,
 			};
 
-			await ArchiveHelpers.CompressArchiveAsync(creator);
+			await ArchiveHelpers.CompressArchiveAsync(creator, context.ShellPage);
 		}
 	}
 }

@@ -26,8 +26,7 @@ namespace Files.App.Actions
 				FileName = fileName,
 				FileFormat = ArchiveFormats.SevenZip,
 			};
-
-			return ArchiveHelpers.CompressArchiveAsync(creator);
+			return ArchiveHelpers.CompressArchiveAsync(creator, context.ShellPage);
 		}
 	}
 }
