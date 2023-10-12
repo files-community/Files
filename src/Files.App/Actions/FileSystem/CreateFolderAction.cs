@@ -13,6 +13,9 @@ namespace Files.App.Actions
 		public string Description
 			=> "CreateFolderDescription".GetLocalizedResource();
 
+		public HotKey HotKey
+			=> new(Keys.N, KeyModifiers.CtrlShift);
+
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8B7");
 
