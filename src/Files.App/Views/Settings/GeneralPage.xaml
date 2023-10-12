@@ -119,11 +119,12 @@
 						IsSelected="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</ComboBox>
 				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel x:Name="StartupPagesStackPanel" x:Load="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
+					<StackPanel>
 						<Grid
 							Padding="8"
 							HorizontalAlignment="Stretch"
-							RowSpacing="4">
+							RowSpacing="4"
+							Visibility="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
