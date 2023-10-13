@@ -180,7 +180,7 @@
                                             <Button
                                                 HorizontalAlignment="Right"
                                                 AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
-                                                Click="DeleteStartupPage"
+                                                Click="RemoveStartupPage"
                                                 ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
                                                 <FontIcon FontSize="16" Glyph="&#xE74D;" />
                                             </Button>

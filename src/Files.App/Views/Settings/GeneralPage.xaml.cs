@@ -15,7 +15,7 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
-		private void DeleteStartupPage(object sender, RoutedEventArgs e)
+		private void RemoveStartupPage(object sender, RoutedEventArgs e)
 		{
 			ViewModel.RemovePageCommand.Execute((sender as FrameworkElement).DataContext as PageOnStartupViewModel);
 		}
