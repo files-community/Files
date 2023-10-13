@@ -18,6 +18,7 @@ namespace Files.App.Data.Items
 	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
 		private BitmapImage icon;
+		public static bool is_C_Drive = false;
 		public BitmapImage Icon
 		{
 			get => icon;
@@ -46,7 +47,7 @@ namespace Files.App.Data.Items
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
 		public bool IsRemovable
-			=> Type == DriveType.Removable || Type == DriveType.CDRom;
+			=> Type == DriveType.Removable || Type == DriveType.CDRom || (Type == DriveType.Fixed && is_C_Drive);
 
 		public bool IsNetwork
 			=> Type == DriveType.Network;
@@ -228,6 +229,7 @@ namespace Files.App.Data.Items
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
 			var item = new DriveItem();
+			is_C_Drive = (item.Type == DriveType.Fixed && !(string.Equals(root.Path, "C:\\", StringComparison.OrdinalIgnoreCase)));
 
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
