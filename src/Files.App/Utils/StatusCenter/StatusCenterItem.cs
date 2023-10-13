@@ -361,7 +361,7 @@ namespace Files.App.Utils.StatusCenter
 							$"{string.Format(
 								"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
 								value.ProcessedItemsCount,
-								value.ItemsCount)} - {ProgressPercentage}%";
+								value.ItemsCount)}";
 					}
 					else
 					{
@@ -369,7 +369,7 @@ namespace Files.App.Utils.StatusCenter
 							$"{string.Format(
 								"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
 								value.ProcessedSize.ToSizeString(),
-								value.TotalSize.ToSizeString())} - {ProgressPercentage}%";
+								value.TotalSize.ToSizeString())}";
 					}
 				}
 
