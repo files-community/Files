@@ -9,7 +9,16 @@ namespace Files.App.Actions
 	public abstract class DebouncedAction : IAction
 	{
 		private DateTime lastExecuted = DateTime.MinValue;
+
 		private readonly TimeSpan debounceTime;
+		public abstract string Label { get; }
+		public abstract string Description { get; }
+		public abstract RichGlyph Glyph { get; }
+		public abstract HotKey HotKey { get; }
+		public abstract HotKey SecondHotKey { get; }
+		public abstract HotKey ThirdHotKey { get; }
+		public abstract HotKey MediaHotKey { get; }
+		public abstract bool IsExecutable { get; }
 
 		protected DebouncedAction(TimeSpan debounceDuration)
 		{
@@ -21,19 +30,10 @@ namespace Files.App.Actions
 			return DateTime.Now - lastExecuted > debounceTime;
 		}
 
-		public virtual void MarkAsExecuted()
+		public virtual void MarkLastExecutionTime()
 		{
 			lastExecuted = DateTime.Now;
 		}
-
-		public abstract string Label { get; }
-		public abstract string Description { get; }
-		public abstract RichGlyph Glyph { get; }
-		public abstract HotKey HotKey { get; }
-		public abstract HotKey SecondHotKey { get; }
-		public abstract HotKey ThirdHotKey { get; }
-		public abstract HotKey MediaHotKey { get; }
-		public abstract bool IsExecutable { get; }
 
 		public abstract Task ExecuteAsync();
 	}

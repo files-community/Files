@@ -8,14 +8,6 @@ namespace Files.App.Actions
 {
 	public class DebouncedActionDecorator : DebouncedAction
 	{
-		private readonly IAction _innerAction;
-
-		public DebouncedActionDecorator(IAction innerAction, TimeSpan debounceDuration)
-			: base(debounceDuration)
-		{
-			_innerAction = innerAction;
-		}
-
 		public override string Label => _innerAction.Label;
 		public override string Description => _innerAction.Description;
 		public override RichGlyph Glyph => _innerAction.Glyph;
@@ -25,14 +17,25 @@ namespace Files.App.Actions
 		public override HotKey MediaHotKey => _innerAction.MediaHotKey;
 		public override bool IsExecutable => _innerAction.IsExecutable;
 
+		private readonly IAction _innerAction;
+
+		/// <summary>
+		/// Initializes a new instance of the DebouncedActionDecorator class.
+		/// </summary>
+		/// <param name="innerAction">The IAction instance to be wrapped.</param>
+		/// <param name="debounceDuration">The debounce duration. Default is 800 milliseconds.</param>
+		public DebouncedActionDecorator(IAction innerAction, TimeSpan? debounceDuration = null)
+			: base(debounceDuration ?? TimeSpan.FromMilliseconds(800))
+		{
+			_innerAction = innerAction;
+		}
+
 		public override async Task ExecuteAsync()
 		{
 			if (!CanExecuteNow())
-			{
 				return;
-			}
-
-			MarkAsExecuted();
+			
+			MarkLastExecutionTime();
 
 			await _innerAction.ExecuteAsync();
 		}
