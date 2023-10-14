@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref selectedThemeIndex, value))
 				{
-					AppThemeHelper.RootTheme = (ElementTheme)value;
+					AppThemeHelper.ApplyTheme(MainWindow.Instance, (ElementTheme)value);
 					OnPropertyChanged(nameof(SelectedElementTheme));
 				}
 			}

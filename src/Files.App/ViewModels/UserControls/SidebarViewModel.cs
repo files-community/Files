@@ -401,7 +401,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var key = $"section:{section.Text.Replace('\\', '_')}";
 
-			ApplicationData.Current.LocalSettings.Values.Get(key, section.Text == "SidebarFavorites".GetLocalizedResource());
+			section.IsExpanded = ApplicationData.Current.LocalSettings.Values.Get(key, section.Text == "SidebarFavorites".GetLocalizedResource());
 
 			section.PropertyChanged += Section_PropertyChanged;
 		}
