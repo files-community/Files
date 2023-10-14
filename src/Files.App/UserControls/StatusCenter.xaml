@@ -139,17 +139,6 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind HeaderTooltipText, Mode=OneWay}" />
-
-								<TextBlock
-									x:Name="StatusCenterItemSubHeaderTextBlock"
-									x:Load="{x:Bind IsInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									MaxLines="1"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind SubHeader, Mode=OneWay}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
 									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
 
 							</StackPanel>

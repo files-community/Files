@@ -492,19 +492,24 @@ namespace Files.App.Utils.StatusCenter
 				return;
 
 			// Aren't used for now
-			string sourceDir = string.Empty;
-			string destinationDir = string.Empty;
+			string sourcePath = string.Empty;
+			string destinationPath = string.Empty;
 
-			string fileName = string.Empty;
+			string sourceFileName = string.Empty;
+			string sourceDirName = string.Empty;
+			string destinationDirName = string.Empty;
 
 			if (card.Source is not null && card.Source.Any())
 			{
-				sourceDir = PathNormalization.GetParentDir(card.Source.First());
-				fileName = card.Source.First().Split('\\').Last();
+				sourcePath = PathNormalization.GetParentDir(card.Source.First());
+				sourceDirName = sourcePath.Split('\\').Last();
 			}
 
 			if (card.Destination is not null && card.Destination.Any())
-				destinationDir = PathNormalization.GetParentDir(card.Destination.First());
+			{
+				destinationPath = PathNormalization.GetParentDir(card.Destination.First());
+				destinationDirName = destinationPath.Split('\\').Last();
+			}
 
 			// Update string resources
 			switch (card.Operation)
@@ -513,19 +518,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
 						};
 						break;
 					}
@@ -533,19 +538,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
 						};
 						break;
 					}
@@ -553,19 +558,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
 						};
 						break;
 					}
@@ -573,19 +578,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDirName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
 						};
 						break;
 					}
@@ -593,19 +598,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), fileName),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), sourceFileName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), sourceFileName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), sourceFileName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), sourceFileName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), sourceFileName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), fileName, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), sourceFileName, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), sourceFileName, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), sourceFileName, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), sourceFileName, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), sourceFileName, sourcePath, destinationPath),
 						};
 						break;
 					}
@@ -613,19 +618,19 @@ namespace Files.App.Utils.StatusCenter
 					{
 						card.Header = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
-							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount),
+							ReturnResult.Cancelled => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Success => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.Failed => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							ReturnResult.InProgress => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
+							_ => string.Format(card.HeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, destinationDirName),
 						};
 						card.SubHeader = card.FileSystemOperationReturnResult switch
 						{
-							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
-							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourceDir, destinationDir),
+							ReturnResult.Cancelled => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Success => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.Failed => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							ReturnResult.InProgress => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
+							_ => string.Format(card.SubHeaderStringResource.GetLocalizedResource(), card.TotalItemsCount, sourcePath, destinationPath),
 						};
 						break;
 					}
