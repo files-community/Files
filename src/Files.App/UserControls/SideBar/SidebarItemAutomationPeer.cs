@@ -6,9 +6,9 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	public class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
+	public class SideBarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
 		public ExpandCollapseState ExpandCollapseState
 		{
@@ -22,9 +22,9 @@ namespace Files.App.UserControls.Sidebar
 		public bool IsSelected => Owner.IsSelected;
 		public IRawElementProviderSimple SelectionContainer => ProviderFromPeer(CreatePeerForElement(Owner.Owner));
 
-		private new SidebarItem Owner { get; init; }
+		private new SideBarItem Owner { get; init; }
 
-		public SidebarItemAutomationPeer(SidebarItem owner) : base(owner)
+		public SideBarItemAutomationPeer(SideBarItem owner) : base(owner)
 		{
 			this.Owner = owner;
 		}
@@ -104,7 +104,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private IList GetOwnerCollection()
 		{
-			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
+			if (Owner.FindAscendant<SideBarItem>() is SideBarItem parent && parent.Item?.Children is IList list)
 			{
 				return list;
 			}

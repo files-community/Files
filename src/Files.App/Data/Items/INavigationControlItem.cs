@@ -1,13 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Sidebar;
+using Files.App.UserControls.SideBar;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
 
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISideBarItemModel
 	{
 		public new string Text { get; }
 

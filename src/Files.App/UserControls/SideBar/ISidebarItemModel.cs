@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	public interface ISidebarItemModel : INotifyPropertyChanged
+	public interface ISideBarItemModel : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// The children of this item that will be rendered as child elements of the SidebarItem

@@ -5,13 +5,13 @@ using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
-	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
+	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
+	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
 	public record ItemContextInvokedArgs(object? Item, Point Position) { }
 
-	public interface ISidebarViewModel
+	public interface ISideBarViewModel
 	{
 		/// <summary>
 		/// The source/list of items that will be rendered in the sidebar
@@ -20,7 +20,7 @@ namespace Files.App.UserControls.Sidebar
 
 		/// <summary>
 		/// Gets invoked when the context was requested for an item in the sidebar.
-		/// Also applies when context was requested for the pane itsself.
+		/// Also applies when context was requested for the pane itself.
 		/// </summary>
 		/// <param name="sender">The sender of this event</param>
 		/// <param name="args">The <see cref="ItemContextInvokedArgs"/> for this event.</param>

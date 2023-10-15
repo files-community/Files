@@ -3,17 +3,17 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	public sealed partial class SidebarView
+	public sealed partial class SideBarView
 	{
-		public SidebarDisplayMode DisplayMode
+		public SideBarDisplayMode DisplayMode
 		{
-			get { return (SidebarDisplayMode)GetValue(DisplayModeProperty); }
+			get { return (SideBarDisplayMode)GetValue(DisplayModeProperty); }
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
+			DependencyProperty.Register(nameof(DisplayMode), typeof(SideBarDisplayMode), typeof(SideBarView), new PropertyMetadata(SideBarDisplayMode.Expanded, OnPropertyChanged));
 
 		public UIElement InnerContent
 		{
@@ -21,7 +21,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(InnerContentProperty, value); }
 		}
 		public static readonly DependencyProperty InnerContentProperty =
-			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
 
 		public UIElement Footer
 		{
@@ -29,7 +29,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(FooterProperty, value); }
 		}
 		public static readonly DependencyProperty FooterProperty =
-			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SideBarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -37,7 +37,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsPaneOpenProperty, value); }
 		}
 		public static readonly DependencyProperty IsPaneOpenProperty =
-			DependencyProperty.Register(nameof(IsPaneOpen), typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
+			DependencyProperty.Register(nameof(IsPaneOpen), typeof(bool), typeof(SideBarView), new PropertyMetadata(false, OnPropertyChanged));
 
 		public double OpenPaneLength
 		{
@@ -49,7 +49,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 		public static readonly DependencyProperty OpenPaneLengthProperty =
-			DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
+			DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(SideBarView), new PropertyMetadata(240d, OnPropertyChanged));
 
 		public double NegativeOpenPaneLength
 		{
@@ -57,30 +57,30 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(NegativeOpenPaneLengthProperty, value); }
 		}
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
-			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SideBarView), new PropertyMetadata(null));
 
-		public ISidebarViewModel ViewModel
+		public ISideBarViewModel ViewModel
 		{
-			get => (ISidebarViewModel)GetValue(ViewModelProperty);
+			get => (ISideBarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(ISideBarViewModel), typeof(SideBarView), new PropertyMetadata(null));
 
-		public ISidebarItemModel SelectedItem
+		public ISideBarItemModel SelectedItem
 		{
-			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
+			get => (ISideBarItemModel)GetValue(SelectedItemProperty);
 			set
 			{
 				SetValue(SelectedItemProperty, value);
 			}
 		}
 		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(SelectedItem), typeof(ISideBarItemModel), typeof(SideBarView), new PropertyMetadata(null));
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SidebarView control) return;
+			if (sender is not SideBarView control) return;
 
 			if (e.Property == OpenPaneLengthProperty)
 			{

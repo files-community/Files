@@ -2,11 +2,10 @@
 <!--  Licensed under the MIT License.  -->
 
 <ResourceDictionary
-	x:Class="Files.App.UserControls.Sidebar.SidebarResources"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-	xmlns:local="using:Files.App.UserControls.Sidebar"
+	xmlns:local="using:Files.App.UserControls.SideBar"
 	xmlns:usercontrols="using:Files.App.UserControls">
 
 	<x:Double x:Key="SidebarOpenPaneLength">300</x:Double>
@@ -40,17 +39,17 @@
 	</Style>
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
-		<local:SidebarItem
+		<local:SideBarItem
 			AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
 			Item="{Binding}" />
 	</DataTemplate>
 
-	<Style TargetType="local:SidebarItem">
+	<Style TargetType="local:SideBarItem">
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="local:SidebarItem">
+				<ControlTemplate TargetType="local:SideBarItem">
 					<Grid x:Name="RootPanel" Padding="0,2">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
@@ -185,7 +184,7 @@
 										XYFocusKeyboardNavigation="Enabled">
 										<ItemsRepeater.ItemTemplate>
 											<DataTemplate>
-												<local:SidebarItem
+												<local:SideBarItem
 													AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
 													IsInFlyout="True"
 													Item="{Binding}" />
@@ -444,4 +443,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+
 </ResourceDictionary>

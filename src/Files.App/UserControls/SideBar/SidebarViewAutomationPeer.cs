@@ -4,16 +4,16 @@
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	class SidebarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
+	class SideBarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
 	{
 		public bool CanSelectMultiple => false;
 		public bool IsSelectionRequired => true;
 
-		private new SidebarView Owner { get; init; }
+		private new SideBarView Owner { get; init; }
 
-		public SidebarViewAutomationPeer(SidebarView owner) : base(owner)
+		public SideBarViewAutomationPeer(SideBarView owner) : base(owner)
 		{
 			Owner = owner;
 		}

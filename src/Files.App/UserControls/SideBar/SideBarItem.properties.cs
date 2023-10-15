@@ -4,17 +4,17 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
-	public sealed partial class SidebarItem : Control
+	public sealed partial class SideBarItem : Control
 	{
-		public SidebarView? Owner
+		public SideBarView? Owner
 		{
-			get { return (SidebarView?)GetValue(OwnerProperty); }
+			get { return (SideBarView?)GetValue(OwnerProperty); }
 			set { SetValue(OwnerProperty, value); }
 		}
 		public static readonly DependencyProperty OwnerProperty =
-			DependencyProperty.Register(nameof(Owner), typeof(SidebarView), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Owner), typeof(SideBarView), typeof(SideBarItem), new PropertyMetadata(null));
 
 		public bool IsSelected
 		{
@@ -22,7 +22,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsSelectedProperty, value); }
 		}
 		public static readonly DependencyProperty IsSelectedProperty =
-			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false, OnPropertyChanged));
+			DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SideBarItem), new PropertyMetadata(false, OnPropertyChanged));
 
 		public bool IsExpanded
 		{
@@ -30,7 +30,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsExpandedProperty, value); }
 		}
 		public static readonly DependencyProperty IsExpandedProperty =
-			DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(SidebarItem), new PropertyMetadata(true, OnPropertyChanged));
+			DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(SideBarItem), new PropertyMetadata(true, OnPropertyChanged));
 
 		public bool IsInFlyout
 		{
@@ -38,7 +38,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IsInFlyoutProperty, value); }
 		}
 		public static readonly DependencyProperty IsInFlyoutProperty =
-			DependencyProperty.Register(nameof(IsInFlyout), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
+			DependencyProperty.Register(nameof(IsInFlyout), typeof(bool), typeof(SideBarItem), new PropertyMetadata(false));
 
 		public double ChildrenPresenterHeight
 		{
@@ -47,15 +47,15 @@ namespace Files.App.UserControls.Sidebar
 		}
 		// Using 30 as a default in case something goes wrong
 		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
-			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d)); 
+			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SideBarItem), new PropertyMetadata(30d)); 
 
-		public ISidebarItemModel? Item
+		public ISideBarItemModel? Item
 		{
-			get { return (ISidebarItemModel)GetValue(ItemProperty); }
+			get { return (ISideBarItemModel)GetValue(ItemProperty); }
 			set { SetValue(ItemProperty, value); }
 		}
 		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Item), typeof(ISideBarItemModel), typeof(SideBarItem), new PropertyMetadata(null));
 
 		public bool UseReorderDrop
 		{
@@ -63,7 +63,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(UseReorderDropProperty, value); }
 		}
 		public static readonly DependencyProperty UseReorderDropProperty =
-			DependencyProperty.Register(nameof(UseReorderDrop), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
+			DependencyProperty.Register(nameof(UseReorderDrop), typeof(bool), typeof(SideBarItem), new PropertyMetadata(false));
 
 		public FrameworkElement? Icon
 		{
@@ -71,7 +71,7 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(IconProperty, value); }
 		}
 		public static readonly DependencyProperty IconProperty =
-			DependencyProperty.Register(nameof(Icon), typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Icon), typeof(FrameworkElement), typeof(SideBarItem), new PropertyMetadata(null));
 
 		public FrameworkElement? Decorator
 		{
@@ -79,15 +79,15 @@ namespace Files.App.UserControls.Sidebar
 			set { SetValue(DecoratorProperty, value); }
 		}
 		public static readonly DependencyProperty DecoratorProperty =
-			DependencyProperty.Register(nameof(Decorator), typeof(FrameworkElement), typeof(SidebarItem), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(Decorator), typeof(FrameworkElement), typeof(SideBarItem), new PropertyMetadata(null));
 
-		public SidebarDisplayMode DisplayMode
+		public SideBarDisplayMode DisplayMode
 		{
-			get { return (SidebarDisplayMode)GetValue(DisplayModeProperty); }
+			get { return (SideBarDisplayMode)GetValue(DisplayModeProperty); }
 			set { SetValue(DisplayModeProperty, value); }
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
-			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarItem), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
+			DependencyProperty.Register(nameof(DisplayMode), typeof(SideBarDisplayMode), typeof(SideBarItem), new PropertyMetadata(SideBarDisplayMode.Expanded, OnPropertyChanged));
 
 		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
 		{
@@ -102,10 +102,10 @@ namespace Files.App.UserControls.Sidebar
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			if (sender is not SidebarItem item) return;
+			if (sender is not SideBarItem item) return;
 			if (e.Property == DisplayModeProperty)
 			{
-				item.SidebarDisplayModeChanged((SidebarDisplayMode)e.OldValue);
+				item.SidebarDisplayModeChanged((SideBarDisplayMode)e.OldValue);
 			}
 			else if (e.Property == IsSelectedProperty)
 			{

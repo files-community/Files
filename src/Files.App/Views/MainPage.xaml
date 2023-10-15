@@ -8,7 +8,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
+	xmlns:sidebar="using:Files.App.UserControls.SideBar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
@@ -198,7 +198,7 @@
 		</Grid>
 
 		<!--  Root  -->
-		<sidebar:SidebarView
+		<sidebar:SideBarView
 			x:Name="SidebarControl"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
@@ -281,7 +281,7 @@
 
 			</Grid>
 
-		</sidebar:SidebarView>
+		</sidebar:SideBarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>

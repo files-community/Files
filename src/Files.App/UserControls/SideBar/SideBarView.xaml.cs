@@ -10,10 +10,10 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.UserControls.SideBar
 {
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
+	public sealed partial class SideBarView : UserControl, INotifyPropertyChanged
 	{
 
 		private const double COMPACT_MAX_WIDTH = 200;
@@ -24,22 +24,22 @@ namespace Files.App.UserControls.Sidebar
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		internal SidebarItem? SelectedItemContainer = null;
+		internal SideBarItem? SelectedItemContainer = null;
 
 		private bool draggingSidebarResizer;
 		private double preManipulationSidebarWidth = 0;
 
-		public SidebarView()
+		public SideBarView()
 		{
 			InitializeComponent();
 		}
 
-		internal void UpdateSelectedItemContainer(SidebarItem container)
+		internal void UpdateSelectedItemContainer(SideBarItem container)
 		{
 			SelectedItemContainer = container;
 		}
 
-		internal void RaiseItemInvoked(SidebarItem item)
+		internal void RaiseItemInvoked(SideBarItem item)
 		{
 			// Only leaves can be selected
 			if (item.Item is null || item.IsGroupHeader) return;
@@ -49,20 +49,20 @@ namespace Files.App.UserControls.Sidebar
 			ViewModel.HandleItemInvoked(item.Item);
 		}
 
-		internal void RaiseContextRequested(SidebarItem item, Point e)
+		internal void RaiseContextRequested(SideBarItem item, Point e)
 		{
 			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
 			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
 		}
 
-		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal void RaiseItemDropped(SideBarItem sideBarItem, SideBarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
 			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
-		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal void RaiseItemDragOver(SideBarItem sideBarItem, SideBarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
 			ItemDragOver?.Invoke(sideBarItem, new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
@@ -71,7 +71,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void UpdateMinimalMode()
 		{
-			if (DisplayMode != SidebarDisplayMode.Minimal) return;
+			if (DisplayMode != SideBarDisplayMode.Minimal) return;
 
 			if (IsPaneOpen)
 			{
@@ -87,13 +87,13 @@ namespace Files.App.UserControls.Sidebar
 		{
 			switch (DisplayMode)
 			{
-				case SidebarDisplayMode.Compact:
+				case SideBarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", true);
 					return;
-				case SidebarDisplayMode.Expanded:
+				case SideBarDisplayMode.Expanded:
 					VisualStateManager.GoToState(this, "Expanded", true);
 					return;
-				case SidebarDisplayMode.Minimal:
+				case SideBarDisplayMode.Minimal:
 					IsPaneOpen = false;
 					UpdateMinimalMode();
 					return;
@@ -104,11 +104,11 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (newPaneWidth < COMPACT_MAX_WIDTH)
 			{
-				DisplayMode = SidebarDisplayMode.Compact;
+				DisplayMode = SideBarDisplayMode.Compact;
 			}
 			else if (newPaneWidth > COMPACT_MAX_WIDTH)
 			{
-				DisplayMode = SidebarDisplayMode.Expanded;
+				DisplayMode = SideBarDisplayMode.Expanded;
 				OpenPaneLength = newPaneWidth;
 			}
 		}
@@ -143,11 +143,11 @@ namespace Files.App.UserControls.Sidebar
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			var primaryInvocation = e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter;
-			if (DisplayMode == SidebarDisplayMode.Expanded)
+			if (DisplayMode == SideBarDisplayMode.Expanded)
 			{
 				if (primaryInvocation)
 				{
-					DisplayMode = SidebarDisplayMode.Compact;
+					DisplayMode = SideBarDisplayMode.Compact;
 					return;
 				}
 
@@ -164,11 +164,11 @@ namespace Files.App.UserControls.Sidebar
 				e.Handled = true;
 				return;
 			}
-			else if (DisplayMode == SidebarDisplayMode.Compact)
+			else if (DisplayMode == SideBarDisplayMode.Compact)
 			{
 				if (primaryInvocation || e.Key == VirtualKey.Right)
 				{
-					DisplayMode = SidebarDisplayMode.Expanded;
+					DisplayMode = SideBarDisplayMode.Expanded;
 					e.Handled = true;
 				}
 			}
@@ -188,14 +188,14 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (DisplayMode == SidebarDisplayMode.Expanded)
+			if (DisplayMode == SideBarDisplayMode.Expanded)
 			{
-				DisplayMode = SidebarDisplayMode.Compact;
+				DisplayMode = SideBarDisplayMode.Compact;
 				e.Handled = true;
 			}
 			else
 			{
-				DisplayMode = SidebarDisplayMode.Expanded;
+				DisplayMode = SideBarDisplayMode.Expanded;
 				e.Handled = true;
 			}
 		}
@@ -235,7 +235,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void MenuItemsHost_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
-			if(args.Element is SidebarItem sidebarItem)
+			if(args.Element is SideBarItem sidebarItem)
 			{
 				sidebarItem.HandleItemChange();
 			}

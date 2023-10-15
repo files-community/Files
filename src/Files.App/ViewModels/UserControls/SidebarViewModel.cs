@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.Sidebar;
+using Files.App.UserControls.SideBar;
 using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -22,7 +22,7 @@ using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public class SidebarViewModel : ObservableObject, IDisposable, ISideBarViewModel
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -51,18 +51,18 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		private SidebarDisplayMode sidebarDisplayMode;
-		public SidebarDisplayMode SidebarDisplayMode
+		private SideBarDisplayMode sidebarDisplayMode;
+		public SideBarDisplayMode SidebarDisplayMode
 		{
 			get => sidebarDisplayMode;
 			set
 			{
 				// We only want to track non minimal mode
-				if (value == SidebarDisplayMode.Minimal) return;
+				if (value == SideBarDisplayMode.Minimal) return;
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
-					IsSidebarOpen = sidebarDisplayMode == SidebarDisplayMode.Expanded;
+					IsSidebarOpen = sidebarDisplayMode == SideBarDisplayMode.Expanded;
 					UpdateTabControlMargin();
 				}
 			}
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.UserControls
 			};
 
 		public bool IsSidebarCompactSize
-			=> SidebarDisplayMode == SidebarDisplayMode.Compact || SidebarDisplayMode == SidebarDisplayMode.Minimal;
+			=> SidebarDisplayMode == SideBarDisplayMode.Compact || SidebarDisplayMode == SideBarDisplayMode.Minimal;
 
 		public void NotifyInstanceRelatedPropertiesChanged(string arg)
 		{
@@ -254,7 +254,7 @@ namespace Files.App.ViewModels.UserControls
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
 			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
-			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
+			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SideBarDisplayMode.Expanded : SideBarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
@@ -656,7 +656,7 @@ namespace Files.App.ViewModels.UserControls
 			TabControlMargin = SidebarDisplayMode switch
 			{
 				// This prevents the pane toggle button from overlapping the tab control in minimal mode
-				SidebarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
+				SideBarDisplayMode.Minimal => new GridLength(44, GridUnitType.Pixel),
 				_ => new GridLength(0, GridUnitType.Pixel),
 			};
 		}
