@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
+// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Input;

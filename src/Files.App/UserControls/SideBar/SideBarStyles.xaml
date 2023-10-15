@@ -1,6 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -178,7 +176,7 @@
 									<ItemsRepeater
 										x:Name="FlyoutChildrenPresenter"
 										HorizontalAlignment="Stretch"
-										local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
+										local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 										AutomationProperties.AccessibilityView="Content"
 										ItemsSource="{Binding Children, Mode=OneWay}"
 										XYFocusKeyboardNavigation="Enabled">
@@ -199,7 +197,7 @@
 							x:Name="ChildrenPresenter"
 							Grid.Row="2"
 							HorizontalAlignment="Stretch"
-							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
+							local:SideBarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 							AutomationProperties.AccessibilityView="Content"
 							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 							ItemsSource="{Binding Children, Mode=OneWay}"
