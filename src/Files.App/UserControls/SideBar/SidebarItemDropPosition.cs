@@ -4,22 +4,22 @@
 namespace Files.App.UserControls.SideBar
 {
 	/// <summary>
-	/// The position of the item that was dropped on the sidebar item.
+	/// Defines constants that specify the position of the item that was dropped on the <see cref="SideBarItem"/>.
 	/// </summary>
 	public enum SideBarItemDropPosition
 	{
 		/// <summary>
-		/// The item was dropped on the top of the sidebar item indicating it should be moved/inserted above this item.
+		/// The item was dropped on the top of the <see cref="SideBarItem"/> indicating it should be moved/inserted above this <see cref="SideBarItem"/>.
 		/// </summary>
 		Top,
 
 		/// <summary>
-		/// The item was dropped on the bottom of the sidebar item indicating it should be moved/inserted below this item.
+		/// The item was dropped on the bottom of the <see cref="SideBarItem"/> indicating it should be moved/inserted below this <see cref="SideBarItem"/>.
 		/// </summary>
 		Bottom,
 
 		/// <summary>
-		/// The item was dropped on the center of the sidebar item indicating it should be moved/inserted as a child of this item.
+		/// The item was dropped on the center of the <see cref="SideBarItem"/> indicating it should be moved/inserted as a child of this <see cref="SideBarItem"/>.
 		/// </summary>
 		Center
 	}

@@ -489,7 +489,7 @@ namespace Files.App.Views
 
 		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (SidebarControl.DisplayMode == SideBarDisplayMode.Minimal)
+			if (SidebarControl.DisplayMode == SideBarPaneDisplayMode.Minimal)
 			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}

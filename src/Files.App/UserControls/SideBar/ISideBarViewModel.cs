@@ -7,14 +7,25 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls.SideBar
 {
-	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
-	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
-	public record ItemContextInvokedArgs(object? Item, Point Position) { }
+	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent)
+	{
+	}
 
+	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SideBarItemDropPosition dropPosition, DragEventArgs RawEvent)
+	{
+	}
+
+	public record ItemContextInvokedArgs(object? Item, Point Position)
+	{
+	}
+
+	/// <summary>
+	/// Represents interface for <see cref="SidebarViewModel"/>.
+	/// </summary>
 	public interface ISideBarViewModel
 	{
 		/// <summary>
-		/// The source/list of items that will be rendered in the sidebar
+		/// Gets the source/list of items that will be rendered in the sidebar
 		/// </summary>
 		object SidebarItems { get; }
 

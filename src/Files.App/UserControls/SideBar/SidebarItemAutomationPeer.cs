@@ -16,11 +16,16 @@ namespace Files.App.UserControls.SideBar
 			{
 				if (Owner.HasChildren)
 					return Owner.IsExpanded ? ExpandCollapseState.Expanded : ExpandCollapseState.Collapsed;
+
 				return ExpandCollapseState.LeafNode;
 			}
 		}
-		public bool IsSelected => Owner.IsSelected;
-		public IRawElementProviderSimple SelectionContainer => ProviderFromPeer(CreatePeerForElement(Owner.Owner));
+
+		public bool IsSelected
+			=> Owner.IsSelected;
+
+		public IRawElementProviderSimple SelectionContainer
+			=> ProviderFromPeer(CreatePeerForElement(Owner.Owner));
 
 		private new SideBarItem Owner { get; init; }
 
@@ -48,28 +53,22 @@ namespace Files.App.UserControls.SideBar
 			else if (patternInterface == PatternInterface.ExpandCollapse)
 			{
 				if (Owner.CollapseEnabled)
-				{
 					return this;
-				}
 			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public void Collapse()
 		{
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = false;
-			}
 		}
 
 		public void Expand()
 		{
-
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = true;
-			}
 		}
 
 		public void Invoke()
@@ -105,13 +104,11 @@ namespace Files.App.UserControls.SideBar
 		private IList GetOwnerCollection()
 		{
 			if (Owner.FindAscendant<SideBarItem>() is SideBarItem parent && parent.Item?.Children is IList list)
-			{
 				return list;
-			}
+
 			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
-			{
 				return items;
-			}
+
 			return new List<object>();
 		}
 	}

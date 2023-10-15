@@ -8,8 +8,11 @@ namespace Files.App.UserControls.SideBar
 {
 	class SideBarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
 	{
-		public bool CanSelectMultiple => false;
-		public bool IsSelectionRequired => true;
+		public bool CanSelectMultiple
+			=> false;
+
+		public bool IsSelectionRequired
+			=> true;
 
 		private new SideBarView Owner { get; init; }
 
@@ -21,19 +24,21 @@ namespace Files.App.UserControls.SideBar
 		protected override object GetPatternCore(PatternInterface patternInterface)
 		{
 			if (patternInterface == PatternInterface.Selection)
-			{
 				return this;
-			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public IRawElementProviderSimple[] GetSelection()
 		{
 			if (Owner.SelectedItemContainer != null)
+			{
 				return new IRawElementProviderSimple[]
-				{
-				ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
-				};
+					{
+						ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
+					};
+			}
+
 			return Array.Empty<IRawElementProviderSimple>();
 		}
 	}

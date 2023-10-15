@@ -13,19 +13,34 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.UserControls.SideBar
 {
+	/// <summary>
+	/// Represents <see cref="Control"/> for <see cref="SideBarView"/> item.
+	/// </summary>
 	public sealed partial class SideBarItem : Control
 	{
-		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		// Percentage of top/bottom at which we consider a drop to be a reposition/insertion
+		private const double DROP_REPOSITION_THRESHOLD = 0.2;
 
-		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
-		public bool IsGroupHeader => Item?.Children is not null;
-		public bool CollapseEnabled => DisplayMode != SideBarDisplayMode.Compact;
+		public bool HasChildren
+			=> Item?.Children is IList enumerable && enumerable.Count > 0;
 
-		private bool hasChildSelection => selectedChildItem != null;
+		public bool IsGroupHeader
+			=> Item?.Children is not null;
+
+		public bool CollapseEnabled
+			=> DisplayMode != SideBarPaneDisplayMode.Compact;
+
+		private bool hasChildSelection
+			=> selectedChildItem != null;
+
 		private bool isPointerOver = false;
+
 		private bool isClicking = false;
+
 		private object? selectedChildItem = null;
+
 		private ItemsRepeater? childrenRepeater;
+
 		private ISideBarItemModel? lastSubscriber;
 
 		public SideBarItem()
@@ -33,6 +48,7 @@ namespace Files.App.UserControls.SideBar
 			DefaultStyleKey = typeof(SideBarItem);
 
 			PointerReleased += Item_PointerReleased;
+
 			KeyDown += (sender, args) =>
 			{
 				if (args.Key == Windows.System.VirtualKey.Enter)
@@ -41,6 +57,7 @@ namespace Files.App.UserControls.SideBar
 					args.Handled = true;
 				}
 			};
+
 			DragStarting += SidebarItem_DragStarting;
 
 			Loaded += SidebarItem_Loaded;
@@ -81,6 +98,7 @@ namespace Files.App.UserControls.SideBar
 				repeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 				repeater.SizeChanged += ChildrenPresenter_SizeChanged;
 			}
+
 			if (GetTemplateChild("FlyoutChildrenPresenter") is ItemsRepeater flyoutRepeater)
 			{
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
@@ -110,22 +128,26 @@ namespace Files.App.UserControls.SideBar
 		private void HookupOwners()
 		{
 			FrameworkElement resolvingTarget = this;
+
 			if (GetTemplateRoot(Parent) is FrameworkElement element)
 			{
 				resolvingTarget = element;
 			}
+
 			Owner = resolvingTarget.FindAscendant<SideBarView>()!;
 
 			Owner.RegisterPropertyChangedCallback(SideBarView.DisplayModeProperty, (sender, args) =>
 			{
 				DisplayMode = Owner.DisplayMode;
 			});
+
 			DisplayMode = Owner.DisplayMode;
 
 			Owner.RegisterPropertyChangedCallback(SideBarView.SelectedItemProperty, (sender, args) =>
 			{
 				ReevaluateSelection();
 			});
+
 			ReevaluateSelection();
 		}
 
@@ -134,6 +156,7 @@ namespace Files.App.UserControls.SideBar
 			if (lastSubscriber != null)
 			{
 				lastSubscriber.PropertyChanged -= ItemPropertyChangedHandler;
+
 				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
@@ -141,6 +164,7 @@ namespace Files.App.UserControls.SideBar
 			if (oldItem != null)
 			{
 				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
+
 				if (oldItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
@@ -148,9 +172,11 @@ namespace Files.App.UserControls.SideBar
 			{
 				newItem.PropertyChanged += ItemPropertyChangedHandler;
 				lastSubscriber = newItem;
+
 				if (newItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
 			}
+
 			UpdateIcon();
 		}
 
@@ -161,9 +187,11 @@ namespace Files.App.UserControls.SideBar
 
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
-			if (Item?.Children is null) return;
+			if (Item?.Children is null)
+				return;
 
 			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
+
 			if (isOpen)
 			{
 				FlyoutBase.ShowAttachedFlyout(flyoutOwner);
@@ -178,18 +206,15 @@ namespace Files.App.UserControls.SideBar
 		{
 			ReevaluateSelection();
 			UpdateExpansionState();
-			if (DisplayMode == SideBarDisplayMode.Compact && !HasChildren)
-			{
+
+			if (DisplayMode == SideBarPaneDisplayMode.Compact && !HasChildren)
 				SetFlyoutOpen(false);
-			}
 		}
 
 		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
 		{
 			if (args.PropertyName == nameof(ISideBarItemModel.IconSource))
-			{
 				UpdateIcon();
-			}
 		}
 
 		private void ReevaluateSelection()
@@ -198,9 +223,7 @@ namespace Files.App.UserControls.SideBar
 			{
 				IsSelected = Item == Owner?.SelectedItem;
 				if (IsSelected)
-				{
 					Owner?.UpdateSelectedItemContainer(this);
-				}
 			}
 			else if (Item?.Children is IList list)
 			{
@@ -213,6 +236,7 @@ namespace Files.App.UserControls.SideBar
 				{
 					selectedChildItem = null;
 				}
+
 				UpdateSelectionState();
 			}
 		}
@@ -224,14 +248,12 @@ namespace Files.App.UserControls.SideBar
 				if (Item?.Children is IList enumerable)
 				{
 					var newElement = enumerable[args.Index];
+
 					if (newElement == selectedChildItem)
-					{
 						(args.Element as SideBarItem)!.IsSelected = true;
-					}
 					else
-					{
 						(args.Element as SideBarItem)!.IsSelected = false;
-					}
+
 					item.HandleItemChange();
 				}
 			}
@@ -242,14 +264,11 @@ namespace Files.App.UserControls.SideBar
 			if (IsGroupHeader)
 			{
 				if (CollapseEnabled)
-				{
 					IsExpanded = !IsExpanded;
-				}
 				else if (HasChildren)
-				{
 					SetFlyoutOpen(true);
-				}
 			}
+
 			RaiseItemInvoked();
 		}
 
@@ -258,34 +277,42 @@ namespace Files.App.UserControls.SideBar
 			Owner?.RaiseItemInvoked(this);
 		}
 
-		private void SidebarDisplayModeChanged(SideBarDisplayMode oldValue)
+		private void SidebarDisplayModeChanged(SideBarPaneDisplayMode oldValue)
 		{
-			var useAnimations = oldValue != SideBarDisplayMode.Minimal;
+			var useAnimations = oldValue != SideBarPaneDisplayMode.Minimal;
+
 			switch (DisplayMode)
 			{
-				case SideBarDisplayMode.Expanded:
+				case SideBarPaneDisplayMode.Expanded:
 					UpdateExpansionState(useAnimations);
 					UpdateSelectionState();
 					SetFlyoutOpen(false);
 					break;
-				case SideBarDisplayMode.Minimal:
+				case SideBarPaneDisplayMode.Minimal:
 					UpdateExpansionState(useAnimations);
 					SetFlyoutOpen(false);
 					break;
-				case SideBarDisplayMode.Compact:
+				case SideBarPaneDisplayMode.Compact:
 					UpdateExpansionState(useAnimations);
 					UpdateSelectionState();
 					break;
 			}
+
 			if (!IsInFlyout)
 			{
-				VisualStateManager.GoToState(this, DisplayMode == SideBarDisplayMode.Compact ? "Compact" : "NonCompact", true);
+				VisualStateManager.GoToState(
+					this,
+					DisplayMode == SideBarPaneDisplayMode.Compact
+						? "Compact"
+						: "NonCompact",
+					true);
 			}
 		}
 
 		private void UpdateSelectionState()
 		{
 			VisualStateManager.GoToState(this, ShouldShowSelectionIndicator() ? "Selected" : "Unselected", true);
+
 			UpdatePointerState();
 		}
 
@@ -299,30 +326,21 @@ namespace Files.App.UserControls.SideBar
 		private bool ShouldShowSelectionIndicator()
 		{
 			if (IsExpanded && CollapseEnabled)
-			{
 				return IsSelected;
-			}
 			else
-			{
 				return IsSelected || hasChildSelection;
-			}
 		}
 
 		private void UpdatePointerState(bool isPointerDown = false)
 		{
 			var useSelectedState = ShouldShowSelectionIndicator();
+
 			if (isPointerDown)
-			{
 				VisualStateManager.GoToState(this, useSelectedState ? "PressedSelected" : "Pressed", true);
-			}
 			else if (isPointerOver)
-			{
 				VisualStateManager.GoToState(this, useSelectedState ? "PointerOverSelected" : "PointerOver", true);
-			}
 			else
-			{
 				VisualStateManager.GoToState(this, useSelectedState ? "NormalSelected" : "Normal", true);
-			}
 		}
 
 		private void UpdateExpansionState(bool useAnimations = true)
@@ -340,19 +358,20 @@ namespace Files.App.UserControls.SideBar
 				if (childrenRepeater != null)
 				{
 					if (childrenRepeater.ActualHeight > ChildrenPresenterHeight)
-					{
 						ChildrenPresenterHeight = childrenRepeater.ActualHeight;
-					}
 				}
+
 				VisualStateManager.GoToState(this, IsExpanded ? "Expanded" : "Collapsed", useAnimations);
 				VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", useAnimations);
 			}
+
 			UpdateSelectionState();
 		}
 
 		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
+
 			UpdatePointerState();
 		}
 
@@ -360,19 +379,23 @@ namespace Files.App.UserControls.SideBar
 		{
 			isPointerOver = false;
 			isClicking = false;
+
 			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isClicking = false;
+
 			UpdatePointerState();
 		}
 
 		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isClicking = true;
+
 			UpdatePointerState(true);
+
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconPressed" : "CollapsedIconPressed", true);
 		}
 
@@ -383,36 +406,29 @@ namespace Files.App.UserControls.SideBar
 
 			isClicking = false;
 			e.Handled = true;
+
 			UpdatePointerState();
 
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
+
 			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
 			if (updateKind == PointerUpdateKind.LeftButtonReleased)
-			{
 				Clicked();
-			}
 		}
 
 		private void ItemGrid_DragOver(object sender, DragEventArgs e)
 		{
 			if (HasChildren)
-			{
 				IsExpanded = true;
-			}
 
 			var insertsAbove = DetermineDropTargetPosition(e);
+
 			if (insertsAbove == SideBarItemDropPosition.Center)
-			{
 				VisualStateManager.GoToState(this, "DragOnTop", true);
-			}
 			else if (insertsAbove == SideBarItemDropPosition.Top)
-			{
 				VisualStateManager.GoToState(this, "DragInsertAbove", true);
-			}
 			else if (insertsAbove == SideBarItemDropPosition.Bottom)
-			{
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
-			}
 
 			Owner?.RaiseItemDragOver(this, insertsAbove, e);
 		}
@@ -420,6 +436,7 @@ namespace Files.App.UserControls.SideBar
 		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
 			Owner?.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
+
 			args.Handled = true;
 		}
 
@@ -431,6 +448,7 @@ namespace Files.App.UserControls.SideBar
 		private void ItemGrid_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
+
 			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
@@ -441,17 +459,17 @@ namespace Files.App.UserControls.SideBar
 				if (GetTemplateChild("ElementGrid") is Grid grid)
 				{
 					var position = args.GetPosition(grid);
+
 					if (position.Y < grid.ActualHeight * DROP_REPOSITION_THRESHOLD)
-					{
 						return SideBarItemDropPosition.Top;
-					}
+
 					if (position.Y > grid.ActualHeight * (1 - DROP_REPOSITION_THRESHOLD))
-					{
 						return SideBarItemDropPosition.Bottom;
-					}
+
 					return SideBarItemDropPosition.Center;
 				}
 			}
+
 			return SideBarItemDropPosition.Center;
 		}
 	}

@@ -21,13 +21,14 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!--  This is the background for the sidebar pane and sidebar content  -->
+		<!--  Global Background  -->
 		<Border
 			x:Name="PaneBackground"
 			Grid.Row="1"
 			Grid.ColumnSpan="3"
 			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}" />
 
+		<!--  Light Dismissal Layer  -->
 		<Grid
 			x:Name="PaneLightDismissLayer"
 			Grid.Row="1"
@@ -41,6 +42,7 @@
 			Tapped="PaneLightDismissLayer_Tapped"
 			Visibility="Collapsed" />
 
+		<!--  Pane Area  -->
 		<Grid
 			x:Name="PaneColumnGrid"
 			Grid.Row="1"
@@ -93,6 +95,7 @@
 				Content="{x:Bind Footer, Mode=OneWay}" />
 		</Grid>
 
+		<!--  Pane Resider  -->
 		<Border
 			x:Name="SidebarResizer"
 			Grid.Row="1"
@@ -124,6 +127,7 @@
 				UseSystemFocusVisuals="True" />
 		</Border>
 
+		<!--  Content Area  -->
 		<Grid
 			x:Name="ContentPresenter"
 			Grid.Row="1"
@@ -140,6 +144,7 @@
 				Child="{x:Bind InnerContent, Mode=OneWay}"
 				TabFocusNavigation="Local" />
 		</Grid>
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="DisplayModes">
 				<VisualState x:Name="Expanded" />
@@ -360,4 +365,5 @@
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
+
 </UserControl>
