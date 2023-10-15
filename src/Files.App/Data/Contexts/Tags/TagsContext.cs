@@ -30,7 +30,7 @@ namespace Files.App.Data.Contexts
 		public TagsContext()
 		{
 			FileTagsContainerViewModel.SelectedTagChanged += SelectedTagsChanged;
-			SidebarViewModel.SelectedTagChanged += SelectedTagsChanged;
+			SideBarViewModel.SelectedTagChanged += SelectedTagsChanged;
 		}
 
 		private void SelectedTagsChanged(object _, SelectedTagChangedEventArgs e)

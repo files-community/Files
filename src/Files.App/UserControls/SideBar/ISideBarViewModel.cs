@@ -20,7 +20,7 @@ namespace Files.App.UserControls.SideBar
 	}
 
 	/// <summary>
-	/// Represents interface for <see cref="SidebarViewModel"/>.
+	/// Represents interface for <see cref="SideBarViewModel"/>.
 	/// </summary>
 	public interface ISideBarViewModel
 	{

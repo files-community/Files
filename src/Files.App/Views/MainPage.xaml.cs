@@ -29,7 +29,7 @@ namespace Files.App.Views
 
 		public IWindowContext WindowContext { get; }
 
-		public SidebarViewModel SidebarAdaptiveViewModel { get; }
+		public SideBarViewModel SidebarAdaptiveViewModel { get; }
 
 		public MainPageViewModel ViewModel { get; }
 
@@ -53,7 +53,7 @@ namespace Files.App.Views
 			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SideBarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();

@@ -22,14 +22,17 @@ using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class SidebarViewModel : ObservableObject, IDisposable, ISideBarViewModel
+	public class SideBarViewModel : ObservableObject, IDisposable, ISideBarViewModel
 	{
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly IFileTagsService fileTagsService;
+
+		private readonly IFileTagsService fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+
+		private ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -230,10 +233,9 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref selectedSidebarItem, value);
 		}
 
-		public SidebarViewModel()
+		public SideBarViewModel()
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			sidebarItems = new BulkConcurrentObservableCollection<INavigationControlItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
