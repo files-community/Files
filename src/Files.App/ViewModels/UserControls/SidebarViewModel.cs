@@ -32,6 +32,8 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
+		public IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		private ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private IPaneHolder paneHolder;
@@ -47,12 +49,15 @@ namespace Files.App.ViewModels.UserControls
 			=> PaneHolder?.FilesystemHelpers;
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
+
 		private INavigationControlItem rightClickedItem;
 
-		public object SidebarItems => sidebarItems;
+		public object SidebarItems
+			=> sidebarItems;
+
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+
 		public SidebarPinnedModel SidebarPinnedModel => App.QuickAccessManager.Model;
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private SideBarPaneDisplayMode sidebarDisplayMode;
 		public SideBarPaneDisplayMode SidebarDisplayMode
@@ -226,7 +231,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private INavigationControlItem selectedSidebarItem;
-
 		public INavigationControlItem SidebarSelectedItem
 		{
 			get => selectedSidebarItem;
