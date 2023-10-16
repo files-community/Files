@@ -120,7 +120,7 @@ namespace Files.App.Utils.Storage
 					var model = x.Model;
 					model.ShowCountTextBelow = true;
 					var parentPath = PathNormalization.GetParentDir(first.ItemPath.TrimPath());
-					model.Text = SystemIO.Path.GetFileName(parentPath);
+					model.Text = GetFolderName(parentPath);
 					model.Subtext = parentPath;
 				}, null),
 				_ => (null, null)
@@ -165,5 +165,12 @@ namespace Files.App.Utils.Storage
 			(1000000, "ItemSizeText_Medium".GetLocalizedResource(), "1 MiB".ConvertSizeAbbreviation()),
 			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		};
+
+		private static string GetFolderName(string path)
+		{
+			if (path == null)
+				return null;
+			return path.Substring(path.LastIndexOf('\\') + 1);
+		}
 	}
 }

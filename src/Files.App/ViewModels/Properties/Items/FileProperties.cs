@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
+			ViewModel.IsDownloadedFile = NativeFileOperationsHelper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 
 			if (!Item.IsShortcut)
 				return;

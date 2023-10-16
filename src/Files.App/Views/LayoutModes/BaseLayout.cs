@@ -555,14 +555,10 @@ namespace Files.App.Views.LayoutModes
 
 		private CancellationTokenSource? shellContextMenuItemCancellationToken;
 		private bool shiftPressed;
-		private Task waitFlyoutOpeningTask;
 
 		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
-			ItemContextMenuFlyout.Opened += ItemContextFlyout_Opened;
-			var waitFlyoutOpeningTCS = new TaskCompletionSource();
-			waitFlyoutOpeningTask = waitFlyoutOpeningTCS.Task;
 
 			try
 			{
@@ -602,35 +598,19 @@ namespace Files.App.Views.LayoutModes
 
 					if (InstanceViewModel!.CanTagFilesInPage)
 						AddNewFileTagsToMenu(ItemContextMenuFlyout);
-				}
-			}
-			catch (Exception error)
-			{
-				Debug.WriteLine(error);
-			}
 
-			waitFlyoutOpeningTCS.TrySetResult();
-		}
-
-		// Workaround for WASDK 1.4. See #13288 on GitHub.
-		private async void ItemContextFlyout_Opened(object? sender, object e)
-		{
-			ItemContextMenuFlyout.Opened -= ItemContextFlyout_Opened;
-			await waitFlyoutOpeningTask;
-
-			try
-			{
-				if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
-				{
-					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
-					if (shellMenuItems.Any())
-						await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+					{
+						var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: SelectedItems!, shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);
+						if (shellMenuItems.Any())
+							await AddShellMenuItemsAsync(shellMenuItems, ItemContextMenuFlyout, shiftPressed);
+						else
+							RemoveOverflow(ItemContextMenuFlyout);
+					}
 					else
+					{
 						RemoveOverflow(ItemContextMenuFlyout);
-				}
-				else
-				{
-					RemoveOverflow(ItemContextMenuFlyout);
+					}
 				}
 			}
 			catch (Exception error)
@@ -642,9 +622,6 @@ namespace Files.App.Views.LayoutModes
 		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
-			BaseContextMenuFlyout.Opened += BaseContextFlyout_Opened;
-			var waitFlyoutOpeningTCS = new TaskCompletionSource();
-			waitFlyoutOpeningTask = waitFlyoutOpeningTCS.Task;
 
 			try
 			{
@@ -680,23 +657,7 @@ namespace Files.App.Views.LayoutModes
 				// Set menu min width
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
-			}
-			catch (Exception error)
-			{
-				Debug.WriteLine(error);
-			}
 
-			waitFlyoutOpeningTCS.TrySetResult();
-		}
-
-		// Workaround for WASDK 1.4. See #13288 on GitHub.
-		private async void BaseContextFlyout_Opened(object? sender, object e)
-		{
-			BaseContextMenuFlyout.Opened -= BaseContextFlyout_Opened;
-			await waitFlyoutOpeningTask;
-
-			try
-			{
 				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(workingDir: ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, selectedItems: new List<ListedItem>(), shiftPressed: shiftPressed, showOpenMenu: false, shellContextMenuItemCancellationToken.Token);

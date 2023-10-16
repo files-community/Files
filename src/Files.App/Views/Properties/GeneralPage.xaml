@@ -569,6 +569,49 @@
 
 			</controls:SettingsBlockControl>
 
+			<!--  Security  -->
+			<Expander
+				x:Name="Security"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsDownloadedFile, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=Security}"
+				IsExpanded="True">
+				<Expander.Content>
+					<Grid
+						HorizontalAlignment="Stretch"
+						ColumnSpacing="8"
+						RowSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<!--  Unblock Downloaded File  -->
+						<TextBlock
+							Grid.Row="0"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="{helpers:ResourceString Name=UnblockDownloadedFile}"
+							TextWrapping="WrapWholeWords" />
+
+						<CheckBox
+							Grid.Row="0"
+							Grid.Column="2"
+							MinWidth="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							AutomationProperties.Name="{helpers:ResourceString Name=UnblockDownloadedFile}"
+							IsChecked="{x:Bind ViewModel.IsUnblockFileSelected, Mode=TwoWay}" />
+
+					</Grid>
+				</Expander.Content>
+			</Expander>
+
 			<!--  Item Attributes  -->
 			<Expander
 				x:Name="ItemAttributes"

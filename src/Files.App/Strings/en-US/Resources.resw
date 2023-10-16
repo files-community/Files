@@ -501,9 +501,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Pages:</value>
-  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
   </data>
@@ -3332,17 +3329,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copy code</value>
@@ -3528,5 +3525,14 @@
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files can't initialize this directory as a Git repository.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
   </data>
 </root>
