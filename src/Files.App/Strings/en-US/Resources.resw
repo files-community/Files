@@ -3390,7 +3390,7 @@
     <value>Speed:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled - compressing {0} items to "{1}"</value>
+    <value>Canceled compressing {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
@@ -3406,7 +3406,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error - compressing {0} items to "{1}"</value>
+    <value>Error compressing {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
@@ -3422,7 +3422,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled - copying {0} items to "{1}"</value>
+    <value>Canceled copying {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
@@ -3434,11 +3434,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Successfully copied {0} items from {1} to {2}</value>
+    <value>Copied {0} items from {1} to {2}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error - copying {0} items to "{1}"</value>
+    <value>Error copying {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
@@ -3454,7 +3454,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled - extracting "{0}" to "{1}"</value>
+    <value>Canceled extracting "{0}" to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
@@ -3466,11 +3466,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Successfully extracted "{0}" from {1} to {2}</value>
+    <value>Extracted "{0}" from {1} to {2}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Error -  extracting "{0}" to "{1}"</value>
+    <value>Error extracting "{0}" to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
@@ -3486,23 +3486,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled - deleting {0} items from "{1}"</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_DeleteCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled deleting {0} items from {1}</value>
+    <value>Canceled deleting {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
     <value>Deleted {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_DeleteComplete_SubHeader" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error - deleting {0} items from "{1}"</value>
+    <value>Error deleting {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
@@ -3513,44 +3505,24 @@
     <value>Deleting {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
-  <data name="StatusCenter_DeleteInProgress_SubHeader" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Canceled - recycling {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled recycling {0} items from {1}</value>
+    <value>Canceled recycling {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Recycled {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleComplete_SubHeader" xml:space="preserve">
-    <value>Successfully recycled {0} items from {1}</value>
+    <value>Recycled {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Error - recycling {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleFailed_SubHeader" xml:space="preserve">
-    <value>Failed to recycle {0} items from {1}</value>
+    <value>Error recycling {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Recycling {0} items from {1}</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_RecycleInProgress_SubHeader" xml:space="preserve">
-    <value>Recycling {0} items from {1}</value>
+    <value>Recycling {0} items from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled - moving {0} items to "{1}"</value>
+    <value>Canceled moving {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
@@ -3558,11 +3530,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} items to "{1}"</value>
+    <value>Moved {0} items to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
+    <value>Moved {0} items from {1} to {2}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
@@ -3574,7 +3546,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error - moving {0} items to "{1}"</value>
+    <value>Error moving {0} items to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
@@ -3582,35 +3554,23 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled - emptying the Recycle Bin</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_EmptyRecycleBinCancel_SubHeader" xml:space="preserve">
-    <value>Canceled emptying the Recycle Bin</value>
+    <value>Canceled emptying Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied the Recycle Bin</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_EmptyRecycleBinComplete_SubHeader" xml:space="preserve">
-    <value>Successfully emptied the  Recycle Bin</value>
+    <value>Emptied Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying the Recycle Bin</value>
-    <comment>Shown in a StatusCenter card.</comment>
-  </data>
-  <data name="StatusCenter_EmptyRecycleBinInProgress_SubHeader" xml:space="preserve">
-    <value>Emptying the Recycle Bin</value>
+    <value>Emptying Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error - emptying the Recycle Bin</value>
+    <value>Error emptying Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty the Recycle Bin</value>
+    <value>Failed to empty Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">

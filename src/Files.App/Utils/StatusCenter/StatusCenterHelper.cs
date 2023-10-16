@@ -161,7 +161,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_RecycleCanceled_Header",
-					"StatusCenter_RecycleCanceled_SubHeader",
+					"",
 					ReturnResult.Cancelled,
 					FileOperationType.Recycle,
 					source?.Select(x => x.Path),
@@ -174,7 +174,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_RecycleInProgress_Header",
-					"StatusCenter_RecycleInProgress_SubHeader",
+					"",
 					ReturnResult.InProgress,
 					FileOperationType.Recycle,
 					source?.Select(x => x.Path),
@@ -188,7 +188,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_RecycleComplete_Header",
-					"StatusCenter_RecycleComplete_SubHeader",
+					"",
 					ReturnResult.Success,
 					FileOperationType.Recycle,
 					source?.Select(x => x.Path),
@@ -201,7 +201,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_RecycleFailed_Header",
-					"StatusCenter_RecycleFailed_SubHeader",
+					"",
 					ReturnResult.Failed,
 					FileOperationType.Recycle,
 					source?.Select(x => x.Path),
@@ -227,7 +227,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DeleteCanceled_Header",
-					"StatusCenter_DeleteCanceled_SubHeader",
+					"",
 					ReturnResult.Cancelled,
 					FileOperationType.Delete,
 					source?.Select(x => x.Path) ?? string.Empty.CreateEnumerable(),
@@ -240,7 +240,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DeleteInProgress_Header",
-					"StatusCenter_DeleteInProgress_SubHeader",
+					"",
 					ReturnResult.InProgress,
 					FileOperationType.Delete,
 					source?.Select(x => x.Path),
@@ -254,7 +254,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_DeleteComplete_Header",
-					"StatusCenter_DeleteComplete_SubHeader",
+					"",
 					ReturnResult.Success,
 					FileOperationType.Delete,
 					source?.Select(x => x.Path),
@@ -423,7 +423,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinCancel_Header",
-					"StatusCenter_EmptyRecycleBinCancel_SubHeader",
+					"",
 					ReturnResult.Cancelled,
 					FileOperationType.Delete,
 					null,
@@ -436,7 +436,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinInProgress_Header",
-					"StatusCenter_EmptyRecycleBinInProgress_SubHeader",
+					"",
 					ReturnResult.InProgress,
 					FileOperationType.Delete,
 					null,
@@ -450,7 +450,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_EmptyRecycleBinComplete_Header",
-					"StatusCenter_EmptyRecycleBinComplete_SubHeader",
+					"",
 					ReturnResult.Success,
 					FileOperationType.Delete,
 					null,
