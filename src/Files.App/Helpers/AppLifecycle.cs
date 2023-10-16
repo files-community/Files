@@ -14,15 +14,17 @@ namespace Files.App.Helpers
 {
 	public class AppLifecycle
 	{
-		public static string SharedMemoryNameHeader = "FilesAppTabsWithID";
-		public static MemoryMappedFile? SharedMemoryNameHeaderMemory;
+		private const long defaultBufferSize = 1024;
+
+		public const string SharedMemoryNameHeader = "FilesAppTabsWithID";
+		private static MemoryMappedFile? SharedMemoryNameHeaderMemory;
+
 		public static string SharedMemoryName = SharedMemoryNameHeader + defaultBufferSize.ToString();
 		public static string InstanceID = Process.GetCurrentProcess().Id.ToString();
-		public static List<TabItemWithIDArguments> TabsWithIDArgList = new List<TabItemWithIDArguments>();
-		public static MemoryMappedFile? SharedMemory;
-		public static long defaultBufferSize = 1024;
-		public static IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static MemoryMappedFile? SharedMemory;
 
+		private static IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static List<TabItemWithIDArguments> TabsWithIDArgList = new List<TabItemWithIDArguments>();
 		/* 
 		Add SharedMemoryNameHeader because SharedMemory can't be released instantly and create a new one with the same name.
 		To dynamically expand the size of a SharedMemory, a new SharedMemory with a new name needs to be created.
