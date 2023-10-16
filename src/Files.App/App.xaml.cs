@@ -115,7 +115,7 @@ namespace Files.App
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 					.AddSingleton<IApplicationService, ApplicationService>()
-					.AddSingleton<ISystemPinService, SystemPinService>()
+					.AddSingleton<IStartMenuService, StartMenuService>()
 #if UWP
 					.AddSingleton<IStorageService, WindowsStorageService>()
 #else

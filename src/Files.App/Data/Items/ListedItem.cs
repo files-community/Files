@@ -20,7 +20,7 @@ namespace Files.App.Utils
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private ISystemPinService SystemPinService { get; } = Ioc.Default.GetRequiredService<ISystemPinService>();
+		private IStartMenuService SystemPinService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
 
 		protected static readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 

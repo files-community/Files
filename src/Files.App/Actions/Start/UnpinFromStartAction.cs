@@ -9,7 +9,7 @@ namespace Files.App.Actions
 	{
 		public IContentPageContext context;
 
-		private ISystemPinService SystemPinService { get; } = Ioc.Default.GetRequiredService<ISystemPinService>();
+		private IStartMenuService SystemPinService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
 
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 

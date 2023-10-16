@@ -3,10 +3,10 @@ using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="ISystemPinService"/>
-	internal sealed class SystemPinService : ISystemPinService
+	/// <inheritdoc cref="IStartMenuService"/>
+	internal sealed class StartMenuService : IStartMenuService
 	{
-		[Obsolete("See ISystemPinService for further information.")]
+		[Obsolete("See IStartMenuService for further information.")]
 		public bool IsPinned(string folderPath)
 		{
 			var tileId = GetNativeTileId(folderPath);
