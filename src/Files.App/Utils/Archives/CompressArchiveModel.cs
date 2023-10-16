@@ -103,6 +103,9 @@ namespace Files.App.Utils.Archives
 		/// <inheritdoc/>
 		public ArchiveSplittingSizes SplittingSize { get; init; }
 
+		/// <inheritdoc/>
+		public CancellationToken CancellationToken { get; set; }
+
 		public CompressArchiveModel(
 			string[] source,
 			string directory,
@@ -200,7 +203,10 @@ namespace Files.App.Utils.Archives
 
 		private void Compressor_FileCompressionStarted(object? sender, FileNameEventArgs e)
 		{
-			_sizeCalculator.ForceComputeFileSize(e.FilePath);
+			if (CancellationToken.IsCancellationRequested)
+				e.Cancel = true;
+			else
+				_sizeCalculator.ForceComputeFileSize(e.FilePath);
 			_fileSystemProgress.FileName = e.FileName;
 			_fileSystemProgress.Report();
 		}

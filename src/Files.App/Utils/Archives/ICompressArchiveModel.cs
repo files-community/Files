@@ -54,6 +54,11 @@ namespace Files.App.Utils.Archives
 		IProgress<StatusCenterItemProgressModel> Progress { get; set; }
 
 		/// <summary>
+		/// Cancellation request.
+		/// </summary>
+		CancellationToken CancellationToken { get; set; }
+
+		/// <summary>
 		/// Get path which target will be archived to.
 		/// </summary>
 		/// <param name="suffix"></param>

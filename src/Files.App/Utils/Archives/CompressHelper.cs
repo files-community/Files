@@ -76,6 +76,7 @@ namespace Files.App.Utils.Archives
 				creator.Sources.Count());
 
 			creator.Progress = banner.ProgressEventSource;
+			creator.CancellationToken = banner.CancellationToken;
 
 			bool isSuccess = await creator.RunCreationAsync();
 
