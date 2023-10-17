@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
@@ -22,7 +23,7 @@ namespace Files.App.Utils.Storage
 		public override string Name { get; }
 		public override string DisplayName => Name;
 		public override string ContentType => "application/octet-stream";
-		public override string FileType => SystemIO.Path.GetExtension(Name);
+		public override string FileType => IO.Path.GetExtension(Name);
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
@@ -35,7 +36,7 @@ namespace Files.App.Utils.Storage
 				var itemType = "File".GetLocalizedResource();
 
 				if (Name.Contains('.', StringComparison.Ordinal))
-					itemType = SystemIO.Path.GetExtension(Name).Trim('.') + " " + itemType;
+					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
 
 				return itemType;
 			}
@@ -69,7 +70,7 @@ namespace Files.App.Utils.Storage
 				{
 					throw new NotSupportedException();
 				}
-				var destination = SystemIO.Path.Combine(destinationFolder.Path, desiredNewName);
+				var destination = IO.Path.Combine(destinationFolder.Path, desiredNewName);
 				var destFile = new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 				if (!IsAlternateStream)
 				{
@@ -142,7 +143,7 @@ namespace Files.App.Utils.Storage
 		{
 			if (IsNativePath(path) && CheckAccess(path))
 			{
-				var name = SystemIO.Path.GetFileName(path);
+				var name = IO.Path.GetFileName(path);
 				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
@@ -181,7 +182,7 @@ namespace Files.App.Utils.Storage
 				{
 					throw new NotSupportedException();
 				}
-				var destination = SystemIO.Path.Combine(destinationFolder.Path, desiredNewName);
+				var destination = IO.Path.Combine(destinationFolder.Path, desiredNewName);
 				if (!IsAlternateStream)
 				{
 					if (!await Task.Run(() => NativeFileOperationsHelper.MoveFileFromApp(Path, destination)))
@@ -232,7 +233,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run(async (cancellationToken) =>
 			{
-				string destination = SystemIO.Path.Combine(SystemIO.Path.GetDirectoryName(Path), desiredName);
+				string destination = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
 				var destFile = new NativeStorageFile(destination, desiredName, DateTime.Now);
 				if (!IsAlternateStream)
 				{

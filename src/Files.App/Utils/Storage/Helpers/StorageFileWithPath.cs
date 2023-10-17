@@ -2,13 +2,14 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Windows.Storage;
+using IO = System.IO;
 
 namespace Files.App.Utils
 {
 	public class StorageFileWithPath : IStorageItemWithPath
 	{
 		public string Path { get; }
-		public string Name => Item?.Name ?? SystemIO.Path.GetFileName(Path);
+		public string Name => Item?.Name ?? IO.Path.GetFileName(Path);
 
 		IStorageItem IStorageItemWithPath.Item => Item;
 		public BaseStorageFile Item { get; }

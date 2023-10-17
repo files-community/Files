@@ -3,7 +3,6 @@
 
 using Files.Core.Storage;
 using Files.Core.Storage.LocatableStorage;
-using Files.Shared.Utils;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Services
@@ -11,7 +10,7 @@ namespace Files.App.Services
 	internal sealed class ImagingService : IImageService
 	{
 		/// <inheritdoc/>
-		public async Task<IImage?> GetIconAsync(IStorable storable, CancellationToken cancellationToken)
+		public async Task<IImageModel?> GetIconAsync(IStorable storable, CancellationToken cancellationToken)
 		{
 			if (storable is not ILocatableStorable locatableStorable)
 				return null;
@@ -24,12 +23,12 @@ namespace Files.App.Services
 			return new BitmapImageModel(bitmapImage);
 		}
 
-		public async Task<IImage?> GetImageModelFromDataAsync(byte[] rawData)
+		public async Task<IImageModel?> GetImageModelFromDataAsync(byte[] rawData)
 		{
 			return new BitmapImageModel(await BitmapHelper.ToBitmapAsync(rawData));
 		}
 
-		public async Task<IImage?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)
+		public async Task<IImageModel?> GetImageModelFromPathAsync(string filePath, uint thumbnailSize = 64)
 		{
 			if (await FileThumbnailHelper.LoadIconFromPathAsync(filePath, thumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail) is byte[] imageBuffer)
 				return await GetImageModelFromDataAsync(imageBuffer);

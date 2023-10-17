@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
@@ -16,7 +17,7 @@ namespace Files.App.Utils.Storage
 		public override string Name { get; }
 		public override string DisplayName => Name;
 		public override string ContentType => "application/octet-stream";
-		public override string FileType => SystemIO.Path.GetExtension(Name);
+		public override string FileType => IO.Path.GetExtension(Name);
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override string DisplayType
@@ -26,7 +27,7 @@ namespace Files.App.Utils.Storage
 				var itemType = "File".GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
-					itemType = SystemIO.Path.GetExtension(Name).Trim('.') + " " + itemType;
+					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
 				}
 				return itemType;
 			}

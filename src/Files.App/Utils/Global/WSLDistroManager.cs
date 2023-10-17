@@ -8,12 +8,12 @@ using static Files.App.Constants;
 
 namespace Files.App.Utils
 {
-	public static class WSLDistroManager
+	public class WSLDistroManager
 	{
-		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private static readonly List<WslDistroItem> distros = new();
-		public static IReadOnlyList<WslDistroItem> Distros
+		private readonly List<WslDistroItem> distros = new();
+		public IReadOnlyList<WslDistroItem> Distros
 		{
 			get
 			{
@@ -24,7 +24,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public static async Task UpdateDrivesAsync()
+		public async Task UpdateDrivesAsync()
 		{
 			try
 			{
@@ -58,7 +58,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public static bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)
+		public bool TryGetDistro(string path, [NotNullWhen(true)] out WslDistroItem? distro)
 		{
 			var normalizedPath = PathNormalization.NormalizePath(path);
 			distro = Distros.FirstOrDefault(x => normalizedPath.StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));

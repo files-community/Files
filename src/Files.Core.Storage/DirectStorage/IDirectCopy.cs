@@ -1,5 +1,7 @@
 ﻿using Files.Core.Storage.ModifiableStorage;
 using Files.Core.Storage.NestedStorage;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.Core.Storage.DirectStorage
 {

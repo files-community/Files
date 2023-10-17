@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Utils;
+using Files.Shared;
 
 namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 {
@@ -73,7 +73,7 @@ namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 
 			foreach (var itemType in itemTypes)
 			{
-				IImage? imageModel = null;
+				IImageModel? imageModel = null;
 
 				if (!string.IsNullOrEmpty(itemType.IconBase64))
 				{
