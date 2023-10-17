@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 
 namespace Files.App.Views.Shells
 {
-	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
+	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
 		ItemViewModel FilesystemViewModel { get; }
 
@@ -88,7 +88,7 @@ namespace Files.App.Views.Shells
 
 		public IFilesystemHelpers FilesystemHelpers { get; }
 
-		public TabItemArguments TabItemArguments { get; set; }
+		public CustomTabViewItemParameter TabItemParameter { get; set; }
 
 		public void OpenPathInNewPane(string path);
 
