@@ -9,15 +9,9 @@
 	mc:Ignorable="d">
 
 	<Grid>
-		<Image
-			x:Name="MainSplashScreenImage"
-			Width="420"
-			ImageFailed="Image_ImageFailed"
-			ImageOpened="Image_ImageOpened"
-			Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+		<Image Width="420" Source="\Assets\AppTiles\Dev\SplashScreen.png" />
 
 		<ProgressRing
-			x:Name="MainProgressRing"
 			Margin="0,0,0,88"
 			VerticalAlignment="Bottom"
 			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"

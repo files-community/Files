@@ -106,9 +106,9 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
+		public static Data.Items.DriveType GetDriveType(SystemIO.DriveInfo drive)
 		{
-			if (drive.DriveType is System.IO.DriveType.Unknown)
+			if (drive.DriveType is SystemIO.DriveType.Unknown)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
@@ -118,12 +118,12 @@ namespace Files.App.Utils.Storage
 
 			return drive.DriveType switch
 			{
-				System.IO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				System.IO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				System.IO.DriveType.Network => Data.Items.DriveType.Network,
-				System.IO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				System.IO.DriveType.Ram => Data.Items.DriveType.Ram,
-				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
+				SystemIO.DriveType.CDRom => Data.Items.DriveType.CDRom,
+				SystemIO.DriveType.Fixed => Data.Items.DriveType.Fixed,
+				SystemIO.DriveType.Network => Data.Items.DriveType.Network,
+				SystemIO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
+				SystemIO.DriveType.Ram => Data.Items.DriveType.Ram,
+				SystemIO.DriveType.Removable => Data.Items.DriveType.Removable,
 				_ => Data.Items.DriveType.Unknown,
 			};
 		}
@@ -132,7 +132,7 @@ namespace Files.App.Utils.Storage
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
+				if (drive.DriveType is not SystemIO.DriveType.CDRom || drive.DriveFormat is not "UDF")
 					return drive.VolumeLabel;
 				return SafetyExtensions.IgnoreExceptions(() =>
 				{
