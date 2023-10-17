@@ -64,7 +64,7 @@ namespace Files.App.Utils.Archives
 			var archivePath = creator.GetArchivePath();
 
 			int index = 1;
-			while (File.Exists(archivePath) || SystemIO.Directory.Exists(archivePath))
+			while (File.Exists(archivePath) || System.IO.Directory.Exists(archivePath))
 				archivePath = creator.GetArchivePath($" ({++index})");
 			creator.ArchivePath = archivePath;
 

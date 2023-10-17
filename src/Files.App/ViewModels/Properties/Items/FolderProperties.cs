@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Properties
 		public async override Task GetSpecialProperties()
 		{
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
-				Item.ItemPath, SystemIO.FileAttributes.Hidden);
+				Item.ItemPath, System.IO.FileAttributes.Hidden);
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
 			if (fileIconData is not null)
@@ -194,12 +194,12 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden)
 					{
 						NativeFileOperationsHelper.SetFileAttribute(
-							Item.ItemPath, SystemIO.FileAttributes.Hidden);
+							Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					else
 					{
 						NativeFileOperationsHelper.UnsetFileAttribute(
-							Item.ItemPath, SystemIO.FileAttributes.Hidden);
+							Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 					break;
 

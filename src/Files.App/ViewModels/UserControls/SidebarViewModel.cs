@@ -250,9 +250,9 @@ namespace Files.App.ViewModels.UserControls
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
-			CloudDrivesManager.DataChanged += Manager_DataChanged;
+			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
-			WSLDistroManager.DataChanged += Manager_DataChanged;
+			App.WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
@@ -282,10 +282,10 @@ namespace Files.App.ViewModels.UserControls
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
 					SectionType.Favorites => App.QuickAccessManager.Model.Favorites,
-					SectionType.CloudDrives => CloudDrivesManager.Drives,
+					SectionType.CloudDrives => App.CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => networkDrivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-					SectionType.WSL => WSLDistroManager.Distros,
+					SectionType.WSL => App.WSLDistroManager.Distros,
 					SectionType.Library => App.LibraryManager.Libraries,
 					SectionType.FileTag => App.FileTagsManager.FileTags,
 					_ => null
@@ -482,7 +482,7 @@ namespace Files.App.ViewModels.UserControls
 
 				case SectionType.CloudDrives:
 					{
-						if (ShowCloudDrivesSection == false || CloudDrivesManager.Drives.Any() == false)
+						if (ShowCloudDrivesSection == false || App.CloudDrivesManager.Drives.Any() == false)
 						{
 							break;
 						}
@@ -508,7 +508,7 @@ namespace Files.App.ViewModels.UserControls
 
 				case SectionType.WSL:
 					{
-						if (ShowWslSection == false || WSLDistroManager.Distros.Any() == false)
+						if (ShowWslSection == false || App.WSLDistroManager.Distros.Any() == false)
 						{
 							break;
 						}
@@ -577,10 +577,10 @@ namespace Files.App.ViewModels.UserControls
 
 				Func<Task> action = sectionType switch
 				{
-					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => CloudDrivesManager.UpdateDrivesAsync,
+					SectionType.CloudDrives when generalSettingsService.ShowCloudDrivesSection => App.CloudDrivesManager.UpdateDrivesAsync,
 					SectionType.Drives => drivesViewModel.UpdateDrivesAsync,
 					SectionType.Network when generalSettingsService.ShowNetworkDrivesSection => networkDrivesViewModel.UpdateDrivesAsync,
-					SectionType.WSL when generalSettingsService.ShowWslSection => WSLDistroManager.UpdateDrivesAsync,
+					SectionType.WSL when generalSettingsService.ShowWslSection => App.WSLDistroManager.UpdateDrivesAsync,
 					SectionType.FileTag when generalSettingsService.ShowFileTagsSection => App.FileTagsManager.UpdateFileTagsAsync,
 					SectionType.Library => App.LibraryManager.UpdateLibrariesAsync,
 					SectionType.Favorites => App.QuickAccessManager.Model.AddAllItemsToSidebar,
@@ -645,9 +645,9 @@ namespace Files.App.ViewModels.UserControls
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
-			CloudDrivesManager.DataChanged -= Manager_DataChanged;
+			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
 			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
-			WSLDistroManager.DataChanged -= Manager_DataChanged;
+			App.WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
 
