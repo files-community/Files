@@ -130,7 +130,7 @@ namespace WinRT
 		{
 			// Explicitly look for module in the same directory as this one, and
 			// use altered search path to ensure any dependencies in the same directory are found.
-			var moduleHandle = Platform.LoadLibraryExW(System.IO.Path.Combine(_currentModuleDirectory, fileName), IntPtr.Zero, /* LOAD_WITH_ALTERED_SEARCH_PATH */ 8);
+			var moduleHandle = Platform.LoadLibraryExW(SystemIO.Path.Combine(_currentModuleDirectory, fileName), IntPtr.Zero, /* LOAD_WITH_ALTERED_SEARCH_PATH */ 8);
 #if NET
 			if (moduleHandle == IntPtr.Zero)
 			{

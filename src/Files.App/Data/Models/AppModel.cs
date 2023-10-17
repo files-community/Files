@@ -6,6 +6,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Models
 {
+	[Obsolete]
 	public class AppModel : ObservableObject
 	{
 		public AppModel()
@@ -37,18 +38,10 @@ namespace Files.App.Data.Models
 
 				if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
 				{
-					Frame rootFrame = (Frame)MainWindow.Instance.Content;
-					var mainView = (MainPage)rootFrame.Content;
+					var mainView = (MainPage)MainWindow.Instance.RootControl.AppContent;
 					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 				}
 			}
-		}
-
-		private bool isAppElevated = false;
-		public bool IsAppElevated
-		{
-			get => isAppElevated;
-			set => SetProperty(ref isAppElevated, value);
 		}
 
 		private bool isPasteEnabled = false;

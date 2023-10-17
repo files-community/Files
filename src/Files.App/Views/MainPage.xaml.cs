@@ -5,13 +5,13 @@ using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.UserControls.Sidebar;
+using Files.Shared.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
@@ -20,8 +20,9 @@ using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
-	public sealed partial class MainPage : Page, INotifyPropertyChanged
+	public sealed partial class MainPage : Page, IAsyncInitialize, INotifyPropertyChanged
 	{
+		private readonly object? _activationArgs;
 		public IUserSettingsService UserSettingsService { get; }
 		public IApplicationService ApplicationService { get; }
 
@@ -44,9 +45,10 @@ namespace Files.App.Views
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
-		public MainPage()
+		public MainPage(object? activationArgs)
 		{
 			InitializeComponent();
+			_activationArgs = activationArgs;
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -66,6 +68,12 @@ namespace Files.App.Views
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+		}
+
+		public async Task InitAsync(CancellationToken cancellationToken = default)
+		{
+			MainWindow.Instance.SystemBackdrop = new AppSystemBackdrop();
+			await ViewModel.OnNavigatedTo(_activationArgs);
 		}
 
 		private async Task PromptForReview()
@@ -213,11 +221,6 @@ namespace Files.App.Views
 
 			if (InnerNavigationToolbar is not null)
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
-		}
-
-		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{
-			ViewModel.OnNavigatedTo(e);
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)

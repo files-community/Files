@@ -11,7 +11,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
@@ -36,7 +35,7 @@ namespace Files.App.Utils.Storage
 
 		public ZipStorageFolder(string path, string containerPath)
 		{
-			Name = IO.Path.GetFileName(path.TrimEnd('\\', '/'));
+			Name = SystemIO.Path.GetFileName(path.TrimEnd('\\', '/'));
 			Path = path;
 			this.containerPath = containerPath;
 		}
@@ -50,7 +49,7 @@ namespace Files.App.Utils.Storage
 			{
 				throw new ArgumentException("Backing file Path cannot be null");
 			}
-			Name = IO.Path.GetFileName(backingFile.Path.TrimEnd('\\', '/'));
+			Name = SystemIO.Path.GetFileName(backingFile.Path.TrimEnd('\\', '/'));
 			Path = backingFile.Path;
 			this.containerPath = backingFile.Path;
 			this.backingFile = backingFile;
@@ -70,9 +69,9 @@ namespace Files.App.Utils.Storage
 				return false;
 			}
 			marker += ext.Length;
-			// If IO.Path.Exists returns true, it is not a zip path but a normal directory path that contains ".zip".
-			return (marker == path.Length && includeRoot && !IO.Path.Exists(path + "\\"))
-				|| (marker < path.Length && path[marker] is '\\' && !IO.Path.Exists(path));
+			// If SystemIO.Path.Exists returns true, it is not a zip path but a normal directory path that contains ".zip".
+			return (marker == path.Length && includeRoot && !SystemIO.Path.Exists(path + "\\"))
+				|| (marker < path.Length && path[marker] is '\\' && !SystemIO.Path.Exists(path));
 		}
 
 		public async Task<long> GetUncompressedSize()
@@ -105,11 +104,11 @@ namespace Files.App.Utils.Storage
 				{
 					return assoc == Package.Current.Id.FamilyName
 						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
-						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
+						|| assoc.Equals(SystemIO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}
 				return true;
 			};
-			var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+			var ext = SystemIO.Path.GetExtension(filePath)?.ToLowerInvariant();
 			return await defaultAppDict.GetAsync(ext, queryFileAssoc);
 		}
 
@@ -151,7 +150,7 @@ namespace Files.App.Utils.Storage
 				return new BaseBasicProperties();
 			}
 			//zipFile.IsStreamOwner = true;
-			var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == Path);
+			var entry = zipFile.ArchiveFileData.FirstOrDefault(x => SystemIO.Path.Combine(containerPath, x.FileName) == Path);
 			return entry.FileName is null
 				? new BaseBasicProperties()
 				: new ZipFolderBasicProperties(entry);
@@ -180,9 +179,9 @@ namespace Files.App.Utils.Storage
 				}
 				//zipFile.IsStreamOwner = true;
 
-				var filePath = System.IO.Path.Combine(Path, name);
+				var filePath = SystemIO.Path.Combine(Path, name);
 
-				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => System.IO.Path.Combine(containerPath, x.FileName) == filePath);
+				var entry = zipFile.ArchiveFileData.FirstOrDefault(x => SystemIO.Path.Combine(containerPath, x.FileName) == filePath);
 				if (entry.FileName is null)
 				{
 					return null;
@@ -228,7 +227,7 @@ namespace Files.App.Utils.Storage
 				var items = new List<IStorageItem>();
 				foreach (var entry in zipFile.ArchiveFileData) // Returns all items recursively
 				{
-					string winPath = System.IO.Path.Combine(System.IO.Path.GetFullPath(containerPath), entry.FileName);
+					string winPath = SystemIO.Path.Combine(SystemIO.Path.GetFullPath(containerPath), entry.FileName);
 					if (winPath.StartsWith(Path.WithEnding("\\"), StringComparison.Ordinal)) // Child of self
 					{
 						var split = winPath.Substring(Path.Length).Split('\\', StringSplitOptions.RemoveEmptyEntries);
@@ -236,7 +235,7 @@ namespace Files.App.Utils.Storage
 						{
 							if (entry.IsDirectory || split.Length > 1) // Not all folders have a ZipEntry
 							{
-								var itemPath = System.IO.Path.Combine(Path, split[0]);
+								var itemPath = SystemIO.Path.Combine(Path, split[0]);
 								if (!items.Any(x => x.Path == itemPath))
 								{
 									var folder = new ZipStorageFolder(itemPath, containerPath, entry, backingFile);
@@ -298,7 +297,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
 			{
-				var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
+				var zipDesiredName = SystemIO.Path.Combine(Path, desiredName);
 				var item = await GetItemAsync(desiredName);
 				if (item is not null)
 				{
@@ -315,7 +314,7 @@ namespace Files.App.Utils.Storage
 					{
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
-						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
+						var fileName = SystemIO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials.Password, ms);
 					}
 					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
@@ -349,7 +348,7 @@ namespace Files.App.Utils.Storage
 					}
 					else
 					{
-						var fileName = IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName);
+						var fileName = SystemIO.Path.Combine(SystemIO.Path.GetDirectoryName(Path), desiredName);
 						NativeFileOperationsHelper.MoveFileFromApp(Path, fileName);
 					}
 				}
@@ -366,10 +365,10 @@ namespace Files.App.Utils.Storage
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							var folderKey = IO.Path.GetRelativePath(containerPath, Path);
-							var folderDes = IO.Path.Combine(IO.Path.GetDirectoryName(folderKey), desiredName);
+							var folderKey = SystemIO.Path.GetRelativePath(containerPath, Path);
+							var folderDes = SystemIO.Path.Combine(SystemIO.Path.GetDirectoryName(folderKey), desiredName);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index,
-								IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
+								SystemIO.Path.Combine(folderDes, SystemIO.Path.GetRelativePath(folderKey, x.Key)))));
 							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
 						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
@@ -599,7 +598,7 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 				//zipFile.IsStreamOwner = true;
-				return zipFile.ArchiveFileData.Where(x => System.IO.Path.Combine(containerPath, x.FileName).IsSubPathOf(Path)).Select(e => (e.Index, e.FileName));
+				return zipFile.ArchiveFileData.Where(x => SystemIO.Path.Combine(containerPath, x.FileName).IsSubPathOf(Path)).Select(e => (e.Index, e.FileName));
 			}
 		}
 
@@ -610,7 +609,7 @@ namespace Files.App.Utils.Storage
 		{
 			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFile>(async () =>
 			{
-				var zipDesiredName = System.IO.Path.Combine(Path, desiredName);
+				var zipDesiredName = SystemIO.Path.Combine(Path, desiredName);
 				var item = await GetItemAsync(desiredName);
 				if (item is not null)
 				{
@@ -627,7 +626,7 @@ namespace Files.App.Utils.Storage
 					{
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
-						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
+						var fileName = SystemIO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials.Password, ms);
 					}
 					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
