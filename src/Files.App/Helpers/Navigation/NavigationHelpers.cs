@@ -117,9 +117,9 @@ namespace Files.App.Helpers
 		public static async Task<bool> OpenPath(string path, IShellPage associatedInstance, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false, IEnumerable<string>? selectItems = null, string? args = default, bool forceOpenInNewTab = false)
 		{
 			string previousDir = associatedInstance.FilesystemViewModel.WorkingDirectory;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Hidden);
-			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Directory);
-			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.ReparsePoint);
+			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
+			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			bool isTag = path.StartsWith("tag:");
 			FilesystemResult opened = (FilesystemResult)false;
@@ -181,7 +181,7 @@ namespace Files.App.Helpers
 				}
 				else if (isHiddenItem)
 				{
-					itemType = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
+					itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
 				}
 				else
 				{
@@ -219,7 +219,7 @@ namespace Files.App.Helpers
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Hidden);
+			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
 				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
@@ -239,7 +239,7 @@ namespace Files.App.Helpers
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Hidden);
+			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 
 			if (isShortcut)
@@ -283,7 +283,7 @@ namespace Files.App.Helpers
 		private static async Task<FilesystemResult> OpenFile(string path, IShellPage associatedInstance, ShellLinkItem shortcutInfo, bool openViaApplicationPicker = false, string? args = default)
 		{
 			var opened = (FilesystemResult)false;
-			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Hidden);
+			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path) || !string.IsNullOrEmpty(shortcutInfo.TargetPath);
 
 			if (isShortcut)

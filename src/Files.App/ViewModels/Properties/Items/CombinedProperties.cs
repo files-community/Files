@@ -59,9 +59,9 @@ namespace Files.App.ViewModels.Properties
 		public override async Task GetSpecialProperties()
 		{
 			if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
-				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, SystemIO.FileAttributes.ReadOnly));
+				ViewModel.IsReadOnly = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
 
-			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, SystemIO.FileAttributes.Hidden));
+			ViewModel.IsHidden = List.All(x => NativeFileOperationsHelper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
 
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
@@ -124,12 +124,12 @@ namespace Files.App.ViewModels.Properties
 						if (ViewModel.IsReadOnly)
 						{
 							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-								x.ItemPath, SystemIO.FileAttributes.ReadOnly));
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
 						}
 						else
 						{
 							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-								x.ItemPath, SystemIO.FileAttributes.ReadOnly));
+								x.ItemPath, System.IO.FileAttributes.ReadOnly));
 						}
 					}
 					break;
@@ -139,12 +139,12 @@ namespace Files.App.ViewModels.Properties
 						if (ViewModel.IsHidden)
 						{
 							List.ForEach(x => NativeFileOperationsHelper.SetFileAttribute(
-								x.ItemPath, SystemIO.FileAttributes.Hidden));
+								x.ItemPath, System.IO.FileAttributes.Hidden));
 						}
 						else
 						{
 							List.ForEach(x => NativeFileOperationsHelper.UnsetFileAttribute(
-								x.ItemPath, SystemIO.FileAttributes.Hidden));
+								x.ItemPath, System.IO.FileAttributes.Hidden));
 						}
 
 					}

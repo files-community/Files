@@ -116,8 +116,8 @@ namespace Files.App.Utils.RecentItem
 		 */
 		private static string NameOrPathWithoutExtension(string nameOrPath)
 		{
-			string strippedExtension = SystemIO.Path.GetFileNameWithoutExtension(nameOrPath);
-			return string.IsNullOrEmpty(strippedExtension) ? SystemIO.Path.GetFileName(nameOrPath) : strippedExtension;
+			string strippedExtension = System.IO.Path.GetFileNameWithoutExtension(nameOrPath);
+			return string.IsNullOrEmpty(strippedExtension) ? System.IO.Path.GetFileName(nameOrPath) : strippedExtension;
 		}
 	}
 }

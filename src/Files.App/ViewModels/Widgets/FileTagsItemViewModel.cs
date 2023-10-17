@@ -4,7 +4,6 @@
 using Files.App.UserControls.Widgets;
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
-using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Widgets
 {
@@ -17,7 +16,7 @@ namespace Files.App.ViewModels.Widgets
 		private readonly Func<string, Task> _openAction;
 
 		[ObservableProperty]
-		private IImage? _Icon;
+		private IImageModel? _Icon;
 
 		[ObservableProperty]
 		private string _Name;
@@ -31,7 +30,7 @@ namespace Files.App.ViewModels.Widgets
 
 		public bool IsFolder => _associatedStorable is IFolder;
 
-		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
+		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Utils;
 using System.IO;
 
 namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
@@ -31,8 +30,8 @@ namespace Files.Core.ViewModels.Dialogs.FileSystemDialog
 			set => SetProperty(ref _DisplayName, value);
 		}
 
-		private IImage? _ItemIcon;
-		public IImage? ItemIcon
+		private IImageModel? _ItemIcon;
+		public IImageModel? ItemIcon
 		{
 			get => _ItemIcon;
 			set => SetProperty(ref _ItemIcon, value);
