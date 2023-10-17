@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
 
@@ -229,11 +228,11 @@ namespace Files.App.ViewModels
 			}
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
+				var libName = SystemIO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
-			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
 				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
@@ -241,7 +240,7 @@ namespace Files.App.ViewModels
 			else
 			{
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;
@@ -255,7 +254,7 @@ namespace Files.App.ViewModels
 				}
 				else
 				{
-					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+					tabLocationHeader = currentPath.TrimEnd(SystemIO.Path.DirectorySeparatorChar, SystemIO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
 
 					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentPath));
 					if (rootItem)
@@ -277,16 +276,12 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async Task OnNavigatedTo(NavigationEventArgs e)
+		public async Task OnNavigatedTo(object? parameter)
 		{
-			if (e.NavigationMode == NavigationMode.Back)
-				return;
-
 			//Initialize the static theme helper to capture a reference to this window
 			//to handle theme changes without restarting the app
 			var isInitialized = ThemeHelper.Initialize();
 
-			var parameter = e.Parameter;
 			var ignoreStartupSettings = false;
 			if (parameter is MainPageNavigationArguments mainPageNavigationArguments)
 			{
@@ -324,7 +319,7 @@ namespace Files.App.ViewModels
 						}
 					}
 					else if (userSettingsService.GeneralSettingsService.OpenSpecificPageOnStartup &&
-						userSettingsService.GeneralSettingsService.TabsOnStartupList is not null)
+						!userSettingsService.GeneralSettingsService.TabsOnStartupList.IsEmpty())
 					{
 						foreach (string path in userSettingsService.GeneralSettingsService.TabsOnStartupList)
 							await AddNewTabByPathAsync(typeof(PaneHolderPage), path);

@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Services;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Pipes;

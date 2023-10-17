@@ -48,7 +48,7 @@ namespace Files.App.Utils.Storage
 		public FtpStorageFolder(IStorageItemWithPath item)
 		{
 			Path = item.Path;
-			Name = System.IO.Path.GetFileName(item.Path);
+			Name = SystemIO.Path.GetFileName(item.Path);
 			FtpPath = FtpHelpers.GetFtpPath(item.Path);
 		}
 
@@ -199,8 +199,8 @@ namespace Files.App.Utils.Storage
 				FtpStatus result;
 				string finalName;
 				var remotePath = $"{FtpPath}/{desiredName}";
-				var nameWithoutExt = System.IO.Path.GetFileNameWithoutExtension(desiredName);
-				var extension = System.IO.Path.GetExtension(desiredName);
+				var nameWithoutExt = SystemIO.Path.GetFileNameWithoutExtension(desiredName);
+				var extension = SystemIO.Path.GetExtension(desiredName);
 				ushort attempt = 1;
 
 				do

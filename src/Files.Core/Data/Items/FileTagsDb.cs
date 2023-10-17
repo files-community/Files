@@ -4,7 +4,6 @@
 using Files.Shared.Extensions;
 using LiteDB;
 using System.Text;
-using IO = System.IO;
 
 namespace Files.Core.Data.Items
 {
@@ -207,7 +206,7 @@ namespace Files.Core.Data.Items
 		private void CheckDbVersion(string filename)
 		{
 			var buffer = new byte[8192 * 2];
-			using (var stream = new IO.FileStream(filename, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.ReadWrite))
+			using (var stream = new SystemIO.FileStream(filename, SystemIO.FileMode.Open, SystemIO.FileAccess.Read, SystemIO.FileShare.ReadWrite))
 			{
 				// read first 16k
 				stream.Read(buffer, 0, buffer.Length);
@@ -219,7 +218,7 @@ namespace Files.Core.Data.Items
 					return; // version 4.1.4
 				}
 			}
-			IO.File.Delete(filename); // recreate DB with correct version
+			SystemIO.File.Delete(filename); // recreate DB with correct version
 		}
 
 		public class TaggedFile
