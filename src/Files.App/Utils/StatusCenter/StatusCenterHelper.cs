@@ -587,11 +587,11 @@ namespace Files.App.Utils.StatusCenter
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
-								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
 							};
 						}
 						break;
@@ -613,11 +613,11 @@ namespace Files.App.Utils.StatusCenter
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
-								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
-								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
 							};
 						}
 						break;
@@ -628,11 +628,11 @@ namespace Files.App.Utils.StatusCenter
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
-								ReturnResult.Cancelled => string.Format(headerString, sourceFileName),
-								ReturnResult.Success => string.Format(headerString, sourceFileName),
-								ReturnResult.Failed => string.Format(headerString, sourceFileName),
-								ReturnResult.InProgress => string.Format(headerString, sourceFileName),
-								_ => string.Format(headerString, sourceFileName),
+								ReturnResult.Cancelled => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, sourceFileName, destinationDirName),
+								_ => string.Format(headerString, sourceFileName, destinationDirName),
 							};
 						}
 						if (subHeaderString is not null)
