@@ -8,6 +8,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
@@ -87,7 +88,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!string.IsNullOrEmpty(destFolder.Path))
 					{
-						var destination = SystemIO.Path.Combine(destFolder.Path, desiredNewName);
+						var destination = IO.Path.Combine(destFolder.Path, desiredNewName);
 						var hFile = NativeFileOperationsHelper.CreateFileForWrite(destination,
 							option == NameCollisionOption.ReplaceExisting);
 						if (!hFile.IsInvalid)

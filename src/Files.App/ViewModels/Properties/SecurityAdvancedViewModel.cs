@@ -154,7 +154,7 @@ namespace Files.App.ViewModels.Properties
 
 		private void LoadShieldIconResource()
 		{
-			string imageres = SystemIO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
+			string imageres = System.IO.Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 
 			var imageResList = Utils.Shell.Win32API.ExtractSelectedIconsFromDLL(
 				imageres,

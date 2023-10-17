@@ -1,13 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Shared.Utils;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Models
 {
-	/// <inheritdoc cref="IImage"/>
-	internal sealed class BitmapImageModel : IImage
+	/// <inheritdoc cref="IImageModel"/>
+	internal sealed class BitmapImageModel : IImageModel
 	{
 		public BitmapImage Image { get; }
 

@@ -52,11 +52,11 @@ namespace Files.App.Storage.NativeStorage
 		{
 			path = path.Replace("file:///", string.Empty);
 
-			if ('/' != SystemIO.Path.DirectorySeparatorChar)
-				return path.Replace('/', SystemIO.Path.DirectorySeparatorChar);
+			if ('/' != System.IO.Path.DirectorySeparatorChar)
+				return path.Replace('/', System.IO.Path.DirectorySeparatorChar);
 
-			if ('\\' != SystemIO.Path.DirectorySeparatorChar)
-				return path.Replace('\\', SystemIO.Path.DirectorySeparatorChar);
+			if ('\\' != System.IO.Path.DirectorySeparatorChar)
+				return path.Replace('\\', System.IO.Path.DirectorySeparatorChar);
 
 			return path;
 		}

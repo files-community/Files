@@ -3,6 +3,9 @@
 
 using Files.App.Dialogs;
 using Files.App.ViewModels.Dialogs;
+using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Threading.Tasks;
 
 namespace Files.App.Helpers
 {
@@ -45,12 +48,14 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				await dialog.ShowAsync();
-				return dialog.DynamicResult;
+				if (MainWindow.Instance.Content is Frame rootFrame)
+				{
+					await dialog.ShowAsync();
+					return dialog.DynamicResult;
+				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				_ = ex;
 			}
 
 			return DynamicDialogResult.Cancel;
