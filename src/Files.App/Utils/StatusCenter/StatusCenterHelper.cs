@@ -499,13 +499,11 @@ namespace Files.App.Utils.StatusCenter
 			string sourceDirName = string.Empty;
 			string destinationDirName = string.Empty;
 
-			string headerString = string.Empty;
-			string subHeaderString = string.Empty;
-
 			if (card.Source is not null && card.Source.Any())
 			{
 				sourcePath = PathNormalization.GetParentDir(card.Source.First());
 				sourceDirName = sourcePath.Split('\\').Last();
+				sourceFileName = card.Source.First().Split('\\').Last();
 			}
 
 			if (card.Destination is not null && card.Destination.Any())
@@ -514,15 +512,15 @@ namespace Files.App.Utils.StatusCenter
 				destinationDirName = destinationPath.Split('\\').Last();
 			}
 
-			headerString = card.HeaderStringResource.GetLocalizedResource();
-			subHeaderString = card.SubHeaderStringResource.GetLocalizedResource();
+			string headerString = card.HeaderStringResource.GetLocalizedResource() ?? string.Empty;
+			string subHeaderString = card.SubHeaderStringResource.GetLocalizedResource() ?? string.Empty;
 
 			// Update string resources
 			switch (card.Operation)
 			{
 				case FileOperationType.Copy:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -533,7 +531,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
@@ -548,7 +546,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Move:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -559,7 +557,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
@@ -574,7 +572,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Delete:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -585,7 +583,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, card.TotalItemsCount, sourceDirName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
@@ -600,7 +598,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Recycle:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -611,7 +609,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, card.TotalItemsCount, sourceDirName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
@@ -626,7 +624,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Extract:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -637,7 +635,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, sourceFileName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
@@ -652,7 +650,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Compressed:
 					{
-						if (!string.IsNullOrWhiteSpace(headerString))
+						if (headerString is not null)
 						{
 							card.Header = card.FileSystemOperationReturnResult switch
 							{
@@ -663,7 +661,7 @@ namespace Files.App.Utils.StatusCenter
 								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
 							};
 						}
-						if (!string.IsNullOrWhiteSpace(subHeaderString))
+						if (subHeaderString is not null)
 						{
 							card.SubHeader = card.FileSystemOperationReturnResult switch
 							{
