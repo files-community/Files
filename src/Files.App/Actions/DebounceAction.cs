@@ -8,9 +8,9 @@ namespace Files.App.Actions
 {
 	public abstract class DebouncedAction : IAction
 	{
-		private DateTime lastExecuted = DateTime.MinValue;
+		private DateTime lastExecutedTime = DateTime.MinValue;
 
-		private readonly TimeSpan debounceTime;
+		private readonly TimeSpan debounceTimeSpan;
 		public abstract string Label { get; }
 		public abstract string Description { get; }
 		public abstract RichGlyph Glyph { get; }
@@ -22,17 +22,17 @@ namespace Files.App.Actions
 
 		protected DebouncedAction(TimeSpan debounceDuration)
 		{
-			debounceTime = debounceDuration;
+			debounceTimeSpan = debounceDuration;
 		}
 
 		public virtual bool CanExecuteNow()
 		{
-			return DateTime.Now - lastExecuted > debounceTime;
+			return DateTime.Now - lastExecutedTime > debounceTimeSpan;
 		}
 
 		public virtual void MarkLastExecutionTime()
 		{
-			lastExecuted = DateTime.Now;
+			lastExecutedTime = DateTime.Now;
 		}
 
 		public abstract Task ExecuteAsync();

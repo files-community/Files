@@ -341,7 +341,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GitPull] = new DebouncedActionDecorator(new GitPullAction()),
 			[CommandCodes.GitPush] = new DebouncedActionDecorator(new GitPushAction()),
 			[CommandCodes.GitSync] = new DebouncedActionDecorator(new GitSyncAction()),
-			[CommandCodes.OpenAllTaggedItems] = new DebouncedActionDecorator(new OpenAllTaggedActions(), TimeSpan.FromMilliseconds(1000))
+			[CommandCodes.OpenAllTaggedItems] = new DebouncedActionDecorator(new OpenAllTaggedActions())
 		};
 
 		private void UpdateHotKeys()
