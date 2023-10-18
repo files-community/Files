@@ -193,9 +193,9 @@ namespace Files.App.Utils.StatusCenter
 			CancellationTokenSource? operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
-			Header = headerResource.GetLocalizedResource();
+			Header = headerResource == string.Empty ? headerResource : headerResource.GetLocalizedResource();
 			HeaderStringResource = headerResource;
-			SubHeader = subHeaderResource.GetLocalizedResource();
+			SubHeader = subHeaderResource == string.Empty ? subHeaderResource : subHeaderResource.GetLocalizedResource();
 			SubHeaderStringResource = subHeaderResource;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
