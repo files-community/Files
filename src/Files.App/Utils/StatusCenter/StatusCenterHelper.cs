@@ -488,9 +488,6 @@ namespace Files.App.Utils.StatusCenter
 
 		public static void UpdateCardStrings(StatusCenterItem card)
 		{
-			if (string.IsNullOrWhiteSpace(card.HeaderStringResource) || string.IsNullOrWhiteSpace(card.SubHeaderStringResource))
-				return;
-
 			// Aren't used for now
 			string sourcePath = string.Empty;
 			string destinationPath = string.Empty;
@@ -512,8 +509,8 @@ namespace Files.App.Utils.StatusCenter
 				destinationDirName = destinationPath.Split('\\').Last();
 			}
 
-			string headerString = card.HeaderStringResource.GetLocalizedResource() ?? string.Empty;
-			string subHeaderString = card.SubHeaderStringResource.GetLocalizedResource() ?? string.Empty;
+			string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty : card.HeaderStringResource.GetLocalizedResource();
+			string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty : card.SubHeaderStringResource.GetLocalizedResource();
 
 			// Update string resources
 			switch (card.Operation)
