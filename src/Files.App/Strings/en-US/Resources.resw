@@ -3532,4 +3532,10 @@
   <data name="ContributingArtist" xml:space="preserve">
     <value>Contributing Artist</value>
   </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
 </root>
