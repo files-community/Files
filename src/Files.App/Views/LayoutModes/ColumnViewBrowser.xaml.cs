@@ -6,6 +6,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
 using static Files.App.Constants;
@@ -25,12 +26,26 @@ namespace Files.App.Views.LayoutModes
 		public string? OwnerPath { get; private set; }
 
 		public int FocusIndex { get; private set; }
+		private double initialBladeWidth;
+
 
 		public ColumnViewBrowser() : base()
 		{
 			InitializeComponent();
 		}
 
+		private void BladeItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			initialBladeWidth = (sender as BladeItem).Width;
+		}
+
+		private void BladeItem_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		{
+			double newWidth = initialBladeWidth + e.Cumulative.Translation.X;
+			newWidth = Math.Max(100, newWidth);
+			newWidth = Math.Min(600, newWidth);
+			(sender as BladeItem).Width = newWidth;
+		}
 		public void HandleSelectionChange(ColumnViewBase initiator)
 		{
 			foreach (var blade in ColumnHost.ActiveBlades)
@@ -497,7 +512,6 @@ namespace Files.App.Views.LayoutModes
 			{
 				Content = frame
 			};
-
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
 		}

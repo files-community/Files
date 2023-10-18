@@ -33,7 +33,9 @@
 			<TransitionCollection />
 		</controls:BladeView.ItemContainerTransitions>
 
-		<controls:BladeItem>
+		<controls:BladeItem ManipulationMode="TranslateX"
+							ManipulationStarted="BladeItem_ManipulationStarted"
+							ManipulationDelta="BladeItem_ManipulationDelta">		
 			<Frame x:Name="MainPageFrame" />
 		</controls:BladeItem>
 	</controls:BladeView>
