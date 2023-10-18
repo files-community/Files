@@ -150,6 +150,7 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					.AddSingleton<SystemTrayIcon>()
 				).Build();
 		}
 
@@ -334,7 +335,8 @@ namespace Files.App
 				Thread.Yield();
 
 				// Add system tray icon
-
+				var systemTrayIcon = Ioc.Default.GetRequiredService<SystemTrayIcon>();
+				systemTrayIcon.TryCreate();
 
 				if (Program.Pool.WaitOne())
 				{

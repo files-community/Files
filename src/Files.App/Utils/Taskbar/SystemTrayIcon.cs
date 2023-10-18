@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -12,30 +13,57 @@ namespace Files.App.Utils.Taskbar
 {
 	public class SystemTrayIcon
 	{
-		public static void TryCreate(
-			Guid id,
-			Shell32.NIF additionalFlags,
-			uint uCallbackMessage,
-			nint iconHandle)
+		public bool TryCreate()
 		{
+			var hWnd = MainWindow.Instance.WindowHandle;
+			var hIcon = GetAppIconHICON();
+
 			var data = new Shell32.NOTIFYICONDATA
 			{
-				cbSize = 1024u,
+				cbSize = (uint)Marshal.SizeOf(typeof(Shell32.NOTIFYICONDATA)),
 				uFlags =
-					additionalFlags |
-					Shell32.NIF.NIF_MESSAGE |
 					Shell32.NIF.NIF_ICON |
 					Shell32.NIF.NIF_TIP |
-					Shell32.NIF.NIF_STATE |
-					Shell32.NIF.NIF_GUID,
-				guidItem = id,
-				uCallbackMessage = uCallbackMessage,
-				hIcon = new HICON(iconHandle),
-				dwState = Shell32.NIS.NIS_HIDDEN,
-				dwStateMask = Shell32.NIS.NIS_HIDDEN,
+					Shell32.NIF.NIF_SHOWTIP |
+					Shell32.NIF.NIF_MESSAGE,
+				guidItem = new Guid(),
+				uCallbackMessage = 0x400,
+				hwnd = new HWND(hWnd),
+				hIcon = new HICON(hIcon),
+				szTip = $"Files"
 			};
 
-			Shell32.Shell_NotifyIcon(Shell32.NIM.NIM_ADD, in data);
+			bool res = Shell32.Shell_NotifyIcon(Shell32.NIM.NIM_ADD, in data);
+
+			// Set the version
+			data.uTimeoutOrVersion = 4;
+			res = Shell32.Shell_NotifyIcon(Shell32.NIM.NIM_SETVERSION, in data);
+
+			var error = Kernel32.GetLastError();
+
+			return res;
+		}
+
+		public nint GetAppIconHICON()
+		{
+			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+			var iconPath = SystemIO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
+
+			var hIcon = User32.LoadImage(
+				IntPtr.Zero,
+				iconPath,
+				User32.LoadImageType.IMAGE_ICON,
+				0,
+				0,
+				User32.LoadImageOptions.LR_LOADFROMFILE |
+				User32.LoadImageOptions.LR_DEFAULTSIZE);
+
+			return hIcon;
+		}
+
+		public void AddContextMenu()
+		{
+			var menu = User32.CreatePopupMenu();
 		}
 	}
 }
