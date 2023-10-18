@@ -14,28 +14,44 @@ namespace Files.App
 {
 	internal class Program
 	{
+		private const uint CWMO_DEFAULT = 0;
+		private const uint INFINITE = 0xFFFFFFFF;
+
 		public static Semaphore Pool;
 
+		/// <summary>
+		/// Initializes a <see cref="Program"/> instance.
+		/// </summary>
 		static Program()
 		{
 			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
-			if (!isNew)
-			{
-				// Resume cached instance
-				Pool.Release();
-				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-				RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
-				Environment.Exit(0);
-			}
+
+			ResumeFromBackground(true);
+
 			Pool.Dispose();
 		}
 
-		// Note:
-		//  We can't declare Main to be async because in a WinUI app
-		//  This prevents Narrator from reading XAML elements
-		//  https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs
-		//  STAThread has no effect if main is async, needed for Clipboard
+		private static void ResumeFromBackground(bool applicable)
+		{
+			// Resume cached instance
+			Pool.Release();
+			var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+			var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+			RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+			Environment.Exit(0);
+		}
+
+		/// <summary>
+		/// Equals to main() in C/C++.
+		/// </summary>
+		/// <remarks>
+		/// We can't declare Main to be async because in a WinUI app
+		/// this prevents the Narrator from reading XAML elements.
+		/// <br/>
+		/// For more information, visit <see href="https://github.com/microsoft/WindowsAppSDK-Samples/blob/main/Samples/AppLifecycle/Instancing/cs-winui-packaged/CsWinUiDesktopInstancing/CsWinUiDesktopInstancing/Program.cs"/>.
+		/// <br/>
+		/// STAThread has no effect if main is async, needed for Clipboard.
+		/// </remarks>
 		[STAThread]
 		private static void Main()
 		{
@@ -166,10 +182,6 @@ namespace Files.App
 			}
 		}
 
-		private const uint CWMO_DEFAULT = 0;
-		private const uint INFINITE = 0xFFFFFFFF;
-
-		// Do the redirection on another thread, and use a non-blocking wait method to wait for the redirection to complete
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
 			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
@@ -189,7 +201,9 @@ namespace Files.App
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
-			=> Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		{
+			Win32API.OpenFolderInExistingShellWindow(shellCommand);
+		}
 
 		public static void OpenFileFromTile(string filePath)
 		{

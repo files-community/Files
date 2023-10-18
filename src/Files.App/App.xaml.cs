@@ -334,9 +334,16 @@ namespace Files.App
 				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
 
+				var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+				var iconPath = SystemIO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
+
 				// Add system tray icon
-				var systemTrayIcon = Ioc.Default.GetRequiredService<SystemTrayIcon>();
-				systemTrayIcon.TryCreate();
+				var trayIcon = new SystemTrayIcon()
+				{
+					Tooltip = "Files",
+					Icon = new(iconPath),
+					IsVisible = true,
+				};
 
 				if (Program.Pool.WaitOne())
 				{
