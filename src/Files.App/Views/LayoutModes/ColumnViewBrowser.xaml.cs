@@ -98,6 +98,14 @@ namespace Files.App.Views.LayoutModes
 			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabItemArguments);
 		}
 
+		private void AttachHandlersToBlade(BladeItem blade)
+		{
+			blade.ManipulationMode = ManipulationModes.TranslateX;
+			blade.ManipulationStarted += BladeItem_ManipulationStarted;
+			blade.ManipulationDelta += BladeItem_ManipulationDelta;
+		}
+
+
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			base.OnNavigatedTo(eventArgs);
@@ -512,6 +520,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				Content = frame
 			};
+			AttachHandlersToBlade(newblade);
 			ColumnHost.Items.Add(newblade);
 			return (frame, newblade);
 		}
