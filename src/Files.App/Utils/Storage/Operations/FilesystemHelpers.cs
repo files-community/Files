@@ -780,7 +780,8 @@ namespace Files.App.Utils.Storage
 			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
 			if (packageView.Contains("FileDrop"))
 			{
-				var fileDropData = await packageView.GetDataAsync("FileDrop");
+				var fileDropData = await SafetyExtensions.IgnoreExceptions(
+					() => packageView.GetDataAsync("FileDrop").AsTask());
 				if (fileDropData is IRandomAccessStream stream)
 				{
 					stream.Seek(0);
