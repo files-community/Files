@@ -4,11 +4,15 @@
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.ViewModels.LayoutModes;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.Storage;
+using Windows.UI.Core;
 using static Files.App.Constants;
 using static Files.App.Helpers.PathNormalization;
 
@@ -32,6 +36,26 @@ namespace Files.App.Views.LayoutModes
 		public ColumnViewBrowser() : base()
 		{
 			InitializeComponent();
+		}
+		private void BladeItem_PointerMoved(object sender, PointerRoutedEventArgs e)
+		{
+			var blade = sender as BladeItem;
+			var position = e.GetCurrentPoint(blade).Position;
+
+			// Check if the pointer is near the right edge of the BladeItem
+			if (blade.ActualWidth - position.X < 10) // 10 is a threshold, adjust as needed
+			{
+				blade.BorderThickness = new Thickness(0, 0, 5, 0); // 5 is the thickness of the border, adjust as needed
+			}
+			else
+			{
+				blade.BorderThickness = new Thickness(0, 0, 1, 0); // Reset to original border thickness
+			}
+		}
+		private void BladeItem_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			var blade = sender as BladeItem;
+			blade.BorderThickness = new Thickness(0, 0, 1, 0); // Reset to original border thickness
 		}
 
 		private void BladeItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -103,8 +127,16 @@ namespace Files.App.Views.LayoutModes
 			blade.ManipulationMode = ManipulationModes.TranslateX;
 			blade.ManipulationStarted += BladeItem_ManipulationStarted;
 			blade.ManipulationDelta += BladeItem_ManipulationDelta;
+			blade.PointerMoved += BladeItem_PointerMoved;
+			blade.PointerExited += BladeItem_PointerExited;
 		}
-
+		private void DetachHandlersFromBlade(BladeItem blade)
+		{
+			blade.ManipulationStarted -= BladeItem_ManipulationStarted;
+			blade.ManipulationDelta -= BladeItem_ManipulationDelta;
+			blade.PointerMoved -= BladeItem_PointerMoved;
+			blade.PointerExited -= BladeItem_PointerExited;
+		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
@@ -225,6 +257,7 @@ namespace Files.App.Views.LayoutModes
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
 							columnLayout.KeyUp -= ColumnViewBase_KeyUp;
 						}
+						DetachHandlersFromBlade(frame.Parent as BladeItem);
 
 						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;

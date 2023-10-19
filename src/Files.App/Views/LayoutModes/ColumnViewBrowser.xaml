@@ -35,7 +35,9 @@
 
 		<controls:BladeItem ManipulationMode="TranslateX"
 							ManipulationStarted="BladeItem_ManipulationStarted"
-							ManipulationDelta="BladeItem_ManipulationDelta">		
+							ManipulationDelta="BladeItem_ManipulationDelta"
+							PointerMoved="BladeItem_PointerMoved"
+							PointerExited="BladeItem_PointerExited">
 			<Frame x:Name="MainPageFrame" />
 		</controls:BladeItem>
 	</controls:BladeView>
