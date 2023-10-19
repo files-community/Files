@@ -42,20 +42,19 @@ namespace Files.App.Views.LayoutModes
 			var blade = sender as BladeItem;
 			var position = e.GetCurrentPoint(blade).Position;
 
-			// Check if the pointer is near the right edge of the BladeItem
-			if (blade.ActualWidth - position.X < 10) // 10 is a threshold, adjust as needed
+			if (blade.ActualWidth - position.X < 10)
 			{
-				blade.BorderThickness = new Thickness(0, 0, 5, 0); // 5 is the thickness of the border, adjust as needed
+				blade.BorderThickness = new Thickness(0, 0, 5, 0);
 			}
 			else
 			{
-				blade.BorderThickness = new Thickness(0, 0, 1, 0); // Reset to original border thickness
+				blade.BorderThickness = new Thickness(0, 0, 1, 0);
 			}
 		}
 		private void BladeItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			var blade = sender as BladeItem;
-			blade.BorderThickness = new Thickness(0, 0, 1, 0); // Reset to original border thickness
+			blade.BorderThickness = new Thickness(0, 0, 1, 0);
 		}
 
 		private void BladeItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
