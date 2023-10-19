@@ -138,15 +138,15 @@
 
 	<Grid
 		HorizontalAlignment="Stretch"
-		BorderBrush="{ThemeResource ControlStrokeColorDefault}"
+		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 		BorderThickness="0,0,0,1">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="2*" MinHeight="100" />
+			<RowDefinition Height="2*" />
 			<RowDefinition x:Name="PropertiesRow" Height="3*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*" MinWidth="100" />
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition x:Name="PropertiesColumn" Width="3*" />
 		</Grid.ColumnDefinitions>
 
@@ -160,7 +160,7 @@
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			Background="{ThemeResource SubtleFillColorTertiaryBrush}"
-			BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4"
 			Orientation="Horizontal">
@@ -275,8 +275,8 @@
 				<StackPanel
 					x:Name="DetailsTagsList"
 					Margin="12,8,12,0"
-					x:Load="{x:Bind ViewModel.LoadTagsList, Mode=OneWay}"
-					Spacing="4">
+					Visibility="Collapsed">
+
 					<TextBlock
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Center"
@@ -289,46 +289,92 @@
 						SelectionMode="None">
 						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
-								<controls:WrapPanel HorizontalSpacing="12" Orientation="Horizontal" />
+								<controls:WrapPanel Orientation="Horizontal" VerticalSpacing="-8" />
 							</ItemsPanelTemplate>
 						</GridView.ItemsPanel>
 
 						<GridView.ItemTemplate>
 							<DataTemplate x:Name="TagTemplate" x:DataType="items:TagsListItem">
-								<StackPanel>
+								<UserControl PointerEntered="FileTag_PointerEntered" PointerExited="FileTag_PointerExited">
 									<StackPanel
-										x:Name="DetailsTagItem"
-										x:Load="{x:Bind IsTag, Mode=OneWay}"
-										AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
-										Orientation="Horizontal"
-										Spacing="8"
-										ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
-										<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
-										<TextBlock
-											HorizontalAlignment="Stretch"
-											Style="{StaticResource Local.FileDetailsTextBlockStyle}"
-											Text="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
-											TextTrimming="CharacterEllipsis" />
-									</StackPanel>
-
-									<!--  Edit Tags Button  -->
-									<Button
-										x:Name="DetailsEditTags"
+										x:Name="TagPill"
 										HorizontalAlignment="Left"
-										x:Load="{x:Bind IsFlyout, Mode=OneWay}"
-										AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
-										Background="Transparent"
-										BorderBrush="Transparent"
-										Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
-										ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
-										<Button.Content>
-											<usercontrols:OpacityIcon
-												Width="16"
-												Height="16"
-												Style="{StaticResource ColorIconTags}" />
-										</Button.Content>
-									</Button>
-								</StackPanel>
+										VerticalAlignment="Center"
+										Background="{ThemeResource SubtleFillColorTransparent}"
+										CornerRadius="12">
+										<!--  Tag Template  -->
+										<StackPanel
+											x:Name="TagStackPanel"
+											Height="28"
+											Padding="12,0,12,0"
+											VerticalAlignment="Center"
+											x:Load="{x:Bind IsTag, Mode=OneWay}"
+											AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
+											Orientation="Horizontal"
+											Spacing="8"
+											ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
+											<!--  Tag icon  -->
+											<PathIcon
+												VerticalAlignment="Center"
+												Data="{StaticResource ColorIconFilledTag}"
+												Foreground="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
+											<!--  Tag name  -->
+											<TextBlock
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Center"
+												Style="{StaticResource Local.FileDetailsTextBlockStyle}"
+												Text="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
+												TextTrimming="CharacterEllipsis" />
+										</StackPanel>
+
+										<!--  Edit Tag Flyout  -->
+										<Button
+											x:Name="DetailsEditTags"
+											Height="28"
+											Padding="12,0,12,0"
+											VerticalAlignment="Center"
+											x:Load="{x:Bind IsFlyout, Mode=OneWay}"
+											AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
+											Background="Transparent"
+											BorderThickness="0"
+											Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
+											ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
+											<Button.Resources>
+												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
+											</Button.Resources>
+											<Button.Content>
+												<StackPanel
+													VerticalAlignment="Center"
+													Orientation="Horizontal"
+													Spacing="8">
+													<!--  Icon  -->
+													<usercontrols:OpacityIcon
+														Width="16"
+														Height="16"
+														VerticalAlignment="Center"
+														Style="{StaticResource ColorIconEditTag}" />
+													<!--  Text  -->
+													<TextBlock
+														HorizontalAlignment="Stretch"
+														VerticalAlignment="Center"
+														Style="{StaticResource Local.FileDetailsTextBlockStyle}"
+														Text="{helpers:ResourceString Name=EditTags}" />
+												</StackPanel>
+											</Button.Content>
+										</Button>
+
+										<VisualStateManager.VisualStateGroups>
+											<VisualStateGroup x:Name="CommonStates">
+												<VisualState x:Name="Normal" />
+												<VisualState x:Name="PointerOver">
+													<VisualState.Setters>
+														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+													</VisualState.Setters>
+												</VisualState>
+											</VisualStateGroup>
+										</VisualStateManager.VisualStateGroups>
+									</StackPanel>
+								</UserControl>
 							</DataTemplate>
 						</GridView.ItemTemplate>
 					</GridView>
@@ -337,7 +383,7 @@
 				<!--  Open Properties Button  -->
 				<Button
 					x:Name="DetailsOpenProperties"
-					Margin="8,8,8,8"
+					Margin="12,0,8,8"
 					HorizontalAlignment="Left"
 					Command="{x:Bind Commands.OpenProperties}"
 					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
@@ -369,6 +415,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
@@ -382,6 +429,7 @@
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
 						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -393,6 +441,7 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
@@ -405,6 +454,7 @@
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />

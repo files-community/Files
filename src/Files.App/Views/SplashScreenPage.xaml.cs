@@ -18,12 +18,12 @@ namespace Files.App.Views
 
 		private void Image_ImageOpened(object sender, RoutedEventArgs e)
 		{
-			App.IsSplashScreenLoading = false;
+			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
 
 		private void Image_ImageFailed(object sender, RoutedEventArgs e)
 		{
-			App.IsSplashScreenLoading = false;
+			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
 	}
 }

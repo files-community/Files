@@ -8,13 +8,13 @@ namespace Files.App.Data.Contexts
 {
     sealed class TagsContext : ITagsContext
     {
-		private static readonly IReadOnlyList<FileTagsItemViewModel> _emptyTaggedItemsList
-			= Enumerable.Empty<FileTagsItemViewModel>().ToImmutableList();
+		private static readonly IReadOnlyList<(string path, bool isFolder)> _emptyTaggedItemsList
+			= Enumerable.Empty<(string path, bool isFolder)>().ToImmutableList();
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		private IEnumerable<FileTagsItemViewModel> _TaggedItems = _emptyTaggedItemsList;
-		public IEnumerable<FileTagsItemViewModel> TaggedItems
+		private IEnumerable<(string path, bool isFolder)> _TaggedItems = _emptyTaggedItemsList;
+		public IEnumerable<(string path, bool isFolder)> TaggedItems
 		{
 			get => _TaggedItems;
 			set
@@ -29,12 +29,13 @@ namespace Files.App.Data.Contexts
 
 		public TagsContext()
 		{
-			FileTagsContainerViewModel.SelectedTagsChanged += FileTagsContainerViewModel_SelectedTagsChanged;
+			FileTagsContainerViewModel.SelectedTagChanged += SelectedTagsChanged;
+			SidebarViewModel.SelectedTagChanged += SelectedTagsChanged;
 		}
 
-		private void FileTagsContainerViewModel_SelectedTagsChanged(object sender, IEnumerable<FileTagsItemViewModel> items)
+		private void SelectedTagsChanged(object _, SelectedTagChangedEventArgs e)
 		{
-			TaggedItems = items;
+			TaggedItems = e.Items;
 		}
 	}
 }

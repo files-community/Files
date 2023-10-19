@@ -10,15 +10,11 @@ namespace Files.App.Utils.RecycleBin
 {
 	public static class RecycleBinHelpers
 	{
-		#region Private Members
-
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private static readonly Regex recycleBinPathRegex = new(@"^[A-Z]:\\\$Recycle\.Bin\\", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
 		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		#endregion Private Members
 
 		public static async Task<List<ShellFileItem>> EnumerateRecycleBin()
 		{
@@ -62,24 +58,26 @@ namespace Files.App.Utils.RecycleBin
 				|| await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
 			{
 				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
-				var banner = ongoingTasksViewModel.PostBanner(
+				var banner = _statusCenterViewModel.AddItem(
 					bannerTitle,
 					"EmptyingRecycleBin".GetLocalizedResource(),
 					0,
 					ReturnResult.InProgress,
 					FileOperationType.Delete);
 
-				bool opSucceded = Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded;
-				banner.Remove();
+				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
+
+				_statusCenterViewModel.RemoveItem(banner);
+
 				if (opSucceded)
-					ongoingTasksViewModel.PostBanner(
+					_statusCenterViewModel.AddItem(
 						bannerTitle,
 						"BinEmptyingSucceded".GetLocalizedResource(),
 						100,
 						ReturnResult.Success,
 						FileOperationType.Delete);
 				else
-					ongoingTasksViewModel.PostBanner(
+					_statusCenterViewModel.AddItem(
 						bannerTitle,
 						"BinEmptyingFailed".GetLocalizedResource(),
 						100,

@@ -175,7 +175,7 @@
     <value>Elimina tutti gli elementi</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Inserisci un percorso</value>
+    <value>Inserisci un percorso o digita "&gt;" per aprire la palette dei comandi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Cerca</value>
@@ -1879,7 +1879,7 @@
     <value>Funzionalità sperimentali</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Supporto ed Assistenza</value>
+    <value>Supporto ed assistenza</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Richiedi una funzionalità</value>
@@ -2236,7 +2236,7 @@
     <value>Ripristina tutti gli elementi</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Vuoi ripritinare {0} file selezionato/i?</value>
+    <value>Vuoi ripristinare {0} file selezionato/i?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Ripristina selezione</value>
@@ -2254,7 +2254,7 @@
     <value>Impossibile trovare la destinazione {0}. Vuoi eliminare questo collegamento?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>Non sei autorizzato ad accedere a questa cartella.</value>
+    <value>Non sei autorizzato/a ad accedere a questa cartella.</value>
   </data>
   <data name="EmptyingRecycleBin" xml:space="preserve">
     <value>Sto svuotando il cestino</value>
@@ -2275,7 +2275,7 @@
     <value>Ordina e raggruppa</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Creare archivio</value>
+    <value>Crea archivio</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Crea</value>
@@ -2353,7 +2353,7 @@
     <value>Crea un collegamento</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Crea collegamenti verso programmi di rete, file, cartelle, computer o indirizzi Internet.</value>
+    <value>Crea collegamenti verso programmi locali o di rete, file, cartelle, computer o indirizzi Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Inserisci la posizione dell'elemento:</value>
@@ -2365,7 +2365,7 @@
     <value>I file usati di recente sono attualmente disabilitati in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Modifica il File delle Impostazioni</value>
+    <value>Modifica il file delle impostazioni</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Note di Rilascio</value>
@@ -2437,10 +2437,10 @@
     <value>Nuova etichetta</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Crea un nuovo tag</value>
+    <value>Crea una nuova etichetta</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Caricamento...</value>
+    <value>Caricando...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
     <value>Opzioni del menu contestuale</value>
@@ -2461,7 +2461,7 @@
     <value>Modalità a schermo intero</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Sei sicuro di voler eliminare questo tag?</value>
+    <value>Sei sicuro/a di voler eliminare questo tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>Riproduci tutto</value>
@@ -2572,7 +2572,7 @@
     <value>Copia il percorso negli appunti</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Taglia gli elementi</value>
+    <value>Taglia gli elementi negli appunti</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Incolla gli elementi dagli appunti alla cartella corrente</value>
@@ -2590,7 +2590,7 @@
     <value>Crea una nuovo collegamento agli elementi selezionati</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Crea un nuovo collegamento a qualsiasi oggetto</value>
+    <value>Crea un nuovo collegamento a qualsiasi elemento</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Svuota il cestino</value>
@@ -2635,16 +2635,16 @@
     <value>Condividi i file selezionati con altri</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Aggiungi elemento(i) al menu Start</value>
+    <value>Aggiungi elemento/i al menu Start</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Rimuovi elemento(i) dal menu Start</value>
+    <value>Rimuovi elemento/i dal menu Start</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Aggiungi cartella/e ai preferiti</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Rimuovi cartella(e) dai Preferiti</value>
+    <value>Rimuovi cartella/e dai Preferiti</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Imposta l'immagine selezionata come sfondo del desktop</value>
@@ -2665,7 +2665,7 @@
     <value>Installa i certificati selezionati</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Esegui come amministratore l'applicazione selezionata</value>
+    <value>Esegui l'applicazione selezionata come amministratore</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
     <value>Esegue l'applicazione selezionata come un altro utente</value>
@@ -2773,7 +2773,7 @@
     <value>Inverti direzione di ordinamento degli elementi</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Ordina le cartelle insieme ai file</value>
+    <value>Elenca e ordina le cartelle insieme ai file</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Elenca gli elementi senza raggruppamento</value>
@@ -3104,10 +3104,10 @@
     <value>Questi file hanno proprietà che non possono essere copiate nella nuova posizione</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>Questi file hanno proprietà che non possono essere sposate nella nuova posizione</value>
+    <value>Questi file hanno proprietà che non possono essere spostate nella nuova posizione</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Sei sicuro di voler spostare questi file senza le loro proprietà?</value>
+    <value>Sei sicuro/a di voler spostare questi file senza le loro proprietà?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>Mostra le checkbox quando si selezionano gli elementi</value>
@@ -3218,7 +3218,7 @@
     <value>Cambia</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>Nuovo Branch</value>
+    <value>Nuovo branch</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
     <value>Il nome del branch non è valido</value>
@@ -3403,5 +3403,39 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Apri tutti gli elementi etichettati</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Unità ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Comando non valido</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' non è riconosciuto come un comando.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Comando non eseguibile</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Il comando '{0}' non è pronto per essere eseguito.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Palette dei comandi</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Apri la palette dei comandi</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Avvia in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Attiva BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Gestisci BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>I seguenti file sono troppo grandi per essere copiati su questo disco</value>
   </data>
 </root>

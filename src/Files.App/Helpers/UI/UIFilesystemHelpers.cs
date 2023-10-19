@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 {
 	public static class UIFilesystemHelpers
 	{
-		private static readonly OngoingTasksViewModel ongoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+		private static readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static async Task CutItem(IShellPage associatedInstance)
 		{
@@ -33,7 +33,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -98,15 +98,18 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Move);
 
-						banner?.Remove();
+						_statusCenterViewModel.RemoveItem(banner);
+
 						return;
 					}
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
-					banner?.Remove();
+
+					_statusCenterViewModel.RemoveItem(banner);
+
 					return;
 				}
 
-				banner?.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
@@ -141,7 +144,7 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? ongoingTasksViewModel.PostOperationBanner(
+				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
 					string.Empty,
 					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
 					0,
@@ -195,14 +198,17 @@ namespace Files.App.Helpers
 
 						await FileOperationsHelpers.SetClipboard(filePaths, DataPackageOperation.Copy);
 
-						banner?.Remove();
+						_statusCenterViewModel.RemoveItem(banner);
+
 						return;
 					}
-					banner?.Remove();
+
+					_statusCenterViewModel.RemoveItem(banner);
+
 					return;
 				}
 
-				banner?.Remove();
+				_statusCenterViewModel.RemoveItem(banner);
 			}
 
 			var onlyStandard = items.All(x => x is StorageFile || x is StorageFolder || x is SystemStorageFile || x is SystemStorageFolder);
@@ -231,7 +237,8 @@ namespace Files.App.Helpers
 			if (packageView && packageView.Result is not null)
 			{
 				await associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(packageView.Result.RequestedOperation, packageView, destinationPath, false, true);
-				associatedInstance?.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
+				await associatedInstance.RefreshIfNoWatcherExists();
 			}
 		}
 
@@ -264,6 +271,7 @@ namespace Files.App.Helpers
 			if (renamed == ReturnResult.Success)
 			{
 				associatedInstance.ToolbarViewModel.CanGoForward = false;
+				await associatedInstance.RefreshIfNoWatcherExists();
 				return true;
 			}
 
@@ -273,9 +281,10 @@ namespace Files.App.Helpers
 		public static async Task CreateFileFromDialogResultType(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			await CreateFileFromDialogResultTypeForResult(itemType, itemInfo, associatedInstance);
+			await associatedInstance.RefreshIfNoWatcherExists();
 		}
 
-		public static async Task<IStorageItem?> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
+		private static async Task<IStorageItem?> CreateFileFromDialogResultTypeForResult(AddItemDialogItemType itemType, ShellNewEntry? itemInfo, IShellPage associatedInstance)
 		{
 			string? currentPath = null;
 
@@ -346,6 +355,7 @@ namespace Files.App.Helpers
 					return;
 
 				await associatedInstance.FilesystemHelpers.MoveItemsAsync(items, items.Select(x => PathNormalization.Combine(folder.Path, x.Name)), false, true);
+				await associatedInstance.RefreshIfNoWatcherExists();
 			}
 			catch (Exception ex)
 			{
@@ -365,6 +375,26 @@ namespace Files.App.Helpers
 			itemManipulationModel.RefreshItemsOpacity();
 		}
 
+		public static async Task CreateShortcutAsync(IShellPage? associatedInstance, IReadOnlyList<ListedItem> selectedItems)
+		{
+			var currentPath = associatedInstance?.FilesystemViewModel.WorkingDirectory;
+
+			if (App.LibraryManager.TryGetLibrary(currentPath ?? string.Empty, out var library) && !library.IsEmpty)
+				currentPath = library.DefaultSaveFolder;
+
+			foreach (ListedItem selectedItem in selectedItems)
+			{
+				var fileName = string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), selectedItem.Name) + ".lnk";
+				var filePath = Path.Combine(currentPath ?? string.Empty, fileName);
+
+				if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, selectedItem.ItemPath))
+					await HandleShortcutCannotBeCreated(fileName, selectedItem.ItemPath);
+			}
+
+			if (associatedInstance is not null)
+				await associatedInstance.RefreshIfNoWatcherExists();
+		}
+
 		public static async Task CreateShortcutFromDialogAsync(IShellPage associatedInstance)
 		{
 			var currentPath = associatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -382,6 +412,8 @@ namespace Files.App.Helpers
 				return;
 
 			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);
+
+			await associatedInstance.RefreshIfNoWatcherExists();
 		}
 
 		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)

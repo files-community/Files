@@ -18,6 +18,20 @@ namespace Files.App.Data.Commands
 		private IImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
+		public IRichCommand this[string code]
+		{
+			get
+			{
+				try
+				{
+					return commands[Enum.Parse<CommandCodes>(code, true)];
+				}
+				catch
+				{
+					return None;
+				}
+			}
+		}
 		public IRichCommand this[HotKey hotKey]
 			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
 			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
@@ -37,7 +51,6 @@ namespace Files.App.Data.Commands
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
-		public IRichCommand ToggleSidebar => commands[CommandCodes.ToggleSidebar];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
@@ -85,12 +98,13 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
-		public IRichCommand OpenInVS => commands[CommandCodes.OpenInVS];
 		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
+		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
+		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -198,7 +212,6 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
-			[CommandCodes.ToggleSidebar] = new ToggleSidebarAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
@@ -246,12 +259,13 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
-			[CommandCodes.OpenInVS] = new OpenInVSAction(),
 			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
+			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
+			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),

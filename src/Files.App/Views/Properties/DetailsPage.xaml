@@ -35,7 +35,7 @@
 				<TextBlock
 					x:Name="LoadingTextBlock"
 					HorizontalAlignment="Center"
-					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 					Text="{helpers:ResourceString Name=Loading}" />
 			</StackPanel>
 
@@ -87,12 +87,24 @@
 												Text="{x:Bind Name, Mode=OneWay}"
 												TextWrapping="Wrap" />
 
+											<!--  Read Only Value Text Block  -->
+											<TextBlock
+												x:Name="PropertyValueTemplateTextBlock"
+												Grid.Row="0"
+												Grid.Column="1"
+												Padding="12"
+												HorizontalAlignment="Stretch"
+												x:Load="{x:Bind IsReadOnly, Mode=OneWay}"
+												IsTextSelectionEnabled="True"
+												Text="{x:Bind ValueText, Mode=TwoWay}" />
+
+											<!--  Edit Value Text Box  -->
 											<TextBox
 												x:Name="PropertyValueTemplateTextBox"
 												Grid.Row="0"
 												Grid.Column="1"
 												HorizontalAlignment="Stretch"
-												IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+												x:Load="{x:Bind IsReadOnly, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 												PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
 												Style="{StaticResource PropertyValueTextBox}"
 												Text="{x:Bind ValueText, Mode=TwoWay}" />

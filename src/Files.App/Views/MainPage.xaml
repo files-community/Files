@@ -4,12 +4,15 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
+	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:usercontrols="using:Files.App.UserControls.MultitaskingControl"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	AllowDrop="True"
@@ -32,6 +35,19 @@
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
+
+			<MenuFlyout x:Key="SidebarContextMenu">
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowCloudDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarCloudDrives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowNetworkDrivesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarNetworkDrives}" />
+				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowWslSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=WSL}" />
+				<ToggleMenuFlyoutItem
+					x:Name="SidebarContextMenuFileTagsSection"
+					IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFileTagsSection, Mode=TwoWay}"
+					Text="{helpers:ResourceString Name=FileTags}" />
+			</MenuFlyout>
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -108,82 +124,91 @@
 		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
 
-	<Border>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<!--  Tab Control  -->
+			<tabbar:TabBar
+				x:Name="TabControl"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:FieldModifier="public"
+				x:Load="False"
+				Loaded="HorizontalMultitaskingControl_Loaded"
+				TabIndex="0"
+				TabStripVisibility="Visible"
+				Visibility="Visible">
+				<tabbar:TabBar.FooterElement>
+					<Button
+						x:Name="HorizontalMultitaskingControlAddButton"
+						Width="32"
+						Height="32"
+						Padding="8"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Bottom"
+						AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
+						Background="Transparent"
+						BorderThickness="0"
+						Command="{x:Bind Commands.NewTab}"
+						ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
+						<Button.Content>
+							<FontIcon
+								x:Name="HorizontalMultitaskingControlAddButtonIcon"
+								FontSize="12"
+								Glyph="&#xE710;" />
+						</Button.Content>
+					</Button>
+				</tabbar:TabBar.FooterElement>
+			</tabbar:TabBar>
+
+			<!--  Address Bar  -->
+			<uc:AddressToolbar
+				x:Name="NavToolbar"
+				Grid.Row="1"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:Load="False"
+				Loaded="NavToolbar_Loaded"
+				OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
+				ShowOngoingTasks="True"
+				ShowSearchBox="True"
+				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+				TabIndex="1" />
+
+			<Button
+				x:Name="TogglePaneButton"
+				Margin="2,2,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Background="Transparent"
+				BorderThickness="0"
+				Click="TogglePaneButton_Click"
+				Style="{StaticResource PaneToggleButtonStyle}"
+				Visibility="Collapsed" />
+		</Grid>
+
 		<!--  Root  -->
-		<uc:SidebarControl
+		<sidebar:SidebarView
 			x:Name="SidebarControl"
+			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
-			CanOpenInNewPane="{x:Bind SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneEnabled, Mode=OneWay}"
-			DisplayModeChanged="{x:Bind SidebarAdaptiveViewModel.SidebarControl_DisplayModeChanged}"
-			IsPaneOpen="{x:Bind SidebarAdaptiveViewModel.IsSidebarOpen, Mode=TwoWay}"
-			IsPaneToggleButtonVisible="False"
+			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
-			PaneDisplayMode="Left"
-			SelectedSidebarItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
+			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
+			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
-			<!--  Head Contents  -->
-			<uc:SidebarControl.TabContent>
-				<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-
-					<!--  Tab Control  -->
-					<usercontrols:HorizontalMultitaskingControl
-						x:Name="TabControl"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
-						x:FieldModifier="public"
-						x:Load="False"
-						Loaded="HorizontalMultitaskingControl_Loaded"
-						TabIndex="0"
-						TabStripVisibility="Visible"
-						Visibility="Visible">
-						<usercontrols:HorizontalMultitaskingControl.ActionsControl>
-							<Button
-								x:Name="HorizontalMultitaskingControlAddButton"
-								Width="32"
-								Height="32"
-								Padding="8"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Bottom"
-								AutomationProperties.Name="{x:Bind Commands.NewTab.AutomationName}"
-								Background="Transparent"
-								BorderThickness="0"
-								Command="{x:Bind Commands.NewTab}"
-								ToolTipService.ToolTip="{x:Bind Commands.NewTab.LabelWithHotKey, Mode=OneWay}">
-								<Button.Content>
-									<FontIcon
-										x:Name="HorizontalMultitaskingControlAddButtonIcon"
-										FontSize="12"
-										Glyph="&#xE710;" />
-								</Button.Content>
-							</Button>
-						</usercontrols:HorizontalMultitaskingControl.ActionsControl>
-					</usercontrols:HorizontalMultitaskingControl>
-
-					<!--  Address Bar  -->
-					<uc:AddressToolbar
-						x:Name="NavToolbar"
-						Grid.Row="1"
-						HorizontalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
-						x:Load="False"
-						Loaded="NavToolbar_Loaded"
-						OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-						ShowOngoingTasks="True"
-						ShowSearchBox="True"
-						ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-						TabIndex="1" />
-
-				</Grid>
-			</uc:SidebarControl.TabContent>
-
-			<!--  Main Contents  -->
 			<Grid
 				x:Name="RootGrid"
 				PreviewKeyDown="RootGrid_PreviewKeyDown"
@@ -223,7 +248,7 @@
 					Grid.Column="0"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.Control, Mode=OneWay}" />
+					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 				<!--  Preview Pane Splitter  -->
 				<toolkit:GridSplitter
@@ -242,7 +267,9 @@
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}" />
+					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					Loaded="PreviewPane_Loaded"
+					Unloaded="PreviewPane_Unloaded" />
 
 				<!--  Status Bar  -->
 				<uc:StatusBarControl
@@ -254,7 +281,7 @@
 
 			</Grid>
 
-		</uc:SidebarControl>
+		</sidebar:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>
@@ -273,22 +300,22 @@
 				</VisualState>
 			</VisualStateGroup>
 			<VisualStateGroup>
-				<VisualState>
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger x:Name="MinimalSidebarAdaptiveTrigger" MinWindowWidth="641" />
-					</VisualState.StateTriggers>
-				</VisualState>
-				<VisualState x:Name="MinimalSidebarState">
+				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>
 						<AdaptiveTrigger MinWindowWidth="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="SidebarControl.PaneDisplayMode" Value="LeftMinimal" />
-						<Setter Target="SidebarControl.IsPaneToggleButtonVisible" Value="True" />
 						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
+						<Setter Target="SidebarControl.DisplayMode" Value="Minimal" />
+						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
 					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="MinimalSidebarState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger x:Name="MinimalSidebarAdaptiveTrigger" MinWindowWidth="641" />
+					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
-	</Border>
+	</Grid>
 </Page>

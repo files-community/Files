@@ -175,7 +175,7 @@
     <value>Tyhjennä kaikki kohteet</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Syötä polku</value>
+    <value>Kirjoita polku navigoidaksesi tai kirjoita "&gt;" avataksesi komentopaletin</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Etsi</value>
@@ -3403,5 +3403,39 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Avaa kaikki merkityt kohteet</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Asema ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Virheellinen komento</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' ei ole tunnistettu komennoksi.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Komento ei ole suoritettavissa</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>Komento '{0}' ei ole valmis suoritettavaksi.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Komentopaletti</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Avaa komentopaletti</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Aloitussijainti:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Ota BitLocker käyttöön</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Hallinnoi BitLockeria</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Seuraavat kohteet ovat liian suuria kopioitavaksi tälle asemalle</value>
   </data>
 </root>

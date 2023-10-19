@@ -121,7 +121,7 @@
     <value>חלון חדש</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>העתק כתובת</value>
+    <value>העתק נתיב</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>צפייה</value>
@@ -130,16 +130,16 @@
     <value>גודל</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>נוצר</value>
+    <value>נוצר:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>נתיב</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>גודל:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>גודל על הדיסק:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>נפח אחרי חילוץ:</value>
@@ -175,7 +175,7 @@
     <value>נקה את כל פריטים</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>הזן נתיב</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>חיפוש</value>
@@ -196,7 +196,7 @@
     <value>קוד פתוח</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>תבנית תאריך.</value>
+    <value>תבנית תאריך</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>ערכת עיצוב</value>
@@ -3403,5 +3403,39 @@
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
   </data>
 </root>

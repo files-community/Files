@@ -45,25 +45,17 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetCompactSpacing(bool useCompactSpacing)
 		{
-			var listItemHeight = useCompactSpacing ? 24 : 36;
-			var navigationViewItemOnLeftMinHeight = useCompactSpacing ? 20 : 32;
+			var listItemHeight = useCompactSpacing ? 28 : 36;
+			var listItemMargin = useCompactSpacing ? "-2" : "0";
 
 			Application.Current.Resources["ListItemHeight"] = listItemHeight;
-			Application.Current.Resources["NavigationViewItemOnLeftMinHeight"] = navigationViewItemOnLeftMinHeight;
+			Application.Current.Resources["ListItemMargin"] = listItemMargin;
 		}
 
 		/// <inheritdoc/>
 		public void ApplyResources()
 		{
-			// Get the index of the current theme
-			var selTheme = ThemeHelper.RootTheme;
-
-			// Toggle between the themes to force reload the resource styles
-			ThemeHelper.RootTheme = ElementTheme.Dark;
-			ThemeHelper.RootTheme = ElementTheme.Light;
-
-			// Restore the theme to the correct theme
-			ThemeHelper.RootTheme = selTheme;
+			ThemeHelper.ApplyResources();
 		}
 	}
 }

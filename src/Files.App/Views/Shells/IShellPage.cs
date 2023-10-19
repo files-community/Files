@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 
 namespace Files.App.Views.Shells
 {
-	public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
+	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
 	{
 		ItemViewModel FilesystemViewModel { get; }
 
@@ -24,6 +24,19 @@ namespace Files.App.Views.Shells
 		bool CanNavigateBackward { get; }
 
 		bool CanNavigateForward { get; }
+
+		/// <summary>
+		/// True if the pane that contains this page is current.
+		/// </summary>
+		bool IsCurrentPane { get; }
+
+		/// <summary>
+		/// Returns a <see cref="Task"/> to wait until the pane and column become current.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
+		Task WhenIsCurrent();
+
+		Task RefreshIfNoWatcherExists();
 
 		Task Refresh_Click();
 
@@ -75,7 +88,7 @@ namespace Files.App.Views.Shells
 
 		public IFilesystemHelpers FilesystemHelpers { get; }
 
-		public TabItemArguments TabItemArguments { get; set; }
+		public CustomTabViewItemParameter TabItemParameter { get; set; }
 
 		public void OpenPathInNewPane(string path);
 

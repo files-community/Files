@@ -139,7 +139,7 @@
     <value>அளவு:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>வட்டிலுள்ள அளவு:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed Size:</value>
@@ -163,7 +163,7 @@
     <value>Invert Selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>தேர்வை அழி</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>திருத்தியது;</value>
@@ -175,7 +175,7 @@
     <value>எல்லா உருப்படிகளையும் அழி</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>ஒரு பாதையை உள்ளிடுக</value>
+    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>தேடு</value>
@@ -202,7 +202,7 @@
     <value>கருப்பொருள்</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>அறிந்த கோப்பு வகைகளுக்கு நீடிப்புகளைக் காண்பி</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
@@ -445,22 +445,22 @@
     <value>பைட்கள்</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>கி.பை.</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB</value>
+    <value>மெ.பை.</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>ஜிபை</value>
+    <value>கி.பை.</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TB</value>
+    <value>டெ.பை.</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PB</value>
+    <value>பெ.பை.</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>பை</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} கோப்புகள், {1:#,##0} கோப்புறைகள்</value>
@@ -472,7 +472,7 @@
     <value>மற்றொரு பயனராக இயக்கு</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>All type of {0}</value>
+    <value>{0} இன் எல்லா வகை</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>பல வகைகள்</value>
@@ -787,7 +787,7 @@
     <value>Frame Count</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Protection Type</value>
+    <value>பாதுகாப்பு வகை</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
     <value>Author Url</value>
@@ -979,7 +979,7 @@
     <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status Center</value>
+    <value>நிலை மையம்</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
@@ -1846,7 +1846,7 @@
     <value>Open log location</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>{0} இல் இணைப்பை உருவாக்கு</value>
   </data>
   <data name="Columns" xml:space="preserve">
     <value>நெடுவரிசைகள்</value>
@@ -1900,7 +1900,7 @@
     <value>Open items with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>கோப்புறை பாதை</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Export Settings</value>
@@ -2002,7 +2002,7 @@
     <value>Use DPI settings of the main monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Third party licenses</value>
+    <value>மூன்றாம் தரப்பு உரிமங்கள்</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
@@ -2248,7 +2248,7 @@
     <value>மீட்டெடு</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>குறுக்குவழியை திறக்க முடியவில்லை</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
@@ -2266,7 +2266,7 @@
     <value>Failed to empty recycle bin</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>காப்பகக் கடவுச்சொல்</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>பாதை</value>
@@ -2359,7 +2359,7 @@
     <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>குறுக்குவழியை ஒன்றை உருவாக்கும்</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
@@ -2506,16 +2506,16 @@
     <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>கணக்கிடுகிறது...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>பொருத்தப்பட்ட உருப்படிகள்</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>அளவை குறை</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>அளவை அதிகரி</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
@@ -2863,7 +2863,7 @@
     <value>Move to the next tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>தற்போதைய தாவலை மூடு</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
     <value>Open new pane</value>
@@ -3131,7 +3131,7 @@
     <value>நிரந்தரமாக நீக்கு</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>உருப்படி(களை) நிரந்தரமாக நீக்கு</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Play the selected media files</value>
@@ -3197,13 +3197,13 @@
     <value>Unable to display permissions.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>{0} இல் எனது மாற்றங்களை விடவும்</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
     <value>எனது மாற்றங்களை நிராகரி</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>'{0}' இற்கு எனது மாற்றங்களைக் கொண்டு வரவும்</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
@@ -3224,10 +3224,10 @@
     <value>Invalid branch name</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>கிளையை உருவாக்கு</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>கிளையை உருவாக்கு</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
     <value>Based on</value>
@@ -3257,28 +3257,28 @@
     <value>Fetch</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>இழு</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>git fetch-ஐ இயக்கு</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>git pull-ஐ இயக்கு</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Git நிலை</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git பிழை</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(பல மதிப்புகள்)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
@@ -3312,19 +3312,19 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>கிளைகளை நிர்வகி</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>தள்ளு</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>git push-ஐ இயக்கு</value>
   </data>
   <data name="GitSync" xml:space="preserve">
     <value>ஒத்திசை</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>git pull-ஐ இயக்கி பிறகு git push-ஐ இயக்கு</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
     <value>{0} outgoing / {1} incoming commits</value>
@@ -3336,13 +3336,13 @@
     <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
+    <value>Files ஆல் தற்போது GitHub-ஐ அணுக முடியவில்லை.</value>
   </data>
   <data name="OpenInVS" xml:space="preserve">
     <value>Visual Studio</value>
   </data>
   <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>தற்போதயக் கோப்புறையை Visual Studio இல் திற</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -3372,10 +3372,10 @@
     <value>Great! You are now authorized.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>களஞ்சியத்தை துவங்கு</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Git களஞ்சியம் ஒன்றை துவங்கு</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Remote Repository Name</value>
@@ -3387,7 +3387,7 @@
     <value>Path column</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>பாதையால் உருப்படிகளை வரிசைப்படுத்து</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
     <value>Open directory in new pane</value>
@@ -3399,9 +3399,43 @@
     <value>Open directory in new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>அனைத்தையும் திற</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>Drive ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>Invalid command</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>'{0}' is not recognized as a command.</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>Command not executable</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>The '{0}' command is not ready to be executed.</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>Command palette</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>Open command palette</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>Start in:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Turn on BitLocker</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Manage BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>The following items are too large to be copied to this drive</value>
   </data>
 </root>

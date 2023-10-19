@@ -12,8 +12,9 @@ namespace Files.App.Services
 
 		public async Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync()
 		{
-			return (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
+			var result = (await Win32Shell.GetShellFolderAsync(guid, "Enumerate", 0, int.MaxValue, "System.Home.IsPinned")).Enumerate
 				.Where(link => link.IsFolder);
+			return result;
 		}
 
 		public Task PinToSidebar(string folderPath)
@@ -52,9 +53,10 @@ namespace Files.App.Services
 				if (ShellStorageFolder.IsShellPath((string)fi.Path))
 				{
 					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
-					var path = folder.Path;
+					var path = folder?.Path;
 
-					if (folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\")))) // Fix for the Linux header
+					if (path is not null && 
+						(folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\"))))) // Fix for the Linux header
 					{
 						await SafetyExtensions.IgnoreExceptions(async () =>
 						{

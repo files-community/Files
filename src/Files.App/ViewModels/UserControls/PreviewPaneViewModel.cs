@@ -3,6 +3,7 @@
 
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
+using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Windows.Input;
@@ -229,21 +230,21 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (PDFPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new PDFPreview(model);
-			}
+			}*/
 
-			if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new HtmlPreview(model);
-			}
+			}*/
 
 			if (RichTextPreviewViewModel.ContainsExtension(ext))
 			{
@@ -259,6 +260,18 @@ namespace Files.App.ViewModels.UserControls
 				await model.LoadAsync();
 
 				return new CodePreview(model);
+			}
+
+			if
+			(
+				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+				!FileExtensionHelpers.IsFontFile(item.FileExtension)
+			)
+			{
+				var model = new ShellPreviewViewModel(item);
+				await model.LoadAsync();
+
+				return new ShellPreview(model);
 			}
 
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
@@ -330,6 +343,14 @@ namespace Files.App.ViewModels.UserControls
 					PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 				}
 			}
+		}
+
+		public void UpdateDateDisplay()
+		{
+			SelectedItem?.FileDetails?.ForEach(property => {
+				if (property.Value is DateTimeOffset)
+					property.UpdateValueText();
+			});
 		}
 
 		public ICommand ShowPreviewOnlyInvoked { get; }

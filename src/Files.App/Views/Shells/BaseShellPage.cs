@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Services;
+using Files.App.UserControls.TabBar;
+using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,12 +13,17 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Core;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
+		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+
+		private DateTimeFormats _lastDateTimeFormats;
+
 		private Task _gitFetch = Task.CompletedTask;
 
 		private CancellationTokenSource _gitFetchToken = new CancellationTokenSource();
@@ -104,8 +109,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected TabItemArguments _TabItemArguments;
-		public TabItemArguments TabItemArguments
+		protected CustomTabViewItemParameter _TabItemArguments;
+		public CustomTabViewItemParameter TabItemParameter
 		{
 			get => _TabItemArguments;
 			set
@@ -119,6 +124,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
+		protected TaskCompletionSource _IsCurrentInstanceTCS = new();
 		protected bool _IsCurrentInstance = false;
 		public bool IsCurrentInstance
 		{
@@ -132,10 +138,19 @@ namespace Files.App.Views.Shells
 					if (!value && SlimContentPage is not ColumnViewBrowser)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
+					if (value)
+						_IsCurrentInstanceTCS.TrySetResult();
+					else
+						_IsCurrentInstanceTCS = new();
+
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
 				}
 			}
 		}
+
+		public virtual bool IsCurrentPane => IsCurrentInstance;
+
+		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
 		public SolidColorBrush CurrentInstanceBorderBrush
 		{
@@ -152,7 +167,7 @@ namespace Files.App.Views.Shells
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler<TabItemArguments> ContentChanged;
+		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
 
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
@@ -195,6 +210,12 @@ namespace Files.App.Views.Shells
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+			_updateDateDisplayTimer.Start();
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -487,6 +508,12 @@ namespace Files.App.Views.Shells
 			return SlimContentPage?.CommandsViewModel.Drop(e);
 		}
 
+		public async Task RefreshIfNoWatcherExists()
+		{
+			if (FilesystemViewModel.HasNoWatcher)
+				await Refresh_Click();
+		}
+
 		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
@@ -494,7 +521,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.CanRefresh = false;
 				var searchInstance = new FolderSearch
 				{
-					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemArguments.NavigationArg,
+					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
 					Folder = FilesystemViewModel.WorkingDirectory,
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetIconSize(),
 					SearchUnindexedItems = InstanceViewModel.SearchedUnindexedItems
@@ -568,7 +595,7 @@ namespace Files.App.Views.Shells
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.Last());
 		}
 
-		public void RaiseContentChanged(IShellPage instance, TabItemArguments args)
+		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
 		{
 			ContentChanged?.Invoke(instance, args);
 		}
@@ -690,7 +717,7 @@ namespace Files.App.Views.Shells
 			var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
 			foreach (var x in multitaskingControls)
-				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.Control.TabItemContent == PaneHolder), isLoading);
+				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);
 		}
 
 		// WINUI3
@@ -718,6 +745,19 @@ namespace Files.App.Views.Shells
 		public abstract void NavigateHome();
 
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
+
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
+			{
+				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
+				FilesystemViewModel?.UpdateDateDisplay(true);
+			}
+			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
+			{
+				FilesystemViewModel?.UpdateDateDisplay(false);
+			}
+		}
 
 		public virtual void Dispose()
 		{
@@ -757,6 +797,8 @@ namespace Files.App.Views.Shells
 				disposableContent?.Dispose();
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
+
+			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

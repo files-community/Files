@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -17,6 +18,8 @@ namespace Files.App.ViewModels.UserControls
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
@@ -58,6 +61,13 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
 
+		private bool _isCommandPaletteOpen;
+		public bool IsCommandPaletteOpen
+		{
+			get => _isCommandPaletteOpen;
+			set => SetProperty(ref _isCommandPaletteOpen, value);
+		}
+
 		private bool isUpdating;
 		public bool IsUpdating
 		{
@@ -84,13 +94,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			get => isReleaseNotesVisible;
 			set => SetProperty(ref isReleaseNotesVisible, value);
-		}
-
-		private bool isReleaseNotesOpen;
-		public bool IsReleaseNotesOpen
-		{
-			get => isReleaseNotesOpen;
-			set => SetProperty(ref isReleaseNotesOpen, value);
 		}
 
 		private bool canCopyPathInPage;
@@ -165,7 +168,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<ListedItem> NavigationBarSuggestions = new();
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
 
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -201,7 +204,7 @@ namespace Files.App.ViewModels.UserControls
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-			ViewReleaseNotesCommand = new RelayCommand(DoViewReleaseNotes);
+			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
@@ -221,9 +224,15 @@ namespace Files.App.ViewModels.UserControls
 				await CheckForReleaseNotesAsync();
 		}
 
-		private void DoViewReleaseNotes()
+		private async Task ViewReleaseNotesAsync()
 		{
-			IsReleaseNotesOpen = true;
+			if (ReleaseNotes is null)
+				return;
+
+			var viewModel = new ReleaseNotesDialogViewModel(ReleaseNotes);
+			var dialog = _dialogService.GetDialog(viewModel);
+
+			await dialog.TryShowAsync();
 		}
 
 		public async Task CheckForReleaseNotesAsync()
@@ -414,6 +423,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
+					IsCommandPaletteOpen = false;
 					ManualEntryBoxLoaded = false;
 					ClickablePathLoaded = true;
 				}
@@ -442,7 +452,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesCommand { get; }
+		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
@@ -508,11 +518,22 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		public void OpenCommandPalette()
+		{
+			PathText = ">";
+			IsCommandPaletteOpen = true;
+			ManualEntryBoxLoaded = true;
+			ClickablePathLoaded = false;
+
+			var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+			AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
+		}
+
 		public void SwitchSearchBoxVisibility()
 		{
 			if (IsSearchBoxVisible)
 			{
-				CloseSearchBox();
+				CloseSearchBox(true);
 			}
 			else
 			{
@@ -533,7 +554,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
-		public void CloseSearchBox()
+		private void CloseSearchBox(bool doFocus = false)
 		{
 			if (searchBox.WasQuerySubmitted)
 			{
@@ -544,12 +565,15 @@ namespace Files.App.ViewModels.UserControls
 				SearchBox.Query = string.Empty;
 				IsSearchBoxVisible = false;
 
-				var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
+				if (doFocus)
+				{
+					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-				if (page is StandardViewBase svb && svb.IsLoaded)
-					page.ItemManipulationModel.FocusFileList();
-				else
-					AddressToolbar?.Focus(FocusState.Programmatic);
+					if (page is StandardViewBase svb && svb.IsLoaded)
+						page.ItemManipulationModel.FocusFileList();
+					else
+						AddressToolbar?.Focus(FocusState.Programmatic);
+				}
 			}
 		}
 
@@ -571,7 +595,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
-			=> CloseSearchBox();
+			=> CloseSearchBox(true);
 
 		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
 
@@ -644,6 +668,23 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
+			if (currentInput.StartsWith('>'))
+			{
+				var code = currentInput.Substring(1).Trim();
+				var command = Commands[code];
+
+				if (command == Commands.None)
+					await DialogDisplayHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
+						string.Format("InvalidCommandContent".GetLocalizedResource(), code));
+				else if (!command.IsExecutable)
+					await DialogDisplayHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
+						string.Format("CommandNotExecutableContent".GetLocalizedResource(), command.Code));
+				else
+					await command.ExecuteAsync();
+
+				return;
+			}
+
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
 			if (currentInput.Contains('/') && !isFtp)
@@ -681,7 +722,7 @@ namespace Files.App.ViewModels.UserControls
 							if (ejectButton)
 							{
 								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(result);
+								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
 							}
 							return;
 						}
@@ -751,60 +792,84 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					IList<ListedItem>? suggestions = null;
-					var isFtp = FtpHelpers.IsFtpPath(sender.Text);
-					var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
-					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-					StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+					IList<NavigationBarSuggestionItem>? suggestions = null;
 
-					if (folder is null)
-						return false;
-
-					var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
-					if (currPath.Count >= maxSuggestions)
+					if (sender.Text.StartsWith(">"))
 					{
-						suggestions = currPath.Select(x => new ListedItem(null!)
+						IsCommandPaletteOpen = true;
+						var searchText = sender.Text.Substring(1).Trim();
+						suggestions = Commands.Where(command => command.IsExecutable &&
+							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
+						.Select(command => new NavigationBarSuggestionItem()
 						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
+							Text = ">" + command.Code,
+							PrimaryDisplay = command.Description,
+							SupplementaryDisplay = command.HotKeyText,
+							SearchText = searchText,
 						}).ToList();
-					}
-					else if (currPath.Any())
-					{
-						var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
-						suggestions = currPath.Select(x => new ListedItem(null!)
-						{
-							ItemPath = x.Path,
-							ItemNameRaw = x.Item.DisplayName
-						}).Concat(
-							subPath.Select(x => new ListedItem(null!)
-							{
-								ItemPath = x.Path,
-								ItemNameRaw = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
-							})).ToList();
 					}
 					else
 					{
-						suggestions = new List<ListedItem>() { new ListedItem(null!) {
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
+						IsCommandPaletteOpen = false;
+						var isFtp = FtpHelpers.IsFtpPath(sender.Text);
+						var expandedPath = StorageFileExtensions.GetResolvedPath(sender.Text, isFtp);
+						var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
+						StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+
+						if (folder is null)
+							return false;
+
+						var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+						if (currPath.Count >= maxSuggestions)
+						{
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).ToList();
+						}
+						else if (currPath.Any())
+						{
+							var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count));
+							suggestions = currPath.Select(x => new NavigationBarSuggestionItem()
+							{
+								Text = x.Path,
+								PrimaryDisplay = x.Item.DisplayName
+							}).Concat(
+								subPath.Select(x => new NavigationBarSuggestionItem()
+								{
+									Text = x.Path,
+									PrimaryDisplay = PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName)
+								})).ToList();
+						}
+					}
+
+					if (suggestions is null || suggestions.Count == 0)
+					{
+						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
 
 					// NavigationBarSuggestions becoming empty causes flickering of the suggestion box
 					// Here we check whether at least an element is in common between old and new list
-					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.Name).Any())
+					if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.PrimaryDisplay).Any())
 					{
 						// No elements in common, update the list in-place
-						for (int si = 0; si < suggestions.Count; si++)
+						for (int index = 0; index < suggestions.Count; index++)
 						{
-							if (si < NavigationBarSuggestions.Count)
+							if (index < NavigationBarSuggestions.Count)
 							{
-								NavigationBarSuggestions[si].ItemNameRaw = suggestions[si].ItemNameRaw;
-								NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+								NavigationBarSuggestions[index].Text = suggestions[index].Text;
+								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
+								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
+								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
 							}
 							else
 							{
-								NavigationBarSuggestions.Add(suggestions[si]);
+								NavigationBarSuggestions.Add(suggestions[index]);
 							}
 						}
 
@@ -814,21 +879,26 @@ namespace Files.App.ViewModels.UserControls
 					else
 					{
 						// At least an element in common, show animation
-						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemNameRaw).ToList())
+						foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.PrimaryDisplay).ToList())
 							NavigationBarSuggestions.Remove(s);
 
-						foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemNameRaw).ToList())
-							NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+						for (int index = 0; index < suggestions.Count; index++)
+						{
+							if (NavigationBarSuggestions.Count > index && NavigationBarSuggestions[index].PrimaryDisplay == suggestions[index].PrimaryDisplay)
+								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+							else
+								NavigationBarSuggestions.Insert(index, suggestions[index]);
+						}
 					}
 
 					return true;
 				}))
 				{
 					NavigationBarSuggestions.Clear();
-					NavigationBarSuggestions.Add(new ListedItem(null!)
+					NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 					{
-						ItemPath = shellpage.FilesystemViewModel.WorkingDirectory,
-						ItemNameRaw = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 					});
 				}
 			}

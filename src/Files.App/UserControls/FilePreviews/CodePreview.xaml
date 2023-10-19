@@ -11,12 +11,15 @@
 	ActualThemeChanged="UserControl_ActualThemeChanged"
 	Loaded="UserControl_Loaded"
 	mc:Ignorable="d">
+
 	<Border>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
+
 			<RichTextBlock
 				Name="codeView"
 				Padding="10"
 				FontFamily="Consolas" />
+
 		</ScrollViewer>
 	</Border>
 </UserControl>

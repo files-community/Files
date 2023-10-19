@@ -18,6 +18,7 @@
 
 	<Border MinWidth="400" Margin="0,16,0,0">
 		<StackPanel Orientation="Vertical" Spacing="12">
+
 			<!--  Extract To Path  -->
 			<Grid
 				x:Name="ExtractPathGrid"
@@ -32,6 +33,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
+
 				<!--  Header  -->
 				<TextBlock
 					Grid.Row="0"
@@ -46,12 +48,14 @@
 					HorizontalAlignment="Stretch"
 					IsReadOnly="True"
 					Text="{x:Bind ViewModel.DestinationFolderPath, Mode=OneWay}" />
+
 				<Button
 					x:Name="SelectDestination"
 					Grid.Row="1"
 					Grid.Column="1"
 					Command="{x:Bind ViewModel.SelectDestinationCommand}"
 					Content="{helpers:ResourceString Name=Browse}" />
+
 			</Grid>
 
 			<!--  Password  -->
@@ -60,16 +64,19 @@
 				x:Load="{x:Bind ViewModel.IsArchiveEncrypted}"
 				Orientation="Vertical"
 				Spacing="8">
+
 				<TextBlock
 					x:Name="PasswordHeader"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					Text="{helpers:ResourceString Name=ArchivePassword}" />
+
 				<PasswordBox
 					x:Name="Password"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					PlaceholderText="{helpers:ResourceString Name=Password}" />
+
 			</StackPanel>
 
 			<!--  Open when complete  -->
@@ -79,6 +86,7 @@
 				x:Load="{x:Bind ViewModel.ShowPathSelection}"
 				Content="{helpers:ResourceString Name=DecompressArchiveDialogOpenDestinationWhenComplete/Content}"
 				IsChecked="{x:Bind ViewModel.OpenDestinationFolderOnCompletion, Mode=TwoWay}" />
+
 		</StackPanel>
 	</Border>
 </ContentDialog>

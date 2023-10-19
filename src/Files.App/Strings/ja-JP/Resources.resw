@@ -175,7 +175,7 @@
     <value>すべて削除</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>パスを入力</value>
+    <value>移動先のパスを入力するか、「&gt;」をタイプしてコマンド パレットを開く</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>検索</value>
@@ -529,7 +529,7 @@
     <value>引数:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>送信先</value>
+    <value>リンク先:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
     <value>ショートカットの種類:</value>
@@ -3399,9 +3399,43 @@
     <value>新しいウィンドウでフォルダーを開く</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>すべて開く</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>すべてのタグ付けされたアイテムを開く</value>
+  </data>
+  <data name="DriveWithLetter" xml:space="preserve">
+    <value>ドライブ ({0})</value>
+    <comment>{0} is the drive letter.</comment>
+  </data>
+  <data name="InvalidCommand" xml:space="preserve">
+    <value>無効なコマンド</value>
+  </data>
+  <data name="InvalidCommandContent" xml:space="preserve">
+    <value>{0} はコマンドとして認識できません。</value>
+  </data>
+  <data name="CommandNotExecutable" xml:space="preserve">
+    <value>実行できないコマンド</value>
+  </data>
+  <data name="CommandNotExecutableContent" xml:space="preserve">
+    <value>コマンド {0} は現在実行できません。</value>
+  </data>
+  <data name="CommandPalette" xml:space="preserve">
+    <value>コマンド パレット</value>
+  </data>
+  <data name="OpenCommandPaletteDescription" xml:space="preserve">
+    <value>コマンド パレットを開く</value>
+  </data>
+  <data name="ShortcutItemWorkingDir" xml:space="preserve">
+    <value>作業フォルダー:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>BitLocker を有効にする</value>	
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>BitLocker の管理</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>以下のファイルは大きすぎて、このドライブにコピーできません。</value>
   </data>
 </root>

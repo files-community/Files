@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -13,6 +13,9 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
+		public override bool IsCurrentPane
+			=> this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+
 		public override bool CanNavigateBackward
 			=> false;
 
@@ -66,7 +69,8 @@ namespace Files.App.Views.Shells
 					NavPathParam = ColumnParams.NavPathParam,
 					SearchUnindexedItems = ColumnParams.SearchUnindexedItems,
 					SearchPathParam = ColumnParams.SearchPathParam,
-					AssociatedTabInstance = this
+					AssociatedTabInstance = this,
+					SelectItems = ColumnParams.SelectItems
 				});
 		}
 
@@ -111,10 +115,10 @@ namespace Files.App.Views.Shells
 			}
 
 			var parameters = e.Parameter as NavigationArguments;
-			TabItemArguments = new TabItemArguments()
+			TabItemParameter = new CustomTabViewItemParameter()
 			{
 				InitialPageType = typeof(ColumnShellPage),
-				NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+				NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
 			};
 		}
 
@@ -174,6 +178,9 @@ namespace Files.App.Views.Shells
 			this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.NavigateHome();
 		}
 
+		public override Task WhenIsCurrent()
+			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnViewBrowser>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+
 		public void RemoveLastPageFromBackStack()
 		{
 			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
@@ -195,8 +202,5 @@ namespace Files.App.Views.Shells
 
 			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
 		}
-
-		private async Task CreateNewShortcutFromDialog()
-			=> await UIFilesystemHelpers.CreateShortcutFromDialogAsync(this);
 	}
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -88,7 +87,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
-			if (SelectedItems.Any())
+			if (SelectedItems?.Any() ?? false)
 			{
 				FileList.ScrollIntoView(SelectedItems.Last());
 				(FileList.ContainerFromItem(SelectedItems.Last()) as ListViewItem)?.Focus(FocusState.Keyboard);
@@ -147,27 +146,16 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 		}
 
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-			}
-		}
-
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputText(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -249,12 +237,7 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (!IsRenamingItem)
-				HandleRightClick(sender, e);
-		}
-
-		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
-		{
-			HandleRightClick(e.OriginalSource);
+				HandleRightClick();
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -283,7 +266,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				e.Handled = true;
 
-				if (IsItemSelected && SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+				if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -359,13 +342,13 @@ namespace Files.App.Views.LayoutModes
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-							ParentShellPageInstance.Up_Click();
+							ParentShellPageInstance?.Up_Click();
 						break;
 				}
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance.Up_Click();
+				ParentShellPageInstance?.Up_Click();
 			}
 
 			ResetRenameDoubleClick();
@@ -373,24 +356,15 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
-			HandleRightClick(sender, e);
+			HandleRightClick();
 		}
 
-		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
+		private void HandleRightClick()
 		{
-			HandleRightClick(e.OriginalSource);
-		}
-
-		private void HandleRightClick(object pressed)
-		{
-			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
-
-			// Check if RightTapped row is currently selected
-			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
-				return;
-
-			// The following code is only reachable when a user RightTapped an unselected row
-			ItemManipulationModel.SetSelectedItem(objectPressed);
+			if (ParentShellPageInstance is UIElement element &&
+				(!ParentShellPageInstance.IsCurrentPane
+				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+				element.Focus(FocusState.Programmatic);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -398,7 +372,6 @@ namespace Files.App.Views.LayoutModes
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
-
 
 			// Allow for Ctrl+Shift selection
 			if (ctrlPressed || shiftPressed)
@@ -413,7 +386,7 @@ namespace Files.App.Views.LayoutModes
 				ResetRenameDoubleClick();
 				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
 			}
-			else
+			else if (item is not null)
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
@@ -438,10 +411,14 @@ namespace Files.App.Views.LayoutModes
 						},
 						EventArgs.Empty);
 				}
-				else if (!IsRenamingItem && (isItemFile || isItemFolder))
+				else if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}
+			}
+			else
+			{
+				CloseFolder();
 			}
 		}
 
@@ -470,6 +447,13 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+				// Reassign values to update date display
+				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
 		protected override void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)

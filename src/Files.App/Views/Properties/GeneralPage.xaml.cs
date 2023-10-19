@@ -1,21 +1,13 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
 using Files.App.ViewModels.Properties;
-using Files.Shared;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Windows.Storage;
+using Microsoft.UI.Dispatching;
 
 namespace Files.App.Views.Properties
 {
@@ -23,9 +15,16 @@ namespace Files.App.Views.Properties
 	{
 		private readonly Regex letterRegex = new(@"\s*\(\w:\)$");
 
+		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
+
 		public GeneralPage()
 		{
 			InitializeComponent();
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+			_updateDateDisplayTimer.Start();
 		}
 
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
@@ -46,10 +45,12 @@ namespace Files.App.Views.Properties
 				ItemFileName.Text += match.Value;
 		}
 
-		private void DiskCleanupButton_Click(object _, RoutedEventArgs e)
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
 		{
-			if (BaseProperties is DriveProperties driveProps)
-				StorageSenseHelper.OpenStorageSense(driveProps.Drive.Path);
+			// Reassign values to update date display
+			ViewModel.ItemCreatedTimestampReal = ViewModel.ItemCreatedTimestampReal;
+			ViewModel.ItemModifiedTimestampReal = ViewModel.ItemModifiedTimestampReal;
+			ViewModel.ItemAccessedTimestampReal = ViewModel.ItemAccessedTimestampReal;
 		}
 
 		public override async Task<bool> SaveChangesAsync()
@@ -84,7 +85,11 @@ namespace Files.App.Views.Properties
 
 				newName = letterRegex.Replace(newName, string.Empty); // Remove "(C:)" from the new label
 
-				Win32API.SetVolumeLabel(drive.Path, newName);
+				if (drive.Type == Data.Items.DriveType.Network)
+					Win32API.SetNetworkDriveLabel(drive.DeviceID, newName);
+				else
+					Win32API.SetVolumeLabel(drive.Path, newName);
+
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					await drive.UpdateLabelAsync();
@@ -143,6 +148,9 @@ namespace Files.App.Views.Properties
 					);
 				}
 
+				if (ViewModel.IsUnblockFileSelected)
+					NativeFileOperationsHelper.DeleteFileFromApp($"{item.ItemPath}:Zone.Identifier");
+
 				if (!GetNewName(out var newName))
 					return true;
 
@@ -154,6 +162,7 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
+			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

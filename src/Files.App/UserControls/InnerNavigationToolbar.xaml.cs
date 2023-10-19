@@ -61,55 +61,52 @@ namespace Files.App.UserControls
 			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
+			var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
+			shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
-			{
-				var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
-				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
-			}
-			var cachedNewContextMenuEntries = addItemService.GetNewEntriesAsync().Result;
+
+			var cachedNewContextMenuEntries = addItemService.GetEntries();
 			if (cachedNewContextMenuEntries is null)
 				return;
-			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+
+			var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+
+			ushort key = 0;
+			string keyFormat = $"D{cachedNewContextMenuEntries.Count.ToString().Length}";
+
+			foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
 			{
-				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-
-				ushort key = 0;
-				string keyFormat = $"D{cachedNewContextMenuEntries.Count.ToString().Length}";
-
-				foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+				MenuFlyoutItem menuLayoutItem;
+				if (!string.IsNullOrEmpty(newEntry.IconBase64))
 				{
-					MenuFlyoutItem menuLayoutItem;
-					if (!string.IsNullOrEmpty(newEntry.IconBase64))
+					byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
+					using var ms = new MemoryStream(bitmapData);
+					var image = new BitmapImage();
+					_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+					menuLayoutItem = new MenuFlyoutItemWithImage()
 					{
-						byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
-						using var ms = new MemoryStream(bitmapData);
-						var image = new BitmapImage();
-						_ = image.SetSourceAsync(ms.AsRandomAccessStream());
-						menuLayoutItem = new MenuFlyoutItemWithImage()
-						{
-							Text = newEntry.Name,
-							BitmapIcon = image,
-							Tag = "CreateNewFile"
-						};
-					}
-					else
-					{
-						menuLayoutItem = new MenuFlyoutItem()
-						{
-							Text = newEntry.Name,
-							Icon = new FontIcon
-							{
-								Glyph = "\xE7C3"
-							},
-							Tag = "CreateNewFile"
-						};
-					}
-					menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
-					menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
-					menuLayoutItem.CommandParameter = newEntry;
-					NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
+						Text = newEntry.Name,
+						BitmapIcon = image,
+						Tag = "CreateNewFile"
+					};
 				}
+				else
+				{
+					menuLayoutItem = new MenuFlyoutItem()
+					{
+						Text = newEntry.Name,
+						Icon = new FontIcon
+						{
+							Glyph = "\xE7C3"
+						},
+						Tag = "CreateNewFile"
+					};
+				}
+				menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
+				menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
+				menuLayoutItem.CommandParameter = newEntry;
+				NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
 			}
 		}
 

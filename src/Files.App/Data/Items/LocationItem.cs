@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI;
-using Files.App.Utils.Shell;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -14,14 +14,27 @@ namespace Files.App.Data.Items
 		public BitmapImage Icon
 		{
 			get => icon;
-			set => SetProperty(ref icon, value);
+			set
+			{
+				SetProperty(ref icon, value, nameof(Icon));
+				OnPropertyChanged(nameof(IconSource));
+			}
 		}
-
-		//public Uri IconSource { get; set; }
 
 		public byte[] IconData { get; set; }
 
-		public string Text { get; set; } = "";
+		private string text = "";
+		public string Text
+		{
+			get => text;
+			set
+			{
+				text = value;
+				// Just in case path hasn't been set
+				if (ToolTip is "")
+					ToolTip = value;
+			}
+		}
 
 		private string path;
 		public string Path
@@ -30,7 +43,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				ToolTipText = string.IsNullOrEmpty(Path) ||
+				ToolTip = string.IsNullOrEmpty(Path) ||
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
@@ -40,14 +53,20 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public virtual string ToolTipText { get; set; }
-
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.Location;
 
 		public bool IsDefaultLocation { get; set; }
 
-		public BulkConcurrentObservableCollection<INavigationControlItem> ChildItems { get; set; }
+		public object? Children => Section == SectionType.Home ? null : ChildItems;
+		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
+		public IconSource? IconSource
+		{
+			get => new ImageIconSource()
+			{
+				ImageSource = icon
+			};
+		}
 
 		public bool SelectsOnInvoked { get; set; } = true;
 
@@ -68,6 +87,31 @@ namespace Files.App.Data.Items
 
 		public bool IsHeader { get; set; }
 
+		private object toolTip = "";
+		public virtual object ToolTip
+		{
+			get => toolTip;
+			set
+			{
+				SetProperty(ref toolTip, value);
+			}
+		}
+
+		public FrameworkElement? ItemDecorator
+		{
+			get
+			{
+				if (Section == SectionType.Favorites)
+				{
+					return new OpacityIcon()
+					{
+						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
+					};
+				}
+				return null;
+			}
+		}
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
@@ -81,7 +125,10 @@ namespace Files.App.Data.Items
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				SpaceUsed = RecycleBinHelpers.GetSize();
+			});
 		}
 
 		private ulong spaceUsed;
@@ -90,14 +137,15 @@ namespace Files.App.Data.Items
 			get => spaceUsed;
 			set
 			{
-				SetProperty(ref spaceUsed, value);
-
-				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => OnPropertyChanged(nameof(ToolTipText)));
+				if (SetProperty(ref spaceUsed, value))
+					OnPropertyChanged(nameof(ToolTip));
 			}
 		}
 
-		public override string ToolTipText
-			=> SpaceUsed.ToSizeString();
+		public override object ToolTip
+		{
+			get => SpaceUsed.ToSizeString();
+		}
 
 		public RecycleBinLocationItem()
 		{

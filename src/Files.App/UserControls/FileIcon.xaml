@@ -10,6 +10,7 @@
 	mc:Ignorable="d">
 
 	<StackPanel>
+
 		<FontIcon
 			x:Name="FolderGlyphIcon"
 			Width="{x:Bind ItemSize}"
@@ -18,6 +19,7 @@
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoadFolderGlyph, Mode=OneWay}"
 			Glyph="&#xF12B;" />
+
 		<FontIcon
 			x:Name="EmptyImageIcon"
 			HorizontalAlignment="Left"
@@ -25,6 +27,7 @@
 			x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
 			FontSize="{x:Bind ItemSize}"
 			Glyph="&#xE7C3;" />
+
 		<FontIcon
 			x:Name="CombinedItemsIcon"
 			HorizontalAlignment="Left"
@@ -32,12 +35,14 @@
 			x:Load="{x:Bind ViewModel.LoadCombinedItemsGlyph, Mode=OneWay}"
 			FontSize="{x:Bind LargerItemSize}"
 			Glyph="&#xF571;" />
+
 		<Image
 			x:Name="DriveItemIcon"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoadCustomIcon, Mode=OneWay}"
 			Source="{x:Bind CustomIconImageSource}" />
+
 		<FontIcon
 			x:Name="WebShortcutGlyph"
 			HorizontalAlignment="Left"
@@ -45,6 +50,7 @@
 			x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
 			FontSize="{x:Bind ItemSize}"
 			Glyph="&#xE71B;" />
+
 		<Image
 			x:Name="ItemIcon"
 			Height="{x:Bind ItemSize}"
@@ -52,5 +58,6 @@
 			VerticalAlignment="Center"
 			x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
 			Source="{x:Bind FileIconImageSource, Mode=OneWay}" />
+
 	</StackPanel>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:HomePageWidget
 	x:Class="Files.App.UserControls.Widgets.DrivesWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -8,12 +8,14 @@
 	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
+
 	<Grid>
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Top"
 			ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded, Mode=OneWay}">
+
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
 					ItemsStretch="None"
@@ -23,6 +25,7 @@
 					MinRowSpacing="8"
 					Orientation="Horizontal" />
 			</ItemsRepeater.Layout>
+
 			<ItemsRepeater.ItemTemplate>
 				<DataTemplate x:DataType="local:DriveCardItem">
 					<Button
@@ -127,6 +130,7 @@
 					</Button>
 				</DataTemplate>
 			</ItemsRepeater.ItemTemplate>
+
 		</ItemsRepeater>
 	</Grid>
 </local:HomePageWidget>

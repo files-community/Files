@@ -23,7 +23,6 @@ namespace Files.App.Data.Commands
 		ToggleShowHiddenItems,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
-		ToggleSidebar,
 
 		// File System
 		CopyItem,
@@ -97,12 +96,13 @@ namespace Files.App.Data.Commands
 		RotateRight,
 
 		// Open
-		OpenInVS,
 		OpenInVSCode,
+		OpenRepoInVSCode,
 		OpenProperties,
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
+		OpenCommandPalette,
 
 		// Layout
 		LayoutDecreaseSize,

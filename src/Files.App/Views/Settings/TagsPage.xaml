@@ -170,7 +170,7 @@
 							Padding="12"
 							HorizontalAlignment="Stretch"
 							AllowDrop="True"
-							CanReorderItems="True"
+							CanReorderItems="{x:Bind AllowItemsDrag, Mode=OneWay}"
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 							ReorderMode="Enabled"
@@ -188,24 +188,19 @@
 										</Grid.ColumnDefinitions>
 										<StackPanel
 											Height="24"
-											Padding="8,0"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Center"
-											BorderBrush="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-											BorderThickness="1"
-											CornerRadius="12"
 											Orientation="Horizontal"
+											Spacing="8"
 											ToolTipService.ToolTip="{x:Bind Tag.Name}">
-											<FontIcon
-												FontSize="12"
-												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-												Glyph="&#xE8EC;" />
+											<PathIcon
+												VerticalAlignment="Center"
+												Data="{StaticResource ColorIconFilledTag}"
+												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 											<TextBlock
 												x:Name="TagName"
 												MaxWidth="200"
-												Padding="8,0,0,0"
 												VerticalAlignment="Center"
-												FontSize="12"
 												LineHeight="18"
 												Text="{x:Bind Tag.Name}"
 												TextTrimming="CharacterEllipsis" />

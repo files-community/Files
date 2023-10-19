@@ -98,6 +98,17 @@
 				</ToggleSwitch>
 			</local:SettingsBlockControl>
 
+			<!--  Leave App Running  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsLeaveAppRunning}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8E6;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}"
+					IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Experimental Settings  -->
 			<TextBlock
 				Padding="0,16,0,4"
@@ -134,7 +145,7 @@
 				HorizontalAlignment="Stretch"
 				x:Load="False">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE1A5;" />
+					<FontIcon Glyph="&#xE8E5;" />
 				</local:SettingsBlockControl.Icon>
 				<ToggleSwitch
 					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"

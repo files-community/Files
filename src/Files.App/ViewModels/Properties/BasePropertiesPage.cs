@@ -31,7 +31,23 @@ namespace Files.App.ViewModels.Properties
 				BaseProperties = new LibraryProperties(ViewModel, np.CancellationTokenSource, DispatcherQueue, library, AppInstance);
 			// Drive
 			else if (np.Parameter is DriveItem drive)
-				BaseProperties = new DriveProperties(ViewModel, drive, AppInstance);
+			{
+				var props = new DriveProperties(ViewModel, drive, AppInstance);
+				BaseProperties = props;
+
+				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, "C:\\", StringComparison.OrdinalIgnoreCase));
+				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSense(props.Drive.Path));
+				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
+				{
+					try
+					{
+						await Win32API.OpenFormatDriveDialog(props.Drive.Path);
+					}
+					catch (Exception)
+					{
+					}
+				});
+			}
 			// Storage objects (multi-selected)
 			else if (np.Parameter is List<ListedItem> items)
 			{

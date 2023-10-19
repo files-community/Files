@@ -2,16 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Utils;
-using Files.Core.ViewModels.Dialogs;
-using Files.Core.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Threading.Tasks;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.App.Dialogs
 {
@@ -38,15 +31,17 @@ namespace Files.App.Dialogs
 			MainWindow.Instance.SizeChanged += Current_SizeChanged;
 		}
 
-		public new async Task<DialogResult> ShowAsync() => (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		public new async Task<DialogResult> ShowAsync()
+		{
+			return (DialogResult)await SetContentDialogRoot(this).ShowAsync();
+		}
 
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 
@@ -64,20 +59,20 @@ namespace Files.App.Dialogs
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
 			var primaryButton = this.FindDescendant("PrimaryButton") as Button;
 			if (primaryButton is not null)
-			{
 				primaryButton.GotFocus += PrimaryButton_GotFocus;
-			}
 		}
 
 		private void PrimaryButton_GotFocus(object sender, RoutedEventArgs e)
 		{
-			(sender as Button).GotFocus -= PrimaryButton_GotFocus;
+			if (sender is Button btn)
+				btn.GotFocus -= PrimaryButton_GotFocus;
+
 			if (chkPermanentlyDelete is not null)
-			{
 				chkPermanentlyDelete.IsEnabled = ViewModel.IsDeletePermanentlyEnabled;
-			}
+
 			DetailsGrid.IsEnabled = true;
 		}
 
@@ -92,37 +87,18 @@ namespace Files.App.Dialogs
 
 		private void NameStackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
 		{
-			if (sender is FrameworkElement element
-				&& element.DataContext is FileSystemDialogConflictItemViewModel conflictItem
-				&& conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
+			if (sender is FrameworkElement element &&
+				element.DataContext is FileSystemDialogConflictItemViewModel conflictItem &&
+				conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName)
 			{
-				conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
-				conflictItem.CustomName = conflictItem.DestinationDisplayName;
+				StartRename(conflictItem);
 			}
 		}
 
 		private void NameEdit_LostFocus(object sender, RoutedEventArgs e)
 		{
 			if ((sender as FrameworkElement)?.DataContext is FileSystemDialogConflictItemViewModel conflictItem)
-			{
-				conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
-
-				if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
-				{
-					conflictItem.IsTextBoxVisible = false;
-				}
-				else
-				{
-					ViewModel.PrimaryButtonEnabled = false;
-				}
-
-				if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
-				{
-					var savedName = conflictItem.DestinationDisplayName;
-					conflictItem.CustomName = string.Empty;
-					conflictItem.DestinationDisplayName = savedName;
-				}
-			}
+				EndRename(conflictItem);
 		}
 
 		private void NameEdit_Loaded(object sender, RoutedEventArgs e)
@@ -146,11 +122,71 @@ namespace Files.App.Dialogs
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
 			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
-			{
 				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
-			}
 
 			UpdateDialogLayout();
+		}
+
+		private void NameEdit_PreviewKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element || element.DataContext is not FileSystemDialogConflictItemViewModel currentItem)
+				return;
+
+			if (e.Key is Windows.System.VirtualKey.Down)
+			{
+				var index = ViewModel.Items.IndexOf(currentItem);
+				if (index == -1 || index == ViewModel.Items.Count - 1)
+					return;
+
+				var nextItem = ViewModel.Items.Skip(index + 1)
+					.FirstOrDefault(i => i is FileSystemDialogConflictItemViewModel { ConflictResolveOption: FileNameConflictResolveOptionType.GenerateNewName });
+
+				if (nextItem is null)
+					return;
+
+				EndRename(currentItem);
+				StartRename((FileSystemDialogConflictItemViewModel)nextItem);
+
+				e.Handled = true;
+			}
+			else if (e.Key is Windows.System.VirtualKey.Up)
+			{
+				var index = ViewModel.Items.IndexOf(currentItem);
+				if (index == -1 || index == 0)
+					return;
+
+				var prevItem = ViewModel.Items.Take(index)
+					.LastOrDefault(i => i is FileSystemDialogConflictItemViewModel { ConflictResolveOption: FileNameConflictResolveOptionType.GenerateNewName });
+				if (prevItem is null)
+					return;
+
+				EndRename(currentItem);
+				StartRename((FileSystemDialogConflictItemViewModel)prevItem);
+
+				e.Handled = true;
+			}
+		}
+
+		private void StartRename(FileSystemDialogConflictItemViewModel conflictItem)
+		{
+			conflictItem.IsTextBoxVisible = conflictItem.ConflictResolveOption == FileNameConflictResolveOptionType.GenerateNewName;
+			conflictItem.CustomName = conflictItem.DestinationDisplayName;
+		}
+
+		private void EndRename(FileSystemDialogConflictItemViewModel conflictItem)
+		{
+			conflictItem.CustomName = FilesystemHelpers.FilterRestrictedCharacters(conflictItem.CustomName);
+
+			if (ViewModel.IsNameAvailableForItem(conflictItem, conflictItem.CustomName!))
+				conflictItem.IsTextBoxVisible = false;
+			else
+				ViewModel.PrimaryButtonEnabled = false;
+
+			if (conflictItem.CustomName.Equals(conflictItem.DisplayName))
+			{
+				var savedName = conflictItem.DestinationDisplayName;
+				conflictItem.DestinationDisplayName = savedName;
+			}
 		}
 	}
 }

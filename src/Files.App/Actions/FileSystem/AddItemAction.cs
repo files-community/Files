@@ -17,9 +17,6 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddItemDescription".GetLocalizedResource();
 
-		public HotKey HotKey
-			=> new(Keys.N, KeyModifiers.CtrlShift);
-
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 

@@ -8,7 +8,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Widgets"
-	xmlns:localcontrols="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
 	d:DesignHeight="300"
@@ -22,6 +21,7 @@
 
 	<!--  Collection of containers  -->
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
+
 		<ItemsRepeater.Layout>
 			<UniformGridLayout
 				ItemsStretch="Fill"
@@ -164,5 +164,6 @@
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
+
 	</ItemsRepeater>
 </local:HomePageWidget>

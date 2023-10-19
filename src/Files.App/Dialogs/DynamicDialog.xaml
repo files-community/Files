@@ -57,5 +57,6 @@
 				</icore:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ContentControl>
+
 	</Grid>
 </ContentDialog>

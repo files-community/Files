@@ -3,31 +3,27 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Data.Models;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Utils.Cloud;
 using Files.App.Helpers;
-using Files.App.Services;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
-using Files.App.Utils.Shell;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
-using Files.Core.Utils.Cloud;
-using Files.Shared;
+#if STORE || STABLE || PREVIEW
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+#endif
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -47,7 +43,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static bool IsSplashScreenLoading { get; set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
@@ -152,7 +148,7 @@ namespace Files.App
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<NetworkDrivesViewModel>()
-					.AddSingleton<OngoingTasksViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 				).Build();
 		}
@@ -176,25 +172,29 @@ namespace Files.App
 
 				await Task.WhenAll(
 					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.GetNewEntriesAsync(),
+					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
 
 				FileTagsHelper.UpdateTagsDb();
 			});
 
-			// Check for required updates
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await CheckForRequiredUpdates();
 
 			static async Task OptionalTask(Task task, bool condition)
 			{
 				if (condition)
 					await task;
 			}
+		}
+
+		private static async Task CheckForRequiredUpdates()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+			await updateService.CheckForUpdates();
+			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
+			await updateService.CheckLatestReleaseNotesAsync();
 		}
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace Files.App
 				// Wait for the Window to initialize
 				await Task.Delay(10);
 
-				IsSplashScreenLoading = true;
+				SplashScreenLoadingTCS = new TaskCompletionSource();
 				MainWindow.Instance.ShowSplashScreen();
 
 				// Get AppActivationArguments
@@ -235,13 +235,8 @@ namespace Files.App
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				// Wait for the UI to update
-				for (var i = 0; i < 50; i++)
-				{
-					if (IsSplashScreenLoading)
-						await Task.Delay(10);
-					else
-						break;
-				}
+				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
+				SplashScreenLoadingTCS = null;
 
 				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
@@ -312,6 +307,42 @@ namespace Files.App
 				return;
 			}
 
+			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+				!AppModel.ForceProcessTermination &&
+				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
+			{
+				// Close open content dialogs
+				UIHelpers.CloseAllDialogs();
+				
+				// Close all notification banners except in progress
+				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
+
+				// Cache the window instead of closing it
+				MainWindow.Instance.AppWindow.Hide();
+				args.Handled = true;
+
+				// Save and close all tabs
+				SaveSessionTabs();
+				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
+				MainPageViewModel.AppInstances.Clear();
+
+				// Wait for all properties windows to close
+				await FilePropertiesHelpers.WaitClosingAll();
+
+				// Sleep current instance
+				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
+				Thread.Yield();
+				if (Program.Pool.WaitOne())
+				{
+					// Resume the instance
+					Program.Pool.Dispose();
+
+					_ = CheckForRequiredUpdates();
+				}
+
+				return;
+			}
+
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
 
@@ -321,11 +352,11 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
 
@@ -357,19 +388,19 @@ namespace Files.App
 		/// <summary>
 		/// Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages.
 		/// </summary>
-		public static void SaveSessionTabs() 
+		public static void SaveSessionTabs()
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.TabItemArguments is not null)
+				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.TabItemArguments.Serialize();
+					return tab.NavigationParameter.Serialize();
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+					var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 					return defaultArg.Serialize();
 				}
 			})
@@ -437,7 +468,7 @@ namespace Files.App
 
 			Debug.WriteLine(formattedException.ToString());
 
-			 // Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
 			Debugger.Break();
 
 			SaveSessionTabs();

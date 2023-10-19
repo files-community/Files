@@ -51,6 +51,7 @@
 	</UserControl.Resources>
 
 	<Grid>
+
 		<!--  Expander  -->
 		<Grid x:Name="ExpanderPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}">
 			<Grid x:Name="ExpanderGrid" x:Load="{x:Bind IsClickable, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
@@ -58,6 +59,7 @@
 					x:Name="ExpanderControl"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
+					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 					Collapsed="Expander_Collapsed"
 					Expanding="Expander_Expanding"
 					IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
@@ -78,6 +80,7 @@
 				</Expander>
 			</Grid>
 		</Grid>
+
 		<!--  Button  -->
 		<Grid x:Name="ButtonPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToTrueConverter}}">
 			<Grid x:Name="ButtonGrid" x:Load="{x:Bind IsClickable, Mode=OneWay}">
@@ -94,6 +97,7 @@
 				</Button>
 			</Grid>
 		</Grid>
+
 		<!--  Grid  -->
 		<Grid x:Name="StaticPreGrid" x:Load="{x:Bind ExpandableContent, Mode=OneWay, Converter={StaticResource NullToTrueConverter}}">
 			<Grid
@@ -108,5 +112,6 @@
 					SettingsActionableElement="{x:Bind SettingsActionableElement, Mode=OneWay}" />
 			</Grid>
 		</Grid>
+
 	</Grid>
 </UserControl>

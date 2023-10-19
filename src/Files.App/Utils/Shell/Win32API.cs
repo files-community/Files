@@ -370,22 +370,35 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
+		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
+		{
+			using Process process = CreatePowershellProcess(command, runAsAdmin);
+			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
+
+			process.Start();
+
+			try
+			{
+				await process.WaitForExitAsync(cts.Token);
+				return process.ExitCode == 0;
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+			catch (Win32Exception)
+			{
+				// If user cancels UAC
+				return false;
+			}
+		}
+
 		public static bool RunPowershellCommand(string command, bool runAsAdmin)
 		{
 			try
 			{
-				using Process process = new Process();
+				using Process process = CreatePowershellProcess(command, runAsAdmin);
 
-				if (runAsAdmin)
-				{
-					process.StartInfo.UseShellExecute = true;
-					process.StartInfo.Verb = "runas";
-				}
-
-				process.StartInfo.FileName = "powershell.exe";
-				process.StartInfo.CreateNoWindow = true;
-				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				process.StartInfo.Arguments = command;
 				process.Start();
 
 				if (process.WaitForExit(30 * 1000))
@@ -499,28 +512,28 @@ namespace Files.App.Utils.Shell
 			return success;
 		}
 
-		public static void UnlockBitlockerDrive(string drive, string password)
-		{
-			RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
-		}
-
-		public static void OpenFormatDriveDialog(string drive)
+		public static Task OpenFormatDriveDialog(string drive)
 		{
 			// Format requires elevation
 			int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
 		}
 
-		public static void SetVolumeLabel(string driveName, string newLabel)
+		public static void SetVolumeLabel(string drivePath, string newLabel)
 		{
 			// Rename requires elevation
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
+			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", true);
 		}
 
-		public static bool MountVhdDisk(string vhdPath)
+		public static void SetNetworkDriveLabel(string driveName, string newLabel)
+		{
+			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", false);
+		}
+
+		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
-			return RunPowershellCommand($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
 		}
 
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -800,19 +813,37 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		public static void InstallFont(string fontFilePath, bool forAllUsers)
+		public static Task InstallFont(string fontFilePath, bool forAllUsers)
 		{
 			string fontDirectory = forAllUsers
 				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
 				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
 
-			string registryKey = forAllUsers 
+			string registryKey = forAllUsers
 				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
 				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
 
 			var destinationPath = Path.Combine(fontDirectory, Path.GetFileName(fontFilePath));
 
-			RunPowershellCommand($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
+		}
+
+		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
+		{
+			Process process = new();
+
+			if (runAsAdmin)
+			{
+				process.StartInfo.UseShellExecute = true;
+				process.StartInfo.Verb = "runas";
+			}
+
+			process.StartInfo.FileName = "powershell.exe";
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			process.StartInfo.Arguments = command;
+
+			return process;
 		}
 	}
 }

@@ -11,6 +11,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:extensions="using:CommunityToolkit.WinUI.UI"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
@@ -20,8 +21,10 @@
 	d:DesignWidth="800"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
+
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
@@ -39,17 +42,173 @@
 						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
 					</Style>
+
+					<Style x:Key="DefaultInfoBadgeStyle" TargetType="InfoBadge">
+						<Setter Property="MinHeight" Value="{ThemeResource InfoBadgeMinHeight}" />
+						<Setter Property="MinWidth" Value="{ThemeResource InfoBadgeMinWidth}" />
+						<Setter Property="MaxHeight" Value="{ThemeResource InfoBadgeMaxHeight}" />
+						<Setter Property="Background" Value="{ThemeResource InfoBadgeBackground}" />
+						<Setter Property="Foreground" Value="{ThemeResource InfoBadgeForeground}" />
+						<Setter Property="Padding" Value="{ThemeResource InfoBadgePadding}" />
+						<Setter Property="IsTabStop" Value="False" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="InfoBadge">
+									<Grid
+										x:Name="RootGrid"
+										Padding="{TemplateBinding Padding}"
+										Background="{TemplateBinding Background}"
+										CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.InfoBadgeCornerRadius}">
+										<TextBlock
+											x:Name="ValueTextBlock"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											FontSize="{ThemeResource InfoBadgeValueFontSize}"
+											Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value, Mode=OneWay}"
+											Visibility="Collapsed" />
+										<Viewbox
+											x:Name="IconPresenter"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Stretch"
+											Visibility="Collapsed">
+											<IconSourceElement IconSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IconSource, Mode=OneWay}" />
+										</Viewbox>
+										<VisualStateManager.VisualStateGroups>
+											<VisualStateGroup x:Name="DisplayKindStates">
+												<VisualState x:Name="Dot" />
+												<VisualState x:Name="Icon">
+													<VisualState.Setters>
+														<Setter Target="IconPresenter.Visibility" Value="Visible" />
+														<Setter Target="IconPresenter.Margin" Value="{ThemeResource IconInfoBadgeIconMargin}" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="FontIcon">
+													<VisualState.Setters>
+														<Setter Target="IconPresenter.Visibility" Value="Visible" />
+														<Setter Target="IconPresenter.Margin" Value="{ThemeResource IconInfoBadgeFontIconMargin}" />
+													</VisualState.Setters>
+												</VisualState>
+												<VisualState x:Name="Value">
+													<VisualState.Setters>
+														<Setter Target="ValueTextBlock.Visibility" Value="Visible" />
+														<Setter Target="ValueTextBlock.Margin" Value="{ThemeResource ValueInfoBadgeTextMargin}" />
+													</VisualState.Setters>
+												</VisualState>
+											</VisualStateGroup>
+										</VisualStateManager.VisualStateGroups>
+									</Grid>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style
+						x:Key="AttentionDotInfoBadgeStyle"
+						BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Background" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+					</Style>
+					<Style
+						x:Key="AttentionValueInfoBadgeStyle"
+						BasedOn="{StaticResource AttentionDotInfoBadgeStyle}"
+						TargetType="InfoBadge" />
+					<Style
+						x:Key="AttentionIconInfoBadgeStyle"
+						BasedOn="{StaticResource AttentionDotInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Padding" Value="0,4,0,2" />
+						<Setter Property="IconSource">
+							<Setter.Value>
+								<FontIconSource Glyph="&#xEA38;" />
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style
+						x:Key="InformationalDotInfoBadgeStyle"
+						BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Background" Value="{ThemeResource SystemFillColorSolidNeutralBrush}" />
+					</Style>
+					<Style
+						x:Key="InformationalValueInfoBadgeStyle"
+						BasedOn="{StaticResource InformationalDotInfoBadgeStyle}"
+						TargetType="InfoBadge" />
+					<Style
+						x:Key="InformationalIconInfoBadgeStyle"
+						BasedOn="{StaticResource InformationalDotInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Padding" Value="0,4,0,2" />
+						<Setter Property="IconSource">
+							<Setter.Value>
+								<FontIconSource Glyph="&#xF13F;" />
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style
+						x:Key="SuccessDotInfoBadgeStyle"
+						BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Background" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+					</Style>
+					<Style
+						x:Key="SuccessValueInfoBadgeStyle"
+						BasedOn="{StaticResource SuccessDotInfoBadgeStyle}"
+						TargetType="InfoBadge" />
+					<Style
+						x:Key="SuccessIconInfoBadgeStyle"
+						BasedOn="{StaticResource SuccessDotInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="IconSource">
+							<Setter.Value>
+								<SymbolIconSource Symbol="Accept" />
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style
+						x:Key="CautionDotInfoBadgeStyle"
+						BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Background" Value="{ThemeResource SystemFillColorCautionBrush}" />
+					</Style>
+					<Style
+						x:Key="CautionValueInfoBadgeStyle"
+						BasedOn="{StaticResource CautionDotInfoBadgeStyle}"
+						TargetType="InfoBadge" />
+					<Style
+						x:Key="CautionIconInfoBadgeStyle"
+						BasedOn="{StaticResource CautionDotInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="IconSource">
+							<Setter.Value>
+								<SymbolIconSource Symbol="Important" />
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style
+						x:Key="CriticalDotInfoBadgeStyle"
+						BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="Background" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+					</Style>
+					<Style
+						x:Key="CriticalValueInfoBadgeStyle"
+						BasedOn="{StaticResource CriticalDotInfoBadgeStyle}"
+						TargetType="InfoBadge" />
+					<Style
+						x:Key="CriticalIconInfoBadgeStyle"
+						BasedOn="{StaticResource CriticalDotInfoBadgeStyle}"
+						TargetType="InfoBadge">
+						<Setter Property="IconSource">
+							<Setter.Value>
+								<SymbolIconSource Symbol="Cancel" />
+							</Setter.Value>
+						</Setter>
+					</Style>
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid
-		x:Name="ToolbarGrid"
-		HorizontalAlignment="Stretch"
-		VerticalAlignment="Stretch"
-		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
-		ColumnSpacing="0">
+	<Grid x:Name="RootGrid" Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}">
 		<Grid Padding="8" ColumnSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -58,6 +217,7 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Page Navigation Actions  -->
 			<StackPanel
 				Grid.Row="1"
 				Orientation="Horizontal"
@@ -114,6 +274,7 @@
 				</Button>
 			</StackPanel>
 
+			<!--  Path Box  -->
 			<AutoSuggestBox
 				x:Name="VisiblePath"
 				Grid.Column="1"
@@ -123,7 +284,6 @@
 				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
 				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
 				CornerRadius="{StaticResource ControlCornerRadius}"
-				DisplayMemberPath="Name"
 				FocusDisengaged="VisiblePath_LostFocus"
 				FontWeight="SemiBold"
 				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
@@ -136,9 +296,45 @@
 				ScrollViewer.VerticalScrollBarVisibility="Hidden"
 				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
 				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-				TextMemberPath="ItemPath"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+				TextMemberPath="Text"
+				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+				<AutoSuggestBox.ItemTemplate>
+					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
+						<StackPanel Margin="0,4">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
 
+								<!--  Primary Display  -->
+								<!--  This is used to display paths or command descriptions.  -->
+								<TextBlock Grid.Column="0" Foreground="{ThemeResource TextFillColorPrimaryBrush}">
+									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+								</TextBlock>
+
+								<!--  Supplementary Display  -->
+								<!--  This is used to display command hotkeys.  -->
+								<TextBlock
+									Grid.Column="1"
+									FontWeight="Normal"
+									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+									Text="{x:Bind SupplementaryDisplay, Mode=OneWay}" />
+							</Grid>
+
+							<!--  Secondary Display  -->
+							<TextBlock
+								x:Name="SecondaryDisplayBlock"
+								x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
+								FontWeight="Normal"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
+						</StackPanel>
+					</DataTemplate>
+				</AutoSuggestBox.ItemTemplate>
+			</AutoSuggestBox>
+
+			<!--  Path Breadcrumb Bar  -->
 			<Grid
 				x:Name="ClickablePath"
 				Grid.Column="1"
@@ -170,6 +366,7 @@
 					Glyph="&#xE70D;" />
 			</Grid>
 
+			<!--  Storage Search Box  -->
 			<uc:SearchBox
 				x:Name="SearchRegion"
 				Grid.Column="2"
@@ -186,9 +383,12 @@
 				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
+			<!--  Right Side Action Buttons  -->
 			<StackPanel Grid.Column="3" Orientation="Horizontal">
+
+				<!--  Mini Search Button  -->
 				<Button
-					x:Name="SearchButton"
+					x:Name="ShowSearchButton"
 					AccessKey="I"
 					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
 					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
@@ -199,53 +399,70 @@
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
 
+				<!--  Status Center  -->
 				<Button
-					x:Name="OngoingTasks"
+					x:Name="ShowStatusCenterButton"
 					Padding="0"
 					AccessKey="T"
-					AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
+					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=OngoingTasks}"
-					Visibility="{x:Bind OngoingTasksViewModel.AnyBannersPresent, Mode=OneWay}">
-					<Button.Content>
-						<Grid>
-							<FontIcon
-								x:Name="OngoingTasksFontIcon"
-								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								FontSize="16"
-								Glyph="&#xF16A;" />
+					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
+					Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
 
-							<ProgressRing
-								x:Name="MedianOperationProgressRing"
-								Width="20"
-								Height="20"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind OngoingTasksViewModel.AnyOperationsOngoing, Mode=OneWay}"
-								IsIndeterminate="False"
-								Value="{x:Bind OngoingTasksViewModel.MedianOperationProgressValue, Mode=OneWay}" />
-						</Grid>
-					</Button.Content>
+					<Grid Margin="-16">
+
+						<FontIcon
+							x:Name="OngoingTasksFontIcon"
+							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							FontSize="16"
+							Glyph="&#xF16A;" />
+
+						<ProgressRing
+							x:Name="MedianOperationProgressRing"
+							Width="20"
+							Height="20"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
+							Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+							IsIndeterminate="False"
+							Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
+
+						<InfoBadge
+							x:Name="StatusInfoBadge"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+
+					</Grid>
+
 					<Button.Flyout>
 						<Flyout
 							contract8Present:ShouldConstrainToRootBounds="False"
-							AutomationProperties.Name="{helpers:ResourceString Name=OngoingTasks}"
-							Placement="Bottom">
-							<uc:OngoingTasksFlyout
+							AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+							Placement="BottomEdgeAlignedRight">
+							<Flyout.FlyoutPresenterStyle>
+								<Style TargetType="FlyoutPresenter">
+									<Setter Property="Padding" Value="0" />
+									<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+								</Style>
+							</Flyout.FlyoutPresenterStyle>
+
+							<uc:StatusCenter
 								x:Name="OngoingTasksControl"
 								Width="400"
 								MinHeight="300"
 								MaxHeight="500"
 								x:FieldModifier="public"
-								IsTabStop="True"
-								OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}" />
+								IsTabStop="True" />
 						</Flyout>
 					</Button.Flyout>
+
 				</Button>
 
-				<!--  Install Update Notification  -->
+				<!--  Update The Files App Button When An Update Available  -->
 				<Button
-					x:Name="UpdateButton"
+					x:Name="UpdateAppButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}"
@@ -274,23 +491,24 @@
 					</Grid>
 				</Button>
 
-				<!--  Update Release Notes  -->
+				<!--  Show The Latest Version Release Note  -->
 				<Button
-					x:Name="ViewReleaseNotesButton"
+					x:Name="ShowReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
 					AccessKey="2"
-					AutomationProperties.Name="{helpers:ResourceString Name=ReleaseNotes}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesCommand, Mode=OneWay}"
+					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
+					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ReleaseNotes}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
 						Glyph="&#xF133;" />
 				</Button>
 
+				<!--  Show The Files App Settings Dialog  -->
 				<Button
 					x:Name="SettingsButton"
 					AccessKey="I"
@@ -310,53 +528,16 @@
 						</AnimatedIcon.FallbackIconSource>
 					</AnimatedIcon>
 				</Button>
+
 			</StackPanel>
 
+			<!--  Status Center TeachingTip  -->
 			<TeachingTip
 				x:Name="StatusCenterTeachingTip"
 				Title="{helpers:ResourceString Name=OngoingTasksTeachingTip/Title}"
 				IsOpen="False"
 				Subtitle="{helpers:ResourceString Name=OngoingTasksTeachingTip/Subtitle}"
-				Target="{x:Bind OngoingTasks}" />
-
-			<!--  Release Notes Teaching Tip  -->
-			<TeachingTip
-				x:Name="ReleaseNotesTeachingTip"
-				IsLightDismissEnabled="True"
-				IsOpen="{x:Bind ViewModel.IsReleaseNotesOpen, Mode=TwoWay}"
-				Target="{x:Bind ViewReleaseNotesButton}">
-
-				<!--  Sponsor Button  -->
-				<TeachingTip.HeroContent>
-					<Border
-						Padding="12"
-						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-						BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-						BorderThickness="0,1,0,0">
-
-						<HyperlinkButton
-							HorizontalAlignment="Center"
-							Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-							NavigateUri="https://github.com/sponsors/yaira2" />
-					</Border>
-				</TeachingTip.HeroContent>
-
-				<!--  Markdown Content  -->
-				<TeachingTip.Content>
-					<ScrollViewer
-						MinHeight="300"
-						MaxHeight="400"
-						Margin="-12"
-						Padding="12"
-						HorizontalScrollMode="Auto"
-						VerticalScrollMode="Auto">
-						<controls:MarkdownTextBlock
-							Background="Transparent"
-							ListGutterWidth="16"
-							Text="{x:Bind ViewModel.ReleaseNotes, Mode=OneWay}" />
-					</ScrollViewer>
-				</TeachingTip.Content>
-			</TeachingTip>
+				Target="{x:Bind ShowStatusCenterButton}" />
 		</Grid>
 
 		<VisualStateManager.VisualStateGroups>
@@ -426,4 +607,5 @@
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
+
 </UserControl>

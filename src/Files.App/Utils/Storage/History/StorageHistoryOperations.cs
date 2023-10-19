@@ -23,7 +23,7 @@ namespace Files.App.Utils.Storage
 		public async Task<ReturnResult> Undo(IStorageHistory history)
 		{
 			ReturnResult returnStatus = ReturnResult.InProgress;
-			Progress<FileSystemProgress> progress = new();
+			Progress<StatusCenterItemProgressModel> progress = new();
 
 			progress.ProgressChanged += (s, e) => returnStatus = e.Status!.Value.ToStatus();
 
@@ -107,7 +107,7 @@ namespace Files.App.Utils.Storage
 		public async Task<ReturnResult> Redo(IStorageHistory history)
 		{
 			ReturnResult returnStatus = ReturnResult.InProgress;
-			Progress<FileSystemProgress> progress = new();
+			Progress<StatusCenterItemProgressModel> progress = new();
 
 			progress.ProgressChanged += (s, e) => { returnStatus = e.Status!.Value.ToStatus(); };
 

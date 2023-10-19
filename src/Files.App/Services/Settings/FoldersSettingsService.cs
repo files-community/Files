@@ -27,7 +27,7 @@ namespace Files.App.Services.Settings
 
 		public double GitStatusColumnWidth
 		{
-			get => Get(50d);
+			get => Get(80d);
 			set
 			{
 				if (ShowGitStatusColumn)
@@ -123,7 +123,7 @@ namespace Files.App.Services.Settings
 
 		public double SizeColumnWidth
 		{
-			get => Get(140d);
+			get => Get(100d);
 			set
 			{
 				if (ShowSizeColumn)
@@ -203,25 +203,25 @@ namespace Files.App.Services.Settings
 
 		public bool ShowGitLastCommitDateColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
 		public bool ShowGitLastCommitMessageColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
 		public bool ShowGitCommitAuthorColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 
 		public bool ShowGitLastCommitShaColumn
 		{
-			get => Get(true);
+			get => Get(false);
 			set => Set(value);
 		}
 

@@ -65,10 +65,12 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			x:Load="{x:Bind ViewModel.LoginConfirmed, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
+
 			<HyperlinkButton
 				x:Name="LoginUrl"
 				Content="{x:Bind ViewModel.LoginUrl}"
 				NavigateUri="{x:Bind ViewModel.NavigateUri}" />
+
 			<TextBlock
 				Margin="12,8"
 				CharacterSpacing="150"
@@ -76,7 +78,9 @@
 				FontSize="32"
 				FontWeight="Normal"
 				Text="{x:Bind ViewModel.UserCode}" />
+
 		</StackPanel>
+
 		<Border
 			x:Name="LoginSuccessBadge"
 			Grid.Row="1"
@@ -85,6 +89,7 @@
 				FontSize="85"
 				Foreground="{ThemeResource SystemFillColorSuccessBrush}"
 				Glyph="&#xEC61;" />
+
 		</Border>
 	</Grid>
 </ContentDialog>

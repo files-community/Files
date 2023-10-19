@@ -1,16 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Data.Commands;
-using Files.App.ViewModels;
-using Files.Core.Services.Settings;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Windows.Input;
 using Windows.System;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
@@ -57,7 +52,7 @@ namespace Files.App.UserControls
 			set => SetValue(ViewModelProperty, value);
 		}
 
-		public OngoingTasksViewModel? OngoingTasksViewModel { get; set; }
+		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
 
 		public AddressToolbar() => InitializeComponent();
 
@@ -65,14 +60,21 @@ namespace Files.App.UserControls
 		{
 			Loading -= NavToolbar_Loading;
 			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.ProgressBannerPosted += OngoingTasksActions_ProgressBannerPosted;
+				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
 		}
 
 		private void VisiblePath_Loaded(object _, RoutedEventArgs e)
 		{
 			// AutoSuggestBox won't receive focus unless it's fully loaded
 			VisiblePath.Focus(FocusState.Programmatic);
-			DependencyObjectHelpers.FindChild<TextBox>(VisiblePath)?.SelectAll();
+
+			if (DependencyObjectHelpers.FindChild<TextBox>(VisiblePath) is TextBox textBox)
+			{
+				if (textBox.Text.StartsWith(">"))
+					textBox.Select(1, textBox.Text.Length - 1);
+				else
+					textBox.SelectAll();
+			}
 		}
 
 		private void ManualPathEntryItem_Click(object _, PointerRoutedEventArgs e)
@@ -118,10 +120,10 @@ namespace Files.App.UserControls
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
 
-		private void OngoingTasksActions_ProgressBannerPosted(object? _, PostedStatusBanner e)
+		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
 		{
 			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.ProgressBannerPosted -= OngoingTasksActions_ProgressBannerPosted;
+				OngoingTasksViewModel.NewItemAdded -= OngoingTasksActions_ProgressBannerPosted;
 
 			// Displays a teaching tip the first time a banner is posted
 			if (userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip)

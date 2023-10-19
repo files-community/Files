@@ -99,6 +99,7 @@
 						x:Load="{x:Bind IsTextBoxVisible, Mode=OneWay}"
 						Loaded="NameEdit_Loaded"
 						LostFocus="NameEdit_LostFocus"
+						PreviewKeyDown="NameEdit_PreviewKeyDown"
 						Text="{x:Bind CustomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</Grid>
 
@@ -182,6 +183,7 @@
 						<ComboBoxItem Content="{helpers:ResourceString Name=Skip}" />
 					</ComboBox.Items>
 				</ComboBox>
+
 			</Grid>
 
 			<TextBlock
@@ -230,6 +232,7 @@
 					</Style>
 				</ListView.ItemContainerStyle>
 			</ListView>
+
 		</StackPanel>
 	</Grid>
 </ContentDialog>

@@ -2,20 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Extensions;
-using Files.App.Utils.Shell;
-using Files.Core.ViewModels.Dialogs;
-using Files.Shared;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI.Notifications;
 
 namespace Files.App.Helpers
@@ -41,11 +31,12 @@ namespace Files.App.Helpers
 		/// Displays a toast or dialog to indicate the result of
 		/// a device ejection operation.
 		/// </summary>
+		/// <param name="type">Type of drive to eject</param>
 		/// <param name="result">Only true implies a successful device ejection</param>
 		/// <returns></returns>
-		public static async Task ShowDeviceEjectResultAsync(bool result)
+		public static async Task ShowDeviceEjectResultAsync(Data.Items.DriveType type, bool result)
 		{
-			if (result)
+			if (type != Data.Items.DriveType.CDRom && result)
 			{
 				Debug.WriteLine("Device successfully ejected");
 
@@ -81,7 +72,7 @@ namespace Files.App.Helpers
 				// And send the notification
 				ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
 			}
-			else
+			else if (!result)
 			{
 				Debug.WriteLine("Can't eject device");
 
@@ -129,7 +120,7 @@ namespace Files.App.Helpers
 
 		public static void CloseAllDialogs()
 		{
-			var openedDialogs = VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
+			var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
 
 			foreach (var item in openedDialogs)
 			{
@@ -147,7 +138,7 @@ namespace Files.App.Helpers
 		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
-			return icons is not null ? icons.FirstOrDefault(x => x.Index == index) : null;
+			return icons?.FirstOrDefault(x => x.Index == index);
 		}
 
 		public static async Task<BitmapImage?> GetSidebarIconResource(int index)
@@ -175,7 +166,8 @@ namespace Files.App.Helpers
 					Constants.ImageRes.Libraries,
 					Constants.ImageRes.ThisPC,
 					Constants.ImageRes.CloudDrives,
-					Constants.ImageRes.Folder
+					Constants.ImageRes.Folder,
+					Constants.ImageRes.OneDrive
 				}, 32);
 
 			return imageResList;

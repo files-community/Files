@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.EventArguments;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -491,6 +489,13 @@ namespace Files.App.Views.LayoutModes
 
 			if (item is GridViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
+		}
+
+		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
+				// Reassign values to update date display
+				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)

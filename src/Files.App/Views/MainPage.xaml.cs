@@ -4,30 +4,26 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.Data.Items;
-using Files.App.Data.Models;
-using Files.App.UserControls;
-using Files.App.UserControls.MultitaskingControl;
-using Files.Core.Extensions;
+using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Services.Store;
-using Windows.Storage;
-using Windows.System;
 using WinRT.Interop;
+using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; }
+		public IApplicationService ApplicationService { get; }
 
 		public ICommandManager Commands { get; }
 
@@ -37,12 +33,16 @@ namespace Files.App.Views
 
 		public MainPageViewModel ViewModel { get; }
 
-		public OngoingTasksViewModel OngoingTasksViewModel { get; }
+		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
 		public static AppModel AppModel
 			=> App.AppModel;
 
 		private bool keyReleased = true;
+
+		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+
+		private DispatcherQueueTimer _updateDateDisplayTimer;
 
 		public MainPage()
 		{
@@ -50,16 +50,22 @@ namespace Files.App.Views
 
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<OngoingTasksViewModel>();
+			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+
+			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
+			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
+			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
 		private async Task PromptForReview()
@@ -90,6 +96,22 @@ namespace Files.App.Views
 			}
 		}
 
+		private async Task AppRunningAsAdminPrompt()
+		{
+			var runningAsAdminPrompt = new ContentDialog
+			{
+				Title = "FilesRunningAsAdmin".ToLocalized(),
+				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				PrimaryButtonText = "Ok".ToLocalized(),
+				SecondaryButtonText = "DontShowAgain".ToLocalized()
+			};
+
+			var result = await runningAsAdminPrompt.TryShowAsync();
+
+			if (result == ContentDialogResult.Secondary)
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
+		}
+
 		// WINUI3
 		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
@@ -113,7 +135,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
+			if (ViewModel.MultitaskingControl is not UserControls.TabBar.TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
@@ -128,12 +150,12 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
+		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
-			var paneArgs = e.NavigationArg as PaneNavigationArguments;
+			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
 
@@ -148,7 +170,7 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
-			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
+			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
@@ -169,7 +191,7 @@ namespace Files.App.Views
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemParameter?.NavigationParameter?.ToString());
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
@@ -196,11 +218,6 @@ namespace Files.App.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			ViewModel.OnNavigatedTo(e);
-
-			SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-			SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-			SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-			SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
@@ -220,14 +237,8 @@ namespace Files.App.Views
 					HotKey hotKey = new((Keys)e.Key, currentModifiers);
 
 					// A textbox takes precedence over certain hotkeys.
-					bool isTextBox = e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null;
-					if (isTextBox)
-					{
-						if (hotKey.IsTextBoxHotKey())
-							break;
-						if (currentModifiers is KeyModifiers.None && !hotKey.Key.IsGlobalKey())
-							break;
-					}
+					if (e.OriginalSource is DependencyObject source && source.FindAscendantOrSelf<TextBox>() is not null)
+						break;
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
@@ -267,103 +278,6 @@ namespace Files.App.Views
 			keyReleased = true;
 		}
 
-		private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
-		{
-			await SidebarAdaptiveViewModel.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, false, true);
-			e.SignalEvent?.Set();
-		}
-
-		private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
-		{
-			if (e.InvokedItemDataContext is DriveItem)
-				FilePropertiesHelpers.OpenPropertiesWindow(e.InvokedItemDataContext, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			else if (e.InvokedItemDataContext is LibraryLocationItem library)
-				FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			else if (e.InvokedItemDataContext is LocationItem locationItem)
-			{
-				ListedItem listedItem = new ListedItem(null!)
-				{
-					ItemPath = locationItem.Path,
-					ItemNameRaw = locationItem.Text,
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "Folder".GetLocalizedResource(),
-				};
-
-				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, SidebarAdaptiveViewModel.PaneHolder.ActivePane);
-			}
-		}
-
-		private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
-		{
-			if (e.InvokedItemDataContext is INavigationControlItem navItem)
-				SidebarAdaptiveViewModel.PaneHolder.OpenPathInNewPane(navItem.Path);
-		}
-
-		private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
-		{
-			var invokedItemContainer = e.InvokedItemContainer;
-
-			// Path to navigate
-			string? navigationPath;
-
-			// Type of page to navigate
-			Type? sourcePageType = null;
-
-			switch ((invokedItemContainer.DataContext as INavigationControlItem)?.ItemType)
-			{
-				case NavigationControlItemType.Location:
-					{
-						// Get the path of the invoked item
-						var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path;
-
-						// Section item
-						if (string.IsNullOrEmpty(ItemPath))
-						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
-						}
-						// Home item
-						else if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase))
-						{
-							if (ItemPath.Equals(SidebarAdaptiveViewModel.SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
-								return; // return if already selected
-
-							navigationPath = "Home";
-							sourcePageType = typeof(HomePage);
-						}
-						// Any other item
-						else
-						{
-							navigationPath = invokedItemContainer.Tag?.ToString();
-						}
-						break;
-					}
-
-				case NavigationControlItemType.FileTag:
-					var tagPath = (invokedItemContainer.DataContext as INavigationControlItem)?.Path; // Get the path of the invoked item
-					if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shp)
-					{
-						shp.NavigateToPath(tagPath, new NavigationArguments()
-						{
-							IsSearchResultPage = true,
-							SearchPathParam = "Home",
-							SearchQuery = tagPath,
-							AssociatedTabInstance = shp,
-							NavPathParam = tagPath
-						});
-					}
-					return;
-
-				default:
-					{
-						navigationPath = invokedItemContainer.Tag?.ToString();
-						break;
-					}
-			}
-
-			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePane is IShellPage shellPage)
-				shellPage.NavigateToPath(navigationPath, sourcePageType);
-		}
-
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Defers the status bar loading until after the page has loaded to improve startup perf
@@ -372,15 +286,44 @@ namespace Files.App.Views
 			FindName(nameof(TabControl));
 			FindName(nameof(NavToolbar));
 
+			// Notify user that drag and drop is disabled
+			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
+			// ToDo put this in a StartupPromptService
+			if
+			(
+				ApplicationService.Environment is not AppEnvironment.Dev &&
+				isAppRunningAsAdmin &&
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
+			)
+			{
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+			}
+
+			// ToDo put this in a StartupPromptService
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-			if (totalLaunchCount is 10 or 20 or 30 or 40 or 50)
+			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
 			}
+		}
+
+		private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Start();
+		}
+
+		private void PreviewPane_Unloaded(object sender, RoutedEventArgs e)
+		{
+			_updateDateDisplayTimer.Stop();
+		}
+
+		private void UpdateDateDisplayTimer_Tick(object sender, object e)
+		{
+			PreviewPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -540,8 +483,16 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ? 
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
+
+		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
+			{
+				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
+			}
 		}
 	}
 }
