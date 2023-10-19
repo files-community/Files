@@ -23,7 +23,7 @@
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="V"
-			Invoked="KeyboardAccelerator_Invoked"
+			Invoked="KeyboardAccelerator_InvokedAsync"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
@@ -76,7 +76,7 @@
 			x:FieldModifier="public"
 			BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}"
 			BorderThickness="{x:Bind CurrentInstanceBorderThickness, Mode=OneWay}"
-			Navigated="ItemDisplayFrame_Navigated" />
+			Navigated="ItemDisplayFrame_NavigatedAsync" />
 
 	</Grid>
 </local:BaseShellPage>

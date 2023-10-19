@@ -48,7 +48,7 @@
 							HorizontalAlignment="Right"
 							DataContext="{x:Bind}"
 							Glyph="&#xE76F;"
-							PointerPressed="MoveItem"
+							PointerPressed="MoveItemAsync"
 							Visibility="{x:Bind IsPinned}" />
 
 					</Grid>

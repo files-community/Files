@@ -13,12 +13,14 @@ namespace Files.App.BackgroundTasks
 {
 	public sealed class UpdateTask : IBackgroundTask
 	{
-		public async void Run(IBackgroundTaskInstance taskInstance)
+		public async void Run(IBackgroundTaskInstance taskInstance) => await RunAsync(taskInstance);
+
+		private async Task RunAsync(IBackgroundTaskInstance taskInstance)
 		{
 			var deferral = taskInstance.GetDeferral();
 
 			// Refresh jump list to update string resources
-			try { await RefreshJumpList(); } catch { }
+			try { await RefreshJumpListAsync(); } catch { }
 
 			// Delete previous version log files
 			try { DeleteLogFiles(); } catch { }
@@ -32,7 +34,7 @@ namespace Files.App.BackgroundTasks
 			File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_fulltrust.log"));
 		}
 
-		private async Task RefreshJumpList()
+		private async Task RefreshJumpListAsync()
 		{
 			if (JumpList.IsSupported())
 			{

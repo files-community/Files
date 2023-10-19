@@ -27,7 +27,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.InitializeRepository(_context.Folder?.ItemPath);
+			return GitHelpers.InitializeRepositoryAsync(_context.Folder?.ItemPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

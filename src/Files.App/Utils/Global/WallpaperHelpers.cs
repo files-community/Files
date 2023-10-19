@@ -12,7 +12,7 @@ namespace Files.App.Utils
 {
 	public static class WallpaperHelpers
 	{
-		public static async Task SetAsBackground(WallpaperType type, string filePath)
+		public static async Task SetAsBackgroundAsync(WallpaperType type, string filePath)
 		{
 			if (type == WallpaperType.Desktop)
 			{

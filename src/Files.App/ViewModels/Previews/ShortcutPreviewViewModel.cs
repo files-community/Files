@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.Previews
 				GetFileProperty("Arguments", item.Arguments),
 			};
 
-			await LoadItemThumbnail();
+			await LoadItemThumbnailAsync();
 
 			return details;
 		}
@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.Previews
 			Item.FileDetails = new(details.OfType<FileProperty>());
 		}
 
-		private async Task LoadItemThumbnail()
+		private async Task LoadItemThumbnailAsync()
 		{
 			var iconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Item.ItemPath, 256);
 			if (iconData is not null)

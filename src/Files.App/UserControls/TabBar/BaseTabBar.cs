@@ -117,20 +117,20 @@ namespace Files.App.UserControls.TabBar
 			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
 		}
 
-		public async Task ReopenClosedTab()
+		public async Task ReopenClosedTabAsync()
 		{
 			if (!IsRestoringClosedTab && RecentlyClosedTabs.Count > 0)
 			{
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await mainPageViewModel.AddNewTabByParam(item.InitialPageType, item.NavigationParameter);
+					await mainPageViewModel.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}
 		}
 
-		public async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
+		public async void MoveTabToNewWindowAsync(object sender, RoutedEventArgs e)
 		{
 			await MultitaskingTabsHelpers.MoveTabToNewWindow(((FrameworkElement)sender).DataContext as TabBarItem, this);
 		}

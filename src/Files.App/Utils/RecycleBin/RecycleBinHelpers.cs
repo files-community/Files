@@ -43,7 +43,7 @@ namespace Files.App.Utils.RecycleBin
 			return !string.IsNullOrWhiteSpace(path) && recycleBinPathRegex.IsMatch(path);
 		}
 
-		public static async Task EmptyRecycleBin()
+		public static async Task EmptyRecycleBinAsync()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -86,7 +86,7 @@ namespace Files.App.Utils.RecycleBin
 			}
 		}
 
-		public static async Task RestoreRecycleBin()
+		public static async Task RestoreRecycleBinAsync()
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -105,7 +105,7 @@ namespace Files.App.Utils.RecycleBin
 			}
 		}
 
-		public static async Task RestoreSelectionRecycleBin(IShellPage associatedInstance)
+		public static async Task RestoreSelectionRecycleBinAsync(IShellPage associatedInstance)
 		{
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
@@ -119,7 +119,7 @@ namespace Files.App.Utils.RecycleBin
 			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
-				await RestoreItem(associatedInstance);
+				await RestoreItemAsync(associatedInstance);
 		}
 
 		public static async Task<bool> HasRecycleBin(string? path)
@@ -137,7 +137,7 @@ namespace Files.App.Utils.RecycleBin
 			return Win32Shell.QueryRecycleBin().NumItems > 0;
 		}
 
-		public static async Task RestoreItem(IShellPage associatedInstance)
+		public static async Task RestoreItemAsync(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
 			{
@@ -149,7 +149,7 @@ namespace Files.App.Utils.RecycleBin
 			await associatedInstance.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}
 
-		public static async Task DeleteItem(IShellPage associatedInstance)
+		public static async Task DeleteItemAsync(IShellPage associatedInstance)
 		{
 			var items = associatedInstance.SlimContentPage.SelectedItems.ToList().Select((item) => StorageHelpers.FromPathAndType(
 				item.ItemPath,
