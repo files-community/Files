@@ -3535,7 +3535,7 @@
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
   </data>
- <data name="Quit" xml:space="preserve">
+  <data name="Quit" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="Restart" xml:space="preserve">
