@@ -2,58 +2,81 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Taskbar
 {
+	/// <summary>
+	/// Represents an icon window of Notification Area so-called System Tray.
+	/// <br/>
+	/// This is provided to handle context menu and retrieve mouse events, not a regular window class.
+	/// </summary>
 	public class SystemTrayIconWindow : IDisposable
 	{
-		private SystemTrayIcon icon;
+		private SystemTrayIcon _trayIcon;
 
-		private Windows.Win32.Foundation.HWND windowHandle;
+		private readonly WNDPROC _windowProcedure;
 
-		private readonly Windows.Win32.UI.WindowsAndMessaging.WNDPROC windowProcedure;
-
-		internal Windows.Win32.Foundation.HWND WindowHandle => windowHandle;
+		private HWND _windowHandle;
+		internal HWND WindowHandle
+			=> _windowHandle;
 
 		public unsafe SystemTrayIconWindow(SystemTrayIcon icon)
 		{
-			windowProcedure = WindowProc;
-			this.icon = icon;
-			string text = "FilesTrayIcon_" + this.icon.Id;
+			_windowProcedure = WindowProc;
+			this._trayIcon = icon;
+			string text = "FilesTrayIcon_" + this._trayIcon.Id;
+
 			fixed (char* ptr = text)
 			{
-				Windows.Win32.UI.WindowsAndMessaging.WNDCLASSEXW param = new Windows.Win32.UI.WindowsAndMessaging.WNDCLASSEXW
+				WNDCLASSEXW param = new()
 				{
-					cbSize = (uint)Marshal.SizeOf(typeof(Windows.Win32.UI.WindowsAndMessaging.WNDCLASSEXW)),
-					style = Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES.CS_DBLCLKS,
-					lpfnWndProc = windowProcedure,
+					cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEXW)),
+					style = WNDCLASS_STYLES.CS_DBLCLKS,
+					lpfnWndProc = _windowProcedure,
 					cbClsExtra = 0,
 					cbWndExtra = 0,
-					hInstance = Windows.Win32.PInvoke.GetModuleHandle(default(Windows.Win32.Foundation.PCWSTR)),
+					hInstance = PInvoke.GetModuleHandle(default(PCWSTR)),
 					lpszClassName = ptr
 				};
-				Windows.Win32.PInvoke.RegisterClassEx(in param);
+
+				PInvoke.RegisterClassEx(in param);
 			}
-			windowHandle = Windows.Win32.PInvoke.CreateWindowEx(Windows.Win32.UI.WindowsAndMessaging.WINDOW_EX_STYLE.WS_EX_LEFT, text, string.Empty, Windows.Win32.UI.WindowsAndMessaging.WINDOW_STYLE.WS_OVERLAPPED, 0, 0, 1, 1, default(Windows.Win32.Foundation.HWND), null, null, null);
-			if (windowHandle == default(Windows.Win32.Foundation.HWND))
-			{
+
+			_windowHandle = PInvoke.CreateWindowEx(
+				WINDOW_EX_STYLE.WS_EX_LEFT,
+				text,
+				string.Empty,
+				WINDOW_STYLE.WS_OVERLAPPED,
+				0,
+				0,
+				1,
+				1,
+				default,
+				null,
+				null,
+				null);
+
+			if (_windowHandle == default)
 				throw new Win32Exception("Message window handle was not a valid pointer");
-			}
+		}
+
+		private LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
+		{
+			return _trayIcon.WindowProc(hWnd, uMsg, wParam, lParam);
 		}
 
 		public void Dispose()
 		{
-			if (windowHandle != default(Windows.Win32.Foundation.HWND))
+			if (_windowHandle != default)
 			{
-				Windows.Win32.PInvoke.DestroyWindow(windowHandle);
-				windowHandle = default(Windows.Win32.Foundation.HWND);
+				PInvoke.DestroyWindow(_windowHandle);
+				_windowHandle = default;
 			}
-			icon = null;
-		}
 
-		private Windows.Win32.Foundation.LRESULT WindowProc(Windows.Win32.Foundation.HWND hWnd, uint uMsg, Windows.Win32.Foundation.WPARAM wParam, Windows.Win32.Foundation.LPARAM lParam)
-		{
-			return icon.WindowProc(hWnd, uMsg, wParam, lParam);
+			_trayIcon = null;
 		}
 	}
 }

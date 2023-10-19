@@ -150,7 +150,6 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
-					.AddSingleton<SystemTrayIcon>()
 				).Build();
 		}
 
@@ -335,15 +334,10 @@ namespace Files.App
 				Thread.Yield();
 
 				var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-				var iconPath = SystemIO.Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
+				var iconPath = SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, applicationService.AppIcoPath);
 
 				// Add system tray icon
-				var trayIcon = new SystemTrayIcon()
-				{
-					Tooltip = "Files",
-					Icon = new(iconPath),
-					IsVisible = true,
-				};
+				var trayIcon = new SystemTrayIcon(Package.Current.DisplayName, iconPath).Show();
 
 				if (Program.Pool.WaitOne())
 				{
