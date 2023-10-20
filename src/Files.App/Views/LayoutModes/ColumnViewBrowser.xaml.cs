@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -41,20 +42,30 @@ namespace Files.App.Views.LayoutModes
 		{
 			var blade = sender as BladeItem;
 			var position = e.GetCurrentPoint(blade).Position;
-
 			if (blade.ActualWidth - position.X < 10)
 			{
-				blade.BorderThickness = new Thickness(0, 0, 5, 0);
+				// Change cursor when pointer is moved over the BladeItem
+				blade.ChangeCursor(InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.SizeWestEast, 0)));
+
+				blade.BorderThickness = new Thickness(0, 0, 8, 0);
+				(blade.Content as Frame).Padding = new Thickness(0, 0, 0, 0); // Decrease padding by 8 (initial padding - border thickness)
 			}
 			else
 			{
+				blade.ChangeCursor(InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0)));
 				blade.BorderThickness = new Thickness(0, 0, 1, 0);
+				(blade.Content as Frame).Padding = new Thickness(0, 0, 7, 0); // Decrease padding by 1 (initial padding - border thickness)
 			}
 		}
 		private void BladeItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			var blade = sender as BladeItem;
-			blade.BorderThickness = new Thickness(0, 0, 1, 0);
+			if (blade != null)
+			{
+				blade.ChangeCursor(InputCursor.CreateFromCoreCursor(new CoreCursor(CoreCursorType.Arrow, 0)));
+				blade.BorderThickness = new Thickness(0, 0, 1, 0);
+				(blade.Content as Frame).Padding = new Thickness(0, 0, 7, 0); // Reset padding to initial padding - 1
+			}
 		}
 
 		private void BladeItem_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -548,6 +559,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			var frame = new Frame();
 			frame.Navigated += Frame_Navigated;
+			frame.Padding = new Thickness(0, 0, 8, 0);
 			var newblade = new BladeItem()
 			{
 				Content = frame
