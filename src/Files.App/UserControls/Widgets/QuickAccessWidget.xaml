@@ -34,10 +34,10 @@
 						HorizontalContentAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind AutomationProperties}"
-						Click="Button_Click"
+						Click="Button_ClickAsync"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						DataContext="{x:Bind}"
-						PointerPressed="Button_PointerPressed"
+						PointerPressed="Button_PointerPressedAsync"
 						RightTapped="Button_RightTapped"
 						Tag="{x:Bind Path}">
 						<Grid

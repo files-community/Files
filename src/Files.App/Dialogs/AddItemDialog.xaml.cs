@@ -35,10 +35,10 @@ namespace Files.App.Dialogs
 			Hide();
 		}
 
-		private async void AddItemDialog_Loaded(object sender, RoutedEventArgs e)
+		private async void AddItemDialog_LoadedAsync(object sender, RoutedEventArgs e)
 		{
 			var itemTypes = addItemService.GetEntries();
-			await ViewModel.AddItemsToList(itemTypes);
+			await ViewModel.AddItemsToListAsync(itemTypes);
 
 			// Focus on the list view so users can use keyboard navigation
 			AddItemsListView.Focus(FocusState.Programmatic);

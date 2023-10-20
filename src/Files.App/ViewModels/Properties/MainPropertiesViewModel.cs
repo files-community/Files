@@ -104,7 +104,7 @@ namespace Files.App.ViewModels.Properties
 			_baseProperties = baseProperties;
 
 			DoBackwardNavigationCommand = new RelayCommand(ExecuteDoBackwardNavigationCommand);
-			SaveChangedPropertiesCommand = new AsyncRelayCommand(ExecuteSaveChangedPropertiesCommand);
+			SaveChangedPropertiesCommand = new AsyncRelayCommand(ExecuteSaveChangedPropertiesCommandAsync);
 			CancelChangedPropertiesCommand = new RelayCommand(ExecuteCancelChangedPropertiesCommand);
 
 			NavigationViewItems = PropertiesNavigationViewItemFactory.Initialize(parameter.Parameter);
@@ -132,9 +132,9 @@ namespace Files.App.ViewModels.Properties
 			OnPropertyChanged(nameof(SelectedNavigationViewItem));
 		}
 
-		private async Task ExecuteSaveChangedPropertiesCommand()
+		private async Task ExecuteSaveChangedPropertiesCommandAsync()
 		{
-			await ApplyChanges();
+			await ApplyChangesAsync();
 			Window.Close();
 		}
 
@@ -143,7 +143,7 @@ namespace Files.App.ViewModels.Properties
 			Window.Close();
 		}
 
-		private async Task ApplyChanges()
+		private async Task ApplyChangesAsync()
 		{
 			if (_mainFrame is not null && _mainFrame.Content is not null)
 				await ((BasePropertiesPage)_mainFrame.Content).SaveChangesAsync();

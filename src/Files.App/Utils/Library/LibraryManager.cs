@@ -294,7 +294,7 @@ namespace Files.App.Utils.Library
 			return (true, string.Empty);
 		}
 
-		public static async Task ShowRestoreDefaultLibrariesDialog()
+		public static async Task ShowRestoreDefaultLibrariesDialogAsync()
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel
 			{
@@ -320,7 +320,7 @@ namespace Files.App.Utils.Library
 			await dialog.ShowAsync();
 		}
 
-		public static async Task ShowCreateNewLibraryDialog()
+		public static async Task ShowCreateNewLibraryDialogAsync()
 		{
 			var inputText = new TextBox
 			{

@@ -75,11 +75,11 @@ namespace Files.App.Utils.Storage
 			{
 				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
 				{
-					return AddItemsAsyncForLibrary(library, results, token);
+					return AddItemsForLibraryAsync(library, results, token);
 				}
 				else if (Folder == "Home")
 				{
-					return AddItemsAsyncForHome(results, token);
+					return AddItemsForHomeAsync(results, token);
 				}
 				else
 				{
@@ -94,7 +94,7 @@ namespace Files.App.Utils.Storage
 			return Task.CompletedTask;
 		}
 
-		private async Task AddItemsAsyncForHome(IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
 		{
 			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
 			{
@@ -117,11 +117,11 @@ namespace Files.App.Utils.Storage
 				var token = CancellationToken.None;
 				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
 				{
-					await AddItemsAsyncForLibrary(library, results, token);
+					await AddItemsForLibraryAsync(library, results, token);
 				}
 				else if (Folder == "Home")
 				{
-					await AddItemsAsyncForHome(results, token);
+					await AddItemsForHomeAsync(results, token);
 				}
 				else
 				{
@@ -177,7 +177,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private async Task AddItemsAsyncForLibrary(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
+		private async Task AddItemsForLibraryAsync(LibraryLocationItem library, IList<ListedItem> results, CancellationToken token)
 		{
 			foreach (var folder in library.Folders)
 			{

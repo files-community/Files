@@ -28,8 +28,8 @@
 					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 					Background="Transparent"
 					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragOver="PathBoxItem_DragOverAsync"
+					Drop="PathBoxItem_DropAsync"
 					Orientation="Horizontal"
 					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
@@ -60,8 +60,8 @@
 					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 					Background="Transparent"
 					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragOver="PathBoxItem_DragOverAsync"
+					Drop="PathBoxItem_DropAsync"
 					Orientation="Horizontal"
 					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
@@ -71,7 +71,7 @@
 						Padding="0,4"
 						FontSize="12"
 						PointerPressed="PathBoxItem_PointerPressed"
-						Tapped="PathBoxItem_Tapped"
+						Tapped="PathBoxItem_TappedAsync"
 						Text="{x:Bind Title, Mode=OneWay}">
 						<i:Interaction.Behaviors>
 							<core:EventTriggerBehavior EventName="PointerEntered">

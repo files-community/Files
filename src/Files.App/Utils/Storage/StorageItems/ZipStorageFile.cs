@@ -133,7 +133,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				throw new NotSupportedException("Can't open zip file as RW");
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncOperation<IRandomAccessStream> OpenAsync(FileAccessMode accessMode, StorageOpenOptions options)
 			=> OpenAsync(accessMode);
@@ -174,7 +174,7 @@ namespace Files.App.Utils.Storage
 					DisposeCallback = () => zipFile.Dispose()
 				};
 				return new StreamWithContentType(nsStream);
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<IInputStream> OpenSequentialReadAsync()
@@ -211,7 +211,7 @@ namespace Files.App.Utils.Storage
 				{
 					DisposeCallback = () => zipFile.Dispose()
 				};
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<StorageStreamTransaction> OpenTransactedWriteAsync()
@@ -254,18 +254,18 @@ namespace Files.App.Utils.Storage
 				{
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
 					using var outStream = await destFile.OpenStreamForWriteAsync();
-					await SafetyExtensions.Wrap(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
+					await SafetyExtensions.WrapAsync(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
 					{
 						await destFile.DeleteAsync();
 						throw exception;
 					});
 					return destFile;
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				using SevenZipExtractor zipFile = await OpenZipFileAsync();
 				if (zipFile is null || zipFile.ArchiveFileData is null)
@@ -284,7 +284,7 @@ namespace Files.App.Utils.Storage
 				{
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction MoveAsync(IStorageFolder destinationFolder)
@@ -299,7 +299,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -338,13 +338,13 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -385,7 +385,7 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)

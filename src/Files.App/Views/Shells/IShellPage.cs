@@ -36,9 +36,9 @@ namespace Files.App.Views.Shells
 		/// <returns>A <see cref="Task"/> to wait until the pane and column become current.</returns>
 		Task WhenIsCurrent();
 
-		Task RefreshIfNoWatcherExists();
+		Task RefreshIfNoWatcherExistsAsync();
 
-		Task Refresh_Click();
+		Task Refresh_ClickAsync();
 
 		void Back_Click();
 

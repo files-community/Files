@@ -44,7 +44,7 @@ namespace Files.App.Utils.Library
 			return res;
 		}
 
-		public async Task LoadLibraryIcon()
+		public async Task LoadLibraryIconAsync()
 		{
 			IconData = await FileThumbnailHelper.LoadIconWithoutOverlayAsync(Path, 24u);
 

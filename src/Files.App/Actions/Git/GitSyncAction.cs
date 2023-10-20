@@ -27,8 +27,8 @@ namespace Files.App.Actions
 		{
 			var instance = _context.ShellPage?.InstanceViewModel;
 
-			return GitHelpers.PullOrigin(instance?.GitRepositoryPath)
-				.ContinueWith(t => GitHelpers.PushToOrigin(
+			return GitHelpers.PullOriginAsync(instance?.GitRepositoryPath)
+				.ContinueWith(t => GitHelpers.PushToOriginAsync(
 					instance?.GitRepositoryPath,
 					instance?.GitBranchName));
 		}
