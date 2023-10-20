@@ -506,7 +506,7 @@ namespace Files.App.Utils.StatusCenter
 			if (card.Destination is not null && card.Destination.Any())
 			{
 				destinationPath = PathNormalization.GetParentDir(card.Destination.First());
-				destinationDirName = destinationPath.Split('\\').Last();
+				destinationDirName = card.Destination.First().Split('\\').Last();
 			}
 
 			string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty : card.HeaderStringResource.GetLocalizedResource();
