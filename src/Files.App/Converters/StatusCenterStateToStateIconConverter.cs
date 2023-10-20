@@ -21,8 +21,8 @@ namespace Files.App.Converters
 					StatusCenterItemIconKind.Move =>       Application.Current.Resources["App.Theme.PathIcon.ActionMove"] as string,
 					StatusCenterItemIconKind.Delete =>     Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
 					StatusCenterItemIconKind.Recycle =>    Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
-					StatusCenterItemIconKind.Extract =>    Application.Current.Resources["App.Theme.PathIcon.ActionArchive"] as string,
-					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIcon.ActionArchive"] as string,
+					StatusCenterItemIconKind.Extract =>    Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
+					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
 					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
 					StatusCenterItemIconKind.Error =>      Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
 					_ => ""
