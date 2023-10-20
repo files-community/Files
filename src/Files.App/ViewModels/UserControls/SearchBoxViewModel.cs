@@ -26,11 +26,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public event EventHandler<ISearchBoxViewModel>? Escaped;
 
-		private readonly SuggestionComparer suggestionComparer = new SuggestionComparer();
+		private readonly SuggestionComparer suggestionComparer = new();
 
-		public ObservableCollection<SuggestionModel> Suggestions { get; } = new ObservableCollection<SuggestionModel>();
+		public ObservableCollection<SuggestionModel> Suggestions { get; } = new();
 
-		private readonly List<SuggestionModel> oldQueries = new List<SuggestionModel>();
+		private readonly List<SuggestionModel> oldQueries = new();
 
 		public void ClearSuggestions()
 		{
@@ -48,9 +48,11 @@ namespace Files.App.ViewModels.UserControls
 				Suggestions.Remove(oldSuggestion);
 
 			var newSuggestions = items.Except(Suggestions, suggestionComparer).ToList();
+
 			foreach (var newSuggestion in newSuggestions)
 			{
 				var indexSuggestion = Suggestions.FirstOrDefault(suggestion => suggestionComparer.Compare(suggestion, newSuggestion) < 1);
+
 				if (!(indexSuggestion is null))
 				{
 					int index = Suggestions.IndexOf(indexSuggestion);
@@ -121,6 +123,7 @@ namespace Files.App.ViewModels.UserControls
 		public void AddRecentQueries()
 		{
 			ClearSuggestions();
+
 			oldQueries.ForEach(Suggestions.Add);
 		}
 

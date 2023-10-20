@@ -40,6 +40,7 @@
 			<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
 		</Style>
 
+		<!--  Suggestion Item Template  -->
 		<DataTemplate x:Key="SuggestionTemplate" x:DataType="datamodels:SuggestionModel">
 			<StackPanel
 				Orientation="Horizontal"
@@ -85,6 +86,7 @@
 		TextChanged="SearchRegion_TextChanged"
 		UpdateTextOnSelect="False">
 
+		<!--  Animated Search Icon  -->
 		<AutoSuggestBox.QueryIcon>
 			<AnimatedIcon x:Name="SearchAnimatedIcon" Height="16">
 				<AnimatedIcon.Source>
@@ -96,6 +98,7 @@
 			</AnimatedIcon>
 		</AutoSuggestBox.QueryIcon>
 
+		<!--  Keyboard Shortcuts  -->
 		<AutoSuggestBox.KeyboardAccelerators>
 			<KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
 		</AutoSuggestBox.KeyboardAccelerators>

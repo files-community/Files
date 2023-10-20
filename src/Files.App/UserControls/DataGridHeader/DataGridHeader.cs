@@ -10,6 +10,10 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// Represents button control called <see cref="DataGridHeader"/>.
+	/// Most likely to be used in columns view layout page.
+	/// </summary>
 	public class DataGridHeader : ButtonBase
 	{
 		internal const string NormalState = "Normal";
@@ -157,6 +161,7 @@ namespace Files.App.UserControls
 			VisualStateManager.GoToState(this, NormalState, true);
 		}
 
+		// TODO: AutomationPeer probably need to be implemented
 		//protected override AutomationPeer OnCreateAutomationPeer()
 		//{
 		//	return new DataGridHeaderAutomationPeer(this);
@@ -190,13 +195,9 @@ namespace Files.App.UserControls
 		private FrameworkElement? GetFocusedElement()
 		{
 			if (IsXamlRootAvailable && XamlRoot != null)
-			{
 				return FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-			}
 			else
-			{
 				return FocusManager.GetFocusedElement() as FrameworkElement;
-			}
 		}
 	}
 }

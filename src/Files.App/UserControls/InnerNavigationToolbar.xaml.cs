@@ -17,8 +17,6 @@ namespace Files.App.UserControls
 
 		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 
-		public readonly PreviewPaneViewModel PreviewPaneViewModel;
-
 		public static AppModel AppModel
 			=> App.AppModel;
 
@@ -64,7 +62,6 @@ namespace Files.App.UserControls
 		public InnerNavigationToolbar()
 		{
 			InitializeComponent();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 
 		private void NewEmptySpace_Opening(object sender, object e)
@@ -75,9 +72,11 @@ namespace Files.App.UserControls
 				shell.ForEach(x => NewEmptySpace.Items.Remove(x));
 				return;
 			}
+
 			var cachedNewContextMenuEntries = _addItemService.GetEntries();
 			if (cachedNewContextMenuEntries is null)
 				return;
+
 			if (!NewEmptySpace.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
 			{
 				var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
@@ -88,12 +87,15 @@ namespace Files.App.UserControls
 				foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
 				{
 					MenuFlyoutItem menuLayoutItem;
+
 					if (!string.IsNullOrEmpty(newEntry.IconBase64))
 					{
 						byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
 						using var ms = new MemoryStream(bitmapData);
+
 						var image = new BitmapImage();
 						_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+
 						menuLayoutItem = new MenuFlyoutItemWithImage()
 						{
 							Text = newEntry.Name,
@@ -106,16 +108,15 @@ namespace Files.App.UserControls
 						menuLayoutItem = new MenuFlyoutItem()
 						{
 							Text = newEntry.Name,
-							Icon = new FontIcon
-							{
-								Glyph = "\xE7C3"
-							},
+							Icon = new FontIcon() { Glyph = "\xE7C3" },
 							Tag = "CreateNewFile"
 						};
 					}
+
 					menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
 					menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
 					menuLayoutItem.CommandParameter = newEntry;
+
 					NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
 				}
 			}
@@ -133,9 +134,7 @@ namespace Files.App.UserControls
 				string format = $"D{items.Count.ToString().Length}";
 
 				for (ushort index = 0; index < items.Count; ++index)
-				{
 					items[index].AccessKey = (index+1).ToString(format);
-				}
 			}
 
 		}

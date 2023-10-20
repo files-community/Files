@@ -98,6 +98,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+
 	</UserControl.Resources>
 
 	<Grid Padding="8,0" ColumnSpacing="4">
@@ -130,6 +131,7 @@
 				Height="18"
 				x:Load="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
 			<!--  Selected Items Count  -->
 			<TextBlock
 				x:Name="SelectedItemsCountString"
@@ -152,6 +154,7 @@
 				x:Load="{x:Bind SelectedItemsPropertiesViewModel.ItemSizeVisibility, Mode=OneWay}"
 				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 				Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" />
+
 		</StackPanel>
 
 		<StackPanel
@@ -171,6 +174,7 @@
 				x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 				Background="Transparent"
 				BorderBrush="Transparent">
+
 				<Button.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<local:OpacityIcon
@@ -197,7 +201,9 @@
 							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}" />
 					</MenuFlyout>
 				</Button.Flyout>
+
 			</Button>
+
 			<!--  Divider  -->
 			<Border
 				x:Name="VSCodeDivider"
@@ -216,6 +222,7 @@
 				ToolTipService.ToolTip="{x:Bind DirectoryPropertiesViewModel.ExtendedStatusInfo, Mode=OneWay}">
 				<Button.Flyout>
 					<MenuFlyout>
+
 						<!--  Pull Button  -->
 						<MenuFlyoutItem
 							x:Name="GitPullButton"
@@ -251,10 +258,12 @@
 								<FontIcon FontSize="12" Glyph="{x:Bind Commands.GitSync.Glyph.BaseGlyph}" />
 							</MenuFlyoutItem.Icon>
 						</MenuFlyoutItem>
+
 					</MenuFlyout>
 				</Button.Flyout>
 
 				<StackPanel Orientation="Horizontal" Spacing="8">
+
 					<local:OpacityIcon
 						Width="16"
 						Height="16"
@@ -262,16 +271,20 @@
 
 					<!--  Outgoing / Incoming commits  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.StatusInfo, Mode=OneWay}" />
+
 				</StackPanel>
+
 			</Button>
+
 			<!--  Divider  -->
 			<Border
 				Width="1"
 				Height="18"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
 		</StackPanel>
 
-		<!--  Use visibility because it causes a crash to use a TwoWay x:Bind on an element that is inside an element with x:Load (#12589, #12599)  -->
+		<!--  NOTE: Use The Visibility Property Because It Causes A Crash To Use A TwoWay x:Bind On An Element That Is Inside An Element With x:Load. For more information, visit #12589, #12599  -->
 		<Button
 			x:Name="GitBranch"
 			Grid.Column="2"
@@ -284,6 +297,7 @@
 
 			<Button.Content>
 				<StackPanel Orientation="Horizontal" Spacing="8">
+
 					<local:OpacityIcon
 						Width="16"
 						Height="16"
@@ -291,6 +305,7 @@
 
 					<!--  Branch Name  -->
 					<TextBlock Text="{x:Bind DirectoryPropertiesViewModel.GitBranchDisplayName, Mode=OneWay}" />
+
 				</StackPanel>
 			</Button.Content>
 
@@ -349,8 +364,12 @@
 							ItemsSource="{x:Bind DirectoryPropertiesViewModel.BranchesNames, Mode=OneWay}"
 							SelectedIndex="{x:Bind DirectoryPropertiesViewModel.SelectedBranchIndex, Mode=TwoWay}"
 							SelectionMode="Single" />
+
 					</Grid>
 				</Flyout>
 			</Button.Flyout>
 		</Button>
-	</Grid></UserControl>
+
+	</Grid>
+
+</UserControl>
