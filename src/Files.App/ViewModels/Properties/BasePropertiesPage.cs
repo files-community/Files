@@ -16,9 +16,9 @@ namespace Files.App.ViewModels.Properties
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
 
-		protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected virtual void Properties_LoadedAsync(object sender, RoutedEventArgs e)
 		{
-			BaseProperties?.GetSpecialProperties();
+			BaseProperties?.GetSpecialPropertiesAsync();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Properties
 				BaseProperties = props;
 
 				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, "C:\\", StringComparison.OrdinalIgnoreCase));
-				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSense(props.Drive.Path));
+				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(props.Drive.Path));
 				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
 				{
 					try

@@ -35,7 +35,7 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Updates items with the pinned items from the explorer sidebar
 		/// </summary>
-		public async Task UpdateItemsWithExplorer()
+		public async Task UpdateItemsWithExplorerAsync()
 		{
 			await addSyncSemaphore.WaitAsync();
 
@@ -45,7 +45,7 @@ namespace Files.App.Data.Models
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
 					.Select(link => link.FilePath).ToList();
 				RemoveStaleSidebarItems();
-				await AddAllItemsToSidebar();
+				await AddAllItemsToSidebarAsync();
 			}
 			finally
 			{
@@ -162,7 +162,7 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Adds all items to the navigation sidebar
 		/// </summary>
-		public async Task AddAllItemsToSidebar()
+		public async Task AddAllItemsToSidebarAsync()
 		{
 			if (userSettingsService.GeneralSettingsService.ShowFavoritesSection)
 				foreach (string path in FavoriteItems)
@@ -204,7 +204,7 @@ namespace Files.App.Data.Models
 
 		public async Task LoadAsync()
 		{
-			await UpdateItemsWithExplorer();
+			await UpdateItemsWithExplorerAsync();
 		}
 	}
 }

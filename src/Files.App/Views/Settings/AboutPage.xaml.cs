@@ -17,10 +17,10 @@ namespace Files.App.Views.Settings
 		private void ThirdPartyLicenses_Click(object sender, bool e)
 		{
 			if (e && ViewModel.ThirdPartyNotices is null)
-				ViewModel.LoadThirdPartyNotices();
+				ViewModel.LoadThirdPartyNoticesAsync();
 		}
 
-		private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+		private async void MarkdownTextBlock_LinkClickedAsync(object sender, LinkClickedEventArgs e)
 		{
 			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri? link))
 				await Launcher.LaunchUriAsync(link);

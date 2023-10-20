@@ -48,7 +48,7 @@ namespace Files.App.ViewModels
 			resourcesService = resources;
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
-			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
+			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAcceleratorAsync);
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
@@ -100,7 +100,7 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
-		private async Task OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task OpenNewWindowAcceleratorAsync(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
@@ -126,14 +126,14 @@ namespace Files.App.ViewModels
 				InitialPageType = type,
 				NavigationParameter = path
 			};
-			tabItem.ContentChanged += Control_ContentChanged;
-			await UpdateTabInfo(tabItem, path);
+			tabItem.ContentChanged += Control_ContentChangedAsync;
+			await UpdateTabInfoAsync(tabItem, path);
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async Task UpdateInstanceProperties(object navigationArg)
+		public async Task UpdateInstancePropertiesAsync(object navigationArg)
 		{
 			string windowTitle = string.Empty;
 			if (navigationArg is PaneNavigationArguments paneArgs)
@@ -161,7 +161,7 @@ namespace Files.App.ViewModels
 				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
 		}
 
-		public async Task UpdateTabInfo(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
+		public async Task UpdateTabInfoAsync(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 
@@ -277,7 +277,7 @@ namespace Files.App.ViewModels
 			return (tabLocationHeader, iconSource, toolTipText);
 		}
 
-		public async Task OnNavigatedTo(NavigationEventArgs e)
+		public async Task OnNavigatedToAsync(NavigationEventArgs e)
 		{
 			if (e.NavigationMode == NavigationMode.Back)
 				return;
@@ -316,7 +316,7 @@ namespace Files.App.ViewModels
 							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+								await AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
 							if (!userSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp)
@@ -335,7 +335,7 @@ namespace Files.App.ViewModels
 						foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 						{
 							var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-							await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+							await AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 						}
 
 						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
@@ -370,7 +370,7 @@ namespace Files.App.ViewModels
 							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)
 							{
 								var tabArgs = CustomTabViewItemParameter.Deserialize(tabArgsString);
-								await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+								await AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 							}
 
 							var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
@@ -384,9 +384,9 @@ namespace Files.App.ViewModels
 				if (parameter is string navArgs)
 					await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
 				else if (parameter is PaneNavigationArguments paneArgs)
-					await AddNewTabByParam(typeof(PaneHolderPage), paneArgs);
+					await AddNewTabByParamAsync(typeof(PaneHolderPage), paneArgs);
 				else if (parameter is CustomTabViewItemParameter tabArgs)
-					await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+					await AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 			}
 
 			if (isInitialized)
@@ -405,7 +405,7 @@ namespace Files.App.ViewModels
 			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 		}
 
-		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+		public async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
 			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
 			{
@@ -421,16 +421,16 @@ namespace Files.App.ViewModels
 				NavigationParameter = tabViewItemArgs
 			};
 
-			tabItem.ContentChanged += Control_ContentChanged;
+			tabItem.ContentChanged += Control_ContentChangedAsync;
 
-			await UpdateTabInfo(tabItem, tabViewItemArgs);
+			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
 
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public async void Control_ContentChangedAsync(object? sender, CustomTabViewItemParameter e)
 		{
 			if (sender is null)
 				return;
@@ -439,7 +439,7 @@ namespace Files.App.ViewModels
 			if (matchingTabItem is null)
 				return;
 
-			await UpdateTabInfo(matchingTabItem, e.NavigationParameter);
+			await UpdateTabInfoAsync(matchingTabItem, e.NavigationParameter);
 		}
 	}
 }

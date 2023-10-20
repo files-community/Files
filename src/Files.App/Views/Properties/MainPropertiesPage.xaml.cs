@@ -46,7 +46,7 @@ namespace Files.App.Views.Properties
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
 			AppSettings = Ioc.Default.GetRequiredService<SettingsViewModel>();
-			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+			AppSettings.ThemeModeChanged += AppSettings_ThemeModeChangedAsync;
 			Window.Closed += Window_Closed;
 
 			UpdatePageLayout();
@@ -79,7 +79,7 @@ namespace Files.App.Views.Properties
 				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = false;
 		}
 
-		private async void AppSettings_ThemeModeChanged(object? sender, EventArgs e)
+		private async void AppSettings_ThemeModeChangedAsync(object? sender, EventArgs e)
 		{
 			if (Parent is null)
 				return;
@@ -108,7 +108,7 @@ namespace Files.App.Views.Properties
 
 		private void Window_Closed(object sender, WindowEventArgs args)
 		{
-			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+			AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChangedAsync;
 			Window.Closed -= Window_Closed;
 
 			if (MainPropertiesViewModel.ChangedPropertiesCancellationTokenSource is not null &&

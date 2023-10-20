@@ -45,7 +45,7 @@ namespace Files.App.Helpers
 		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapdecoder?view=winrt-22000
 		/// https://learn.microsoft.com/uwp/api/windows.graphics.imaging.bitmapencoder?view=winrt-22000
 		/// </remarks>
-		public static async Task Rotate(string filePath, BitmapRotation rotation)
+		public static async Task RotateAsync(string filePath, BitmapRotation rotation)
 		{
 			if (string.IsNullOrEmpty(filePath))
 			{
@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 		/// <param name="outputFile"></param>
 		/// <param name="encoderId">The guid of the image encoder type</param>
 		/// <returns></returns>
-		public static async Task SaveSoftwareBitmapToFile(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
+		public static async Task SaveSoftwareBitmapToFileAsync(SoftwareBitmap softwareBitmap, BaseStorageFile outputFile, Guid encoderId)
 		{
 			using IRandomAccessStream stream = await outputFile.OpenAsync(FileAccessMode.ReadWrite);
 			// Create an encoder with the desired format

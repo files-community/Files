@@ -30,7 +30,7 @@
 							Text="{x:Bind Commands.DuplicateSelectedTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
-							Click="MoveTabToNewWindow"
+							Click="MoveTabToNewWindowAsync"
 							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlMoveTabToNewWindow/Text}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon Glyph="&#xE8A7;" />
@@ -79,11 +79,11 @@
 			TabCloseRequested="TabView_TabCloseRequested"
 			TabDragCompleted="TabView_TabDragCompleted"
 			TabDragStarting="TabView_TabDragStarting"
-			TabDroppedOutside="TabView_TabDroppedOutside"
+			TabDroppedOutside="TabView_TabDroppedOutsideAsync"
 			TabItemsChanged="TabView_TabItemsChanged"
 			TabItemsSource="{x:Bind Items, Mode=OneWay}"
 			TabStripDragOver="TabView_TabStripDragOver"
-			TabStripDrop="TabView_TabStripDrop"
+			TabStripDrop="TabView_TabStripDropAsync"
 			Visibility="{x:Bind TabStripVisibility, Mode=OneWay}">
 
 			<!--  Item Template  -->
@@ -92,9 +92,9 @@
 					<TabViewItem
 						AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
 						ContextFlyout="{StaticResource TabFlyout}"
-						DragEnter="TabViewItem_DragEnter"
-						DragLeave="TabViewItem_DragLeave"
-						Drop="TabViewItem_Drop"
+						DragEnter="TabViewItem_DragEnterAsync"
+						DragLeave="TabViewItem_DragLeaveAsync"
+						Drop="TabViewItem_DropAsync"
 						Header="{x:Bind Header, Mode=OneWay}"
 						IconSource="{x:Bind IconSource, Mode=OneWay}"
 						Loaded="TabViewItem_Loaded"

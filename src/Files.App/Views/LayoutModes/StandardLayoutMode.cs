@@ -75,30 +75,30 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
-			ReloadSelectedItemsIcon();
+			ReloadSelectedItemsIconAsync();
 		}
 
 		protected virtual void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
 		{
-			ReloadSelectedItemIcon();
+			ReloadSelectedItemIconAsync();
 		}
 
-		protected virtual async Task ReloadSelectedItemIcon()
+		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
+			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
 		}
 
-		protected virtual async Task ReloadSelectedItemsIcon()
+		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem, IconSize);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace Files.App.Views.LayoutModes
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 		}
 
-		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
+		protected abstract void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e);
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
@@ -199,8 +199,8 @@ namespace Files.App.Views.LayoutModes
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
 
 			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.LostFocus += RenameTextBox_LostFocusAsync;
+			textBox.KeyDown += RenameTextBox_KeyDownAsync;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
@@ -213,7 +213,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract void EndRename(TextBox textBox);
 
-		protected virtual async Task CommitRename(TextBox textBox)
+		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
@@ -221,30 +221,30 @@ namespace Files.App.Views.LayoutModes
 			await UIFilesystemHelpers.RenameFileItemAsync(RenamingItem, newItemName, ParentShellPageInstance);
 		}
 
-		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+		protected virtual async void RenameTextBox_LostFocusAsync(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
 			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRename(textBox);
+				await CommitRenameAsync(textBox);
 			}
 		}
 
-		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		protected async void RenameTextBox_KeyDownAsync(object sender, KeyRoutedEventArgs e)
 		{
 			var textBox = (TextBox)sender;
 			switch (e.Key)
 			{
 				case VirtualKey.Escape:
-					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.LostFocus -= RenameTextBox_LostFocusAsync;
 					textBox.Text = OldItemName;
 					EndRename(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Enter:
-					textBox.LostFocus -= RenameTextBox_LostFocus;
-					await CommitRename(textBox);
+					textBox.LostFocus -= RenameTextBox_LostFocusAsync;
+					await CommitRenameAsync(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
@@ -262,14 +262,14 @@ namespace Files.App.Views.LayoutModes
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
 					break;
 				case VirtualKey.Tab:
-					textBox.LostFocus -= RenameTextBox_LostFocus;
+					textBox.LostFocus -= RenameTextBox_LostFocusAsync;
 
 					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					NextRenameIndex = isShiftPressed ? -1 : 1;
 
 					if (textBox.Text != OldItemName)
 					{
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 					else
 					{

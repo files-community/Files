@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Properties
 
 			GetBaseProperties();
 
-			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+			ViewModel.PropertyChanged += ViewModel_PropertyChangedAsync;
 		}
 
 		public override void GetBaseProperties()
@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		public override async Task GetSpecialProperties()
+		public override async Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			if (file.Properties is not null)
-				GetOtherProperties(file.Properties);
+				GetOtherPropertiesAsync(file.Properties);
 		}
 
 		public async Task GetSystemFilePropertiesAsync()
@@ -257,7 +257,7 @@ namespace Files.App.ViewModels.Properties
 			_ = GetSystemFilePropertiesAsync();
 		}
 
-		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChangedAsync(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

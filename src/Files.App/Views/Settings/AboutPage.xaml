@@ -177,7 +177,7 @@
 						<controls:MarkdownTextBlock
 							Margin="10"
 							Background="Transparent"
-							LinkClicked="MarkdownTextBlock_LinkClicked"
+							LinkClicked="MarkdownTextBlock_LinkClickedAsync"
 							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 					</ScrollViewer>
 				</local:SettingsBlockControl.ExpandableContent>
