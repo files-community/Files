@@ -247,21 +247,13 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnClick()
 		{
-			var pool = new Semaphore(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
+			// Resume cached instance
+			Program.Pool.Release();
+			var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+			var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+			Program.RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
 
-			if (!isNew)
-			{
-				// Resume cached instance
-				pool.Release();
-				var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-				var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-				Program.RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
-
-				// Exit
-				Environment.Exit(0);
-			}
-
-			pool.Dispose();
+			Program.Pool.Dispose();
 		}
 
 		private void OnDoubleClick()

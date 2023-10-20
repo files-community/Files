@@ -26,18 +26,24 @@ namespace Files.App
 		{
 			Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance", out var isNew);
 
-			ResumeFromBackground(true);
+			if (!isNew)
+				ResumeFromBackground();
 
 			Pool.Dispose();
 		}
 
-		private static void ResumeFromBackground(bool applicable)
+		private static void ResumeFromBackground()
 		{
 			// Resume cached instance
 			Pool.Release();
+
 			var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 			var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
+
+			// Redirect to the instance that exists on the background
 			RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
+
+			// Exit the current instance
 			Environment.Exit(0);
 		}
 
@@ -224,3 +230,4 @@ namespace Files.App
 		}
 	}
 }
+ 
