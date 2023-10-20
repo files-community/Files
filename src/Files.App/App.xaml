@@ -46,8 +46,8 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 
-							<Color x:Key="AppThemeFillColorAttention">#0070CB</Color>
-							<SolidColorBrush x:Key="AppThemeFillColorAttentionBrush" Color="{StaticResource AppThemeFillColorAttention}" />
+							<Color x:Key="App.Theme.FillColorAttention">#0070CB</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -60,8 +60,8 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
 
-							<Color x:Key="AppThemeFillColorAttention">#50C0FF</Color>
-							<SolidColorBrush x:Key="AppThemeFillColorAttentionBrush" Color="{StaticResource AppThemeFillColorAttention}" />
+							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -74,8 +74,8 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemColorHighlightColor}" />
 
-							<Color x:Key="AppThemeFillColorAttention">#50C0FF</Color>
-							<SolidColorBrush x:Key="AppThemeFillColorAttentionBrush" Color="{StaticResource AppThemeFillColorAttention}" />
+							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>

@@ -218,7 +218,7 @@
 								x:Name="MainProgressBar"
 								Margin="4,4,4,4"
 								VerticalAlignment="Top"
-								Foreground="{ThemeResource AppThemeFillColorAttentionBrush}"
+								Foreground="{ThemeResource App.Theme.FillColorAttentionBrush}"
 								IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
 								Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
 								Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
@@ -241,7 +241,7 @@
 										MinHeight="70"
 										VerticalAlignment="Stretch"
 										CornerRadius="4,0,0,4"
-										Foreground="{ThemeResource AppThemeFillColorAttentionBrush}"
+										Foreground="{ThemeResource App.Theme.FillColorAttentionBrush}"
 										IsIndeterminate="False"
 										Style="{StaticResource CustomProgressBarStyle}"
 										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"

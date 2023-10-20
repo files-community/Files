@@ -216,7 +216,7 @@ namespace Files.App.Utils.StatusCenter
 			if (destination is not null)
 				Destination = destination;
 
-			if (App.Current.Resources["AppThemeFillColorAttentionBrush"] is not SolidColorBrush accentBrush)
+			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
 
 			SpeedGraphSeries = new()
