@@ -17,7 +17,7 @@ namespace Files.App
 		private const uint CWMO_DEFAULT = 0;
 		private const uint INFINITE = 0xFFFFFFFF;
 
-		public static Semaphore Pool;
+		public static Semaphore Pool { get; set; }
 
 		/// <summary>
 		/// Initializes a <see cref="Program"/> instance.

@@ -247,13 +247,7 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnClick()
 		{
-			// Resume cached instance
-			Program.Pool.Release();
-			var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-			var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
-			Program.RedirectActivationTo(instance, AppInstance.GetCurrent().GetActivatedEventArgs());
-
-			Program.Pool.Dispose();
+			// Add the functionality
 		}
 
 		private void OnDoubleClick()
@@ -263,18 +257,12 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnRestart()
 		{
-			Program.Pool.Release();
-
-			MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				await Windows.System.Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-			})
-			.Wait(1000);
+			// Add the functionality
 		}
 
 		private void OnQuit()
 		{
-			Program.Pool.Release();
+			// Add the functionality
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
