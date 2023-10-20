@@ -17,14 +17,14 @@ namespace Files.App.Converters
 			{
 				var pathMarkup = state switch
 				{
-					StatusCenterItemIconKind.Copy =>       Application.Current.Resources["App.Theme.PathIconActionCopy"] as string,
-					StatusCenterItemIconKind.Move =>       Application.Current.Resources["App.Theme.PathIconActionMove"] as string,
-					StatusCenterItemIconKind.Delete =>     Application.Current.Resources["App.Theme.PathIconActionDelete"] as string,
-					StatusCenterItemIconKind.Recycle =>    Application.Current.Resources["App.Theme.PathIconActionDelete"] as string,
-					StatusCenterItemIconKind.Extract =>    Application.Current.Resources["App.Theme.PathIconActionArchive"] as string,
-					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIconActionArchive"] as string,
-					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIconActionSuccess"] as string,
-					StatusCenterItemIconKind.Error =>      Application.Current.Resources["App.Theme.PathIconActionInfo"] as string,
+					StatusCenterItemIconKind.Copy =>       Application.Current.Resources["App.Theme.PathIcon.ActionCopy"] as string,
+					StatusCenterItemIconKind.Move =>       Application.Current.Resources["App.Theme.PathIcon.ActionMove"] as string,
+					StatusCenterItemIconKind.Delete =>     Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
+					StatusCenterItemIconKind.Recycle =>    Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
+					StatusCenterItemIconKind.Extract =>    Application.Current.Resources["App.Theme.PathIcon.ActionArchive"] as string,
+					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIcon.ActionArchive"] as string,
+					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
+					StatusCenterItemIconKind.Error =>      Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
 					_ => ""
 				};
 
