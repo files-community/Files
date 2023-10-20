@@ -33,11 +33,12 @@
 			<TransitionCollection />
 		</controls:BladeView.ItemContainerTransitions>
 
-		<controls:BladeItem ManipulationMode="TranslateX"
-							ManipulationStarted="BladeItem_ManipulationStarted"
-							ManipulationDelta="BladeItem_ManipulationDelta"
-							PointerMoved="BladeItem_PointerMoved"
-							PointerExited="BladeItem_PointerExited">
+		<controls:BladeItem
+			ManipulationDelta="BladeItem_ManipulationDelta"
+			ManipulationMode="TranslateX"
+			ManipulationStarted="BladeItem_ManipulationStarted"
+			PointerExited="BladeItem_PointerExited"
+			PointerMoved="BladeItem_PointerMoved">
 			<Frame x:Name="MainPageFrame" />
 		</controls:BladeItem>
 	</controls:BladeView>
