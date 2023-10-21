@@ -68,6 +68,7 @@
 				</Style>
 			</ListView.ItemContainerStyle>
 
+			<!--  Item Template  -->
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="statuscenter:StatusCenterItem">
 					<Grid
@@ -139,7 +140,7 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind SubHeader, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
 
 							</StackPanel>
 
@@ -197,7 +198,7 @@
 
 						</Grid>
 
-						<!--  Progress & Footer  -->
+						<!--  Graph & Footer  -->
 						<Grid
 							x:Name="StatusCenterItemRichProgressDisplayPanel"
 							Grid.Row="1"
@@ -213,7 +214,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<!--  Extended ProgressBar  -->
+							<!--  Main ProgressBar  -->
 							<ProgressBar
 								x:Name="MainProgressBar"
 								Margin="4,4,4,4"
@@ -224,7 +225,7 @@
 								Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
 
 							<!--  Graph  -->
-							<Border
+							<Grid
 								x:Name="MainGraphCartesianChartClipGrid"
 								Height="72"
 								Margin="4,4,4,12"
@@ -234,53 +235,42 @@
 								CornerRadius="4"
 								Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-								<Grid>
-									<ProgressBar
-										x:Name="SecondaryProgressBar"
-										Height="70"
-										MinHeight="70"
-										VerticalAlignment="Stretch"
-										CornerRadius="4,0,0,4"
-										Foreground="{ThemeResource AppThemeFillColorAttentionBrush}"
-										IsIndeterminate="False"
-										Style="{StaticResource CustomProgressBarStyle}"
-										Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-										Value="{x:Bind ProgressPercentage, Mode=OneWay}" />
-
+								<!--  NOTE: The Graph Control Somehow Includes Slight Padding, Which Is Removed By Setting Negative Margin  -->
+								<Grid Margin="-2,0,0,-2">
 									<livecharts2:CartesianChart
 										x:Name="MainCartesianChart"
-										Height="48"
-										Margin="0,-2"
+										Height="72"
 										VerticalAlignment="Bottom"
 										AnimationsSpeed="00:00:00.001"
 										Series="{x:Bind SpeedGraphSeries, Mode=OneWay}"
 										TooltipPosition="Hidden"
-										XAxes="{x:Bind SpeedGraphXAxes}"
-										YAxes="{x:Bind SpeedGraphYAxes}" />
-
-									<StackPanel Margin="8,4">
-
-										<TextBlock
-											x:Name="OperationSpeedStringTextBlock"
-											HorizontalAlignment="Right"
-											VerticalAlignment="Top"
-											FontSize="10"
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{helpers:ResourceString Name=SpeedWithColon}" />
-
-										<TextBlock
-											x:Name="OperationSpeedPerSecTextBlock"
-											HorizontalAlignment="Right"
-											VerticalAlignment="Top"
-											FontSize="13"
-											Style="{StaticResource BodyStrongTextBlockStyle}"
-											Text="{x:Bind SpeedText, Mode=OneWay}" />
-
-									</StackPanel>
+										XAxes="{x:Bind SpeedGraphXAxes, Mode=OneWay}"
+										YAxes="{x:Bind SpeedGraphYAxes, Mode=OneWay}" />
 								</Grid>
 
-							</Border>
+								<!--  Speed Text  -->
+								<StackPanel Margin="8,4">
+
+									<TextBlock
+										x:Name="OperationSpeedStringTextBlock"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Top"
+										FontSize="10"
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Style="{StaticResource CaptionTextBlockStyle}"
+										Text="{helpers:ResourceString Name=SpeedWithColon}" />
+
+									<TextBlock
+										x:Name="OperationSpeedPerSecTextBlock"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Top"
+										FontSize="13"
+										Style="{StaticResource BodyStrongTextBlockStyle}"
+										Text="{x:Bind SpeedText, Mode=OneWay}" />
+
+								</StackPanel>
+
+							</Grid>
 
 							<!--  Footer  -->
 							<Grid

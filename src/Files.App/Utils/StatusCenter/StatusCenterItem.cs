@@ -163,13 +163,17 @@ namespace Files.App.Utils.StatusCenter
 
 		public ObservableCollection<ObservablePoint>? SpeedGraphValues { get; private set; }
 
+		public ObservableCollection<ObservablePoint>? SpeedGraphBackgroundValues { get; private set; }
+
 		public ObservableCollection<ISeries>? SpeedGraphSeries { get; private set; }
 
-		public IList<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
+		public ObservableCollection<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
 
-		public IList<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
+		public ObservableCollection<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
 
 		public double IconBackgroundCircleBorderOpacity { get; private set; }
+
+		public double? CurrentHighestPointValue { get; private set; }
 
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
@@ -207,18 +211,17 @@ namespace Files.App.Utils.StatusCenter
 			IconBackgroundCircleBorderOpacity = 1;
 			AnimatedIconState = "NormalOff";
 			SpeedGraphValues = new();
+			SpeedGraphBackgroundValues = new();
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
 			Message = "ProcessingItems".GetLocalizedResource();
+			Source = source;
+			Destination = destination;
 
-			if (source is not null)
-				Source = source;
-
-			if (destination is not null)
-				Destination = destination;
-
+			// Get the graph color
 			if (App.Current.Resources["AppThemeFillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
 
+			// Initialize graph series
 			SpeedGraphSeries = new()
 			{
 				new LineSeries<ObservablePoint>
@@ -231,7 +234,7 @@ namespace Files.App.Utils.StatusCenter
 					// Stroke
 					Stroke = new SolidColorPaint(
 						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B),
-						1),
+						1f),
 
 					// Fill under the stroke
 					Fill = new LinearGradientPaint(
@@ -239,13 +242,34 @@ namespace Files.App.Utils.StatusCenter
 							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
 							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
 						},
-						new(0.5f, 0f),
-						new(0.5f, 1.0f),
-						new[] { 0.2f, 1.3f }),
+						new(0f, 0f),
+						new(0f, 0f),
+						new[] { 0.1f, 1.0f }),
+				},
+				new LineSeries<ObservablePoint>
+				{
+					Values = SpeedGraphBackgroundValues,
+					GeometrySize = 0d,
+					DataPadding = new(0, 0),
+					IsHoverable = false,
+					
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40),
+						0.1f),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
+						},
+						new(0f, 0f),
+						new(0f, 0f)),
 				}
 			};
 
-			SpeedGraphXAxes = new ICartesianAxis[]
+			// Initialize X axes of the graph
+			SpeedGraphXAxes = new()
 			{
 				new Axis
 				{
@@ -256,7 +280,8 @@ namespace Files.App.Utils.StatusCenter
 				}
 			};
 
-			SpeedGraphYAxes = new ICartesianAxis[]
+			// Initialize Y axes of the graph
+			SpeedGraphYAxes = new()
 			{
 				new Axis
 				{
@@ -341,6 +366,7 @@ namespace Files.App.Utils.StatusCenter
 			if (value.Status is FileSystemStatusCode status)
 				FileSystemOperationReturnResult = status.ToStatus();
 
+			// Update the footer message, percentage, processing item name
 			if (value.Percentage is double p)
 			{
 				if (ProgressPercentage != value.Percentage)
@@ -428,9 +454,41 @@ namespace Files.App.Utils.StatusCenter
 					break;
 			}
 
-			// Remove the same point
+			bool isSamePoint = false;
+
+			// Remove the point that has the same X position
 			if (SpeedGraphValues?.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
+			{
 				SpeedGraphValues.Remove(existingPoint);
+				isSamePoint = true;
+			}
+
+			CurrentHighestPointValue ??= point.Y;
+
+			if (!isSamePoint)
+			{
+				// NOTE: -0.4 is the value that is needs to set for the graph drawing
+				var maxHeight = CurrentHighestPointValue * 1.44d - 0.4;
+
+				if (CurrentHighestPointValue < point.Y &&
+					SpeedGraphYAxes is not null &&
+					SpeedGraphYAxes.FirstOrDefault() is var item &&
+					item is not null)
+				{
+					// Max height is updated
+					CurrentHighestPointValue = point.Y;
+					maxHeight = CurrentHighestPointValue * 1.44d;
+					item.MaxLimit = maxHeight;
+
+					// NOTE: -0.1 is the value that is needs to set for the graph drawing
+					UpdateGraphBackgroundPoints(point.X, maxHeight - 0.1, true);
+				}
+				else
+				{
+					// Max height is not updated
+					UpdateGraphBackgroundPoints(point.X, maxHeight, false);
+				}
+			}
 
 			// Add a new point
 			SpeedGraphValues?.Add(point);
@@ -441,6 +499,20 @@ namespace Files.App.Utils.StatusCenter
 
 			// Update UI of the address bar
 			_viewModel.NotifyChanges();
+		}
+
+		private void UpdateGraphBackgroundPoints(double? x, double? y, bool redraw)
+		{
+			if (SpeedGraphBackgroundValues is null)
+				return;
+
+			ObservablePoint newPoint = new(x, y);
+			SpeedGraphBackgroundValues.Add(newPoint);
+
+			if (redraw)
+			{
+				SpeedGraphBackgroundValues.ForEach(x => x.Y = CurrentHighestPointValue * 1.44d - 0.1);
+			}
 		}
 
 		public void ExecuteCancelCommand()
