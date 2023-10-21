@@ -17,12 +17,12 @@ namespace Files.App.Services
 			return result;
 		}
 
-		public Task PinToSidebar(string folderPath)
+		public Task PinToSidebarAsync(string folderPath)
 		{ 
-			return PinToSidebar(new[] { folderPath });
+			return PinToSidebarAsync(new[] { folderPath });
 		}
 		
-		public async Task PinToSidebar(string[] folderPaths)
+		public async Task PinToSidebarAsync(string[] folderPaths)
 		{
 			foreach (string folderPath in folderPaths)
 				await ContextMenu.InvokeVerb("pintohome", new[] {folderPath});
@@ -32,12 +32,12 @@ namespace Files.App.Services
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebar(string folderPath)
+		public Task UnpinFromSidebarAsync(string folderPath)
 		{ 
-			return UnpinFromSidebar(new[] { folderPath }); 
+			return UnpinFromSidebarAsync(new[] { folderPath }); 
 		}
 		
-		public async Task UnpinFromSidebar(string[] folderPaths)
+		public async Task UnpinFromSidebarAsync(string[] folderPaths)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
@@ -85,7 +85,7 @@ namespace Files.App.Services
 			return App.QuickAccessManager.Model.FavoriteItems.Contains(folderPath);
 		}
 
-		public async Task Save(string[] items)
+		public async Task SaveAsync(string[] items)
 		{
 			if (Equals(items, App.QuickAccessManager.Model.FavoriteItems.ToArray()))
 				return;
@@ -93,9 +93,9 @@ namespace Files.App.Services
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebar(Array.Empty<string>());
+			await UnpinFromSidebarAsync(Array.Empty<string>());
 
-			await PinToSidebar(items);
+			await PinToSidebarAsync(items);
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 			await App.QuickAccessManager.Model.LoadAsync();
 		}

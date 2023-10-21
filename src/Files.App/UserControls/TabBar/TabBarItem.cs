@@ -88,7 +88,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-			ContentChanged -= mainPageViewModel.Control_ContentChanged;
+			ContentChanged -= mainPageViewModel.Control_ContentChangedAsync;
 
 			Dispose();
 		}

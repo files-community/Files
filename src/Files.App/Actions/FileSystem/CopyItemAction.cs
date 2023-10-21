@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				return UIFilesystemHelpers.CopyItem(context.ShellPage);
+				return UIFilesystemHelpers.CopyItemAsync(context.ShellPage);
 
 			return Task.CompletedTask;
 		}

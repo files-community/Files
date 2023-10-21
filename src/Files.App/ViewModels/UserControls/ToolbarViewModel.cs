@@ -211,10 +211,10 @@ namespace Files.App.ViewModels.UserControls
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+			UpdateService.PropertyChanged += UpdateService_OnPropertyChangedAsync;
 		}
 
-		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async void UpdateService_OnPropertyChangedAsync(object? sender, PropertyChangedEventArgs e)
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
@@ -297,7 +297,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private bool lockFlag = false;
 
-		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DropAsync(object sender, DragEventArgs e)
 		{
 			if (lockFlag)
 				return;
@@ -333,7 +333,7 @@ namespace Files.App.ViewModels.UserControls
 			lockFlag = false;
 		}
 
-		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBoxItem_DragOverAsync(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
 				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -494,7 +494,7 @@ namespace Files.App.ViewModels.UserControls
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBoxItem_TappedAsync(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
 			if (itemTappedPath is null)
@@ -666,7 +666,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public async Task CheckPathInput(string currentInput, string currentSelectedPath, IShellPage shellPage)
+		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))
 			{
@@ -786,7 +786,7 @@ namespace Files.App.ViewModels.UserControls
 			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
 		}
 
-		public async Task SetAddressBarSuggestions(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
+		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage, int maxSuggestions = 7)
 		{
 			if (!string.IsNullOrWhiteSpace(sender.Text) && shellpage.FilesystemViewModel is not null)
 			{

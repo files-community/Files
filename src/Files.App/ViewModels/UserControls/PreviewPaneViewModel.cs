@@ -94,11 +94,11 @@ namespace Files.App.ViewModels.UserControls
 		{
 			previewSettingsService = previewSettings;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
+			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreviewAsync());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
-			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEventAsync;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -279,7 +279,7 @@ namespace Files.App.ViewModels.UserControls
 			return control ?? null;
 		}
 
-		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)
@@ -355,12 +355,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public ICommand ShowPreviewOnlyInvoked { get; }
 
-		private async void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+		private async void PreviewSettingsService_OnPropertyChangedEventAsync(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
-				await UpdateSelectedItemPreview();
+				await UpdateSelectedItemPreviewAsync();
 			}
 			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{
@@ -408,7 +408,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
-			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
+			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEventAsync;
 		}
 	}
 }

@@ -27,10 +27,10 @@ namespace Files.App.Utils.FileTags
 
 		public FileTagsManager()
 		{
-			fileTagsSettingsService.OnTagsUpdated += TagsUpdated;
+			fileTagsSettingsService.OnTagsUpdated += TagsUpdatedAsync;
 		}
 
-		private async void TagsUpdated(object? _, EventArgs e)
+		private async void TagsUpdatedAsync(object? _, EventArgs e)
 		{
 			lock (fileTags)
 				fileTags.Clear();

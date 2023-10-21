@@ -8,7 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Loaded="Properties_Loaded"
+	Loaded="Properties_LoadedAsync"
 	Tag="Details"
 	mc:Ignorable="d">
 
@@ -139,7 +139,7 @@
 									<TextBlock Text="{helpers:ResourceString Name=ClearPropertiesFlyoutText/Text}" />
 									<Button
 										HorizontalAlignment="Right"
-										Click="ClearPropertiesConfirmation_Click"
+										Click="ClearPropertiesConfirmation_ClickAsync"
 										Content="{helpers:ResourceString Name=Clear}" />
 								</StackPanel>
 							</Flyout>

@@ -38,11 +38,11 @@ namespace Files.App.Actions
 			if (context.HasSelection)
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
-				await service.UnpinFromSidebar(items);
+				await service.UnpinFromSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.UnpinFromSidebar(context.Folder.ItemPath);
+				await service.UnpinFromSidebarAsync(context.Folder.ItemPath);
 			}
 		}
 

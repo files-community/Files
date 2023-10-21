@@ -37,18 +37,18 @@ namespace Files.App.ViewModels.LayoutModes
 			_itemManipulationModel = itemManipulationModel;
 
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CreateNewFile);
-			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressed);
+			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressedAsync);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
-			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOver);
-			DropCommand = new AsyncRelayCommand<DragEventArgs>(Drop);
+			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOverAsync);
+			DropCommand = new AsyncRelayCommand<DragEventArgs>(DropAsync);
 		}
 
 		private void CreateNewFile(ShellNewEntry f)
 		{
-			UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, f, _associatedInstance);
+			UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, f, _associatedInstance);
 		}
 
-		private async Task ItemPointerPressed(PointerRoutedEventArgs e)
+		private async Task ItemPointerPressedAsync(PointerRoutedEventArgs e)
 		{
 			// If a folder item was clicked, disable middle mouse click to scroll to cancel the mouse scrolling state and re-enable it
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed &&
@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.LayoutModes
 			}
 		}
 
-		public async Task DragOver(DragEventArgs e)
+		public async Task DragOverAsync(DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -162,7 +162,7 @@ namespace Files.App.ViewModels.LayoutModes
 			deferral.Complete();
 		}
 
-		public async Task Drop(DragEventArgs e)
+		public async Task DropAsync(DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -171,7 +171,7 @@ namespace Files.App.ViewModels.LayoutModes
 				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
 				e.Handled = true;
 
-				await _associatedInstance.RefreshIfNoWatcherExists();
+				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
 
 			deferral.Complete();
