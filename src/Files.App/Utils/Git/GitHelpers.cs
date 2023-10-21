@@ -203,7 +203,7 @@ namespace Files.App.Utils.Git
 			}
 		}
 
-		public static async Task CreateNewBranch(string repositoryPath, string activeBranch)
+		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 		{
 			Analytics.TrackEvent("Triggered create git branch");
 
@@ -293,7 +293,7 @@ namespace Files.App.Utils.Git
 			});
 		}
 
-		public static async Task PullOrigin(string? repositoryPath)
+		public static async Task PullOriginAsync(string? repositoryPath)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -328,7 +328,7 @@ namespace Files.App.Utils.Git
 			{
 				if (IsAuthorizationException(ex))
 				{
-					await RequireGitAuthentication();
+					await RequireGitAuthenticationAsync();
 				}
 				else
 				{
@@ -349,7 +349,7 @@ namespace Files.App.Utils.Git
 			IsExecutingGitAction = false;
 		}
 
-		public static async Task PushToOrigin(string? repositoryPath, string? branchName)
+		public static async Task PushToOriginAsync(string? repositoryPath, string? branchName)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath) || string.IsNullOrWhiteSpace(branchName))
 				return;
@@ -362,7 +362,7 @@ namespace Files.App.Utils.Git
 			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
 			if (string.IsNullOrWhiteSpace(token))
 			{
-				await RequireGitAuthentication();
+				await RequireGitAuthenticationAsync();
 				token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
 			}
 
@@ -395,7 +395,7 @@ namespace Files.App.Utils.Git
 			catch (Exception ex)
 			{
 				if (IsAuthorizationException(ex))
-					await RequireGitAuthentication();
+					await RequireGitAuthenticationAsync();
 				else
 					_logger.LogWarning(ex.Message);
 			}
@@ -403,7 +403,7 @@ namespace Files.App.Utils.Git
 			IsExecutingGitAction = false;
 		}
 
-		public static async Task RequireGitAuthentication()
+		public static async Task RequireGitAuthenticationAsync()
 		{
 			var pending = true;
 			var client = new HttpClient();
@@ -561,7 +561,7 @@ namespace Files.App.Utils.Git
 			return gitItemModel;
 		}
 
-		public static async Task InitializeRepository(string? path)
+		public static async Task InitializeRepositoryAsync(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return;

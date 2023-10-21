@@ -22,7 +22,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return DeleteItems(false);
+			return DeleteItemsAsync(false);
 		}
 	}
 }

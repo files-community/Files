@@ -16,7 +16,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return DeleteItems(true);
+			return DeleteItemsAsync(true);
 		}
 	}
 }

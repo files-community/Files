@@ -19,7 +19,7 @@ namespace Files.App.Services
 			provider = GetProvider();
 			provider.SizeChanged += Provider_SizeChanged;
 
-			folderPreferences.PropertyChanged += folderPreferences_PropertyChanged;
+			folderPreferences.PropertyChanged += FolderPreferences_PropertyChangedAsync;
 		}
 
 		public Task CleanAsync()
@@ -37,13 +37,13 @@ namespace Files.App.Services
 		public void Dispose()
 		{
 			provider.Dispose();
-			folderPreferences.PropertyChanged -= folderPreferences_PropertyChanged;
+			folderPreferences.PropertyChanged -= FolderPreferences_PropertyChangedAsync;
 		}
 
 		private ISizeProvider GetProvider()
 			=> folderPreferences.CalculateFolderSizes ? new DrivesSizeProvider() : new NoSizeProvider();
 
-		private async void folderPreferences_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private async void FolderPreferences_PropertyChangedAsync(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IFoldersSettingsService.CalculateFolderSizes))
 			{

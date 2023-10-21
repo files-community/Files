@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			Library = library;
 			GetBaseProperties();
-			GetSpecialProperties();
+			GetSpecialPropertiesAsync();
 		}
 
 		public override void GetBaseProperties()
@@ -44,7 +44,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public async override Task GetSpecialProperties()
+		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
@@ -63,7 +63,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
 				if (libraryFile.Properties is not null)
 				{
-					GetOtherProperties(libraryFile.Properties);
+					GetOtherPropertiesAsync(libraryFile.Properties);
 				}
 			}
 
@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ContainsFilesOrFolders = true;
 				ViewModel.LocationsCount = storageFolders.Count;
-				GetLibrarySize(storageFolders, TokenSource.Token);
+				GetLibrarySizeAsync(storageFolders, TokenSource.Token);
 			}
 			else
 			{
@@ -99,7 +99,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		private async Task GetLibrarySize(List<BaseStorageFolder> storageFolders, CancellationToken token)
+		private async Task GetLibrarySizeAsync(List<BaseStorageFolder> storageFolders, CancellationToken token)
 		{
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSizeProgressVisibility = true;

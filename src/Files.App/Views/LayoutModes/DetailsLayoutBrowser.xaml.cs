@@ -135,7 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -285,7 +285,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -311,8 +311,8 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			textBox!.LostFocus -= RenameTextBox_LostFocusAsync;
+			textBox.KeyDown -= RenameTextBox_KeyDownAsync;
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
@@ -320,7 +320,7 @@ namespace Files.App.Views.LayoutModes
 			listViewItem?.Focus(FocusState.Programmatic);
 		}
 
-		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
@@ -406,22 +406,22 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 			}
 		}
 
-		private async Task ReloadItemIcons()
+		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
 			}
 		}
 
-		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTappedAsync(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -435,7 +435,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 				}
 				return;
@@ -457,7 +457,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else
 			{
@@ -471,7 +471,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 				}
 			}
@@ -483,7 +483,7 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{

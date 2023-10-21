@@ -151,11 +151,11 @@ namespace Files.App.Views.LayoutModes
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChangingAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
-				await ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -176,8 +176,8 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			textBox!.LostFocus -= RenameTextBox_LostFocusAsync;
+			textBox.KeyDown -= RenameTextBox_KeyDownAsync;
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 		}
@@ -240,7 +240,7 @@ namespace Files.App.Views.LayoutModes
 				HandleRightClick();
 		}
 
-		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e)
 		{
 			if
 			(
@@ -334,7 +334,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+							_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -367,7 +367,7 @@ namespace Files.App.Views.LayoutModes
 				element.Focus(FocusState.Programmatic);
 		}
 
-		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTappedAsync(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -384,7 +384,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else if (item is not null)
 			{
@@ -397,7 +397,7 @@ namespace Files.App.Views.LayoutModes
 					FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
 					listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 				{
-					await CommitRename(textBox);
+					await CommitRenameAsync(textBox);
 				}
 
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)

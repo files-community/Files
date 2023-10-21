@@ -50,7 +50,7 @@ namespace Files.App.Services
 			_updatePackages = new List<StorePackageUpdate>();
 		}
 
-		public async Task DownloadUpdates()
+		public async Task DownloadUpdatesAsync()
 		{
 			OnUpdateInProgress();
 
@@ -72,11 +72,11 @@ namespace Files.App.Services
 				}
 			}
 
-			await DownloadAndInstall();
+			await DownloadAndInstallAsync();
 			OnUpdateCompleted();
 		}
 
-		public async Task DownloadMandatoryUpdates()
+		public async Task DownloadMandatoryUpdatesAsync()
 		{
 			// Prompt the user to download if the package list
 			// contains mandatory updates.
@@ -86,18 +86,18 @@ namespace Files.App.Services
 				{
 					App.Logger.LogInformation("STORE: Downloading updates...");
 					OnUpdateInProgress();
-					await DownloadAndInstall();
+					await DownloadAndInstallAsync();
 					OnUpdateCompleted();
 				}
 			}
 		}
 
-		public async Task CheckForUpdates()
+		public async Task CheckForUpdatesAsync()
 		{
 			IsUpdateAvailable = false;
 			App.Logger.LogInformation("STORE: Checking for updates...");
 
-			await GetUpdatePackages();
+			await GetUpdatePackagesAsync();
 
 			if (_updatePackages is not null && _updatePackages.Count > 0)
 			{
@@ -106,7 +106,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task DownloadAndInstall()
+		private async Task DownloadAndInstallAsync()
 		{
 			App.SaveSessionTabs();
 			App.AppModel.ForceProcessTermination = true;
@@ -117,7 +117,7 @@ namespace Files.App.Services
 				App.AppModel.ForceProcessTermination = false;
 		}
 
-		private async Task GetUpdatePackages()
+		private async Task GetUpdatePackagesAsync()
 		{
 			try
 			{

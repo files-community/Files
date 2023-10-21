@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Loaded="Properties_Loaded"
+	Loaded="Properties_LoadedAsync"
 	Tag="Compatibility"
 	mc:Ignorable="d">
 

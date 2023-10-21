@@ -119,7 +119,7 @@
 						HorizontalAlignment="Stretch"
 						DesiredWidth="180"
 						IsItemClickEnabled="True"
-						ItemClick="FileTagItem_ItemClick"
+						ItemClick="FileTagItem_ItemClickAsync"
 						ItemsSource="{x:Bind Tags}"
 						RightTapped="AdaptiveGridView_RightTapped"
 						ScrollViewer.VerticalScrollBarVisibility="Hidden"
