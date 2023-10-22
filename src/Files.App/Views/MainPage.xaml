@@ -12,7 +12,6 @@
 	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
-	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -131,6 +130,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!--  TabBar & AddressToolbar  -->
 		<Grid x:Name="RightMarginGrid" VerticalAlignment="Top">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -185,6 +185,7 @@
 				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 				TabIndex="1" />
 
+			<!--  SideBar Visibility Toggle Button  -->
 			<Button
 				x:Name="TogglePaneButton"
 				Margin="2,2,0,0"
@@ -197,7 +198,7 @@
 				Visibility="Collapsed" />
 		</Grid>
 
-		<!--  Root  -->
+		<!--  SideBar & Content  -->
 		<sidebar:SidebarView
 			x:Name="SidebarControl"
 			Grid.Row="1"

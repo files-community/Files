@@ -24,7 +24,6 @@ namespace Files.App.Views
 	{
 		// DI used in code
 		private readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-		private readonly MainPageViewModel ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		// DI used in XAML
@@ -32,6 +31,7 @@ namespace Files.App.Views
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private SidebarViewModel SidebarAdaptiveViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
 		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+		private MainPageViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		private bool _keyReleased = true;
 
@@ -292,12 +292,9 @@ namespace Files.App.Views
 			// Notify user that drag and drop is disabled
 			// Prompt is disabled in the dev environment to prevent issues with the automation testing 
 			// ToDo put this in a StartupPromptService
-			if
-			(
-				_applicationService.Environment is not AppEnvironment.Dev &&
+			if (_applicationService.Environment is not AppEnvironment.Dev &&
 				_isAppRunningAsAdmin &&
-				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
-			)
+				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt)
 			{
 				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
 			}
@@ -475,9 +472,7 @@ namespace Files.App.Views
 		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
-			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
-			}
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;
