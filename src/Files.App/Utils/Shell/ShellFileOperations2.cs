@@ -22,6 +22,7 @@ public class ShellFileOperations2 : IDisposable
 	/// <param name="owner">The window that owns the modal dialog. This value can be <see langword="null"/>.</param>
 	public ShellFileOperations2(HWND owner = default)
 	{
+		// EDIT: use CoCreateInstance to explicitly create object with CLSCTX_LOCAL_SERVER (fixes #13229, hides UAC)
 		Ole32.CoCreateInstance(typeof(CFileOperations).GUID, null, Ole32.CLSCTX.CLSCTX_LOCAL_SERVER, typeof(IFileOperation).GUID, out var opObj);
 		op = (IFileOperation)opObj;
 		//op = new IFileOperation();
@@ -714,6 +715,7 @@ public class ShellFileOperations2 : IDisposable
 
 	public delegate void ProgressChangedEventHandler(object? sender, ProgressChangedEventArgs e);
 
+	// From System.ComponentModel.ProgressChangedEventArgs but with double percentage
 	public class ProgressChangedEventArgs : EventArgs
 	{
 		private readonly double _progressPercentage;
