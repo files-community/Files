@@ -21,9 +21,9 @@ namespace Files.App.ViewModels.Properties
 
 		public abstract void GetBaseProperties();
 
-		public abstract Task GetSpecialProperties();
+		public abstract Task GetSpecialPropertiesAsync();
 
-		public async Task GetOtherProperties(IStorageItemExtraProperties properties)
+		public async Task GetOtherPropertiesAsync(IStorageItemExtraProperties properties)
 		{
 			string dateAccessedProperty = "System.DateAccessed";
 

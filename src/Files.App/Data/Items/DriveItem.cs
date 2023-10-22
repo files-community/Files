@@ -219,6 +219,7 @@ namespace Files.App.Data.Items
 				ToolTipService.SetToolTip(itemDecorator, "SideBarEjectDevice/Text".GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
+
 				return itemDecorator;
 			}
 		}

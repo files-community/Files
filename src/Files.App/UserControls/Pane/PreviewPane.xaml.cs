@@ -53,7 +53,7 @@ namespace Files.App.UserControls
 		private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
 
 		private void Root_Loading(FrameworkElement sender, object args)
-			=> ViewModel.UpdateSelectedItemPreview();
+			=> ViewModel.UpdateSelectedItemPreviewAsync();
 
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
@@ -65,7 +65,7 @@ namespace Files.App.UserControls
 			=> Context.IsHorizontal = Root.ActualWidth >= Root.ActualHeight;
 
 		private void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e)
-			=> ViewModel?.UpdateSelectedItemPreview(true);
+			=> ViewModel?.UpdateSelectedItemPreviewAsync(true);
 
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{

@@ -17,9 +17,6 @@ namespace Files.App.Actions
 		public string Description
 			=> "AddItemDescription".GetLocalizedResource();
 
-		public HotKey HotKey
-			=> new(Keys.N, KeyModifiers.CtrlShift);
-
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 
@@ -44,7 +41,7 @@ namespace Files.App.Actions
 			}
 			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
 			{
-				await UIFilesystemHelpers.CreateFileFromDialogResultType(
+				await UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(
 					viewModel.ResultType.ItemType,
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);

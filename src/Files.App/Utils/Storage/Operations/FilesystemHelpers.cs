@@ -270,7 +270,7 @@ namespace Files.App.Utils.Storage
 					if (isTargetExecutable)
 					{
 						var items = await GetDraggedStorageItems(packageView);
-						NavigationHelpers.OpenItemsWithExecutable(associatedInstance, items, destination);
+						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else
@@ -405,7 +405,7 @@ namespace Files.App.Utils.Storage
 					// Get the SoftwareBitmap representation of the file
 					softwareBitmap = await decoder.GetSoftwareBitmapAsync();
 
-					await BitmapHelper.SaveSoftwareBitmapToFile(softwareBitmap, file, BitmapEncoder.PngEncoderId);
+					await BitmapHelper.SaveSoftwareBitmapToFileAsync(softwareBitmap, file, BitmapEncoder.PngEncoderId);
 					return ReturnResult.Success;
 				}
 				catch (Exception)
@@ -780,7 +780,8 @@ namespace Files.App.Utils.Storage
 			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
 			if (packageView.Contains("FileDrop"))
 			{
-				var fileDropData = await packageView.GetDataAsync("FileDrop");
+				var fileDropData = await SafetyExtensions.IgnoreExceptions(
+					() => packageView.GetDataAsync("FileDrop").AsTask());
 				if (fileDropData is IRandomAccessStream stream)
 				{
 					stream.Seek(0);

@@ -34,7 +34,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			context.ShellPage?.Refresh_Click();
+			context.ShellPage?.Refresh_ClickAsync();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

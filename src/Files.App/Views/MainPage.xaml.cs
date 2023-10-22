@@ -68,7 +68,7 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
-		private async Task PromptForReview()
+		private async Task PromptForReviewAsync()
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
@@ -96,7 +96,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private async Task AppRunningAsAdminPrompt()
+		private async Task AppRunningAsAdminPromptAsync()
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
@@ -162,7 +162,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			ViewModel.UpdateInstanceProperties(paneArgs);
+			ViewModel.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -181,7 +181,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			ViewModel.UpdateInstanceProperties(navArgs);
+			ViewModel.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -217,10 +217,12 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			ViewModel.OnNavigatedTo(e);
+			ViewModel.OnNavigatedToAsync(e);
 		}
 
-		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
+
+		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyDown(e);
 
@@ -296,7 +298,7 @@ namespace Files.App.Views
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
-				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
 			}
 
 			// ToDo put this in a StartupPromptService
@@ -307,7 +309,7 @@ namespace Files.App.Views
 			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
-				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
+				DispatcherQueue.TryEnqueue(async () => await PromptForReviewAsync());
 			}
 		}
 

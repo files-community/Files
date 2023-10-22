@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Collections.Specialized;
@@ -46,10 +45,10 @@ namespace Files.App.Utils.RecentItem
 
 		public RecentItems()
 		{
-			RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChanged;
+			RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChangedAsync;
 		}
 
-		private async void OnRecentItemsChanged(object? sender, EventArgs e)
+		private async void OnRecentItemsChangedAsync(object? sender, EventArgs e)
 		{
 			await UpdateRecentFilesAsync();
 		}
@@ -82,7 +81,7 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task UpdateRecentFoldersAsync()
 		{
-			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync);	// run off the UI thread
+			var enumeratedFolders = await Task.Run(ListRecentFoldersAsync); // run off the UI thread
 			if (enumeratedFolders is not null)
 			{
 				lock (recentFolders)
@@ -114,7 +113,6 @@ namespace Files.App.Utils.RecentItem
 		/// </summary>
 		public async Task<List<RecentItem>> ListRecentFoldersAsync()
 		{
-			var recentItems = new List<RecentItem>();
 			var excludeMask = FileAttributes.Hidden;
 			var linkFilePaths = Directory.EnumerateFiles(Constants.UserEnvironmentPaths.RecentItemsPath).Where(f => (new FileInfo(f).Attributes & excludeMask) == 0);
 
@@ -146,10 +144,8 @@ namespace Files.App.Utils.RecentItem
 				});
 			}
 
-			var recentFolderTasks = linkFilePaths.Select(GetRecentItemFromLink);
-			var result = await Task.WhenAll(recentFolderTasks);
-
-			return result.OfType<RecentItem>().ToList();
+			var recentItems = await Task.WhenAll(linkFilePaths.Select(GetRecentItemFromLink));
+			return recentItems.OfType<RecentItem>().ToList();
 		}
 
 		/// <summary>
@@ -301,7 +297,7 @@ namespace Files.App.Utils.RecentItem
 
 		public void Dispose()
 		{
-			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;
+			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChangedAsync;
 		}
 	}
 }

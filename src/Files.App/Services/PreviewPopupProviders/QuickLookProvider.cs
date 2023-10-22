@@ -18,17 +18,17 @@ namespace Files.App.Services.PreviewPopupProviders
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
 		private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
 
-		public async Task TogglePreviewPopup(string path)
+		public async Task TogglePreviewPopupAsync(string path)
 		{
-			await DoPreview(path, pipeMessageToggle);
+			await DoPreviewAsync(path, pipeMessageToggle);
 		}
 
-		public async Task SwitchPreview(string path)
+		public async Task SwitchPreviewAsync(string path)
 		{
-			await DoPreview(path, pipeMessageSwitch);
+			await DoPreviewAsync(path, pipeMessageSwitch);
 		}
 
-		private async Task DoPreview(string path, string message)
+		private async Task DoPreviewAsync(string path, string message)
 		{
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 

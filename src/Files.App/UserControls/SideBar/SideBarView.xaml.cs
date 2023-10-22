@@ -46,27 +46,27 @@ namespace Files.App.UserControls.Sidebar
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, item.Item);
-			ViewModel.HandleItemInvoked(item.Item);
+			ViewModel.HandleItemInvokedAsync(item.Item);
 		}
 
 		internal void RaiseContextRequested(SidebarItem item, Point e)
 		{
 			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
-			ViewModel.HandleItemContextInvoked(item, new ItemContextInvokedArgs(item.Item, e));
+			ViewModel.HandleItemContextInvokedAsync(item, new ItemContextInvokedArgs(item.Item, e));
 		}
 
 		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
 			ItemDropped?.Invoke(sideBarItem, new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-			ViewModel.HandleItemDropped(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDroppedAsync(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
 		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
 			ItemDragOver?.Invoke(sideBarItem, new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
-			ViewModel.HandleItemDragOver(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ViewModel.HandleItemDragOverAsync(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
 		private void UpdateMinimalMode()
@@ -229,7 +229,7 @@ namespace Files.App.UserControls.Sidebar
 		private void PaneColumnGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
 		{
 			var newArgs = new ItemContextInvokedArgs(null, e.TryGetPosition(this, out var point) ? point : default);
-			ViewModel.HandleItemContextInvoked(this, newArgs);
+			ViewModel.HandleItemContextInvokedAsync(this, newArgs);
 			e.Handled = true;
 		}
 

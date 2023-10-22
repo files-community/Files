@@ -25,11 +25,11 @@ namespace Files.Core.Services
 		/// </summary>
 		bool IsReleaseNotesAvailable { get; }
 
-		Task DownloadUpdates();
+		Task DownloadUpdatesAsync();
 
-		Task DownloadMandatoryUpdates();
+		Task DownloadMandatoryUpdatesAsync();
 
-		Task CheckForUpdates();
+		Task CheckForUpdatesAsync();
 
 		Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
 

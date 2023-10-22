@@ -13,6 +13,9 @@ namespace Files.App.Actions
 		public string Description
 			=> "CreateFolderDescription".GetLocalizedResource();
 
+		public HotKey HotKey
+			=> new(Keys.N, KeyModifiers.CtrlShift);
+
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8B7");
 
@@ -30,7 +33,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.Folder, null!, context.ShellPage);
+				UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, context.ShellPage);
 
 			return Task.CompletedTask;
 		}
