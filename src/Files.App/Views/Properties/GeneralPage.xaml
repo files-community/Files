@@ -10,7 +10,7 @@
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Loaded="Properties_Loaded"
+	Loaded="Properties_LoadedAsync"
 	Tag="General"
 	mc:Ignorable="d">
 

@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 
 		public FilesystemOperations(IShellPage associatedInstance)
 		{
-			this._associatedInstance = associatedInstance;
+			_associatedInstance = associatedInstance;
 		}
 
 		public async Task<(IStorageHistory, IStorageItem)> CreateAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken, bool asAdmin = false)
@@ -89,7 +89,7 @@ namespace Files.App.Utils.Storage
 						break;
 				}
 
-				fsProgress.ProcessedItemsCount = 1;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.ReportStatus(fsResult);
 				return item is not null
 					? (new StorageHistory(FileOperationType.CreateNew, item.CreateList(), null), item.Item)
@@ -109,7 +109,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -125,7 +129,6 @@ namespace Files.App.Utils.Storage
 			}
 
 			IStorageItem copiedItem = null;
-			//long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
 
 			if (source.ItemType == FilesystemItemType.Directory)
 			{
@@ -289,7 +292,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			if (source.Path == destination)
@@ -320,8 +327,6 @@ namespace Files.App.Utils.Storage
 			}
 
 			IStorageItem movedItem = null;
-
-			//long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
 
 			if (source.ItemType == FilesystemItemType.Directory)
 			{
@@ -478,7 +483,11 @@ namespace Files.App.Utils.Storage
 
 		public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source, IProgress<StatusCenterItemProgressModel> progress, bool permanently, CancellationToken cancellationToken)
 		{
-			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				true,
+				FileSystemStatusCode.InProgress);
+
 			fsProgress.Report();
 
 			bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
@@ -560,12 +569,13 @@ namespace Files.App.Utils.Storage
 			return RenameAsync(StorageHelpers.FromStorageItem(source), newName, collision, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
-													   string newName,
-													   NameCollisionOption collision,
-													   IProgress<StatusCenterItemProgressModel> progress,
-													   CancellationToken cancellationToken,
-													   bool asAdmin = false)
+		public async Task<IStorageHistory> RenameAsync(
+			IStorageItemWithPath source,
+			string newName,
+			NameCollisionOption collision,
+			IProgress<StatusCenterItemProgressModel> progress,
+			CancellationToken cancellationToken,
+			bool asAdmin = false)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress);
 
@@ -665,11 +675,12 @@ namespace Files.App.Utils.Storage
 			return await RestoreItemsFromTrashAsync(await source.Select((item) => item.FromStorageItem()).ToListAsync(), destination, progress, cancellationToken);
 		}
 
-		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(IList<IStorageItemWithPath> source,
-																	 IList<string> destination,
-																	 IProgress<StatusCenterItemProgressModel> progress,
-																	 CancellationToken token,
-																	 bool asAdmin = false)
+		public async Task<IStorageHistory> RestoreItemsFromTrashAsync(
+			IList<IStorageItemWithPath> source,
+			IList<string> destination,
+			IProgress<StatusCenterItemProgressModel> progress,
+			CancellationToken token,
+			bool asAdmin = false)
 		{
 			StatusCenterItemProgressModel fsProgress = new(progress, true, FileSystemStatusCode.InProgress, source.Count);
 			fsProgress.Report();
@@ -683,7 +694,7 @@ namespace Files.App.Utils.Storage
 
 				rawStorageHistory.Add(await RestoreFromTrashAsync(source[i], destination[i], null, token));
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -833,7 +844,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 
 			}
@@ -877,7 +888,7 @@ namespace Files.App.Utils.Storage
 						token));
 				}
 
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 
@@ -912,7 +923,7 @@ namespace Files.App.Utils.Storage
 				permanently = RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
-				fsProgress.ProcessedItemsCount++;
+				fsProgress.AddProcessedItemsCount(1);
 				fsProgress.Report();
 			}
 

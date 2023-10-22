@@ -66,7 +66,7 @@ namespace Files.App.Helpers
 
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
-		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItems(d as MenuFlyout);
+		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItemsAsync(d as MenuFlyout);
 
 		#endregion ItemsSource
 
@@ -94,7 +94,7 @@ namespace Files.App.Helpers
 
 		#endregion IsVisible
 
-		private static async Task SetupItems(MenuFlyout menu)
+		private static async Task SetupItemsAsync(MenuFlyout menu)
 		{
 			if (menu is null || Windows.ApplicationModel.DesignMode.DesignModeEnabled)
 			{

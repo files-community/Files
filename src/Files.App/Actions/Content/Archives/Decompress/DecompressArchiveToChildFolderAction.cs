@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			return ArchiveHelpers.DecompressArchiveToChildFolder(context.ShellPage);
+			return DecompressHelper.DecompressArchiveToChildFolderAsync(context.ShellPage);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

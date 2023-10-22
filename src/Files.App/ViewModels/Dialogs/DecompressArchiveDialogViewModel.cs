@@ -54,11 +54,11 @@ namespace Files.App.ViewModels.Dialogs
 			destinationFolderPath = DefaultDestinationFolderPath();
 
 			// Create commands
-			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
+			SelectDestinationCommand = new AsyncRelayCommand(SelectDestinationAsync);
 			PrimaryButtonClickCommand = new RelayCommand<DisposableArray>(password => Password = password);
 		}
 
-		private async Task SelectDestination()
+		private async Task SelectDestinationAsync()
 		{
 			FolderPicker folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");

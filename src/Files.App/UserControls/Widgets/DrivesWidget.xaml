@@ -35,10 +35,10 @@
 						HorizontalContentAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind Item.Text, Mode=OneWay}"
-						Click="Button_Click"
+						Click="Button_ClickAsync"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						DataContext="{x:Bind}"
-						PointerPressed="Button_PointerPressed"
+						PointerPressed="Button_PointerPressedAsync"
 						RightTapped="Button_RightTapped"
 						Tag="{x:Bind Item.Path}"
 						ToolTipService.ToolTip="{x:Bind Item.Text, Mode=OneWay}">

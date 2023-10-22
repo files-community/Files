@@ -2,15 +2,36 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Windows.Input;
+using SkiaSharp;
+using LiveChartsCore;
+using LiveChartsCore.Drawing;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.Defaults;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Utils.StatusCenter
 {
 	/// <summary>
 	/// Represents an item for Status Center operation tasks.
+	/// <br/>
+	/// Handles all operation's functionality and UI.
 	/// </summary>
 	public sealed class StatusCenterItem : ObservableObject
 	{
 		private readonly StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
+		private int _ProgressPercentage;
+		public int ProgressPercentage
+		{
+			get => _ProgressPercentage;
+			set
+			{
+				ProgressPercentageText = $"{value}%";
+				SetProperty(ref _ProgressPercentage, value);
+			}
+		}
 
 		private string? _Header;
 		public string? Header
@@ -19,6 +40,7 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _Header, value);
 		}
 
+		// Currently, shown on the tooltip
 		private string? _SubHeader;
 		public string? SubHeader
 		{
@@ -26,13 +48,44 @@ namespace Files.App.Utils.StatusCenter
 			set => SetProperty(ref _SubHeader, value);
 		}
 
-		private int _ProgressPercentage;
-		public int ProgressPercentage
+		private string? _Message;
+		public string? Message
 		{
-			get => _ProgressPercentage;
-			set => SetProperty(ref _ProgressPercentage, value);
+			get => _Message;
+			set => SetProperty(ref _Message, value);
 		}
 
+		private string? _SpeedText;
+		public string? SpeedText
+		{
+			get => _SpeedText;
+			set => SetProperty(ref _SpeedText, value);
+		}
+
+		private string? _ProgressPercentageText;
+		public string? ProgressPercentageText
+		{
+			get => _ProgressPercentageText;
+			set => SetProperty(ref _ProgressPercentageText, value);
+		}
+
+		// Gets or sets the value that represents the current processing item name.
+		private string? _CurrentProcessingItemName;
+		public string? CurrentProcessingItemName
+		{
+			get => _CurrentProcessingItemName;
+			set => SetProperty(ref _CurrentProcessingItemName, value);
+		}
+
+		// TODO: Remove and replace with Message
+		private string? _CurrentProcessedSizeText;
+		public string? CurrentProcessedSizeHumanized
+		{
+			get => _CurrentProcessedSizeText;
+			set => SetProperty(ref _CurrentProcessedSizeText, value);
+		}
+
+		// This property is basically handled by an UI element - ToggleButton
 		private bool _IsExpanded;
 		public bool IsExpanded
 		{
@@ -45,40 +98,48 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
-		private string _AnimatedIconState = "NormalOff";
-		public string AnimatedIconState
+		// This property is used for AnimatedIcon state
+		private string? _AnimatedIconState;
+		public string? AnimatedIconState
 		{
 			get => _AnimatedIconState;
 			set => SetProperty(ref _AnimatedIconState, value);
 		}
 
-		private bool _IsInProgress; // Item type is InProgress && is the operation in progress
-		public bool IsInProgress
+		// If true, the chevron won't be shown.
+		// This property will be false basically if the proper progress report is not supported in the operation.
+		private bool _IsSpeedAndProgressAvailable;
+		public bool IsSpeedAndProgressAvailable
 		{
-			get => _IsInProgress;
-			set
-			{
-				if (SetProperty(ref _IsInProgress, value))
-					OnPropertyChanged(nameof(SubHeader));
-			}
+			get => _IsSpeedAndProgressAvailable;
+			set => SetProperty(ref _IsSpeedAndProgressAvailable, value);
 		}
 
-		private bool _IsCancelled;
-		public bool IsCancelled
+		// This property will be true basically if the operation was canceled or the operation doesn't support proper progress update.
+		private bool _IsIndeterminateProgress;
+		public bool IsIndeterminateProgress
 		{
-			get => _IsCancelled;
-			set => SetProperty(ref _IsCancelled, value);
+			get => _IsIndeterminateProgress;
+			set => SetProperty(ref _IsIndeterminateProgress, value);
 		}
 
-		public CancellationToken CancellationToken
-			=> _operationCancellationToken?.Token ?? default;
-
+		// This property will be true if the item card is for in-progress and the operation supports cancellation token also.
+		private bool _IsCancelable;
 		public bool IsCancelable
-			=> _operationCancellationToken is not null;
+		{
+			get => _IsCancelable;
+			set => SetProperty(ref _IsCancelable, value);
+		}
 
-		public string HeaderBody { get; set; }
+		// This property is not updated for now. Should be removed.
+		private StatusCenterItemProgressModel _Progress = null!;
+		public StatusCenterItemProgressModel Progress
+		{
+			get => _Progress;
+			set => SetProperty(ref _Progress, value);
+		}
 
-		public ReturnResult FileSystemOperationReturnResult { get; set; }
+		public ReturnResult FileSystemOperationReturnResult { get; private set; }
 
 		public FileOperationType Operation { get; private set; }
 
@@ -86,7 +147,36 @@ namespace Files.App.Utils.StatusCenter
 
 		public StatusCenterItemIconKind ItemIconKind { get; private set; }
 
-		public readonly StatusCenterItemProgressModel Progress;
+		public long TotalSize { get; private set; }
+
+		public long TotalItemsCount { get; private set; }
+
+		public bool IsInProgress { get; private set; }
+
+		public IEnumerable<string>? Source { get; private set; }
+
+		public IEnumerable<string>? Destination { get; private set; }
+
+		public string? HeaderStringResource { get; private set; }
+
+		public string? SubHeaderStringResource { get; private set; }
+
+		public ObservableCollection<ObservablePoint>? SpeedGraphValues { get; private set; }
+
+		public ObservableCollection<ObservablePoint>? SpeedGraphBackgroundValues { get; private set; }
+
+		public ObservableCollection<ISeries>? SpeedGraphSeries { get; private set; }
+
+		public ObservableCollection<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
+
+		public ObservableCollection<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
+
+		public double IconBackgroundCircleBorderOpacity { get; private set; }
+
+		public double? CurrentHighestPointValue { get; private set; }
+
+		public CancellationToken CancellationToken
+			=> _operationCancellationToken?.Token ?? default;
 
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
@@ -94,39 +184,127 @@ namespace Files.App.Utils.StatusCenter
 
 		public ICommand CancelCommand { get; }
 
-		public StatusCenterItem(string message, string title, float progress, ReturnResult status, FileOperationType operation, CancellationTokenSource operationCancellationToken = null)
+		public StatusCenterItem(
+			string headerResource,
+			string subHeaderResource,
+			ReturnResult status,
+			FileOperationType operation,
+			IEnumerable<string>? source,
+			IEnumerable<string>? destination,
+			bool canProvideProgress = false,
+			long itemsCount = 0,
+			long totalSize = 0,
+			CancellationTokenSource? operationCancellationToken = default)
 		{
 			_operationCancellationToken = operationCancellationToken;
-			SubHeader = message;
-			HeaderBody = title;
-			Header = title;
+			Header = headerResource == string.Empty ? headerResource : headerResource.GetLocalizedResource();
+			HeaderStringResource = headerResource;
+			SubHeader = subHeaderResource == string.Empty ? subHeaderResource : subHeaderResource.GetLocalizedResource();
+			SubHeaderStringResource = subHeaderResource;
 			FileSystemOperationReturnResult = status;
 			Operation = operation;
 			ProgressEventSource = new Progress<StatusCenterItemProgressModel>(ReportProgress);
 			Progress = new(ProgressEventSource, status: FileSystemStatusCode.InProgress);
-
+			IsCancelable = _operationCancellationToken is not null;
+			TotalItemsCount = itemsCount;
+			TotalSize = totalSize;
+			IconBackgroundCircleBorderOpacity = 1;
+			AnimatedIconState = "NormalOff";
+			SpeedGraphValues = new();
+			SpeedGraphBackgroundValues = new();
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
+			Message = "ProcessingItems".GetLocalizedResource();
+			Source = source;
+			Destination = destination;
 
+			// Get the graph color
+			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
+				return;
+
+			// Initialize graph series
+			SpeedGraphSeries = new()
+			{
+				new LineSeries<ObservablePoint>
+				{
+					Values = SpeedGraphValues,
+					GeometrySize = 0d,
+					DataPadding = new(0, 0),
+					IsHoverable = false,
+
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B),
+						1f),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 50),
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 10)
+						},
+						new(0f, 0f),
+						new(0f, 0f),
+						new[] { 0.1f, 1.0f }),
+				},
+				new LineSeries<ObservablePoint>
+				{
+					Values = SpeedGraphBackgroundValues,
+					GeometrySize = 0d,
+					DataPadding = new(0, 0),
+					IsHoverable = false,
+					
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40),
+						0.1f),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
+						},
+						new(0f, 0f),
+						new(0f, 0f)),
+				}
+			};
+
+			// Initialize X axes of the graph
+			SpeedGraphXAxes = new()
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+					MaxLimit = 100,
+					ShowSeparatorLines = false,
+				}
+			};
+
+			// Initialize Y axes of the graph
+			SpeedGraphYAxes = new()
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+					ShowSeparatorLines = false,
+				}
+			};
+
+			// Set icon and initialize string resources
 			switch (FileSystemOperationReturnResult)
 			{
 				case ReturnResult.InProgress:
 					{
+						IsSpeedAndProgressAvailable = canProvideProgress;
 						IsInProgress = true;
+						IsIndeterminateProgress = !canProvideProgress;
+						IconBackgroundCircleBorderOpacity = 0.1d;
 
-						HeaderBody = Operation switch
-						{
-							FileOperationType.Extract => "ExtractInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Copy => "CopyInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Move => "MoveInProgress".GetLocalizedResource(),
-							FileOperationType.Delete => "DeleteInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Recycle => "RecycleInProgress/Title".GetLocalizedResource(),
-							FileOperationType.Prepare => "PrepareInProgress".GetLocalizedResource(),
-							_ => "PrepareInProgress".GetLocalizedResource(),
-						};
+						if (Operation is FileOperationType.Prepare)
+							Header = "StatusCenter_PrepareInProgress".GetLocalizedResource();
 
-						Header = $"{HeaderBody} ({progress}%)";
 						ItemKind = StatusCenterItemKind.InProgress;
-
 						ItemIconKind = Operation switch
 						{
 							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
@@ -134,6 +312,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Move => StatusCenterItemIconKind.Move,
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
+							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
@@ -141,33 +320,45 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case ReturnResult.Success:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
-							throw new NotImplementedException();
-
-						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Successful;
 						ItemIconKind = StatusCenterItemIconKind.Successful;
 
 						break;
 					}
 				case ReturnResult.Failed:
-				case ReturnResult.Cancelled:
 					{
-						if (string.IsNullOrWhiteSpace(HeaderBody) || string.IsNullOrWhiteSpace(SubHeader))
-							throw new NotImplementedException();
-
-						Header = HeaderBody;
 						ItemKind = StatusCenterItemKind.Error;
 						ItemIconKind = StatusCenterItemIconKind.Error;
 
 						break;
 					}
+				case ReturnResult.Cancelled:
+					{
+						IconBackgroundCircleBorderOpacity = 0.1d;
+
+						ItemKind = StatusCenterItemKind.Canceled;
+						ItemIconKind = Operation switch
+						{
+							FileOperationType.Extract => StatusCenterItemIconKind.Extract,
+							FileOperationType.Copy => StatusCenterItemIconKind.Copy,
+							FileOperationType.Move => StatusCenterItemIconKind.Move,
+							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
+							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
+							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
+							_ => StatusCenterItemIconKind.Delete,
+						};
+
+						break;
+					}
 			}
+
+			StatusCenterHelper.UpdateCardStrings(this);
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
 		{
-			// The Operation has been cancelled. Do update neither progress value nor text.
+			// The operation has been canceled.
+			// Do update neither progress value nor text.
 			if (CancellationToken.IsCancellationRequested)
 				return;
 
@@ -175,54 +366,153 @@ namespace Files.App.Utils.StatusCenter
 			if (value.Status is FileSystemStatusCode status)
 				FileSystemOperationReturnResult = status.ToStatus();
 
-			// Get if the operation is in progress
-			IsInProgress = (value.Status & FileSystemStatusCode.InProgress) != 0;
-
+			// Update the footer message, percentage, processing item name
 			if (value.Percentage is double p)
 			{
 				if (ProgressPercentage != value.Percentage)
 				{
-					Header = $"{HeaderBody} ({ProgressPercentage:0}%)";
 					ProgressPercentage = (int)p;
+
+					if (Operation == FileOperationType.Recycle ||
+						Operation == FileOperationType.Delete ||
+						Operation == FileOperationType.Compressed)
+					{
+						Message =
+							$"{string.Format(
+								"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
+								value.ProcessedItemsCount,
+								value.ItemsCount)}";
+					}
+					else
+					{
+						Message =
+							$"{string.Format(
+								"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
+								value.ProcessedSize.ToSizeString(),
+								value.TotalSize.ToSizeString())}";
+					}
 				}
-			}
-			else if (value.EnumerationCompleted)
-			{
-				switch (value.TotalSize, value.ItemsCount)
-				{
-					// In progress, displaying items count & processed size
-					case (not 0, not 0):
-						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / {value.ItemsCount} ({value.TotalSize.ToSizeString()}): {ProgressPercentage}%)";
-						break;
-					// In progress, displaying processed size
-					case (not 0, _):
-						ProgressPercentage = (int)(value.ProcessedSize * 100.0 / value.TotalSize);
-						Header = $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / {value.TotalSize.ToSizeString()}: {ProgressPercentage}%)";
-						break;
-					// In progress, displaying items count
-					case (_, not 0):
-						ProgressPercentage = (int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount);
-						Header = $"{HeaderBody} ({value.ProcessedItemsCount} / {value.ItemsCount}: {ProgressPercentage}%)";
-						break;
-					default:
-						Header = $"{HeaderBody}";
-						break;
-				}
-			}
-			else
-			{
-				Header = (value.ProcessedSize, value.ProcessedItemsCount) switch
-				{
-					(not 0, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} ({value.ProcessedSize.ToSizeString()}) / ...)",
-					(not 0, _) => $"{HeaderBody} ({value.ProcessedSize.ToSizeString()} / ...)",
-					(_, not 0) => $"{HeaderBody} ({value.ProcessedItemsCount} / ...)",
-					_ => $"{HeaderBody}",
-				};
+
+				if (CurrentProcessingItemName != value.FileName)
+					CurrentProcessingItemName = value.FileName;
 			}
 
+			// Set total count
+			if (TotalItemsCount < value.ItemsCount)
+				TotalItemsCount = value.ItemsCount;
+
+			// Set total size
+			if (TotalSize < value.TotalSize)
+				TotalSize = value.TotalSize;
+
+			// Update UI for strings
+			StatusCenterHelper.UpdateCardStrings(this);
+
+			// Graph item point
+			ObservablePoint point;
+
+			// Set speed text and percentage
+			switch (value.TotalSize, value.ItemsCount)
+			{
+				// In progress, displaying items count & processed size
+				case (not 0, not 0):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+
+					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+
+					break;
+				// In progress, displaying processed size
+				case (not 0, _):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedSize * 100.0 / value.TotalSize), 0, 100);
+
+					SpeedText = $"{value.ProcessingSizeSpeed.ToSizeString()}/s";
+
+					point = new(value.ProcessedSize * 100.0 / value.TotalSize, value.ProcessingSizeSpeed);
+
+					break;
+				// In progress, displaying items count
+				case (_, not 0):
+					ProgressPercentage = Math.Clamp((int)(value.ProcessedItemsCount * 100.0 / value.ItemsCount), 0, 100);
+
+					SpeedText = $"{value.ProcessingItemsCountSpeed:0} items/s";
+
+					point = new(value.ProcessedItemsCount * 100.0 / value.ItemsCount, value.ProcessingItemsCountSpeed);
+
+					break;
+				default:
+					point = new(ProgressPercentage, value.ProcessingItemsCountSpeed);
+
+					SpeedText = (value.ProcessedSize, value.ProcessedItemsCount) switch
+					{
+						(not 0, not 0) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
+						(not 0, _) => $"{value.ProcessingSizeSpeed.ToSizeString()}/s",
+						(_, not 0) => $"{value.ProcessingItemsCountSpeed:0} items/s",
+						_ => "N/A",
+					};
+					break;
+			}
+
+			bool isSamePoint = false;
+
+			// Remove the point that has the same X position
+			if (SpeedGraphValues?.FirstOrDefault(v => v.X == point.X) is ObservablePoint existingPoint)
+			{
+				SpeedGraphValues.Remove(existingPoint);
+				isSamePoint = true;
+			}
+
+			CurrentHighestPointValue ??= point.Y;
+
+			if (!isSamePoint)
+			{
+				// NOTE: -0.4 is the value that is needs to set for the graph drawing
+				var maxHeight = CurrentHighestPointValue * 1.44d - 0.4;
+
+				if (CurrentHighestPointValue < point.Y &&
+					SpeedGraphYAxes is not null &&
+					SpeedGraphYAxes.FirstOrDefault() is var item &&
+					item is not null)
+				{
+					// Max height is updated
+					CurrentHighestPointValue = point.Y;
+					maxHeight = CurrentHighestPointValue * 1.44d;
+					item.MaxLimit = maxHeight;
+
+					// NOTE: -0.1 is the value that is needs to set for the graph drawing
+					UpdateGraphBackgroundPoints(point.X, maxHeight - 0.1, true);
+				}
+				else
+				{
+					// Max height is not updated
+					UpdateGraphBackgroundPoints(point.X, maxHeight, false);
+				}
+			}
+
+			// Add a new point
+			SpeedGraphValues?.Add(point);
+
+			// Add percentage to the header
+			if (!IsIndeterminateProgress)
+				Header = $"{Header} ({ProgressPercentage}%)";
+
+			// Update UI of the address bar
 			_viewModel.NotifyChanges();
-			_viewModel.UpdateAverageProgressValue();
+		}
+
+		private void UpdateGraphBackgroundPoints(double? x, double? y, bool redraw)
+		{
+			if (SpeedGraphBackgroundValues is null)
+				return;
+
+			ObservablePoint newPoint = new(x, y);
+			SpeedGraphBackgroundValues.Add(newPoint);
+
+			if (redraw)
+			{
+				SpeedGraphBackgroundValues.ForEach(x => x.Y = CurrentHighestPointValue * 1.44d - 0.1);
+			}
 		}
 
 		public void ExecuteCancelCommand()
@@ -230,8 +520,11 @@ namespace Files.App.Utils.StatusCenter
 			if (IsCancelable)
 			{
 				_operationCancellationToken?.Cancel();
-				IsCancelled = true;
-				Header = $"{HeaderBody} ({"canceling".GetLocalizedResource()})";
+				IsIndeterminateProgress = true;
+				IsCancelable = false;
+				IsExpanded = false;
+				IsSpeedAndProgressAvailable = false;
+				Header = $"{"Canceling".GetLocalizedResource()} - {Header}";
 			}
 		}
 	}

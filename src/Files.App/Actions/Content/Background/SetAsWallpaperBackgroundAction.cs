@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		public override Task ExecuteAsync()
 		{
 			if (context.SelectedItem is not null)
-				WallpaperHelpers.SetAsBackground(WallpaperType.Desktop, context.SelectedItem.ItemPath);
+				WallpaperHelpers.SetAsBackgroundAsync(WallpaperType.Desktop, context.SelectedItem.ItemPath);
 
 			return Task.CompletedTask;
 		}

@@ -97,14 +97,14 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.SelectedIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
-		private async void TabViewItem_Drop(object sender, DragEventArgs e)
+		private async void TabViewItem_DropAsync(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
-		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
+		private async void TabViewItem_DragEnterAsync(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
@@ -115,7 +115,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private void TabViewItem_DragLeave(object sender, DragEventArgs e)
+		private void TabViewItem_DragLeaveAsync(object sender, DragEventArgs e)
 		{
 			tabHoverTimer.Stop();
 			hoveredTabViewItem = null;
@@ -160,7 +160,7 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
-		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
+		private async void TabView_TabStripDropAsync(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 
@@ -188,7 +188,7 @@ namespace Files.App.UserControls.TabBar
 
 			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
+			await mainPageViewModel.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -209,7 +209,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+		private async void TabView_TabDroppedOutsideAsync(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
 			if (sender.TabItems.Count == 1)
 			{
