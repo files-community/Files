@@ -1,4 +1,5 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Page
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -35,7 +36,6 @@
 
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
-
 			<MenuFlyout x:Key="SidebarContextMenu">
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFavoritesSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarFavorites}" />
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowLibrarySection, Mode=TwoWay}" Text="{helpers:ResourceString Name=SidebarLibraries}" />
@@ -48,6 +48,7 @@
 					IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowFileTagsSection, Mode=TwoWay}"
 					Text="{helpers:ResourceString Name=FileTags}" />
 			</MenuFlyout>
+
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -248,7 +249,7 @@
 					Grid.Column="0"
 					HorizontalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabItem.ContentFrame, Mode=OneWay}" />
+					Content="{x:Bind ((viewmodels:MainPageViewModel)DataContext).SelectedTabBarItem.ContentFrame, Mode=OneWay}" />
 
 				<!--  Preview Pane Splitter  -->
 				<toolkit:GridSplitter

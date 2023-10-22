@@ -323,8 +323,8 @@ namespace Files.App
 
 				// Save and close all tabs
 				SaveSessionTabs();
-				MainPageViewModel.AppInstances.ForEach(tabItem => tabItem.Unload());
-				MainPageViewModel.AppInstances.Clear();
+				MainPageViewModel.CurrentInstanceTabBarItems.ForEach(tabItem => tabItem.Unload());
+				MainPageViewModel.CurrentInstanceTabBarItems.Clear();
 
 				// Wait for all properties windows to close
 				await FilePropertiesHelpers.WaitClosingAll();
@@ -352,7 +352,7 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.CurrentInstanceTabBarItems.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
@@ -392,7 +392,7 @@ namespace Files.App
 		{
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.CurrentInstanceTabBarItems.DefaultIfEmpty().Select(tab =>
 			{
 				if (tab is not null && tab.NavigationParameter is not null)
 				{

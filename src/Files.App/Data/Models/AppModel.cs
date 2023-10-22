@@ -35,11 +35,11 @@ namespace Files.App.Data.Models
 			{
 				SetProperty(ref tabStripSelectedIndex, value);
 
-				if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
+				if (value >= 0 && value < MainPageViewModel.CurrentInstanceTabBarItems.Count)
 				{
 					Frame rootFrame = (Frame)MainWindow.Instance.Content;
 					var mainView = (MainPage)rootFrame.Content;
-					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					mainView.ViewModel.SelectedTabBarItem = MainPageViewModel.CurrentInstanceTabBarItems[value];
 				}
 			}
 		}

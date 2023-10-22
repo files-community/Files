@@ -1,11 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.App.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Helpers
 {
 	public static class MultitaskingTabsHelpers
@@ -14,7 +9,7 @@ namespace Files.App.Helpers
 		{
 			if (multitaskingControl is not null)
 			{
-				var tabs = MainPageViewModel.AppInstances;
+				var tabs = MainPageViewModel.CurrentInstanceTabBarItems;
 				var currentIndex = tabs.IndexOf(clickedTab);
 
 				tabs.Take(currentIndex).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
@@ -25,7 +20,7 @@ namespace Files.App.Helpers
 		{
 			if (multitaskingControl is not null)
 			{
-				var tabs = MainPageViewModel.AppInstances;
+				var tabs = MainPageViewModel.CurrentInstanceTabBarItems;
 				var currentIndex = tabs.IndexOf(clickedTab);
 
 				tabs.Skip(currentIndex + 1).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
@@ -36,17 +31,17 @@ namespace Files.App.Helpers
 		{
 			if (multitaskingControl is not null)
 			{
-				var tabs = MainPageViewModel.AppInstances;
+				var tabs = MainPageViewModel.CurrentInstanceTabBarItems;
 				tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
 			}
 		}
 
 		public static Task MoveTabToNewWindow(TabBarItem tab, ITabBar multitaskingControl)
 		{
-			int index = MainPageViewModel.AppInstances.IndexOf(tab);
-			CustomTabViewItemParameter tabItemArguments = MainPageViewModel.AppInstances[index].NavigationParameter;
+			int index = MainPageViewModel.CurrentInstanceTabBarItems.IndexOf(tab);
+			CustomTabViewItemParameter tabItemArguments = MainPageViewModel.CurrentInstanceTabBarItems[index].NavigationParameter;
 
-			multitaskingControl?.CloseTab(MainPageViewModel.AppInstances[index]);
+			multitaskingControl?.CloseTab(MainPageViewModel.CurrentInstanceTabBarItems[index]);
 
 			return tabItemArguments is not null
 				? NavigationHelpers.OpenTabInNewWindowAsync(tabItemArguments.Serialize())

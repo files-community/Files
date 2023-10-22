@@ -135,11 +135,11 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not UserControls.TabBar.TabBar)
+			if (ViewModel.CurrentInstanceTabBar is not UserControls.TabBar.TabBar)
 			{
-				ViewModel.MultitaskingControl = TabControl;
-				ViewModel.MultitaskingControls.Add(TabControl);
-				ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+				ViewModel.CurrentInstanceTabBar = TabControl;
+				ViewModel.AllInstanceTabBars.Add(TabControl);
+				ViewModel.CurrentInstanceTabBar.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
 			}
 		}
 

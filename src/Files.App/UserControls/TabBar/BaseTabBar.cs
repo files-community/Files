@@ -27,7 +27,7 @@ namespace Files.App.UserControls.TabBar
 		public static Stack<CustomTabViewItemParameter[]> RecentlyClosedTabs { get; private set; } = new();
 
 		public ObservableCollection<TabBarItem> Items
-			=> MainPageViewModel.AppInstances;
+			=> MainPageViewModel.CurrentInstanceTabBarItems;
 
 		public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
@@ -98,7 +98,7 @@ namespace Files.App.UserControls.TabBar
 
 		public ITabBarItemContent GetCurrentSelectedTabInstance()
 		{
-			return MainPageViewModel.AppInstances[App.AppModel.TabStripSelectedIndex].TabItemContent;
+			return MainPageViewModel.CurrentInstanceTabBarItems[App.AppModel.TabStripSelectedIndex].TabItemContent;
 		}
 
 		public void SelectionChanged()
@@ -114,7 +114,7 @@ namespace Files.App.UserControls.TabBar
 
 		public List<ITabBarItemContent> GetAllTabInstances()
 		{
-			return MainPageViewModel.AppInstances.Select(x => x.TabItemContent).ToList();
+			return MainPageViewModel.CurrentInstanceTabBarItems.Select(x => x.TabItemContent).ToList();
 		}
 
 		public async Task ReopenClosedTab()

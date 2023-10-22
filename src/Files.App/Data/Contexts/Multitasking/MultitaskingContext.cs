@@ -17,8 +17,8 @@ namespace Files.App.Data.Contexts
 		private ushort tabCount = 0;
 		public ushort TabCount => tabCount;
 
-		public TabBarItem CurrentTabItem => MainPageViewModel.AppInstances[currentTabIndex];
-		public TabBarItem SelectedTabItem => MainPageViewModel.AppInstances[selectedTabIndex];
+		public TabBarItem CurrentTabItem => MainPageViewModel.CurrentInstanceTabBarItems[currentTabIndex];
+		public TabBarItem SelectedTabItem => MainPageViewModel.CurrentInstanceTabBarItems[selectedTabIndex];
 
 		private ushort currentTabIndex = 0;
 		public ushort CurrentTabIndex => currentTabIndex;
@@ -28,7 +28,7 @@ namespace Files.App.Data.Contexts
 
 		public MultitaskingContext()
 		{
-			MainPageViewModel.AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+			MainPageViewModel.CurrentInstanceTabBarItems.CollectionChanged += AppInstances_CollectionChanged;
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 			BaseTabBar.OnLoaded += BaseMultitaskingControl_OnLoaded;
 			TabBar.SelectedTabItemChanged += HorizontalMultitaskingControl_SelectedTabItemChanged;
@@ -54,7 +54,7 @@ namespace Files.App.Data.Contexts
 		private void HorizontalMultitaskingControl_SelectedTabItemChanged(object? sender, TabBarItem? e)
 		{
 			isPopupOpen = e is not null;
-			int newSelectedIndex = e is null ? currentTabIndex : MainPageViewModel.AppInstances.IndexOf(e);
+			int newSelectedIndex = e is null ? currentTabIndex : MainPageViewModel.CurrentInstanceTabBarItems.IndexOf(e);
 			UpdateSelectedTabIndex(newSelectedIndex);
 		}
 		private void FocusManager_GotFocus(object? sender, FocusManagerGotFocusEventArgs e)
@@ -64,7 +64,7 @@ namespace Files.App.Data.Contexts
 
 			if (e.NewFocusedElement is FrameworkElement element && element.DataContext is TabBarItem tabItem)
 			{
-				int newSelectedIndex = MainPageViewModel.AppInstances.IndexOf(tabItem);
+				int newSelectedIndex = MainPageViewModel.CurrentInstanceTabBarItems.IndexOf(tabItem);
 				UpdateSelectedTabIndex(newSelectedIndex);
 			}
 		}
@@ -81,7 +81,7 @@ namespace Files.App.Data.Contexts
 
 		private void UpdateTabCount()
 		{
-			SetProperty(ref tabCount, (ushort)MainPageViewModel.AppInstances.Count, nameof(TabCount));
+			SetProperty(ref tabCount, (ushort)MainPageViewModel.CurrentInstanceTabBarItems.Count, nameof(TabCount));
 		}
 		private void UpdateCurrentTabIndex()
 		{
