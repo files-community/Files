@@ -42,7 +42,7 @@ namespace Files.App.Utils.Storage
 		{
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmMkDir
@@ -111,7 +111,7 @@ namespace Files.App.Utils.Storage
 		{
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmation
@@ -205,7 +205,7 @@ namespace Files.App.Utils.Storage
 
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 				op.Options = ShellFileOperations.OperationFlags.Silent
 							| ShellFileOperations.OperationFlags.NoConfirmation
 							| ShellFileOperations.OperationFlags.NoErrorUI;
@@ -296,7 +296,7 @@ namespace Files.App.Utils.Storage
 
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
 
 				op.Options = ShellFileOperations.OperationFlags.Silent
@@ -365,7 +365,7 @@ namespace Files.App.Utils.Storage
 
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
 
 				op.Options = ShellFileOperations.OperationFlags.NoConfirmMkDir
@@ -450,7 +450,7 @@ namespace Files.App.Utils.Storage
 
 			return Win32API.StartSTATask(async () =>
 			{
-				using var op = new ShellFileOperations();
+				using var op = new ShellFileOperations2();
 
 				var shellOperationResult = new ShellOperationResult();
 
@@ -729,7 +729,7 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		private static void UpdateFileTagsDb(ShellFileOperations.ShellFileOpEventArgs e, string operationType)
+		private static void UpdateFileTagsDb(ShellFileOperations2.ShellFileOpEventArgs e, string operationType)
 		{
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			if (e.Result.Succeeded)
@@ -813,7 +813,7 @@ namespace Files.App.Utils.Storage
 
 			private class OperationWithProgress
 			{
-				public int Progress { get; set; }
+				public double Progress { get; set; }
 				public bool Canceled { get; set; }
 			}
 
@@ -855,7 +855,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			public void UpdateOperation(string uid, int progress)
+			public void UpdateOperation(string uid, double progress)
 			{
 				if (operations.TryGetValue(uid, out var op))
 				{
