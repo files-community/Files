@@ -33,12 +33,8 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+				var banner = itemsCount > 50 ? StatusCenterHelper.AddCard_Prepare() : null;
 
 				try
 				{
@@ -54,7 +50,7 @@ namespace Files.App.Helpers
 					{
 						if (banner is not null)
 						{
-							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.AddProcessedItemsCount(1);
 							banner.Progress.Report();
 						}
 
@@ -102,6 +98,7 @@ namespace Files.App.Helpers
 
 						return;
 					}
+
 					associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 					_statusCenterViewModel.RemoveItem(banner);
@@ -144,12 +141,8 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage.ItemManipulationModel.RefreshItemsOpacity();
 
 				var itemsCount = associatedInstance.SlimContentPage.SelectedItems!.Count;
-				var banner = itemsCount > 50 ? _statusCenterViewModel.AddItem(
-					string.Empty,
-					string.Format("StatusPreparingItemsDetails_Plural".GetLocalizedResource(), itemsCount),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Prepare, new CancellationTokenSource()) : null;
+
+				var banner = itemsCount > 50 ? StatusCenterHelper.AddCard_Prepare() : null;
 
 				try
 				{
@@ -163,7 +156,7 @@ namespace Files.App.Helpers
 					{
 						if (banner is not null)
 						{
-							banner.Progress.ProcessedItemsCount = itemsCount;
+							banner.Progress.AddProcessedItemsCount(1);
 							banner.Progress.Report();
 						}
 
