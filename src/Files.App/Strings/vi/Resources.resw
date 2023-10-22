@@ -163,7 +163,7 @@
     <value>Đảo lựa chọn</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Xóa lựa chọn</value>
+    <value>Bỏ lựa chọn</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Đã sửa:</value>
@@ -277,7 +277,7 @@
     <value>Chào mừng đến Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Cho quyền phép</value>
+    <value>Cấp quyền</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Để bắt đầu, bạn sẽ cần cho chúng tôi quyền phép để hiển thị những tệp của bạn. Điều này sẽ mở một trang Cài đặt mà bạn có thể cho quyền phép này đến chúng tôi. Bạn sẽ cần khởi động lại ứng dụng khi bạn làm bước này xong. </value>
@@ -289,7 +289,7 @@
     <value>Nhập tên mục</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Đặt tên</value>
+    <value>Đặt tên</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Sáng</value>
@@ -304,10 +304,10 @@
     <value>Hệ thống</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Thư mục Mới</value>
+    <value>Thư mục mới</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Tệp Mới</value>
+    <value>Tệp mới</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Thư mục này trống.</value>
@@ -426,12 +426,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>mục</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Đang xóa tệp</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Đang di chuyển tệp đến Thùng rác.</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Có</value>
   </data>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Trạng thái</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Trang</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Mặc định của Windows</value>
@@ -622,7 +613,7 @@
     <value>Hủy bỏ</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Tạo một mục mới</value>
+    <value>Tạo mục mới</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Chọn một loại cho mục mới này ở bên dưới</value>
@@ -793,7 +784,7 @@
     <value>Url tác giả</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Người phân phối nội dung</value>
+    <value>Bên phân phối nội dung</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Ngày ra</value>
@@ -979,7 +970,7 @@
     <value>Kiểm tra tình trạng của hoạt động tệp ở đây</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Trung tâm tình trạng</value>
+    <value>Trung tâm trạng thái</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Tìm kết quả trong </value>
@@ -1176,24 +1167,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Số lượng mục</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Hoạt động xóa bỏ bị thất bại</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Hoạt động xóa bỏ xong</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Hanh động xóa bỏ bị hủy bỏ</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Dọn thùng rác xong</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Hoạt động di chuyển xong</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Sao chép xong</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Hoạt động này yêu cầu quyền người quản trị</value>
   </data>
@@ -1308,9 +1281,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Tạo thư mục chứa mục đã chọn</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Tên:</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Loại:</value>
   </data>
@@ -1408,7 +1378,7 @@
     <value>{0} mục</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Mở lại cửa sổ đã đóng</value>
+    <value>Mở lại thẻ đã đóng</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Đổi tên</value>
@@ -1416,104 +1386,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>Quyền riêng tư</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Hủy bỏ hoạt động di chuyển</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Hủy bỏ hoạt động sao chép</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} đã bị hủy bỏ</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} đã bị hủy bỏ sau khi di chuyển {3} mục</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} đã bị hủy bỏ sau khi di chuyển {3} mục</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Đang di chuyển {0} mục từ {1} đến {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Đang di chuyển {0} mục từ {1} đến {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} thành công</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} thành công</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} bị thất bại.</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Hoạt động di chuyển {0} mục từ {1} đến {2} bị thất bại.</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Hoạt động sao chép {0} mục từ {1} đến {2} bị hủy bỏ.</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Hoạt động sao chép {0} mục từ {1} bị hủy bỏ sau khi sao chép {2} mục</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Hoạt động sao chép {0} mục từ {1} bị hủy bỏ sau khi sao chép {2} mục</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Đang sao chép {0} mục từ {1} </value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Đang sao chép {0} mục từ {1} </value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Hoạt động sao chép {0} mục từ {1} thành công</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Hoạt động sao chép {0} mục từ {1} thành công</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} bị hủy bỏ</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} bị hủy bỏ sau khi xóa {3} mục</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} bị hủy bỏ sau khi xóa {3} mục</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Đang xóa {0} mục từ {1}</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Đang xóa {0} mục từ {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} thành công</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} thành công</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} bị thất bại</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Hoạt động xóa {0} mục từ {1} bị thất bại</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Thùng rác</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Di chuyển mục</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Sao mục</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Hoạt động dọn thùng rác bị thất bại</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Hoạt động dọn thùng rác bị hủy bỏ</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>Hoạt động dọn thùng rác bị hủy bỏ</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Xóa</value>
@@ -1810,7 +1687,7 @@
     <value>Một phần của bộ</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Mở Ổ đĩa</value>
+    <value>Mở ổ lưu trữ</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Vui lòng cho đĩa vào ổ đĩa {0}</value>
@@ -1834,10 +1711,10 @@
     <value>Tên người dùng</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Ổ đĩa</value>
+    <value>Tiện ích ổ lưu trữ</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget Các tệp gần đây</value>
+    <value>Tiện ích Tệp gần đây</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Không tìm thấy mục nào</value>
@@ -1852,13 +1729,13 @@
     <value>Cột</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Chế độ xem lưới (Lớn)</value>
+    <value>Biểu tượng lớn</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Chế độ xem lưới (Vừa)</value>
+    <value>Biểu tượng vừa</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Chế độ xem lưới (Nhỏ)</value>
+    <value>Biểu tượng nhỏ</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Gạch</value>
@@ -1866,8 +1743,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Mở thư mục trong thẻ mới</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Công việc đang thực hiện</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Trung tâm trạng thái</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Cột ngày tạo</value>
@@ -1903,10 +1780,10 @@
     <value>Đường dẫn thư mục</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Xuất các thiết lập</value>
+    <value>Xuất cài đặt</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Chèn các thiết lập</value>
+    <value>Nhập cài đặt</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Không thể chèn các thiết lập. Tệp thiết lập bị hỏng.</value>
@@ -2007,9 +1884,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Thiết lập này sửa đổi các tệp hệ thống và có thể có các tác dụng không mong muốn trên thiết bị của bạn. Các nhà phát triển không chịu trách nhiệm trong trường hợp có sự cố xảy ra. Tiếp tục với tùy chọn này là sự thừa nhận rủi ro liên quan đến hành động này.</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Dọn dẹp toàn bộ</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Tạo thư mục</value>
   </data>
@@ -2017,13 +1891,13 @@
     <value>Nhập tên thư mục</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Tính toán kích thước thư mục</value>
+    <value>Tính toán kích cỡ thư mục</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Tệp gần đây</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Mở tệp trong Windows Startup</value>
+    <value>Mở Files khi khởi động Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Thuộc tính</value>
@@ -2039,9 +1913,6 @@
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Dọn dẹp dữ liệu ổ đĩa</value>
-  </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Dọn dẹp ổ đĩa</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Loại</value>
@@ -2103,24 +1974,6 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>Cập nhật Files</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Đang chuẩn bị {0} mục</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Đang chuẩn bị mục</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Không sao chép được</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Có lỗi khi sao chép {0} mục từ {1} đến {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Có lỗi khi sao chép {0} mục từ {1} đến {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Di chuyển không thành công.</value>
-  </data>
   <data name="FileTags" xml:space="preserve">
     <value>Thẻ</value>
   </data>
@@ -2152,7 +2005,7 @@
     <value>Đặt làm trình chiếu màn hình nền</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Đặt khớp chiều rộng mọi cột</value>
+    <value>Đặt chiều rộng các cột vừa với nội dung</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Thích ứng</value>
@@ -2191,7 +2044,7 @@
     <value>Cột ngày tạo</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Cột kích thước</value>
+    <value>Cột kích cỡ</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
     <value>Cột nhãn</value>
@@ -2210,18 +2063,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Mở các khoản mục</value>
-  </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Đã nén</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} đã được nén</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>Không thể nén {0}</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Đang nén</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Nén</value>
@@ -2255,15 +2096,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Bạn không có quyền truy cập thư mục này.</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Đang dọn dẹp thùng rác</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Đã dọn dẹp thùng rác</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Có lỗi khi dọn dẹp thùng rác</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Mật khẩu tệp nén</value>
@@ -2308,7 +2140,7 @@
     <value>Không có</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Kích thước chia nhỏ</value>
+    <value>Kích cỡ chia nhỏ</value>
   </data>
   <data name="Do not split" xml:space="preserve">
     <value>Không chia nhỏ</value>
@@ -2367,8 +2199,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Chỉnh sửa tệp cài đặt</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Ghi chú Phát hành</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Có gì mới</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Tạo lối tắt ở vị trí này yêu cầu cấp quyền quản trị viên</value>
@@ -2476,10 +2308,10 @@
     <value>Áp dụng hành động này với mọi mục có xung đột</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Mở trong cửa sổ lệnh</value>
+    <value>Mở trong Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Mở trong cửa sổ lệnh với quyền quản trị viên</value>
+    <value>Mở trong Windows Terminal với quyền quản trị</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu</value>
@@ -3227,7 +3059,7 @@
     <value>Tạo nhánh</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Tạo Nhánh</value>
+    <value>Tạo nhánh</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
     <value>Dựa trên</value>
@@ -3338,17 +3170,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files hiện không thể truy cập GitHub.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Mở thư mục hiện tại trong Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Mở thư mục trong VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Mở thư mục hiện tại trong Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Mở kho lưu trữ trong VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Mở gốc của kho lưu trữ Git trong Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Sao chép mã</value>
@@ -3430,12 +3262,326 @@
     <value>Bắt đầu trong:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Bật BitLocker</value>	
+    <value>Bật BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Quản lý BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Những mục sau là quá lớn để có thể sao chép vào ổ lưu trữ này</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Định dạng ổ lưu trữ</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Không hiện lại</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files đang chạy với quyền quản trị</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Do giới hạn của nền tảng, tính năng kéo thả sẽ không khả dụng khi chạy Files với quyền quản trị.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Chạy ứng dụng trong nền khi đóng cửa sổ</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Xanh dương</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Xanh xám</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Đỏ gạch</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Rằn ri</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Xanh dương sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Xám</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Xám tối</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Xanh lục</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Tím biếc</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Bạc hà sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Đỏ phai</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Cam sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Âm u</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Đỏ</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Hồng sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Bọt biển</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Giông bão</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Đỏ thẩm sáng</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Vàng kim</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Đã xoá</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>mục</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files không thể khởi tạo đường dẫn này dưới dạng kho lưu trữ Git.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Hoạ sĩ đóng góp</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Mở chặn tệp đã tải xuống</value>
   </data>
 </root>
