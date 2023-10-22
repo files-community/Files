@@ -180,7 +180,6 @@
 				HorizontalContentAlignment="Stretch"
 				x:Load="False"
 				Loaded="NavToolbar_Loaded"
-				OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
 				ShowOngoingTasks="True"
 				ShowSearchBox="True"
 				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"

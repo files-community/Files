@@ -10,6 +10,8 @@ namespace Files.App
 			public const string AppName = "Files";
 
 			public const string AppLaunchAlias = "files-uwp:";
+
+			public const string AppStorePackageId = "49306atecsolution.FilesUWP";
 		}
 
 		public static class AdaptiveLayout

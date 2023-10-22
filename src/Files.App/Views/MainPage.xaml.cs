@@ -22,41 +22,48 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		public IUserSettingsService UserSettingsService { get; }
-		public IApplicationService ApplicationService { get; }
+		// DI used in code
+		private readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
+		private readonly MainPageViewModel ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		private readonly StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		public ICommandManager Commands { get; }
+		// DI used in XAML
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private SidebarViewModel SidebarAdaptiveViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
+		private IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
 
-		public IWindowContext WindowContext { get; }
+		private bool _keyReleased = true;
 
-		public SidebarViewModel SidebarAdaptiveViewModel { get; }
-
-		public MainPageViewModel ViewModel { get; }
-
-		public StatusCenterViewModel OngoingTasksViewModel { get; }
-
-		public static AppModel AppModel
-			=> App.AppModel;
-
-		private bool keyReleased = true;
-
-		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+		private bool _isAppRunningAsAdmin = ElevationHelpers.IsAppRunAsAdmin();
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
+
+		public bool ShouldViewControlBeDisplayed
+			=> SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
+		public bool ShouldPreviewPaneBeActive
+			=> UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
+
+		public bool ShouldPreviewPaneBeDisplayed
+		{
+			get
+			{
+				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
+				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
+
+				return isEnabled;
+			}
+		}
 
 		public MainPage()
 		{
 			InitializeComponent();
 
 			// Dependency Injection
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
-			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -112,15 +119,6 @@ namespace Files.App.Views
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
 		}
 
-		// WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-			return contentDialog;
-		}
-
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
@@ -135,7 +133,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.CurrentInstanceTabBar is not UserControls.TabBar.TabBar)
+			if (ViewModel.CurrentInstanceTabBar is not TabBar)
 			{
 				ViewModel.CurrentInstanceTabBar = TabControl;
 				ViewModel.AllInstanceTabBars.Add(TabControl);
@@ -156,8 +154,10 @@ namespace Files.App.Views
 				return;
 
 			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
-			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
-				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
+			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(
+				SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive
+					? paneArgs.LeftPaneNavPathParam
+					: paneArgs.RightPaneNavPathParam);
 
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
@@ -220,7 +220,8 @@ namespace Files.App.Views
 			ViewModel.OnNavigatedTo(e);
 		}
 
-		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+			=> await OnPreviewKeyDownAsync(e);
 
 		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
@@ -244,9 +245,9 @@ namespace Files.App.Views
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
-					if (command.Code is not CommandCodes.None && keyReleased)
+					if (command.Code is not CommandCodes.None && _keyReleased)
 					{
-						keyReleased = false;
+						_keyReleased = false;
 						e.Handled = command.IsExecutable;
 						await command.ExecuteAsync();
 					}
@@ -267,7 +268,7 @@ namespace Files.App.Views
 				case VirtualKey.RightWindows:
 					break;
 				default:
-					keyReleased = true;
+					_keyReleased = true;
 					break;
 			}
 		}
@@ -277,7 +278,7 @@ namespace Files.App.Views
 		{
 			base.OnLostFocus(e);
 
-			keyReleased = true;
+			_keyReleased = true;
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -293,8 +294,8 @@ namespace Files.App.Views
 			// ToDo put this in a StartupPromptService
 			if
 			(
-				ApplicationService.Environment is not AppEnvironment.Dev &&
-				isAppRunningAsAdmin &&
+				_applicationService.Environment is not AppEnvironment.Dev &&
+				_isAppRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
@@ -302,7 +303,7 @@ namespace Files.App.Views
 			}
 
 			// ToDo put this in a StartupPromptService
-			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
+			if (Package.Current.Id.Name != Constants.App.AppStorePackageId || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
@@ -349,7 +350,10 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.UpdateTabControlMargin();
 		}
 
-		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
+		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			LoadPaneChanged();
+		}
 
 		/// <summary>
 		/// Call this function to update the positioning of the preview pane.
@@ -428,36 +432,12 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
-		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
-
-		public bool ShouldPreviewPaneBeActive => UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
-
-		public bool ShouldPreviewPaneBeDisplayed
-		{
-			get
-			{
-				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
-				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
-
-				return isEnabled;
-			}
-		}
-
 		private void LoadPaneChanged()
 		{
 			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
 			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 			UpdatePositioning();
-		}
-
-		public event PropertyChangedEventHandler? PropertyChanged;
-
-		private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		private void RootGrid_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -481,7 +461,10 @@ namespace Files.App.Views
 			}
 		}
 
-		private void NavToolbar_Loaded(object sender, RoutedEventArgs e) => UpdateNavToolbarProperties();
+		private void NavToolbar_Loaded(object sender, RoutedEventArgs e)
+		{
+			UpdateNavToolbarProperties();
+		}
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
@@ -495,6 +478,12 @@ namespace Files.App.Views
 			{
 				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
 			}
+		}
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+		private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

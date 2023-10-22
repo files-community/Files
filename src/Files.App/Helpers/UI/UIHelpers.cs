@@ -108,13 +108,12 @@ namespace Files.App.Helpers
 			return (DialogResult)await ((ContentDialog)dialog).TryShowAsync();
 		}
 
-		// WINUI3
+		// WINUI3: https://github.com/microsoft/microsoft-ui-xaml/issues/4990
 		private static ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
 		{
 			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-			{
 				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-			}
+
 			return contentDialog;
 		}
 

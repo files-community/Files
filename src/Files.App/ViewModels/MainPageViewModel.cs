@@ -19,8 +19,14 @@ namespace Files.App.ViewModels
 		private readonly NetworkDrivesViewModel _networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private readonly IResourcesService _resourcesService = Ioc.Default.GetRequiredService<IResourcesService>();
 
+		/// <summary>
+		/// Gets the tab items of the current instance.
+		/// </summary>
 		public static ObservableCollection<TabBarItem> CurrentInstanceTabBarItems { get; } = new();
 
+		/// <summary>
+		/// Gets the TabBar control of the current instance.
+		/// </summary>
 		public ITabBar? CurrentInstanceTabBar { get; set; }
 
 		// NOTE: This is useless because multi windowing is not supported for now
