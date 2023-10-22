@@ -239,8 +239,8 @@
 					Grid.ColumnSpan="3"
 					x:Load="False"
 					Loaded="NavToolbar_Loaded"
-					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-					ShowViewControlButton="{x:Bind ShouldViewControlBeDisplayed, Mode=OneWay}"
+					ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
+					ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<!--  Page Content  -->
@@ -256,7 +256,7 @@
 					x:Name="PaneSplitter"
 					Grid.Row="1"
 					Grid.Column="1"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 					ManipulationCompleted="PaneSplitter_ManipulationCompleted"
 					ManipulationStarted="PaneSplitter_ManipulationStarted"
 					ResizeBehavior="BasedOnAlignment"
@@ -268,7 +268,7 @@
 					Grid.Row="1"
 					Grid.Column="2"
 					HorizontalContentAlignment="Stretch"
-					x:Load="{x:Bind ShouldPreviewPaneBeActive, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
 					Loaded="PreviewPane_Loaded"
 					Unloaded="PreviewPane_Unloaded" />
 

@@ -18,6 +18,7 @@ namespace Files.App.ViewModels
 		private readonly DrivesViewModel _drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly NetworkDrivesViewModel _networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private readonly IResourcesService _resourcesService = Ioc.Default.GetRequiredService<IResourcesService>();
+		private SidebarViewModel SidebarAdaptiveViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		/// <summary>
 		/// Gets the tab items of the current instance.
@@ -30,7 +31,32 @@ namespace Files.App.ViewModels
 		public ITabBar? CurrentInstanceTabBar { get; set; }
 
 		// NOTE: This is useless because multi windowing is not supported for now
-		public List<ITabBar> AllInstanceTabBars { get; } = new();
+		public List<ITabBar> AllInstanceTabBars { get; private set; } = new();
+
+		public double? ContentAreaActualWidth { get; set; }
+
+		public bool ShouldViewControlBeDisplayed
+			=> SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
+
+		public bool ShouldPreviewPaneBeActive
+			=> _userSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
+
+		public bool ShouldPreviewPaneBeDisplayed
+		{
+			get
+			{
+				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+
+				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+
+				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 ||
+					ContentAreaActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
+
+				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
+
+				return isEnabled;
+			}
+		}
 
 		private TabBarItem? _SelectedTabBarItem;
 		public TabBarItem? SelectedTabBarItem
@@ -198,6 +224,13 @@ namespace Files.App.ViewModels
 					_drivesViewModel.UpdateDrivesAsync(),
 					_networkDrivesViewModel.UpdateDrivesAsync());
 			}
+		}
+
+		public void NotifyChanges()
+		{
+			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
+			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
 		}
 
 		private void NavigateToNumberedTabKeyboardAccelerator(KeyboardAcceleratorInvokedEventArgs? e)

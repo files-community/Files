@@ -11,8 +11,6 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public abstract class BaseTabBar : UserControl, ITabBar
 	{
-		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 		protected ITabBarItemContent CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
@@ -155,7 +153,7 @@ namespace Files.App.UserControls.TabBar
 			if (ContainerFromItem(item) is not Control tabItem)
 				return;
 
-			var stateToGoName = (loading) ? "Loading" : "NotLoading";
+			var stateToGoName = loading ? "Loading" : "NotLoading";
 
 			VisualStateManager.GoToState(tabItem, stateToGoName, false);
 		}

@@ -20,6 +20,10 @@ using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents Main page that is loaded at the first on the startup.
+	/// This page holds every vital controls including <see cref="TabBar"/>, <see cref="SidebarView"/>.
+	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		// DI used in code
@@ -39,30 +43,10 @@ namespace Files.App.Views
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
-		public bool ShouldViewControlBeDisplayed
-			=> SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
-
-		public bool ShouldPreviewPaneBeActive
-			=> UserSettingsService.PreviewPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
-
-		public bool ShouldPreviewPaneBeDisplayed
-		{
-			get
-			{
-				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
-				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
-
-				return isEnabled;
-			}
-		}
-
 		public MainPage()
 		{
 			InitializeComponent();
 
-			// Dependency Injection
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
@@ -328,6 +312,8 @@ namespace Files.App.Views
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
+			ViewModel.ContentAreaActualWidth = RootGrid.ActualWidth;
+
 			switch (PreviewPane?.Position)
 			{
 				case PreviewPanePositions.Right when ContentColumn.ActualWidth == ContentColumn.MinWidth:
@@ -358,7 +344,7 @@ namespace Files.App.Views
 		/// </summary>
 		private void UpdatePositioning()
 		{
-			if (PreviewPane is null || !ShouldPreviewPaneBeActive)
+			if (PreviewPane is null || !ViewModel.ShouldPreviewPaneBeActive)
 			{
 				PaneRow.MinHeight = 0;
 				PaneRow.MaxHeight = double.MaxValue;
@@ -431,9 +417,7 @@ namespace Files.App.Views
 
 		private void LoadPaneChanged()
 		{
-			OnPropertyChanged(nameof(ShouldViewControlBeDisplayed));
-			OnPropertyChanged(nameof(ShouldPreviewPaneBeActive));
-			OnPropertyChanged(nameof(ShouldPreviewPaneBeDisplayed));
+			ViewModel.NotifyChanges();
 			UpdatePositioning();
 		}
 
