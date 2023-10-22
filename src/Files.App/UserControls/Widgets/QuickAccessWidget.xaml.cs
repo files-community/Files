@@ -96,22 +96,22 @@ namespace Files.App.UserControls.Widgets
 
 		static QuickAccessWidget()
 		{
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
+			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChangedAsync;
 		}
 
 		public QuickAccessWidget()
 		{
 			InitializeComponent();
 
-			Loaded += QuickAccessWidget_Loaded;
+			Loaded += QuickAccessWidget_LoadedAsync;
 			Unloaded += QuickAccessWidget_Unloaded;
 
-			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new RelayCommand<FolderCardItem>(OpenInNewPane);
 			OpenPropertiesCommand = new RelayCommand<FolderCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavoritesAsync);
 		}
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -227,7 +227,7 @@ namespace Files.App.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		private async void ModifyItem(object? sender, ModifyQuickAccessEventArgs? e)
+		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
 		{
 			if (e is null)
 				return;
@@ -281,26 +281,26 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void QuickAccessWidget_Loaded(object sender, RoutedEventArgs e)
+		private async void QuickAccessWidget_LoadedAsync(object sender, RoutedEventArgs e)
 		{
-			Loaded -= QuickAccessWidget_Loaded;
+			Loaded -= QuickAccessWidget_LoadedAsync;
 
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-			ModifyItem(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
 			{
 				Reset = true
 			});
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 		}
 
 		private void QuickAccessWidget_Unloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= QuickAccessWidget_Unloaded;
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItem;
+			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
 		}
 
-		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private static async void ItemsAdded_CollectionChangedAsync(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
@@ -330,7 +330,7 @@ namespace Files.App.UserControls.Widgets
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
 
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+		private async void Button_PointerPressedAsync(object sender, PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
 			{
@@ -350,11 +350,11 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		public override async Task PinToFavorites(WidgetCardItem item)
+		public override async Task PinToFavoritesAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.PinToSidebar(item.Path);
+			await QuickAccessService.PinToSidebarAsync(item.Path);
 
-			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
@@ -362,21 +362,21 @@ namespace Files.App.UserControls.Widgets
 			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
-				ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
+				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
 				{
 					Pin = false
 				});
 			}
 		}
 
-		public override async Task UnpinFromFavorites(WidgetCardItem item)
+		public override async Task UnpinFromFavoritesAsync(WidgetCardItem item)
 		{
-			await QuickAccessService.UnpinFromSidebar(item.Path);
+			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
 
-			ModifyItem(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
+			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
+		private async void Button_ClickAsync(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate
@@ -394,7 +394,7 @@ namespace Files.App.UserControls.Widgets
 			CardInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = NavigationPath });
 		}
 
-		public Task RefreshWidget()
+		public Task RefreshWidgetAsync()
 		{
 			return Task.CompletedTask;
 		}

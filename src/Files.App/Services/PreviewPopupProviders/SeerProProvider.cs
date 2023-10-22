@@ -20,7 +20,7 @@ namespace Files.App.Services.PreviewPopupProviders
 
 		private string? CurrentPath;
 
-		public async Task TogglePreviewPopup(string path)
+		public async Task TogglePreviewPopupAsync(string path)
 		{
 			HWND Window = User32.FindWindow("SeerWindowClass", null);
 			COPYDATASTRUCT data = new COPYDATASTRUCT();
@@ -32,10 +32,10 @@ namespace Files.App.Services.PreviewPopupProviders
 			CurrentPath = User32.IsWindowVisible(Window) ? path : null;
 		}
 
-		public async Task SwitchPreview(string path)
+		public async Task SwitchPreviewAsync(string path)
 		{
 			if (CurrentPath is not null && path != CurrentPath)
-				await TogglePreviewPopup(path);
+				await TogglePreviewPopupAsync(path);
 		}
 
 		public async Task<bool> DetectAvailability()

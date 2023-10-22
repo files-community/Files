@@ -19,6 +19,6 @@ namespace Files.App.ViewModels.Widgets
 
 		MenuFlyoutItem MenuFlyoutItem { get; }
 
-		Task RefreshWidget();
+		Task RefreshWidgetAsync();
 	}
 }

@@ -440,7 +440,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyPath)
 				{
-					IsVisible = itemsSelected && selectedItems.Count == 1 && !currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible = itemsSelected && !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateFolderWithSelection)
 				{

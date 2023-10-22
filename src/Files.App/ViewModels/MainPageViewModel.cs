@@ -49,7 +49,7 @@ namespace Files.App.ViewModels
 
 			// Create commands
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(NavigateToNumberedTabKeyboardAccelerator);
-			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAccelerator);
+			OpenNewWindowAcceleratorCommand = new AsyncRelayCommand<KeyboardAcceleratorInvokedEventArgs>(OpenNewWindowAcceleratorAsync);
 		}
 
 		public async Task OnNavigatedTo(NavigationEventArgs e)
@@ -206,7 +206,7 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
-		private async Task OpenNewWindowAccelerator(KeyboardAcceleratorInvokedEventArgs? e)
+		private async Task OpenNewWindowAcceleratorAsync(KeyboardAcceleratorInvokedEventArgs? e)
 		{
 			var filesUWPUri = new Uri("files-uwp:");
 			await Launcher.LaunchUriAsync(filesUWPUri);
@@ -238,7 +238,7 @@ namespace Files.App.ViewModels
 
 			tabItem.ContentChanged += TabViewItemContentFrame_ContentChanged;
 
-			await UpdateTabInfo(tabItem, path);
+			await UpdateTabInfoAsync(tabItem, path);
 
 			var index = atIndex == -1 ? CurrentInstanceTabBarItems.Count : atIndex;
 			CurrentInstanceTabBarItems.Insert(index, tabItem);
@@ -246,7 +246,7 @@ namespace Files.App.ViewModels
 		}
 
 		// TODO: Remove
-		public async Task UpdateInstanceProperties(object navigationArg)
+		public async Task UpdateInstancePropertiesAsync(object navigationArg)
 		{
 			string windowTitle = string.Empty;
 
@@ -277,7 +277,7 @@ namespace Files.App.ViewModels
 		}
 
 		// TODO: Remove
-		public async Task UpdateTabInfo(TabBarItem tabItem, object navigationArg)
+		public async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 
@@ -408,7 +408,7 @@ namespace Files.App.ViewModels
 		}
 
 		// TODO: Remove
-		public async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+		public async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
 			var tabItem = new TabBarItem
 			{
@@ -425,7 +425,7 @@ namespace Files.App.ViewModels
 
 			tabItem.ContentChanged += TabViewItemContentFrame_ContentChanged;
 
-			await UpdateTabInfo(tabItem, tabViewItemArgs);
+			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
 
 			var index = atIndex == -1 ? CurrentInstanceTabBarItems.Count : atIndex;
 			CurrentInstanceTabBarItems.Insert(index, tabItem);
@@ -441,7 +441,7 @@ namespace Files.App.ViewModels
 			if (matchingTabItem is null)
 				return;
 
-			await UpdateTabInfo(matchingTabItem, e.NavigationParameter);
+			await UpdateTabInfoAsync(matchingTabItem, e.NavigationParameter);
 		}
 	}
 }
