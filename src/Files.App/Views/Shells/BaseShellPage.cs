@@ -714,7 +714,9 @@ namespace Files.App.Views.Shells
 
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
 		{
-			var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.AllInstanceTabBars;
+			var mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
+			var multitaskingControls = mainPageViewModel.AllInstanceTabBars;
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);

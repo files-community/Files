@@ -37,9 +37,8 @@ namespace Files.App.Data.Models
 
 				if (value >= 0 && value < MainPageViewModel.CurrentInstanceTabBarItems.Count)
 				{
-					Frame rootFrame = (Frame)MainWindow.Instance.Content;
-					var mainView = (MainPage)rootFrame.Content;
-					mainView.ViewModel.SelectedTabBarItem = MainPageViewModel.CurrentInstanceTabBarItems[value];
+					var mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+					mainPageViewModel.SelectedTabBarItem = MainPageViewModel.CurrentInstanceTabBarItems[value];
 				}
 			}
 		}

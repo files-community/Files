@@ -1445,10 +1445,12 @@ namespace Files.App.Views.LayoutModes
 				PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
 				PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
+				var mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 				// Check if the preview pane is open before updating the model
 				if (PreviewPaneViewModel.IsEnabled)
 				{
-					var isPaneEnabled = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
+					var isPaneEnabled = mainPageViewModel.ShouldPreviewPaneBeActive;
 					if (isPaneEnabled)
 						_ = PreviewPaneViewModel.UpdateSelectedItemPreviewAsync();
 				}
