@@ -411,11 +411,12 @@
 
 					<Grid Margin="-16">
 
-						<FontIcon
-							x:Name="OngoingTasksFontIcon"
+						<uc:OpacityIcon
+							x:Name="StatusCenterIcon"
+							Width="16"
+							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							FontSize="16"
-							Glyph="&#xF16A;" />
+							Style="{StaticResource ColorIconStatusCenter}" />
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"

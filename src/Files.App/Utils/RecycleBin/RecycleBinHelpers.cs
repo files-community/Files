@@ -45,6 +45,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task EmptyRecycleBinAsync()
 		{
+			// Display confirmation dialog
 			var ConfirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmEmptyBinDialogTitle".GetLocalizedResource(),
@@ -54,35 +55,21 @@ namespace Files.App.Utils.RecycleBin
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never
-				|| await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
+			// If the operation is approved by the user
+			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never ||
+				await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
 			{
-				string bannerTitle = "EmptyRecycleBin".GetLocalizedResource();
-				var banner = _statusCenterViewModel.AddItem(
-					bannerTitle,
-					"EmptyingRecycleBin".GetLocalizedResource(),
-					0,
-					ReturnResult.InProgress,
-					FileOperationType.Delete);
 
-				bool opSucceded = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
+				var banner = StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.InProgress);
+
+				bool bResult = await Task.Run(() => Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI).Succeeded);
 
 				_statusCenterViewModel.RemoveItem(banner);
 
-				if (opSucceded)
-					_statusCenterViewModel.AddItem(
-						bannerTitle,
-						"BinEmptyingSucceded".GetLocalizedResource(),
-						100,
-						ReturnResult.Success,
-						FileOperationType.Delete);
+				if (bResult)
+					StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.Success);
 				else
-					_statusCenterViewModel.AddItem(
-						bannerTitle,
-						"BinEmptyingFailed".GetLocalizedResource(),
-						100,
-						ReturnResult.Failed,
-						FileOperationType.Delete);
+					StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.Failed);
 			}
 		}
 
