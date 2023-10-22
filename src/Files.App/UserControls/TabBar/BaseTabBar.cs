@@ -124,7 +124,7 @@ namespace Files.App.UserControls.TabBar
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await mainPageViewModel.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
+					await MultitaskingTabsHelpers.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}

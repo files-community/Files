@@ -40,7 +40,7 @@ namespace Files.App.Actions
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await _mainPageViewModel.AddNewTabByPathAsync(
+					await MultitaskingTabsHelpers.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
 						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},

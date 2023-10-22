@@ -86,9 +86,7 @@ namespace Files.App.UserControls.TabBar
 
 		public void Unload()
 		{
-			MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-			ContentChanged -= mainPageViewModel.TabViewItemContentFrame_ContentChanged;
+			ContentChanged -= MultitaskingTabsHelpers.TabViewItemContentFrame_ContentChanged;
 
 			Dispose();
 		}

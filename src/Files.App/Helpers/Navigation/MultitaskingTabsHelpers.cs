@@ -6,14 +6,74 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Helpers
 {
+	/// <summary>
+	/// Provides static helper for handling <see cref="TabBar"/>.
+	/// </summary>
 	public static class MultitaskingTabsHelpers
 	{
 		private static readonly DrivesViewModel _drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private static readonly NetworkDrivesViewModel _networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private static readonly MainPageViewModel _mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		public static void AddNewTab(string path = "Home")
+		public static async Task AddNewTabAsync()
 		{
+			await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+		}
 
+		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		{
+			if (string.IsNullOrEmpty(path))
+				path = "Home";
+			// Support drives launched through jump list by stripping away the question mark at the end.
+			else if (path.EndsWith("\\?"))
+				path = path.Remove(path.Length - 1);
+
+			var tabItem = new TabBarItem
+			{
+				Header = null,
+				IconSource = null,
+				Description = null,
+				ToolTipText = null,
+				NavigationParameter = new CustomTabViewItemParameter()
+				{
+					InitialPageType = type,
+					NavigationParameter = path
+				}
+			};
+
+			tabItem.ContentChanged += TabViewItemContentFrame_ContentChanged;
+
+			await UpdateTabInfoAsync(tabItem, path);
+
+			var index = atIndex == -1 ? MainPageViewModel.CurrentInstanceTabBarItems.Count : atIndex;
+
+			MainPageViewModel.CurrentInstanceTabBarItems.Insert(index, tabItem);
+
+			App.AppModel.TabStripSelectedIndex = index;
+		}
+
+		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
+		{
+			var tabItem = new TabBarItem
+			{
+				Header = null,
+				IconSource = null,
+				Description = null,
+				ToolTipText = null,
+				NavigationParameter = new CustomTabViewItemParameter()
+				{
+					InitialPageType = type,
+					NavigationParameter = tabViewItemArgs
+				}
+			};
+
+			tabItem.ContentChanged += TabViewItemContentFrame_ContentChanged;
+
+			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
+
+			var index = atIndex == -1 ? MainPageViewModel.CurrentInstanceTabBarItems.Count : atIndex;
+			MainPageViewModel.CurrentInstanceTabBarItems.Insert(index, tabItem);
+			App.AppModel.TabStripSelectedIndex = index;
 		}
 
 		public static void CloseTabsToTheLeft(TabBarItem clickedTab, ITabBar multitaskingControl)
@@ -59,7 +119,37 @@ namespace Files.App.Helpers
 				: NavigationHelpers.OpenPathInNewWindowAsync("Home");
 		}
 
-		public static async Task UpdateTabInfo(TabBarItem tabItem, object navigationArg)
+		public static async Task UpdateInstancePropertiesAsync(object navigationArg)
+		{
+			string windowTitle = string.Empty;
+
+			if (navigationArg is PaneNavigationArguments paneArgs)
+			{
+				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+				{
+					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+
+					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+				}
+				else
+				{
+					(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+				}
+			}
+			else if (navigationArg is string pathArgs)
+			{
+				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
+			}
+
+			if (MainPageViewModel.CurrentInstanceTabBarItems.Count > 1)
+				windowTitle = $"{windowTitle} ({MainPageViewModel.CurrentInstanceTabBarItems.Count})";
+
+			if (navigationArg == _mainPageViewModel.SelectedTabBarItem?.NavigationParameter?.NavigationParameter)
+				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+		}
+
+		public static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
 		{
 			tabItem.AllowStorageItemDrop = true;
 
@@ -180,6 +270,18 @@ namespace Files.App.Helpers
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
+		}
+
+		public static async void TabViewItemContentFrame_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		{
+			if (sender is null)
+				return;
+
+			var matchingTabItem = MainPageViewModel.CurrentInstanceTabBarItems.SingleOrDefault(x => x == (TabBarItem)sender);
+			if (matchingTabItem is null)
+				return;
+
+			await UpdateTabInfoAsync(matchingTabItem, e.NavigationParameter);
 		}
 	}
 }

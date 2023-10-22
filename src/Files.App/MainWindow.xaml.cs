@@ -97,7 +97,7 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.CurrentInstanceTabBarItems.Count > 0))
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						await MultitaskingTabsHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
 					{
@@ -175,7 +175,7 @@ namespace Files.App
 					}
 					for (; index < fileArgs.Files.Count; index++)
 					{
-						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						await MultitaskingTabsHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
 			}
@@ -235,7 +235,7 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.CurrentInstanceTabBarItems.Any())
-					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+					await MultitaskingTabsHelpers.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}

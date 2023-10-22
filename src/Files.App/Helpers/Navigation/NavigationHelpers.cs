@@ -14,7 +14,7 @@ namespace Files.App.Helpers
 		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		public static Task OpenPathInNewTab(string? path)
-			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+			=> MultitaskingTabsHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
 		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{
