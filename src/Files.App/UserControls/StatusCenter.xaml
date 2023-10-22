@@ -361,7 +361,7 @@
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			x:Load="{x:Bind ViewModel.HasAnyItem, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-			Text="No items here." />
+			Text="{helpers:ResourceString Name=NoFileOperations}" />
 
 	</Grid>
 </UserControl>
