@@ -3,193 +3,674 @@
 
 namespace Files.App.Utils.StatusCenter
 {
+	/// <summary>
+	/// Provide static helper for the StatusCenter.
+	/// </summary>
 	public static class StatusCenterHelper
 	{
-		private readonly static StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
-		public static StatusCenterItem PostBanner_Delete(IEnumerable<IStorageItemWithPath> source, ReturnResult returnStatus, bool permanently, bool canceled, int itemsDeleted)
+		public static StatusCenterItem AddCard_Copy(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath> source,
+			IEnumerable<string> destination,
+			long itemsCount = 0,
+			long totalSize = 0)
 		{
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
+			string? sourceDir = string.Empty;
+			string? destinationDir = string.Empty;
 
-			if (canceled)
+			if (source is not null && source.Any())
+				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+
+			if (destination is not null && destination.Any())
+				destinationDir = PathNormalization.GetParentDir(destination.First());
+
+			if (returnStatus == ReturnResult.Cancelled)
 			{
-				if (permanently)
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusDeletionCancelled".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ?
-							itemsDeleted > 1 ? "StatusDeleteCanceledDetails_Plural".GetLocalizedResource() : "StatusDeleteCanceledDetails_Plural2".GetLocalizedResource()
-							: "StatusDeleteCanceledDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, null, itemsDeleted),
-						0,
-						ReturnResult.Cancelled,
-						FileOperationType.Delete);
-				}
-				else
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusRecycleCancelled".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ?
-							itemsDeleted > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalizedResource() : "StatusMoveCanceledDetails_Plural2".GetLocalizedResource()
-							: "StatusMoveCanceledDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource(), itemsDeleted),
-						0,
-						ReturnResult.Cancelled,
-						FileOperationType.Recycle);
-				}
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CopyCanceled_Header",
+					"StatusCenter_CopyCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Copy,
+					source?.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				if (permanently)
-				{
-					// deleting items from <x>
-					return StatusCenterViewModel.AddItem(string.Empty,
-						string.Format(source.Count() > 1 ? "StatusDeletingItemsDetails_Plural".GetLocalizedResource() : "StatusDeletingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir),
-						0,
-						ReturnResult.InProgress,
-						FileOperationType.Delete,
-						new CancellationTokenSource());
-				}
-				else
-				{
-					// "Moving items from <x> to recycle bin"
-					return StatusCenterViewModel.AddItem(string.Empty,
-						string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalizedResource() : "StatusMovingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
-						0,
-						ReturnResult.InProgress,
-						FileOperationType.Recycle,
-						new CancellationTokenSource());
-				}
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CopyInProgress_Header",
+					"StatusCenter_CopyInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Copy,
+					source?.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				if (permanently)
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusDeletionComplete".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ? "StatusDeletedItemsDetails_Plural".GetLocalizedResource() : "StatusDeletedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, itemsDeleted),
-						0,
-						ReturnResult.Success,
-						FileOperationType.Delete);
-				}
-				else
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusRecycleComplete".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalizedResource() : "StatusMovedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
-						0,
-						ReturnResult.Success,
-						FileOperationType.Recycle);
-				}
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CopyComplete_Header",
+					"StatusCenter_CopyComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Copy,
+					source?.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else
 			{
-				if (permanently)
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusDeletionFailed".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ? "StatusDeletionFailedDetails_Plural".GetLocalizedResource() : "StatusDeletionFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir),
-						0,
-						ReturnResult.Failed,
-						FileOperationType.Delete);
-				}
-				else
-				{
-					return StatusCenterViewModel.AddItem(
-						"StatusRecycleFailed".GetLocalizedResource(),
-						string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalizedResource() : "StatusMoveFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, "TheRecycleBin".GetLocalizedResource()),
-						0,
-						ReturnResult.Failed,
-						FileOperationType.Recycle);
-				}
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CopyFailed_Header",
+					"StatusCenter_CopyFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Copy,
+					source?.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 		}
 
-		public static StatusCenterItem PostBanner_Copy(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsCopied)
+		public static StatusCenterItem AddCard_Move(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath> source,
+			IEnumerable<string> destination,
+			long itemsCount = 0,
+			long totalSize = 0)
 		{
 			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
 			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
 
-			if (canceled)
+			if (returnStatus == ReturnResult.Cancelled)
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusCopyCanceled".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ?
-						itemsCopied > 1 ? "StatusCopyCanceledDetails_Plural".GetLocalizedResource() : "StatusCopyCanceledDetails_Plural2".GetLocalizedResource() :
-						"StatusCopyCanceledDetails_Singular".GetLocalizedResource(), source.Count(), destinationDir, itemsCopied),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveCanceled_Header",
+					"StatusCenter_MoveCanceled_SubHeader",
 					ReturnResult.Cancelled,
-					FileOperationType.Copy);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return StatusCenterViewModel.AddItem(
-					string.Empty,
-					string.Format(source.Count() > 1 ? "StatusCopyingItemsDetails_Plural".GetLocalizedResource() : "StatusCopyingItemsDetails_Singular".GetLocalizedResource(), source.Count(), destinationDir),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveInProgress_Header",
+					"StatusCenter_MoveInProgress_SubHeader",
 					ReturnResult.InProgress,
-					FileOperationType.Copy, new CancellationTokenSource());
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusCopyComplete".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ? "StatusCopiedItemsDetails_Plural".GetLocalizedResource() : "StatusCopiedItemsDetails_Singular".GetLocalizedResource(), source.Count(), destinationDir, itemsCopied),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveComplete_Header",
+					"StatusCenter_MoveComplete_SubHeader",
 					ReturnResult.Success,
-					FileOperationType.Copy);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusCopyFailed".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ? "StatusCopyFailedDetails_Plural".GetLocalizedResource() : "StatusCopyFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_MoveFailed_Header",
+					"StatusCenter_MoveFailed_SubHeader",
 					ReturnResult.Failed,
-					FileOperationType.Copy);
+					FileOperationType.Move,
+					source.Select(x => x.Path),
+					destination,
+					true,
+					itemsCount,
+					totalSize);
 			}
 		}
 
-		public static StatusCenterItem PostBanner_Move(IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, ReturnResult returnStatus, bool canceled, int itemsMoved)
+		public static StatusCenterItem AddCard_Recycle(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath>? source,
+			long itemsCount = 0,
+			long totalSize = 0)
 		{
-			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault()?.Path);
-			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+			string? sourceDir = string.Empty;
 
-			if (canceled)
+			if (source is not null && source.Any())
+				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+
+			if (returnStatus == ReturnResult.Cancelled)
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusMoveCanceled".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ?
-						itemsMoved > 1 ? "StatusMoveCanceledDetails_Plural".GetLocalizedResource() : "StatusMoveCanceledDetails_Plural2".GetLocalizedResource()
-						: "StatusMoveCanceledDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir, itemsMoved),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleCanceled_Header",
+					string.Empty,
 					ReturnResult.Cancelled,
-					FileOperationType.Move);
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else if (returnStatus == ReturnResult.InProgress)
 			{
-				return StatusCenterViewModel.AddItem(
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleInProgress_Header",
 					string.Empty,
-					string.Format(source.Count() > 1 ? "StatusMovingItemsDetails_Plural".GetLocalizedResource() : "StatusMovingItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
-					0,
 					ReturnResult.InProgress,
-					FileOperationType.Move, new CancellationTokenSource());
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
 			}
 			else if (returnStatus == ReturnResult.Success)
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusMoveComplete".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ? "StatusMovedItemsDetails_Plural".GetLocalizedResource() : "StatusMovedItemsDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir, itemsMoved),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleComplete_Header",
+					string.Empty,
 					ReturnResult.Success,
-					FileOperationType.Move);
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
 			}
 			else
 			{
-				return StatusCenterViewModel.AddItem(
-					"StatusMoveFailed".GetLocalizedResource(),
-					string.Format(source.Count() > 1 ? "StatusMoveFailedDetails_Plural".GetLocalizedResource() : "StatusMoveFailedDetails_Singular".GetLocalizedResource(), source.Count(), sourceDir, destinationDir),
-					0,
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_RecycleFailed_Header",
+					string.Empty,
 					ReturnResult.Failed,
-					FileOperationType.Move);
+					FileOperationType.Recycle,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Delete(
+			ReturnResult returnStatus,
+			IEnumerable<IStorageItemWithPath>? source,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			string? sourceDir = string.Empty;
+			
+			if (source is not null && source.Any())
+				sourceDir = PathNormalization.GetParentDir(source.First().Path);
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteCanceled_Header",
+					string.Empty,
+					ReturnResult.Cancelled,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path) ?? string.Empty.CreateEnumerable(),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteInProgress_Header",
+					string.Empty,
+					ReturnResult.InProgress,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteComplete_Header",
+					string.Empty,
+					ReturnResult.Success,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DeleteFailed_Header",
+					"StatusCenter_DeleteFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Delete,
+					source?.Select(x => x.Path),
+					null,
+					true,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Compress(
+			IEnumerable<string> source,
+			IEnumerable<string> destination,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
+			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CompressCanceled_Header",
+					"StatusCenter_CompressCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CompressInProgress_Header",
+					"StatusCenter_CompressInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CompressComplete_Header",
+					"StatusCenter_CompressComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_CompressFailed_Header",
+					"StatusCenter_CompressFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Compressed,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Decompress(
+			IEnumerable<string> source,
+			IEnumerable<string> destination,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
+			var sourceDir = PathNormalization.GetParentDir(source.FirstOrDefault());
+			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DecompressCanceled_Header",
+					"StatusCenter_DecompressCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DecompressInProgress_Header",
+					"StatusCenter_DecompressInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.Extract,
+					source,
+					destination,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DecompressComplete_Header",
+					"StatusCenter_DecompressComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_DecompressFailed_Header",
+					"StatusCenter_DecompressFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Extract,
+					source,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_EmptyRecycleBin(
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			// Currently not supported accurate progress report for emptying the recycle bin
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_EmptyRecycleBinCancel_Header",
+					string.Empty,
+					ReturnResult.Cancelled,
+					FileOperationType.Delete,
+					null,
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_EmptyRecycleBinInProgress_Header",
+					string.Empty,
+					ReturnResult.InProgress,
+					FileOperationType.Delete,
+					null,
+					null,
+					false,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_EmptyRecycleBinComplete_Header",
+					string.Empty,
+					ReturnResult.Success,
+					FileOperationType.Delete,
+					null,
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_EmptyRecycleBinFailed_Header",
+					"StatusCenter_EmptyRecycleBinFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.Delete,
+					null,
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_Prepare()
+		{
+			return _statusCenterViewModel.AddItem(
+				"StatusCenter_Prepare_Header",
+				string.Empty,
+				ReturnResult.InProgress,
+				FileOperationType.Prepare,
+				null,
+				null,
+				false);
+		}
+
+		public static void UpdateCardStrings(StatusCenterItem card)
+		{
+			// Aren't used for now
+			string sourcePath = string.Empty;
+			string destinationPath = string.Empty;
+
+			string sourceFileName = string.Empty;
+			string sourceDirName = string.Empty;
+			string destinationDirName = string.Empty;
+
+			if (card.Source is not null && card.Source.Any())
+			{
+				sourcePath = PathNormalization.GetParentDir(card.Source.First());
+				sourceDirName = sourcePath.Split('\\').Last();
+				sourceFileName = card.Source.First().Split('\\').Last();
+			}
+
+			if (card.Destination is not null && card.Destination.Any())
+			{
+				destinationPath = PathNormalization.GetParentDir(card.Destination.First());
+				destinationDirName = card.Destination.First().Split('\\').Last();
+			}
+
+			string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty : card.HeaderStringResource.GetLocalizedResource();
+			string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty : card.SubHeaderStringResource.GetLocalizedResource();
+
+			// Update string resources
+			switch (card.Operation)
+			{
+				case FileOperationType.Copy:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.Move:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.Delete:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								_ => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.Recycle:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+								_ => string.Format(headerString, card.TotalItemsCount, sourceDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.Extract:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, sourceFileName, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, sourceFileName, destinationDirName),
+								_ => string.Format(headerString, sourceFileName, destinationDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, sourceFileName, sourcePath, destinationPath),
+								ReturnResult.Success => string.Format(subHeaderString, sourceFileName, sourcePath, destinationPath),
+								ReturnResult.Failed => string.Format(subHeaderString, sourceFileName, sourcePath, destinationPath),
+								ReturnResult.InProgress => string.Format(subHeaderString, sourceFileName, sourcePath, destinationPath),
+								_ => string.Format(subHeaderString, sourceFileName, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.Compressed:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+								_ => string.Format(headerString, card.TotalItemsCount, destinationDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
 			}
 		}
 	}
