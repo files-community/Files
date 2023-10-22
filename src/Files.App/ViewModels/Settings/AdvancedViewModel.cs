@@ -34,17 +34,17 @@ namespace Files.App.ViewModels.Settings
 			IsSetAsDefaultFileManager = DetectIsSetAsDefaultFileManager();
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 
-			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorer);
-			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialog);
-			ExportSettingsCommand = new AsyncRelayCommand(ExportSettings);
-			ImportSettingsCommand = new AsyncRelayCommand(ImportSettings);
-			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJson);
-			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartup);
+			SetAsDefaultExplorerCommand = new AsyncRelayCommand(SetAsDefaultExplorerAsync);
+			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialogAsync);
+			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
+			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
+			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJsonAsync);
+			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
 
-			_ = DetectOpenFilesAtStartup();
+			_ = DetectOpenFilesAtStartupAsync();
 		}
 
-		private async Task OpenSettingsJson()
+		private async Task OpenSettingsJsonAsync()
 		{
 			var settingsJsonPath = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
 
@@ -54,7 +54,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private async Task SetAsDefaultExplorer()
+		private async Task SetAsDefaultExplorerAsync()
 		{
 			// Make sure IsSetAsDefaultFileManager is updated
 			await Task.Yield();
@@ -109,13 +109,13 @@ namespace Files.App.ViewModels.Settings
 			if (!IsSetAsDefaultFileManager)
 			{
 				IsSetAsOpenFileDialog = false;
-				return SetAsOpenFileDialog();
+				return SetAsOpenFileDialogAsync();
 			}
 
 			return Task.CompletedTask;
 		}
 
-		private async Task SetAsOpenFileDialog()
+		private async Task SetAsOpenFileDialogAsync()
 		{
 			// Make sure IsSetAsDefaultFileManager is updated
 			await Task.Yield();
@@ -150,7 +150,7 @@ namespace Files.App.ViewModels.Settings
 			IsSetAsOpenFileDialog = DetectIsSetAsOpenFileDialog();
 		}
 
-		private async Task ImportSettings()
+		private async Task ImportSettingsAsync()
 		{
 			FileOpenPicker filePicker = InitializeWithWindow(new FileOpenPicker());
 			filePicker.FileTypeFilter.Add(".zip");
@@ -196,7 +196,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private async Task ExportSettings()
+		private async Task ExportSettingsAsync()
 		{
 			var applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 
@@ -311,7 +311,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public async Task OpenFilesOnWindowsStartup()
+		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();
 
@@ -331,11 +331,11 @@ namespace Files.App.ViewModels.Settings
 					await startupTask.RequestEnableAsync();
 				else
 					startupTask.Disable();
-				await DetectOpenFilesAtStartup();
+				await DetectOpenFilesAtStartupAsync();
 			}
 		}
 
-		public async Task DetectOpenFilesAtStartup()
+		public async Task DetectOpenFilesAtStartupAsync()
 		{
 			var stateMode = await ReadState();
 

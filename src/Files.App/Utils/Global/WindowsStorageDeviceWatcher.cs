@@ -27,7 +27,7 @@ namespace Files.App.Utils
 		public WindowsStorageDeviceWatcher()
 		{
 			watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-			watcher.Added += Watcher_Added;
+			watcher.Added += Watcher_AddedAsync;
 			watcher.Removed += Watcher_Removed;
 			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 
@@ -36,7 +36,7 @@ namespace Files.App.Utils
 
 		private void SetupWin32Watcher()
 		{
-			DeviceManager.Default.DeviceAdded += Win32_OnDeviceAdded;
+			DeviceManager.Default.DeviceAdded += Win32_OnDeviceAddedAsync;
 			DeviceManager.Default.DeviceRemoved += Win32_OnDeviceRemoved;
 			DeviceManager.Default.DeviceInserted += Win32_OnDeviceEjectedOrInserted;
 			DeviceManager.Default.DeviceEjected += Win32_OnDeviceEjectedOrInserted;
@@ -52,7 +52,7 @@ namespace Files.App.Utils
 			DeviceRemoved?.Invoke(this, e.DeviceId);
 		}
 
-		private async void Win32_OnDeviceAdded(object? sender, DeviceEventArgs e)
+		private async void Win32_OnDeviceAddedAsync(object? sender, DeviceEventArgs e)
 		{
 			var driveAdded = new DriveInfo(e.DeviceId);
 			var rootAdded = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(e.DeviceId).AsTask());
@@ -80,7 +80,7 @@ namespace Files.App.Utils
 			DeviceRemoved?.Invoke(this, args.Id);
 		}
 
-		private async void Watcher_Added(DeviceWatcher sender, DeviceInformation args)
+		private async void Watcher_AddedAsync(DeviceWatcher sender, DeviceInformation args)
 		{
 			string deviceId = args.Id;
 			StorageFolder root;
@@ -127,11 +127,11 @@ namespace Files.App.Utils
 				watcher.Stop();
 			}
 
-			watcher.Added -= Watcher_Added;
+			watcher.Added -= Watcher_AddedAsync;
 			watcher.Removed -= Watcher_Removed;
 			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 
-			DeviceManager.Default.DeviceAdded -= Win32_OnDeviceAdded;
+			DeviceManager.Default.DeviceAdded -= Win32_OnDeviceAddedAsync;
 			DeviceManager.Default.DeviceRemoved -= Win32_OnDeviceRemoved;
 			DeviceManager.Default.DeviceInserted -= Win32_OnDeviceEjectedOrInserted;
 			DeviceManager.Default.DeviceEjected -= Win32_OnDeviceEjectedOrInserted;

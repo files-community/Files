@@ -218,7 +218,7 @@ namespace Files.App.Utils.StatusCenter
 			Destination = destination;
 
 			// Get the graph color
-			if (App.Current.Resources["AppThemeFillColorAttentionBrush"] is not SolidColorBrush accentBrush)
+			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
 
 			// Initialize graph series

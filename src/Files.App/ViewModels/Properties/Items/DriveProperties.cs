@@ -42,7 +42,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
 		}
 
-		public async override Task GetSpecialProperties()
+		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.ItemAttributesVisibility = false;
 			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));

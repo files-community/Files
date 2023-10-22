@@ -34,7 +34,7 @@ namespace Files.App.Utils.Archives
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
 		}
 
-		public static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
+		public static async Task ExtractArchiveAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
 			if (zipFile is null)
@@ -148,7 +148,7 @@ namespace Files.App.Utils.Archives
 			}
 		}
 
-		private static async Task ExtractArchive(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
+		private static async Task ExtractArchiveAsync(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
 		{
 			if (archive is null || destinationFolder is null)
 				return;
@@ -159,7 +159,7 @@ namespace Files.App.Utils.Archives
 				ReturnResult.InProgress);
 
 			await FilesystemTasks.Wrap(() =>
-				ExtractArchive(archive, destinationFolder, password, banner.ProgressEventSource, banner.CancellationToken));
+				ExtractArchiveAsync(archive, destinationFolder, password, banner.ProgressEventSource, banner.CancellationToken));
 
 			_statusCenterViewModel.RemoveItem(banner);
 
@@ -169,7 +169,7 @@ namespace Files.App.Utils.Archives
 				ReturnResult.Success);
 		}
 
-		public static async Task DecompressArchive(IShellPage associatedInstance)
+		public static async Task DecompressArchiveAsync(IShellPage associatedInstance)
 		{
 			if (associatedInstance == null)
 				return;
@@ -212,13 +212,13 @@ namespace Files.App.Utils.Archives
 				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
 
-			await ExtractArchive(archive, destinationFolder, password);
+			await ExtractArchiveAsync(archive, destinationFolder, password);
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
 		}
 
-		public static async Task DecompressArchiveHere(IShellPage associatedInstance)
+		public static async Task DecompressArchiveHereAsync(IShellPage associatedInstance)
 		{
 			if (associatedInstance == null)
 				return;
@@ -229,7 +229,7 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
-				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
+				if (await FilesystemTasks.Wrap(() => IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
 					DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
@@ -247,11 +247,11 @@ namespace Files.App.Utils.Archives
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
-				await ExtractArchive(archive, currentFolder, password);
+				await ExtractArchiveAsync(archive, currentFolder, password);
 			}
 		}
 
-		public static async Task DecompressArchiveToChildFolder(IShellPage associatedInstance)
+		public static async Task DecompressArchiveToChildFolderAsync(IShellPage associatedInstance)
 		{
 			if (associatedInstance == null)
 				return;
@@ -284,7 +284,7 @@ namespace Files.App.Utils.Archives
 				if (currentFolder is not null)
 					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 
-				await ExtractArchive(archive, destinationFolder, password);
+				await ExtractArchiveAsync(archive, destinationFolder, password);
 			}
 		}
 	}

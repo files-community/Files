@@ -58,8 +58,8 @@
 		CanceledForegroundBrush="{ThemeResource TextFillColorSecondaryBrush}"
 		ErrorBackgroundBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
 		ErrorForegroundBrush="{ThemeResource SystemFillColorCriticalBrush}"
-		InProgressBackgroundBrush="{ThemeResource AppThemeFillColorAttentionBrush}"
-		InProgressForegroundBrush="{ThemeResource AppThemeFillColorAttentionBrush}"
+		InProgressBackgroundBrush="{ThemeResource App.Theme.FillColorAttentionBrush}"
+		InProgressForegroundBrush="{ThemeResource App.Theme.FillColorAttentionBrush}"
 		SuccessfulBackgroundBrush="{ThemeResource SystemFillColorSuccessBackgroundBrush}"
 		SuccessfulForegroundBrush="{ThemeResource SystemFillColorSuccessBrush}" />
 

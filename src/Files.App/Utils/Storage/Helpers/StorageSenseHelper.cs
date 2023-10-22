@@ -8,7 +8,7 @@ namespace Files.App.Utils.Storage
 {
 	internal class StorageSenseHelper
 	{
-		public static async Task OpenStorageSense(string path)
+		public static async Task OpenStorageSenseAsync(string path)
 		{
 			if (!path.StartsWith("C:", StringComparison.OrdinalIgnoreCase)
 				&& ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

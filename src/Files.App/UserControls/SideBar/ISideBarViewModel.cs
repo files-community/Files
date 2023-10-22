@@ -24,24 +24,24 @@ namespace Files.App.UserControls.Sidebar
 		/// </summary>
 		/// <param name="sender">The sender of this event</param>
 		/// <param name="args">The <see cref="ItemContextInvokedArgs"/> for this event.</param>
-		void HandleItemContextInvoked(object sender, ItemContextInvokedArgs args);
+		void HandleItemContextInvokedAsync(object sender, ItemContextInvokedArgs args);
 
 		/// <summary>
 		/// Gets invoked when an item drags over any item of the sidebar.
 		/// </summary>
 		/// <param name="args">The <see cref="ItemDragOverEventArgs"/> for this event.</param>
-		void HandleItemDragOver(ItemDragOverEventArgs args);
+		void HandleItemDragOverAsync(ItemDragOverEventArgs args);
 
 		/// <summary>
 		/// Gets invoked when an item is dropped on any item of the sidebar.
 		/// </summary>
 		/// <param name="args">The <see cref="ItemDroppedEventArgs"/> for this event.</param>
-		void HandleItemDropped(ItemDroppedEventArgs args);
+		void HandleItemDroppedAsync(ItemDroppedEventArgs args);
 
 		/// <summary>
 		/// Gets invoked when an item is invoked (double clicked) on any item of the sidebar.
 		/// </summary>
 		/// <param name="item">The item that was invoked.</param>
-		void HandleItemInvoked(object item);
+		void HandleItemInvokedAsync(object item);
 	}
 }

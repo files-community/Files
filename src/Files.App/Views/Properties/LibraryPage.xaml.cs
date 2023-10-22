@@ -71,14 +71,14 @@ namespace Files.App.Views.Properties
 		{
 			InitializeComponent();
 
-			AddLocationCommand = new AsyncRelayCommand(AddLocation);
+			AddLocationCommand = new AsyncRelayCommand(AddLocationAsync);
 			SetDefaultLocationCommand = new RelayCommand(SetDefaultLocation);
 			RemoveLocationCommand = new RelayCommand(RemoveLocation);
 		}
 
-		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
+		protected override void Properties_LoadedAsync(object sender, RoutedEventArgs e)
 		{
-			base.Properties_Loaded(sender, e);
+			base.Properties_LoadedAsync(sender, e);
 
 			if (BaseProperties is LibraryProperties props)
 			{
@@ -98,7 +98,7 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private async Task AddLocation()
+		private async Task AddLocationAsync()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");

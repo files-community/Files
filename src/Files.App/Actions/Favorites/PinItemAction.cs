@@ -40,11 +40,11 @@ namespace Files.App.Actions
 			{
 				var items = context.SelectedItems.Select(x => x.ItemPath).ToArray();
 
-				await service.PinToSidebar(items);
+				await service.PinToSidebarAsync(items);
 			}
 			else if (context.Folder is not null)
 			{
-				await service.PinToSidebar(context.Folder.ItemPath);
+				await service.PinToSidebarAsync(context.Folder.ItemPath);
 			}
 		}
 

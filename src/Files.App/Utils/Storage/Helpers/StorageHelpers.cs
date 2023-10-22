@@ -45,7 +45,7 @@ namespace Files.App.Helpers
 					}
 					else // Just get the directory
 					{
-						await GetFolder();
+						await GetFolderAsync();
 					}
 				}
 				else // File
@@ -57,7 +57,7 @@ namespace Files.App.Helpers
 					}
 					else // Just get the file
 					{
-						await GetFile();
+						await GetFileAsync();
 					}
 				}
 			}
@@ -67,27 +67,27 @@ namespace Files.App.Helpers
 
 				if (typeof(IStorageFile).IsAssignableFrom(typeof(TRequested)))
 				{
-					await GetFile();
+					await GetFileAsync();
 				}
 				else if (typeof(IStorageFolder).IsAssignableFrom(typeof(TRequested)))
 				{
-					await GetFolder();
+					await GetFolderAsync();
 				}
 				else if (typeof(IStorageItem).IsAssignableFrom(typeof(TRequested)))
 				{
 					if (System.IO.Path.HasExtension(path)) // Possibly a file
 					{
-						await GetFile();
+						await GetFileAsync();
 					}
 
 					if (!file || file.Result is null) // Possibly a folder
 					{
-						await GetFolder();
+						await GetFolderAsync();
 
 						if (file is null && (!folder || folder.Result is null))
 						{
 							// Try file because it wasn't checked
-							await GetFile();
+							await GetFileAsync();
 						}
 					}
 				}
@@ -106,13 +106,13 @@ namespace Files.App.Helpers
 
 			// Extensions
 
-			async Task GetFile()
+			async Task GetFileAsync()
 			{
 				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 				file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootItem));
 			}
 
-			async Task GetFolder()
+			async Task GetFolderAsync()
 			{
 				var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(path));
 				folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, rootItem));

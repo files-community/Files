@@ -24,7 +24,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		protected async Task DeleteItems(bool permanently)
+		protected async Task DeleteItemsAsync(bool permanently)
 		{
 			var items =
 				context.SelectedItems.Select(item =>

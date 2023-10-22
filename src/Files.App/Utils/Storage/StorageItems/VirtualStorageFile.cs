@@ -46,7 +46,7 @@ namespace Files.App.Utils.Storage
 			Path = "";
 		}
 
-		private async void StreamedFileWriter(StreamedFileDataRequest request)
+		private async void StreamedFileWriterAsync(StreamedFileDataRequest request)
 		{
 			try
 			{
@@ -78,7 +78,7 @@ namespace Files.App.Utils.Storage
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
 		{
-			return StorageFile.CreateStreamedFileAsync(Name, StreamedFileWriter, null);
+			return StorageFile.CreateStreamedFileAsync(Name, StreamedFileWriterAsync, null);
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;

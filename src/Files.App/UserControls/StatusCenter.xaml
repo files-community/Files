@@ -219,7 +219,7 @@
 								x:Name="MainProgressBar"
 								Margin="4,4,4,4"
 								VerticalAlignment="Top"
-								Foreground="{ThemeResource AppThemeFillColorAttentionBrush}"
+								Foreground="{ThemeResource App.Theme.FillColorAttentionBrush}"
 								IsIndeterminate="{x:Bind IsIndeterminateProgress, Mode=OneWay}"
 								Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}"
 								Value="{x:Bind ProgressPercentage, Mode=OneWay}" />

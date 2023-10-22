@@ -47,36 +47,36 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			FlyouItemPath = item.Path;
-			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
+			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_OpenedAsync;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
 			e.Handled = true;
 		}
 
-		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
+		private async void ItemContextMenuFlyout_OpenedAsync(object? sender, object e)
 		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItems(FlyouItemPath, ItemContextMenuFlyout);
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_OpenedAsync;
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout);
 		}
 
-		public async Task OpenInNewTab(WidgetCardItem item)
+		public async Task OpenInNewTabAsync(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewTab(item.Path);
 		}
 
-		public async Task OpenInNewWindow(WidgetCardItem item)
+		public async Task OpenInNewWindowAsync(WidgetCardItem item)
 		{
 			await NavigationHelpers.OpenPathInNewWindowAsync(item.Path);
 		}
 
-		public virtual async Task PinToFavorites(WidgetCardItem item)
+		public virtual async Task PinToFavoritesAsync(WidgetCardItem item)
 		{
-			_ = QuickAccessService.PinToSidebar(item.Path);
+			_ = QuickAccessService.PinToSidebarAsync(item.Path);
 		}
 
-		public virtual async Task UnpinFromFavorites(WidgetCardItem item)
+		public virtual async Task UnpinFromFavoritesAsync(WidgetCardItem item)
 		{
-			_ = QuickAccessService.UnpinFromSidebar(item.Path);
+			_ = QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
 
 	}

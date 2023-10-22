@@ -34,11 +34,11 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			foreach (var image in context.SelectedItems)
-				await BitmapHelper.Rotate(PathNormalization.NormalizePath(image.ItemPath), Rotation);
+				await BitmapHelper.RotateAsync(PathNormalization.NormalizePath(image.ItemPath), Rotation);
 
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.RefreshItemsThumbnail();
 
-			await _previewPaneViewModel.UpdateSelectedItemPreview();
+			await _previewPaneViewModel.UpdateSelectedItemPreviewAsync();
 		}
 
 		private bool IsContextPageTypeAdaptedToCommand()

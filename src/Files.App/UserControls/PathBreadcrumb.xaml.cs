@@ -30,19 +30,19 @@ namespace Files.App.UserControls
 			ViewModel.PathBoxItem_DragLeave(sender, e);
 		}
 
-		private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		private async void PathBoxItem_DragOverAsync(object sender, DragEventArgs e)
 		{
-			await ViewModel.PathBoxItem_DragOver(sender, e);
+			await ViewModel.PathBoxItem_DragOverAsync(sender, e);
 		}
 
-		private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		private async void PathBoxItem_DropAsync(object sender, DragEventArgs e)
 		{
-			await ViewModel.PathBoxItem_Drop(sender, e);
+			await ViewModel.PathBoxItem_DropAsync(sender, e);
 		}
 
-		private async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		private async void PathBoxItem_TappedAsync(object sender, TappedRoutedEventArgs e)
 		{
-			await ViewModel.PathBoxItem_Tapped(sender, e);
+			await ViewModel.PathBoxItem_TappedAsync(sender, e);
 		}
 
 		private void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
