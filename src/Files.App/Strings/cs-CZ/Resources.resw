@@ -142,7 +142,7 @@
     <value>Velikost na disku:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Nekomprimovaná velikost:</value>
+    <value>Uncompressed size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Tato akce nemůže být provedena</value>
@@ -160,10 +160,10 @@
     <value>Vybrat vše</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Obrátit výběr</value>
+    <value>Invert selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Vymazat výběr</value>
+    <value>Clear selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Upraveno:</value>
@@ -187,7 +187,7 @@
     <value>Odstranit tuto položku</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>Github repozitář</value>
+    <value>GitHub repozitář</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>O aplikaci</value>
@@ -277,7 +277,7 @@
     <value>Vítejte v aplikaci Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Udělit oprávnění</value>
+    <value>Grant permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Chcete-li začít, musíte nám udělit oprávnění k zobrazení vašich souborů. Toto otevře stránku s nastavením, kde nám můžete toto oprávnění udělit. Po dokončení tohoto kroku budete muset aplikaci znovu otevřít. </value>
@@ -289,7 +289,7 @@
     <value>Zadejte název položky</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Pojmenovat</value>
+    <value>Set name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Světlý</value>
@@ -304,10 +304,10 @@
     <value>Systém</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Nová Složka</value>
+    <value>New folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Nový Soubor</value>
+    <value>New file</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Tato složka je prázdná.</value>
@@ -343,7 +343,7 @@
     <value>Prosím vložte potřebný disk pro přístup k této položce.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Disk Odpojen</value>
+    <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Soubor, ke kterému se snažíte přístoupit, mohl být přesunut nebo odstraněn.</value>
@@ -382,13 +382,13 @@
     <value>před {0} hodinami</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>před hodinou</value>
+    <value>před {0} hodinou</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>před {0} minutami</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>před minutou</value>
+    <value>před {0} minutou</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>před {0} sekundami</value>
@@ -426,17 +426,11 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>položky</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Mazání souborů</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Přesouvání souborů do koše</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Ano</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Opravdu chcte trvale odstrantit všechny tyto položky?</value>
+    <value>Opravdu chcete trvale odstrantit všechny tyto položky?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Vyprázdnit koš</value>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stav</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Strany:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Výchozí Windows</value>
@@ -622,7 +613,7 @@
     <value>Zrušit</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Vytvořit novou položku</value>
+    <value>Create a new item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Vyberte typ pro tuto novou položku níže</value>
@@ -823,7 +814,7 @@
     <value>Cesta k velké miniatuře</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Uri velké miniatury</value>
+    <value>Uri k velké miniatuře</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
     <value>Cesta k malé miniatuře</value>
@@ -979,7 +970,7 @@
     <value>Zkontrolovat stav souborových operací</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Centrum stavu</value>
+    <value>Status center</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Výsledy vyhledávání v {1} pro {0}</value>
@@ -1176,24 +1167,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Počet položek</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Odstranění selhalo</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Smazáno</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Odstranění zrušeno</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Recyklace dokončena</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Přesunutí bylo dokončeno</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Kopírování dokončeno</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Tato akce vyžaduje práva administrátora</value>
   </data>
@@ -1308,9 +1281,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Vytvořit složku s výběrem</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Název:</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Typ:</value>
   </data>
@@ -1416,104 +1386,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>Soukromí</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Přesun zrušen</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Kopírování zrušeno</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Přesun {0} položky z {1} do {2} byl zrušen</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Přesun {0} položek z {1} do {2} byl zrušen po přesunutí {3} položek</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Přesun {0} položek z {1} do {2} byl zrušen po přesunutí {3} položky</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Přesouvání {0} položku z {1} do {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Přesouvání {0} položek z {1} do {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Úspěšně přesunuta {0} položka z {1} do {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Úspěšně přesunuto {0} položek z {1} do {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Nepodařilo se přesunout položku {0} z {1} do {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Nepodařilo se přesunout {0} položek z {1} do {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Kopírování položky {0} do {1} bylo zrušeno</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Kopírování {0} položek do {1} bylo zrušeno po kopírování {2} položek</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Kopírování {0} položek do {1} bylo zrušeno po kopírování položky {2}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Kopírování {0} položek do {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Kopírování {0} položek do {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Úspěšně zkopírována {0} položka do {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Úspěšně zkopírováno {0} položek do {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Mazání {0} položky z {1} bylo zrušeno</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Mazání {0} položek z {1} bylo zrušeno po smazání {3} položek</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Mazání {0} položek z {1} bylo zrušeno po smazání {3} položky</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Mazání {0} položky z {1}</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Mazání {0} položek z {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Úspěšně smazána {0} položka z {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Úspěšně smazáno {0} položek z {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Nepodařilo se odstranit {0} položku z {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Nepodařilo se smazat {0} položek z {1}</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Koš</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Přesouvání položek</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Kopírování položek</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recyklace selhala</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recyklace zrušena</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>rušení</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Vyčistit</value>
@@ -1573,7 +1450,7 @@
     <value>Neznámý vlastník</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Rozbalit archiv</value>
+    <value>Extract archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Otevřít cílovou složku po dokončení</value>
@@ -1810,7 +1687,7 @@
     <value>Součást setu</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Otevřít disk</value>
+    <value>Open drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Prosím vložte disk do jednotky {0}</value>
@@ -1822,7 +1699,7 @@
     <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Vyžadovány údaje</value>
+    <value>Credential required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Anonymní</value>
@@ -1834,10 +1711,10 @@
     <value>Uživatelské jméno</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget disků</value>
+    <value>Drives widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget nedávných souborů</value>
+    <value>Recent Files widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Nenalezeny žádné položky</value>
@@ -1852,13 +1729,13 @@
     <value>Sloupce</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Velké ikony</value>
+    <value>Large icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Střední ikony</value>
+    <value>Medium icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Malé ikony</value>
+    <value>Small icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Dlaždice</value>
@@ -1866,8 +1743,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Otevřít složky v nové kartě</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Probíhající úlohy</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Status center</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Sloupec data vytvoření</value>
@@ -1903,10 +1780,10 @@
     <value>Cesta ke složce</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Exportovat nastavení</value>
+    <value>Export settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import nastavení</value>
+    <value>Import settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Nastavení nelze importovat. Soubor s nastavením je poškozen.</value>
@@ -2007,9 +1884,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Tato možnost upravuje systémový registr and může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Vyčistit vše</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Vytvořit Knihovnu</value>
   </data>
@@ -2023,7 +1897,7 @@
     <value>Nedávné soubory</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Otevřít Files při spuštění systému Windows</value>
+    <value>Open Files on Windows startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atributy</value>
@@ -2040,14 +1914,11 @@
   <data name="CleanupDrive" xml:space="preserve">
     <value>Vyčistit obsah disku</value>
   </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Vyčištění disku</value>
-  </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Mřížka ikon</value>
+    <value>Icon grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Byty</value>
@@ -2103,24 +1974,6 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>Aktualizovat Files</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Připravuji {0} položek</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Připravuji položky</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Kopírování selhalo</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Nepodařilo se zkopírovat {0} položek z {1} do {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Nepodařilo se zkopírovat {0} položku z {1} do {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Přesunutí selhalo</value>
-  </data>
   <data name="FileTags" xml:space="preserve">
     <value>Štítky</value>
   </data>
@@ -2152,7 +2005,7 @@
     <value>Nastavit jako prezentaci plochy</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Uprav všechny sloupce</value>
+    <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Adaptivní rozvržení</value>
@@ -2211,18 +2064,6 @@
   <data name="OpeningItems" xml:space="preserve">
     <value>Otevírání položek</value>
   </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Komprese byla dokončena</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} byl komprimován</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} nemohl být komprimován</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Komprimování archivu</value>
-  </data>
   <data name="Compress" xml:space="preserve">
     <value>Komprese</value>
   </data>
@@ -2255,15 +2096,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Nemáte oprávnění k přístupu do této složky.</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Vyprázdňování koše</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Koš úspěšně vyprázdněn</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Vyprázdnění koše se nezdařilo</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Heslo archivu</value>
@@ -2365,10 +2197,10 @@
     <value>Naposledy použité soubory jsou v Průzkumníku souborů Windows zakázány.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Upravit soubor nastavení</value>
+    <value>Edit settings file</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Poznámky k verzi</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Co je nového</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Vytvoření zástupce v tomto umístění vyžaduje oprávnění administrátora</value>
@@ -2407,7 +2239,7 @@
     <value>Zadejte vaše přihlašovací údaje pro připojení k: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Zadejte přihlašovací údaje k síti</value>
+    <value>Enter network credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Pamatovat si mé přihlašovací údaje</value>
@@ -2476,10 +2308,10 @@
     <value>Použít tuto akci na všechny konfliktní položky</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Otevřít v terminálu</value>
+    <value>Open in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Otevřít v terminálu jako správce</value>
+    <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Uložit</value>
@@ -3062,7 +2894,7 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Přepnout výběr</value>
+    <value>Toggle selection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Zobrazovat varování při změně přípony souborů</value>
@@ -3209,7 +3041,7 @@
     <value>V této větvi máte neprovedené změny. Co s nimi chcete udělat?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Přepnout větev</value>
+    <value>Switch branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Větve</value>
@@ -3272,7 +3104,7 @@
     <value>Git stav</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Chyba Gitu</value>
+    <value>Git error</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git vložení selhalo kvůli vypršení limitu spojení</value>
@@ -3338,17 +3170,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nemá aktuálně přístup ke GitHub.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Otevřít aktuální adresář ve Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Otevřít aktuální adresář ve Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Zkopírovat kód</value>
@@ -3430,12 +3262,326 @@
     <value>Začít v:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Zapnout BitLocker</value>	
+    <value>Zapnout BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Správa BitLockeru</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Následující položky jsou příliš velké na to, aby mohly být zkopírovány na tuto jednotku</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Naformátovat disk</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Příště nezobrazovat</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files je spuštěn jako administrátor</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Z důvodu omezení platformy není přetažení dostupné při spuštění Files jako administrátor.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Ponechat aplikaci běžet na pozadí, když je okno zavřeno</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Modrá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Modro-šedá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Cihlově červená</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Kamufláž</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Jasná chladně modrá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Šedá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Tmavě Šedá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Zelená</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Pastelová Iris</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Mátově světlá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Tmavší červená</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Jasně oranžová</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Zamračená</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Červená</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Jasná růže</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Mořská pěna</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Bouře</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Světlá červeno-fialová</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Žlutá zlatá</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Odstranění dokončeno</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>položky</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files can't initialize this directory as a Git repository.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
   </data>
 </root>

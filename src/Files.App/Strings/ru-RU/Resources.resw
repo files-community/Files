@@ -160,10 +160,10 @@
     <value>Выделить Всё</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Инвертировать Выделение</value>
+    <value>Инвертировать выделение</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Отменить Выделение</value>
+    <value>Очистить выделение</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Изменено:</value>
@@ -187,7 +187,7 @@
     <value>Убрать из списка</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>репозиторий Github</value>
+    <value>Репозиторий на GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>О приложении</value>
@@ -289,7 +289,7 @@
     <value>Введите название элемента</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Сохранить</value>
+    <value>Введите имя</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светлая</value>
@@ -426,12 +426,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>элементов</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Удаление файлов</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Перемещение файлов в Корзину</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>Да</value>
   </data>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Страницы:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Стандартный</value>
@@ -1176,24 +1167,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Число элементов</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Удаление не выполнено</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Удаление завершено</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Удаление отменено</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Удаление в корзину завершено</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Перемещение завершено</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Копирование завершено</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Для этого действия требуются права администратора</value>
   </data>
@@ -1308,9 +1281,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Создать папку из выбранных элементов</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Имя:</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
   </data>
@@ -1416,104 +1386,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>Конфиденциальность</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Перемещение отменено</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Копирование отменено</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Перемещение {0} элемента из {1} в {2} отменено</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Перемещение {0} элементов из {1} в {2} отменено после перемещения {3} элемента</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Перемещение {0} элементов из {1} в {2} отменено после перемещения {3} элементов</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Перемещение {0} элемента из {1} в {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Перемещение {0} элементов из {1} в {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Успешно перемещено {0} элемент из {1} в {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Успешно перемещено {0} элементов из {1} в {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Неудачно перемещен {0} элемент из {1} в {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Неудачно перемещено {0} элементов из {1} в {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Копирование {0} элемента в {1} было отменено</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Копирование {0} элементов в {1} было отменено после копирования {2} элементов</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Копирование {0} элементов в {1} было отменено после копирования {2} элемента</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Копирование {0} элемента в {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Копирование {0} элементов в {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Успешно скопирован {0} элемент в {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Успешно скопировано {0} элементов в {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Удаление {0} элемента из {1} отменено</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Удаление {0} элементов из {1} отменено после удаления {3} элементов</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Удаление {0} элементов из {1} отменено после удаления {3} элемента</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Удаление {0} элемента из {1}</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Удаление {0} элементов из {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Успешно удален {0} элемент из {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Успешно удалено {0} элементов из {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Не удалось удалить {0} элемент из {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Не удалось удалить {0} элементов из {1}</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Корзину</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Перемещение элементов</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Копирование элементов</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Не удалось переместить элемент в Корзину</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Перемещение в Корзину отменено</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>идет отмена</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Очистить</value>
@@ -1573,7 +1450,7 @@
     <value>Неизвестный владелец</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Извлечь архив</value>
+    <value>Распаковать архив</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>По завершении открыть папку назначения</value>
@@ -1852,13 +1729,13 @@
     <value>Столбцы</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Огромные значки</value>
+    <value>Большие значки</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
     <value>Средние значки</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Обычные значки</value>
+    <value>Мелкие значки</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плитки</value>
@@ -1866,8 +1743,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Открывать папки в новой вкладке</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Текущие задачи</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Центр операций</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Дата создания</value>
@@ -1903,10 +1780,10 @@
     <value>Путь к папке</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Экспорт Настроек</value>
+    <value>Экспортировать настройки</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Импорт Настроек</value>
+    <value>Импортировать настройки</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Невозможно импортировать настройки. Файлы настроек некорректны</value>
@@ -2007,9 +1884,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Очистить все</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Создать Библиотеку</value>
   </data>
@@ -2039,9 +1913,6 @@
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Очистить содержимое вашего диска</value>
-  </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Очистка диска</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
@@ -2102,24 +1973,6 @@
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Обновить Files</value>
-  </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Подготовка {0} предметов</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Подготовка предметов</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Копирование не удалось</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Не удалось скопировать {0} предметов из {1} в {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Не удалось скопировать {0} предмет из {1} в {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Перемещение не удалось</value>
   </data>
   <data name="FileTags" xml:space="preserve">
     <value>Метки</value>
@@ -2188,7 +2041,7 @@
     <value>Столбец даты изменения</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Столбец даты создания</value>
+    <value>Дата создания</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Столбец размера</value>
@@ -2210,18 +2063,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
-  </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Сжатие завершено</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} был сжат</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} не может быть сжат</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Сжатие архива</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Сжать</value>
@@ -2255,15 +2096,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>У вас нет прав для доступа к этой папке.</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Очистить корзину</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Корзина успешно очищена</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Не удалось очистить корзину</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Пароль архива</value>
@@ -2367,8 +2199,8 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Редактировать файл настроек</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Что нового?</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Из нового</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Создание ярлыка в этом месте требует права администратора</value>
@@ -2476,10 +2308,10 @@
     <value>Применить это действие ко всем конфликтующим элементам</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Открыть в терминале</value>
+    <value>Открыть в Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Открыть в терминале от имени администратора</value>
+    <value>Открыть в Windows Terminal от имени администратора</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
@@ -2827,7 +2659,7 @@
     <value>Переход вперед в истории навигации</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Переход на один каталог вверх</value>
+    <value>Перейти на одну папку назад</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>Дублировать текущую вкладку</value>
@@ -3062,7 +2894,7 @@
     <value>Редактировать</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Переключить выделенные</value>
+    <value>Выбрать выделенные</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Показывать предупреждение при смене расширений файлов</value>
@@ -3191,7 +3023,7 @@
     <value>Вы должны иметь разрешение на чтение для просмотра свойств этого элемента.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Чтобы попробовать стать владельцем объекта, включая разрешение на просмотр его свойств, нажмите кнопку «Изменить» выше.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>Невозможно отобразить разрешения.</value>
@@ -3203,13 +3035,13 @@
     <value>Сбросить мои изменения</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Внести мои изменения в '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>У вас есть незакоммиченные изменения в этой ветке. Что вы хотите с ними сделать?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Переключить Ветку</value>
+    <value>Сменить ветку</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Ветки</value>
@@ -3227,7 +3059,7 @@
     <value>Создать ветку</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Создать Ветку</value>
+    <value>Создать ветку</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
     <value>На основе</value>
@@ -3236,7 +3068,7 @@
     <value>Переключиться на новую ветку</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Создать папку с выбранными в данный момент элементами</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Открыть свойства</value>
@@ -3248,7 +3080,7 @@
     <value>Локальные</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Удалённые(не локальные)</value>
+    <value>Удалённые</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Translate on Crowdin</value>
@@ -3272,7 +3104,7 @@
     <value>Статус git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Ошибка git</value>
+    <value>Ошибка с Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>ошибка git pull из-за времени ожидания</value>
@@ -3309,7 +3141,7 @@
     <value>Материал Фона</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>Сплошной</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Управление ветками</value>
@@ -3327,28 +3159,28 @@
     <value>Запустить git pull, а затем git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} исходящих / {1} входящих коммитов</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Подключиться к GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Введите следующий код по ссылке ниже, чтобы начать работу с репозиториями GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files не может получить доступ к GitHub сейчас.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Открыть текущий каталог в Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Открыть папку в VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Открыть текущий каталог в Visual Studio Code</value>
+    <value>Открыть текущую папку в Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Открыть репозиторий в VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Открыть корень репозитория Git в Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Копировать код</value>
@@ -3384,58 +3216,372 @@
     <value>Текущая Ветка</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Таблица путей</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Сортировка элементов по пути</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Открыть папку в новой панели</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Открыть папку в новой вкладке</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Открыть папку в новом окне</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Открыть всё</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Открыть все отмеченные элементы</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
     <value>Диск ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Неверная команда</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' не распознаётся как команда.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Команда не является исполняемой</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Команда '{0}' не готова к выполнению.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Список команд</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Открыть список команд</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Начало через:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Включить BitLocker</value>	
+    <value>Включить BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>Управление BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>Следующие элементы слишком велики для копирования на этот диск</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Форматировать диск</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Больше не показывать</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files запущены от имени администратора</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Из-за ограничений платформы, перетаскивание недоступно при запуске Files от имени администратора.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Оставить приложение в фоновом режиме при закрытии окна</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Синий</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Серо-голубой</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Кирпично-красный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Камуфляж</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Ясный голубой</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Серый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Тёмно-серый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Зелёный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Мягкий фиолетовый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Светлый мятный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Тёмный красный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Яркий оранжевый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Туманный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Красный</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Яркий розовый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Морская пена</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Ураган</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Красно-лиловый</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Золотой</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Очистить завершённые</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>элементов</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files не может инициализировать Git-репозиторий в этой папке.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Добавить страницу</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Разблокировать скачанный файл</value>
   </data>
 </root>
