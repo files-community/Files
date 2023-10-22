@@ -16,6 +16,8 @@ namespace Files.App.Utils.Archives
 	{
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
+		private static IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
+
 		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
 		{
 			return await FilesystemTasks.Wrap(async () =>
@@ -40,57 +42,13 @@ namespace Files.App.Utils.Archives
 			if (zipFile is null)
 				return;
 
-			var directoryEntries = new List<ArchiveFileInfo>();
-			var fileEntries = new List<ArchiveFileInfo>();
-			foreach (ArchiveFileInfo entry in zipFile.ArchiveFileData)
-			{
-				if (!entry.IsDirectory)
-					fileEntries.Add(entry);
-				else
-					directoryEntries.Add(entry);
-			}
-
-			if (cancellationToken.IsCancellationRequested) // Check if cancelled
-				return;
-
-			var directories = new List<string>();
-			try
-			{
-				directories.AddRange(directoryEntries.Select((entry) => entry.FileName));
-				directories.AddRange(fileEntries.Select((entry) => Path.GetDirectoryName(entry.FileName)));
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, $"Error transforming zip names into: {destinationFolder.Path}\n" +
-					$"Directories: {string.Join(", ", directoryEntries.Select(x => x.FileName))}\n" +
-					$"Files: {string.Join(", ", fileEntries.Select(x => x.FileName))}");
-				return;
-			}
-
-			foreach (var dir in directories.Distinct().OrderBy(x => x.Length))
-			{
-				if (!NativeFileOperationsHelper.CreateDirectoryFromApp(dir, IntPtr.Zero))
-				{
-					var dirName = destinationFolder.Path;
-					foreach (var component in dir.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
-					{
-						dirName = Path.Combine(dirName, component);
-						NativeFileOperationsHelper.CreateDirectoryFromApp(dirName, IntPtr.Zero);
-					}
-				}
-
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
-					return;
-			}
-
 			if (cancellationToken.IsCancellationRequested) // Check if canceled
 				return;
 
 			// Fill files
 
 			byte[] buffer = new byte[4096];
-			int entriesAmount = fileEntries.Count;
-			var minimumTime = new DateTime(1);
+			int entriesAmount = zipFile.ArchiveFileData.Where(x => !x.IsDirectory).Count();
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
@@ -104,47 +62,38 @@ namespace Files.App.Utils.Archives
 			zipFile.Extracting += (s, e) =>
 			{
 				if (fsProgress.TotalSize > 0)
-					fsProgress.Report((fsProgress.ProcessedSize + e.PercentDelta / 100.0 * e.BytesCount) / fsProgress.TotalSize * 100);
+					fsProgress.Report(e.BytesProcessed / (double)fsProgress.TotalSize * 100);
+			};
+			zipFile.FileExtractionStarted += (s, e) =>
+			{
+				if (cancellationToken.IsCancellationRequested)
+					e.Cancel = true;
+				if (!e.FileInfo.IsDirectory)
+				{
+					_threadingService.ExecuteOnUiThreadAsync(() =>
+					{
+						fsProgress.FileName = e.FileInfo.FileName;
+						fsProgress.Report();
+					});
+				}
+			};
+			zipFile.FileExtractionFinished += (s, e) =>
+			{
+				if (!e.FileInfo.IsDirectory)
+				{
+					fsProgress.AddProcessedItemsCount(1);
+					fsProgress.Report();
+				}
 			};
 
-			foreach (var entry in fileEntries)
+			try
 			{
-				if (cancellationToken.IsCancellationRequested) // Check if canceled
-					return;
-
-				var filePath = destinationFolder.Path;
-				foreach (var component in entry.FileName.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
-					filePath = Path.Combine(filePath, component);
-
-				var hFile = NativeFileOperationsHelper.CreateFileForWrite(filePath);
-				if (hFile.IsInvalid)
-					return; // TODO: handle error
-
-				fsProgress.FileName = entry.FileName;
-				fsProgress.Report();
-
-				// We don't close hFile because FileStream.Dispose() already does that
-				using (FileStream destinationStream = new FileStream(hFile, FileAccess.Write))
-				{
-					try
-					{
-						await zipFile.ExtractFileAsync(entry.Index, destinationStream);
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, $"Error extracting file: {filePath}");
-						return; // TODO: handle error
-					}
-				}
-
-				_ = new FileInfo(filePath)
-				{
-					CreationTime = entry.CreationTime > minimumTime && entry.CreationTime < entry.LastWriteTime ? entry.CreationTime : entry.LastWriteTime,
-					LastWriteTime = entry.LastWriteTime,
-				};
-
-				fsProgress.AddProcessedItemsCount(1);
-				fsProgress.Report();
+				await zipFile.ExtractArchiveAsync(destinationFolder.Path);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, $"Error extracting file: {archive.Name}");
+				return; // TODO: handle error
 			}
 		}
 
