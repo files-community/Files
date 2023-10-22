@@ -17,15 +17,16 @@ namespace Files.App.Helpers
 
 		public static async Task AddNewTabAsync()
 		{
-			await AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+			await AddNewTabWithPathAsync(typeof(PaneHolderPage), "Home");
 		}
 
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
+		public static async Task AddNewTabWithPathAsync(Type type, string? path, int atIndex = -1)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = "Home";
+
 			// Support drives launched through jump list by stripping away the question mark at the end.
-			else if (path.EndsWith("\\?"))
+			if (path.EndsWith("\\?"))
 				path = path.Remove(path.Length - 1);
 
 			var tabItem = new TabBarItem
@@ -52,7 +53,7 @@ namespace Files.App.Helpers
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
+		public static async Task AddNewTabWithParameterAsync(Type type, object tabViewItemArgs, int atIndex = -1)
 		{
 			var tabItem = new TabBarItem
 			{

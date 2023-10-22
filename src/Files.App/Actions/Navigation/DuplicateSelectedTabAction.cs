@@ -25,9 +25,9 @@ namespace Files.App.Actions
 		{
 			var arguments = context.SelectedTabItem.NavigationParameter;
 			if (arguments is null)
-				await MultitaskingTabsHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
+				await MultitaskingTabsHelpers.AddNewTabWithPathAsync(typeof(PaneHolderPage), "Home");
 			else
-				await MultitaskingTabsHelpers.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
+				await MultitaskingTabsHelpers.AddNewTabWithParameterAsync(arguments.InitialPageType, arguments.NavigationParameter, context.SelectedTabIndex + 1);
 		}
 	}
 }

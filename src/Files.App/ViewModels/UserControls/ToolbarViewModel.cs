@@ -504,7 +504,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await MultitaskingTabsHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await MultitaskingTabsHelpers.AddNewTabWithPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
