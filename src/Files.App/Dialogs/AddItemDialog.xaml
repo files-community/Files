@@ -13,7 +13,7 @@
 	Grid.RowSpan="4"
 	BorderThickness="0"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
-	Loaded="AddItemDialog_LoadedAsync"
+	Loaded="AddItemDialog_Loaded"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"

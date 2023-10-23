@@ -8,7 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Loaded="Properties_LoadedAsync"
+	Loaded="Properties_Loaded"
 	Tag="Shortcut"
 	mc:Ignorable="d">
 

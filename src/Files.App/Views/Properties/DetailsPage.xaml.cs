@@ -22,9 +22,9 @@ namespace Files.App.Views.Properties
 			_updateDateDisplayTimer.Start();
 		}
 
-		protected override async void Properties_LoadedAsync(object sender, RoutedEventArgs e)
+		protected override async void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
-			base.Properties_LoadedAsync(sender, e);
+			base.Properties_Loaded(sender, e);
 
 			if (BaseProperties is IFileProperties fileProps)
 			{
@@ -68,7 +68,7 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private async void ClearPropertiesConfirmation_ClickAsync(object sender, RoutedEventArgs e)
+		private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
 		{
 			ClearPropertiesFlyout.Hide();
 			if (BaseProperties is IFileProperties fileProps)
