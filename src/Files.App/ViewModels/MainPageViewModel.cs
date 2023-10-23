@@ -343,10 +343,6 @@ namespace Files.App.ViewModels
 						{
 							await NavigationHelpers.OpenTabsInNewWindowAsync(LastSessionTabList);
 						}
-						else if (isRestored && LastSessionTabList.SequenceEqual(defaultArgStrList))
-						{
-							
-						}
 						else if (!isRestored)
 						{
 							foreach (string tabArgsString in userSettingsService.GeneralSettingsService.LastSessionTabList)

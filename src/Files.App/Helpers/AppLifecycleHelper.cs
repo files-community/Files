@@ -19,7 +19,8 @@ namespace Files.App.Helpers
 		private const string sharedMemoryHeaderName = "FilesAppTabsWithID";
 		private static MemoryMappedFile? sharedMemoryHeader;
 
-		private static string sharedMemoryName = sharedMemoryHeaderName + defaultBufferSize.ToString();
+		private static string defaultSharedMemoryName = sharedMemoryHeaderName + defaultBufferSize.ToString();
+		private static string sharedMemoryName = defaultSharedMemoryName;
 		public static string instanceId = Process.GetCurrentProcess().Id.ToString();
 		private static MemoryMappedFile? sharedMemory;
 
@@ -40,28 +41,25 @@ namespace Files.App.Helpers
 				sharedMemoryHeader = MemoryMappedFile.OpenExisting(sharedMemoryHeaderName);
 				using (var accessor = sharedMemoryHeader.CreateViewAccessor())
 				{
-					var length = accessor.Capacity;
-					byte[] buffer = new byte[length];
+					var buffer = new byte[accessor.Capacity];
 					accessor.ReadArray(0, buffer, 0, buffer.Length);
 					var nullIndex = Array.IndexOf(buffer, (byte)'\0');
 					if (nullIndex > 0)
 					{
-						var index = nullIndex;
-						byte[] truncatedBuffer = new byte[index];
-						Array.Copy(buffer, 0, truncatedBuffer, 0, index);
-						string bufferStr = Encoding.UTF8.GetString(truncatedBuffer);
-						sharedMemoryName = bufferStr;
+						var truncatedBuffer = new byte[nullIndex];
+						Array.Copy(buffer, 0, truncatedBuffer, 0, truncatedBuffer.Length);
+						sharedMemoryName = Encoding.UTF8.GetString(truncatedBuffer);
 					}
 					else
 					{
-						sharedMemoryName = sharedMemoryHeaderName + defaultBufferSize.ToString();
+						sharedMemoryName = defaultSharedMemoryName;
 					}
 				}
 			}
 			catch (FileNotFoundException)
 			{
-				sharedMemoryName = sharedMemoryHeaderName + defaultBufferSize.ToString();
-				sharedMemoryHeader = MemoryMappedFile.CreateOrOpen(sharedMemoryHeaderName, 1024);
+				sharedMemoryName = defaultSharedMemoryName;
+				sharedMemoryHeader = MemoryMappedFile.CreateOrOpen(sharedMemoryHeaderName, defaultBufferSize);
 				using (var accessor = sharedMemoryHeader.CreateViewAccessor())
 				{
 					byte[] buffer = Encoding.UTF8.GetBytes(sharedMemoryName);
@@ -95,20 +93,16 @@ namespace Files.App.Helpers
 			{
 				var length = accessor0.Capacity;
 				if (length > BufferSizeIn)
+					return sharedMemory;
+				sharedMemory.Dispose();
+				var newBufferSize = ((BufferSizeIn / defaultBufferSize) + 1) * defaultBufferSize;
+				sharedMemoryName = sharedMemoryHeaderName + newBufferSize.ToString();
+				sharedMemory = MemoryMappedFile.CreateOrOpen(sharedMemoryName, newBufferSize);
+				sharedMemoryHeader = MemoryMappedFile.CreateOrOpen(sharedMemoryHeaderName, defaultBufferSize);
+				using (var accessor1 = sharedMemoryHeader.CreateViewAccessor())
 				{
-				}
-				else
-				{
-					sharedMemory.Dispose();
-					var newBufferSize = ((BufferSizeIn / defaultBufferSize) + 1) * defaultBufferSize;
-					sharedMemoryName = sharedMemoryHeaderName + newBufferSize.ToString();
-					sharedMemory = MemoryMappedFile.CreateOrOpen(sharedMemoryName, newBufferSize);
-					sharedMemoryHeader = MemoryMappedFile.CreateOrOpen(sharedMemoryHeaderName, 1024);
-					using (var accessor1 = sharedMemoryHeader.CreateViewAccessor())
-					{
-						byte[] buffer = Encoding.UTF8.GetBytes(sharedMemoryName);
-						accessor1.WriteArray(0, buffer, 0, buffer.Length);
-					}
+					byte[] buffer = Encoding.UTF8.GetBytes(sharedMemoryName);
+					accessor1.WriteArray(0, buffer, 0, buffer.Length);
 				}
 			}
 			return sharedMemory;
@@ -122,18 +116,15 @@ namespace Files.App.Helpers
 				sharedMemory = CheckSharedMemory();
 				using (var accessor = sharedMemory.CreateViewAccessor())
 				{
-					var length = accessor.Capacity;
-					byte[] buffer = new byte[length];
+					var buffer = new byte[accessor.Capacity];
 					accessor.ReadArray(0, buffer, 0, buffer.Length);
 					var nullIndex = Array.IndexOf(buffer, (byte)'\0');
 					if (nullIndex > 0)
 					{
-						var index = nullIndex;
-						byte[] truncatedBuffer = new byte[index];
-						Array.Copy(buffer, 0, truncatedBuffer, 0, index);
+						var truncatedBuffer = new byte[nullIndex];
+						Array.Copy(buffer, 0, truncatedBuffer, 0, truncatedBuffer.Length);
 						string bufferStr = Encoding.UTF8.GetString(truncatedBuffer);
-						var tabsWithIDArgStrList = JsonSerializer.Deserialize<List<string>>(bufferStr);
-						tabsWithIdArgList = tabsWithIDArgStrList.Select(x => TabItemWithIDArguments.Deserialize(x)).ToList();
+						tabsWithIdArgList = JsonSerializer.Deserialize<List<string>>(bufferStr).Select(x => TabItemWithIDArguments.Deserialize(x)).ToList();
 					}
 					else
 					{
@@ -155,9 +146,7 @@ namespace Files.App.Helpers
 				var tabsWithIDArgStrList = tabsWithIdArgList.Select(x => x.Serialize()).ToList();
 				string bufferStr = JsonSerializer.Serialize(tabsWithIDArgStrList);
 				byte[] buffer = Encoding.UTF8.GetBytes(bufferStr);
-
 				sharedMemory = CheckSharedMemory(buffer.Length);
-
 				using (var accessor = sharedMemory.CreateViewAccessor())
 				{
 					byte[] bufferClear = new byte[accessor.Capacity];
@@ -205,7 +194,6 @@ namespace Files.App.Helpers
 			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = tabsWithIdArgList.Select(x => x.Serialize()).ToList();
 		}
 
-		//	Restore LastAppsTabs
 		public static bool RestoreLastAppsTabs()
 		{
 			ReadSharedMemory();
