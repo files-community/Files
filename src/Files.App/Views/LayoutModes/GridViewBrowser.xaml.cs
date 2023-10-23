@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.Data.EventArguments;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -101,7 +99,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -123,7 +121,7 @@ namespace Files.App.Views.LayoutModes
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
-					ReloadItemIcons();
+					ReloadItemIconsAsync();
 				}
 			}
 		}
@@ -207,8 +205,8 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.LostFocus += RenameTextBox_LostFocusAsync;
+			textBox.KeyDown += RenameTextBox_KeyDownAsync;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
@@ -223,7 +221,7 @@ namespace Files.App.Views.LayoutModes
 			if (!IsRenamingItem)
 				return;
 
-			ValidateItemNameInputText(textBox, args, (showError) =>
+			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 			{
 				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 				FileNameTeachingTip.IsOpen = showError;
@@ -252,8 +250,8 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			textBox!.LostFocus -= RenameTextBox_LostFocusAsync;
+			textBox.KeyDown -= RenameTextBox_KeyDownAsync;
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
@@ -261,7 +259,7 @@ namespace Files.App.Views.LayoutModes
 			gridViewItem?.Focus(FocusState.Programmatic);
 		}
 
-		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
@@ -344,11 +342,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Update icon size before refreshing
 				currentIconSize = requestedIconSize;
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 			}
 		}
 
-		private async Task ReloadItemIcons()
+		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
@@ -357,11 +355,11 @@ namespace Files.App.Views.LayoutModes
 				if (FileList.ContainerFromItem(listedItem) is null)
 					return;
 
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
 			}
 		}
 
-		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTappedAsync(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -384,7 +382,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else
 			{
@@ -401,13 +399,13 @@ namespace Files.App.Views.LayoutModes
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup.Child as TextBox;
 
-							await CommitRename(textBox);
+							await CommitRenameAsync(textBox);
 						}
 						else
 						{
 							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
 
-							await CommitRename(textBox);
+							await CommitRenameAsync(textBox);
 						}
 					}
 				}
@@ -419,7 +417,7 @@ namespace Files.App.Views.LayoutModes
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				ParentShellPageInstance.Up_Click();
 

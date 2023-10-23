@@ -60,7 +60,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdatedAsync;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
@@ -148,7 +148,7 @@ namespace Files.App.Views.Shells
 				UpdatePathUIToWorkingDirectory(e.Path);
 		}
 
-		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
+		private async void ItemDisplayFrame_NavigatedAsync(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
 			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
@@ -167,19 +167,19 @@ namespace Files.App.Views.Shells
 
 			var parameters = e.Parameter as NavigationArguments;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
-			TabItemArguments = new()
+			TabItemParameter = new()
 			{
 				InitialPageType = typeof(ModernShellPage),
-				NavigationArg = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
+				NavigationParameter = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
 			};
 
 			if (parameters.IsLayoutSwitch)
-				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+				FilesystemViewModel_DirectoryInfoUpdatedAsync(sender, EventArgs.Empty);
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
 
-		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		private async void KeyboardAccelerator_InvokedAsync(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			args.Handled = true;
 			var tabInstance =
@@ -317,7 +317,7 @@ namespace Files.App.Views.Shells
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
 						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
-					(TabItemArguments?.NavigationArg is not string navArg ||
+					(TabItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{

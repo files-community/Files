@@ -214,12 +214,12 @@ namespace Files.App.Data.Items
 						Width = 16
 					}
 				};
-				itemDecorator.Click += ItemDecorator_Click;
+				itemDecorator.Click += ItemDecorator_ClickAsync;
 				return itemDecorator;
 			}
 		}
 
-		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
+		private async void ItemDecorator_ClickAsync(object sender, RoutedEventArgs e)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);

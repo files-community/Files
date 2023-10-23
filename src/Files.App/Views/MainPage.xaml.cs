@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.UserControls.MultitaskingControl;
 using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -69,7 +68,7 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
 
-		private async Task PromptForReview()
+		private async Task PromptForReviewAsync()
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
@@ -97,7 +96,7 @@ namespace Files.App.Views
 			}
 		}
 
-		private async Task AppRunningAsAdminPrompt()
+		private async Task AppRunningAsAdminPromptAsync()
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
@@ -136,7 +135,7 @@ namespace Files.App.Views
 		{
 			TabControl.DragArea.SizeChanged += (_, _) => SetRectDragRegion();
 
-			if (ViewModel.MultitaskingControl is not HorizontalMultitaskingControl)
+			if (ViewModel.MultitaskingControl is not UserControls.TabBar.TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
@@ -151,19 +150,19 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, TabItemArguments e)
+		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
 
-			var paneArgs = e.NavigationArg as PaneNavigationArguments;
+			var paneArgs = e.NavigationParameter as PaneNavigationArguments;
 			SidebarAdaptiveViewModel.UpdateSidebarSelectedItemFromArgs(SidebarAdaptiveViewModel.PaneHolder.IsLeftPaneActive ?
 				paneArgs.LeftPaneNavPathParam : paneArgs.RightPaneNavPathParam);
 
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			ViewModel.UpdateInstanceProperties(paneArgs);
+			ViewModel.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
@@ -171,7 +170,7 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
-			var navArgs = e.CurrentInstance.TabItemArguments?.NavigationArg;
+			var navArgs = e.CurrentInstance.TabItemParameter?.NavigationParameter;
 			SidebarAdaptiveViewModel.PaneHolder = e.CurrentInstance as IPaneHolder;
 			SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments).LeftPaneNavPathParam);
@@ -182,7 +181,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
-			ViewModel.UpdateInstanceProperties(navArgs);
+			ViewModel.UpdateInstancePropertiesAsync(navArgs);
 
 			e.CurrentInstance.ContentChanged -= TabItemContent_ContentChanged;
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
@@ -192,7 +191,7 @@ namespace Files.App.Views
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemArguments?.NavigationArg?.ToString());
+			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged(SidebarAdaptiveViewModel.PaneHolder.ActivePane?.TabItemParameter?.NavigationParameter?.ToString());
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
 			LoadPaneChanged();
@@ -218,10 +217,12 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			ViewModel.OnNavigatedTo(e);
+			ViewModel.OnNavigatedToAsync(e);
 		}
 
-		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
+
+		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
 			base.OnPreviewKeyDown(e);
 
@@ -297,7 +298,7 @@ namespace Files.App.Views
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
-				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPrompt());
+				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
 			}
 
 			// ToDo put this in a StartupPromptService
@@ -308,7 +309,7 @@ namespace Files.App.Views
 			if (totalLaunchCount is 15 or 30 or 60)
 			{
 				// Prompt user to review app in the Store
-				DispatcherQueue.TryEnqueue(async () => await PromptForReview());
+				DispatcherQueue.TryEnqueue(async () => await PromptForReviewAsync());
 			}
 		}
 

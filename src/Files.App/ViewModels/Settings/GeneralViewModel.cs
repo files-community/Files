@@ -22,7 +22,7 @@ namespace Files.App.ViewModels.Settings
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
 		public AsyncRelayCommand ChangePageCommand { get; }
-		public RelayCommand RemovePageCommand { get; }
+		public RelayCommand<PageOnStartupViewModel> RemovePageCommand { get; }
 		public RelayCommand<string> AddPageCommand { get; }
 		public RelayCommand RestartCommand { get; }
 		public RelayCommand CancelRestartCommand { get; }
@@ -90,10 +90,10 @@ namespace Files.App.ViewModels.Settings
 
 		public GeneralViewModel()
 		{
-			ChangePageCommand = new AsyncRelayCommand(ChangePage);
-			RemovePageCommand = new RelayCommand(RemovePage);
-			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
-			RestartCommand = new RelayCommand(DoRestart);
+			ChangePageCommand = new AsyncRelayCommand(ChangePageAsync);
+			RemovePageCommand = new RelayCommand<PageOnStartupViewModel>(RemovePage);
+			AddPageCommand = new RelayCommand<string>(async (path) => await AddPageAsync(path));
+			RestartCommand = new RelayCommand(DoRestartAsync);
 			CancelRestartCommand = new RelayCommand(DoCancelRestart);
 
 			AddSupportedAppLanguages();
@@ -110,10 +110,10 @@ namespace Files.App.ViewModels.Settings
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
-			_ = InitStartupSettingsRecentFoldersFlyout();
+			InitStartupSettingsRecentFoldersFlyout();
 		}
 
-		private async void DoRestart()
+		private async void DoRestartAsync()
 		{
 			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
 			App.SaveSessionTabs(); // Saves the open tabs
@@ -150,9 +150,8 @@ namespace Files.App.ViewModels.Settings
 				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
 		}
 
-		private async Task InitStartupSettingsRecentFoldersFlyout()
+		private void InitStartupSettingsRecentFoldersFlyout()
 		{
-			// create Browse and Recent flyout items
 			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
 			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
 			{
@@ -160,56 +159,7 @@ namespace Files.App.ViewModels.Settings
 				CommandParameter = "Home",
 				Tooltip = "Home".GetLocalizedResource()
 			});
-			await PopulateRecentItems(recentsItem);
-
-			// Ensure recent folders aren't stale since we don't update them with a watcher
-			// Then update the items source again to actually include those items
-			await App.RecentItemsManager.UpdateRecentFoldersAsync();
-			await PopulateRecentItems(recentsItem);
-		}
-
-		private Task PopulateRecentItems(MenuFlyoutSubItemViewModel menu)
-		{
-			try
-			{
-				var recentFolders = App.RecentItemsManager.RecentFolders;
-				var currentFolderMenus = menu.Items
-					.OfType<MenuFlyoutItemViewModel>()
-					.Where(m => m.Text != "Home".GetLocalizedResource())
-					.Select(m => m.Text)
-					.ToHashSet();
-
-				// Add separator if we need one and one wasn't added already
-				if (recentFolders.Any() && !currentFolderMenus.Any())
-					menu.Items.Add(new MenuFlyoutSeparatorViewModel());
-
-				foreach (var folder in recentFolders)
-				{
-					if (currentFolderMenus.Contains(folder.Name))
-						continue;
-
-					menu.Items.Add(new MenuFlyoutItemViewModel(folder.Name)
-					{
-						Command = AddPageCommand,
-						CommandParameter = folder.RecentPath,
-						Tooltip = folder.RecentPath
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Could not fetch recent items");
-			}
-
-			// Update items source
-			AddFlyoutItemsSource = new List<IMenuFlyoutItemViewModel>()
-			{
-				new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand },
-				menu,
-			}
-			.AsReadOnly();
-
-			return Task.CompletedTask;
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });		
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -317,7 +267,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private async Task ChangePage()
+		private async Task ChangePageAsync()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
@@ -338,21 +288,12 @@ namespace Files.App.ViewModels.Settings
 			return obj;
 		}
 
-		private void RemovePage()
+		private void RemovePage(PageOnStartupViewModel page)
 		{
-			int index = SelectedPageIndex;
-			if (index >= 0)
-			{
-				PagesOnStartupList.RemoveAt(index);
-
-				if (index > 0)
-					SelectedPageIndex = index - 1;
-				else if (PagesOnStartupList.Count > 0)
-					SelectedPageIndex = 0;
-			}
+				PagesOnStartupList.Remove(page);
 		}
 
-		private async Task AddPage(string path = null)
+		private async Task AddPageAsync(string path = null)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{

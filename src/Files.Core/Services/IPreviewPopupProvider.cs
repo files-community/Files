@@ -10,14 +10,14 @@ namespace Files.Core.Services
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		Task TogglePreviewPopup(string path);
+		Task TogglePreviewPopupAsync(string path);
 
 		/// <summary>
 		/// Switch preview
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		Task SwitchPreview(string path);
+		Task SwitchPreviewAsync(string path);
 
 		/// <summary>
 		/// Detect if the provider is available

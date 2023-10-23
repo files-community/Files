@@ -8,7 +8,7 @@ using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.MultitaskingControl;
+using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -163,10 +163,10 @@ namespace Files.App
 			await Task.Run(async () =>
 			{
 				await Task.WhenAll(
-					OptionalTask(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTask(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTask(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					QuickAccessManager.InitializeAsync()
 				);
 
@@ -179,20 +179,20 @@ namespace Files.App
 				FileTagsHelper.UpdateTagsDb();
 			});
 
-			await CheckForRequiredUpdates();
+			await CheckForRequiredUpdatesAsync();
 
-			static async Task OptionalTask(Task task, bool condition)
+			static async Task OptionalTaskAsync(Task task, bool condition)
 			{
 				if (condition)
 					await task;
 			}
 		}
 
-		private static async Task CheckForRequiredUpdates()
+		private static async Task CheckForRequiredUpdatesAsync()
 		{
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
-			await updateService.CheckForUpdates();
-			await updateService.DownloadMandatoryUpdates();
+			await updateService.CheckForUpdatesAsync();
+			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
 			await updateService.CheckLatestReleaseNotesAsync();
 		}
@@ -240,7 +240,7 @@ namespace Files.App
 
 				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
 
-				_ = MainWindow.Instance.InitializeApplication(appActivationArguments.Data);
+				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
 
@@ -264,7 +264,7 @@ namespace Files.App
 
 			// Hook events for the window
 			window.Activated += Window_Activated;
-			window.Closed += Window_Closed;
+			window.Closed += Window_ClosedAsync;
 
 			// Attempt to activate it
 			window.Activate();
@@ -286,7 +286,7 @@ namespace Files.App
 			var data = activatedEventArgs.Data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.InitializeApplication(data));
+			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.InitializeApplicationAsync(data));
 		}
 
 		/// <summary>
@@ -294,7 +294,7 @@ namespace Files.App
 		/// </summary>
 		/// <param name="sender">The source of the suspend request.</param>
 		/// <param name="args">Details about the suspend request.</param>
-		private async void Window_Closed(object sender, WindowEventArgs args)
+		private async void Window_ClosedAsync(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
 
@@ -330,14 +330,14 @@ namespace Files.App
 				await FilePropertiesHelpers.WaitClosingAll();
 
 				// Sleep current instance
-				Program.Pool = new(0, 1, "Files-Instance");
+				Program.Pool = new(0, 1, $"Files-{ApplicationService.AppEnvironment}-Instance");
 				Thread.Yield();
 				if (Program.Pool.WaitOne())
 				{
 					// Resume the instance
 					Program.Pool.Dispose();
 
-					_ = CheckForRequiredUpdates();
+					_ = CheckForRequiredUpdatesAsync();
 				}
 
 				return;
@@ -352,11 +352,11 @@ namespace Files.App
 			{
 				await SafetyExtensions.IgnoreExceptions(async () =>
 				{
-					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.Control.TabItemContent.IsCurrentInstance);
+					var instance = MainPageViewModel.AppInstances.FirstOrDefault(x => x.TabItemContent.IsCurrentInstance);
 					if (instance is null)
 						return;
 
-					var items = (instance.Control.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+					var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 					if (items is null)
 						return;
 
@@ -394,13 +394,13 @@ namespace Files.App
 
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
-				if (tab is not null && tab.TabItemArguments is not null)
+				if (tab is not null && tab.NavigationParameter is not null)
 				{
-					return tab.TabItemArguments.Serialize();
+					return tab.NavigationParameter.Serialize();
 				}
 				else
 				{
-					var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "Home" };
+					var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
 					return defaultArg.Serialize();
 				}
 			})

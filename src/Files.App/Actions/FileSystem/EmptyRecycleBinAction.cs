@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.EmptyRecycleBin();
+			await RecycleBinHelpers.EmptyRecycleBinAsync();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

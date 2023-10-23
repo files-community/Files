@@ -122,23 +122,23 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 
-			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Drives_CollectionChangedAsync(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChangedAsync;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
-			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
-			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
+			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
+			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPaneAsync);
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async void Drives_CollectionChangedAsync(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
@@ -281,7 +281,7 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private async Task EjectDevice(DriveCardItem item)
+		private async Task EjectDeviceAsync(DriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
@@ -303,7 +303,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
+		private async void Button_ClickAsync(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate
@@ -324,7 +324,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+		private async void Button_PointerPressedAsync(object sender, PointerRoutedEventArgs e)
 		{
 			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
 				return;
@@ -339,7 +339,7 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		private async Task OpenInNewPane(DriveCardItem item)
+		private async Task OpenInNewPaneAsync(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
@@ -366,10 +366,10 @@ namespace Files.App.UserControls.Widgets
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
 			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSense(clickedCard);
+			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
 		}
 
-		public async Task RefreshWidget()
+		public async Task RefreshWidgetAsync()
 		{
 			var updateTasks = ItemsAdded.Select(item => item.Item.UpdatePropertiesAsync());
 			await Task.WhenAll(updateTasks);

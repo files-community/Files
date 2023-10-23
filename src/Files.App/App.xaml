@@ -30,8 +30,8 @@
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
 				<!--  Styles for the custom icons  -->
-				<ResourceDictionary Source="/ResourceDictionaries/PathIcons.xaml" />
-				<ResourceDictionary Source="/UserControls/SideBar/SideBarControls.xaml" />
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
+				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
@@ -45,6 +45,9 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
+
+							<Color x:Key="App.Theme.FillColorAttention">#0070CB</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -56,6 +59,9 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SubtleFillColorTertiary}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SubtleFillColorSecondary}" />
+
+							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -67,6 +73,9 @@
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemColorHighlightColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemColorHighlightColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemColorHighlightColor}" />
+
+							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
+							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
 						</ResourceDictionary>
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>

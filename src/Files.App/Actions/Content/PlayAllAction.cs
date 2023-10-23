@@ -32,7 +32,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return NavigationHelpers.OpenSelectedItems(context.ShellPage!);
+			return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

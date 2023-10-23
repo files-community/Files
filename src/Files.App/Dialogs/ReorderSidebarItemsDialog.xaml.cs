@@ -28,7 +28,7 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 		}
 
-		private async void MoveItem(object sender, PointerRoutedEventArgs e)
+		private async void MoveItemAsync(object sender, PointerRoutedEventArgs e)
 		{
 			var properties = e.GetCurrentPoint(null).Properties;
 			if (!properties.IsLeftButtonPressed)

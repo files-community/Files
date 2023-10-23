@@ -24,10 +24,10 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 			_openAction = openAction;
 			Containers = new();
 
-			_fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+			_fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdatedAsync;
 		}
 
-		private async void FileTagsSettingsService_OnTagsUpdated(object? _, EventArgs e)
+		private async void FileTagsSettingsService_OnTagsUpdatedAsync(object? _, EventArgs e)
 		{
 			Containers.Clear();
 

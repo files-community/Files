@@ -404,9 +404,13 @@
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
 							Grid.Row="0"
-							HorizontalAlignment="Left"
+							Grid.RowSpan="3"
+							MaxHeight="60"
+							HorizontalAlignment="Stretch"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Canvas.ZIndex="1"
 							Text="{x:Bind Name, Mode=OneWay}"
+							TextWrapping="Wrap"
 							Visibility="Collapsed" />
 
 						<TextBlock
@@ -580,13 +584,13 @@
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-					PreviewKeyDown="FileList_PreviewKeyDown"
+					PreviewKeyDown="FileList_PreviewKeyDownAsync"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
-					Tapped="FileList_ItemTapped">
+					Tapped="FileList_ItemTappedAsync">
 
 					<toolkit:AdaptiveGridView.GroupStyle>
 						<GroupStyle>

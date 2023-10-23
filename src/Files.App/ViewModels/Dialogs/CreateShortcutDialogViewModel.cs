@@ -84,11 +84,11 @@ namespace Files.App.ViewModels.Dialogs
 			WorkingDirectory = workingDirectory;
 			_destinationItemPath = string.Empty;
 
-			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
-			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcut);
+			SelectDestinationCommand = new AsyncRelayCommand(SelectDestinationAsync);
+			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcutAsync);
 		}
 
-		private async Task SelectDestination()
+		private async Task SelectDestinationAsync()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
@@ -104,7 +104,7 @@ namespace Files.App.ViewModels.Dialogs
 			return obj;
 		}
 
-		private async Task CreateShortcut()
+		private async Task CreateShortcutAsync()
 		{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
