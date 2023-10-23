@@ -335,10 +335,10 @@ namespace Files.App.ViewModels
 						userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList is not null)
 						)
 					{
-						bool isRestored = AppLifecycle.RestoreLastAppsTabs(this);
-						List<string> LastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList.ToList();
+						var isRestored = AppLifecycleHelper.RestoreLastAppsTabs(this);
+						var LastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList.ToList();
 						var defaultArg = new CustomTabViewItemParameter() { InitialPageType = typeof(PaneHolderPage), NavigationParameter = "Home" };
-						List<string> defaultArgStrList = new List<string>() { defaultArg.Serialize() };
+						var defaultArgStrList = new List<string>() { defaultArg.Serialize() };
 						if (isRestored && !LastSessionTabList.SequenceEqual(defaultArgStrList))
 						{
 							await NavigationHelpers.OpenTabsInNewWindowAsync(LastSessionTabList);
@@ -464,7 +464,7 @@ namespace Files.App.ViewModels
 				return;
 
 			await UpdateTabInfo(matchingTabItem, e.NavigationParameter);
-			await AppLifecycle.UpDate();
+			await AppLifecycleHelper.UpDate();
 		}
 	}
 }
