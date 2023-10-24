@@ -16,7 +16,7 @@ namespace Files.App.ViewModels.Properties
 
 		public SelectedItemsPropertiesViewModel ViewModel { get; set; } = new();
 
-		protected virtual void Properties_LoadedAsync(object sender, RoutedEventArgs e)
+		protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
 			BaseProperties?.GetSpecialPropertiesAsync();
 		}

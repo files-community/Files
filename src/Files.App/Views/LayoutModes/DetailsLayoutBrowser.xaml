@@ -221,12 +221,12 @@
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
 					LosingFocus="FileList_LosingFocus"
-					PreviewKeyDown="FileList_PreviewKeyDownAsync"
+					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
 					ScrollViewer.HorizontalScrollMode="Auto"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
-					Tapped="FileList_ItemTappedAsync"
+					Tapped="FileList_ItemTapped"
 					Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Converter={StaticResource NegatedBoolToVisibilityConverter}, Mode=OneWay}">
 
 					<!--  ListView Item Transitions  -->

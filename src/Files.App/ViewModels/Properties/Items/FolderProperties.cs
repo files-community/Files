@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Properties
 
 			GetBaseProperties();
 
-			ViewModel.PropertyChanged += ViewModel_PropertyChangedAsync;
+			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public override void GetBaseProperties()
@@ -186,7 +186,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private async void ViewModel_PropertyChangedAsync(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{

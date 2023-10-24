@@ -60,7 +60,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdatedAsync;
+			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
@@ -148,7 +148,7 @@ namespace Files.App.Views.Shells
 				UpdatePathUIToWorkingDirectory(e.Path);
 		}
 
-		private async void ItemDisplayFrame_NavigatedAsync(object sender, NavigationEventArgs e)
+		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
 			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
@@ -174,12 +174,12 @@ namespace Files.App.Views.Shells
 			};
 
 			if (parameters.IsLayoutSwitch)
-				FilesystemViewModel_DirectoryInfoUpdatedAsync(sender, EventArgs.Empty);
+				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
 
-		private async void KeyboardAccelerator_InvokedAsync(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			args.Handled = true;
 			var tabInstance =

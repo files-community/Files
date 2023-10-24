@@ -99,7 +99,7 @@ namespace Files.App.UserControls.Widgets
 			// recent files could have changed while widget wasn't loaded
 			_ = RefreshWidgetAsync();
 
-			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChangedAsync;
+			App.RecentItemsManager.RecentFilesChanged += Manager_RecentFilesChanged;
 
 			RemoveRecentItemCommand = new AsyncRelayCommand<RecentItem>(RemoveRecentItemAsync);
 			ClearAllItemsCommand = new AsyncRelayCommand(ClearRecentItemsAsync);
@@ -122,13 +122,13 @@ namespace Files.App.UserControls.Widgets
 
 			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
 			FlyouItemPath = item.Path;
-			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_OpenedAsync;
+			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 		}
 
-		private async void ItemContextMenuFlyout_OpenedAsync(object? sender, object e)
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_OpenedAsync;
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
@@ -204,7 +204,7 @@ namespace Files.App.UserControls.Widgets
 			await App.RecentItemsManager.UpdateRecentFilesAsync();
 		}
 
-		private async void Manager_RecentFilesChangedAsync(object sender, NotifyCollectionChangedEventArgs e)
+		private async void Manager_RecentFilesChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
@@ -376,7 +376,7 @@ namespace Files.App.UserControls.Widgets
 
 		public void Dispose()
 		{
-			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChangedAsync;
+			App.RecentItemsManager.RecentFilesChanged -= Manager_RecentFilesChanged;
 		}
 	}
 }

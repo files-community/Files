@@ -431,10 +431,10 @@ namespace Files.App.Data.Models
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEventAsync;
-			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdatedAsync;
-			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdatedAsync;
-			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChangedAsync;
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
+			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
+			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
+			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
 			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
 			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
@@ -482,7 +482,7 @@ namespace Files.App.Data.Models
 			await ApplySingleFileChangeAsync(newListedItem);
 		}
 
-		private async void FolderSizeProvider_SizeChangedAsync(object? sender, SizeChangedEventArgs e)
+		private async void FolderSizeProvider_SizeChanged(object? sender, SizeChangedEventArgs e)
 		{
 			try
 			{
@@ -522,7 +522,7 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async void FileTagsSettingsService_OnSettingUpdatedAsync(object? sender, EventArgs e)
+		private async void FileTagsSettingsService_OnSettingUpdated(object? sender, EventArgs e)
 		{
 			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
@@ -531,7 +531,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private async void UserSettingsService_OnSettingChangedEventAsync(object? sender, SettingChangedEventArgs e)
+		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
@@ -1792,14 +1792,14 @@ namespace Files.App.Data.Models
 				if (rootFolder.AreQueryOptionsSupported(options))
 				{
 					var itemQueryResult = rootFolder.CreateItemQueryWithOptions(options).ToStorageItemQueryResult();
-					itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChangedAsync;
+					itemQueryResult.ContentsChanged += ItemQueryResult_ContentsChanged;
 
 					// Just get one item to start getting notifications
 					var watchedItemsOperation = itemQueryResult.GetItemsAsync(0, 1);
 
 					watcherCTS.Token.Register(() =>
 					{
-						itemQueryResult.ContentsChanged -= ItemQueryResult_ContentsChangedAsync;
+						itemQueryResult.ContentsChanged -= ItemQueryResult_ContentsChanged;
 						watchedItemsOperation?.Cancel();
 					});
 				}
@@ -1820,14 +1820,14 @@ namespace Files.App.Data.Models
 					NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
 				};
 
-				watcher.Created += DirectoryWatcher_ChangedAsync;
-				watcher.Deleted += DirectoryWatcher_ChangedAsync;
-				watcher.Renamed += DirectoryWatcher_ChangedAsync;
+				watcher.Created += DirectoryWatcher_Changed;
+				watcher.Deleted += DirectoryWatcher_Changed;
+				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
 			}
 		}
 
-		private async void DirectoryWatcher_ChangedAsync(object sender, FileSystemEventArgs e)
+		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
 			Debug.WriteLine($"Directory watcher event: {e.ChangeType}, {e.FullPath}");
 
@@ -1837,7 +1837,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private async void ItemQueryResult_ContentsChangedAsync(IStorageQueryResultBase sender, object args)
+		private async void ItemQueryResult_ContentsChanged(IStorageQueryResultBase sender, object args)
 		{
 			// Query options have to be reapplied otherwise old results are returned
 			var options = new QueryOptions()
@@ -2461,10 +2461,10 @@ namespace Files.App.Data.Models
 			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreatedAsync;
 			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeletedAsync;
 			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequestedAsync;
-			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEventAsync;
-			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdatedAsync;
-			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdatedAsync;
-			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChangedAsync;
+			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
+			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
+			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			DefaultIcons.Clear();
 		}
 	}

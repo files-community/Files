@@ -62,7 +62,7 @@ namespace Files.App.Helpers
 
 			// Registering to color changes, thus we notice when user changes theme system wide
 			UiSettings = new UISettings();
-			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChangedAsync;
+			UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 
 			return true;
 		}
@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 			ApplyTheme();
 		}
 
-		private static async void UiSettings_ColorValuesChangedAsync(UISettings sender, object args)
+		private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
 		{
 			// Make sure we have a reference to our window so we dispatch a UI change
 			if (currentApplicationWindow is null)
