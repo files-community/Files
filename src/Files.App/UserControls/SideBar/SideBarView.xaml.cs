@@ -142,6 +142,9 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (e.Key == VirtualKey.Tab)
+				return;
+
 			var primaryInvocation = e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter;
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
