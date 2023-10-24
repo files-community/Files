@@ -28,7 +28,7 @@ namespace Files.App.Utils.Storage
 		/// Whether the ACE is editable or not
 		/// </summary>
 		public bool IsEditable
-			=> IsSelected && !IsInherited && false;
+			=> IsSelected && !IsInherited;
 
 		/// <summary>
 		/// AccessControlTypeHumanized
