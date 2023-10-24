@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Windows.Input;
+
 namespace Files.App.Utils.Storage
 {
 	/// <summary>
@@ -9,29 +11,28 @@ namespace Files.App.Utils.Storage
 	public class AccessControlEntry : ObservableObject
 	{
 		/// <summary>
-		/// Whether the path indicates folder or not
+		/// Gets the value that indicated whether the path indicates folder or not
 		/// </summary>
 		public bool IsFolder { get; private set; }
 
 		/// <summary>
-		/// The owner in the security descriptor (SD).
-		/// NULL if the security descriptor has no owner SID.
+		/// Gets the owner in the security descriptor (SD).
+		/// Can be <see cref="null"/> if the security descriptor has no owner SID.
 		/// </summary>
-		public Principal Principal { get; set; }
+		public Principal Principal { get; private set; }
 
 		/// <summary>
-		/// Whether the ACE is inherited or not
+		/// Gets the access control type of this entry.
+		/// </summary>
+		public AccessControlEntryType AccessControlType { get; private set; }
+
+		/// <summary>
+		/// Gets the value that indicates whether the ACE is inherited or not
 		/// </summary>
 		public bool IsInherited { get; private set; }
 
 		/// <summary>
-		/// Whether the ACE is editable or not
-		/// </summary>
-		public bool IsEditable
-			=> IsSelected && !IsInherited && false;
-
-		/// <summary>
-		/// AccessControlTypeHumanized
+		/// Gets the humanized string of <see cref="AccessControlType"/>.
 		/// </summary>
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
@@ -41,7 +42,7 @@ namespace Files.App.Utils.Storage
 			};
 
 		/// <summary>
-		/// AccessControlTypeGlyph
+		/// Gets the icon glyph string of <see cref="AccessControlType"/>.
 		/// </summary>
 		public string AccessControlTypeGlyph
 			=> AccessControlType switch
@@ -51,7 +52,7 @@ namespace Files.App.Utils.Storage
 			};
 
 		/// <summary>
-		/// AccessMaskFlagsHumanized
+		/// Gets the humanized string of <see cref="AccessMaskFlags"/>.
 		/// </summary>
 		public string AccessMaskFlagsHumanized
 		{
@@ -82,13 +83,13 @@ namespace Files.App.Utils.Storage
 		}
 
 		/// <summary>
-		/// IsInheritedHumanized
+		/// Gets the humanized string of <see cref="IsInherited"/>.
 		/// </summary>
 		public string IsInheritedHumanized
 			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
 
 		/// <summary>
-		/// InheritanceFlagsHumanized
+		/// Gets the humanized string of <see cref="AccessControlEntryFlags"/>.
 		/// </summary>
 		public string InheritanceFlagsHumanized
 		{
@@ -111,25 +112,6 @@ namespace Files.App.Utils.Storage
 					inheritanceStrings[0] = char.ToUpperInvariant(inheritanceStrings[0].First()) + inheritanceStrings[0][1..];
 
 				return string.Join(", ", inheritanceStrings);
-			}
-		}
-
-		/// <summary>
-		/// AccessMaskItems
-		/// </summary>
-		public ObservableCollection<AccessMaskItem> AccessMaskItems { get; set; }
-
-		private AccessControlEntryType _AccessControlType;
-		public AccessControlEntryType AccessControlType
-		{
-			get => _AccessControlType;
-			set
-			{
-				if (SetProperty(ref _AccessControlType, value))
-				{
-					OnPropertyChanged(nameof(AccessControlTypeGlyph));
-					OnPropertyChanged(nameof(AccessControlTypeHumanized));
-				}
 			}
 		}
 
@@ -196,33 +178,6 @@ namespace Files.App.Utils.Storage
 
 		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
 		#endregion
-
-		private bool _IsSelected;
-		public bool IsSelected
-		{
-			get => _IsSelected;
-			set
-			{
-				if (SetProperty(ref _IsSelected, value))
-				{
-					AreAdvancedPermissionsShown = false;
-
-					OnPropertyChanged(nameof(IsEditable));
-				}
-			}
-		}
-
-		private bool _AreAdvancedPermissionsShown;
-		public bool AreAdvancedPermissionsShown
-		{
-			get => _AreAdvancedPermissionsShown;
-			set
-			{
-				// Reinitialize list
-				if (SetProperty(ref _AreAdvancedPermissionsShown, value))
-					AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, value, IsInherited, IsFolder);
-			}
-		}
 
 		#region Security page
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
@@ -329,24 +284,11 @@ namespace Files.App.Utils.Storage
 		}
 		#endregion
 
-		public IRelayCommand<string> ChangeAccessControlTypeCommand { get; set; }
-		public IRelayCommand<string> ChangeInheritanceFlagsCommand { get; set; }
+		//public ICommand ChangeAccessControlTypeCommand;
+		//public ICommand ChangeInheritanceFlagsCommand;
 
 		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlEntryType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
 		{
-			AccessMaskItems = SecurityAdvancedAccessControlItemFactory.Initialize(this, AreAdvancedPermissionsShown, IsInherited, IsFolder);
-
-			//ChangeAccessControlTypeCommand = new RelayCommand<string>(x =>
-			//{
-			//	AccessControlType = Enum.Parse<AccessControlType>(x);
-			//});
-
-			//ChangeInheritanceFlagsCommand = new RelayCommand<string>(x =>
-			//{
-			//	var parts = x.Split(',');
-			//	InheritanceFlags = Enum.Parse<AccessControlEntryFlags>(parts[0]);
-			//});
-
 			IsFolder = isFolder;
 			Principal = new(ownerSid);
 			AccessControlType = type;

@@ -1,0 +1,82 @@
+﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ContentDialog
+	x:Class="Files.App.Dialogs.PrincipalAccessControlEditorDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:local="using:Files.App.Dialogs"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Edit permission"
+	DefaultButton="Primary"
+	PrimaryButtonText="{helpers:ResourceString Name=Save}"
+	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
+	Style="{StaticResource DefaultContentDialogStyle}"
+	mc:Ignorable="d">
+
+	<ContentDialog.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+		</ResourceDictionary>
+	</ContentDialog.Resources>
+
+	<Grid Margin="0,0,0,-24" RowSpacing="24">
+
+		<ScrollViewer
+			Grid.Row="1"
+			Height="256"
+			MinWidth="400"
+			VerticalScrollBarVisibility="Hidden">
+			<Grid Margin="0,0,0,24" RowSpacing="16">
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<!--  Principal  -->
+				<StackPanel Grid.Row="0" Spacing="8">
+					<TextBlock
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{StaticResource CaptionTextBlockStyle}"
+						Text="Principal:" />
+					<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Administrators (MYCOMPUTER\Administrators)" />
+				</StackPanel>
+
+				<!--  Access Type  -->
+				<StackPanel Grid.Row="1" Spacing="8">
+					<TextBlock
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{StaticResource CaptionTextBlockStyle}"
+						Text="Access Type:" />
+					<ComboBox MinWidth="256">
+						<x:String>Allow</x:String>
+						<x:String>Deny</x:String>
+					</ComboBox>
+				</StackPanel>
+
+				<!--  Principal  -->
+				<StackPanel Grid.Row="2" Spacing="8">
+					<TextBlock
+						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+						Style="{StaticResource CaptionTextBlockStyle}"
+						Text="Basic permissions:" />
+					<ToggleSwitch OffContent="Basic" OnContent="Advanced" />
+					<StackPanel>
+						<CheckBox Content="Full control" IsChecked="True" />
+						<CheckBox Content="Modify" IsChecked="True" />
+						<CheckBox Content="Read &amp; Execute" IsChecked="True" />
+						<CheckBox Content="Read" IsChecked="True" />
+						<CheckBox Content="Write" IsChecked="True" />
+						<CheckBox Content="Special permissions" IsEnabled="False" />
+					</StackPanel>
+				</StackPanel>
+
+			</Grid>
+		</ScrollViewer>
+	</Grid>
+</ContentDialog>

@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:security="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
@@ -239,9 +240,9 @@
 				<ListView.Header>
 					<Grid
 						x:Name="HeaderGrid"
-						Height="32"
-						Margin="0,4"
-						Padding="32,0,0,4"
+						Height="36"
+						Margin="0,0,0,0"
+						Padding="32,0,0,0"
 						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 						BorderThickness="0,0,0,1">
 						<Grid.ColumnDefinitions>
@@ -281,7 +282,7 @@
 
 						<toolkit:GridSplitter
 							Grid.Column="2"
-							Margin="0,0,0,-4"
+							Margin="0,0,0,0"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
 
 						<TextBlock
@@ -297,7 +298,7 @@
 
 						<toolkit:GridSplitter
 							Grid.Column="4"
-							Margin="0,0,0,-4"
+							Margin="0,0,0,0"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
 
 						<TextBlock
@@ -313,7 +314,7 @@
 
 						<toolkit:GridSplitter
 							Grid.Column="6"
-							Margin="0,0,0,-4"
+							Margin="0,0,0,0"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
 
 						<TextBlock
@@ -329,7 +330,7 @@
 
 						<toolkit:GridSplitter
 							Grid.Column="8"
-							Margin="0,0,0,-4"
+							Margin="0,0,0,0"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
 
 						<TextBlock
@@ -348,272 +349,79 @@
 
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="security:AccessControlEntry">
-						<Grid ColumnSpacing="13">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="20" />
-								<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
-								<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
-								<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
-							</Grid.ColumnDefinitions>
+						<ListViewItem
+							x:Name="AccessControlEntryItemRoot"
+							DoubleTapped="AccessControlEntryItemRoot_DoubleTapped"
+							IsDoubleTapEnabled="True">
+							<Grid VerticalAlignment="Stretch" ColumnSpacing="13">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="20" />
+									<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
+									<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
+									<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+								</Grid.ColumnDefinitions>
 
-							<!--  Principal Type Glyph  -->
-							<FontIcon
-								x:Name="FontIcon"
-								VerticalAlignment="Center"
-								FontFamily="{StaticResource SymbolThemeFontFamily}"
-								FontSize="16"
-								Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
+								<!--  Principal Type Glyph  -->
+								<FontIcon
+									x:Name="FontIcon"
+									VerticalAlignment="Center"
+									FontFamily="{StaticResource SymbolThemeFontFamily}"
+									FontSize="16"
+									Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
 
-							<!--  Principal Type Text  -->
-							<TextBlock
-								x:Name="AccessControlTypeHumanizedTextBlock"
-								Grid.Column="1"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
+								<!--  Principal Type Text  -->
+								<TextBlock
+									x:Name="AccessControlTypeHumanizedTextBlock"
+									Grid.Column="1"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 
-							<!--  Principal Type Changer DropDown  -->
-							<DropDownButton
-								x:Name="TypeDropdown"
-								Grid.Column="1"
-								Padding="0,6"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditable, Mode=OneWay}"
-								Background="Transparent"
-								BorderThickness="0">
+								<!--  Principal Name Text  -->
+								<TextBlock
+									Grid.Column="2"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
+									<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
+									<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
+								</TextBlock>
 
-								<DropDownButton.Content>
-									<TextBlock
-										Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
-								</DropDownButton.Content>
+								<!--  Access Flags Text  -->
+								<TextBlock
+									x:Name="AccessFlagsHumanizedTextBlock"
+									Grid.Column="3"
+									VerticalAlignment="Center"
+									Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 
-								<DropDownButton.Resources>
-									<ResourceDictionary>
-										<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
-									</ResourceDictionary>
-								</DropDownButton.Resources>
+								<!--  Is Inherited Or Not Text  -->
+								<TextBlock
+									x:Name="IsInheritedHumanizedTextBlock"
+									Grid.Column="4"
+									VerticalAlignment="Center"
+									Text="{x:Bind IsInheritedHumanized}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 
-								<DropDownButton.Flyout>
-									<MenuFlyout Placement="Bottom">
+								<!--  Applies To Text  -->
+								<TextBlock
+									x:Name="InheritanceFlagsHumanizedTextBlock"
+									Grid.Column="5"
+									VerticalAlignment="Center"
+									Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeAccessControlTypeCommand}"
-											CommandParameter="Allow"
-											Text="{helpers:ResourceString Name=Allow}">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE73E;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeAccessControlTypeCommand}"
-											CommandParameter="Deny"
-											Text="{helpers:ResourceString Name=Deny}">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF140;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-
-									</MenuFlyout>
-								</DropDownButton.Flyout>
-
-							</DropDownButton>
-
-							<!--  Principal Name Text  -->
-							<TextBlock
-								Grid.Column="2"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap">
-								<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
-								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
-							</TextBlock>
-
-							<!--  Access Flags Text  -->
-							<TextBlock
-								x:Name="AccessFlagsHumanizedTextBlock"
-								Grid.Column="3"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditable, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-
-							<!--  Access Flags Changer DropDown  -->
-							<DropDownButton
-								x:Name="AccessFlagsEditDropDownButton"
-								Grid.Column="3"
-								Padding="0,6"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
-								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditable, Mode=OneWay}"
-								Background="Transparent"
-								BorderThickness="0">
-
-								<DropDownButton.Resources>
-									<ResourceDictionary>
-										<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
-									</ResourceDictionary>
-								</DropDownButton.Resources>
-
-								<DropDownButton.Content>
-									<TextBlock
-										Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
-										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
-								</DropDownButton.Content>
-
-								<DropDownButton.Flyout>
-									<Flyout Placement="RightEdgeAlignedTop">
-
-										<Flyout.FlyoutPresenterStyle>
-											<Style TargetType="FlyoutPresenter">
-												<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
-												<Setter Property="Padding" Value="0" />
-											</Style>
-										</Flyout.FlyoutPresenterStyle>
-
-										<Grid Margin="12">
-											<Grid.RowDefinitions>
-												<RowDefinition Height="*" />
-												<RowDefinition Height="Auto" />
-											</Grid.RowDefinitions>
-
-											<GridView ItemsSource="{x:Bind AccessMaskItems, Mode=OneWay}" SelectionMode="None">
-
-												<GridView.ItemContainerStyle>
-													<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-														<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-													</Style>
-												</GridView.ItemContainerStyle>
-
-												<GridView.ItemsPanel>
-													<ItemsPanelTemplate>
-														<ItemsWrapGrid Orientation="Vertical" />
-													</ItemsPanelTemplate>
-												</GridView.ItemsPanel>
-
-												<GridView.ItemTemplate>
-													<DataTemplate x:DataType="security:AccessMaskItem">
-														<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
-															<TextBlock
-																Text="{x:Bind AccessMaskName}"
-																TextTrimming="CharacterEllipsis"
-																TextWrapping="NoWrap" />
-														</CheckBox>
-													</DataTemplate>
-												</GridView.ItemTemplate>
-
-											</GridView>
-
-											<ToggleSwitch
-												Grid.Row="1"
-												HorizontalAlignment="Center"
-												IsOn="{x:Bind AreAdvancedPermissionsShown, Mode=TwoWay}"
-												OffContent="Show advanced permissions"
-												OnContent="Show advanced permissions" />
-
-										</Grid>
-
-									</Flyout>
-								</DropDownButton.Flyout>
-
-							</DropDownButton>
-
-							<!--  Is Inherited Or Not Text  -->
-							<TextBlock
-								x:Name="IsInheritedHumanizedTextBlock"
-								Grid.Column="4"
-								VerticalAlignment="Center"
-								Text="{x:Bind IsInheritedHumanized}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-
-							<!--  Applies To Text  -->
-							<TextBlock
-								x:Name="InheritanceFlagsHumanizedTextBlock"
-								Grid.Column="5"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind IsEditable, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-								Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap"
-								Visibility="{x:Bind IsFolder, Mode=OneWay}" />
-
-							<!--  Applies To Changer DropDown  -->
-							<DropDownButton
-								x:Name="InheritanceFlagsEditDropDownButton"
-								Grid.Column="5"
-								Padding="0,6"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
-								HorizontalContentAlignment="Left"
-								x:Load="{x:Bind IsEditable, Mode=OneWay}"
-								Background="Transparent"
-								BorderThickness="0"
-								Visibility="{x:Bind IsFolder, Mode=OneWay}">
-
-								<DropDownButton.Resources>
-									<ResourceDictionary>
-										<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemControlTransparentBrush" />
-										<StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />
-									</ResourceDictionary>
-								</DropDownButton.Resources>
-
-								<DropDownButton.Content>
-									<TextBlock Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-								</DropDownButton.Content>
-
-								<DropDownButton.Flyout>
-									<MenuFlyout Placement="Bottom">
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="None,None"
-											Text="{helpers:ResourceString Name=SecurityAdvancedOnlyThisFolder/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="3,None"
-											Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfoldersFiles/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="1,None"
-											Text="{helpers:ResourceString Name=SecurityAdvancedFolderSubfolders/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="2,None"
-											Text="{helpers:ResourceString Name=SecurityAdvancedFolderFiles/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="3,InheritOnly"
-											Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfoldersFiles/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="1,InheritOnly"
-											Text="{helpers:ResourceString Name=SecurityAdvancedOnlySubfolders/Text}" />
-										<MenuFlyoutItem
-											Command="{x:Bind ChangeInheritanceFlagsCommand}"
-											CommandParameter="2,InheritOnly"
-											Text="{helpers:ResourceString Name=SecurityAdvancedOnlyFiles/Text}" />
-									</MenuFlyout>
-								</DropDownButton.Flyout>
-
-							</DropDownButton>
-
-						</Grid>
+							</Grid>
+						</ListViewItem>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 

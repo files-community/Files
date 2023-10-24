@@ -61,15 +61,8 @@ namespace Files.App.ViewModels.Properties
 			get => _SelectedAccessControlEntry;
 			set
 			{
-				// Previous selection
-				if (_SelectedAccessControlEntry is not null)
-					_SelectedAccessControlEntry.IsSelected = false;
-
 				if (SetProperty(ref _SelectedAccessControlEntry, value))
 				{
-					if(value is not null)
-						value.IsSelected = true;
-
 					OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
 				}
 			}
