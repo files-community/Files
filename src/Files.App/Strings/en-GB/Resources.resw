@@ -3584,4 +3584,7 @@
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
   </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>No ongoing file operations</value>
+  </data>
 </root>
