@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -75,7 +75,7 @@
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
-        <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-beta.701" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.12" />
