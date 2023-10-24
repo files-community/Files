@@ -349,79 +349,78 @@
 
 				<ListView.ItemTemplate>
 					<DataTemplate x:DataType="security:AccessControlEntry">
-						<ListViewItem
+						<Grid
 							x:Name="AccessControlEntryItemRoot"
-							DoubleTapped="AccessControlEntryItemRoot_DoubleTapped"
-							IsDoubleTapEnabled="True">
-							<Grid VerticalAlignment="Stretch" ColumnSpacing="13">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="20" />
-									<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
-									<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
-									<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
-									<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
-									<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
-								</Grid.ColumnDefinitions>
+							VerticalAlignment="Stretch"
+							ColumnSpacing="13"
+							DoubleTapped="AccessControlEntryItemRoot_DoubleTapped">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition x:Name="ColumnTypeGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnTypeGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnPrincipalGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnPrincipalGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnAccessGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnAccessGridLength, Mode=OneWay}" />
+								<ColumnDefinition x:Name="ColumnInheritedGridLength" Width="{Binding ElementName=AdvancedPermissionListView, Path=DataContext.ColumnInheritedGridLength, Mode=OneWay}" />
+								<ColumnDefinition Width="{x:Bind IsFolder, Converter={StaticResource BoolToWidthConverter}, Mode=OneWay}" MinWidth="{x:Bind IsFolder, Converter={StaticResource BoolToMinWidthConverter}, Mode=OneWay}" />
+							</Grid.ColumnDefinitions>
 
-								<!--  Principal Type Glyph  -->
-								<FontIcon
-									x:Name="FontIcon"
-									VerticalAlignment="Center"
-									FontFamily="{StaticResource SymbolThemeFontFamily}"
-									FontSize="16"
-									Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
+							<!--  Principal Type Glyph  -->
+							<FontIcon
+								x:Name="FontIcon"
+								VerticalAlignment="Center"
+								FontFamily="{StaticResource SymbolThemeFontFamily}"
+								FontSize="16"
+								Glyph="{x:Bind Principal.Glyph, Mode=OneWay}" />
 
-								<!--  Principal Type Text  -->
-								<TextBlock
-									x:Name="AccessControlTypeHumanizedTextBlock"
-									Grid.Column="1"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
+							<!--  Principal Type Text  -->
+							<TextBlock
+								x:Name="AccessControlTypeHumanizedTextBlock"
+								Grid.Column="1"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Text="{x:Bind AccessControlTypeHumanized, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-								<!--  Principal Name Text  -->
-								<TextBlock
-									Grid.Column="2"
-									HorizontalAlignment="Left"
-									VerticalAlignment="Center"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap">
-									<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
-									<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
-								</TextBlock>
+							<!--  Principal Name Text  -->
+							<TextBlock
+								Grid.Column="2"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap">
+								<Run Text="{x:Bind Principal.DisplayName, Mode=OneWay}" />
+								<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
+							</TextBlock>
 
-								<!--  Access Flags Text  -->
-								<TextBlock
-									x:Name="AccessFlagsHumanizedTextBlock"
-									Grid.Column="3"
-									VerticalAlignment="Center"
-									Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
+							<!--  Access Flags Text  -->
+							<TextBlock
+								x:Name="AccessFlagsHumanizedTextBlock"
+								Grid.Column="3"
+								VerticalAlignment="Center"
+								Text="{x:Bind AccessMaskFlagsHumanized, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-								<!--  Is Inherited Or Not Text  -->
-								<TextBlock
-									x:Name="IsInheritedHumanizedTextBlock"
-									Grid.Column="4"
-									VerticalAlignment="Center"
-									Text="{x:Bind IsInheritedHumanized}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
+							<!--  Is Inherited Or Not Text  -->
+							<TextBlock
+								x:Name="IsInheritedHumanizedTextBlock"
+								Grid.Column="4"
+								VerticalAlignment="Center"
+								Text="{x:Bind IsInheritedHumanized}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap" />
 
-								<!--  Applies To Text  -->
-								<TextBlock
-									x:Name="InheritanceFlagsHumanizedTextBlock"
-									Grid.Column="5"
-									VerticalAlignment="Center"
-									Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
-									Visibility="{x:Bind IsFolder, Mode=OneWay}" />
+							<!--  Applies To Text  -->
+							<TextBlock
+								x:Name="InheritanceFlagsHumanizedTextBlock"
+								Grid.Column="5"
+								VerticalAlignment="Center"
+								Text="{x:Bind InheritanceFlagsHumanized, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap"
+								Visibility="{x:Bind IsFolder, Mode=OneWay}" />
 
-							</Grid>
-						</ListViewItem>
+						</Grid>
 					</DataTemplate>
 				</ListView.ItemTemplate>
 

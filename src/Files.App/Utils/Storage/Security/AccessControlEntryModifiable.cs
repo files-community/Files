@@ -3,10 +3,28 @@
 
 namespace Files.App.Utils.Storage.Security
 {
-    class AccessControlEntryModifiable
-    {
+	public class AccessControlEntryModifiable : ObservableObject
+	{
+		public Principal Principal { get; private set; }
+
+		public IList<AccessControlEntryType> PossibleAccessControlTypes { get; private set; }
+
+		private AccessControlEntryType _SelectedAccessControlType;
+		public AccessControlEntryType SelectedAccessControlType
+		{
+			get => _SelectedAccessControlType;
+			set => SetProperty(ref _SelectedAccessControlType, value);
+		}
+
 		public AccessControlEntryModifiable(AccessControlEntry item)
 		{
+			Principal = item.Principal;
+			SelectedAccessControlType = item.AccessControlType;
+			PossibleAccessControlTypes = new List<AccessControlEntryType>()
+			{
+				AccessControlEntryType.Allow,
+				AccessControlEntryType.Deny,
+			};
 		}
-    }
+	}
 }

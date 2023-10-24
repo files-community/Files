@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 		public PrincipalType PrincipalType { get; private set; }
 
 		/// <summary>
-		/// Acount security identifier (SID).
+		/// Account security identifier (SID).
 		/// </summary>
 		public string? Sid { get; private set; }
 
@@ -119,7 +119,7 @@ namespace Files.App.Utils.Storage
 			}
 
 			Name = lpName.ToString();
-			Domain = lpDomain.ToString().ToLower();
+			Domain = lpDomain.ToString().ToUpper();
 
 			IsValid = true;
 		}

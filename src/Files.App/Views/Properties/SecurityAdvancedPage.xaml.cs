@@ -43,6 +43,7 @@ namespace Files.App.Views.Properties
 			var dialog = new PrincipalAccessControlEditorDialog()
 			{
 				XamlRoot = Window.Content.XamlRoot,
+				ModifiableModel = new(SecurityAdvancedViewModel.SelectedAccessControlEntry),
 			};
 
 			var result = await dialog.ShowAsync();

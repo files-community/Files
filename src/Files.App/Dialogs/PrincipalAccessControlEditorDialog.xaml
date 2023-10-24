@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="Edit permission"
 	DefaultButton="Primary"
 	PrimaryButtonText="{helpers:ResourceString Name=Save}"
@@ -19,6 +20,12 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+			<wctconverters:BoolToObjectConverter
+				x:Key="NegateBoolToVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
 
 		</ResourceDictionary>
 	</ContentDialog.Resources>
@@ -44,7 +51,10 @@
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
 						Text="Principal:" />
-					<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="Administrators (MYCOMPUTER\Administrators)" />
+					<TextBlock
+						IsTextSelectionEnabled="True"
+						Style="{StaticResource BodyTextBlockStyle}"
+						Text="{x:Bind ModifiableModel.Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
 				</StackPanel>
 
 				<!--  Access Type  -->
@@ -53,10 +63,11 @@
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
 						Text="Access Type:" />
-					<ComboBox MinWidth="256">
-						<x:String>Allow</x:String>
-						<x:String>Deny</x:String>
-					</ComboBox>
+					<ComboBox
+						x:Name="AccessControlTypeChooseComboBox"
+						MinWidth="256"
+						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlTypes, Mode=OneWay}"
+						SelectedItem="{x:Bind ModifiableModel.SelectedAccessControlType, Mode=TwoWay}" />
 				</StackPanel>
 
 				<!--  Principal  -->
@@ -64,15 +75,30 @@
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
-						Text="Basic permissions:" />
-					<ToggleSwitch OffContent="Basic" OnContent="Advanced" />
-					<StackPanel>
+						Text="Permissions:" />
+					<ToggleSwitch
+						x:Name="BasicAdvancedToggleSwitch"
+						OffContent="Basic"
+						OnContent="Advanced" />
+					<StackPanel
+						x:Name="BasicPermissionsPanel"
+						VerticalAlignment="Top"
+						Orientation="Vertical"
+						Visibility="{x:Bind BasicAdvancedToggleSwitch.IsOn, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
 						<CheckBox Content="Full control" IsChecked="True" />
 						<CheckBox Content="Modify" IsChecked="True" />
 						<CheckBox Content="Read &amp; Execute" IsChecked="True" />
 						<CheckBox Content="Read" IsChecked="True" />
 						<CheckBox Content="Write" IsChecked="True" />
 						<CheckBox Content="Special permissions" IsEnabled="False" />
+					</StackPanel>
+					<StackPanel
+						x:Name="AdvancedPermissionsPanel"
+						VerticalAlignment="Top"
+						Orientation="Vertical"
+						Visibility="{x:Bind BasicAdvancedToggleSwitch.IsOn, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+						<CheckBox Content="Full control" IsChecked="True" />
+						<CheckBox Content="Traverse folder / execute file" IsChecked="True" />
 					</StackPanel>
 				</StackPanel>
 

@@ -284,9 +284,6 @@ namespace Files.App.Utils.Storage
 		}
 		#endregion
 
-		//public ICommand ChangeAccessControlTypeCommand;
-		//public ICommand ChangeInheritanceFlagsCommand;
-
 		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlEntryType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
 		{
 			IsFolder = isFolder;
