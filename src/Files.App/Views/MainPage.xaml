@@ -200,6 +200,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
+                        <RowDefinition x:Name="Terminal" Height="70" />
 						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
@@ -255,7 +256,13 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-					<!--  Status Bar  -->
+                    <!--  Terminal  -->
+                    <uc:TerminalView
+						x:Name="TerminalControl"
+						Grid.Row="4"
+						x:Load="True" />
+                    
+                    <!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
 						Grid.Row="4"
