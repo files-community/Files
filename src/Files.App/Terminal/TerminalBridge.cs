@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,24 +27,24 @@ namespace Files.App.UserControls
 			_terminalEventListener.OnSessionRestart += OnSessionRestart;
 		}
 
-		private void OnPaste(object sender, string e)
+		private async void OnPaste(object sender, string e)
 		{
-			Task.Factory.StartNew(() => Paste?.Invoke(this, e));
+			await _terminalEventListener.WebView.InvokeScriptAsync("onPaste", new[] { e })
+				.ConfigureAwait(false);
 		}
 
-		private void OnOutput(object sender, object e)
+		private async void OnOutput(object sender, object e)
 		{
-			Task.Factory.StartNew(() => Output?.Invoke(this, e));
+			var arg = Encoding.UTF8.GetString((byte[])e);
+			await _terminalEventListener.WebView.InvokeScriptAsync("onOutput", new[] { arg })
+				.ConfigureAwait(false);
 		}
 
-		private void OnSessionRestart(object sender, string e)
+		private async void OnSessionRestart(object sender, string e)
 		{
-			Task.Factory.StartNew(() => SessionRestart?.Invoke(this, e));
+			await _terminalEventListener.WebView.InvokeScriptAsync("onSessionRestart", new[] { e })
+				.ConfigureAwait(false);
 		}
-
-		public event EventHandler<object> Output;
-		public event EventHandler<string> Paste;
-		public event EventHandler<string> SessionRestart;
 
 		public void InputReceived(string message)
 		{
@@ -124,5 +125,7 @@ namespace Files.App.UserControls
 		event EventHandler<object> OnOutput;
 		event EventHandler<string> OnPaste;
 		event EventHandler<string> OnSessionRestart;
+
+		public WebView2 WebView { get; }
 	}
 }

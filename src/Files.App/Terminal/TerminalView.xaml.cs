@@ -22,6 +22,8 @@ namespace Files.App.UserControls
 		public event EventHandler<string> OnPaste;
 		public event EventHandler<string> OnSessionRestart;
 
+		public WebView2 WebView => WebViewControl;
+
 		private Terminal.Terminal _terminal { get; set; }
 
 		public TerminalView()
@@ -32,6 +34,7 @@ namespace Files.App.UserControls
 		private async void WebViewControl_LoadedAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			await WebViewControl.EnsureCoreWebView2Async();
+			WebViewControl.CoreWebView2.OpenDevToolsWindow();
 			WebViewControl.NavigationCompleted += WebViewControl_NavigationCompleted;
 			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
 			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(
