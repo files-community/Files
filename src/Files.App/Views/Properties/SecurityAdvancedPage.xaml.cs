@@ -8,6 +8,7 @@ using Files.App.Utils;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views.Properties
@@ -37,8 +38,13 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
-		private async void AccessControlEntryItemRoot_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+		private async void AdvancedPermissionListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			// Skip opening selected items if the double tap doesn't capture an item
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem &&
+				SecurityAdvancedViewModel.SelectedAccessControlEntry is null)
+				return;
+
 			// Show the Dialog
 			var dialog = new PrincipalAccessControlEditorDialog()
 			{

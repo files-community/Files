@@ -37,13 +37,7 @@
 			Height="256"
 			MinWidth="400"
 			VerticalScrollBarVisibility="Hidden">
-			<Grid Margin="0,0,0,24" RowSpacing="16">
-
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
+			<StackPanel Margin="0,0,0,24" Spacing="16">
 
 				<!--  Principal  -->
 				<StackPanel Grid.Row="0" Spacing="8">
@@ -51,58 +45,99 @@
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
 						Text="Principal:" />
-					<TextBlock
-						IsTextSelectionEnabled="True"
-						Style="{StaticResource BodyTextBlockStyle}"
-						Text="{x:Bind ModifiableModel.Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
+					<TextBlock IsTextSelectionEnabled="True" Style="{StaticResource BodyTextBlockStyle}">
+						<Run Text="{x:Bind ModifiableModel.Principal.DisplayName, Mode=OneWay}" />
+						<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind ModifiableModel.Principal.FullNameHumanizedWithBrackes, Mode=OneWay}" />
+					</TextBlock>
 				</StackPanel>
 
 				<!--  Access Type  -->
-				<StackPanel Grid.Row="1" Spacing="8">
+				<StackPanel
+					x:Name="AccessControlTypePanel"
+					Grid.Row="1"
+					Spacing="8">
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
 						Text="Access Type:" />
 					<ComboBox
-						x:Name="AccessControlTypeChooseComboBox"
+						x:Name="AccessControlTypeComboBox"
 						MinWidth="256"
 						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlTypes, Mode=OneWay}"
 						SelectedItem="{x:Bind ModifiableModel.SelectedAccessControlType, Mode=TwoWay}" />
 				</StackPanel>
 
-				<!--  Principal  -->
-				<StackPanel Grid.Row="2" Spacing="8">
+				<!--  Access Inheritance Applies To  -->
+				<StackPanel
+					x:Name="AccessInheritanceAppliesToTypePanel"
+					Grid.Row="1"
+					x:Load="{x:Bind ModifiableModel.IsFolder, Mode=OneWay}"
+					Spacing="8">
 					<TextBlock
 						Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 						Style="{StaticResource CaptionTextBlockStyle}"
-						Text="Permissions:" />
-					<ToggleSwitch
-						x:Name="BasicAdvancedToggleSwitch"
-						OffContent="Basic"
-						OnContent="Advanced" />
-					<StackPanel
-						x:Name="BasicPermissionsPanel"
-						VerticalAlignment="Top"
-						Orientation="Vertical"
-						Visibility="{x:Bind BasicAdvancedToggleSwitch.IsOn, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
-						<CheckBox Content="Full control" IsChecked="True" />
-						<CheckBox Content="Modify" IsChecked="True" />
-						<CheckBox Content="Read &amp; Execute" IsChecked="True" />
-						<CheckBox Content="Read" IsChecked="True" />
-						<CheckBox Content="Write" IsChecked="True" />
-						<CheckBox Content="Special permissions" IsEnabled="False" />
-					</StackPanel>
-					<StackPanel
-						x:Name="AdvancedPermissionsPanel"
-						VerticalAlignment="Top"
-						Orientation="Vertical"
-						Visibility="{x:Bind BasicAdvancedToggleSwitch.IsOn, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-						<CheckBox Content="Full control" IsChecked="True" />
-						<CheckBox Content="Traverse folder / execute file" IsChecked="True" />
-					</StackPanel>
+						Text="Applies to:" />
+					<ComboBox
+						x:Name="AccessInheritanceAppliesToTypeComboBox"
+						MinWidth="256"
+						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToTypes, Mode=OneWay}"
+						SelectedIndex="{x:Bind ModifiableModel.SelectedAccessControlInheritanceAppliesToTypeIndex, Mode=TwoWay}" />
 				</StackPanel>
 
-			</Grid>
+				<!--  Access Controls  -->
+				<StackPanel Grid.Row="2" Spacing="8">
+					<Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+						<TextBlock
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+							Style="{StaticResource CaptionTextBlockStyle}"
+							Text="Permissions:" />
+						<HyperlinkButton
+							x:Name="BasicAdvancedToggleSwitch"
+							Padding="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							Command="{x:Bind ModifiableModel.TogglePermissionsVisibilityCommand, Mode=OneWay}"
+							Content="{x:Bind ModifiableModel.PermissionsVisibilityToggleLinkButtonContent, Mode=OneWay}" />
+					</Grid>
+					<Grid>
+						<StackPanel
+							x:Name="BasicPermissionsPanel"
+							VerticalAlignment="Top"
+							Orientation="Vertical"
+							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
+							<CheckBox Content="Full control" IsChecked="True" />
+							<CheckBox Content="Modify" IsChecked="True" />
+							<CheckBox Content="Read &amp; Execute" IsChecked="True" />
+							<CheckBox Content="Read" IsChecked="True" />
+							<CheckBox Content="Write" IsChecked="True" />
+							<CheckBox Content="Special permissions" IsEnabled="False" />
+						</StackPanel>
+						<StackPanel
+							x:Name="AdvancedPermissionsPanel"
+							VerticalAlignment="Top"
+							Orientation="Vertical"
+							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+							<CheckBox Content="Full control" IsChecked="True" />
+							<CheckBox Content="Traverse folder / execute file" IsChecked="True" />
+							<CheckBox Content="List folder / read data" IsChecked="True" />
+							<CheckBox Content="Read attributes" IsChecked="True" />
+							<CheckBox Content="Read extended attributes" IsChecked="True" />
+							<CheckBox Content="Create files / write data" IsChecked="True" />
+							<CheckBox Content="Create folders / append data" IsChecked="True" />
+							<CheckBox Content="Write attributes" IsChecked="True" />
+							<CheckBox Content="Write extended attributes" IsChecked="True" />
+							<CheckBox Content="Delete subfolders and files" IsChecked="True" />
+							<CheckBox Content="Delete" IsChecked="True" />
+							<CheckBox Content="Read permissions" IsChecked="True" />
+							<CheckBox Content="Change permissions" IsChecked="True" />
+							<CheckBox Content="Take ownership" IsChecked="True" />
+						</StackPanel>
+					</Grid>
+				</StackPanel>
+
+			</StackPanel>
 		</ScrollViewer>
 	</Grid>
 </ContentDialog>

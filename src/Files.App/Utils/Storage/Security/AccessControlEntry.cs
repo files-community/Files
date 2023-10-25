@@ -1,29 +1,20 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Windows.Input;
-
 namespace Files.App.Utils.Storage
 {
 	/// <summary>
 	/// Represents an access control entry (ACE).
 	/// </summary>
-	public class AccessControlEntry : ObservableObject
+	public class AccessControlEntry : ObservableObject, IAccessControlEntry
 	{
-		/// <summary>
-		/// Gets the value that indicated whether the path indicates folder or not
-		/// </summary>
+		/// <inheritdoc/>
 		public bool IsFolder { get; private set; }
 
-		/// <summary>
-		/// Gets the owner in the security descriptor (SD).
-		/// Can be <see cref="null"/> if the security descriptor has no owner SID.
-		/// </summary>
+		/// <inheritdoc/>
 		public Principal Principal { get; private set; }
 
-		/// <summary>
-		/// Gets the access control type of this entry.
-		/// </summary>
+		/// <inheritdoc/>
 		public AccessControlEntryType AccessControlType { get; private set; }
 
 		/// <summary>
@@ -174,12 +165,12 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
+		private AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
 
-		public AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
+		private AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
 		#endregion
 
-		#region Security page
+		#region Shoule be removed
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);
 		public bool ReadAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Read);
 		public bool ListDirectoryAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.ListDirectory);
@@ -208,9 +199,7 @@ namespace Files.App.Utils.Storage
 		public bool DeniedInheritedReadAndExecuteAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.ReadAndExecute);
 		public bool DeniedInheritedModifyAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.Modify);
 		public bool DeniedInheritedFullControlAccess => InheritedDenyAccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
-		#endregion
 
-		#region SecurityAdvanced page
 		public bool AllowedWriteAccess
 		{
 			get => AllowedAccessMaskFlags.HasFlag(AccessMaskFlags.Write) || AllowedInheritedWriteAccess;
