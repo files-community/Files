@@ -194,47 +194,6 @@ namespace Files.App.Helpers
 			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = tabsWithIdArgList.Select(x => x.Serialize()).ToList();
 		}
 
-		public static bool RestoreLastAppsTabs()
-		{
-			ReadSharedMemory();
-			if (userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList is null)
-			{
-				return false;
-			}
-			var lastAppsTabsWithIdArgList = userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList
-				.Select(x => TabItemWithIDArguments.Deserialize(x))
-				.ToList();
-			var tabsIdList = tabsWithIdArgList
-				.Select(x => x.instanceId)
-				.Distinct()
-				.ToList();
-			var tabsWithIdToBeRestored = lastAppsTabsWithIdArgList
-				.Where(x => !tabsIdList.Contains(x.instanceId))
-				.ToList();
-			if (tabsWithIdToBeRestored.Count == 0)
-			{
-				return false;
-			}
-			var instanceIdList = tabsWithIdToBeRestored
-				.Select(x => x.instanceId)
-				.Distinct()
-				.ToList();
-			foreach (string instanceId in instanceIdList)
-			{
-				var tabsWithThisIdToBeRestored = tabsWithIdToBeRestored
-					.Where(x => x.instanceId == instanceId)
-					.ToList();
-				var tabsToBeRestored = tabsWithThisIdToBeRestored
-					.Select(x => x.ExportToTabItemArg())
-					.ToList();
-				var tabsToBeRestoredStr = tabsToBeRestored
-					.Select(x => x.Serialize())
-					.ToList();
-				NavigationHelpers.OpenTabsInNewWindowAsync(tabsToBeRestoredStr);
-			}
-			return true;
-		}
-
 		public static bool RestoreLastAppsTabs(MainPageViewModel mainPageViewModel)
 		{
 			ReadSharedMemory();
@@ -242,6 +201,7 @@ namespace Files.App.Helpers
 			{
 				return false;
 			}
+			// Compare LastAppsTabsWithIDList with tabsWithIdArgList (running instances) to identify Tabs records that are not currently running, and restore them.
 			var lastAppsTabsWithIdArgList = userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList
 				.Select(x => TabItemWithIDArguments.Deserialize(x))
 				.ToList();
@@ -260,6 +220,7 @@ namespace Files.App.Helpers
 				.Select(x => x.instanceId)
 				.Distinct()
 				.ToList();
+			// Classify Tabs by instanceId and open Tabs with the same instanceId in the same window
 			for(int i = 0; i < instanceIdList.Count; i++)
 			{
 				string instanceId = instanceIdList[i];
@@ -272,6 +233,7 @@ namespace Files.App.Helpers
 				var tabsToBeRestoredStr = tabsToBeRestored
 					.Select(x => x.Serialize())
 					.ToList();
+				// Place the Tabs for the first instanceId in this window; create new windows for the others
 				if (i == 0)
 				{
 					foreach (var tabArgs in tabsToBeRestored)
