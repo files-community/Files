@@ -142,7 +142,14 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == VirtualKey.Tab)
+			if
+			(
+				e.Key != VirtualKey.Space &&
+				e.Key != VirtualKey.Enter &&
+				e.Key != VirtualKey.Left &&
+				e.Key != VirtualKey.Right &&
+				e.Key != VirtualKey.Control
+			)
 				return;
 
 			var primaryInvocation = e.Key == VirtualKey.Space || e.Key == VirtualKey.Enter;
@@ -159,9 +166,8 @@ namespace Files.App.UserControls.Sidebar
 
 				// Left makes the pane smaller so we invert the increment
 				if (e.Key == VirtualKey.Left)
-				{
 					increment = -increment;
-				}
+
 				var newWidth = OpenPaneLength + increment;
 				UpdateDisplayModeForPaneWidth(newWidth);
 				e.Handled = true;
@@ -238,7 +244,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void MenuItemsHost_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
-			if(args.Element is SidebarItem sidebarItem)
+			if (args.Element is SidebarItem sidebarItem)
 			{
 				sidebarItem.HandleItemChange();
 			}
