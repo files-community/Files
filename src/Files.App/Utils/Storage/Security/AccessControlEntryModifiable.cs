@@ -21,8 +21,10 @@ namespace Files.App.Utils.Storage.Security
 		/// <inheritdoc/>
 		public bool IsInherited { get; private set; }
 
+		/// <inheritdoc/>
 		public AccessMaskFlags AccessMaskFlags { get; private set; }
 
+		/// <inheritdoc/>
 		public AccessControlEntryFlags AccessControlEntryFlags { get; private set; }
 
 		public IList<AccessControlEntryType> PossibleAccessControlTypes { get; private set; }
@@ -176,7 +178,11 @@ namespace Files.App.Utils.Storage.Security
 			set => UpdateAccessControl(AccessMaskFlags.ChangePermissions, value);
 		}
 
-		public bool AdvancedTakeOwnershipAccessControl => AccessMaskFlags.HasFlag(AccessMaskFlags.TakeOwnership);
+		public bool AdvancedTakeOwnershipAccessControl
+		{
+			get => AccessMaskFlags.HasFlag(AccessMaskFlags.TakeOwnership);
+			set => UpdateAccessControl(AccessMaskFlags.TakeOwnership, value);
+		}
 
 
 		public ICommand TogglePermissionsVisibilityCommand;
@@ -225,6 +231,7 @@ namespace Files.App.Utils.Storage.Security
 
 		private void UpdateAccessControl(AccessMaskFlags mask, bool value)
 		{
+			// Stele update, not affect to the actual data
 		}
 	}
 }
