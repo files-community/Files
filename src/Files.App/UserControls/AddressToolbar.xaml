@@ -554,7 +554,7 @@
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="SearchButton.Visibility" Value="Visible" />
+						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
 						<Setter Target="SearchRegion.(Grid.Column)" Value="1" />
 						<Setter Target="SearchRegion.Width" Value="NaN" />
 					</VisualState.Setters>
