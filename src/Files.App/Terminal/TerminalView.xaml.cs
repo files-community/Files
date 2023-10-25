@@ -4,7 +4,9 @@ using Files.App.Terminal;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.IO;
+using Windows.ApplicationModel;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,7 +34,11 @@ namespace Files.App.UserControls
 			await WebViewControl.EnsureCoreWebView2Async();
 			WebViewControl.NavigationCompleted += WebViewControl_NavigationCompleted;
 			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
-			WebViewControl.Source = new Uri("ms-appx-web:///Terminal/UI/index.html");
+			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(
+				"terminal.files",
+				Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Terminal", "UI"),
+				CoreWebView2HostResourceAccessKind.DenyCors);
+			WebViewControl.Source = new Uri("http://terminal.files/index.html");
 
 			//ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;
 			//ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
@@ -57,7 +63,9 @@ namespace Files.App.UserControls
 
 		private Task<TerminalSize> CreateXtermViewAsync(TerminalOptions options, TerminalColors theme, IEnumerable<KeyBinding> keyBindings)
 		{
-			var serializedOptions = JsonConvert.SerializeObject(options);
+			var serializerSettings = new JsonSerializerSettings();
+			serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+			var serializedOptions = JsonConvert.SerializeObject(options, serializerSettings);
 			var serializedTheme = JsonConvert.SerializeObject(theme);
 			var serializedKeyBindings = JsonConvert.SerializeObject(keyBindings);
 			return ExecuteScriptAsync(
