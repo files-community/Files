@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Kasalukuyang ginagamit ang device. Isara ang anumang mga program, window o tab na maaaring gumagamit ng device, at pagkatapos ay subukang muli.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>I-eject</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

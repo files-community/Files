@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>هذا الجهاز قيد الاستخدام حاليا. أغلق أي برامج أو نوافذ أو علامات تبويب قد تستخدم الجهاز ، ثم حاول مرة أخرى</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>إخراج</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

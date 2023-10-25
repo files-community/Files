@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>此裝置使用中。請關閉任何可能使用此裝置的應用程式、視窗或索引標籤，然後再試一次。</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>退出</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

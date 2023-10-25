@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>ההתקן נמצא בשימוש. אנא סגור את כל התוכנות, חולונות או חלוניות שעשויים לעשות שימוש בהתקן ואז נסה שוב.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>הוצא</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

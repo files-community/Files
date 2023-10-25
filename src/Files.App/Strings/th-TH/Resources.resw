@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>อุปกรณ์กำลังถูกใช้งานอยู่. กรุณาปิดทุกโปรแกรมที่กำลังใช้งานอุปกรณ์นี้อยู่.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>ถอด</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

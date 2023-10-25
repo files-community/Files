@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Αυτή η συσκευή είναι σε χρήση. Κλείστε τυχόν προγράμματα, παράθυρα ή καρτέλες που ενδέχεται να χρησιμοποιούν τη συσκευή και, στη συνέχεια, δοκιμάστε ξανά.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Εξαγωγή</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

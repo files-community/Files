@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Zařízení se momentálně používá. Zavřete jakékoliv programy, okna nebo panely které mohou používat zařízení, poté to zkuste znovu.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Odpojit</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

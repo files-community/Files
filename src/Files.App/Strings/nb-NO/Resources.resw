@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Denne enheten er i bruk. Lukk all programmer, vinduer eller faner som kan bruke enheten, og prøv igjen.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Koble fra</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

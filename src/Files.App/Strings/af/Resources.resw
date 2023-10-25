@@ -958,7 +958,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Hierdie toestel word tans gebruik. Sluit enige programme, vensters of duimgidse wat die toestel kan gebruik, en probeer dan weer.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Ontkoppel</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

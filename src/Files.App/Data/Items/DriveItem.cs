@@ -216,7 +216,7 @@ namespace Files.App.Data.Items
 					}
 				};
 
-				ToolTipService.SetToolTip(itemDecorator, "SideBarEjectDevice/Text".GetLocalizedResource());
+				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
 

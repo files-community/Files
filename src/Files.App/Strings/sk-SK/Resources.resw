@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Zariadenie sa používa. Zatvorte prosím všetky programy, ktoré môžu zariadenie používať</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Vysunúť</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

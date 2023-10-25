@@ -957,7 +957,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Perangkat ini sedang digunakan. Tutup semua program, jendela atau tab yang mungkin menggunakan perangkat, lalu coba lagi.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Keluarkan</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
