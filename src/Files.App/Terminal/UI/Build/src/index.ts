@@ -5,6 +5,9 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { SerializeAddon } from "xterm-addon-serialize";
 import { Unicode11Addon } from "xterm-addon-unicode11";
 
+/// <summary>
+/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+/// </summary>
 interface ExtendedWindow extends Window {
   keyBindings: any[];
   term: Terminal;
