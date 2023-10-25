@@ -9,13 +9,18 @@ namespace Files.App.Utils.StatusCenter
 	/// <summary>
 	/// Represents a model for file system operation progress.
 	/// </summary>
+	/// <remarks>
+	/// Every instance that have the same <see cref="IProgress{T}"/> instance will update the same progress.
+	/// <br/>
+	/// Therefore, the storage operation classes can portably instance this class and update progress from everywhere with the same <see cref="IProgress{T}"/> instance.
+	/// </remarks>
 	public class StatusCenterItemProgressModel : INotifyPropertyChanged
 	{
 		private readonly IProgress<StatusCenterItemProgressModel>? _progress;
 
 		private readonly ConcurrentDictionary<string, bool> _dirtyTracker;
 
-		private readonly IntervalSampler _sampler;
+		private readonly IntervalSampler _sampler, _sampler2;
 
 		private bool _criticalReport;
 
@@ -69,7 +74,6 @@ namespace Files.App.Utils.StatusCenter
 		public long ProcessedSize
 		{
 			get => _ProcessedSize;
-			set => SetProperty(ref _ProcessedSize, value);
 		}
 
 		private long _ItemsCount;
@@ -83,10 +87,10 @@ namespace Files.App.Utils.StatusCenter
 		public long ProcessedItemsCount
 		{
 			get => _ProcessedItemsCount;
-			set => SetProperty(ref _ProcessedItemsCount, value);
 		}
 
 		public double ProcessingSizeSpeed { get; private set; }
+
 		public double ProcessingItemsCountSpeed { get; private set; }
 
 		private DateTimeOffset _StartTime;
@@ -112,18 +116,30 @@ namespace Files.App.Utils.StatusCenter
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, long totalSize = 0, int samplerInterval = 100)
+		public StatusCenterItemProgressModel(IProgress<StatusCenterItemProgressModel>? progress, bool enumerationCompleted = false, FileSystemStatusCode? status = null, long itemsCount = 0, int samplerInterval = 100)
 		{
 			// Initialize
 			_progress = progress;
 			_sampler = new(samplerInterval);
+			_sampler2 = new(samplerInterval);
 			_dirtyTracker = new();
 			EnumerationCompleted = enumerationCompleted;
 			Status = status;
 			ItemsCount = itemsCount;
-			TotalSize = totalSize;
 			StartTime = DateTimeOffset.Now;
 			_previousReportTime = StartTime - TimeSpan.FromSeconds(1);
+		}
+
+		public void AddProcessedItemsCount(long value)
+		{
+			Interlocked.Add(ref _ProcessedItemsCount, value);
+			_dirtyTracker[nameof(ProcessedItemsCount)] = true;
+		}
+
+		public void SetProcessedSize(long value)
+		{
+			Interlocked.Exchange(ref _ProcessedSize, value);
+			_dirtyTracker[nameof(ProcessedSize)] = true;
 		}
 
 		private void SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
@@ -138,8 +154,7 @@ namespace Files.App.Utils.StatusCenter
 
 		public void Report(double? percentage = null)
 		{
-			Percentage = percentage;
-
+			// Set the progress state as success
 			if ((EnumerationCompleted &&
 				ProcessedItemsCount == ItemsCount &&
 				ProcessedSize == TotalSize &&
@@ -150,8 +165,29 @@ namespace Files.App.Utils.StatusCenter
 				_Status = FileSystemStatusCode.Success;
 			}
 
+			// Set time at completed when succeed
 			if (_Status is FileSystemStatusCode.Success)
 				CompletedTime = DateTimeOffset.Now;
+
+			if (percentage is not null && Percentage != percentage)
+			{
+				SetProcessedSize((long)(TotalSize * percentage / 100));
+
+				if (_sampler2.CheckNow())
+				{
+					ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+					ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
+
+					_dirtyTracker[nameof(ProcessingSizeSpeed)] = true;
+					_dirtyTracker[nameof(ProcessingItemsCountSpeed)] = true;
+
+					_previousReportTime = DateTimeOffset.Now;
+					_previousProcessedSize = ProcessedSize;
+					_previousProcessedItemsCount = ProcessedItemsCount;
+				}
+
+				Percentage = percentage;
+			}
 
 			if (_criticalReport || _sampler.CheckNow())
 			{
@@ -164,14 +200,8 @@ namespace Files.App.Utils.StatusCenter
 						PropertyChanged?.Invoke(this, new(propertyName));
 					}
 				}
-				ProcessingSizeSpeed = (ProcessedSize - _previousProcessedSize) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-				ProcessingItemsCountSpeed = (ProcessedItemsCount - _previousProcessedItemsCount) / (DateTimeOffset.Now - _previousReportTime).TotalSeconds;
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingSizeSpeed)));
-				PropertyChanged?.Invoke(this, new(nameof(ProcessingItemsCountSpeed)));
+
 				_progress?.Report(this);
-				_previousReportTime = DateTimeOffset.Now;
-				_previousProcessedSize = ProcessedSize;
-				_previousProcessedItemsCount = ProcessedItemsCount;
 			}
 		}
 

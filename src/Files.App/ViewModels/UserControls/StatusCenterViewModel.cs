@@ -64,9 +64,29 @@ namespace Files.App.ViewModels.UserControls
 			StatusCenterItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasAnyItem));
 		}
 
-		public StatusCenterItem AddItem(string title, string message, int initialProgress, ReturnResult status, FileOperationType operation, CancellationTokenSource cancellationTokenSource = null)
+		public StatusCenterItem AddItem(
+			string headerResource,
+			string subHeaderResource,
+			ReturnResult status,
+			FileOperationType operation,
+			IEnumerable<string>? source,
+			IEnumerable<string>? destination,
+			bool canProvideProgress = true,
+			long itemsCount = 0,
+			long totalSize = 0,
+			CancellationTokenSource cancellationTokenSource = null)
 		{
-			var banner = new StatusCenterItem(message, title, initialProgress, status, operation, cancellationTokenSource);
+			var banner = new StatusCenterItem(
+				headerResource,
+				subHeaderResource,
+				status,
+				operation,
+				source,
+				destination,
+				canProvideProgress,
+				itemsCount,
+				totalSize,
+				cancellationTokenSource);
 
 			StatusCenterItems.Insert(0, banner);
 			NewItemAdded?.Invoke(this, banner);
@@ -76,12 +96,12 @@ namespace Files.App.ViewModels.UserControls
 			return banner;
 		}
 
-		public bool RemoveItem(StatusCenterItem banner)
+		public bool RemoveItem(StatusCenterItem card)
 		{
-			if (!StatusCenterItems.Contains(banner))
+			if (!StatusCenterItems.Contains(card))
 				return false;
 
-			StatusCenterItems.Remove(banner);
+			StatusCenterItems.Remove(card);
 
 			NotifyChanges();
 
@@ -106,6 +126,8 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAnyItem));
 			OnPropertyChanged(nameof(InfoBadgeState));
 			OnPropertyChanged(nameof(InfoBadgeValue));
+
+			UpdateAverageProgressValue();
 		}
 
 		public void UpdateAverageProgressValue()

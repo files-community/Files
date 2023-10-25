@@ -151,7 +151,7 @@ namespace Files.App.Views.LayoutModes
 			StartRenameItem("ListViewTextBoxItemName");
 		}
 
-		private async void ItemNameTextBox_BeforeTextChangingAsync(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
+		private async void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
 		{
 			if (IsRenamingItem)
 			{
@@ -176,8 +176,8 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocusAsync;
-			textBox.KeyDown -= RenameTextBox_KeyDownAsync;
+			textBox!.LostFocus -= RenameTextBox_LostFocus;
+			textBox.KeyDown -= RenameTextBox_KeyDown;
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 		}
@@ -240,7 +240,7 @@ namespace Files.App.Views.LayoutModes
 				HandleRightClick();
 		}
 
-		protected override async void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if
 			(
@@ -367,7 +367,7 @@ namespace Files.App.Views.LayoutModes
 				element.Focus(FocusState.Programmatic);
 		}
 
-		private async void FileList_ItemTappedAsync(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);

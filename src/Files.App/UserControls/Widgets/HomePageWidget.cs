@@ -47,15 +47,15 @@ namespace Files.App.UserControls.Widgets
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			FlyouItemPath = item.Path;
-			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_OpenedAsync;
+			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
 			e.Handled = true;
 		}
 
-		private async void ItemContextMenuFlyout_OpenedAsync(object? sender, object e)
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_OpenedAsync;
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout);
 		}
 

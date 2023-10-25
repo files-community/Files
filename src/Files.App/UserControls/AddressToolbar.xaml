@@ -411,11 +411,12 @@
 
 					<Grid Margin="-16">
 
-						<FontIcon
-							x:Name="OngoingTasksFontIcon"
+						<uc:OpacityIcon
+							x:Name="StatusCenterIcon"
+							Width="16"
+							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							FontSize="16"
-							Glyph="&#xF16A;" />
+							Style="{StaticResource ColorIconStatusCenter}" />
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"
@@ -553,7 +554,7 @@
 						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="SearchButton.Visibility" Value="Visible" />
+						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
 						<Setter Target="SearchRegion.(Grid.Column)" Value="1" />
 						<Setter Target="SearchRegion.Width" Value="NaN" />
 					</VisualState.Setters>

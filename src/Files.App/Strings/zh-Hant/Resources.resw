@@ -142,7 +142,7 @@
     <value>在磁碟上的大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>壓縮前的大小：</value>
+    <value>壓縮前的大小:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
@@ -160,10 +160,10 @@
     <value>全選</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>反向選取</value>
+    <value>反選</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>取消選取</value>
+    <value>清除選擇</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期：</value>
@@ -175,7 +175,7 @@
     <value>清理所有檔案</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>輸入路徑或是 "&gt;" 來開啟命令列</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜尋</value>
@@ -277,7 +277,7 @@
     <value>歡迎使用 Files！</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>權限請求</value>
+    <value>取得權限</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>請授權我們使用您的檔案系统。待「設定」開啟後您就可以授權給我們。您需要在完成設定後重新啟動應用程式。 </value>
@@ -289,7 +289,7 @@
     <value>輸入名稱</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>命名</value>
+    <value>設置名稱</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>亮色</value>
@@ -307,7 +307,7 @@
     <value>新增資料夾</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>新檔案</value>
+    <value>建立檔案</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>該資料夾是空的。</value>
@@ -343,7 +343,7 @@
     <value>請插入所需的磁碟機以存取此項目。</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>磁碟機已退出</value>
+    <value>已斷開與裝置的連接</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>目標檔案可能已被移動或刪除。</value>
@@ -426,12 +426,6 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>項目</value>
   </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>正在刪除檔案</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>正在將檔案丟進資源回收筒</value>
-  </data>
   <data name="Yes" xml:space="preserve">
     <value>確定</value>
   </data>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>狀態</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>頁面：</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>您的系統語言</value>
@@ -622,7 +613,7 @@
     <value>取消</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>新增項目</value>
+    <value>建立新項目</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>於下方選擇新項目的類型</value>
@@ -1176,24 +1167,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>項目計數</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>無法刪除項目</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>刪除成功</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>已取消刪除</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>成功丟入資源回收筒</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>移動成功</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>複製成功</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>此操作需要系統管理員權限</value>
   </data>
@@ -1308,9 +1281,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>為選取的項目建立資料夾</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>名稱：</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>類型：</value>
   </data>
@@ -1416,104 +1386,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>隱私權</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>已取消移動</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>已取消複製</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>在移動 {3} 個項目後取消 - 將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>在移動 {3} 個項目後取消 - 將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>正在將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>正在將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>成功將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>成功將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>無法將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>無法將 {0} 個項目從 {1} 移至 {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>在複製 {2} 個項目後取消 - 將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>在複製 {2} 個項目後取消 - 將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>正在將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>正在將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>成功將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>成功將 {0} 個項目複製到 {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>已取消從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>在刪除 {3} 個項目後取消 - 從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>在刪除 {3} 個項目後取消 - 從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>正在從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>正在從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>成功從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>成功從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>無法從 {1} 刪除 {0} 個項目</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>無法從 {1} 刪除 {0} 個項目</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>資源回收筒</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>正在移動檔案</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>正在複製項目</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>無法將項目丟入資源回收筒</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>已取消丟入資源回收筒</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>取消中</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>清除</value>
@@ -1573,7 +1450,7 @@
     <value>擁有者不詳</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>解壓縮</value>
+    <value>解壓縮檔案</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成後開啟目標資料夾</value>
@@ -1810,7 +1687,7 @@
     <value>集數</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>開啟該磁碟機</value>
+    <value>Open drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>請將光碟放入磁碟機 {0} 中</value>
@@ -1822,7 +1699,7 @@
     <value>確定</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>憑證請求</value>
+    <value>需要密碼</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>匿名</value>
@@ -1834,10 +1711,10 @@
     <value>使用者名稱</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>磁碟機小工具</value>
+    <value>Drives widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近使用過的檔案小工具</value>
+    <value>Recent Files widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>找不到任何符合搜尋條件的檔案</value>
@@ -1866,8 +1743,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>在新索引標籤開啟資料夾</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>檔案操作狀態</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>狀態中心</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>建立日期</value>
@@ -1903,10 +1780,10 @@
     <value>資料夾路徑</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>匯出設定</value>
+    <value>Export settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>匯入設定</value>
+    <value>Import settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>設定檔已損壞，無法將其匯入。</value>
@@ -2007,9 +1884,6 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。</value>
   </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>全部清除</value>
-  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>建立媒體庫</value>
   </data>
@@ -2023,7 +1897,7 @@
     <value>最近使用的檔案</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Windows 啟動時開啟 Files</value>
+    <value>Open Files on Windows startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>屬性</value>
@@ -2040,14 +1914,11 @@
   <data name="CleanupDrive" xml:space="preserve">
     <value>清理您的磁碟機</value>
   </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>磁碟清理</value>
-  </data>
   <data name="Type" xml:space="preserve">
     <value>類型</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>圖示網格</value>
+    <value>Icon grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>位元組</value>
@@ -2103,24 +1974,6 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>更新 Files</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>正在準備 {0} 個項目</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>正在準備項目</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>複製失敗</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>無法從 {1} 複製 {0} 個項目到 {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>無法從 {1} 複製 {0} 個項目到 {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>移動失敗</value>
-  </data>
   <data name="FileTags" xml:space="preserve">
     <value>標籤</value>
   </data>
@@ -2152,7 +2005,7 @@
     <value>設為桌布幻燈片</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>調整欄位至合適寬度</value>
+    <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatically choose the best layout</value>
@@ -2188,7 +2041,7 @@
     <value>日期欄</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>“建立日期”列</value>
+    <value>建立日期</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>“大小”列</value>
@@ -2210,18 +2063,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>開啟項目</value>
-  </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>壓縮完成</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} 已被壓縮</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} 無法被壓縮</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>壓縮檔案</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>壓縮</value>
@@ -2255,15 +2096,6 @@
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>您沒有權限存取此資料夾。</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>清理資源回收筒</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>成功清空資源回收筒</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>無法清空資源回收筒</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>封存檔案密碼</value>
@@ -2365,10 +2197,10 @@
     <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>編輯設定檔案</value>
+    <value>Edit settings file</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>版本資訊</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>What's new</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置建立捷徑需要系統管理員權限</value>
@@ -2407,7 +2239,7 @@
     <value>輸入您連線至: {0} 的憑證</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>輸入網路憑證</value>
+    <value>Enter network credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>記住我的憑證</value>
@@ -2476,10 +2308,10 @@
     <value>套用至所有衝突的項目</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>使用終端機開啟</value>
+    <value>Open in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>以系統管理員身分在終端機中開啟</value>
+    <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>儲存</value>
@@ -2737,7 +2569,7 @@
     <value>Switch views adaptively</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>按名稱排序</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
     <value>Sort items by date modified</value>
@@ -3062,7 +2894,7 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Toggle selection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>修改副檔名時顯示警告</value>
@@ -3209,7 +3041,7 @@
     <value>您在此分支上有未提交的變更，您要如何處理它們？</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>切換分支</value>
+    <value>Switch branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>分支</value>
@@ -3272,7 +3104,7 @@
     <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git error</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
@@ -3338,17 +3170,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
-  </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open the current directory in Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>複製代碼</value>
@@ -3430,12 +3262,326 @@
     <value>Start in:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>開啟 BitLocker</value>	
+    <value>開啟 BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
     <value>管理 BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>下列檔案過大，無法複製到此裝置上</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Format drive</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Don't show again</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>關閉視窗後在背景繼續執行</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Blue Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Brick Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Camouflage</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Cool Blue Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Gray Dark</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iris Pastel</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Mint Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Orange Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Overcast</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Rose Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Seafoam</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Storm</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Violet Red Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Yellow Gold</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Clear completed</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>項目</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files can't initialize this directory as a Git repository.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
   </data>
 </root>

@@ -28,9 +28,9 @@ namespace Files.App.Views.Properties
 			base.OnNavigatedTo(e);
 		}
 
-		protected override void Properties_LoadedAsync(object sender, RoutedEventArgs e)
+		protected override void Properties_Loaded(object sender, RoutedEventArgs e)
 		{
-			base.Properties_LoadedAsync(sender, e);
+			base.Properties_Loaded(sender, e);
 
 			CompatibilityProperties?.GetCompatibilityOptions();
 		}

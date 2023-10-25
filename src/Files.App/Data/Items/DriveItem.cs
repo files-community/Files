@@ -219,7 +219,7 @@ namespace Files.App.Data.Items
 				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
-
+        
 				return itemDecorator;
 			}
 		}

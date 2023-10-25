@@ -13,6 +13,7 @@ namespace Files.Core.Data.Enums
 		Delete,
 		Recycle,
 		Extract,
+		Compress,
 		Successful,
 		Error,
 	}

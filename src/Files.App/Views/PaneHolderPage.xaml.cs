@@ -323,11 +323,11 @@ namespace Files.App.Views
 
 		private void Pane_Loaded(object sender, RoutedEventArgs e)
 		{
-			((UIElement)sender).GotFocus += Pane_GotFocusAsync;
+			((UIElement)sender).GotFocus += Pane_GotFocus;
 			((UIElement)sender).RightTapped += Pane_RightTapped;
 		}
 
-		private async void Pane_GotFocusAsync(object sender, RoutedEventArgs e)
+		private async void Pane_GotFocus(object sender, RoutedEventArgs e)
 		{
 			var isLeftPane = sender == PaneLeft;
 			if (isLeftPane && (PaneRight?.SlimContentPage?.IsItemSelected ?? false))

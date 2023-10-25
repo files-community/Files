@@ -130,7 +130,7 @@
     <value>Boyut</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Oluşturulma:</value>
+    <value>Oluşturuldu:</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>Yol</value>
@@ -142,16 +142,16 @@
     <value>Diskteki boyutu:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Sıkıştırılmamış Boyut:</value>
+    <value>Uncompressed size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Bu işlem yapılamaz</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Hedef klasör</value>
+    <value>Hedef dizin</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>hedef klasörün bir alt klasörüdür</value>
+    <value>kaynak klasörün bir alt klasörüdür</value>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Atla</value>
@@ -160,10 +160,10 @@
     <value>Tümünü Seç</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Seçimi Tersine Çevir</value>
+    <value>Invert selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Seçimi Temizle</value>
+    <value>Clear selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Değiştirme:</value>
@@ -175,13 +175,13 @@
     <value>Tüm ögeleri temizle</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Gidilecek dosya yolunu girin veya komut paletini açmak için "&gt;" yazın</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Ara</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Daha önce eriştiğiniz dosya ve klasörler burada görüntülenir</value>
+    <value>Daha önce eriştiğiniz dosya ve dizinler burada görüntülenir</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Bu ögeyi kaldır</value>
@@ -205,7 +205,7 @@
     <value>Bilinen dosya türleri için uzantıları göster</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Gizli dosya ve klasörleri göster</value>
+    <value>Gizli dosya ve dizinleri göster</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>dot dosyalarını göster</value>
@@ -274,10 +274,10 @@
     <value>Favorilere Sabitle</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Files uygulamasına hoş geldiniz!</value>
+    <value>Files'a hoş geldiniz!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>İzin Ver</value>
+    <value>Grant permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
@@ -289,13 +289,13 @@
     <value>Bir öge adı yazın</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Adı Ayarla</value>
+    <value>Set name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Açık</value>
+    <value>Aydınlık</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Koyu</value>
+    <value>Karanlık</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Uygulama</value>
@@ -304,22 +304,22 @@
     <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Yeni Dizin</value>
+    <value>New folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Yeni Dosya</value>
+    <value>New file</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Bu dizin boş.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Geri (Alt + Sol Ok)</value>
+    <value>Geri</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>İleri (Alt + Sağ Ok)</value>
+    <value>İleri</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Yukarı (Alt + Yukarı Ok)</value>
+    <value>Yukarı</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Yenile</value>
@@ -334,7 +334,7 @@
     <value>Öge zaten mevcut</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Kilit Ekranı olarak ayarla</value>
+    <value>Kilit ekranı arka planı olarak ayarla</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Bu öge silinemedi</value>
@@ -343,7 +343,7 @@
     <value>Lütfen bu ögeye erişmek için gerekli sürücüyü takın.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Sürücü Çıkarılmış</value>
+    <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
@@ -352,10 +352,10 @@
     <value>Dosya Bulunamadı</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Erişmeye çalıştığınız klasör taşınmış ya da silinmiş olabilir.</value>
+    <value>Erişmeye çalıştığınız dizin taşınmış ya da silinmiş olabilir.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Bu klasörü sildiniz mi?</value>
+    <value>Bu dizini sildiniz mi?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya şu anda {0} tarafından kullanılıyor</value>
@@ -406,7 +406,7 @@
     <value>{0} / {1} boş</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Gönder</value>
+    <value>Şuraya gönder</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Öge adında şu karakterler bulunamaz: \ / : * ? " &lt; &gt; |</value>
@@ -418,19 +418,13 @@
     <value>öge seçildi</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>öge seçildi</value>
+    <value>ögeler seçildi</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>öge</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>ögeler</value>
-  </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Dosyalar siliniyor</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Dosyalar Geri Dönüşüm Kutusu'na taşınıyor</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>
@@ -463,7 +457,7 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} dosya, {1:#,##0} klasör</value>
+    <value>{0:#,##0} dosya, {1:#,##0} dizin</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
     <value>{2:#,##0} konumundan {0:#,##0} dosya, {1:#,##0} dizin</value>
@@ -478,7 +472,7 @@
     <value>Farklı türler</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>Tümü {0}</value>
+    <value>{0} konumundaki tümü</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Kullanılan alan:</value>
@@ -500,9 +494,6 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Durum</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Sayfa:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows varsayılanı</value>
@@ -595,7 +586,7 @@
     <value>Öge adı geçersiz</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Belirtilen öge adı olabilecek en uzun ad sınırını aşıyor. Lütfen yeni adı denetleyip yeniden deneyin.</value>
+    <value>Belirtilen öge adı olabilecek en uzun ad sınırını aşıyor. Lütfen yeni adı kontrol edip tekrar deneyin.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Öge adı çok uzun</value>
@@ -622,7 +613,7 @@
     <value>İptal</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Yeni Öge Oluştur</value>
+    <value>Create a new item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Aşağıdan yeni ögenin türünü seçin</value>
@@ -640,7 +631,7 @@
     <value>Yeni bir dizin oluşturur</value>
   </data>
   <data name="LayoutMode" xml:space="preserve">
-    <value>Görünüm kipi</value>
+    <value>Düzen modu</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Dizini yenile</value>
@@ -649,7 +640,7 @@
     <value>Dil</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Shell seçeneklerini alt menüye taşı</value>
+    <value>Shell uzantılarını alt menüye taşı</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Ögeleri silmeden önce onay kutusu göster</value>
@@ -724,7 +715,7 @@
     <value>Yükseklik</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Çekilme Tarihi</value>
+    <value>Alma tarihi</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Kamera Üreticisi</value>
@@ -790,7 +781,7 @@
     <value>Koruma Türü</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Sorumlu Adresi</value>
+    <value>Yazar Url'si</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>İçerik Dağıtıcı</value>
@@ -814,22 +805,22 @@
     <value>Tanıtım Adresi</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Sağlayıcı Biçemi</value>
+    <value>Sağlayıcı Biçimi</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>Yayımcı</value>
+    <value>Yayıncı</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Uzun Küçük Görsel Yolu</value>
+    <value>Uzun KüçükGörsel Yolu</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Uzun Küçük Görsel Adresi</value>
+    <value>Uzun KüçükGörsel Adresi</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Kısa Küçük Görsel Yolu</value>
+    <value>Kısa KüçükGörsel Yolu</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Kısa Küçük Görsel Adresi</value>
+    <value>Kısa KüçükGörsel Adresi</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>Kullanıcı Web Adresi</value>
@@ -844,7 +835,7 @@
     <value>Katılımcı</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>Son Sorumlu</value>
+    <value>Son Yazar</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
     <value>Düzeltme Numarası</value>
@@ -895,7 +886,7 @@
     <value>Kare Yüksekliği</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>Doğrultu</value>
+    <value>Oryantasyon</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
     <value>Çekirdek</value>
@@ -910,7 +901,7 @@
     <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>Ortam</value>
+    <value>Medya</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
     <value>Ses</value>
@@ -919,7 +910,7 @@
     <value>Müzik</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Görüntü</value>
+    <value>Video</value>
   </data>
   <data name="Document" xml:space="preserve">
     <value>Belge</value>
@@ -931,7 +922,7 @@
     <value>Seçim seçenekleri</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Seçme</value>
+    <value>Seç</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Geri dönüşüm kutusu ögesi</value>
@@ -979,7 +970,7 @@
     <value>Dosya işlemlerinin durumunu buradan denetleyin</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Durum Merkezi</value>
+    <value>Status center</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>{0} için {1} içindeki arama sonuçları</value>
@@ -1060,7 +1051,7 @@
     <value>İstenilen ad</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Önizleme bölmesini değiştir</value>
+    <value>Önizleme bölmesini aç/kapat</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
@@ -1090,7 +1081,7 @@
     <value>Geri bildirim</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Çevrimiçi kullanılabilir</value>
+    <value>Çevrimiçiyken Kullanılabilir</value>
   </data>
   <data name="Documentation" xml:space="preserve">
     <value>Dökümantasyon</value>
@@ -1102,10 +1093,10 @@
     <value>Çevrimdışı kısmen kullanılabilir</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Eşitleniyor</value>
+    <value>Senkronize ediliyor</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>Eşitlemeye katılmayan</value>
+    <value>Senkronizasyondan hariç tutuldu</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
     <value>Hesaplanmamış</value>
@@ -1175,24 +1166,6 @@
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Öğe sayısı</value>
-  </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Silme Başarısız</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Silme tamamlandı</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Silme iptal edildi</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Geri dönüşüm tamamlandı</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Taşıma tamamlandı</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Kopyalama tamamlandı</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Bu işlem yönetici hakları gerektiriyor</value>
@@ -1308,9 +1281,6 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Seçimli klasör oluştur</value>
   </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>İsim:</value>
-  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
   </data>
@@ -1345,7 +1315,7 @@
     <value>Değiştirilme tarihi</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Orjinal klasör</value>
+    <value>Orijinal dizin</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sıralama Ölçütü</value>
@@ -1416,104 +1386,11 @@
   <data name="Privacy" xml:space="preserve">
     <value>Gizlilik</value>
   </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Taşıma iptal edildi</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Kopya iptal edildi</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>{0} öğesinin {1} öğesinden {2} öğesine taşınması iptal edildi</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>{0} öğenin {1} konumundan {2} konumuna taşınması, {3} öğenin taşınmasından sonra iptal edildi</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>{0} öğenin {1} konumundan {2} konumuna taşınması, {3} öğenin taşınmasından sonra iptal edildi</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} öğe {1} konumundan {2} konumuna taşınıyor</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} öğe {1} konumundan {2} konumuna taşınıyor</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} öğe {1} konumundan {2} konumuna başarıyla taşındı</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} öğe {1} konumundan {2} konumuna başarıyla taşındı</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>{0} öğesi {1} öğesinden {2} öğesine taşınamadı</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>{0} öğe {1} konumundan {2} konumuna taşınamadı</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>{0} öğesinin {1} öğesine kopyalanması iptal edildi</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>{2} öğe kopyalandıktan sonra {0} öğenin {1} öğesine kopyalanması iptal edildi</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>{0} öğenin {1} öğesine kopyalanması, {2} öğenin kopyalanmasından sonra iptal edildi</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>{0} öğesi {1} öğesine kopyalanıyor</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} öğe {1} öğesine kopyalanıyor</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>{0} öğe başarıyla {1} öğesine kopyalandı</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>{0} öğe başarıyla {1} öğesine kopyalandı</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>{1} öğesinden {0} öğenin silinmesi iptal edildi</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>{1} öğesinden {0} öğenin silinmesi, {3} öğe silindikten sonra iptal edildi</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>{1} öğesinden {0} öğenin silinmesi, {3} öğe silindikten sonra iptal edildi</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe siliniyor</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe siliniyor</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe başarıyla silindi</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe başarıyla silindi</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe silinemedi</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>{1} öğesinden {0} öğe silinemedi</value>
-  </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Geri Dönüşüm Kutusu</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Öğeleri taşıma</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Öğeleri kopyalama</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Geri dönüşüm başarısız oldu</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>geri dönüşüm iptal edildi</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>iptal</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Temizle</value>
@@ -1573,7 +1450,7 @@
     <value>Bilinmeyen sahip</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Arşivi Ayıkla</value>
+    <value>Extract archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Tamamlandığında hedef dizini aç</value>
@@ -1618,7 +1495,7 @@
     <value>alt dizinler</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Devral</value>
+    <value>Devralınmış</value>
   </data>
   <data name="Permissions" xml:space="preserve">
     <value>İzinler</value>
@@ -1639,7 +1516,7 @@
     <value>Yalnızca alt dizinler</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Yalnızca alt klasörler ve dosyalar</value>
+    <value>Yalnızca alt dizinler ve dosyalar</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
     <value>Sadece bu dizin</value>
@@ -1648,7 +1525,7 @@
     <value>Bu dizin ve alt dizinler</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>Veri ekle</value>
+    <value>Veriyi sona ekle</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
     <value>İzni değiştir</value>
@@ -1678,7 +1555,7 @@
     <value>İzinleri oku</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>Sahipliğini almak</value>
+    <value>Sahipliğini al</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
     <value>Dizini ziyaret et</value>
@@ -1690,7 +1567,7 @@
     <value>Veri yaz</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>Genişletilmiş nitelikler yaz</value>
+    <value>Genişletilmiş nitelikleri yaz</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
     <value>Devralınan izinleri açık izinlere dönüştürün</value>
@@ -1711,7 +1588,7 @@
     <value>Bölmeyi kapat</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Kompakt yer paylaşımını girin</value>
+    <value>Kompakt yer paylaşımına gir</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
     <value>Kompakt yer paylaşımından çık</value>
@@ -1810,7 +1687,7 @@
     <value>Setin parçası</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Açık Sürücü</value>
+    <value>Open drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Lütfen {0} sürücüsüne bir disk yerleştirin</value>
@@ -1822,7 +1699,7 @@
     <value>Tamam</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Kimlik Bilgileri Gerekli</value>
+    <value>Credential required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Anonim</value>
@@ -1834,10 +1711,10 @@
     <value>Kullanıcı adı</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Diskler/Sürücüler Widget'ı</value>
+    <value>Drives widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Son Dosyalar Widget'ı</value>
+    <value>Recent Files widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Hiç bir öğe bulunamadı</value>
@@ -1852,13 +1729,13 @@
     <value>Sütunlar</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Büyük Simgeler</value>
+    <value>Large icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Orta Simgeler</value>
+    <value>Medium icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Küçük Simgeler</value>
+    <value>Small icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Sıralar</value>
@@ -1866,8 +1743,8 @@
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Dizinleri yeni sekmede aç</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Devam Eden Görevler</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Status center</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Sütun oluşturulma tarihi</value>
@@ -1903,10 +1780,10 @@
     <value>Klasör yolu</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Ayarları Dışa Aktar</value>
+    <value>Export settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Ayarları İçe Aktar</value>
+    <value>Import settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Ayarları içe aktarılamadı. Ayarlar dosyası bozuk.</value>
@@ -1918,7 +1795,7 @@
     <value>Geri Dönüşüm Kutusunu Boşalt</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>Kenar</value>
+    <value>Kenar Çubuğu</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Özel bir dizin simgesi seçin</value>
@@ -1930,7 +1807,7 @@
     <value>Varsayılana sıfırla</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Görev çubuğu atlama listesinden dizinleri açarken yeni örnek aç</value>
+    <value>Görev çubuğu atlama listesinden dizinleri açarken yeni pencerede aç</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Başlatma seçenekleri</value>
@@ -2002,13 +1879,10 @@
     <value>Ana monitörün DPI ayarlarını kullan</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Üçüncü parti yazılım</value>
+    <value>Üçüncü parti lisanslar</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Bu seçenek sistem kayıt defterini değiştirir ve aygıtınızda beklenmeyen yan etkilere neden olabilir. Kendi sorumluluğunuzda devam edin.</value>
-  </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Hepsini sil</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Kütüphane oluştur</value>
@@ -2023,7 +1897,7 @@
     <value>Son Dosyalar</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Windows başlatıldığında dosyaları aç</value>
+    <value>Open Files on Windows startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Öznitelikler</value>
@@ -2032,7 +1906,7 @@
     <value>Gizli</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>Daha fazla bilgi</value>
+    <value>Daha fazla ayrıntı</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
     <value>Salt okunur</value>
@@ -2040,14 +1914,11 @@
   <data name="CleanupDrive" xml:space="preserve">
     <value>Sürücü içeriğini temizle</value>
   </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Disk temizleme</value>
-  </data>
   <data name="Type" xml:space="preserve">
     <value>Tür</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Simge Kılavuzu</value>
+    <value>Icon grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bayt</value>
@@ -2059,10 +1930,10 @@
     <value>Dosyaları ayıkla</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Buraya Çıkart</value>
+    <value>Buraya ayıkla</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+R</value>
+    <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
     <value>Şuraya ayıkla {0}</value>
@@ -2103,24 +1974,6 @@
   <data name="UpdateFiles" xml:space="preserve">
     <value>Files güncelle</value>
   </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>{0} Tane Dosya Hazırlanıyor</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Dosyalar Hazırlanıyor</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Kopyalama başarısız oldu</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>{0} öge {1} konumundan {2} konumuna kopyalanamadı</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>{0} ögesi {1} konumundan {2} konumuna kopyalanamadı</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Taşıma başarısız oldu.</value>
-  </data>
   <data name="FileTags" xml:space="preserve">
     <value>Etiketler</value>
   </data>
@@ -2152,10 +2005,10 @@
     <value>Masaüstü slayt gösterisi olarak ayarla</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Tüm Sütunları Sığacak Şekilde Boyutlandır</value>
+    <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>Uyarlanır düzen</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Uyarlanabilir (Ctrl+Shift+7)</value>
@@ -2188,7 +2041,7 @@
     <value>Tarih sütunu</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Oluşturulma Tarihi sütunu</value>
+    <value>Sütun oluşturulma tarihi</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Boyut sütunu</value>
@@ -2210,18 +2063,6 @@
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
-  </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Sıkıştırma tamamlandı</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} sıkıştırıldı</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} sıkıştırılamadı</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Arşiv sıkıştırılıyor</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Sıkıştır</value>
@@ -2256,15 +2097,6 @@
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>Bu dosyaya erişim izniniz yok.</value>
   </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Geri dönüşüm kutusu boşaltılıyor</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Geri dönüşüm kutusu başarıyla boşaltıldı</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Geri dönüşüm kutusu boşaltılamadı</value>
-  </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Arşiv şifresi</value>
   </data>
@@ -2278,7 +2110,7 @@
     <value>Arşiv oluştur</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Yaratmak</value>
+    <value>Oluştur</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
     <value>{0} oluştur</value>
@@ -2365,10 +2197,10 @@
     <value>Son kullanılan dosyalar şu an için Windows Dosya Gezgininde devre dışıdır.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Ayar Dosyasını Düzenle</value>
+    <value>Edit settings file</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Sürüm Notları</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>Yenilikler</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Bu konumda bir kısayol oluşturmak, yönetici ayrıcalıkları gerektirir</value>
@@ -2407,7 +2239,7 @@
     <value>Bağlanmak için kimlik bilgilerinizi girin: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Ağ Kimlik Bilgilerini Girin</value>
+    <value>Enter network credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Kimlik bilgilerimi hatırla</value>
@@ -2476,10 +2308,10 @@
     <value>Bu eylemi tüm çakışan öğelere uygula</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Terminal'de aç</value>
+    <value>Open in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Terminali burada yönetici olarak aç</value>
+    <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
@@ -2542,7 +2374,7 @@
     <value>Tam ekranı aç/kapat</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Kompakt yer paylaşımını girin</value>
+    <value>Kompakt yer paylaşımına gir</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Kompakt yer paylaşımından çık</value>
@@ -2599,10 +2431,10 @@
     <value>Seçili öge için "Diski Biçimlendir" menüsünü aç</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Seçili öge(ler)i Geri Dönüşüm Kutusu'ndan çıkar</value>
+    <value>Seçili öge(ler)i Geri Dönüşüm Kutusu'ndan geri yükle</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Tüm öğeleri geri dönüşüm kutusundan geri yükleyin</value>
+    <value>Tüm öğeleri geri dönüşüm kutusundan geri yükle</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>Öge(ler)i aç</value>
@@ -2632,19 +2464,19 @@
     <value>Öge seçimini aç / kapa</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Seçili öge(ler)i başkalarıyla paylaş</value>
+    <value>Seçili dosya(lar)ı başkalarıyla paylaş</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Seçili öge(ler)i Başlat Menüsü'ne sabitle</value>
+    <value>Öge(ler)i Başlat Menüsü'ne sabitle</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Seçili öge(ler)i Başlat Menüsü'nden kaldır</value>
+    <value>Öge(ler)i Başlat Menüsü'nden kaldır</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Seçili öge(ler)i Favoriler'e sabitle</value>
+    <value>Klasör(ler)i Favoriler'e sabitle</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Klasörleri favoriler sabitlemesinden kaldırın</value>
+    <value>Klasör(ler)i Favoriler'den kaldır</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Seçilen resmi masaüstü arka planı olarak ayarla</value>
@@ -2653,7 +2485,7 @@
     <value>Seçilen resimleri masaüstü slayt gösterisi olarak ayarla</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Seçili resmi kilit ekranı resmi olarak ayarla</value>
+    <value>Seçili resmi kilit ekranı arka planı olarak ayarla</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Seçili yazı tip(ler)ini yükle</value>
@@ -2821,7 +2653,7 @@
     <value>Yeni sekme aç</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigasyon geçmişinde geriye doğru git</value>
+    <value>Navigasyon geçmişinde geri git</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
     <value>Navigasyon geçmişinde ileri git</value>
@@ -2931,7 +2763,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Yukarı (Alt + Yukarı Ok)</value>
+    <value>Yukarı</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -2951,7 +2783,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Ayr</value>
+    <value>Sep</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -2999,23 +2831,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>GoHome</value>
+    <value>EveDön</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>GeriDön</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>İleriGit</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>BrowserRefresh</value>
+    <value>TarayıcıYenile</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
-    <value>BrowserStop</value>
+    <value>TarayıcıDurdur</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
@@ -3027,23 +2859,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>PlayPause</value>
+    <value>BaşlatDurdur</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
-    <value>MediaStop</value>
+    <value>MedyaDurdur</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>ÖncekiParça</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>SonrakiParça</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
-    <value>MediaSelect</value>
+    <value>MedyaSeç</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
@@ -3051,18 +2883,18 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>VolDown</value>
+    <value>SesAzalt</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>VolUp</value>
+    <value>SesArttır</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Değiştir</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Seçimi Değiştir</value>
+    <value>Toggle selection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Dosya uzantılarını değiştirirken uyarı göster</value>
@@ -3179,10 +3011,10 @@
     <value>Öğeleri silinme tarihine göre gruplandırın</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Öğeleri değiştirilme tarihine göre gruplandır</value>
+    <value>Öğeleri değiştirilme ayına göre gruplandır</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Öğeleri değiştirilme tarihine göre gruplandırın</value>
+    <value>Öğeleri değiştirilme yılına göre gruplandırın</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Devam etmek için 'Gelişmiş izinler'e tıklayın.</value>
@@ -3197,49 +3029,49 @@
     <value>İzinler görüntülenemiyor.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Değişikliklerimi {0} üzerinde bırak</value>
+    <value>Değişikliklerimi '{0}' üzerinde bırak</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
     <value>Değişiklikleri iptal et</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Değişikliklerimi {0} konumuna getir</value>
+    <value>Değişikliklerimi '{0}' konumuna getir</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Bu dalda kaydedilmemiş değişiklikleriniz var. Onlarla ne yapmak istersin?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Dal değiştir</value>
+    <value>Switch branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Dallar</value>
+    <value>Branch'lar</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Anahtar</value>
+    <value>Geçiş Yap</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>Yeni dal</value>
+    <value>Yeni branch</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Geçersiz dal adı</value>
+    <value>Geçersiz branch adı</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Dal oluştur</value>
+    <value>Branch oluştur</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Dal Oluştur</value>
+    <value>Branch oluştur</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Temel</value>
+    <value>Dayanan</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Yeni dala geç</value>
+    <value>Yeni branch'a geç</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Seçili öğe(ler) ile bir klasör oluşturun</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Açık özellikler</value>
+    <value>Özellikleri aç</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Özellikler penceresini aç</value>
@@ -3248,19 +3080,19 @@
     <value>Yerel</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Uzaktan kumanda</value>
+    <value>Uzak Bağlantılar</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Crowdin'de çevir</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Getirmek</value>
+    <value>Fetch</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Çekmek</value>
+    <value>Pull</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Git getirmeyi çalıştır</value>
+    <value>Git fetch'i çalıştır</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Git pull'u çalıştır</value>
@@ -3272,23 +3104,23 @@
     <value>Git durumu</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Hatası</value>
+    <value>Git error</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>zaman aşımı hatası nedeniyle git çekme başarısız oldu</value>
+    <value>zaman aşımı hatası nedeniyle git pull başarısız oldu</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(birden fazla değer)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>Yazar</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Commit tarihi</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Commit mesajı</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
@@ -3309,133 +3141,447 @@
     <value>Zemin Malzemesi</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Sert</value>
+    <value>Katı</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Dalları yönet</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Git push'u çalıştır</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Eşitle</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>Git pull'u ve ardından git push'u çalıştır</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} giden / {1} gelen commit</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>GitHub'a Bağlan</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>GitHub repolarıyla çalışmaya başlamak için aşağıdaki bağlantıya aşağıdaki kodu girin.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
-  </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Files, GitHub'a şu anda erişemiyor.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Mevcut dizini Visual Studio Code'da aç</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>Kodu kopyala</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Eklenen</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Silinen</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Düzenlenen</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>İzlenmeyen</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Mevcut sahip görüntülenemiyor.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Harika! Şu anda yetkilendirildiniz.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Repo başlat</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Bir Git deposu başlat</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Uzak Depo Adı</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Mevcut Dal</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Yol sütunu</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Öğeleri yola göre sırala</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Dizini yeni bölmede aç</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Dizini yeni sekmede aç</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Dizini yeni pencerede aç</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Tümünü aç</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Etiketli öğelerin tümünü aç</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Sürücü ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Geçersiz komut</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' bir komut olarak tanınmadı.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Komut çalıştırılabilir değil</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>'{0}' komutu, çalıştırılmak için hazır değil.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Komut paleti</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Komut paletini aç</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Başlama yeri:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>	
+    <value>BitLocker'ı aç</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>BitLocker'ı yönet</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Aşağıdaki öğeler bu sürücüye kopyalanamayacak kadar büyük</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Format drive</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Bir daha gösterme</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files yönetici olarak çalışıyor</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Platform kısıtlamalarından dolayı sürükle ve bırak, Files yönetici olarak çalıştırıldığında kullanılamaz.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Penceresi kapatıldığında uygulamayı arka planda çalışır durumda bırak</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Mavi</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Mavi Gri</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Tuğla kırmızısı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Kamuflaj</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Parlak Soğuk Mavi</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Gri</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Koyu Gri</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Yeşil</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>İris Pastel</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Açık Nane</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Kırmızı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Parlak Truncu</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Kapalı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Kırmızı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Parlak Gül</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Deniz Köpüğü</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Fırtına</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Açık Menekşe Kırmızı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Altın Sarı</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Clear completed</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>ögeler</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files can't initialize this directory as a Git repository.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
   </data>
 </root>
