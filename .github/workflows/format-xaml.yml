@@ -3,9 +3,6 @@ on:
   issue_comment:
     types: [created]
 
-env:
-  GITHUB_TOKEN: ${{ secrets.FILES_BOT_TOKEN }}
-
 jobs:
   check-formatting:
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
@@ -16,6 +13,25 @@ jobs:
         shell: pwsh
 
     steps:
+      - name: Generate GitHub Apps token
+        id: generate
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.FILES_APP_ID }}
+          private_key: ${{ secrets.FILES_PRIVATE_KEY }}
+
+      - name: Login to gh cli and git
+        run: |
+          gh auth login --with-token ${{ steps.generate.outputs.token }}
+          $data = gh api graphql -f query='query {
+            viewer {
+              login
+              databaseId
+            }
+          }'  --jq '.data.viewer' | ConvertFrom-Json
+          git config --global user.name "$($data.login)[bot]"
+          git config --global user.email "$($data.databaseId)+($data.login)[bot]@users.noreply.github.com"
+
       - name: Check if PR can be committed to
         run: |
           if (!(gh pr view 1 --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
@@ -77,9 +93,8 @@ jobs:
           {
             gh pr comment ${{ github.event.issue.number }} -b "Successfully formatted XAML files."
           }
-          else
-          {
-            gh pr comment ${{ github.event.issue.number }} -b "Failed to format XAML files, check logs for more information."
-          }
-
         continue-on-error: true
+
+      - name: Comment if failed
+        if: failure()
+        run: gh pr comment ${{ github.event.issue.number }} -b "Failed to format XAML files, check logs for more information."
