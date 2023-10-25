@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Mahmoud Al-Qudsi, NeoSmart Technoogies. All rights reserved.  
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
@@ -99,10 +100,10 @@ namespace Files.App.UserControls
 
 			var handler = (TypedEventHandler<WebView2, CoreWebView2WebMessageReceivedEventArgs>)(async (_, e) =>
 			{
-				var message = JsonConvert.DeserializeObject<WebMessage>(e.WebMessageAsJson);
+				var message = JsonConvert.DeserializeObject<WebMessage>(e.TryGetWebMessageAsString());
 				if (message.Guid == methodsGuid)
 				{
-					var methodMessage = JsonConvert.DeserializeObject<MethodWebMessage>(e.WebMessageAsJson);
+					var methodMessage = JsonConvert.DeserializeObject<MethodWebMessage>(e.TryGetWebMessageAsString());
 					var method = methods[methodMessage.Method];
 					try
 					{
@@ -162,7 +163,7 @@ namespace Files.App.UserControls
 				}
 				else if (message.Guid == propertiesGuid)
 				{
-					var propertyMessage = JsonConvert.DeserializeObject<PropertyWebMessage>(e.WebMessageAsJson);
+					var propertyMessage = JsonConvert.DeserializeObject<PropertyWebMessage>(e.TryGetWebMessageAsString());
 					var property = properties[propertyMessage.Property];
 					try
 					{
@@ -199,17 +200,18 @@ namespace Files.App.UserControls
 			var array = JsonConvert.SerializeObject(args);
 			string result = null;
 			// Tested and checked: this dispatch is required, even though the web view is in a different process
-			await webview.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+			await webview.DispatcherQueue.EnqueueAsync(async () =>
 			{
 				var script = $"{function}(...{array});";
 				try
 				{
 					result = await webview.ExecuteScriptAsync(script).AsTask();
+					result = JsonConvert.DeserializeObject<string>(result);
 				}
 				catch (Exception ex)
 				{
 				}
-			});
+			}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 
 			return result;
 		}
