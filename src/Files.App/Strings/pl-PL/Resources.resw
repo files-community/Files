@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>To urządzenie jest obecnie w użyciu. Zamknij programy, które mogą używać tego urządzenia i spróbuj ponownie.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Wysuń</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

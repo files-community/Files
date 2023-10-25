@@ -220,7 +220,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false

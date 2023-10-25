@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Ovaj uređaj je trenutno u upotrebi. Zatvorite sve programe, prozore ili kartice koji možda koriste uređaj, te zatim pokušajte ponovno.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Izbaci</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
