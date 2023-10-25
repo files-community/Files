@@ -10,14 +10,14 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Represents a helper for file security information.
 	/// </summary>
-	public static class FileSecurityHelpers
+	public static class AccessControlHelpers
 	{
 		/// <summary>
 		/// Get the owner of the object specified by the path.
 		/// </summary>
 		/// <param name="path">The file full path</param>
 		/// <returns></returns>
-		public static string GetOwner(string path)
+		public static string GetOwnerSid(string path)
 		{
 			GetNamedSecurityInfo(
 				path,
@@ -40,7 +40,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="path">The file full path</param>
 		/// <param name="sid">The owner security identifier (SID)</param>
 		/// <returns></returns>
-		public static bool SetOwner(string path, string sid)
+		public static bool SetOwnerSid(string path, string sid)
 		{
 			SECURITY_INFORMATION secInfo = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION;
 
@@ -93,7 +93,7 @@ namespace Files.App.Utils.Storage
 				return Kernel32.GetLastError();
 
 			// Get owner
-			var szOwnerSid = GetOwner(path);
+			var szOwnerSid = GetOwnerSid(path);
 			var principal = new Principal(szOwnerSid);
 
 			var isValidAcl = IsValidAcl(pDacl);

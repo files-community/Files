@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
-			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
+			var error = AccessControlHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			if (!AccessControlList.IsValid)
@@ -113,10 +113,10 @@ namespace Files.App.ViewModels.Properties
 			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+				var win32Result = AccessControlHelpers.AddAccessControlEntry(_path, sid);
 
 				// Add a new ACE to the ACL
-				var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				var ace = AccessControlHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
 				AccessControlList.AccessControlEntries.Insert(0, ace);
 			});
 		}
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Properties
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+				var win32Result = AccessControlHelpers.RemoveAccessControlEntry(_path, (uint)index);
 
 				// Remove the ACE
 				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);

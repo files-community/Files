@@ -106,8 +106,8 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		#region Access Mask Properties
 		private AccessMaskFlags _AccessMaskFlags;
+		/// <inheritdoc/>
 		public AccessMaskFlags AccessMaskFlags
 		{
 			get => _AccessMaskFlags;
@@ -115,6 +115,18 @@ namespace Files.App.Utils.Storage
 			{
 				if (SetProperty(ref _AccessMaskFlags, value))
 					OnPropertyChanged(nameof(AccessMaskFlagsHumanized));
+			}
+		}
+
+		private AccessControlEntryFlags _InheritanceFlags;
+		/// <inheritdoc/>
+		public AccessControlEntryFlags AccessControlEntryFlags
+		{
+			get => _InheritanceFlags;
+			set
+			{
+				if (SetProperty(ref _InheritanceFlags, value))
+					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
 			}
 		}
 
@@ -154,21 +166,9 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private AccessControlEntryFlags _InheritanceFlags;
-		public AccessControlEntryFlags AccessControlEntryFlags
-		{
-			get => _InheritanceFlags;
-			set
-			{
-				if (SetProperty(ref _InheritanceFlags, value))
-					OnPropertyChanged(nameof(InheritanceFlagsHumanized));
-			}
-		}
-
 		private AccessMaskFlags InheritedAllowAccessMaskFlags { get; set; }
 
 		private AccessMaskFlags InheritedDenyAccessMaskFlags { get; set; }
-		#endregion
 
 		#region Shoule be removed
 		public bool WriteAccess => AccessMaskFlags.HasFlag(AccessMaskFlags.Write);

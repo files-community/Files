@@ -9,7 +9,7 @@ namespace Files.App.Utils.Storage
 	public interface IAccessControlEntry
 	{
 		/// <summary>
-		/// Gets the value that indicated whether the path indicates folder or not
+		/// Gets the value that indicated whether the path indicates folder or not.
 		/// </summary>
 		public bool IsFolder { get; }
 
@@ -25,8 +25,18 @@ namespace Files.App.Utils.Storage
 		public AccessControlEntryType AccessControlType { get; }
 
 		/// <summary>
-		/// Gets the value that indicates whether the ACE is inherited or not
+		/// Gets the value that indicates whether the ACE is inherited or not.
 		/// </summary>
 		public bool IsInherited { get; }
+
+		/// <summary>
+		/// Gets the flags of access controls the principal has.
+		/// </summary>
+		public AccessMaskFlags AccessMaskFlags { get; }
+
+		/// <summary>
+		/// Gets the flags which indicates how ACE will be inherited.
+		/// </summary>
+		public AccessControlEntryFlags AccessControlEntryFlags { get; }
 	}
 }

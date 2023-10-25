@@ -34,8 +34,8 @@
 
 		<ScrollViewer
 			Grid.Row="1"
-			Height="256"
-			MinWidth="400"
+			Height="365"
+			MinWidth="360"
 			VerticalScrollBarVisibility="Hidden">
 			<StackPanel Margin="0,0,0,24" Spacing="16">
 
@@ -63,6 +63,7 @@
 					<ComboBox
 						x:Name="AccessControlTypeComboBox"
 						MinWidth="256"
+						IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}"
 						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlTypes, Mode=OneWay}"
 						SelectedItem="{x:Bind ModifiableModel.SelectedAccessControlType, Mode=TwoWay}" />
 				</StackPanel>
@@ -80,6 +81,7 @@
 					<ComboBox
 						x:Name="AccessInheritanceAppliesToTypeComboBox"
 						MinWidth="256"
+						IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}"
 						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToTypes, Mode=OneWay}"
 						SelectedIndex="{x:Bind ModifiableModel.SelectedAccessControlInheritanceAppliesToTypeIndex, Mode=TwoWay}" />
 				</StackPanel>
@@ -107,32 +109,118 @@
 							VerticalAlignment="Top"
 							Orientation="Vertical"
 							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}">
-							<CheckBox Content="Full control" IsChecked="True" />
-							<CheckBox Content="Modify" IsChecked="True" />
-							<CheckBox Content="Read &amp; Execute" IsChecked="True" />
-							<CheckBox Content="Read" IsChecked="True" />
-							<CheckBox Content="Write" IsChecked="True" />
-							<CheckBox Content="Special permissions" IsEnabled="False" />
+							<CheckBox
+								x:Name="BasicPermissionFullControl"
+								Content="Full control"
+								IsChecked="{x:Bind ModifiableModel.FullControlAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionModify"
+								Content="Modify"
+								IsChecked="{x:Bind ModifiableModel.BasicModifyAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionReadAndExecute"
+								Content="Read &amp; Execute"
+								IsChecked="{x:Bind ModifiableModel.BasicReadAndExecuteAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionListFolderContents"
+								x:Load="{x:Bind ModifiableModel.IsFolder, Mode=OneWay}"
+								Content="List folder contents"
+								IsChecked="{x:Bind ModifiableModel.BasicReadAndExecuteAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionRead"
+								Content="Read"
+								IsChecked="{x:Bind ModifiableModel.BasicReadAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionWrite"
+								Content="Write"
+								IsChecked="{x:Bind ModifiableModel.BasicWriteAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="BasicPermissionSpecial"
+								Content="Special permissions"
+								IsChecked="{x:Bind ModifiableModel.BasicSpecialPermissionsAccessControl, Mode=OneWay}"
+								IsEnabled="False" />
 						</StackPanel>
 						<StackPanel
 							x:Name="AdvancedPermissionsPanel"
 							VerticalAlignment="Top"
 							Orientation="Vertical"
 							Visibility="{x:Bind ModifiableModel.ShowAdvancedPermissions, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-							<CheckBox Content="Full control" IsChecked="True" />
-							<CheckBox Content="Traverse folder / execute file" IsChecked="True" />
-							<CheckBox Content="List folder / read data" IsChecked="True" />
-							<CheckBox Content="Read attributes" IsChecked="True" />
-							<CheckBox Content="Read extended attributes" IsChecked="True" />
-							<CheckBox Content="Create files / write data" IsChecked="True" />
-							<CheckBox Content="Create folders / append data" IsChecked="True" />
-							<CheckBox Content="Write attributes" IsChecked="True" />
-							<CheckBox Content="Write extended attributes" IsChecked="True" />
-							<CheckBox Content="Delete subfolders and files" IsChecked="True" />
-							<CheckBox Content="Delete" IsChecked="True" />
-							<CheckBox Content="Read permissions" IsChecked="True" />
-							<CheckBox Content="Change permissions" IsChecked="True" />
-							<CheckBox Content="Take ownership" IsChecked="True" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Full control"
+								IsChecked="{x:Bind ModifiableModel.FullControlAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Traverse folder / execute file"
+								IsChecked="{x:Bind ModifiableModel.AdvancedTraverseAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="List folder / read data"
+								IsChecked="{x:Bind ModifiableModel.AdvancedReadDataAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Read attributes"
+								IsChecked="{x:Bind ModifiableModel.AdvancedReadAttributesAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Read extended attributes"
+								IsChecked="{x:Bind ModifiableModel.AdvancedReadExtendedAttributesAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Create files / write data"
+								IsChecked="{x:Bind ModifiableModel.AdvancedWriteDataAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Create folders / append data"
+								IsChecked="{x:Bind ModifiableModel.AdvancedAppendDataAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Write attributes"
+								IsChecked="{x:Bind ModifiableModel.AdvancedWriteAttributesAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Write extended attributes"
+								IsChecked="{x:Bind ModifiableModel.AdvancedWriteExtendedAttributesAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Delete subfolders and files"
+								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteSubfoldersAndFilesAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Delete"
+								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Read permissions"
+								IsChecked="{x:Bind ModifiableModel.AdvancedReadPermissionsAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Change permissions"
+								IsChecked="{x:Bind ModifiableModel.AdvancedChangePermissionsAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
+							<CheckBox
+								x:Name="AdvancedPermission"
+								Content="Take ownership"
+								IsChecked="{x:Bind ModifiableModel.AdvancedTakeOwnershipAccessControl, Mode=TwoWay}"
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Mode=OneWay}" />
 						</StackPanel>
 					</Grid>
 				</StackPanel>
