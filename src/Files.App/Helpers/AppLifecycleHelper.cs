@@ -31,7 +31,7 @@ namespace Files.App.Helpers
 		To dynamically expand the size of a sharedMemory, a new sharedMemory with a new name needs to be created.
 		Using sharedMemoryHeader, sharedMemoryName is saved and shared between all the Files instance.
 		*/
-		// Read or create the a sharedMemory(sharedMemoryHeaderName) to save and share the sharedMemoryName
+		// Read or create a sharedMemory(sharedMemoryHeaderName) to save and share the sharedMemoryName
 		// The sharedMemoryName is used to identify the sharedMemory
 		// The sharedMemory is used to save and share the TabItemWithIDArguments
 		private static MemoryMappedFile GetSharedMemoryNameHeader()
@@ -266,8 +266,7 @@ namespace Files.App.Helpers
 
 		public string Serialize()
 		{
-			var tabArg = JsonSerializer.Serialize(this, typesConverter.Options);
-			return tabArg;
+			return JsonSerializer.Serialize(this, typesConverter.Options);
 		}
 
 		public static TabItemWithIDArguments Deserialize(string obj)
@@ -275,19 +274,9 @@ namespace Files.App.Helpers
 			var tabArgs = new TabItemWithIDArguments();
 			var tempArgs = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(obj);
 
-			if (tempArgs.ContainsKey("instanceId"))
-			{
-				tabArgs.instanceId = tempArgs["instanceId"].GetString();
-			}
-			else
-			{
-				tabArgs.instanceId = AppLifecycleHelper.instanceId;
-			}
+			tabArgs.instanceId = tempArgs.ContainsKey("instanceId") ? tempArgs["instanceId"].GetString() : AppLifecycleHelper.instanceId;
 			// Handle customTabItemParameterStr separately
-			if (tempArgs.ContainsKey("customTabItemParameterStr"))
-			{
-				tabArgs.customTabItemParameterStr = tempArgs["customTabItemParameterStr"].GetString();
-			}
+			tabArgs.customTabItemParameterStr = tempArgs["customTabItemParameterStr"].GetString();
 			return tabArgs;
 		}
 
