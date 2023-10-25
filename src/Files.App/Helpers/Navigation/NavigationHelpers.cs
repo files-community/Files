@@ -203,7 +203,7 @@ namespace Files.App.Helpers
 				case FilesystemItemType.File:
 					// Starts the screensaver in full-screen mode
 					if (isScreenSaver)
-						args = args + "/s";
+						args += "/s";
 
 					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
 					break;
