@@ -216,13 +216,14 @@ namespace Files.App
 			ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = -Process.GetCurrentProcess().Id;
 		}
 
-		public void OnActivated(AppActivationArguments activatedEventArgs)
+		public async void OnActivated(AppActivationArguments activatedEventArgs)
 		{
 			Logger.LogInformation($"App activated. Activated args type: {activatedEventArgs.Data.GetType().Name}");
 			var data = activatedEventArgs.Data;
+			App.ActivationArgs = data;
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
-			//_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.InitializeApplication(data));
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => MainWindow.Instance.RootControl.ShowMainScreenAsync(default));
 		}
 
 		/// <summary>

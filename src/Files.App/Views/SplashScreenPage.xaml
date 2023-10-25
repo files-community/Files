@@ -9,7 +9,10 @@
 	mc:Ignorable="d">
 
 	<Grid>
-		<Image Width="420" Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+		<!--<Image
+			x:Name="MainSplashScreenImage"
+			Width="420"
+			Source="\Assets\AppTiles\Dev\SplashScreen.png" />-->
 
 		<ProgressRing
 			Margin="0,0,0,88"
@@ -17,7 +20,7 @@
 			Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
 			IsIndeterminate="True" />
 
-		<VisualStateManager.VisualStateGroups>
+		<!--<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="SizeChangesState">
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -28,6 +31,6 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-		</VisualStateManager.VisualStateGroups>
+		</VisualStateManager.VisualStateGroups>-->
 	</Grid>
 </Page>

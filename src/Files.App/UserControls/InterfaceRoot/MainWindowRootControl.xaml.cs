@@ -41,12 +41,19 @@ namespace Files.App.UserControls.InterfaceRoot
 			await Task.Delay(15);
 		}
 
-		private async Task ShowMainScreenAsync(CancellationToken cancellationToken)
+		public async Task ShowMainScreenAsync(CancellationToken cancellationToken)
 		{
 			var parameter = await GetActivationParameterAsync(cancellationToken);
-			var mainPage = new MainPage(parameter);
-			Root.Content = mainPage;
-			await mainPage.InitAsync(cancellationToken);
+			if (Root.Content is not MainPage mainPage)
+			{
+				mainPage = new MainPage(parameter);
+				Root.Content = mainPage;
+				await mainPage.InitAsync(cancellationToken);
+			}
+			else
+			{
+				await mainPage.ViewModel.OnNavigatedTo(parameter);
+			}
 		}
 
 		private async Task InitializeAppComponentsAsync()
