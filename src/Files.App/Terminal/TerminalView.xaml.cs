@@ -8,10 +8,11 @@ using Newtonsoft.Json.Serialization;
 using System.IO;
 using Windows.ApplicationModel;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+	/// </summary>
 	public sealed partial class TerminalView : UserControl, IxtermEventListener
 	{
 		// Members related to initialization
@@ -42,9 +43,6 @@ namespace Files.App.UserControls
 				Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Terminal", "UI"),
 				CoreWebView2HostResourceAccessKind.DenyCors);
 			WebViewControl.Source = new Uri("http://terminal.files/index.html");
-
-			//ViewModel.Terminal.OutputReceived += Terminal_OutputReceived;
-			//ViewModel.Terminal.RegisterSelectedTextCallback(() => ExecuteScriptAsync("term.getSelection()"));
 
 			// Waiting for WebView.NavigationCompleted event to happen
 			await _tcsNavigationCompleted.Task.ConfigureAwait(false);
@@ -89,27 +87,23 @@ namespace Files.App.UserControls
 
 		void IxtermEventListener.OnKeyboardCommand(string command)
 		{
-			/*if (Enum.TryParse(command, true, out Command commandValue))
+			if (Enum.TryParse(command, true, out Command commandValue))
 			{
-				ViewModel.Terminal.ProcessKeyboardCommand(commandValue.ToString());
 			}
 			else if (Guid.TryParse(command, out Guid shellProfileId))
 			{
-				ViewModel.Terminal.ProcessKeyboardCommand(shellProfileId.ToString());
-			}*/
+			}
 		}
 
 		void IxtermEventListener.OnMouseClick(MouseButton mouseButton, int x, int y, bool hasSelection, string hoveredUri)
 		{
-			/*var action = MouseAction.None;
+			var action = MouseAction.None;
 
 			switch (mouseButton)
 			{
 				case MouseButton.Middle:
-					action = ViewModel.ApplicationSettings.MouseMiddleClickAction;
 					break;
 				case MouseButton.Right:
-					action = ViewModel.ApplicationSettings.MouseRightClickAction;
 					break;
 			}
 
@@ -127,7 +121,7 @@ namespace Files.App.UserControls
 				{
 					((IxtermEventListener)this).OnKeyboardCommand(nameof(Command.Paste));
 				}
-			}*/
+			}
 		}
 
 		async void IxtermEventListener.OnSelectionChanged(string selection)
@@ -140,7 +134,7 @@ namespace Files.App.UserControls
 
 		void IxtermEventListener.OnTerminalResized(int columns, int rows)
 		{
-			//TODO
+			_terminal.Resize(columns, rows);
 		}
 
 		void IxtermEventListener.OnInitialized()
@@ -150,7 +144,6 @@ namespace Files.App.UserControls
 
 		void IxtermEventListener.OnTitleChanged(string title)
 		{
-			//ViewModel.Terminal.SetTitle(title);
 		}
 
 		private void Terminal_OutputReceived(object sender, byte[] e)

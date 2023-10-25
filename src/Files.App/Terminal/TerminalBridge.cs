@@ -14,6 +14,9 @@ namespace Files.App.UserControls
 		Right
 	}
 
+	/// <summary>
+	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+	/// </summary>
 	[AllowForWeb]
 	public sealed class TerminalBridge
 	{

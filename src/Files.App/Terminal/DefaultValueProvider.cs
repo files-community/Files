@@ -6,6 +6,9 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+	/// </summary>
 	public class DefaultValueProvider
 	{
 		public IDictionary<string, ICollection<KeyBinding>> GetCommandKeyBindings()
@@ -1234,5 +1237,13 @@ namespace Files.App.UserControls
 		Unknown,
 		WinPty,
 		ConPty
+	}
+
+	public enum MouseAction
+	{
+		None,
+		ContextMenu,
+		Paste,
+		CopySelectionOrPaste
 	}
 }
