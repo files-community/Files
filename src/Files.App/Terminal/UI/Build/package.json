@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "xcopy /y /s node_modules\\xterm\\css\\xterm.css dist\\ && xcopy /y /s src\\style.css dist\\ && xcopy /y /s src\\index.html dist\\ && npx webpack --config webpack.config.js"
+    "build": "xcopy /y /s node_modules\\xterm\\css\\xterm.css ..\\ && xcopy /y /s src\\style.css ..\\ && xcopy /y /s src\\index.html ..\\ && npx webpack --config webpack.config.js"
   },
   "author": "FS Apps",
   "license": "GPL-3.0",
