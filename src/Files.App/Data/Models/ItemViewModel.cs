@@ -69,6 +69,33 @@ namespace Files.App.Data.Models
 			private set => SetProperty(ref _SolutionFilePath, value);
 		}
 
+		private GitProperties _EnabledGitProperties;
+		public GitProperties EnabledGitProperties
+		{
+			get => _EnabledGitProperties;
+			set
+			{
+				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
+				{
+					filesAndFolders.ToList().ForEach(async item => {
+						if (item is GitItem gitItem &&
+							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
+							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
+						{
+							try
+							{
+								await Task.Run(async () => await LoadGitPropertiesAsync(gitItem, loadPropsCTS));
+							}
+							catch (OperationCanceledException)
+							{
+								// Ignored
+							}
+						}
+					});
+				}
+			}
+		}
+
 		public CollectionViewSource viewSource;
 
 		private FileSystemWatcher watcher;
@@ -141,7 +168,7 @@ namespace Files.App.Data.Models
 				pathRoot = Path.GetPathRoot(WorkingDirectory);
 			}
 
-			GitDirectory = pathRoot is null ? null : GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
+			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
 
 			OnPropertyChanged(nameof(WorkingDirectory));
@@ -166,7 +193,7 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref emptyTextType, value);
 		}
 
-		public async Task UpdateSortOptionStatus()
+		public async Task UpdateSortOptionStatusAsync()
 		{
 			OnPropertyChanged(nameof(IsSortedByName));
 			OnPropertyChanged(nameof(IsSortedByDate));
@@ -183,7 +210,7 @@ namespace Files.App.Data.Models
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async Task UpdateSortDirectionStatus()
+		public async Task UpdateSortDirectionStatusAsync()
 		{
 			OnPropertyChanged(nameof(IsSortedAscending));
 			OnPropertyChanged(nameof(IsSortedDescending));
@@ -192,7 +219,7 @@ namespace Files.App.Data.Models
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async Task UpdateSortDirectoriesAlongsideFiles()
+		public async Task UpdateSortDirectoriesAlongsideFilesAsync()
 		{
 			OnPropertyChanged(nameof(AreDirectoriesSortedAlongsideFiles));
 
@@ -408,12 +435,12 @@ namespace Files.App.Data.Models
 			fileTagsSettingsService.OnSettingImportedEvent += FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
-			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreated;
-			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeleted;
-			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequested;
+			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
+			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
+			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
 		}
 
-		private async void RecycleBinRefreshRequested(object sender, FileSystemEventArgs e)
+		private async void RecycleBinRefreshRequestedAsync(object sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -424,7 +451,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private async void RecycleBinItemDeleted(object sender, FileSystemEventArgs e)
+		private async void RecycleBinItemDeletedAsync(object sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -435,7 +462,7 @@ namespace Files.App.Data.Models
 				await ApplySingleFileChangeAsync(removedItem);
 		}
 
-		private async void RecycleBinItemCreated(object sender, FileSystemEventArgs e)
+		private async void RecycleBinItemCreatedAsync(object sender, FileSystemEventArgs e)
 		{
 			if (!Constants.UserEnvironmentPaths.RecycleBinPath.Equals(CurrentFolder?.ItemPath, StringComparison.OrdinalIgnoreCase))
 				return;
@@ -782,7 +809,7 @@ namespace Files.App.Data.Models
 			FilesAndFolders.GroupedCollection.IsSorted = true;
 		}
 
-		public async Task GroupOptionsUpdated(CancellationToken token)
+		public async Task GroupOptionsUpdatedAsync(CancellationToken token)
 		{
 			try
 			{
@@ -863,7 +890,7 @@ namespace Files.App.Data.Models
 
 		private uint currentDefaultIconSize = 0;
 
-		public async Task GetDefaultItemIcons(uint size)
+		public async Task GetDefaultItemIconsAsync(uint size)
 		{
 			if (currentDefaultIconSize == size)
 				return;
@@ -897,7 +924,7 @@ namespace Files.App.Data.Models
 		}
 
 		// ThumbnailSize is set to 96 so that unless we override it, mode is in turn set to SingleItem
-		private async Task LoadItemThumbnail(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
+		private async Task LoadItemThumbnailAsync(ListedItem item, uint thumbnailSize = 96, IStorageItem? matchingStorageItem = null)
 		{
 			var wasIconLoaded = false;
 			if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1042,7 +1069,7 @@ namespace Files.App.Data.Models
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
-		public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
+		public async Task LoadExtendedItemPropertiesAsync(ListedItem item, uint thumbnailSize = 20)
 		{
 			if (item is null)
 				return;
@@ -1082,7 +1109,7 @@ namespace Files.App.Data.Models
 								if (matchingStorageFile is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFile);
+									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFile);
 
 									var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 									var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
@@ -1106,7 +1133,7 @@ namespace Files.App.Data.Models
 							}
 
 							if (!wasSyncStatusLoaded)
-								await LoadItemThumbnail(item, thumbnailSize, null);
+								await LoadItemThumbnailAsync(item, thumbnailSize, null);
 						}
 						else
 						{
@@ -1117,7 +1144,7 @@ namespace Files.App.Data.Models
 								if (matchingStorageFolder is not null)
 								{
 									cts.Token.ThrowIfCancellationRequested();
-									await LoadItemThumbnail(item, thumbnailSize, matchingStorageFolder);
+									await LoadItemThumbnailAsync(item, thumbnailSize, matchingStorageFolder);
 									if (matchingStorageFolder.DisplayName != item.Name && !matchingStorageFolder.DisplayName.StartsWith("$R", StringComparison.Ordinal))
 									{
 										cts.Token.ThrowIfCancellationRequested();
@@ -1157,7 +1184,7 @@ namespace Files.App.Data.Models
 							if (!wasSyncStatusLoaded)
 							{
 								cts.Token.ThrowIfCancellationRequested();
-								await LoadItemThumbnail(item, thumbnailSize, null);
+								await LoadItemThumbnailAsync(item, thumbnailSize, null);
 							}
 						}
 
@@ -1203,39 +1230,8 @@ namespace Files.App.Data.Models
 								}));
 						}
 
-						if (item.IsGitItem &&
-							GitHelpers.IsRepositoryEx(item.ItemPath, out var repoPath) &&
-							!string.IsNullOrEmpty(repoPath))
-						{
-							cts.Token.ThrowIfCancellationRequested();
-							await SafetyExtensions.IgnoreExceptions(() =>
-							{
-								return dispatcherQueue.EnqueueOrInvokeAsync(() =>
-								{
-									var repo = new LibGit2Sharp.Repository(repoPath);
-									GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, item.ItemPath);
-
-									var gitItem = item.AsGitItem;
-									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-									{
-										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-										_ => null,
-									};
-									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-
-									repo.Dispose();
-								},
-								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-							});
-						}
+						if (EnabledGitProperties != GitProperties.None && item is GitItem gitItem)
+							await LoadGitPropertiesAsync(gitItem, cts);
 					}
 				}, cts.Token);
 			}
@@ -1246,6 +1242,60 @@ namespace Files.App.Data.Models
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
+			}
+		}
+
+		private async Task LoadGitPropertiesAsync(GitItem gitItem, CancellationTokenSource cts)
+		{
+			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
+			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
+
+			if (!getStatus && !getCommit)
+				return;
+
+			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
+				!string.IsNullOrEmpty(repoPath))
+			{
+				cts.Token.ThrowIfCancellationRequested();
+
+				if (getStatus)
+					gitItem.StatusPropertiesInitialized = true;
+
+				if (getCommit)
+					gitItem.CommitPropertiesInitialized = true;
+
+				await SafetyExtensions.IgnoreExceptions(() =>
+				{
+					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						var repo = new Repository(repoPath);
+						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
+
+						if (getStatus)
+						{
+							gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+							{
+								ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+								ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+								ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+								ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+								_ => null,
+							};
+							gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+						}
+						if (getCommit)
+						{
+							gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+							gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+							gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+							gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+							gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+						}
+
+						repo.Dispose();
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				});
 			}
 		}
 
@@ -1339,12 +1389,12 @@ namespace Files.App.Data.Models
 					{
 						var libItem = new LibraryItem(library);
 						foreach (var folder in library.Folders)
-							await RapidAddItemsToCollection(folder, libItem);
+							await RapidAddItemsToCollectionAsync(folder, libItem);
 					}
 				}
 				else
 				{
-					await RapidAddItemsToCollection(path);
+					await RapidAddItemsToCollectionAsync(path);
 				}
 
 				ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete, PreviousDirectory = previousDir, Path = path });
@@ -1362,7 +1412,7 @@ namespace Files.App.Data.Models
 			postLoadCallback?.Invoke();
 		}
 
-		private async Task RapidAddItemsToCollection(string? path, LibraryItem? library = null)
+		private async Task RapidAddItemsToCollectionAsync(string? path, LibraryItem? library = null)
 		{
 			if (string.IsNullOrEmpty(path))
 				return;
@@ -1401,7 +1451,7 @@ namespace Files.App.Data.Models
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					if (!HasNoWatcher)
-						WatchForStorageFolderChanges(currentStorageFolder?.Item);
+						WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
@@ -1417,7 +1467,7 @@ namespace Files.App.Data.Models
 					break;
 			}
 
-			await GetDefaultItemIcons(folderSettings.GetIconSize());
+			await GetDefaultItemIconsAsync(folderSettings.GetIconSize());
 
 			if (IsLoadingCancelled)
 			{
@@ -1445,7 +1495,8 @@ namespace Files.App.Data.Models
 		{
 			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
 			var isBoxFolder = App.CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
-			bool isWslDistro = App.WSLDistroManager.TryGetDistro(path, out _);
+			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
+				|| path.Equals(@"\\wsl$", StringComparison.OrdinalIgnoreCase) || path.Equals(@"\\wsl.localhost", StringComparison.OrdinalIgnoreCase);
 			bool isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
 			bool isShellFolder = path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
 			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
@@ -1722,7 +1773,7 @@ namespace Files.App.Data.Models
 			return (CloudDriveSyncStatus)syncStatus;
 		}
 
-		private async Task WatchForStorageFolderChanges(BaseStorageFolder? rootFolder)
+		private async Task WatchForStorageFolderChangesAsync(BaseStorageFolder? rootFolder)
 		{
 			if (rootFolder is null)
 				return;
@@ -1816,7 +1867,7 @@ namespace Files.App.Data.Models
 
 			var hasSyncStatus = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
-			aProcessQueueAction ??= Task.Factory.StartNew(() => ProcessOperationQueue(watcherCTS.Token, hasSyncStatus), default,
+			aProcessQueueAction ??= Task.Factory.StartNew(() => ProcessOperationQueueAsync(watcherCTS.Token, hasSyncStatus), default,
 				TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -1930,7 +1981,7 @@ namespace Files.App.Data.Models
 			if (hWatchDir.ToInt64() == -1)
 				return;
 
-			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueue(watcherCTS.Token), default,
+			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueueAsync(watcherCTS.Token), default,
 				TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
 			var gitWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
@@ -2004,7 +2055,7 @@ namespace Files.App.Data.Models
 			});
 		}
 
-		private async Task ProcessGitChangesQueue(CancellationToken cancellationToken)
+		private async Task ProcessGitChangesQueueAsync(CancellationToken cancellationToken)
 		{
 			const int DELAY = 200;
 			var sampler = new IntervalSampler(100);
@@ -2031,7 +2082,7 @@ namespace Files.App.Data.Models
 			catch { }
 		}
 
-		private async Task ProcessOperationQueue(CancellationToken cancellationToken, bool hasSyncStatus)
+		private async Task ProcessOperationQueueAsync(CancellationToken cancellationToken, bool hasSyncStatus)
 		{
 			const uint FILE_ACTION_ADDED = 0x00000001;
 			const uint FILE_ACTION_REMOVED = 0x00000002;
@@ -2337,7 +2388,7 @@ namespace Files.App.Data.Models
 			return null;
 		}
 
-		public async Task AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+		public async Task AddSearchResultsToCollectionAsync(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
 		{
 			filesAndFolders.Clear();
 			filesAndFolders.AddRange(searchItems);
@@ -2407,9 +2458,9 @@ namespace Files.App.Data.Models
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreated;
-			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeleted;
-			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequested;
+			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreatedAsync;
+			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeletedAsync;
+			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequestedAsync;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
@@ -2458,5 +2509,13 @@ namespace Files.App.Data.Models
 		/// This property may not be provided consistently if Status is not Complete
 		/// </summary>
 		public string? Path { get; set; }
+	}
+
+	public enum GitProperties
+	{
+		None,
+		Status,
+		Commit,
+		All,
 	}
 }

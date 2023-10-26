@@ -74,9 +74,9 @@ namespace Files.App.Utils.RecentItem
 			PIDL = fileItem.PIDL;
 		}
 
-		public async Task LoadRecentItemIcon()
+		public async Task LoadRecentItemIconAsync()
 		{
-			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem);
+			var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(RecentPath, 96u, ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail);
 			if (iconData is null)
 			{
 				EmptyImgVis = true;

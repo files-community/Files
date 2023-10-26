@@ -38,7 +38,7 @@ namespace Files.App.Utils
 			get
 			{
 				var tooltipBuilder = new StringBuilder();
-				tooltipBuilder.AppendLine($"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{"NameWithColon".GetLocalizedResource()} {Name}");
 				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if(!string.IsNullOrWhiteSpace(FileSize))
@@ -569,6 +569,20 @@ namespace Files.App.Utils
 
 	public class GitItem : ListedItem
 	{
+		private volatile int statusPropertiesInitialized = 0;
+		public bool StatusPropertiesInitialized
+		{
+			get => statusPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
+		}
+
+		private volatile int commitPropertiesInitialized = 0;
+		public bool CommitPropertiesInitialized
+		{
+			get => commitPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
+		}
+
 		private Style? _UnmergedGitStatusIcon;
 		public Style? UnmergedGitStatusIcon
 		{

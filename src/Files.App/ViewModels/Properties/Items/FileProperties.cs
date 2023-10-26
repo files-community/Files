@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
+			ViewModel.IsDownloadedFile = NativeFileOperationsHelper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
 
 			if (!Item.IsShortcut)
 				return;
@@ -87,7 +88,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		public override async Task GetSpecialProperties()
+		public override async Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
@@ -99,7 +100,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				string.Empty;
 
-			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, false);
+			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
 			if (fileIconData is not null)
 			{
 				ViewModel.IconData = fileIconData;
@@ -141,7 +142,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			if (file.Properties is not null)
-				GetOtherProperties(file.Properties);
+				GetOtherPropertiesAsync(file.Properties);
 		}
 
 		public async Task GetSystemFilePropertiesAsync()

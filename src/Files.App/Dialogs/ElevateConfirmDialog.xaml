@@ -21,10 +21,10 @@
 		<Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
 			<Setter Property="ContentTemplate">
 				<Setter.Value>
-					<DataTemplate x:DataType="ContentDialog">
+					<DataTemplate>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<FontIcon FontSize="14" Glyph="&#xEA18;" />
-							<TextBlock Text="{x:Bind PrimaryButtonText, Mode=OneWay}" />
+							<TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 						</StackPanel>
 					</DataTemplate>
 				</Setter.Value>

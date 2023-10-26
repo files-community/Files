@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -87,12 +88,27 @@ namespace Files.App.Data.Items
 		public bool IsHeader { get; set; }
 
 		private object toolTip = "";
-		public object ToolTip
+		public virtual object ToolTip
 		{
 			get => toolTip;
 			set
 			{
 				SetProperty(ref toolTip, value);
+			}
+		}
+
+		public FrameworkElement? ItemDecorator
+		{
+			get
+			{
+				if (Section == SectionType.Favorites)
+				{
+					return new OpacityIcon()
+					{
+						Style = Application.Current.Resources["SidebarFavouritesPinnedIcon"] as Style
+					};
+				}
+				return null;
 			}
 		}
 
@@ -109,7 +125,10 @@ namespace Files.App.Data.Items
 	{
 		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
-			SpaceUsed = RecycleBinHelpers.GetSize();
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				SpaceUsed = RecycleBinHelpers.GetSize();
+			});
 		}
 
 		private ulong spaceUsed;
@@ -118,8 +137,14 @@ namespace Files.App.Data.Items
 			get => spaceUsed;
 			set
 			{
-				SetProperty(ref spaceUsed, value);
+				if (SetProperty(ref spaceUsed, value))
+					OnPropertyChanged(nameof(ToolTip));
 			}
+		}
+
+		public override object ToolTip
+		{
+			get => SpaceUsed.ToSizeString();
 		}
 
 		public RecycleBinLocationItem()

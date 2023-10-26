@@ -42,7 +42,7 @@ namespace Files.App.Services
 		{
 			foreach (var item in FileTagsHelper.GetDbInstance().GetAll())
 			{
-				if (!item.Tags.Contains(tagUid))
+				if (!item.Tags.Contains(tagUid) || RecycleBinHelpers.IsPathUnderRecycleBin(item.FilePath))
 					continue;
 
 				var storable = await StorageService.TryGetStorableAsync(item.FilePath, cancellationToken);

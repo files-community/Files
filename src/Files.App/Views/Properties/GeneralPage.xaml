@@ -3,6 +3,7 @@
 	x:Class="Files.App.Views.Properties.GeneralPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.UserControls.Settings"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -358,8 +359,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<!--  Space Used Progress  -->
@@ -538,34 +537,80 @@
 					</Button.Flyout>
 				</Button>
 
-				<!--  (Divider)  -->
-				<Border
-					Grid.Row="3"
-					Grid.Column="0"
-					Grid.ColumnSpan="4"
-					Height="1"
-					Margin="-16,0"
-					Background="{ThemeResource DividerStrokeColorDefault}" />
-
-				<!--  Disk Cleanup  -->
-				<TextBlock
-					Grid.Row="4"
-					Grid.Column="0"
-					Grid.ColumnSpan="2"
-					Margin="4,0,0,0"
-					Style="{StaticResource PropertyValueTextBlock}"
-					Text="{helpers:ResourceString Name=CleanupDrive}" />
-
-				<Button
-					x:Name="DiskCleanupButton"
-					Grid.Row="4"
-					Grid.Column="2"
-					Grid.ColumnSpan="2"
-					HorizontalAlignment="Right"
-					Click="DiskCleanupButton_Click"
-					Content="{helpers:ResourceString Name=DiskCleanup}" />
-
 			</Grid>
+
+			<!--  Disk Cleanup  -->
+			<controls:SettingsBlockControl
+				x:Name="CleanupDriveBlockControl"
+				Title="{helpers:ResourceString Name=CleanupDrive}"
+				x:Load="{x:Bind ViewModel.DriveCapacityVisibility, Mode=OneWay}"
+				ButtonCommand="{x:Bind ViewModel.CleanupDriveCommand}"
+				IsClickable="True">
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+
+			</controls:SettingsBlockControl>
+
+			<!--  Format Disk  -->
+			<controls:SettingsBlockControl
+				x:Name="FormatDriveBlockControl"
+				Title="{helpers:ResourceString Name=FormatDrive}"
+				x:Load="{x:Bind ViewModel.FormatVisibility, Mode=OneWay}"
+				ButtonCommand="{x:Bind ViewModel.FormatDriveCommand}"
+				IsClickable="True">
+
+				<FontIcon
+					FontSize="14"
+					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+					Glyph="&#xE8A7;" />
+
+			</controls:SettingsBlockControl>
+
+			<!--  Security  -->
+			<Expander
+				x:Name="Security"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsDownloadedFile, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=Security}"
+				IsExpanded="True">
+				<Expander.Content>
+					<Grid
+						HorizontalAlignment="Stretch"
+						ColumnSpacing="8"
+						RowSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<!--  Unblock Downloaded File  -->
+						<TextBlock
+							Grid.Row="0"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="{helpers:ResourceString Name=UnblockDownloadedFile}"
+							TextWrapping="WrapWholeWords" />
+
+						<CheckBox
+							Grid.Row="0"
+							Grid.Column="2"
+							MinWidth="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							AutomationProperties.Name="{helpers:ResourceString Name=UnblockDownloadedFile}"
+							IsChecked="{x:Bind ViewModel.IsUnblockFileSelected, Mode=TwoWay}" />
+
+					</Grid>
+				</Expander.Content>
+			</Expander>
 
 			<!--  Item Attributes  -->
 			<Expander

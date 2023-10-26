@@ -121,7 +121,7 @@
     <value>Bagong window</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopyahin ang pinaglagyan</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Mag-browse</value>
@@ -133,16 +133,16 @@
     <value>Ginawa:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>Pinaglagyan</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Sukat:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Laki sa disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed na Laki:</value>
+    <value>Uncompressed size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Hindi maaaring magawa ang aksyon na ito</value>
@@ -157,13 +157,13 @@
     <value>Laktawan</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Piliin Lahat</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert Selection</value>
+    <value>Invert selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
+    <value>Clear selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Nabago:</value>
@@ -175,10 +175,10 @@
     <value>I-clear lahat ng mga item</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Ilagay ang lokasyon ng pupuntahan o i-type ang "&gt;" para buksan ang command palette</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Hanapin</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Ang mga file na iyong binuksan na ay makikita rito</value>
@@ -199,7 +199,7 @@
     <value>Pormat ng petsa</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Ipakita ang karugtong ng mga karaniwang uri ng file</value>
@@ -217,7 +217,7 @@
     <value>Background</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Pinahusay</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Magpatuloy kung saan huminto</value>
@@ -244,52 +244,52 @@
     <value>Pataas</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>I-paste</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Bago</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Mga katangian</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Buksan</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Buksan sa bagong tab</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Buksan sa bagong window</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Ibahagi</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>I-cut</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Burahin</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>I-pin sa mga Paborito</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Maligayang pagdating sa Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Magbigay ng Pahintulot</value>
+    <value>Grant permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Upang makapagsimula, kakailanganin mong bigyan kami ng pahintulot na ipakita ang iyong mga file. Magbubukas ito ng setting kung saan maaari mong ibigay sa amin ang pahintulot na ito. Kakailanganin mong muling buksan ang app kapag nakumpleto mo na ang hakbang na ito. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Ipakita</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Pangalanan ang bagay</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Magtakda ng pangalan</value>
+    <value>Set name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Maliwanag</value>
@@ -304,10 +304,10 @@
     <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>Bagong folder</value>
+    <value>New folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>Bagong file</value>
+    <value>New file</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Walang laman ang folder na ito.</value>
@@ -322,7 +322,7 @@
     <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>I-refresh</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Ang isang item na may ganitong pangalan ay mayroon na sa direktoryong ito.</value>
@@ -334,7 +334,7 @@
     <value>Mayroon na ang item</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>I-set bilang background ng lock screen</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Hindi namin natanggal ang item na ito</value>
@@ -343,7 +343,7 @@
     <value>Mangyaring ipasok ang kinakailangang drive upang ma-access ang item na ito.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Naalis ang Drive</value>
+    <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Ang file na iyong sinusubukang i-access ay maaaring nailipat o nabura na.</value>
@@ -361,13 +361,13 @@
     <value>Ang file na iyong sinusubukang i-access ay kasalukuyang ginagamit ng {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Ang file na iyong sinusubukang i-access ay kasalukuyang ginagamit ng ibang aplikasyon</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Ginagamit pa ang File</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Pagkakaayos</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Pagbasa-lamang</value>
@@ -394,10 +394,10 @@
     <value>{0} mga segundo ang nakalipas</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 segundo ang nakararaan</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Ngayon</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Hindi suportado ang hinihiling na operasyon</value>
@@ -406,13 +406,13 @@
     <value>{0} libre sa {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Ipadala sa</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Ang pangalan ng item ay hindi dapat magkaroon ng mga sumusunod: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Ang item na sinasabi ay hindi tama</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>piniling item</value>
@@ -425,12 +425,6 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>mga item</value>
-  </data>
-  <data name="DeleteInProgress.Title" xml:space="preserve">
-    <value>Binubura ang mga file</value>
-  </data>
-  <data name="RecycleInProgress.Title" xml:space="preserve">
-    <value>Nililipat ang mga file sa Recycle Bin</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oo</value>
@@ -478,7 +472,7 @@
     <value>Magkakaibang mga uri</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Lahat ay nasa {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Nagamit na espasyo:</value>
@@ -501,9 +495,6 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Istado</value>
   </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Mga pahina:</value>
-  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
   </data>
@@ -520,7 +511,7 @@
     <value>Kopyahin sa {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Gumawa ng shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Buksan ang lokasyon ng file</value>
@@ -601,7 +592,7 @@
     <value>Masyadong mahaba ang pangalan ng item</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Ipakita ang ibang mga pagpipilian</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Kailangang i-restart ang application upang mailapat ang mga setting na ito, gusto mo bang i-restart ang app?</value>
@@ -622,7 +613,7 @@
     <value>Kanselahin</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Gumawa ng Bagong Item</value>
+    <value>Create a new item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Pumili ng uri para sa bagong item na ito sa ibaba</value>
@@ -646,13 +637,13 @@
     <value>I-refresh ang direktoryo</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Wika</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Ilipat ang shell extensions papuntang sub menu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Magpakita ng dayalogo ng kumpirmasyon kapag nagbubura ng mga items</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Nagkaroon ng isyu sa pag-save ng ilang propyedad.</value>
@@ -928,7 +919,7 @@
     <value>Address</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Pilian ng mga seleksyon</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Pumili</value>
@@ -957,17 +948,17 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Kasalukuyang ginagamit ang device. Isara ang anumang mga program, window o tab na maaaring gumagamit ng device, at pagkatapos ay subukang muli.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>I-eject</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Doblehin ang tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>Ilipat ang tab sa bagong window</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Bagong tab</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Ang ilang mga propertarya ay maaaring maglaman ng personal na impormasyon.</value>
@@ -979,7 +970,7 @@
     <value>Suriin ang katayuan ng mga pagpapatakbo ng file dito</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Sentro ng Katayuan</value>
+    <value>Status center</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Mga resulta ng paghahanap sa {1} para sa {0}</value>
@@ -994,19 +985,19 @@
     <value>Hindi</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Show protected system files</value>
+    <value>Ipakita ang protektadong mga system files</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>Include unindexed items in search results</value>
+    <value>Isama ang mga unindexed items sa resulta ng paghahanap</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Isabay ang layout at paghahanay ng preferences sa mga directories</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>I-customize ang right click context menu</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>Original path</value>
+    <value>Orihinal na pinaglagyan</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Magdagdag</value>
@@ -1018,16 +1009,16 @@
     <value>Tanggalin</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Buksan ang tabs sa modal na dual pane</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Ipakita ang mga opsyon sa pagbubukas ng bagong folder sa bagong pane</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Bagong pane</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>Open in new pane</value>
+    <value>Buksan sa bagong pane</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Mga folder</value>
@@ -1060,7 +1051,7 @@
     <value>Ninanais na pangalan</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Pindutin ang preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Walang available na preview</value>
@@ -1069,7 +1060,7 @@
     <value>Pangalan ng bagay</value>
   </data>
   <data name="UnpinFromFavorites" xml:space="preserve">
-    <value>Unpin from Favorites</value>
+    <value>Alisin sa mga paborito</value>
   </data>
   <data name="SidebarNetworkDrives" xml:space="preserve">
     <value>Mga Network Drive</value>
@@ -1087,13 +1078,13 @@
     <value>Napiling file preview pane</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Katugunan</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Available kapag online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentasyon</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Available offline</value>
@@ -1176,24 +1167,6 @@
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Bilang ng item</value>
   </data>
-  <data name="StatusDeletionFailed" xml:space="preserve">
-    <value>Ang pagtatanggal ay nabigo</value>
-  </data>
-  <data name="StatusDeletionComplete" xml:space="preserve">
-    <value>Natapos na ang pagtanggal</value>
-  </data>
-  <data name="StatusDeletionCancelled" xml:space="preserve">
-    <value>Kinansela ang pagtanggal</value>
-  </data>
-  <data name="StatusRecycleComplete" xml:space="preserve">
-    <value>Natapos na ang pag-recycle</value>
-  </data>
-  <data name="StatusMoveComplete" xml:space="preserve">
-    <value>Natapos na ang paglipat</value>
-  </data>
-  <data name="StatusCopyComplete" xml:space="preserve">
-    <value>Kumpleto na ang kinopya</value>
-  </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>Kinakailangan ang karapatan ng tagapangasiwa</value>
   </data>
@@ -1234,7 +1207,7 @@
     <value>Umiiral na ang bundle na may parehong pangalan!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Buksan ang Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopyahin</value>
@@ -1291,10 +1264,10 @@
     <value>Hindi matagpuan ang iyong hinahanap?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Maghanap ng mga hindi-index na item</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Palitan ang gawa na</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Bumuo ng bagong pangalan</value>
@@ -1306,10 +1279,7 @@
     <value>Mayroong isang magkasalungat na pangalan ng file.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
-  </data>
-  <data name="ToolTipDescriptionName" xml:space="preserve">
-    <value>Pangalan:</value>
+    <value>Lumikha ng folder gamit ang mga pinili</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Uri:</value>
@@ -1336,7 +1306,7 @@
     <value>Hanay ng petsa ng pag-tanggal</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Iayos</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Igrupo ayon sa</value>
@@ -1345,7 +1315,7 @@
     <value>Pagbabagong Petsa</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Orihinal na folder</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Pagbukud-bukurin ayon sa</value>
@@ -1372,7 +1342,7 @@
     <value>Napakaliit</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Hinaharap</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>Ngayon</value>
@@ -1387,19 +1357,19 @@
     <value>Nakaraang linggo</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Mas maaga ng buwang ito</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Noong nakaraang buwan</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Mas maaga ng taong ito</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>Nakaraang taon</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>Taon {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} na item</value>
@@ -1411,109 +1381,16 @@
     <value>Binuksan muli ang lumang tab</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>I-rename</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
-  </data>
-  <data name="StatusMoveCanceled" xml:space="preserve">
-    <value>Kinansela ang paglipat</value>
-  </data>
-  <data name="StatusCopyCanceled" xml:space="preserve">
-    <value>Kinansela ang pagkopya</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Singular" xml:space="preserve">
-    <value>Ang paglipat ng {0} item mula sa {1} patungo sa {2} ay nakansela</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural" xml:space="preserve">
-    <value>Ang paglipat ng {0} (na) item mula sa {1} patungong {2} ay nakansela pagkatapos mailipat ang {3} (na) item</value>
-  </data>
-  <data name="StatusMoveCanceledDetails_Plural2" xml:space="preserve">
-    <value>Ang paglipat ng {0} (na) item mula sa {1} patungong {2} ay kinansela pagkatapos ilipat ang {3} na item</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Singular" xml:space="preserve">
-    <value>Inilipat ang {0} item mula sa {1} patungo sa {2}</value>
-  </data>
-  <data name="StatusMovingItemsDetails_Plural" xml:space="preserve">
-    <value>Moving {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully moved {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMovedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully moved {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to move {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to move {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1} was canceled</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} items</value>
-  </data>
-  <data name="StatusCopyCanceledDetails_Plural2" xml:space="preserve">
-    <value>Copying {0} items to {1} was canceled after copying {2} item</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Singular" xml:space="preserve">
-    <value>Copying {0} item to {1}</value>
-  </data>
-  <data name="StatusCopyingItemsDetails_Plural" xml:space="preserve">
-    <value>Copying {0} items to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully copied {0} item to {1}</value>
-  </data>
-  <data name="StatusCopiedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully copied {0} items to {1}</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1} was canceled</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} items</value>
-  </data>
-  <data name="StatusDeleteCanceledDetails_Plural2" xml:space="preserve">
-    <value>Deleting {0} items from {1} was canceled after deleting {3} item</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Singular" xml:space="preserve">
-    <value>Deleting {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletingItemsDetails_Plural" xml:space="preserve">
-    <value>Deleting {0} items from {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Singular" xml:space="preserve">
-    <value>Successfully deleted {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletedItemsDetails_Plural" xml:space="preserve">
-    <value>Successfully deleted {0} items from {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to delete {0} item from {1}</value>
-  </data>
-  <data name="StatusDeletionFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to delete {0} items from {1}</value>
+    <value>Pribado</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>the Recycle Bin</value>
+    <value>ang Recycle Bin</value>
   </data>
-  <data name="MoveInProgress" xml:space="preserve">
-    <value>Moving items</value>
-  </data>
-  <data name="CopyInProgress.Title" xml:space="preserve">
-    <value>Copying items</value>
-  </data>
-  <data name="StatusRecycleFailed" xml:space="preserve">
-    <value>Recycle failed</value>
-  </data>
-  <data name="StatusRecycleCancelled" xml:space="preserve">
-    <value>Recycle cancelled</value>
-  </data>
-  <data name="canceling" xml:space="preserve">
-    <value>canceling</value>
+  <data name="Canceling" xml:space="preserve">
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Linisin</value>
@@ -1522,34 +1399,34 @@
     <value>Widgets</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Sync status</value>
+    <value>Status ng pag-Sync</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Security</value>
+    <value>Seguridad</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>Advanced permissions</value>
+    <value>Pangmataas na mga permisyon</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>Allow</value>
+    <value>Pagbigyan</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Pagbawalan</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Full control</value>
+    <value>Lahat ay kontrol</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>List directory contents</value>
+    <value>Ilista ang laman ng direktoryo</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Baguhin</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>Permissions for {0}</value>
+    <value>Pahintulot para sa {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>Basahin at ipatupad</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
     <value>Bumasa</value>
@@ -1567,13 +1444,13 @@
     <value>Wala kang mga pahintulot na tingnan ang mga katangian ng seguridad ng bagay na ito. I-click ang "Mga advanced na pahintulot" upang magpatuloy.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>May-ari:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>Hindi kilalang may-ari</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract Archive</value>
+    <value>Extract archive</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Buksan ang destination folder kapag kumpleto na</value>
@@ -1603,7 +1480,7 @@
     <value>Access</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>Applies to</value>
+    <value>Iangkop sa</value>
   </data>
   <data name="Principal" xml:space="preserve">
     <value>Principal</value>
@@ -1618,10 +1495,10 @@
     <value>mga subfolder</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>Inherited</value>
+    <value>Minana</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>Mga Pahintulot</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>Wala kang mga pahintulot na tingnan ang mga katangian ng seguridad ng bagay na ito. Maaari mong subukang ariin ang bagay na ito.</value>
@@ -1702,67 +1579,67 @@
     <value>Alisin ang lahat ng minanang pahintulot</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>Reset child permissions</value>
+    <value>I-reset ang mababang pahintulot</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
+    <value>Palitan ang pahintulot sa paglalagay ng lahat ng mababang bagay ng mga pwedeng kopyahing pahintulot para dito</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Isara ang talaan</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>Ilagay ang compact overlay</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Umalis sa compact overlay</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
-    <value>File description</value>
+    <value>Larawan ng talaksn</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>Company</value>
+    <value>Kumpanya</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
     <value>Wika</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>Trademarks</value>
+    <value>Tatak</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>File version</value>
+    <value>Bersyon ng File</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Load full preview</value>
+    <value>Ipakita lahat ng preview</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Downloads the item from the cloud and loads the preview</value>
+    <value>I-download ang item sa cloud at ipakita sa preview</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
     <value>{0} items ({1} files, {2} folders)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Uncompressed size</value>
+    <value>Uncompressed na laki</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Itago ang {0} na pilian</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Add file</value>
+    <value>Magdagdag ng file</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>Updates available</value>
+    <value>Mayroong update</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>Updates are ready to install</value>
+    <value>Ang mga updates at handa nang i-install</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Isara</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>Update</value>
+    <value>I-update</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
@@ -1789,19 +1666,19 @@
     <value>Ctrl+Shift+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>The archive extraction completed successfully.</value>
+    <value>Ang pag-extract ng archive ay matagumpay na naganap.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>Extracting archive</value>
+    <value>Pinaaalis ang talaan ng mga kasaysayan</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>Extracting complete!</value>
+    <value>Ang pag-extract ay tapos na!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Open parent folder</value>
+    <value>Buksan ang folder na pinaglalagyan</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Hindi kilala</value>
   </data>
   <data name="EditTags" xml:space="preserve">
     <value>I-edit ang mga tanda</value>
@@ -1810,7 +1687,7 @@
     <value>Bahagi ng set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Buksan ang Drive</value>
+    <value>Open drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Mangyaring magpasok ng disc sa drive {0}</value>
@@ -1819,10 +1696,10 @@
     <value>Magpasok ng disc</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Sige</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Kinakailangan ang Kredensyal</value>
+    <value>Credential required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Hindi Kilala</value>
@@ -1834,10 +1711,10 @@
     <value>UserName</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget ng Drives</value>
+    <value>Drives widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget ng Mga Kamakailang File</value>
+    <value>Recent Files widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Walang nahanap na mga item</value>
@@ -1852,106 +1729,106 @@
     <value>Mga hanay</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Malalaking mga icon</value>
+    <value>Large icons</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Katamtamang mga icon</value>
+    <value>Medium icons</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Maliliit na icon</value>
+    <value>Small icons</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Mga tile</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Buksan ang folder sa panibagong tab</value>
   </data>
-  <data name="OngoingTasks" xml:space="preserve">
-    <value>Ongoing Tasks</value>
+  <data name="StatusCenter" xml:space="preserve">
+    <value>Status center</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>Kolum sa petsa ng pagkagawa</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>Item size column</value>
+    <value>Kolum sa laki ng bagay</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Mga Bandila ng Eksperimental na Tampok</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Tulong at supora</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Magsumite ng Kahilingan sa Tampok</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Magsumite ng Ulat ng Pagkakamali</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>Itakda ang Mga Talaksan bilang default na tagapamahala ng mga talaksan</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>Use Files as Open File Dialog</value>
+    <value>Gamitin ang Mga Talaksan bilang Bukaing Dialog ng Talaksan</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Tanda</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Buksan ang mga item sa isang pindot</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Folder path</value>
+    <value>Pinaglagyan ng Polder</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export Settings</value>
+    <value>Export settings</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import Settings</value>
+    <value>Import settings</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Couldn't import settings. The settings file is corrupted.</value>
+    <value>Hindi ma-iimport ang settings. Ang files ng settings at korap.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Error importing settings</value>
+    <value>May mali sa pag-import ng settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>Empty Recycle Bin</value>
+    <value>Burahin lahat ng laman ng Recycle Bin</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>Sidebar</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Choose a custom folder icon</value>
+    <value>Pumili ng custom folder icon</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>Customization</value>
+    <value>Kostumasyon</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>Restore default</value>
+    <value>Ibalik sa default</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
-    <value>Open new instance when opening directories from the taskbar jumplist</value>
+    <value>Magbukas ng panibago kapag nagbubukas ng panibagong directories sa taskbar jumplist</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Startup settings</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
-    <value>Compatibility</value>
+    <value>Pagkakatugma</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>None</value>
+    <value>Wala</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Sa paglogin sa Windows</value>
   </data>
   <data name="HighDpiOption_UseDPIOnProgramStart" xml:space="preserve">
-    <value>On program start</value>
+    <value>Sa pagbukas ng applikasyon</value>
   </data>
   <data name="HighDpiOverride_System" xml:space="preserve">
     <value>Sistema</value>
   </data>
   <data name="HighDpiOverride_SystemAdvanced" xml:space="preserve">
-    <value>System (advanced)</value>
+    <value>Sistema (pinahusay)</value>
   </data>
   <data name="OSCompatibility_Windows7" xml:space="preserve">
     <value>Windows 7</value>
@@ -1975,22 +1852,22 @@
     <value>8 Bit Colors (256)</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
-    <value>Compatibility mode</value>
+    <value>Pagkakatugmang modal</value>
   </data>
   <data name="DisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable fullscreen optimizations</value>
+    <value>Patayin ang fullscreen optimizations</value>
   </data>
   <data name="ExecuteAt640X480" xml:space="preserve">
     <value>Patakbuhin sa resolusyong 640 x 480</value>
   </data>
   <data name="OverrideDPIScalingBehaviour" xml:space="preserve">
-    <value>Override high DPI scaling behaviour</value>
+    <value>Pangibabawan ang scaling behavior ng high DPI</value>
   </data>
   <data name="ReducedColorMode" xml:space="preserve">
-    <value>Reduced color mode</value>
+    <value>Pahinaang modal ng kulay</value>
   </data>
   <data name="RegisterForRestart" xml:space="preserve">
-    <value>Register for restart</value>
+    <value>Irehistro para sa pagbubukas</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Patakbuhin bilang tagapangasiwa</value>
@@ -1999,16 +1876,13 @@
     <value>Patakbuhin ang troubleshooter ng compatibility</value>
   </data>
   <data name="UseMainMonitorDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Gumamit ng DPI settings ng main monitor</value>
   </data>
   <data name="ThirdPartyLicenses" xml:space="preserve">
     <value>Third party licenses</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
-  </data>
-  <data name="ClearAll" xml:space="preserve">
-    <value>Clear all</value>
+    <value>Ang opsyon na ito at binabago ang system registry at pwedeng magkaroon ng hindi inaasahang side effects sa iyong device. Magpatuloy sa iyong panganib.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Gumawa ng Aklatan</value>
@@ -2017,13 +1891,13 @@
     <value>Ilagay ang pangalan ng Aklatan</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculate folder sizes</value>
+    <value>Kalkulahin ang laki ng mga folder</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recent files</value>
+    <value>Kamakailang mga files</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Buksan ang Files sa pag-start ng Windows</value>
+    <value>Open Files on Windows startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Mga Katangian</value>
@@ -2040,14 +1914,11 @@
   <data name="CleanupDrive" xml:space="preserve">
     <value>Linisin ang mga laman ng drive</value>
   </data>
-  <data name="DiskCleanup" xml:space="preserve">
-    <value>Linisin ang Disk</value>
-  </data>
   <data name="Type" xml:space="preserve">
     <value>Uri</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon Grid</value>
+    <value>Icon grid</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2065,7 +1936,7 @@
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}</value>
+    <value>I-extract sa {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
     <value>Patakbuhin ang iskrip</value>
@@ -2074,85 +1945,67 @@
     <value>Patakbuhin gamit ang PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
+    <value>Ang pagkakalkula ng laki ng folder ay malakas kumain ng resources at pwedeng magdulot ng pagtaas ng paggamit ng iyong CPU.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>Rotate left</value>
+    <value>Iikot sa kaliwa</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>Rotate right</value>
+    <value>Iikot sa kanan</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>I-install</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Isara ang mga tabs sa kaliwa</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>Isara ang mga tabs sa kanan</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>Isara ang ibang tab</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musika</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>Pictures</value>
+    <value>Litrato</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>Update Files</value>
-  </data>
-  <data name="StatusPreparingItemsDetails_Plural" xml:space="preserve">
-    <value>Preparing {0} items</value>
-  </data>
-  <data name="PrepareInProgress" xml:space="preserve">
-    <value>Preparing items</value>
-  </data>
-  <data name="StatusCopyFailed" xml:space="preserve">
-    <value>Copy failed</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Plural" xml:space="preserve">
-    <value>Failed to copy {0} items from {1} to {2}</value>
-  </data>
-  <data name="StatusCopyFailedDetails_Singular" xml:space="preserve">
-    <value>Failed to copy {0} item from {1} to {2}</value>
-  </data>
-  <data name="StatusMoveFailed" xml:space="preserve">
-    <value>Move failed</value>
+    <value>I-update ang file</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Tanda</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>Use compact spacing in the details layout</value>
+    <value>Gumamit ng cocompact spacing sa details layout</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>Universal</value>
+    <value>Pangkalahatan</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Show thumbnails</value>
+    <value>Ipakita ang thumbnails</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>Retry</value>
+    <value>Subukang muli</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
+    <value>Ang operasyon na paglilipat ay hindi suportado sa kontekstong ito. Gusto mo na lang bang kopyahin ang piling items?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Hidden items</value>
+    <value>Mga nakatagong bagay</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Itakda sa desktop slideshow</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size All Columns to Fit</value>
+    <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatically choose the best layout</value>
@@ -2164,154 +2017,133 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Show alternate data streams</value>
+    <value>Magpakita ng ibang data streams</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>Behaviors</value>
+    <value>Mga pag-uugali</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Suriin ang Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+    <value>Gusto mo bang suriin ang Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Itakda bilang background</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>I-set bilang desktop background</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Set as default</value>
+    <value>Itakda bilang default</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Kolum ng petsa</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date Created column</value>
+    <value>Kolum sa petsa ng pagkagawa</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Kolum ng laki</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Kolum ng pananda</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Kolum ng uri</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Details layout columns</value>
+    <value>Detalye ng kolum ng layout</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Buksan ang mga folders sa isang pindot sa Columns Layout</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
-  </data>
-  <data name="CompressionCompleted" xml:space="preserve">
-    <value>Compression completed</value>
-  </data>
-  <data name="CompressionSucceded" xml:space="preserve">
-    <value>{0} has been compressed</value>
-  </data>
-  <data name="CompressionFailed" xml:space="preserve">
-    <value>{0} couldn't be compressed</value>
-  </data>
-  <data name="CompressionInProgress" xml:space="preserve">
-    <value>Compressing archive</value>
+    <value>Binubuksan ang mga items</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>I-compress</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Piliin and mga files at folders kapag nadadaanan ng mouse</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Sigurado ka bang gusto mong bawiin muli ang lahat ng mga items sa recycle bin?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Ibalik muli ang mga item</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Gusto mo bang gusto mong bawiin ang mga item(s) {0} na pinili?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Ibalik muli ang pagpipilian</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Ibalik muli ang lahat ng item</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Ibalik</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Ang shortcut ay hindi mabuksan</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Ang tatget na destinasyon ay hindi mahanap {0}. Gusto mo bang burahin ang shortcut na ito?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
-  </data>
-  <data name="EmptyingRecycleBin" xml:space="preserve">
-    <value>Emptying recycle bin</value>
-  </data>
-  <data name="BinEmptyingSucceded" xml:space="preserve">
-    <value>Successfully emptied recycle bin</value>
-  </data>
-  <data name="BinEmptyingFailed" xml:space="preserve">
-    <value>Failed to empty recycle bin</value>
+    <value>Wala kang permiso para ma-access ang folder na ito.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>I-archive ang password</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Lokasyon</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Pagsasaayos at pag-gugrupo</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Gumawa ng talaan ng kasaysayan</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Lumikha</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Gumawa {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Maglagay ng pangalan</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Lebel ng pagsiksik</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
     <value>Ultra</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Mataas</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
     <value>Normal</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Mababa</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Mabilis</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>None</value>
+    <value>Wala</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Pinaghihiwalay ang laki</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Huwag paghiwalayin</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2335,544 +2167,544 @@
     <value>Ayos</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Kolum ng estado ng pagsabay</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Igrupo ayon sa</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Pagbukud-bukurin ayon sa</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>I-grupo ayon sa pagkakasunod ng pangalan</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Ihanay ayon sa pabaligtad na pagkakasunod ng pangalan</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Gumagawa ng bagong shortcut</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Gumawa ng shortcuts sa lokal o network programs, files, folders, kompyuter o internet addresses.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Ilagay ang lokasyon ng item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Gumagawa ng shortcut</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Kamakailang ginamit na mga files at kasalukuyang nakasara sa Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit Settings File</value>
+    <value>Edit settings file</value>
   </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+  <data name="WhatsNew" xml:space="preserve">
+    <value>What's new</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Ang paggawa ng shortcut sa lokasyong ito at kinakailangan ng pribilehiyo ng administrador</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Gusto mo bang gumawa nalang ng shortcut sa desktop?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Ang pangalan ng item na sinasabi at hindi pwede</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Doblehin ang pindot sa blankong espasyo para pumunta pataas ng isa sa directory</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Tingnan pa ang iba</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Ipakita ang edit tags flyout</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show Send To menu</value>
+    <value>Ipakita ang Send To menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Ipakita ang opsyon para buksan ang mga folders sa bagong tab</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Ipakita ang opsyon para buksan ang mga folders sa bagong window</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Mabilis na pag-kuha</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>Enter your credentials to connect to: {0}</value>
+    <value>Ilagay ang iyong mga kredensyal para kumunekta sa: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter Network Credentials</value>
+    <value>Enter network credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>Remember my credentials</value>
+    <value>Tandaan ang aking mga kredensyal</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>May mali sa Network folder</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Bersyon ng Aplikasyon</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>Bersyon ng Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Palagi</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Permanenteng pagbura lamang</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Hindi kailanman</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Tag color</value>
+    <value>Kulay ng pananda</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Bagong pananda</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>Gumawa ng bagong pananda</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Inaayos...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Konteksto ng mga opsyon</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Ipakita ang mga karugtong ng file</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Ipakita ang mga nakatagong item</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Ayos...</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Tulong</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Pindutin ang buong screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>Are you sure you want to delete this tag?</value>
+    <value>Sigurado ka bang gusto mong tanggalin ang tanda na ito?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Patugtugin lahat</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Taas</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>Lapad</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>I-apply ang aksyon na ito sa lahat ng mga natatanging item</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in terminal</value>
+    <value>Open in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in terminal as administrator</value>
+    <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>I-save</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>Multiselect</value>
+    <value>Maramihang pagpili</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>Reorder sidebar items</value>
+    <value>Pagsunod-sunorin mula ang sidebar items</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>Hashes</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>An error occurred during the calculation</value>
+    <value>May naganap na pagkakamali habang kina-kalkula</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>Algorithm</value>
+    <value>Algoritmo</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>Hash value</value>
+    <value>Halaga ng hash</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>Select hashes to show</value>
+    <value>Pumili na mga hashes na titingnan</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Nagkalkula...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
+    <value>Mga pinned na items</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>Decrease size</value>
+    <value>Bawasan ang laki</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>Increase size</value>
+    <value>Dagdagan ang laki</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Pindutin ang direkston ng paghahanay</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>Invalid name</value>
+    <value>Hindi wastong pangalan</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>Name must not be empty or start or end with a period.</value>
+    <value>Ang pangalan ay hindi dapat walang laman o nagsisimula o nagtatapos sa tuldok.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
+    <value>Mga bidyo</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Buksan ang preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Pindutin ang compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Buksan ang online help page sa browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Pindutin ang buong screen</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay</value>
+    <value>Ilagay ang compact overlay</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Umalis sa compact overlay</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Pindutin ang compact overlay</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Go to search box</value>
+    <value>Pumunta sa kahong hanapan</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Pindutin maalin kung ipakita ang nakatagong mga items</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Pindutin maalin kung ipakita ang karugtong ng mga file</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
+    <value>Pindutin maalin kung ipakita ang preview pane</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Toggle whether to show sidebar</value>
+    <value>Pindutin maalin kung ipakita ang sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy item(s) to clipboard</value>
+    <value>Kopyahin ang item(s) sa clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of item to clipboard</value>
+    <value>Kopyahin ang pinaglagyan sa clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut item(s) to clipboard</value>
+    <value>I-cut ang item(s) sa clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder</value>
+    <value>I-paste ang mga item(s) mula sa clipboard sa kasalukuyang folder</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to selected folder</value>
+    <value>I-paste ang mga item(s) mula sa clipboard sa napiling folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Tanggalin ang (mga) item</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Create new folder</value>
+    <value>Gumawa ng bagong folder</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new shortcut(s) to selected item(s)</value>
+    <value>Gumawa ng mga bagong shortcut(s) sa mga napiling item(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Gumawa ng bagong shortcut sa kahit anong item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
     <value>Basyuhin ang recycle bin</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>Open "Format Drive" menu for selected item</value>
+    <value>Buksan ang "Format Drive" na pagpipilian sa napiling item</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected item(s) from recycle bin</value>
+    <value>Ibalik ang napiling item(s) sa recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Ibalik ang lahat ng items sa recycle bin</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open item(s)</value>
+    <value>Buksan ang item(s)</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open item(s) with selected application</value>
+    <value>Buksan ang item(s) sa napiling aplikasyon</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Open parent folder of searched item</value>
+    <value>Buksan ang pinagmulang folder ng hinanap na item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>I-refresh ang mga nilalaman ng pahina</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>Rename selected item</value>
+    <value>Baguhin ang pangalan ng napiling item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>Piliin lahat ng mga items</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Baliktarin ang item na pagpipilian</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Burahin and item na pagpipilian</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Pindutin ang item na pagpipilian</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected file(s) with others</value>
+    <value>Ibahagi ang mga napiling file(s) sa iba</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>I-pin ang mga item(s) sa Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>I-unpin ang mga item(s) sa Start Menu</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
-    <value>Pin folder(s) to Favorites</value>
+    <value>I-pin ang mga folder(s) sa mga Paborito</value>
   </data>
   <data name="UnpinItemFromFavoritesDescription" xml:space="preserve">
-    <value>Unpin folder(s) from Favorites</value>
+    <value>I-unpin ang mga folder(s) sa mga Paborito</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as desktop background</value>
+    <value>Gawing desktop background ang napiling litrato</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Set selected pictures as desktop slideshow</value>
+    <value>Gawing desktop slideshow ang napiling litrato</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>Set selected picture as lockscreen background</value>
+    <value>Gawing lockscreen backgrouns ang napiling litrato</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected font(s)</value>
+    <value>I-install ang mga napiling font(s)</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install driver(s) using selected inf file(s)</value>
+    <value>I-install ang mga driver(s) gamit ang napiling inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected certificate(s)</value>
+    <value>I-install ang mga napiling certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Run selected application as administrator</value>
+    <value>Paganahin ang napiling apliksayon sa administrator</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Run selected application as another user</value>
+    <value>Paganahin ang napiling apliksayon sa ibang gumagamit</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Run selected PowerShell script</value>
+    <value>Paganahin ang napiling Powershell script</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Paandarin ang pagsilip sa popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Gumawa ng talaan ng pilining mga item(s)</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Gumawa ng talaan ng 7z kaagad ng pilining mga item(s)</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Gumawa ng talaan ng zip kaagad ng pilining mga item(s)</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>I-extract ang mga item mula sa napiling archive(s) papunta sa anumang folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>I-extract ang mga item mula sa napiling archive(s) papunta sa kasalukuyang folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>I-extract ang mga item mula sa napiling archive(s) papunta sa bagong folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>I-ikot ang mga napiling mga image(s) papunta sa kaliwa</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>I-ikot ang mga napiling mga image(s) papunta sa kanan</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Buksan ang settings page</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>Buksan ang folder sa terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>Buksan ang folder sa terminal bilang administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease icon size in grid view</value>
+    <value>Paliitin ang laki ng icon sa grid view</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase icon size in grid view</value>
+    <value>Dagdagan ang laki ng icon sa grid view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>Lumipat sa details view</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>Lumipat sa tiles view</value>
   </data>
   <data name="LayoutGridSmallDescription" xml:space="preserve">
-    <value>Switch to grid view with small icons</value>
+    <value>Lumipat sa grid view nang may maliit na icons</value>
   </data>
   <data name="LayoutGridMediumDescription" xml:space="preserve">
-    <value>Switch to grid view with medium icons</value>
+    <value>Lumipat sa grid view nang may medium na icons</value>
   </data>
   <data name="LayoutGridLargeDescription" xml:space="preserve">
-    <value>Switch to grid view with large icons</value>
+    <value>Lumipat sa grid view nang may malaking icons</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Lumipat sa tanawin ng mga kolum</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Magpalit ng mga tanawin nang adaptibo</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>Ayusin ang mga item ayon sa pangalan</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>Ayusin ang mga item ayon sa petsa ng pagbabago</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>Ayusin ang mga item ayon sa petsa ng paggawa</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>Ayusin ang mga item ayon sa laki</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>Ayusin ang mga item ayon sa uri</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>Sort items by sync status</value>
+    <value>Ayusin ang mga item ayon sa estado ng pagsabay</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sort items by tags</value>
+    <value>Ayusin ang mga item ayon sa pananda</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sort items by original folder</value>
+    <value>Ayusin ang mga item ayon sa orihinal na folder</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>Sort items by date deleted</value>
+    <value>Ayusin ang mga item ayon sa petsa ng pagbura</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>Ihanay ayon sa pataas na pagkakasunod ng pangalan</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>Ihanay ayon sa pabaligtad na pagkakasunod ng pangalan</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Pindutin ang direkston ng paghahanay ng item</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Ilista at pag-uri-uriin ang mga direktoryo sa tabi ng mga file</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Ilista ang mga items nang hindi nakagrupo</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>Pagsamahin ang mga item ayon sa pangalan</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>Pagsamahin ang mga item ayon sa petsa ng pagbago</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>Pagsamahin ang mga item ayon sa petsa ng paggawa</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>Pagsamahin ang mga item ayon sa laki</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>Pagsamahin ang mga item ayon sa uri</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>Group items by sync status</value>
+    <value>Pagsamahin ang mga item ayon sa estado ng pagsabay</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>Pagsamahin ang mga item ayon sa pananda</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Group items by original folder</value>
+    <value>Pagsamahin ang mga item ayon sa orihinal na folder</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>Group items by date deleted</value>
+    <value>Pagsamahin ang mga item ayon sa petsa ng pagbura</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Group items by folder path</value>
+    <value>Pagsamahin ang mga items ayon sa pinaglagyan ng folder</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Sort groups in ascending order</value>
+    <value>Ihanay ang grupo ayon sa pagkakasunod ng pangalan</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>Sort groups in descending order</value>
+    <value>Ihanay ang grupo pabaligtad ayon sa pagkakasunod ng pangalan</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Pindutin ang grupo ng direkston ng paghahanay ng item</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Magbukas ng bagong tab</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Mag-navigate pabalik sa kasaysayan ng nabigasyon</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Mag-navigate pauna sa kasaysayan ng nabigasyon</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Mag-navigate pataas ng isa sa kasaysayan</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicate current tab</value>
+    <value>Kopyahin ang kasalukuyang tab</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>Kopyahin ang napiling tab</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Isara ang tab sa kaliwa ng kasalukuyang tab</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>Isara ang tab sa kaliwa ng piniling tab</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>Isara ang tab sa kanan ng kasalukuyang tab</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>Isara ang tab sa kanan ng piniling tab</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>Isara ang lahat ng mga tab maliban sa kasalukuyang tab</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>Isara ang lahat ng mga tab maliban sa piniling tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Binuksan muli ang huling isinarang tab</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Papunta sa sinundang tab</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Papunta sa sunod na tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Isara ang kasalukuyang tab</value>
   </data>
   <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Open new pane</value>
+    <value>Magbukas ng pagong pane</value>
   </data>
   <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+    <value>Buksan ang kanang pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Pindutin ang sidebar</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -3019,7 +2851,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Hanapin</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3059,13 +2891,13 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Change</value>
+    <value>Baguhin</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle Selection</value>
+    <value>Toggle selection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>Magpakita ng babala kapag babaguin ang file extension</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>This PC</value>
@@ -3077,218 +2909,218 @@
     <value>Untagged</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Papunta sa sinundang tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Papunta sa sunod na tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Isara ang kasalukuyang tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Baguhin ang pinaglagyan</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
+    <value>Ibalik sa una</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>Undo</value>
+    <value>Ibalik</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Invalid location</value>
+    <value>Maling lokasyon</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to copy these files without their properties?</value>
+    <value>Sigurado ka bang gusto mong kopyahin ang mga talaksan na ito kahit wala ang kanilang katangian?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
-    <value>These files have properties that can't be copied to the new location</value>
+    <value>May mga katangian ang mga talaksang ito na hindi maaring kopyahin sa bagong lokasyon</value>
   </data>
   <data name="FilePropertiesCannotBeMoved" xml:space="preserve">
-    <value>These files have properties that can't be moved to the new location</value>
+    <value>May mga katangian ang mga talaksang ito na hindi maaring isalin sa bagong lokasyon</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>Are you sure you want to move these files without their properties?</value>
+    <value>Sigurado ka bang gusto mong isalin ang mga talaksan na ito kahit wala ang kanilang katangian?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>Show checkboxes when selecting items</value>
+    <value>Ipakita ang mga checkbox kapag pumipili ng mga item</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>Search for unindexed items</value>
+    <value>Maghanap ng mga hindi-index na item</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Ipokus sa path bar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Gumawa ng bagong Item</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
+    <value>Walang mga grupo o mga gumagamit ang may pahintulot na mabuksan ang bagay na ito. Gayunpaman, ang may-ari ng bagay na ito ay maaaring magtalaga ng mga pahintulot.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>Open the item's location</value>
+    <value>Buksan ang lokasyon ng item</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Delete permanently</value>
+    <value>Permanenteng burahin</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete item(s) permanently</value>
+    <value>Permanenteng burahin ang mga item(s)</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>Play the selected media files</value>
+    <value>Patugtugin ang mga napiling media files</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>Undo the last file operation</value>
+    <value>Ibalik sa huling operasyon</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>Redo the last file operation</value>
+    <value>Ibalik ang huling operasyon</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Lokasyon:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>Group items by month</value>
+    <value>Igrupo ang mga items sa pamamagitan ng buwan</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>Group items by year</value>
+    <value>Igrupo ang mga items sa pamamagitan ng taon</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>Month</value>
+    <value>Buwan</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Pindutin apara sa pagpapangkat ayon sa petsa</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Pindutin para sa pagpapangkat</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Taon</value>
   </data>
   <data name="GroupByMonthInsteadOfYear" xml:space="preserve">
-    <value>Group by month instead of year</value>
+    <value>Ipangkat ayon sa buwan kaysa sa taon</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date created</value>
+    <value>Ipangkat ang mga items base sa buwan ng araw nang bagkagawa</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Ipangkat ang mga items base sa taon ng araw nang bagkagawa</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date deleted</value>
+    <value>Ipangkat ang mga items base sa buwan ng araw nang pagbura</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>Group items by year of date deleted</value>
+    <value>Ipangkat ang mga items base sa taon ng araw nang pagbura</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Ipangkat ang mga items base sa buwan ng araw nang pagbago</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Ipangkat ang mga items base sa taon ng araw nang pagbago</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>Pinduton ang 'Mataas na pahintulot' para magpatuloy.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>Dapat ikaw ay may Pahintulot na pagbasa para masilip ang mga katangian ng item na ito.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>Para subukang kuhanin ang pagmamayari ng item, na naglalaman ng pahintulot para masilip ang mga katangian, pindutin ang Baguhin sa taas.</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
-    <value>Unable to display permissions.</value>
+    <value>Hindi maipakita ang mga pahintulot.</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>Iwanan ang aking mga binago sa '{0}'</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
-    <value>Discard my changes</value>
+    <value>Baliwalain ang aking mga binago</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>Dalahin ang aking mga binago sa '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+    <value>Mayroon kang hindi nabago sa sangay na ito. Ano ang gusto mong gawin sa kanila?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch Branch</value>
+    <value>Switch branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Sangay</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Magpalit</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Bagong sangay</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
-    <value>Invalid branch name</value>
+    <value>Hindi wastong pangalan ng sangay</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Gumawa ng sangay</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create Branch</value>
+    <value>Gumawa ng sangay</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Nakabatay sa</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Magpalit sa bagong sangay</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>Gumawa ng bagong folder sa mga kasalukuyang piniling item(s)</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>Buksan ang mga katangian</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Buksan ang aplikasyon ng mga katangian</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Mga lokal</value>
   </data>
   <data name="Remotes" xml:space="preserve">
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Isaling wika sa Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Kunin</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Hilahin</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>Paganahin ang git fetch</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>Paganahin ang git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Silipin</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Estado ng Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git Error</value>
+    <value>Git error</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull failed due to a timeout error</value>
+    <value>hindi gumana ang git pull dahil sa timeout error</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>(maraming halaga)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>Author</value>
+    <value>May-Akda</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Petsang naitala</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Mensahe sa pagtala</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
@@ -3312,121 +3144,444 @@
     <value>Solid</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>Pamahalaan ang mga sangay</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>Itulak</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Paganahin ang git pull</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Sumabay</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Run git pull and then git push</value>
+    <value>Paganahin ang git pull pagkatapos ay git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} lumalabas / {1} mga commits na pumapasok</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>Connect to GitHub</value>
+    <value>Kumunekta sa Github</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Ilagay ang sumusunod na code sa link sa ibaba para simulang gawin sa repository ng GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files cannot access GitHub right now.</value>
-  </data>
-  <data name="OpenInVS" xml:space="preserve">
-    <value>Visual Studio</value>
-  </data>
-  <data name="OpenInVSDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio</value>
+    <value>Hindi ma-access ang mga talaksan sa GitHub sa ngayon.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code</value>
+    <value>Open folder in VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+    <value>Buksan ang kasalukuyang direktoryo sa Visual Studio Code</value>
+  </data>
+  <data name="OpenRepoInVSCode" xml:space="preserve">
+    <value>Open repo in VS Code</value>
+  </data>
+  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>Copy code</value>
+    <value>Kopyahin ang code</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Nailagay</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Nabura</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Nabago</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Hindi nasundan</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>Hindi maipakita ang kasalukuyang may-ari.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>Magaling! Ikaw ay ngayong awtorisado.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>Gumawa ng repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Gumawa ng Git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>Pangalan ng Remote Repository</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>Kasalukuyang Sangay</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Kolum ng pinaglagyan</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>Iayos ang mga item ayon sa pinaglagyan</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Buksan ang direktoryo sa bagong talaan</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Buksan ang direktoryo sa bagong tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Buksan ang direktoryo sa bagong aplikasyon</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Buksan Lahat</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Buksan ang lahat ng mga na-tag na item</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Lalagyan ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Hindi wastong utos</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>'{0}' ay hindi kinikilala bilang isang utos.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Hindi maipatutupad ang utos</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Ang utos na '{0}' ay hindi pa handa para sa pagpapatupad.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Paleta ng mga Utos</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Buksan ang paleta ng mga utos</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Simulan sa:</value>
+  </data>
+  <data name="TurnOnBitLocker" xml:space="preserve">
+    <value>Paganahin ang BitLocker</value>
+  </data>
+  <data name="ManageBitLocker" xml:space="preserve">
+    <value>Pamahalaan ang BitLocker</value>
+  </data>
+  <data name="CopyFailureFileToLarge" xml:space="preserve">
+    <value>Ang mga sumusunod na item ay labis na malalaki upang mailipat sa drive na ito</value>
+  </data>
+  <data name="FormatDrive" xml:space="preserve">
+    <value>Format drive</value>
+  </data>
+  <data name="DontShowAgain" xml:space="preserve">
+    <value>Don't show again</value>
+  </data>
+  <data name="FilesRunningAsAdmin" xml:space="preserve">
+    <value>Files is running as administrator</value>
+  </data>
+  <data name="FilesRunningAsAdminContent" xml:space="preserve">
+    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+  </data>
+  <data name="SettingsLeaveAppRunning" xml:space="preserve">
+    <value>Leave app running in the background when the window is closed</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BlueGray" xml:space="preserve">
+    <value>Blue Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="BrickRed" xml:space="preserve">
+    <value>Brick Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Camouflage" xml:space="preserve">
+    <value>Camouflage</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="CoolBlueBright" xml:space="preserve">
+    <value>Cool Blue Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Gray</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="GrayDark" xml:space="preserve">
+    <value>Gray Dark</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="IrisPastel" xml:space="preserve">
+    <value>Iris Pastel</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="MintLight" xml:space="preserve">
+    <value>Mint Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ModRed" xml:space="preserve">
+    <value>Mod Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="OrangeBright" xml:space="preserve">
+    <value>Orange Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Overcast" xml:space="preserve">
+    <value>Overcast</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="RoseBright" xml:space="preserve">
+    <value>Rose Bright</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Seafoam" xml:space="preserve">
+    <value>Seafoam</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="Storm" xml:space="preserve">
+    <value>Storm</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="VioletRedLight" xml:space="preserve">
+    <value>Violet Red Light</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="YellowGold" xml:space="preserve">
+    <value>Yellow Gold</value>
+    <comment>One of the custom color themes</comment>
+  </data>
+  <data name="ClearCompleted" xml:space="preserve">
+    <value>Clear completed</value>
+  </data>
+  <data name="NameWithColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
+    <value>{0} of {1} processed</value>
+    <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
+  </data>
+  <data name="ItemsLower" xml:space="preserve">
+    <value>mga item</value>
+  </data>
+  <data name="CannotInitializeGitRepo" xml:space="preserve">
+    <value>Files can't initialize this directory as a Git repository.</value>
+  </data>
+  <data name="ContributingArtist" xml:space="preserve">
+    <value>Contributing Artist</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ProcessingItems" xml:space="preserve">
+    <value>Processing items...</value>
+  </data>
+  <data name="SpeedWithColon" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
+    <value>Canceled compressing {0} items to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
+    <value>Compressed {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
+    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
+    <value>Error compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
+    <value>Compressing {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
+    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
+    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
+    <value>Copied {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
+    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
+    <value>Error copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
+    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
+    <value>Copying {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
+    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
+    <value>Canceled extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
+    <value>Extracted "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
+    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
+    <value>Error extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
+    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
+    <value>Extracting "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
+    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
+    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
+    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
+    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
+    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
+    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
+    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
+    <value>Deleted {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
+    <value>Error deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
+    <value>Deleting {0} item(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
+    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
+    <value>Moved {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
+    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
+    <value>Moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
+    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
+    <value>Error moving {0} item(s) to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
+    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
+    <value>Canceled emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
+    <value>Emptied Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
+    <value>Emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
+    <value>Error emptying Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
+    <value>Failed to empty Recycle Bin</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_Prepare_Header" xml:space="preserve">
+    <value>Preparing the operation...</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
+    <value>{0}/{1} item(s) processed</value>
+    <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
+  </data>
+  <data name="UnblockDownloadedFile" xml:space="preserve">
+    <value>Unblock downloaded file</value>
   </data>
 </root>

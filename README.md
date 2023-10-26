@@ -27,7 +27,7 @@ Files also offers advanced features such as file tagging for easy organization, 
     - MSVC v143 - VS 2022 C++ x64/x86 or ARM64 build tools (latest)
     - C++ ATL for latest v143 build tools (x86 & x64 or ARM64)
     - Git for Windows
-- [Windows App SDK 1.3](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
+- [Windows App SDK 1.4](https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads#current-releases)
     
 ### 2. Clone the repository
 
@@ -52,4 +52,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ## Screenshots
 
-![Files](src/Files.App/Assets/FilesHome.png)
+![Files](assets/FilesScreenshot.png)

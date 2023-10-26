@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -124,6 +123,8 @@ namespace Files.App.Views.LayoutModes
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+
 			currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
@@ -134,7 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -284,7 +285,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -405,18 +406,18 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 			}
 		}
 
-		private async Task ReloadItemIcons()
+		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
 			}
 		}
 
@@ -425,9 +426,20 @@ namespace Files.App.Views.LayoutModes
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
+			var item = clickedItem?.DataContext as ListedItem;
 			if (item is null)
+			{
+				if (IsRenamingItem)
+				{
+					ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					if (listViewItem is not null)
+					{
+						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
+						await CommitRenameAsync(textBox);
+					}
+				}
 				return;
+			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if
@@ -445,7 +457,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else
 			{
@@ -459,7 +471,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 				}
 			}
@@ -471,7 +483,7 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
@@ -559,6 +571,7 @@ namespace Files.App.Views.LayoutModes
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -882,6 +895,22 @@ namespace Files.App.Views.LayoutModes
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
 			if (args.NewFocusedElement == FileList)
 				args.TryCancel();
+		}
+
+		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
+		{
+			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
+			var enableCommit = !columnsViewModel.GitLastCommitDateColumn.IsHidden && !columnsViewModel.GitLastCommitDateColumn.UserCollapsed
+				|| !columnsViewModel.GitLastCommitMessageColumn.IsHidden && !columnsViewModel.GitLastCommitMessageColumn.UserCollapsed
+				|| !columnsViewModel.GitCommitAuthorColumn.IsHidden && !columnsViewModel.GitCommitAuthorColumn.UserCollapsed
+				|| !columnsViewModel.GitLastCommitShaColumn.IsHidden && !columnsViewModel.GitLastCommitShaColumn.UserCollapsed;
+			return (enableStatus, enableCommit) switch
+			{
+				(true, true) => GitProperties.All,
+				(true, false) => GitProperties.Status,
+				(false, true) => GitProperties.Commit,
+				(false, false) => GitProperties.None
+			};
 		}
 	}
 }

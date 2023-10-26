@@ -160,14 +160,14 @@ namespace Files.App.Helpers
 						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
 						Tag = menuFlyoutItem,
 						BitmapIcon = image,
-						Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItem(contextMenu, x)),
+						Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItemAsync(contextMenu, x)),
 						CommandParameter = menuFlyoutItem
 					};
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
 
-			async Task InvokeShellMenuItem(ContextMenu contextMenu, object? tag)
+			async Task InvokeShellMenuItemAsync(ContextMenu contextMenu, object? tag)
 			{
 				if (tag is not Win32ContextMenuItem menuItem)
 					return;
@@ -226,7 +226,7 @@ namespace Files.App.Helpers
 			return item?.Items;
 		}
 
-		public static async Task LoadShellMenuItems(
+		public static async Task LoadShellMenuItemsAsync(
 			string path,
 			CommandBarFlyout itemContextMenuFlyout,
 			ContextMenuOptions? options = null,
@@ -255,7 +255,10 @@ namespace Files.App.Helpers
 					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
 
-				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => x.Tag is Win32ContextMenuItem { CommandString: "encrypt-bde-elev" });
+				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => 
+					x.Tag is Win32ContextMenuItem menuItem && 
+					(menuItem.CommandString?.StartsWith("encrypt-bde") ?? false));
+
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);
 

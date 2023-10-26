@@ -440,7 +440,7 @@ namespace Files.App.Helpers
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CopyPath)
 				{
-					IsVisible = itemsSelected && selectedItems.Count == 1 && !currentInstanceViewModel.IsPageTypeRecycleBin,
+					IsVisible = itemsSelected && !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(commands.CreateFolderWithSelection)
 				{
@@ -503,7 +503,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.CompressIntoSevenZip).Build(),
 					},
-					ShowItem = itemsSelected && ArchiveHelpers.CanCompress(selectedItems)
+					ShowItem = itemsSelected && CompressHelper.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
@@ -519,7 +519,7 @@ namespace Files.App.Helpers
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(commands.DecompressArchiveToChildFolder).Build(),
 					},
-					ShowItem = ArchiveHelpers.CanDecompress(selectedItems)
+					ShowItem = CompressHelper.CanDecompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -561,10 +561,16 @@ namespace Files.App.Helpers
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
+				// Shell extensions are not available on the FTP server or in the archive,
+				// but following items are intentionally added because icons in the context menu will not appear
+				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
+					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
 				new ContextMenuFlyoutItemViewModel()
@@ -574,6 +580,8 @@ namespace Files.App.Helpers
 					Items = new List<ContextMenuFlyoutItemViewModel>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
+					ShowInFtpPage = true,
+					ShowInZipPage = true,
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 					IsEnabled = false

@@ -3,6 +3,7 @@
 
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
+using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
@@ -459,6 +460,27 @@ namespace Files.App.Data.Models
 			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
+		private ICommand cleanupDriveCommand;
+		public ICommand CleanupDriveCommand
+		{
+			get => cleanupDriveCommand;
+			set => SetProperty(ref cleanupDriveCommand, value);
+		}
+
+		private bool formatVisibility = false;
+		public bool FormatVisibility
+		{
+			get => formatVisibility;
+			set => SetProperty(ref formatVisibility, value);
+		}
+
+		private ICommand formatDriveCommand;
+		public ICommand FormatDriveCommand
+		{
+			get => formatDriveCommand;
+			set => SetProperty(ref formatDriveCommand, value);
+		}
+
 		private bool itemAttributesVisibility = true;
 		public bool ItemAttributesVisibility
 		{
@@ -654,6 +676,20 @@ namespace Files.App.Data.Models
 		{
 			get => isPropertiesLoaded;
 			set => SetProperty(ref isPropertiesLoaded, value);
+		}
+
+		private bool isDownloadedFile;
+		public bool IsDownloadedFile
+		{
+			get => isDownloadedFile;
+			set => SetProperty(ref isDownloadedFile, value);
+		}
+
+		private bool isUnblockFileSelected;
+		public bool IsUnblockFileSelected
+		{
+			get => isUnblockFileSelected;
+			set => SetProperty(ref isUnblockFileSelected, value);
 		}
 	}
 }

@@ -404,9 +404,13 @@
 						<TextBox
 							x:Name="TileViewTextBoxItemName"
 							Grid.Row="0"
-							HorizontalAlignment="Left"
+							Grid.RowSpan="3"
+							MaxHeight="60"
+							HorizontalAlignment="Stretch"
 							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+							Canvas.ZIndex="1"
 							Text="{x:Bind Name, Mode=OneWay}"
+							TextWrapping="Wrap"
 							Visibility="Collapsed" />
 
 						<TextBlock
@@ -568,7 +572,7 @@
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-					CanDragItems="True"
+					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DesiredWidth="{x:Bind GridViewItemMinWidth, Mode=OneWay}"
 					DoubleTapped="FileList_DoubleTapped"

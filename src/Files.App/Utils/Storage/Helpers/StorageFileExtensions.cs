@@ -280,9 +280,8 @@ namespace Files.App.Utils.Storage
 			else if (component.Contains(':', StringComparison.Ordinal))
 			{
 				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-				var networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 
-				var drives = drivesViewModel.Drives.Concat(networkDrivesViewModel.Drives).Cast<DriveItem>().Concat(App.CloudDrivesManager.Drives);
+				var drives = drivesViewModel.Drives.Cast<DriveItem>();
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
 				title = drive is not null ? drive.Text : string.Format("DriveWithLetter".GetLocalizedResource(), component);
 			}

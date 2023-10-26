@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 					}
 				}
 				return null;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
 		{
@@ -154,7 +154,7 @@ namespace Files.App.Utils.Storage
 					}
 				}
 				return (IReadOnlyList<IStorageItem>)items;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -228,7 +228,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				throw new IOException($"Failed to create file {remotePath}.");
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> CreateFolderAsync(string desiredName)
@@ -261,14 +261,44 @@ namespace Files.App.Utils.Storage
 				var folder = new FtpStorageFolder(new StorageFileWithPath(null, $"{Path}/{desiredName}"));
 				((IPasswordProtectedItem)folder).CopyFrom(this);
 				return folder;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
+		}
+
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder)
+			=> MoveAsync(destinationFolder, NameCollisionOption.FailIfExists);
+		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder, NameCollisionOption option)
+		{
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap<BaseStorageFolder>(async () =>
+			{
+				using var ftpClient = GetFtpClient();
+				if (!await ftpClient.EnsureConnectedAsync())
+					throw new IOException($"Failed to connect to FTP server.");
+
+				BaseStorageFolder destFolder = destinationFolder.AsBaseStorageFolder();
+
+				if (destFolder is FtpStorageFolder ftpFolder)
+				{
+					string destName = $"{ftpFolder.FtpPath}/{Name}";
+					FtpRemoteExists ftpRemoteExists = option is NameCollisionOption.ReplaceExisting ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
+
+					bool isSuccessful = await ftpClient.MoveDirectory(FtpPath, destName, ftpRemoteExists, token: cancellationToken);
+					if (!isSuccessful)
+						throw new IOException($"Failed to move folder from {Path} to {destFolder}.");
+
+					var folder = new FtpStorageFolder(new StorageFileWithPath(null, destName));
+					((IPasswordProtectedItem)folder).CopyFrom(this);
+					return folder;
+				}
+				else
+					throw new NotSupportedException();
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction RenameAsync(string desiredName)
 			=> RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (!await ftpClient.EnsureConnectedAsync())
@@ -283,19 +313,19 @@ namespace Files.App.Utils.Storage
 				{
 					// TODO: handle name generation
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction DeleteAsync()
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				using var ftpClient = GetFtpClient();
 				if (await ftpClient.EnsureConnectedAsync())
 				{
 					await ftpClient.DeleteDirectory(FtpPath, cancellationToken);
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option) => DeleteAsync();
 

@@ -12,7 +12,7 @@
 		<ItemsRepeater
 			x:Name="CardsList"
 			HorizontalAlignment="Stretch"
-			ItemsSource="{x:Bind ItemsAdded, Mode=OneWay}">
+			ItemsSource="{x:Bind local:QuickAccessWidget.ItemsAdded, Mode=OneWay}">
 
 			<ItemsRepeater.Layout>
 				<UniformGridLayout
@@ -34,8 +34,7 @@
 						HorizontalContentAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
 						AutomationProperties.Name="{x:Bind AutomationProperties}"
-						Command="{x:Bind SelectCommand}"
-						CommandParameter="{x:Bind}"
+						Click="Button_Click"
 						CornerRadius="{StaticResource ControlCornerRadius}"
 						DataContext="{x:Bind}"
 						PointerPressed="Button_PointerPressed"

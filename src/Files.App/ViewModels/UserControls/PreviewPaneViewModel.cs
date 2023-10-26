@@ -94,7 +94,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			previewSettingsService = previewSettings;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
+			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreviewAsync());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
@@ -230,21 +230,21 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (PDFPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new PDFPreview(model);
-			}
+			}*/
 
-			if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
 
 				return new HtmlPreview(model);
-			}
+			}*/
 
 			if (RichTextPreviewViewModel.ContainsExtension(ext))
 			{
@@ -262,12 +262,24 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
+			if
+			(
+				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+				!FileExtensionHelpers.IsFontFile(item.FileExtension)
+			)
+			{
+				var model = new ShellPreviewViewModel(item);
+				await model.LoadAsync();
+
+				return new ShellPreview(model);
+			}
+
 			var control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
 
 			return control ?? null;
 		}
 
-		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)
@@ -348,7 +360,7 @@ namespace Files.App.ViewModels.UserControls
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
-				await UpdateSelectedItemPreview();
+				await UpdateSelectedItemPreviewAsync();
 			}
 			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{

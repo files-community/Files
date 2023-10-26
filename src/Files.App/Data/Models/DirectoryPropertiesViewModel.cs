@@ -89,7 +89,7 @@ namespace Files.App.Data.Models
 		public DirectoryPropertiesViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
-				=> GitHelpers.CreateNewBranch(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
+				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX]));
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem[] branches)

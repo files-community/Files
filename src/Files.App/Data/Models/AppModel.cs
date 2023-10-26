@@ -33,19 +33,13 @@ namespace Files.App.Data.Models
 			get => tabStripSelectedIndex;
 			set
 			{
-				if (value >= 0)
-				{
-					if (tabStripSelectedIndex != value)
-					{
-						SetProperty(ref tabStripSelectedIndex, value);
-					}
+				SetProperty(ref tabStripSelectedIndex, value);
 
-					if (value < MainPageViewModel.AppInstances.Count)
-					{
-						Frame rootFrame = (Frame)MainWindow.Instance.Content;
-						var mainView = (MainPage)rootFrame.Content;
-						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
-					}
+				if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
+				{
+					Frame rootFrame = (Frame)MainWindow.Instance.Content;
+					var mainView = (MainPage)rootFrame.Content;
+					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
 				}
 			}
 		}
@@ -69,6 +63,13 @@ namespace Files.App.Data.Models
 		{
 			get => isMainWindowClosed;
 			set => SetProperty(ref isMainWindowClosed, value);
+		}
+
+		private bool forceProcessTermination = false;
+		public bool ForceProcessTermination
+		{
+			get => forceProcessTermination;
+			set => SetProperty(ref forceProcessTermination, value);
 		}
 	}
 }

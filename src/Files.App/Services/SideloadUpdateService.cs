@@ -68,12 +68,12 @@ namespace Files.App.Services
 			get => _isReleaseNotesAvailable;
 			private set => SetProperty(ref _isReleaseNotesAvailable, value);
 		}
-		public async Task DownloadUpdates()
+		public async Task DownloadUpdatesAsync()
 		{
-			await ApplyPackageUpdate();
+			await ApplyPackageUpdateAsync();
 		}
 
-		public Task DownloadMandatoryUpdates()
+		public Task DownloadMandatoryUpdatesAsync()
 		{
 			return Task.CompletedTask;
 		}
@@ -106,8 +106,9 @@ namespace Files.App.Services
 				IsReleaseNotesAvailable = true;
 		}
 
-		public async Task CheckForUpdates()
+		public async Task CheckForUpdatesAsync()
 		{
+			IsUpdateAvailable = false;
 			try
 			{
 				Logger?.LogInformation($"SIDELOAD: Checking for updates...");
@@ -134,12 +135,11 @@ namespace Files.App.Services
 					Logger?.LogInformation("SIDELOAD: Update found.");
 					Logger?.LogInformation("SIDELOAD: Starting background download.");
 					DownloadUri = new Uri(appInstaller.MainBundle.Uri);
-					await StartBackgroundDownload();
+					await StartBackgroundDownloadAsync();
 				}
 				else
 				{
 					Logger?.LogWarning("SIDELOAD: Update not found.");
-					IsUpdateAvailable = false;
 				}
 			}
 			catch (Exception e)
@@ -191,7 +191,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task StartBackgroundDownload()
+		private async Task StartBackgroundDownloadAsync()
 		{
 			try
 			{
@@ -216,7 +216,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async Task ApplyPackageUpdate()
+		private async Task ApplyPackageUpdateAsync()
 		{
 			if (!IsUpdateAvailable)
 				return;
@@ -229,6 +229,7 @@ namespace Files.App.Services
 			try
 			{
 				var restartStatus = RegisterApplicationRestart(null, 0);
+				App.AppModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");
 

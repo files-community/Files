@@ -58,12 +58,12 @@ namespace Files.App.UserControls.Widgets
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
 			ViewModel = new(x => OpenAction!(x));
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
 			OpenInNewPaneCommand = new RelayCommand<WidgetCardItem>(OpenInNewPane);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
 			OpenPropertiesCommand = new RelayCommand<WidgetCardItem>(OpenProperties);
 		}
 
@@ -114,7 +114,7 @@ namespace Files.App.UserControls.Widgets
 				rightClickedItem: item);
 		}
 
-		private async void LoadContextMenu(
+		private void LoadContextMenu(
 			FrameworkElement element,
 			RightTappedRoutedEventArgs e,
 			List<ContextMenuFlyoutItemViewModel> menuItems,
@@ -131,11 +131,20 @@ namespace Files.App.UserControls.Widgets
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
-			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 			if (rightClickedItem is not null)
-				await ShellContextmenuHelper.LoadShellMenuItems(rightClickedItem.Path, itemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			{
+				FlyouItemPath = rightClickedItem.Path;
+				ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
+			}
+			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
 			e.Handled = true;
+		}
+
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
+		{
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -220,7 +229,10 @@ namespace Files.App.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					Glyph = "\uE946",
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconProperties",
+					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
 					ShowItem = isFolder
@@ -251,7 +263,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		public Task RefreshWidget()
+		public Task RefreshWidgetAsync()
 		{
 			return Task.CompletedTask;
 		}

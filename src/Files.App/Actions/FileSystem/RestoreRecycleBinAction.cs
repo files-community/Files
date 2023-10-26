@@ -31,7 +31,7 @@ namespace Files.App.Actions
 		public async Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				await RecycleBinHelpers.RestoreSelectionRecycleBin(context.ShellPage);
+				await RecycleBinHelpers.RestoreSelectionRecycleBinAsync(context.ShellPage);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

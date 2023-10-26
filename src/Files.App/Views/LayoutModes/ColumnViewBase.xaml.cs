@@ -146,17 +146,6 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatingFrom(e);
 		}
 
-		private async Task ReloadItemIcons()
-		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
-			{
-				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, 24);
-			}
-		}
-
 		override public void StartRenameItem()
 		{
 			StartRenameItem("ListViewTextBoxItemName");
@@ -166,7 +155,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (IsRenamingItem)
 			{
-				await ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -248,12 +237,7 @@ namespace Files.App.Views.LayoutModes
 		private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
 			if (!IsRenamingItem)
-				HandleRightClick(sender, e);
-		}
-
-		private void HandleRightClick(object sender, RightTappedRoutedEventArgs e)
-		{
-			HandleRightClick(e.OriginalSource);
+				HandleRightClick();
 		}
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -350,7 +334,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+							_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -372,24 +356,15 @@ namespace Files.App.Views.LayoutModes
 
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
-			HandleRightClick(sender, e);
+			HandleRightClick();
 		}
 
-		private void HandleRightClick(object sender, HoldingRoutedEventArgs e)
+		private void HandleRightClick()
 		{
-			HandleRightClick(e.OriginalSource);
-		}
-
-		private void HandleRightClick(object pressed)
-		{
-			var objectPressed = ((FrameworkElement)pressed).DataContext as ListedItem;
-
-			// Check if RightTapped row is currently selected
-			if (objectPressed is not null || (IsItemSelected && SelectedItems.Contains(objectPressed)))
-				return;
-
-			// The following code is only reachable when a user RightTapped an unselected row
-			ItemManipulationModel.SetSelectedItem(objectPressed);
+			if (ParentShellPageInstance is UIElement element &&
+				(!ParentShellPageInstance.IsCurrentPane
+				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+				element.Focus(FocusState.Programmatic);
 		}
 
 		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
@@ -409,7 +384,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else if (item is not null)
 			{
@@ -422,7 +397,7 @@ namespace Files.App.Views.LayoutModes
 					FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
 					listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 				{
-					await CommitRename(textBox);
+					await CommitRenameAsync(textBox);
 				}
 
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
