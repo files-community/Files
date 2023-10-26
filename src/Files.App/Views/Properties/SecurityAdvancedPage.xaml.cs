@@ -41,18 +41,26 @@ namespace Files.App.Views.Properties
 		private async void AdvancedPermissionListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem &&
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem ||
 				SecurityAdvancedViewModel.SelectedAccessControlEntry is null)
 				return;
+
+			var modifiableItem = new Utils.Storage.Security.AccessControlEntryModifiable(SecurityAdvancedViewModel.SelectedAccessControlEntry);
 
 			// Show the Dialog
 			var dialog = new PrincipalAccessControlEditorDialog()
 			{
 				XamlRoot = Window.Content.XamlRoot,
-				ModifiableModel = new(SecurityAdvancedViewModel.SelectedAccessControlEntry),
+				ModifiableModel = modifiableItem,
 			};
 
 			var result = await dialog.ShowAsync();
+
+			if (result == Microsoft.UI.Xaml.Controls.ContentDialogResult.Primary)
+			{
+				// Save changes
+				modifiableItem.SaveChanges();
+			}
 		}
 
 		public async override Task<bool> SaveChangesAsync()

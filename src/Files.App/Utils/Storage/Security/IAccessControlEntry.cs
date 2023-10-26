@@ -9,6 +9,11 @@ namespace Files.App.Utils.Storage
 	public interface IAccessControlEntry
 	{
 		/// <summary>
+		/// Gets the path that contains this entry.
+		/// </summary>
+		public string Path { get; }
+
+		/// <summary>
 		/// Gets the value that indicated whether the path indicates folder or not.
 		/// </summary>
 		public bool IsFolder { get; }

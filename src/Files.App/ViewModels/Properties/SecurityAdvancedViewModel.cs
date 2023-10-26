@@ -217,7 +217,7 @@ namespace Files.App.ViewModels.Properties
 				var win32Result = AccessControlHelpers.AddAccessControlEntry(_path, sid);
 
 				// Add a new ACE to the ACL
-				var ace = AccessControlHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				var ace = AccessControlHelpers.InitializeDefaultAccessControlEntry(_path, _isFolder, sid);
 				AccessControlList.AccessControlEntries.Add(ace);
 			});
 		}

@@ -10,6 +10,9 @@ namespace Files.App.Utils.Storage.Security
 		private IAccessControlEntry _defaultItem;
 
 		/// <inheritdoc/>
+		public string Path { get; private set; }
+
+		/// <inheritdoc/>
 		public bool IsFolder { get; private set; }
 
 		/// <inheritdoc/>
@@ -59,6 +62,7 @@ namespace Files.App.Utils.Storage.Security
 			set => SetProperty(ref _PermissionsVisibilityToggleLinkButtonContent, value);
 		}
 
+		#region CheckBoxes
 		public bool FullControlAccessControl
 		{
 			get => AccessMaskFlags.HasFlag(AccessMaskFlags.FullControl);
@@ -183,13 +187,14 @@ namespace Files.App.Utils.Storage.Security
 			get => AccessMaskFlags.HasFlag(AccessMaskFlags.TakeOwnership);
 			set => UpdateAccessControl(AccessMaskFlags.TakeOwnership, value);
 		}
-
+		#endregion
 
 		public ICommand TogglePermissionsVisibilityCommand;
 
 		public AccessControlEntryModifiable(IAccessControlEntry item)
 		{
 			_defaultItem = item;
+			Path = item.Path;
 			IsFolder = item.IsFolder;
 			Principal = item.Principal;
 			SelectedAccessControlType = item.AccessControlType;
@@ -231,7 +236,17 @@ namespace Files.App.Utils.Storage.Security
 
 		private void UpdateAccessControl(AccessMaskFlags mask, bool value)
 		{
-			// Stele update, not affect to the actual data
+			if (value)
+				AccessMaskFlags |= mask;
+			else
+				AccessMaskFlags &= ~mask;
+		}
+
+		public bool SaveChanges()
+		{
+			AccessControlHelpers.UpdateAccessControlEntry(Path, this);
+
+			return false;
 		}
 	}
 }

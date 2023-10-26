@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Storage.Security;
+using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.AdvApi32;
 using SystemSecurity = System.Security.AccessControl;
@@ -120,7 +122,7 @@ namespace Files.App.Utils.Storage
 					_ => AccessControlEntryType.Deny
 				};
 
-				bool isInherited = header.AceFlags.HasFlag(SystemSecurity.AceFlags.InheritanceFlags);
+				bool isInherited = header.AceFlags.HasFlag(SystemSecurity.AceFlags.Inherited);
 
 				if (header.AceFlags.HasFlag(SystemSecurity.AceFlags.ContainerInherit))
 					inheritanceFlags |= AccessControlEntryFlags.ContainerInherit;
@@ -132,7 +134,7 @@ namespace Files.App.Utils.Storage
 					inheritanceFlags |= AccessControlEntryFlags.InheritOnly;
 
 				// Initialize an ACE
-				aces.Add(new(isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
+				aces.Add(new(path, isFolder, szSid, type, accessMaskFlags, isInherited, inheritanceFlags));
 			}
 
 			// Initialize with proper data
@@ -151,9 +153,10 @@ namespace Files.App.Utils.Storage
 		/// <param name="isFolder"></param>
 		/// <param name="ownerSid"></param>
 		/// <returns>If the function succeeds, an instance of AccessControlList; otherwise, null.</returns>
-		public static AccessControlEntry InitializeDefaultAccessControlEntry(bool isFolder, string ownerSid)
+		public static AccessControlEntry InitializeDefaultAccessControlEntry(string path, bool isFolder, string ownerSid)
 		{
 			return new(
+				path,
 				isFolder,
 				ownerSid,
 				AccessControlEntryType.Allow,
@@ -170,7 +173,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="path">The object's path to add an new ACE to its DACL</param>
 		/// <param name="sid">Principal's SID</param>
 		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
-		public static Win32Error AddAccessControlEntry(string szPath, string szSid)
+		public static Win32Error AddAccessControlEntry(string szPath, string szSid, AccessControlEntryModifiable? modifiableItem = null)
 		{
 			// Get DACL for the specified object
 			var result = GetNamedSecurityInfo(
@@ -186,17 +189,35 @@ namespace Files.App.Utils.Storage
 			if (result.Failed)
 				return result;
 
-			// Initialize default trustee
-			var explicitAccess = new EXPLICIT_ACCESS
-			{
-				grfAccessMode = ACCESS_MODE.GRANT_ACCESS,
-				grfAccessPermissions = ACCESS_MASK.GENERIC_READ | ACCESS_MASK.GENERIC_EXECUTE,
-				grfInheritance = INHERIT_FLAGS.NO_INHERITANCE,
-				Trustee = new TRUSTEE(new SafePSID(szSid)),
-			};
+			using SafePSID pSid = ConvertStringSidToSid(szSid);
 
-			// Add an new ACE and get a new ACL
-			result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
+			if (modifiableItem is null)
+			{
+				// Initialize default trustee
+				var explicitAccess = new EXPLICIT_ACCESS
+				{
+					grfAccessMode = ACCESS_MODE.GRANT_ACCESS,
+					grfAccessPermissions = ACCESS_MASK.GENERIC_READ | ACCESS_MASK.GENERIC_EXECUTE,
+					grfInheritance = INHERIT_FLAGS.NO_INHERITANCE,
+					Trustee = new TRUSTEE(new SafePSID(szSid)),
+				};
+
+				// Add an new ACE and get a new ACL
+				result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
+				pDACL = pNewDACL;
+			}
+			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Allow)
+			{
+				AddAccessAllowedAce(pDACL, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+
+				result = Kernel32.GetLastError();
+			}
+			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Deny)
+			{
+				AddAccessDeniedAce(pDACL, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+
+				result = Kernel32.GetLastError();
+			}
 
 			if (result.Failed)
 				return result;
@@ -206,7 +227,7 @@ namespace Files.App.Utils.Storage
 				szPath,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-				ppDacl: pNewDACL);
+				ppDacl: pDACL);
 
 			if (result.Failed)
 				return result;
@@ -248,6 +269,83 @@ namespace Files.App.Utils.Storage
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				ppDacl: pDACL);
+
+			if (result.Failed)
+				return result;
+
+			return result;
+		}
+
+		public static Win32Error UpdateAccessControlEntry(string szPath, AccessControlEntryModifiable modifiableItem)
+		{
+			// Get DACL for the specified object
+			var result = GetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				out _,
+				out _,
+				out var pDACL,
+				out _,
+				out _);
+
+			if (result.Failed)
+				return result;
+
+			bool bResult = GetAclInformation(pDACL, out ACL_SIZE_INFORMATION aclSizeInfo);
+			if (!bResult)
+				return Kernel32.GetLastError();
+
+			using SafePSID pSid = ConvertStringSidToSid(modifiableItem.Principal.Sid);
+
+			PACL pNewAcl = new SafePACL((int)aclSizeInfo.AclBytesInUse + Marshal.SizeOf<ACCESS_ALLOWED_ACE>() + GetLengthSid(pSid));
+
+			var isValidAcl = IsValidAcl(pDACL);
+			if (isValidAcl)
+			{
+				// Copy the ACEs to the new ACL.
+				if (aclSizeInfo.AceCount != 0)
+				{
+					for (int index = 0; index < aclSizeInfo.AceCount; index++)
+					{
+						// Get an ACE.
+						if (!GetAce(pDACL, (uint)index, out var pACE))
+							break;
+
+						// Add the ACE to the new ACL.
+						if (!AddAce(
+							pNewAcl,
+							Kernel32.ACL_REVISION,
+							int.MaxValue,
+							pACE.DangerousGetHandle(),
+							pACE.GetHeader().AceSize))
+							break;
+					}
+				}
+			}
+
+			if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Allow)
+			{
+				AddAccessAllowedAce(pNewAcl, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+
+				result = Kernel32.GetLastError();
+			}
+			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Deny)
+			{
+				AddAccessDeniedAce(pNewAcl, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+
+				result = Kernel32.GetLastError();
+			}
+
+			if (result.Failed)
+				return result;
+
+			// Set the new ACL
+			result = SetNamedSecurityInfo(
+				szPath,
+				SE_OBJECT_TYPE.SE_FILE_OBJECT,
+				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
+				ppDacl: pNewAcl);
 
 			if (result.Failed)
 				return result;

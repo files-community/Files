@@ -9,6 +9,9 @@ namespace Files.App.Utils.Storage
 	public class AccessControlEntry : ObservableObject, IAccessControlEntry
 	{
 		/// <inheritdoc/>
+		public string Path { get; private set; }
+
+		/// <inheritdoc/>
 		public bool IsFolder { get; private set; }
 
 		/// <inheritdoc/>
@@ -17,9 +20,7 @@ namespace Files.App.Utils.Storage
 		/// <inheritdoc/>
 		public AccessControlEntryType AccessControlType { get; private set; }
 
-		/// <summary>
-		/// Gets the value that indicates whether the ACE is inherited or not
-		/// </summary>
+		/// <inheritdoc/>
 		public bool IsInherited { get; private set; }
 
 		/// <summary>
@@ -273,8 +274,9 @@ namespace Files.App.Utils.Storage
 		}
 		#endregion
 
-		public AccessControlEntry(bool isFolder, string ownerSid, AccessControlEntryType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
+		public AccessControlEntry(string path, bool isFolder, string ownerSid, AccessControlEntryType type, AccessMaskFlags accessMaskFlags, bool isInherited, AccessControlEntryFlags inheritanceFlags)
 		{
+			Path = path;
 			IsFolder = isFolder;
 			Principal = new(ownerSid);
 			AccessControlType = type;
