@@ -1246,4 +1246,11 @@ namespace Files.App.UserControls
 		Paste,
 		CopySelectionOrPaste
 	}
+
+	public enum MouseButton
+	{
+		Left,
+		Middle,
+		Right
+	}
 }
