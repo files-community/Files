@@ -200,7 +200,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-                        <RowDefinition x:Name="Terminal" Height="150" />
+                        <RowDefinition x:Name="Terminal" Height="0.5*" />
 						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>

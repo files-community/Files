@@ -7,13 +7,6 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.UserControls
 {
-	public enum MouseButton
-	{
-		Left,
-		Middle,
-		Right
-	}
-
 	/// <summary>
 	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
 	/// </summary>
@@ -71,9 +64,9 @@ namespace Files.App.UserControls
 			_terminalEventListener = null;
 		}
 
-		public void NotifySizeChanged(int columns, int rows)
+		public void NotifySizeChanged(long columns, long rows)
 		{
-			_terminalEventListener?.OnTerminalResized(columns, rows);
+			_terminalEventListener?.OnTerminalResized((int)columns, (int)rows);
 		}
 
 		public void NotifyTitleChanged(string title)
@@ -86,14 +79,14 @@ namespace Files.App.UserControls
 			_terminalEventListener?.OnKeyboardCommand(command);
 		}
 
-		public void NotifyRightClick(int x, int y, bool hasSelection, string hoveredUri)
+		public void NotifyRightClick(long x, long y, bool hasSelection, string hoveredUri)
 		{
-			_terminalEventListener?.OnMouseClick(MouseButton.Right, x, y, hasSelection, hoveredUri);
+			_terminalEventListener?.OnMouseClick(MouseButton.Right, (int)x, (int)y, hasSelection, hoveredUri);
 		}
 
-		public void NotifyMiddleClick(int x, int y, bool hasSelection, string hoveredUri)
+		public void NotifyMiddleClick(long x, long y, bool hasSelection, string hoveredUri)
 		{
-			_terminalEventListener?.OnMouseClick(MouseButton.Middle, x, y, hasSelection, hoveredUri);
+			_terminalEventListener?.OnMouseClick(MouseButton.Middle, (int)x, (int)y, hasSelection, hoveredUri);
 		}
 
 		public void NotifySelectionChanged(string selection)
