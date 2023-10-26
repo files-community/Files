@@ -189,7 +189,44 @@ namespace Files.App.Utils.Storage
 			if (result.Failed)
 				return result;
 
+			bool bResult = GetAclInformation(pDACL, out ACL_SIZE_INFORMATION aclSizeInfo);
+			if (!bResult)
+				return Kernel32.GetLastError();
+
 			using SafePSID pSid = ConvertStringSidToSid(szSid);
+
+			PACL pNewAcl = new SafePACL((int)aclSizeInfo.AclBytesInUse + Marshal.SizeOf<ACCESS_ALLOWED_ACE>() + GetLengthSid(pSid));
+
+			var isValidAcl = IsValidAcl(pDACL);
+			if (isValidAcl)
+			{
+				// Copy the ACEs to the new ACL.
+				if (aclSizeInfo.AceCount != 0)
+				{
+					for (int index = 0; index < aclSizeInfo.AceCount; index++)
+					{
+						// Get an ACE.
+						if (!GetAce(pDACL, (uint)index, out var pACE))
+							break;
+
+						if (!ConvertSidToStringSid(pACE.GetSid(), out var szOldSid))
+							break;
+
+						// Skip adding the ACE that is owned by the same principal
+						if (szOldSid == pSid)
+							continue;
+
+						// Add the ACE to the new ACL.
+						if (!AddAce(
+							pNewAcl,
+							Kernel32.ACL_REVISION,
+							int.MaxValue,
+							pACE.DangerousGetHandle(),
+							pACE.GetHeader().AceSize))
+							break;
+					}
+				}
+			}
 
 			if (modifiableItem is null)
 			{
@@ -204,17 +241,28 @@ namespace Files.App.Utils.Storage
 
 				// Add an new ACE and get a new ACL
 				result = SetEntriesInAcl(1, new[] { explicitAccess }, pDACL, out var pNewDACL);
-				pDACL = pNewDACL;
+
+				pNewAcl = pNewDACL;
 			}
 			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Allow)
 			{
-				AddAccessAllowedAce(pDACL, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+				AddAccessAllowedAceEx(
+					pNewAcl,
+					Kernel32.ACL_REVISION,
+					(SystemSecurity.AceFlags)modifiableItem.AccessControlEntryFlags,
+					ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags),
+					pSid);
 
 				result = Kernel32.GetLastError();
 			}
 			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Deny)
 			{
-				AddAccessDeniedAce(pDACL, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+				AddAccessDeniedAceEx(
+					pNewAcl,
+					Kernel32.ACL_REVISION,
+					(SystemSecurity.AceFlags)modifiableItem.AccessControlEntryFlags,
+					ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags),
+					pSid);
 
 				result = Kernel32.GetLastError();
 			}
@@ -227,7 +275,7 @@ namespace Files.App.Utils.Storage
 				szPath,
 				SE_OBJECT_TYPE.SE_FILE_OBJECT,
 				SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
-				ppDacl: pDACL);
+				ppDacl: pNewAcl);
 
 			if (result.Failed)
 				return result;
@@ -333,13 +381,23 @@ namespace Files.App.Utils.Storage
 
 			if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Allow)
 			{
-				AddAccessAllowedAce(pNewAcl, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+				AddAccessAllowedAceEx(
+					pNewAcl,
+					Kernel32.ACL_REVISION,
+					(SystemSecurity.AceFlags)modifiableItem.AccessControlEntryFlags,
+					ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags),
+					pSid);
 
 				result = Kernel32.GetLastError();
 			}
 			else if (modifiableItem.SelectedAccessControlType == AccessControlEntryType.Deny)
 			{
-				AddAccessDeniedAce(pNewAcl, Kernel32.ACL_REVISION, ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags), pSid);
+				AddAccessDeniedAceEx(
+					pNewAcl,
+					Kernel32.ACL_REVISION,
+					(SystemSecurity.AceFlags)modifiableItem.AccessControlEntryFlags,
+					ACCESS_MASK.FromEnum(modifiableItem.AccessMaskFlags),
+					pSid);
 
 				result = Kernel32.GetLastError();
 			}

@@ -30,9 +30,11 @@ namespace Files.App.Utils.Storage.Security
 		/// <inheritdoc/>
 		public AccessControlEntryFlags AccessControlEntryFlags { get; private set; }
 
+		public string DialogTitle{ get; private set; }
+
 		public IList<AccessControlEntryType> PossibleAccessControlTypes { get; private set; }
 
-		public IList<string> PossibleAccessControlInheritanceAppliesToTypes { get; private set; }
+		public IDictionary<AccessControlEntryFlags, string> PossibleAccessControlInheritanceAppliesToTypes { get; private set; }
 
 		private AccessControlEntryType _SelectedAccessControlType;
 		public AccessControlEntryType SelectedAccessControlType
@@ -45,7 +47,12 @@ namespace Files.App.Utils.Storage.Security
 		public int SelectedAccessControlInheritanceAppliesToTypeIndex
 		{
 			get => _SelectedAccessControlInheritanceAppliesToTypeIndex;
-			set => SetProperty(ref _SelectedAccessControlInheritanceAppliesToTypeIndex, value);
+			set
+			{
+				AccessControlEntryFlags = PossibleAccessControlInheritanceAppliesToTypes.Keys.ToList()[value];
+
+				SetProperty(ref _SelectedAccessControlInheritanceAppliesToTypeIndex, value);
+			}
 		}
 
 		private bool _ShowAdvancedPermissions;
@@ -191,7 +198,7 @@ namespace Files.App.Utils.Storage.Security
 
 		public ICommand TogglePermissionsVisibilityCommand;
 
-		public AccessControlEntryModifiable(IAccessControlEntry item)
+		public AccessControlEntryModifiable(IAccessControlEntry item, bool isNew = false)
 		{
 			_defaultItem = item;
 			Path = item.Path;
@@ -202,6 +209,7 @@ namespace Files.App.Utils.Storage.Security
 			AccessMaskFlags = item.AccessMaskFlags;
 			AccessControlEntryFlags = item.AccessControlEntryFlags;
 
+			DialogTitle = isNew ? "Add permission" : "Edit permission";
 			ShowAdvancedPermissions = false;
 			PermissionsVisibilityToggleLinkButtonContent = "Show advanced permissions";
 			TogglePermissionsVisibilityCommand = new RelayCommand(ExecuteTogglePermissionsVisibility);
@@ -212,15 +220,15 @@ namespace Files.App.Utils.Storage.Security
 				AccessControlEntryType.Deny,
 			};
 
-			PossibleAccessControlInheritanceAppliesToTypes = new List<string>()
+			PossibleAccessControlInheritanceAppliesToTypes = new Dictionary<AccessControlEntryFlags, string>()
 			{
-				"This folder only",
-				"This folder, subfolders and files",
-				"This folder and subfolders",
-				"This folder and files",
-				"Subfolders and files only",
-				"Subfolders only",
-				"File only",
+				{ AccessControlEntryFlags.None, "This folder only" },
+				{ AccessControlEntryFlags.ObjectInherit, "This folder, subfolders and files" },
+				{ AccessControlEntryFlags.ContainerInherit, "This folder and subfolders" },
+				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit, "This folder and files" },
+				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly, "Subfolders and files only" },
+				{ AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly, "Subfolders only" },
+				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.InheritOnly, "File only" },
 			};
 		}
 

@@ -84,7 +84,7 @@
 						x:Name="AccessInheritanceAppliesToTypeComboBox"
 						MinWidth="256"
 						IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToTypes, Mode=OneWay}"
+						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToTypes.Values, Mode=OneWay}"
 						SelectedIndex="{x:Bind ModifiableModel.SelectedAccessControlInheritanceAppliesToTypeIndex, Mode=TwoWay}" />
 				</StackPanel>
 
