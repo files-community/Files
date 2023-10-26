@@ -5,10 +5,9 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.Dialogs"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
-	Title="Edit permission"
+	Title="{x:Bind ModifiableModel.DialogTitle, Mode=OneWay}"
 	DefaultButton="Primary"
 	PrimaryButtonText="{helpers:ResourceString Name=Save}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
@@ -35,7 +34,6 @@
 	<Grid Margin="0,0,0,-24" RowSpacing="24">
 
 		<ScrollViewer
-			Grid.Row="1"
 			Height="365"
 			MinWidth="360"
 			VerticalScrollBarVisibility="Hidden">
@@ -84,7 +82,7 @@
 						x:Name="AccessInheritanceAppliesToTypeComboBox"
 						MinWidth="256"
 						IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToTypes.Values, Mode=OneWay}"
+						ItemsSource="{x:Bind ModifiableModel.PossibleAccessControlInheritanceAppliesToHumanizedTypes, Mode=OneWay}"
 						SelectedIndex="{x:Bind ModifiableModel.SelectedAccessControlInheritanceAppliesToTypeIndex, Mode=TwoWay}" />
 				</StackPanel>
 
@@ -229,5 +227,6 @@
 
 			</StackPanel>
 		</ScrollViewer>
+
 	</Grid>
 </ContentDialog>

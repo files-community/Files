@@ -209,11 +209,10 @@ namespace Files.App.Utils.Storage
 						if (!GetAce(pDACL, (uint)index, out var pACE))
 							break;
 
-						if (!ConvertSidToStringSid(pACE.GetSid(), out var szOldSid))
-							break;
+						var szOldSid = ConvertSidToStringSid(pACE.GetSid());
 
 						// Skip adding the ACE that is owned by the same principal
-						if (szOldSid == pSid)
+						if (szOldSid == szSid)
 							continue;
 
 						// Add the ACE to the new ACL.
@@ -360,11 +359,10 @@ namespace Files.App.Utils.Storage
 						if (!GetAce(pDACL, (uint)index, out var pACE))
 							break;
 
-						if (!ConvertSidToStringSid(pACE.GetSid(), out var szSid))
-							break;
+						var szOldSid = ConvertSidToStringSid(pACE.GetSid());
 
 						// Skip adding the ACE that is owned by the same principal
-						if (szSid == pSid)
+						if (szOldSid == modifiableItem.Principal.Sid)
 							continue;
 
 						// Add the ACE to the new ACL.

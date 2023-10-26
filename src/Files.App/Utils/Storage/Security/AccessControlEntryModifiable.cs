@@ -34,7 +34,9 @@ namespace Files.App.Utils.Storage.Security
 
 		public IList<AccessControlEntryType> PossibleAccessControlTypes { get; private set; }
 
-		public IDictionary<AccessControlEntryFlags, string> PossibleAccessControlInheritanceAppliesToTypes { get; private set; }
+		public IList<string> PossibleAccessControlInheritanceAppliesToHumanizedTypes { get; private set; }
+
+		public IList<AccessControlEntryFlags> PossibleAccessControlInheritanceAppliesToTypes { get; private set; }
 
 		private AccessControlEntryType _SelectedAccessControlType;
 		public AccessControlEntryType SelectedAccessControlType
@@ -49,7 +51,7 @@ namespace Files.App.Utils.Storage.Security
 			get => _SelectedAccessControlInheritanceAppliesToTypeIndex;
 			set
 			{
-				AccessControlEntryFlags = PossibleAccessControlInheritanceAppliesToTypes.Keys.ToList()[value];
+				AccessControlEntryFlags = PossibleAccessControlInheritanceAppliesToTypes[value];
 
 				SetProperty(ref _SelectedAccessControlInheritanceAppliesToTypeIndex, value);
 			}
@@ -220,15 +222,26 @@ namespace Files.App.Utils.Storage.Security
 				AccessControlEntryType.Deny,
 			};
 
-			PossibleAccessControlInheritanceAppliesToTypes = new Dictionary<AccessControlEntryFlags, string>()
+			PossibleAccessControlInheritanceAppliesToHumanizedTypes = new List<string>()
 			{
-				{ AccessControlEntryFlags.None, "This folder only" },
-				{ AccessControlEntryFlags.ObjectInherit, "This folder, subfolders and files" },
-				{ AccessControlEntryFlags.ContainerInherit, "This folder and subfolders" },
-				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit, "This folder and files" },
-				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly, "Subfolders and files only" },
-				{ AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly, "Subfolders only" },
-				{ AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.InheritOnly, "File only" },
+				"This folder only",
+				"This folder, subfolders and files",
+				"This folder and subfolders",
+				"This folder and files",
+				"Subfolders and files only",
+				"Subfolders only",
+				"File only",
+			};
+
+			PossibleAccessControlInheritanceAppliesToTypes = new List<AccessControlEntryFlags>()
+			{
+				AccessControlEntryFlags.None,
+				AccessControlEntryFlags.ObjectInherit,
+				AccessControlEntryFlags.ContainerInherit,
+				AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit,
+				AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly,
+				AccessControlEntryFlags.ContainerInherit & AccessControlEntryFlags.InheritOnly, 
+				AccessControlEntryFlags.ObjectInherit & AccessControlEntryFlags.InheritOnly, 
 			};
 		}
 
@@ -247,6 +260,28 @@ namespace Files.App.Utils.Storage.Security
 				AccessMaskFlags |= mask;
 			else
 				AccessMaskFlags &= ~mask;
+
+			// Notify changes
+			OnPropertyChanged(nameof(FullControlAccessControl));
+			OnPropertyChanged(nameof(BasicModifyAccessControl));
+			OnPropertyChanged(nameof(BasicReadAndExecuteAccessControl));
+			OnPropertyChanged(nameof(BasicListFolderContentsAccessControl));
+			OnPropertyChanged(nameof(BasicReadAccessControl));
+			OnPropertyChanged(nameof(BasicWriteAccessControl));
+			OnPropertyChanged(nameof(BasicSpecialPermissionsAccessControl));
+			OnPropertyChanged(nameof(AdvancedTraverseAccessControl));
+			OnPropertyChanged(nameof(AdvancedReadDataAccessControl));
+			OnPropertyChanged(nameof(AdvancedReadAttributesAccessControl));
+			OnPropertyChanged(nameof(AdvancedReadExtendedAttributesAccessControl));
+			OnPropertyChanged(nameof(AdvancedWriteDataAccessControl));
+			OnPropertyChanged(nameof(AdvancedAppendDataAccessControl));
+			OnPropertyChanged(nameof(AdvancedWriteAttributesAccessControl));
+			OnPropertyChanged(nameof(AdvancedWriteExtendedAttributesAccessControl));
+			OnPropertyChanged(nameof(AdvancedDeleteSubfoldersAndFilesAccessControl));
+			OnPropertyChanged(nameof(AdvancedDeleteAccessControl));
+			OnPropertyChanged(nameof(AdvancedReadPermissionsAccessControl));
+			OnPropertyChanged(nameof(AdvancedChangePermissionsAccessControl));
+			OnPropertyChanged(nameof(AdvancedTakeOwnershipAccessControl));
 		}
 
 		public bool SaveChanges()
