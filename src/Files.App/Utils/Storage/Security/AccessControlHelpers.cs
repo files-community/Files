@@ -312,6 +312,13 @@ namespace Files.App.Utils.Storage
 						if (!GetAce(pDACL, (uint)index, out var pACE))
 							break;
 
+						if (!ConvertSidToStringSid(pACE.GetSid(), out var szSid))
+							break;
+
+						// Skip adding the ACE that is owned by the same principal
+						if (szSid == pSid)
+							continue;
+
 						// Add the ACE to the new ACL.
 						if (!AddAce(
 							pNewAcl,

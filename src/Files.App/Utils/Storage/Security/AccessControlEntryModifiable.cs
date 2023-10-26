@@ -222,7 +222,6 @@ namespace Files.App.Utils.Storage.Security
 				"Subfolders only",
 				"File only",
 			};
-
 		}
 
 		private void ExecuteTogglePermissionsVisibility()

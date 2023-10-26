@@ -41,7 +41,7 @@ namespace Files.App.Views.Properties
 		private async void AdvancedPermissionListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem ||
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is not AccessControlEntry ||
 				SecurityAdvancedViewModel.SelectedAccessControlEntry is null)
 				return;
 

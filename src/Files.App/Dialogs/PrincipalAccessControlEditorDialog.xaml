@@ -10,7 +10,6 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	Title="Edit permission"
 	DefaultButton="Primary"
-	IsPrimaryButtonEnabled="False"
 	PrimaryButtonText="{helpers:ResourceString Name=Save}"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
