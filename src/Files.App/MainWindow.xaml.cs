@@ -98,7 +98,7 @@ namespace Files.App
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
-						InteropHelpers.SetForegroundWindow(WindowHandle);
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					}
 					else
 					{
@@ -177,7 +177,7 @@ namespace Files.App
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
-						InteropHelpers.SetForegroundWindow(WindowHandle);
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					}
 					break;
 			}
@@ -239,7 +239,7 @@ namespace Files.App
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
-					InteropHelpers.SetForegroundWindow(WindowHandle);
+					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
