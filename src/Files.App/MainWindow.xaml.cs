@@ -98,6 +98,7 @@ namespace Files.App
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
+						InteropHelpers.SetForegroundWindow(WindowHandle);
 					}
 					else
 					{
