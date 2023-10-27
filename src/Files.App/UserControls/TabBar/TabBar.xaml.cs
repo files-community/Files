@@ -143,8 +143,7 @@ namespace Files.App.UserControls.TabBar
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 
-			InteropHelpers.GetCursorPos(out var point);
-			dragStartPoint = point;
+			InteropHelpers.GetCursorPos(out dragStartPoint);
 			dragStartTime = DateTimeOffset.UtcNow;
 		}
 
