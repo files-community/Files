@@ -200,7 +200,8 @@
 								x:Name="AdvancedPermissionDeleteSubfoldersAndFilesAccessCheckBox"
 								Content="Delete subfolders and files"
 								IsChecked="{x:Bind ModifiableModel.AdvancedDeleteSubfoldersAndFilesAccessControl, Mode=TwoWay}"
-								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+								IsEnabled="{x:Bind ModifiableModel.IsInherited, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								Visibility="{x:Bind ModifiableModel.IsFolder, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 							<CheckBox
 								x:Name="AdvancedPermissionDeleteAccessCheckBox"
 								Content="Delete"

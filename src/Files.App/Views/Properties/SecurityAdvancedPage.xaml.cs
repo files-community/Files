@@ -60,6 +60,8 @@ namespace Files.App.Views.Properties
 			{
 				// Save changes
 				modifiableItem.SaveChanges();
+
+				SecurityAdvancedViewModel.LoadAccessControlEntry();
 			}
 		}
 

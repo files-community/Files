@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
+using System.Windows.Input;
 using Vanara.PInvoke;
 using Windows.Storage;
 
@@ -110,9 +111,9 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _ColumnInheritedGridLength, value);
 		}
 
-		public IAsyncRelayCommand ChangeOwnerCommand { get; set; }
-		public IAsyncRelayCommand AddAccessControlEntryCommand { get; set; }
-		public IAsyncRelayCommand RemoveAccessControlEntryCommand { get; set; }
+		public ICommand ChangeOwnerCommand { get; set; }
+		public ICommand AddAccessControlEntryCommand { get; set; }
+		public ICommand RemoveAccessControlEntryCommand { get; set; }
 
 		public SecurityAdvancedViewModel(PropertiesPageNavigationParameter parameter)
 		{
@@ -157,7 +158,7 @@ namespace Files.App.ViewModels.Properties
 			ShieldIconFileInfo = imageResList.First();
 		}
 
-		private void LoadAccessControlEntry()
+		public void LoadAccessControlEntry()
 		{
 			var error = AccessControlHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
@@ -186,6 +187,8 @@ namespace Files.App.ViewModels.Properties
 				DisplayElements = true;
 				ErrorMessage = string.Empty;
 			}
+
+			OnPropertyChanged(nameof(AccessControlList));
 		}
 
 		private async Task ExecuteChangeOwnerCommandAsync()
