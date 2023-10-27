@@ -584,13 +584,13 @@
 					IsDoubleTapEnabled="True"
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-					PreviewKeyDown="FileList_PreviewKeyDownAsync"
+					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.IsHorizontalScrollChainingEnabled="False"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					ShowsScrollingPlaceholders="True"
 					StretchContentForSingleRow="False"
-					Tapped="FileList_ItemTappedAsync">
+					Tapped="FileList_ItemTapped">
 
 					<toolkit:AdaptiveGridView.GroupStyle>
 						<GroupStyle>

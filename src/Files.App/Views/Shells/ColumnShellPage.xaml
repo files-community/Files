@@ -22,7 +22,7 @@
 	<local:BaseShellPage.KeyboardAccelerators>
 		<KeyboardAccelerator
 			Key="V"
-			Invoked="KeyboardAccelerator_InvokedAsync"
+			Invoked="KeyboardAccelerator_Invoked"
 			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
 			Modifiers="Control" />
 	</local:BaseShellPage.KeyboardAccelerators>
@@ -58,7 +58,7 @@
 			HorizontalAlignment="Stretch"
 			x:FieldModifier="public"
 			Canvas.ZIndex="30"
-			Navigated="ItemDisplayFrame_NavigatedAsync" />
+			Navigated="ItemDisplayFrame_Navigated" />
 
 	</Grid>
 </local:BaseShellPage>

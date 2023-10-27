@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Acest dispozitiv este în prezent în uz. Închideți orice programe, ferestre sau file care ar putea utiliza dispozitivul și apoi încercați din nou.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Scoatere</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

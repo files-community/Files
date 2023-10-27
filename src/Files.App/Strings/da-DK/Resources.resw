@@ -1158,7 +1158,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Denne enhed er i øjeblikket i brug. Luk alle programmer, vinduer eller faner, der muligvis bruger enheden, og prøv derefter igen.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Skub ud</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">

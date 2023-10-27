@@ -16,7 +16,7 @@ namespace Files.App.UserControls.FilePreviews
 
 		public HtmlPreviewViewModel ViewModel { get; set; }
 
-		private async void WebViewControl_LoadedAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			await WebViewControl.EnsureCoreWebView2Async();
 			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(

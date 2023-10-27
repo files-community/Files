@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Ierīce pašlaik tiek lietota. Aizveriet visas lietotnes, logus vai cilnes, kas varētu lietot šo ierīci, un mēģiniet vēlreiz.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Izstumt</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
