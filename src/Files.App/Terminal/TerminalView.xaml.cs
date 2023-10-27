@@ -333,8 +333,11 @@ namespace Files.App.UserControls
 
 		private void StartShellProcess(TerminalSize size, ShellProfile profile)
 		{
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			var mainPageModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+
 			var ShellExecutableName = Path.GetFileNameWithoutExtension(profile.Location);
-			var cwd = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			var cwd = context.Folder?.ItemPath ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			var args = !string.IsNullOrWhiteSpace(profile.Location)
 				? $"\"{profile.Location}\" {profile.Arguments}"
@@ -349,7 +352,7 @@ namespace Files.App.UserControls
 			{
 				DispatcherQueue.EnqueueAsync(() =>
 				{
-					Ioc.Default.GetRequiredService<MainPageViewModel>().IsTerminalViewOpen = false;
+					mainPageModel.IsTerminalViewOpen = false;
 				});
 			};
 
