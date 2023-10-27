@@ -107,7 +107,8 @@ namespace Files.App.UserControls
 
 		public WebView2 WebView => WebViewControl;
 
-		private Terminal.Terminal _terminal { get; set; }
+		private Terminal.Terminal _terminal;
+		private BufferedReader _reader;
 
 		public TerminalView()
 		{
@@ -322,7 +323,10 @@ namespace Files.App.UserControls
 
 		public void Dispose()
 		{
+			WebViewControl.Close();
 			_outputBlockedBuffer?.Dispose();
+			_reader?.Dispose();
+			_terminal?.Dispose();
 		}
 
 		public void Paste(string text) => OnPaste?.Invoke(this, text);
@@ -336,12 +340,17 @@ namespace Files.App.UserControls
 				? $"\"{profile.Location}\" {profile.Arguments}"
 				: profile.Arguments;
 
-			BufferedReader _reader;
-
 			_terminal = new Terminal.Terminal();
 			_terminal.OutputReady += (s, e) =>
 			{
 				_reader = new BufferedReader(_terminal.ConsoleOutStream, b => Terminal_OutputReceived(this, b), true);
+			};
+			_terminal.Exited += (s, e) =>
+			{
+				DispatcherQueue.EnqueueAsync(() =>
+				{
+					Ioc.Default.GetRequiredService<MainPageViewModel>().IsTerminalViewOpen = false;
+				});
 			};
 
 			Task.Factory.StartNew(() => _terminal.Start(args, cwd, size.Columns, size.Rows));
@@ -411,6 +420,11 @@ namespace Files.App.UserControls
 						return;
 					}
 			}
+		}
+
+		private void TerminalView_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+			Dispose();
 		}
 	}
 }
