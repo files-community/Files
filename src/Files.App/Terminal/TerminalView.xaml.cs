@@ -127,13 +127,15 @@ namespace Files.App.UserControls
 			WebViewControl.Source = new Uri("http://terminal.files/index.html");
 
 			// Waiting for WebView.NavigationCompleted event to happen
-			await _tcsNavigationCompleted.Task.ConfigureAwait(false);
+			await _tcsNavigationCompleted.Task;
 
 			var provider = new DefaultValueProvider();
 			var options = provider.GetDefaultTerminalOptions();
 			var keyBindings = provider.GetCommandKeyBindings();
-			var theme = provider.GetPreInstalledThemes().First();
+			var theme = provider.GetPreInstalledThemes().Skip(1).First();
 			var profile = provider.GetPreinstalledShellProfiles().First();
+
+			WebViewControl.DefaultBackgroundColor = ColorHelpers.FromHex(theme.Colors.Background);
 
 			var size = await CreateXtermViewAsync(options, theme.Colors,
 				keyBindings.Values.SelectMany(k => k)).ConfigureAwait(false);

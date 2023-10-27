@@ -303,7 +303,7 @@ function setScrollBarStyle(scrollBarStyle) {
 }
 
 function setPadding(padding) {
-  document.querySelector('.terminal')["style"].padding = padding + 'px';
+  term.element.style.padding = padding + 'px';
   fitAddon.fit();
 }
 
