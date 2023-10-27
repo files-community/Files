@@ -1,10 +1,6 @@
 using Microsoft.Win32.SafeHandles;
-using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using static Files.App.Terminal.Native.ConsoleApi;
 
@@ -14,11 +10,14 @@ namespace Files.App.Terminal
 	/// The UI of the terminal. It's just a normal console window, but we're managing the input/output.
 	/// In a "real" project this could be some other UI.
 	/// </summary>
-	internal sealed class Terminal
+	internal sealed class Terminal : IDisposable
 	{
 		private SafeFileHandle _consoleInputPipeWriteHandle;
 		private FileStream _consoleInputWriter;
+		private PseudoConsolePipe _inputPipe;
+		private PseudoConsolePipe _outputPipe;
 		private PseudoConsole _pseudoConsole;
+		private Process _process;
 
 		/// <summary>
 		/// A stream of VT-100-enabled output from the console.
@@ -29,6 +28,7 @@ namespace Files.App.Terminal
 		/// Fired once the console has been hooked up and is ready to receive input.
 		/// </summary>
 		public event EventHandler OutputReady;
+		public event EventHandler Exited;
 
 		public Terminal()
 		{
@@ -48,6 +48,11 @@ namespace Files.App.Terminal
 			User32.ShowWindow(windowHandle, ShowWindowCommand.SW_HIDE);
 
 			EnableVirtualTerminalSequenceProcessing();
+		}
+
+		~Terminal()
+		{
+			Dispose(false);
 		}
 
 		/// <summary>
@@ -76,27 +81,28 @@ namespace Files.App.Terminal
 		/// <param name="command">the command to run, e.g. cmd.exe</param>
 		public void Start(string command, string directory, int consoleWidth = 80, int consoleHeight = 30)
 		{
-			using var inputPipe = new PseudoConsolePipe();
-			using var outputPipe = new PseudoConsolePipe();
-			_pseudoConsole = PseudoConsole.Create(inputPipe.ReadSide, outputPipe.WriteSide, consoleWidth, consoleHeight);
-			using var process = ProcessFactory.Start(command, directory, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle);
+			_inputPipe = new PseudoConsolePipe();
+			_outputPipe = new PseudoConsolePipe();
+			_pseudoConsole = PseudoConsole.Create(_inputPipe.ReadSide, _outputPipe.WriteSide, consoleWidth, consoleHeight);
+			_process = ProcessFactory.Start(command, directory, PseudoConsole.PseudoConsoleThreadAttribute, _pseudoConsole.Handle);
 
 			// copy all pseudoconsole output to a FileStream and expose it to the rest of the app
-			ConsoleOutStream = new FileStream(outputPipe.ReadSide, FileAccess.Read);
+			ConsoleOutStream = new FileStream(_outputPipe.ReadSide, FileAccess.Read);
 			OutputReady.Invoke(this, EventArgs.Empty);
 
 			// Store input pipe handle, and a writer for later reuse
-			_consoleInputPipeWriteHandle = inputPipe.WriteSide;
+			_consoleInputPipeWriteHandle = _inputPipe.WriteSide;
 			_consoleInputWriter = new FileStream(_consoleInputPipeWriteHandle, FileAccess.Write);
 
-			// free resources in case the console is ungracefully closed (e.g. by the 'x' in the window titlebar)
-			OnClose(() => DisposeResources(process, _pseudoConsole, outputPipe, inputPipe, _consoleInputWriter));
+			WaitForExit(_process).WaitOne(Timeout.Infinite);
 
-			WaitForExit(process).WaitOne(Timeout.Infinite);
+			Exited?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void Resize(int width, int height)
 		{
+			if (alreadyDisposed)
+				return;
 			_pseudoConsole?.Resize(width, height);
 		}
 
@@ -105,6 +111,8 @@ namespace Files.App.Terminal
 		/// </summary>
 		public void WriteToPseudoConsole(byte[] data)
 		{
+			if (alreadyDisposed)
+				return;
 			_consoleInputWriter?.Write(data, 0, data.Length);
 			_consoleInputWriter?.Flush();
 		}
@@ -117,22 +125,6 @@ namespace Files.App.Terminal
 			{
 				SafeWaitHandle = new SafeWaitHandle(process.ProcessInfo.hProcess, ownsHandle: false)
 			};
-
-		/// <summary>
-		/// Set a callback for when the terminal is closed (e.g. via the "X" window decoration button).
-		/// Intended for resource cleanup logic.
-		/// </summary>
-		private static void OnClose(Action handler)
-		{
-			SetConsoleCtrlHandler(eventType =>
-			{
-				if(eventType == CtrlTypes.CTRL_CLOSE_EVENT)
-				{
-					handler();
-				}
-				return false;
-			}, true);
-		}
 
 		/// <summary>
 		/// A helper method that opens a handle on the console's screen buffer, which will allow us to get its output,
@@ -159,12 +151,38 @@ namespace Files.App.Terminal
 			return new SafeFileHandle(file.ReleaseOwnership(), true);
 		}
 
-		private void DisposeResources(params IDisposable[] disposables)
+		#region IDisposable Support
+
+		public void Dispose()
 		{
-			foreach (var disposable in disposables)
+			Dispose(true);
+			GC.SuppressFinalize(true);
+		}
+
+		private bool alreadyDisposed = false;
+
+		public void Dispose(bool disposeManaged)
+		{
+			if (alreadyDisposed)
 			{
-				disposable.Dispose();
+				return;
+			}
+
+			alreadyDisposed = true;
+
+			if (disposeManaged)
+			{
+				ConsoleOutStream.Dispose();
+				// Dispose pseudo console before _consoleInputWriter to avoid
+				// hanging on call of ClosePseudoConsole
+				_pseudoConsole?.Dispose();
+				_consoleInputWriter?.Dispose();
+				_process?.Dispose();
+				_outputPipe?.Dispose();
+				_inputPipe?.Dispose();
 			}
 		}
+
+		#endregion
 	}
 }

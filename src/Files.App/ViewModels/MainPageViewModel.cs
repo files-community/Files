@@ -170,6 +170,7 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
+			ToggleTerminalViewCommand = new RelayCommand(() => IsTerminalViewOpen = !IsTerminalViewOpen);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -397,5 +398,13 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
+		public ICommand ToggleTerminalViewCommand { get; init; }
+
+		private bool _isTerminalViewOpen;
+		public bool IsTerminalViewOpen
+		{
+			get => _isTerminalViewOpen;
+			set => SetProperty(ref _isTerminalViewOpen, value);
+		}
 	}
 }
