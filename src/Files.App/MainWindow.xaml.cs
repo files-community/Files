@@ -177,6 +177,7 @@ namespace Files.App
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
+						InteropHelpers.SetForegroundWindow(WindowHandle);
 					}
 					break;
 			}
