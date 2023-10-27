@@ -237,7 +237,10 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				{
 					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+					InteropHelpers.SetForegroundWindow(WindowHandle);
+				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
