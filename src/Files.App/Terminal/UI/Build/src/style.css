@@ -20,6 +20,10 @@ html, body {
     -ms-touch-action: pan-y;
 }
 
+#terminal-container::-webkit-scrollbar {
+    display: none
+}
+
 .xterm .xterm-viewport {
     background-color: transparent !important;
 }
