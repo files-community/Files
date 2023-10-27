@@ -29,8 +29,8 @@ namespace Files.App.UserControls.TabBar
 
 		public UIElement FooterElement
 		{
-			get => (UIElement)GetValue(FooterElementProperty); 
-			set => SetValue(FooterElementProperty, value); 
+			get => (UIElement)GetValue(FooterElementProperty);
+			set => SetValue(FooterElementProperty, value);
 		}
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
@@ -226,8 +226,8 @@ namespace Files.App.UserControls.TabBar
 			var dragDistance = Math.Sqrt(Math.Pow((dragStartPoint.X - droppedPoint.X), 2) + Math.Pow((dragStartPoint.Y - droppedPoint.Y), 2));
 
 			if (sender.TabItems.Count == 1 ||
-				dragTime.TotalSeconds < 1 &&
-				dragDistance < 100)
+				(dragTime.TotalSeconds < 1 &&
+				dragDistance < 100))
 				return;
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
