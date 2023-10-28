@@ -7,8 +7,6 @@ namespace Files.App.Utils.Storage.Security
 {
 	public class AccessControlEntryModifiable : ObservableObject, IAccessControlEntry
 	{
-		private IAccessControlEntry _defaultItem;
-
 		/// <inheritdoc/>
 		public string Path { get; private set; }
 
@@ -202,7 +200,6 @@ namespace Files.App.Utils.Storage.Security
 
 		public AccessControlEntryModifiable(IAccessControlEntry item, bool isNew = false)
 		{
-			_defaultItem = item;
 			Path = item.Path;
 			IsFolder = item.IsFolder;
 			Principal = item.Principal;

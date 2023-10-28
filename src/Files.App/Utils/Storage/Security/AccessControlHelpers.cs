@@ -168,10 +168,11 @@ namespace Files.App.Utils.Storage
 		}
 
 		/// <summary>
-		/// Add an default Access Control Entry (ACE) to the specified object's DACL
+		/// Adds an default Access Control Entry (ACE) to the specified object's DACL
 		/// </summary>
 		/// <param name="path">The object's path to add an new ACE to its DACL</param>
 		/// <param name="sid">Principal's SID</param>
+		/// <param name="modifiableItem"></param>
 		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
 		public static Win32Error AddAccessControlEntry(string szPath, string szSid, AccessControlEntryModifiable? modifiableItem = null)
 		{
@@ -283,11 +284,11 @@ namespace Files.App.Utils.Storage
 		}
 
 		/// <summary>
-		/// Add an Access Control Entry (ACE) from the specified object's DACL
+		/// Removes an Access Control Entry (ACE) from the specified object's DACL
 		/// </summary>
 		/// <param name="szPath">The object's path to remove an ACE from its DACL</param>
 		/// <param name="dwAceIndex"></param>
-		/// <returns></returns>
+		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
 		public static Win32Error RemoveAccessControlEntry(string szPath, uint dwAceIndex)
 		{
 			// Get DACL for the specified object
@@ -323,6 +324,12 @@ namespace Files.App.Utils.Storage
 			return result;
 		}
 
+		/// <summary>
+		/// Updates an Access Control Entry (ACE) from the specified object's DACL
+		/// </summary>
+		/// <param name="szPath">The object's path to remove an ACE from its DACL</param>
+		/// <param name="modifiableItem"></param>
+		/// <returns> If the function succeeds, the return value is ERROR_SUCCESS. If the function fails, the return value is a nonzero error code defined in WinError.h.</returns>
 		public static Win32Error UpdateAccessControlEntry(string szPath, AccessControlEntryModifiable modifiableItem)
 		{
 			// Get DACL for the specified object
