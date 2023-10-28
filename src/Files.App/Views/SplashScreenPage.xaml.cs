@@ -11,17 +11,25 @@ namespace Files.App.Views
 	/// </summary>
 	public sealed partial class SplashScreenPage : Page
 	{
+		private string BranchLabel =>
+			ApplicationService.AppEnvironment switch
+			{
+				AppEnvironment.Dev => "Dev",
+				AppEnvironment.Preview => "Preview",
+				_ => string.Empty,
+			};
+
 		public SplashScreenPage()
 		{
 			InitializeComponent();
 		}
 
-		private void Image_ImageOpened(object sender, RoutedEventArgs e)
+		private void SplashScreenImage_ImageOpened(object sender, RoutedEventArgs e)
 		{
 			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
 
-		private void Image_ImageFailed(object sender, RoutedEventArgs e)
+		private void SplashScreenImage_ImageFailed(object sender, RoutedEventArgs e)
 		{
 			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
