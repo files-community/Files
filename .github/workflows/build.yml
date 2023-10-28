@@ -100,9 +100,7 @@ jobs:
 
     - name: Use Windows SDK Preview
       shell: cmd
-      run: |
-        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') `
-        do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
+      run: 'for /f %%a in ("dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*"") do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
     - name: Restore NuGet
       shell: pwsh
