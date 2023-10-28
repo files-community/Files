@@ -13,16 +13,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Debug]
-        platform: [x86, x64, arm64]
+        configuration: [Store]
+        platform: [x64, arm64]
     env:
       SOLUTION_NAME: 'Files.sln'
+      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
       PACKAGE_PROJECT_NAME: 'src\Files.App (Package)\Files.Package.wapproj'
       TEST_PROJECT_NAME: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
-      PROJECT_RESTORE_PLATFORM: "x64"
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
-      DEFAULT_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
       APPX_PACKAGE_DIR: ${{ github.workspace }}\AppxPackages
 
     steps:
@@ -30,11 +30,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup MSBuild
-      id: setup_msbuild
       uses: microsoft/setup-msbuild@v1
 
     - name: Setup NuGet
-      id: setup-nuget
       uses: NuGet/setup-nuget@v1.1.1
 
     - name: Setup VSTest
@@ -45,22 +43,81 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
+    # TODO: Move the command to PowerShell script instead
+    - name: Use ${{ env.CONFIGURATION }} Logo
+      shell: pwsh
+      run: |
+        gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+        { `
+          (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release"}) | `
+          Set-Content $_ -NoNewline `
+        }
+
+    # - name: Restore BingMaps Key
+    #   uses: timheuer/base64-to-file@v1.2
+    #   with:
+    #     encodedString: ${{ secrets.BINGMAPS_KEY_BASE64 }}
+    #     fileDir: '$env:WORKING_DIR\src\Files.App\Resources'
+    #     fileName: 'BingMapsKey.txt'
+
+    # - name: Restore Package CA Certification File
+    #   uses: timheuer/base64-to-file@v1.2
+    #   with:
+    #     encodedString: ${{ secrets.PACKAGE_CERTIFICATE_BASE64 }}
+    #     fileDir: '$env:WORKING_DIR\$env:PACKAGE_PROJECT_DIR'
+    #     fileName: 'StoreCertificate.pfx'
+
+    # - name: Restore AppCenter Token
+    #   shell: pwsh
+    #   run: |
+    #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
+    #     { `
+    #       (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$env:APPCENTER_TOKEN"}) | `
+    #       Set-Content $_ -NoNewline `
+    #     }
+    #   env:
+    #     APPCENTER_TOKEN: ${{ secret.APPCENTER_TOKEN }}
+
+    # - name: Restore GitHub OAuth Client ID
+    #   run: |
+    #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
+    #     { `
+    #       (Get-Content $_ -Raw | ForEach -Process {$_ -replace "githubclientid.secret", "$env:GITHUB_OAUTH_CLIENT_ID)"}) | `
+    #       Set-Content $_ -NoNewline `
+    #     }
+    #   env:
+    #     GITHUB_OAUTH_CLIENT_ID: ${{ secret.GITHUB_OAUTH_CLIENT_ID }}
+  
+    # - name: Configure Store Submission
+    #   uses: microsoft/store-submission@v1
+    #   with:
+    #     command: configure
+    #     seller-id: ${{ secrets.MSSTORE_SELLER_ID }}
+    #     product-id: ${{ secrets.MSSTORE_PRODUCT_ID }}
+    #     tenant-id: ${{ secrets.MSSTORE_TENANT_ID }}
+    #     client-id: ${{ secrets.MSSTORE_CLIENT_ID }}
+    #     client-secret: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+
+    - name: Use Windows SDK Preview
+      shell: cmd
+      run: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') `
+        do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
+
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_NAME'
+
     - name: Restore Files
-      id: restore_project
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
         -t:Restore `
-        -p:Platform=$env:PROJECT_RESTORE_PLATFORM `
+        -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
-    - name: Restore NuGet
-      id: restore_nuget
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_NAME'
 
     - name: Build Files
-      id: build_app
       shell: pwsh
       run: |
         msbuild $env:PACKAGE_PROJECT_NAME `
