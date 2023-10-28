@@ -170,9 +170,21 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
-			ToggleTerminalViewCommand = new RelayCommand(() => IsTerminalViewOpen = !IsTerminalViewOpen);
+            TerminalToggleCommand = new RelayCommand(() => IsTerminalViewOpen = !IsTerminalViewOpen);
+            TerminalSyncUpCommand = new RelayCommand(() =>
+            {
+                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+                if (GetTerminalFolder?.Invoke() is string terminalFolder)
+                    _ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
+            });
+            TerminalSyncDownCommand = new RelayCommand(() =>
+            {
+                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+                if (context.Folder?.ItemPath is string currentFolder)
+                    SetTerminalFolder?.Invoke(currentFolder);
+            });
 
-			AppearanceSettingsService.PropertyChanged += (s, e) =>
+            AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
 				switch (e.PropertyName)
 				{
@@ -398,7 +410,14 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
-		public ICommand ToggleTerminalViewCommand { get; init; }
+		public ICommand TerminalToggleCommand { get; init; }
+		public ICommand TerminalSyncUpCommand { get; init; }
+		public ICommand TerminalSyncDownCommand { get; init; }
+
+		public Func<string?>? GetTerminalFolder { get; set; }
+		public Action<string>? SetTerminalFolder { get; set; }
+
+		//public ShellProfile TerminalProfile { get; set; }
 
 		private bool _isTerminalViewOpen;
 		public bool IsTerminalViewOpen
