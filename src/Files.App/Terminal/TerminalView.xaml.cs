@@ -6,6 +6,7 @@ using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.IO;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -19,6 +20,9 @@ namespace Files.App.UserControls
 		// Members related to initialization
 		private readonly TaskCompletionSource<object> _tcsConnected = new TaskCompletionSource<object>();
 		private readonly TaskCompletionSource<object> _tcsNavigationCompleted = new TaskCompletionSource<object>();
+
+		IContentPageContext _context = Ioc.Default.GetRequiredService<IContentPageContext>();
+		MainPageViewModel _mainPageModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		#region Resize handling
 
@@ -323,6 +327,8 @@ namespace Files.App.UserControls
 
 		public void Dispose()
 		{
+			_mainPageModel.GetTerminalFolder = null;
+			_mainPageModel.SetTerminalFolder = null;
 			WebViewControl.Close();
 			_outputBlockedBuffer?.Dispose();
 			_reader?.Dispose();
@@ -333,11 +339,8 @@ namespace Files.App.UserControls
 
 		private void StartShellProcess(TerminalSize size, ShellProfile profile)
 		{
-			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			var mainPageModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 			var ShellExecutableName = Path.GetFileNameWithoutExtension(profile.Location);
-			var cwd = context.Folder?.ItemPath ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			var cwd = _context.Folder?.ItemPath ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			var args = !string.IsNullOrWhiteSpace(profile.Location)
 				? $"\"{profile.Location}\" {profile.Arguments}"
@@ -347,12 +350,17 @@ namespace Files.App.UserControls
 			_terminal.OutputReady += (s, e) =>
 			{
 				_reader = new BufferedReader(_terminal.ConsoleOutStream, b => Terminal_OutputReceived(this, b), true);
+				_mainPageModel.GetTerminalFolder = () => null; // TODO
+				_mainPageModel.SetTerminalFolder = (folder) =>
+				{
+					_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
+				};
 			};
 			_terminal.Exited += (s, e) =>
 			{
 				DispatcherQueue.EnqueueAsync(() =>
 				{
-					mainPageModel.IsTerminalViewOpen = false;
+					_mainPageModel.IsTerminalViewOpen = false;
 				});
 			};
 
