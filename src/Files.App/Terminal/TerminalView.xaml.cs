@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -282,14 +283,14 @@ namespace Files.App.UserControls
 		{
 		}
 
-		private void Terminal_OutputReceived(object sender, byte[] e)
-		{
-			OnOutput?.Invoke(this, e);
-		}
-
 		void IxtermEventListener.OnError(string error)
 		{
 			App.Logger.LogWarning(error);
+		}
+
+		private void OutputReceivedCallback(byte[] e)
+		{
+			OnOutput?.Invoke(this, e);
 		}
 
 		public void OnInput(byte[] data)
@@ -349,8 +350,23 @@ namespace Files.App.UserControls
 			_terminal = new Terminal.Terminal();
 			_terminal.OutputReady += (s, e) =>
 			{
-				_reader = new BufferedReader(_terminal.ConsoleOutStream, b => Terminal_OutputReceived(this, b), true);
-				_mainPageModel.GetTerminalFolder = () => null; // TODO
+				_reader = new BufferedReader(_terminal.ConsoleOutStream, OutputReceivedCallback, true);
+				_mainPageModel.GetTerminalFolder = async () =>
+				{
+					var tcs = new TaskCompletionSource<string>();
+					EventHandler<object> getResponse = (s, e) =>
+					{
+						var pwd = Encoding.UTF8.GetString((byte[])e);
+						var match = Regex.Match(pwd, @"[a-zA-Z]:\\(((?![<>:""/\\|?*]).)+((?<![ .])\\)?)*");
+						if (match.Success)
+							tcs.TrySetResult(match.Value);
+					};
+					OnOutput += getResponse;
+					_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
+					var pwd = await tcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(1));
+					OnOutput -= getResponse;
+					return pwd;
+				};
 				_mainPageModel.SetTerminalFolder = (folder) =>
 				{
 					_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));

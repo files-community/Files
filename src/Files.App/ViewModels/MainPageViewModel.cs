@@ -171,10 +171,10 @@ namespace Files.App.ViewModels
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
             TerminalToggleCommand = new RelayCommand(() => IsTerminalViewOpen = !IsTerminalViewOpen);
-            TerminalSyncUpCommand = new RelayCommand(() =>
+            TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
             {
                 var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-                if (GetTerminalFolder?.Invoke() is string terminalFolder)
+                if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
                     _ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
             });
             TerminalSyncDownCommand = new RelayCommand(() =>
@@ -414,7 +414,7 @@ namespace Files.App.ViewModels
 		public ICommand TerminalSyncUpCommand { get; init; }
 		public ICommand TerminalSyncDownCommand { get; init; }
 
-		public Func<string?>? GetTerminalFolder { get; set; }
+		public Func<Task<string?>>? GetTerminalFolder { get; set; }
 		public Action<string>? SetTerminalFolder { get; set; }
 
 		//public ShellProfile TerminalProfile { get; set; }
