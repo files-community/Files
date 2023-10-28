@@ -47,7 +47,7 @@ jobs:
     - name: Use ${{ env.CONFIGURATION }} Logo
       shell: pwsh
       run: |
-        gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+        gci $env:WORKING_DIR\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
         { `
           (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release"}) | `
           Set-Content $_ -NoNewline `
