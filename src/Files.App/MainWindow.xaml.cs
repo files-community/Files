@@ -75,8 +75,6 @@ namespace Files.App
 
 			var rootFrame = EnsureWindowIsInitialized();
 
-			return;
-
 			switch (activatedEventArgs)
 			{
 				case ILaunchActivatedEventArgs launchArgs:
