@@ -183,6 +183,7 @@ namespace Files.App.ViewModels
                 if (context.Folder?.ItemPath is string currentFolder)
                     SetTerminalFolder?.Invoke(currentFolder);
             });
+            TerminalSelectedProfile = TerminalProfiles[0];
 
             AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -410,6 +411,7 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
+		// Terminal integration
 		public ICommand TerminalToggleCommand { get; init; }
 		public ICommand TerminalSyncUpCommand { get; init; }
 		public ICommand TerminalSyncDownCommand { get; init; }
@@ -417,13 +419,20 @@ namespace Files.App.ViewModels
 		public Func<Task<string?>>? GetTerminalFolder { get; set; }
 		public Action<string>? SetTerminalFolder { get; set; }
 
-		//public ShellProfile TerminalProfile { get; set; }
+		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
 
 		private bool _isTerminalViewOpen;
 		public bool IsTerminalViewOpen
 		{
 			get => _isTerminalViewOpen;
 			set => SetProperty(ref _isTerminalViewOpen, value);
+		}
+
+		private ShellProfile _terminalSelectedProfile;
+		public ShellProfile TerminalSelectedProfile
+		{
+			get => _terminalSelectedProfile;
+			set => SetProperty(ref _terminalSelectedProfile, value);
 		}
 	}
 }

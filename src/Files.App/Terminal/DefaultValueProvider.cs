@@ -379,6 +379,7 @@ namespace Files.App.UserControls
 				new ShellProfile
 				{
 					Id = GetDefaultShellProfileId(),
+					TerminalThemeId = Guid.Parse("3571ce1b-31ce-4cf7-ae15-e0bff70c3eea"),
 					Name = "Powershell",
 					MigrationVersion = ShellProfile.CurrentMigrationVersion,
 					Arguments = string.Empty,
@@ -407,6 +408,7 @@ namespace Files.App.UserControls
 				new ShellProfile
 				{
 					Id = Guid.Parse("ab942a61-7673-4755-9bd8-765aff91d9a3"),
+					TerminalThemeId = GetDefaultThemeId(),
 					Name = "CMD",
 					MigrationVersion = ShellProfile.CurrentMigrationVersion,
 					Arguments = string.Empty,
@@ -435,6 +437,7 @@ namespace Files.App.UserControls
 				new ShellProfile
 				{
 					Id= Guid.Parse("e5785ad6-584f-40cb-bdcd-d5b3b3953e7f"),
+					TerminalThemeId = Guid.Parse("32519543-bf94-4db6-92a1-7bcec3966c82"),
 					Name = "WSL",
 					MigrationVersion = ShellProfile.CurrentMigrationVersion,
 					Arguments = string.Empty,
