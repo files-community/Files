@@ -138,8 +138,8 @@ namespace Files.App.UserControls
 			var provider = new DefaultValueProvider();
 			var options = provider.GetDefaultTerminalOptions();
 			var keyBindings = provider.GetCommandKeyBindings();
-			var theme = provider.GetPreInstalledThemes().Skip(1).First();
-			var profile = provider.GetPreinstalledShellProfiles().First();
+			var profile = _mainPageModel.TerminalSelectedProfile;
+			var theme = provider.GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
 
 			WebViewControl.DefaultBackgroundColor = ColorHelpers.FromHex(theme.Colors.Background);
 
