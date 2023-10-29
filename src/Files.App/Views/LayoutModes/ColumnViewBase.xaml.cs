@@ -214,7 +214,11 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			if (isDragging)
+			{
 				CloseFolder();
+				return;
+
+			}
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
 			{
