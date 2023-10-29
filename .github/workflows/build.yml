@@ -131,7 +131,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.CONFIGURATION }} artifacts
-        path: '${{ env.WORKING_DIR }}\**\bin\${{ env.CONFIGURATION }}\**'
+        path: '${{ env.WORKING_DIR }}\**\${{ env.CONFIGURATION }}\AppxPackages\**'
 
     # - name: Publish Store Submission
     #   uses: microsoft/store-submission@v1
