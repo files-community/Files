@@ -124,7 +124,8 @@ jobs:
         msbuild $env:PACKAGE_PROJECT_NAME `
         -t:Build `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION
+        -p:Configuration=$env:CONFIGURATION `
+        -p:AppxBundle=Never
 
     - name: Package Files
       shell: pwsh
