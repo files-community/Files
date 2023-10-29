@@ -22,6 +22,7 @@ jobs:
       TEST_PROJECT_NAME: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
+      APPX_BUNDLE_PLATFORMS: 'x64|arm64'
       WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
       APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
@@ -125,7 +126,7 @@ jobs:
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundlePlatforms=$env:PLATFORM `
+        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=StoreUpload
