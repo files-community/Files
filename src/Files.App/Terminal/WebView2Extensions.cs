@@ -11,6 +11,9 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls
 {
+	/// <summary>
+	/// Code modified from https://gist.github.com/mqudsi/ceb4ecee76eb4c32238a438664783480
+	/// </summary>
 	public static class WebView2Extensions
 	{
 		public static void Navigate(this WebView2 webview, Uri url)

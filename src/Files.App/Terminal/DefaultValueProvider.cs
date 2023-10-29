@@ -7,7 +7,7 @@ using Windows.Foundation.Metadata;
 namespace Files.App.UserControls
 {
 	/// <summary>
-	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+	/// Code modified from https://github.com/felixse/FluentTerminal
 	/// </summary>
 	public class DefaultValueProvider
 	{

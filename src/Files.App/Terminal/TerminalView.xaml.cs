@@ -14,7 +14,7 @@ using Windows.ApplicationModel.DataTransfer;
 namespace Files.App.UserControls
 {
 	/// <summary>
-	/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+	/// Code modified from https://github.com/felixse/FluentTerminal
 	/// </summary>
 	public sealed partial class TerminalView : UserControl, IxtermEventListener, IDisposable
 	{
