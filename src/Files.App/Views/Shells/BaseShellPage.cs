@@ -263,11 +263,10 @@ namespace Files.App.Views.Shells
 
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				var branches = await Task.Run(() => GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					branches);
+					await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
@@ -280,11 +279,10 @@ namespace Files.App.Views.Shells
 				return;
 
 			InstanceViewModel.UpdateCurrentBranchName();
-			var branches = await Task.Run(() => GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
-				branches);
+				await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
@@ -296,11 +294,10 @@ namespace Files.App.Views.Shells
 			}
 			else
 			{
-				var branches = await Task.Run(() => GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					branches);
+					await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 			}
 		}
 

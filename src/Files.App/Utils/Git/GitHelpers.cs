@@ -33,6 +33,8 @@ namespace Files.App.Utils.Git
 
 		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
 
+		private static readonly ThreadWithMessageQueue _owningThread = new();
+
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
@@ -61,6 +63,11 @@ namespace Files.App.Utils.Git
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
 		public static event EventHandler? GitFetchCompleted;
+
+		public static void Dispose()
+		{
+			_owningThread.Dispose();
+		}
 
 		public static string? GetGitRepositoryPath(string? path, string root)
 		{
@@ -108,20 +115,23 @@ namespace Files.App.Utils.Git
 			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
-		public static BranchItem[] GetBranchesNames(string? path)
+		public static Task<BranchItem[]> GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Array.Empty<BranchItem>();
+				return Task.FromResult(Array.Empty<BranchItem>());
 
-			using var repository = new Repository(path);
+			return _owningThread.PostMethod<BranchItem[]>(() =>
+			{
+				using var repository = new Repository(path);
 
-			return GetValidBranches(repository.Branches)
-				.Where(b => !b.IsRemote || b.RemoteName == "origin")
-				.OrderByDescending(b => b.Tip?.Committer.When)
-				.Take(MAX_NUMBER_OF_BRANCHES)
-				.OrderByDescending(b => b.IsCurrentRepositoryHead)
-				.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
-				.ToArray();
+				return GetValidBranches(repository.Branches)
+					.Where(b => !b.IsRemote || b.RemoteName == "origin")
+					.OrderByDescending(b => b.Tip?.Committer.When)
+					.Take(MAX_NUMBER_OF_BRANCHES)
+					.OrderByDescending(b => b.IsCurrentRepositoryHead)
+					.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
+					.ToArray();
+			});
 		}
 
 		public static string GetRepositoryHeadName(string? path)
@@ -208,8 +218,10 @@ namespace Files.App.Utils.Git
 			Analytics.TrackEvent("Triggered create git branch");
 
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
+			var loadBranchesTask = viewModel.LoadBranches();
 			var dialog = _dialogService.GetDialog(viewModel);
 
+			await loadBranchesTask;
 			var result = await dialog.TryShowAsync();
 
 			if (result != DialogResult.Primary)
