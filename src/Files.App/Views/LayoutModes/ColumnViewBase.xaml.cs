@@ -42,7 +42,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded1;
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
@@ -489,7 +488,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private void SelectionRectangle_SelectionEnded1(object sender, EventArgs e)
+		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			isDragging = false;
 			base.SelectionRectangle_SelectionEnded(sender, e);
