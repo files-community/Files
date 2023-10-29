@@ -124,7 +124,7 @@ jobs:
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundle=Always
+        -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=StoreUpload
 
     - name: Upload Packages To GitHub Artifacts
