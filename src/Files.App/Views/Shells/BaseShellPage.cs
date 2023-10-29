@@ -82,14 +82,14 @@ namespace Files.App.Views.Shells
 				if (value != _ContentPage)
 				{
 					if (_ContentPage is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_RequiredAsync;
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
 
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 					if (value is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_RequiredAsync;
+						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
@@ -187,17 +187,17 @@ namespace Files.App.Views.Shells
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpenedAsync;
-			ToolbarViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoadedAsync;
+			ToolbarViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpened;
+			ToolbarViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
-			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDroppedAsync;
+			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
-			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmittedAsync;
-			ToolbarViewModel.SearchBox.TextChanged += ShellPage_TextChangedAsync;
-			ToolbarViewModel.SearchBox.QuerySubmitted += ShellPage_QuerySubmittedAsync;
+			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
+			ToolbarViewModel.SearchBox.TextChanged += ShellPage_TextChanged;
+			ToolbarViewModel.SearchBox.QuerySubmitted += ShellPage_QuerySubmitted;
 
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
 			InstanceViewModel.FolderSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
@@ -235,7 +235,7 @@ namespace Files.App.Views.Shells
 			ContentPage.ItemManipulationModel.SetSelectedItems(e);
 		}
 
-		protected async void FilesystemViewModel_DirectoryInfoUpdatedAsync(object sender, EventArgs e)
+		protected async void FilesystemViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
 			if (ContentPage is null)
 				return;
@@ -285,7 +285,7 @@ namespace Files.App.Views.Shells
 				GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
 		}
 
-		protected async void GitCheckout_RequiredAsync(object? sender, string branchName)
+		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
 			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
 			{
@@ -333,7 +333,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected async void ShellPage_QuerySubmittedAsync(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
+		protected async void ShellPage_QuerySubmitted(ISearchBox sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
 				await NavigationHelpers.OpenPath(item.ItemPath, this);
@@ -341,7 +341,7 @@ namespace Files.App.Views.Shells
 				SubmitSearch(sender.Query, userSettingsService.GeneralSettingsService.SearchUnindexedItems);
 		}
 
-		protected async void ShellPage_TextChangedAsync(ISearchBox sender, SearchBoxTextChangedEventArgs e)
+		protected async void ShellPage_TextChanged(ISearchBox sender, SearchBoxTextChangedEventArgs e)
 		{
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;
@@ -395,7 +395,7 @@ namespace Files.App.Views.Shells
 				Forward_Click();
 		}
 
-		protected async void ShellPage_PathBoxItemDroppedAsync(object sender, PathBoxItemDroppedEventArgs e)
+		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
 			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
 			e.SignalEvent?.Set();
@@ -406,17 +406,17 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
 		}
 
-		protected async void ShellPage_ToolbarPathItemLoadedAsync(object sender, ToolbarPathItemLoadedEventArgs e)
+		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
 		{
 			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
 		}
 
-		protected async void ShellPage_ToolbarFlyoutOpenedAsync(object sender, ToolbarFlyoutOpenedEventArgs e)
+		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
 			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
 		}
 
-		protected async void NavigationToolbar_QuerySubmittedAsync(object sender, ToolbarQuerySubmittedEventArgs e)
+		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
 			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
 		}
@@ -766,15 +766,15 @@ namespace Files.App.Views.Shells
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpenedAsync;
-			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoadedAsync;
+			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
+			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
-			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDroppedAsync;
+			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
-			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmittedAsync;
-			ToolbarViewModel.SearchBox.TextChanged -= ShellPage_TextChangedAsync;
+			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
+			ToolbarViewModel.SearchBox.TextChanged -= ShellPage_TextChanged;
 
 			InstanceViewModel.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 			InstanceViewModel.FolderSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
@@ -786,7 +786,7 @@ namespace Files.App.Views.Shells
 			{
 				FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
 				FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
-				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdatedAsync;
+				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
 				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
 				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;

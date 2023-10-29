@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>El dispositivo está en uso. Cierre cualquier programa o ventana que pueda estar usando el dispositivo e inténtelo de nuevo.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Expulsar</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

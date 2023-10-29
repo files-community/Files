@@ -69,7 +69,7 @@
 
     <ItemGroup>
         <PackageReference Include="ByteSize" Version="2.1.1" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="DirectNCore" Version="1.15.0.2" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
@@ -78,7 +78,7 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.12" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.13" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />

@@ -126,7 +126,7 @@ namespace Files.App.ViewModels
 				InitialPageType = type,
 				NavigationParameter = path
 			};
-			tabItem.ContentChanged += Control_ContentChangedAsync;
+			tabItem.ContentChanged += Control_ContentChanged;
 			await UpdateTabInfoAsync(tabItem, path);
 			var index = atIndex == -1 ? AppInstances.Count : atIndex;
 			AppInstances.Insert(index, tabItem);
@@ -421,7 +421,7 @@ namespace Files.App.ViewModels
 				NavigationParameter = tabViewItemArgs
 			};
 
-			tabItem.ContentChanged += Control_ContentChangedAsync;
+			tabItem.ContentChanged += Control_ContentChanged;
 
 			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
 
@@ -430,7 +430,7 @@ namespace Files.App.ViewModels
 			App.AppModel.TabStripSelectedIndex = index;
 		}
 
-		public async void Control_ContentChangedAsync(object? sender, CustomTabViewItemParameter e)
+		public async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (sender is null)
 				return;

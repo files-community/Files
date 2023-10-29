@@ -204,6 +204,7 @@ namespace Files.App.Data.Items
 			{
 				if (!IsRemovable)
 					return null; // Removable items don't need the eject button
+
 				var itemDecorator = new Button()
 				{
 					Style = Application.Current.Resources["SidebarEjectButtonStyle"] as Style,
@@ -214,12 +215,16 @@ namespace Files.App.Data.Items
 						Width = 16
 					}
 				};
-				itemDecorator.Click += ItemDecorator_ClickAsync;
+
+				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
+
+				itemDecorator.Click += ItemDecorator_Click;
+        
 				return itemDecorator;
 			}
 		}
 
-		private async void ItemDecorator_ClickAsync(object sender, RoutedEventArgs e)
+		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);

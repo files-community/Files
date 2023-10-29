@@ -264,7 +264,7 @@ namespace Files.App
 
 			// Hook events for the window
 			window.Activated += Window_Activated;
-			window.Closed += Window_ClosedAsync;
+			window.Closed += Window_Closed;
 
 			// Attempt to activate it
 			window.Activate();
@@ -294,7 +294,7 @@ namespace Files.App
 		/// </summary>
 		/// <param name="sender">The source of the suspend request.</param>
 		/// <param name="args">Details about the suspend request.</param>
-		private async void Window_ClosedAsync(object sender, WindowEventArgs args)
+		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
 

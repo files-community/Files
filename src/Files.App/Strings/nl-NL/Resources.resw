@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Dit apparaat is in gebruik. Sluit alle programma's, vensters en tabbladen die dit apparaat gebruiken en probeer het opnieuw.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Uitwerpen</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">

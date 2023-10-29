@@ -29,8 +29,8 @@ namespace Files.App.UserControls.TabBar
 
 		public UIElement FooterElement
 		{
-			get => (UIElement)GetValue(FooterElementProperty); 
-			set => SetValue(FooterElementProperty, value); 
+			get => (UIElement)GetValue(FooterElementProperty);
+			set => SetValue(FooterElementProperty, value);
 		}
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
@@ -55,6 +55,12 @@ namespace Files.App.UserControls.TabBar
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
+
+		/// <summary> Starting position when dragging a tab.</summary>
+		private InteropHelpers.POINT dragStartPoint;
+
+		/// <summary> Starting time when dragging a tab. </summary>
+		private DateTimeOffset dragStartTime;
 
 		public TabBar()
 		{
@@ -97,14 +103,14 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.SelectedIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
-		private async void TabViewItem_DropAsync(object sender, DragEventArgs e)
+		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
-		private async void TabViewItem_DragEnterAsync(object sender, DragEventArgs e)
+		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
@@ -115,7 +121,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private void TabViewItem_DragLeaveAsync(object sender, DragEventArgs e)
+		private void TabViewItem_DragLeave(object sender, DragEventArgs e)
 		{
 			tabHoverTimer.Stop();
 			hoveredTabViewItem = null;
@@ -136,6 +142,9 @@ namespace Files.App.UserControls.TabBar
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
+
+			InteropHelpers.GetCursorPos(out dragStartPoint);
+			dragStartTime = DateTimeOffset.UtcNow;
 		}
 
 		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
@@ -160,7 +169,7 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
-		private async void TabView_TabStripDropAsync(object sender, DragEventArgs e)
+		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 
@@ -209,16 +218,22 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private async void TabView_TabDroppedOutsideAsync(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
-			if (sender.TabItems.Count == 1)
-			{
+			InteropHelpers.GetCursorPos(out var droppedPoint);
+			var droppedTime = DateTimeOffset.UtcNow;
+			var dragTime = droppedTime - dragStartTime;
+			var dragDistance = Math.Sqrt(Math.Pow((dragStartPoint.X - droppedPoint.X), 2) + Math.Pow((dragStartPoint.Y - droppedPoint.Y), 2));
+
+			if (sender.TabItems.Count == 1 ||
+				(dragTime.TotalSeconds < 1 &&
+				dragDistance < 100))
 				return;
-			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
+
 			Items.Remove(args.Item as TabBarItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{

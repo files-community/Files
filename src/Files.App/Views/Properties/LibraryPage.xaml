@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	Loaded="Properties_LoadedAsync"
+	Loaded="Properties_Loaded"
 	Tag="Library"
 	mc:Ignorable="d">
 

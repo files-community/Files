@@ -31,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 		public bool Add;
 		public bool Pin = true;
 		public bool Reset = false;
+		public bool Reorder = false;
 
 		public ModifyQuickAccessEventArgs(string[] paths, bool add)
 		{
@@ -96,14 +97,14 @@ namespace Files.App.UserControls.Widgets
 
 		static QuickAccessWidget()
 		{
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChangedAsync;
+			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
 		}
 
 		public QuickAccessWidget()
 		{
 			InitializeComponent();
 
-			Loaded += QuickAccessWidget_LoadedAsync;
+			Loaded += QuickAccessWidget_Loaded;
 			Unloaded += QuickAccessWidget_Unloaded;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTabAsync);
@@ -261,6 +262,28 @@ namespace Files.App.UserControls.Widgets
 
 					return;
 				}
+				if (e.Reorder)
+				{
+					// Remove pinned items
+					foreach (var itemToRemove in ItemsAdded.Where(x => x.IsPinned).ToList())
+						ItemsAdded.Remove(itemToRemove);
+
+					// Add pinned items in the new order
+					foreach (var itemToAdd in e.Paths)
+					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+							continue;
+
+						ItemsAdded.Insert(lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						{
+							Path = item.Path,
+						});
+					}
+
+					return;
+				}
 				if (e.Add)
 				{
 					foreach (var itemToAdd in e.Paths)
@@ -281,9 +304,9 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void QuickAccessWidget_LoadedAsync(object sender, RoutedEventArgs e)
+		private async void QuickAccessWidget_Loaded(object sender, RoutedEventArgs e)
 		{
-			Loaded -= QuickAccessWidget_LoadedAsync;
+			Loaded -= QuickAccessWidget_Loaded;
 
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(itemsToAdd.ToArray(), false)
@@ -300,7 +323,7 @@ namespace Files.App.UserControls.Widgets
 			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
 		}
 
-		private static async void ItemsAdded_CollectionChangedAsync(object? sender, NotifyCollectionChangedEventArgs e)
+		private static async void ItemsAdded_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
@@ -330,7 +353,7 @@ namespace Files.App.UserControls.Widgets
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
 
-		private async void Button_PointerPressedAsync(object sender, PointerRoutedEventArgs e)
+		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
 			{
@@ -376,7 +399,7 @@ namespace Files.App.UserControls.Widgets
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
-		private async void Button_ClickAsync(object sender, RoutedEventArgs e)
+		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate

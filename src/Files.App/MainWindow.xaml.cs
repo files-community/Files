@@ -97,6 +97,7 @@ namespace Files.App
 					}
 					else if (!(string.IsNullOrEmpty(launchArgs.Arguments) && MainPageViewModel.AppInstances.Count > 0))
 					{
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), launchArgs.Arguments);
 					}
 					else
@@ -173,6 +174,8 @@ namespace Files.App
 						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
 						index = 1;
 					}
+					else
+						InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					for (; index < fileArgs.Files.Count; index++)
 					{
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
@@ -235,7 +238,10 @@ namespace Files.App
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
+				{
+					InteropHelpers.SwitchToThisWindow(WindowHandle, true);
 					await mainPageViewModel.AddNewTabByParamAsync(typeof(PaneHolderPage), paneNavigationArgs);
+				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
 			}
