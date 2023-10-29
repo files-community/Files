@@ -36,11 +36,14 @@ namespace Files.App.Views.LayoutModes
 
 		private ListViewItem? openedFolderPresenter;
 
+		private bool isDragging = false;
+
 		public ColumnViewBase() : base()
 		{
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded1;
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
 
@@ -211,6 +214,9 @@ namespace Files.App.Views.LayoutModes
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
+			if (isDragging)
+				CloseFolder();
+
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
 			{
 				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -223,6 +229,7 @@ namespace Files.App.Views.LayoutModes
 				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
 				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
 			{
+
 				CloseFolder();
 			}
 		}
@@ -480,6 +487,17 @@ namespace Files.App.Views.LayoutModes
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
+		}
+
+		private void SelectionRectangle_SelectionEnded1(object sender, EventArgs e)
+		{
+			isDragging = false;
+			base.SelectionRectangle_SelectionEnded(sender, e);
+		}
+
+		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
+		{
+			isDragging = true;
 		}
 
 		internal void ClearSelectionIndicator()
