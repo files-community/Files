@@ -37,7 +37,7 @@ namespace Files.App.Views.LayoutModes
 		private ListViewItem? openedFolderPresenter;
 
 		// Indicates if the selection rectangle is currently being dragged
-		private bool isDragging = false;
+		private bool isDraggingSelectionRectangle = false;
 
 		public ColumnViewBase() : base()
 		{
@@ -218,7 +218,7 @@ namespace Files.App.Views.LayoutModes
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
 				// Close any open folder
-				if (isDragging)
+				if (isDraggingSelectionRectangle)
 				{
 					CloseFolder();
 					return;
@@ -228,7 +228,7 @@ namespace Files.App.Views.LayoutModes
 					return;
 
 				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDragging)
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
@@ -237,7 +237,7 @@ namespace Files.App.Views.LayoutModes
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
 				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
-				&& !isDragging) // Skip closing if dragging since nothing should be open 
+				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
 			}
@@ -500,7 +500,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
-			isDragging = false;
+			isDraggingSelectionRectangle = false;
 			// Open selected folder (if only one folder is selected) after the user finishes dragging the selection rectangle
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
@@ -512,7 +512,7 @@ namespace Files.App.Views.LayoutModes
 
 		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
 		{
-			isDragging = true;
+			isDraggingSelectionRectangle = true;
 		}
 
 		internal void ClearSelectionIndicator()
