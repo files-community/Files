@@ -217,7 +217,6 @@ namespace Files.App.Views.LayoutModes
 			{
 				CloseFolder();
 				return;
-
 			}
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
@@ -232,7 +231,6 @@ namespace Files.App.Views.LayoutModes
 				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
 				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
 			{
-
 				CloseFolder();
 			}
 		}
