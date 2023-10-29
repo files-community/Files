@@ -213,23 +213,24 @@ namespace Files.App.Views.LayoutModes
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
-			if (isDragging)
+			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				CloseFolder();
-				return;
-			}
+				if (isDragging && openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				{
+					CloseFolder();
+					return;
+				}
 
-			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
-			{
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDragging)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
-				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
+				|| openedFolderPresenter != null && ParentShellPageInstance != null
+				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !isDragging)
 			{
 				CloseFolder();
 			}
