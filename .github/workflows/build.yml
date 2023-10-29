@@ -133,7 +133,7 @@ jobs:
     - name: Upload Packages To GitHub Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: 'Artifacts: ${{ env.CONFIGURATION }} configuration'
+        name: 'Appx Packages (${{ env.CONFIGURATION }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     # - name: Publish Store Submission
