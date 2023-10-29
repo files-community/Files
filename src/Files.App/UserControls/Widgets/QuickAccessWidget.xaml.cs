@@ -31,6 +31,7 @@ namespace Files.App.UserControls.Widgets
 		public bool Add;
 		public bool Pin = true;
 		public bool Reset = false;
+		public bool Reorder = false;
 
 		public ModifyQuickAccessEventArgs(string[] paths, bool add)
 		{
@@ -254,6 +255,28 @@ namespace Files.App.UserControls.Widgets
 							continue;
 
 						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						{
+							Path = item.Path,
+						});
+					}
+
+					return;
+				}
+				if (e.Reorder)
+				{
+					// Remove pinned items
+					foreach (var itemToRemove in ItemsAdded.Where(x => x.IsPinned).ToList())
+						ItemsAdded.Remove(itemToRemove);
+
+					// Add pinned items in the new order
+					foreach (var itemToAdd in e.Paths)
+					{
+						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
+						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+							continue;
+
+						ItemsAdded.Insert(lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
