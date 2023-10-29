@@ -1,7 +1,9 @@
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Helpers;
 using Files.App.Terminal;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -452,6 +454,34 @@ namespace Files.App.UserControls
 		private void TerminalView_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			Dispose();
+		}
+
+		private async void TerminalView_ActualThemeChanged(Microsoft.UI.Xaml.FrameworkElement sender, object args)
+		{
+			if (!_tcsConnected.Task.IsCompleted)
+				return;
+
+			var serializerSettings = new JsonSerializerSettings();
+			serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+			var profile = _mainPageModel.TerminalSelectedProfile;
+			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
+			var backgroundColor = ActualTheme switch
+			{
+				 Microsoft.UI.Xaml.ElementTheme.Dark => "#000000",
+				 _ => "#FFFFFF"
+			};
+			var foregroundColor = ActualTheme switch
+			{
+				Microsoft.UI.Xaml.ElementTheme.Dark => "#FFFFFF",
+				_ => "#000000"
+			};
+			theme.Colors.Background = backgroundColor;
+			theme.Colors.Foreground = foregroundColor;
+			theme.Colors.CursorAccent = backgroundColor;
+			theme.Colors.Cursor = foregroundColor;
+			WebViewControl.DefaultBackgroundColor = ColorHelpers.FromHex(backgroundColor);
+			var serializedTheme = JsonConvert.SerializeObject(theme.Colors, serializerSettings);
+			await ExecuteScriptAsync($"changeTheme('{serializedTheme}')");
 		}
 	}
 }
