@@ -23,7 +23,8 @@ jobs:
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
-      APPX_PACKAGE_DIR: ${{ github.workspace }}\AppxPackages
+      ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
+      APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
 
     steps:
     - name: Checkout the repository
@@ -124,14 +125,16 @@ jobs:
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
+        -p:AppxBundlePlatforms=$env:PLATFORM `
+        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=StoreUpload
 
     - name: Upload Packages To GitHub Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ env.CONFIGURATION }} artifacts
-        path: '${{ env.WORKING_DIR }}\**\${{ env.CONFIGURATION }}\AppxPackages\**'
+        name: 'Artifacts: ${{ env.CONFIGURATION }} configuration'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     # - name: Publish Store Submission
     #   uses: microsoft/store-submission@v1
