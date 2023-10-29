@@ -37,16 +37,13 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.1.1
 
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1.2
-
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.0.x'
 
     # TODO: Move the command to PowerShell script instead
-    - name: Use ${{ env.CONFIGURATION }} Logo
+    - name: Use the ${{ env.CONFIGURATION }} logo sets
       shell: pwsh
       run: |
         gci $env:WORKING_DIR\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
@@ -55,21 +52,21 @@ jobs:
           Set-Content $_ -NoNewline `
         }
 
-    # - name: Restore BingMaps Key
+    # - name: Restore the BingMaps key
     #   uses: timheuer/base64-to-file@v1.2
     #   with:
     #     encodedString: ${{ secrets.BINGMAPS_KEY_BASE64 }}
     #     fileDir: '$env:WORKING_DIR\src\Files.App\Resources'
     #     fileName: 'BingMapsKey.txt'
 
-    # - name: Restore Package CA Certification File
+    # - name: Restore the package CA certification file
     #   uses: timheuer/base64-to-file@v1.2
     #   with:
     #     encodedString: ${{ secrets.PACKAGE_CERTIFICATE_BASE64 }}
     #     fileDir: '$env:WORKING_DIR\$env:PACKAGE_PROJECT_DIR'
     #     fileName: 'StoreCertificate.pfx'
 
-    # - name: Restore AppCenter Token
+    # - name: Restore the AppCenter token
     #   shell: pwsh
     #   run: |
     #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
@@ -80,7 +77,7 @@ jobs:
     #   env:
     #     APPCENTER_TOKEN: ${{ secret.APPCENTER_TOKEN }}
 
-    # - name: Restore GitHub OAuth Client ID
+    # - name: Restore the GitHub OAuth client ID
     #   run: |
     #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
     #     { `
@@ -90,7 +87,7 @@ jobs:
     #   env:
     #     GITHUB_OAUTH_CLIENT_ID: ${{ secret.GITHUB_OAUTH_CLIENT_ID }}
   
-    # - name: Configure Store Submission
+    # - name: Draft a store submission
     #   uses: microsoft/store-submission@v1
     #   with:
     #     command: configure
@@ -109,7 +106,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore Files
+    - name: Restore ${{ env.SOLUTION_NAME  }}
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -118,19 +115,11 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build Files
+    - name: Build ${{ env.SOLUTION_NAME  }}
       shell: pwsh
       run: |
         msbuild $env:PACKAGE_PROJECT_NAME `
         -t:Build `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundle=Never
-
-    - name: Package Files
-      shell: pwsh
-      run: |
-        msbuild $env:PACKAGE_PROJECT_NAME `
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
@@ -139,17 +128,17 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=StoreUpload
 
-    - name: Find and remove empty files
+    - name: Remove empty files from the packages
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
-    - name: Upload Packages To GitHub Artifacts
+    - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-    # - name: Publish Store Submission
+    # - name: Publish the store submission
     #   uses: microsoft/store-submission@v1
     #   with:
     #     command: publish
