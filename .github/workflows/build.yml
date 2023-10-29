@@ -133,7 +133,7 @@ jobs:
 
     - name: Find and remove empty files
       shell: bash
-      run: find $env:ARTIFACTS_STAGING_DIR -empty -delete
+      run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
     - name: Upload Packages To GitHub Artifacts
       uses: actions/upload-artifact@v3
