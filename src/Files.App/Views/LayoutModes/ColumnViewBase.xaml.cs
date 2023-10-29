@@ -495,9 +495,10 @@ namespace Files.App.Views.LayoutModes
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			isDragging = false;
-			var lastItem = SelectedItems?.LastOrDefault();
-			if(lastItem is not null && lastItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (lastItem is ShortcutItem sht ? sht.TargetPath : lastItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+			if (SelectedItems?.Count is 1
+				&& SelectedItem is not null
+				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			base.SelectionRectangle_SelectionEnded(sender, e);
 		}
 
