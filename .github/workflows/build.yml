@@ -18,8 +18,8 @@ jobs:
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-      PACKAGE_PROJECT_NAME: 'src\Files.App (Package)\Files.Package.wapproj'
-      TEST_PROJECT_NAME: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
+      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       APPX_BUNDLE_PLATFORMS: 'x64|arm64'
@@ -115,28 +115,47 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
+    # - name: Build ${{ env.SOLUTION_NAME  }}
+    #   shell: pwsh
+    #   run: |
+    #     msbuild $env:PACKAGE_PROJECT_PATH `
+    #     -t:Build `
+    #     -t:_GenerateAppxPackage `
+    #     -p:Platform=$env:PLATFORM `
+    #     -p:Configuration=$env:CONFIGURATION `
+    #     -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+    #     -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+    #     -p:AppxBundle=Always `
+    #     -p:UapAppxPackageBuildMode=StoreUpload
+
+    # - name: Remove empty files from the packages
+    #   shell: bash
+    #   run: find $ARTIFACTS_STAGING_DIR -empty -delete
+
+    # - name: Upload the packages to GitHub Actions
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+    #     path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
     - name: Build ${{ env.SOLUTION_NAME  }}
       shell: pwsh
       run: |
-        msbuild $env:PACKAGE_PROJECT_NAME `
+        msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
-        -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
-        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
-        -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=StoreUpload
+        -p:AppxBundle=Never
 
-    - name: Remove empty files from the packages
-      shell: bash
-      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+    - name: Set full HD resolution
+      run: 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'
 
-    - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+    - name: Start WinAppDriver
+      run: 'Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"'
+
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: 'dotnet test $env:TEST_PROJECT_PATH'
 
     # - name: Publish the store submission
     #   uses: microsoft/store-submission@v1
