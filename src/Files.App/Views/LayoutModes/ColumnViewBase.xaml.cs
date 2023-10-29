@@ -217,7 +217,7 @@ namespace Files.App.Views.LayoutModes
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				// Close any open folder
+				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
 				if (isDraggingSelectionRectangle)
 				{
 					CloseFolder();
