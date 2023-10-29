@@ -6,7 +6,7 @@ import { SerializeAddon } from "xterm-addon-serialize";
 import { Unicode11Addon } from "xterm-addon-unicode11";
 
 /// <summary>
-/// Disclaimer: code from https://github.com/felixse/FluentTerminal
+/// Code modified from https://github.com/felixse/FluentTerminal
 /// </summary>
 interface ExtendedWindow extends Window {
   keyBindings: any[];
