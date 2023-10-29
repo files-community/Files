@@ -122,7 +122,14 @@ jobs:
       shell: pwsh
       run: |
         msbuild $env:PACKAGE_PROJECT_NAME `
-        -t:build `
+        -t:Build `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION
+
+    - name: Package Files
+      shell: pwsh
+      run: |
+        msbuild $env:PACKAGE_PROJECT_NAME `
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
