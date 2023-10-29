@@ -36,7 +36,7 @@ namespace Files.App.Views.LayoutModes
 
 		private ListViewItem? openedFolderPresenter;
 
-		// Used to disable opening folders when selected by the selection rectangle (#13418)
+		// Used to disable opening the first folder when selected by the selection rectangle (#13418)
 		// When an item is selected via selection rectangle, the open subfolder is closed, and selected folders are not opened
 		// If only a single folder is selected by the end, it is opened
 		private bool isDragging = false;
@@ -219,12 +219,15 @@ namespace Files.App.Views.LayoutModes
 
 			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				// Checking if folder is unchanged explicitly so that it's not opened again
-				if (isDragging && openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				// Close any open folder
+				if (isDragging)
 				{
 					CloseFolder();
 					return;
 				}
+
+				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+					return;
 
 				// Only open folder if selected through tap
 				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDragging)
@@ -500,7 +503,7 @@ namespace Files.App.Views.LayoutModes
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
 			isDragging = false;
-			// Open folder only if drag results in a single folder being selected
+			// Open selected folder only if drag resulted in a single folder being selected
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
 				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
