@@ -72,7 +72,7 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="DirectNCore" Version="1.15.0.2" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
-        <PackageReference Include="FluentFTP" Version="43.0.1" />
+        <PackageReference Include="FluentFTP" Version="48.0.3" />
         <PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
         <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc1.2" />
