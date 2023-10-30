@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Store]
+        configuration: [Stable]
         platform: [x64, arm64]
     env:
       SOLUTION_NAME: 'Files.sln'
@@ -41,6 +41,17 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.0.x'
+
+    # TODO: Move the command to PowerShell script instead
+    - name: Update Package.appxmanifest
+      shell: pwsh
+      run: |
+        [xml]$xmlDoc = Get-Content '$env:PACKAGE_PROJECT_DIR\Package.appxmanifest'
+        $xmlDoc.Package.Identity.Name="$env:CONFIGURATION"
+        $xmlDoc.Package.Identity.Publisher="Files"
+        $xmlDoc.Package.Properties.DisplayName="Files"
+        $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Save('$env:PACKAGE_PROJECT_DIR\Package.appxmanifest')
 
     # TODO: Move the command to PowerShell script instead
     - name: Use the ${{ env.CONFIGURATION }} logo sets
@@ -107,37 +118,28 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    # - name: Build ${{ env.SOLUTION_NAME }}
-    #   shell: pwsh
-    #   run: |
-    #     msbuild $env:PACKAGE_PROJECT_PATH `
-    #     -t:Build `
-    #     -t:_GenerateAppxPackage `
-    #     -p:Platform=$env:PLATFORM `
-    #     -p:Configuration=$env:CONFIGURATION `
-    #     -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
-    #     -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
-    #     -p:AppxBundle=Always `
-    #     -p:UapAppxPackageBuildMode=StoreUpload
-
-    # - name: Remove empty files from the packages
-    #   shell: bash
-    #   run: find $ARTIFACTS_STAGING_DIR -empty -delete
-
-    # - name: Upload the packages to GitHub Actions
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-    #     path: ${{ env.ARTIFACTS_STAGING_DIR }}
-
-    - name: Build ${{ env.SOLUTION_NAME  }}
+    - name: Build ${{ env.SOLUTION_NAME }}
       shell: pwsh
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
+        -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundle=Never
+        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+        -p:AppxBundle=Always `
+        -p:UapAppxPackageBuildMode=StoreUpload
+
+    - name: Remove empty files from the packages
+      shell: bash
+      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+
+    - name: Upload the packages to GitHub Actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     # - name: Sign files with Azure Code Signing
     #   uses: azure/azure-code-signing-action@v0.2.15

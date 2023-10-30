@@ -94,10 +94,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
 
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" Condition="'$(Configuration)' != 'Store'">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-    <AppxManifest Include="Package.Store.appxmanifest" Condition="'$(Configuration)' == 'Store'">
+    <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\AppTiles\Dev\**" />
