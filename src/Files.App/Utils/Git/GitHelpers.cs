@@ -134,14 +134,17 @@ namespace Files.App.Utils.Git
 			});
 		}
 
-		public static string GetRepositoryHeadName(string? path)
+		public static Task<string> GetRepositoryHeadName(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return string.Empty;
+				return Task.FromResult(string.Empty);
 
-			using var repository = new Repository(path);
-			return GetValidBranches(repository.Branches)
-				.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
+			return _owningThread.PostMethod<string>(() =>
+			{
+				using var repository = new Repository(path);
+				return GetValidBranches(repository.Branches)
+					.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
+			});
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -190,16 +193,19 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				if (checkoutBranch.IsRemote)
-					CheckoutRemoteBranch(repository, checkoutBranch);
-				else
-					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-				if (isBringingChanges)
+				await _owningThread.PostMethod(() =>
 				{
-					var lastStashIndex = repository.Stashes.Count() - 1;
-					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
-				}
+					if (checkoutBranch.IsRemote)
+						CheckoutRemoteBranch(repository, checkoutBranch);
+					else
+						LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+					if (isBringingChanges)
+					{
+						var lastStashIndex = repository.Stashes.Count() - 1;
+						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+					}
+				});
 				return true;
 			}
 			catch (Exception ex)
@@ -257,7 +263,7 @@ namespace Files.App.Utils.Git
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public static void FetchOrigin(string? repositoryPath)
+		public static async void FetchOrigin(string? repositoryPath)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -278,20 +284,23 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				IsExecutingGitAction = false;
+				IsExecutingGitAction = true;
 			});
 
 			try
 			{
-				foreach (var remote in repository.Network.Remotes)
+				await _owningThread.PostMethod(() =>
 				{
-					LibGit2Sharp.Commands.Fetch(
-						repository,
-						remote.Name,
-						remote.FetchRefSpecs.Select(rs => rs.Specification),
-						_fetchOptions,
-						"git fetch updated a ref");
-				}
+					foreach (var remote in repository.Network.Remotes)
+					{
+						LibGit2Sharp.Commands.Fetch(
+							repository,
+							remote.Name,
+							remote.FetchRefSpecs.Select(rs => rs.Specification),
+							_fetchOptions,
+							"git fetch updated a ref");
+					}
+				});
 			}
 			catch (Exception ex)
 			{
@@ -327,14 +336,20 @@ namespace Files.App.Utils.Git
 					};
 			}
 
-			IsExecutingGitAction = true;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = true;
+			});
 
 			try
 			{
-				LibGit2Sharp.Commands.Pull(
-					repository,
-					signature,
-					_pullOptions);
+				await _owningThread.PostMethod(() =>
+				{
+					LibGit2Sharp.Commands.Pull(
+						repository,
+						signature,
+						_pullOptions);
+				});
 			}
 			catch (Exception ex)
 			{
@@ -358,7 +373,10 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			IsExecutingGitAction = false;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+			});
 		}
 
 		public static async Task PushToOriginAsync(string? repositoryPath, string? branchName)
@@ -388,7 +406,10 @@ namespace Files.App.Utils.Git
 					}
 			};
 
-			IsExecutingGitAction = true;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = true;
+			});
 
 			try
 			{
@@ -402,7 +423,10 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				repository.Network.Push(branch, options);
+				await _owningThread.PostMethod(() =>
+				{
+					repository.Network.Push(branch, options);
+				});
 			}
 			catch (Exception ex)
 			{
@@ -412,7 +436,10 @@ namespace Files.App.Utils.Git
 					_logger.LogWarning(ex.Message);
 			}
 
-			IsExecutingGitAction = false;
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				IsExecutingGitAction = false;
+			});
 		}
 
 		public static async Task RequireGitAuthenticationAsync()

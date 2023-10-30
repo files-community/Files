@@ -247,6 +247,10 @@ namespace Files.App.Views.Shells
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
+				InstanceViewModel.GitBranchName = InstanceViewModel.IsGitRepository
+					? await GitHelpers.GetRepositoryHeadName(InstanceViewModel.GitRepositoryPath)
+					: string.Empty;
+
 				if (!_gitFetch.IsCompleted)
 				{
 					_gitFetchToken.Cancel();
@@ -278,7 +282,10 @@ namespace Files.App.Views.Shells
 			if (GitHelpers.IsExecutingGitAction)
 				return;
 
-			InstanceViewModel.UpdateCurrentBranchName();
+			InstanceViewModel.GitBranchName = InstanceViewModel.IsGitRepository
+				? await GitHelpers.GetRepositoryHeadName(InstanceViewModel.GitRepositoryPath)
+				: string.Empty;
+
 			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
