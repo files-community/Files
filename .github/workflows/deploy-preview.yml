@@ -39,6 +39,7 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
+    # TODO: Move the command to PowerShell script instead
     - name: Update Package.appxmanifest
       shell: pwsh
       run: |
