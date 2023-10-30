@@ -39,7 +39,6 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    # TODO: Move the command to PowerShell script instead
     - name: Update Package.appxmanifest
       shell: pwsh
       run: |
@@ -131,12 +130,6 @@ jobs:
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
-    - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
-
     - name: Sign files with Azure Code Signing
       uses: azure/azure-code-signing-action@v0.2.15
       with:
@@ -146,8 +139,16 @@ jobs:
         endpoint: https://wus2.codesigning.azure.net/
         code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
+        files-folder: ${{ env.APPX_PACKAGE_DIR }}
         files-folder-filter: msixbundle
+        files-folder-recurse: true
+        files-folder-depth: 4
         file-digest: SHA256
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
+
+    - name: Upload the packages to GitHub Actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
