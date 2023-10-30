@@ -1,7 +1,8 @@
 name: Deploy Preview Pipeline
 
 on:
-  pull_request
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
