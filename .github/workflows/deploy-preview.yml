@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [Preview]
-        platform: [x64, arm64]
+        platform: [x64]
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
@@ -45,7 +45,7 @@ jobs:
       run: |
         [xml]$xmlDoc = Get-Content "$env:PACKAGE_PROJECT_DIR\Package.appxmanifest"
         $xmlDoc.Package.Identity.Name="FilesPreview"
-        $xmlDoc.Package.Identity.Publisher="Files"
+        $xmlDoc.Package.Identity.Publisher="${{ secrets.SIDELOAD_PUBLISHER_SECRET }}"
         $xmlDoc.Package.Properties.DisplayName="Files - Preview"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
         $xmlDoc.Save("$env:PACKAGE_PROJECT_DIR\Package.appxmanifest")
@@ -92,16 +92,6 @@ jobs:
       env:
         GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
-    # - name: Draft a store submission
-    #   uses: microsoft/store-submission@v1
-    #   with:
-    #     command: configure
-    #     seller-id: ${{ secrets.MSSTORE_SELLER_ID }}
-    #     product-id: ${{ secrets.MSSTORE_PRODUCT_ID }}
-    #     tenant-id: ${{ secrets.MSSTORE_TENANT_ID }}
-    #     client-id: ${{ secrets.MSSTORE_CLIENT_ID }}
-    #     client-secret: ${{ secrets.MSSTORE_CLIENT_SECRET }}
-
     - name: Use Windows SDK Preview
       shell: cmd
       run: |
@@ -123,7 +113,7 @@ jobs:
     - name: Build ${{ env.SOLUTION_NAME }}
       shell: pwsh
       run: |
-        msbuild $env:PACKAGE_PROJECT_PATH `
+        msbuild "$env:PACKAGE_PROJECT_PATH" `
         -t:Build `
         -t:_GenerateAppxPackage `
         -p:Platform=$env:PLATFORM `
@@ -131,7 +121,9 @@ jobs:
         -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=StoreUpload
+        -p:UapAppxPackageBuildMode=Sideload `
+        -p:GenerateAppInstallerFile=True `
+        -p:AppInstallerUri=https://cdn.files.community/files/preview/
 
     - name: Remove empty files from the packages
       shell: bash
@@ -143,22 +135,17 @@ jobs:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-    # - name: Sign files with Azure Code Signing
-    #   uses: azure/azure-code-signing-action@v0.2.15
-    #   with:
-    #     azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-    #     azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-    #     azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-    #     endpoint: https://wus2.codesigning.azure.net/
-    #     code-signing-account-name: vscx-codesigning
-    #     certificate-profile-name: vscx-certificate-profile
-    #     files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
-    #     files-folder-filter: exe,dll
-    #     file-digest: SHA256
-    #     timestamp-rfc3161: http://timestamp.acs.microsoft.com
-    #     timestamp-digest: SHA256
-
-    # - name: Publish the store submission
-    #   uses: microsoft/store-submission@v1
-    #   with:
-    #     command: publish
+    - name: Sign files with Azure Code Signing
+      uses: azure/azure-code-signing-action@v0.2.15
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://wus2.codesigning.azure.net/
+        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
+        files-folder-filter: msixbundle
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
