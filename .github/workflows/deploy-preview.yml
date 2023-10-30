@@ -45,10 +45,12 @@ jobs:
       run: |
         [xml]$xmlDoc = Get-Content "$env:PACKAGE_PROJECT_DIR\Package.appxmanifest"
         $xmlDoc.Package.Identity.Name="FilesPreview"
-        $xmlDoc.Package.Identity.Publisher="${{ secrets.SIDELOAD_PUBLISHER_SECRET }}"
+        $xmlDoc.Package.Identity.Publisher="$env:SIDELOAD_PUBLISHER_SECRET"
         $xmlDoc.Package.Properties.DisplayName="Files - Preview"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
         $xmlDoc.Save("$env:PACKAGE_PROJECT_DIR\Package.appxmanifest")
+      env:
+        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
 
     # TODO: Move the command to PowerShell script instead
     - name: Use the ${{ env.CONFIGURATION }} logo sets
