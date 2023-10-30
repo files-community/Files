@@ -68,7 +68,7 @@ jobs:
           Set-Content $_ -NoNewline `
         }
       env:
-        BING_MAPS_SECRET: ${{ secret.BING_MAPS_SECRET }}
+        BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
         
     - name: Inject the AppCenter token
       shell: pwsh
@@ -79,7 +79,7 @@ jobs:
           Set-Content $_ -NoNewline `
         }
       env:
-        APP_CENTER_SECRET: ${{ secret.APP_CENTER_SECRET }}
+        APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
 
     - name: Inject the GitHub OAuth client ID
       run: |
