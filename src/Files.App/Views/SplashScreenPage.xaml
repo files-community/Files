@@ -19,8 +19,8 @@
 			Stretch="None">
 			<Image
 				x:Name="SplashScreenImage"
-				ImageFailed="SplashScreenImage_ImageFailed"
-				ImageOpened="SplashScreenImage_ImageOpened"
+				ImageFailed="Image_ImageFailed"
+				ImageOpened="Image_ImageOpened"
 				Source="\Assets\AppTiles\Dev\SplashScreen.png" />
 		</Viewbox>
 

@@ -24,12 +24,12 @@ namespace Files.App.Views
 			InitializeComponent();
 		}
 
-		private void SplashScreenImage_ImageOpened(object sender, RoutedEventArgs e)
+		private void Image_ImageOpened(object sender, RoutedEventArgs e)
 		{
 			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
 
-		private void SplashScreenImage_ImageFailed(object sender, RoutedEventArgs e)
+		private void Image_ImageFailed(object sender, RoutedEventArgs e)
 		{
 			App.SplashScreenLoadingTCS?.TrySetResult();
 		}
