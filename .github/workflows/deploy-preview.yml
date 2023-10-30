@@ -89,7 +89,7 @@ jobs:
           Set-Content $_ -NoNewline `
         }
       env:
-        GH_OAUTH_CLIENT_ID: ${{ secret.GH_OAUTH_CLIENT_ID }}
+        GH_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
     # - name: Draft a store submission
     #   uses: microsoft/store-submission@v1
