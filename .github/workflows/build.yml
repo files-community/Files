@@ -150,12 +150,13 @@ jobs:
     - name: Set full HD resolution
       run: 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'
 
-    - name: Start WinAppDriver
+    - name: Start WinAppDriver process
       run: 'Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"'
 
     # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: 'dotnet test $env:TEST_PROJECT_PATH'
+    - if: env.PLATFORM == 'x64'
+      name: Run interaction tests
+      run: 'dotnet test $env:TEST_PROJECT_PATH -a:$env:PLATFORM -c:$env:CONFIGURATION'
 
     # - name: Publish the store submission
     #   uses: microsoft/store-submission@v1
