@@ -44,18 +44,18 @@ jobs:
     - name: Update Package.appxmanifest
       shell: pwsh
       run: |
-        [xml]$xmlDoc = Get-Content '$env:PACKAGE_PROJECT_DIR\Package.appxmanifest'
+        [xml]$xmlDoc = Get-Content '$PACKAGE_PROJECT_DIR\Package.appxmanifest'
         $xmlDoc.Package.Identity.Name="FilesPreview"
         $xmlDoc.Package.Identity.Publisher="Files"
         $xmlDoc.Package.Properties.DisplayName="Files - Preview"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-        $xmlDoc.Save('$env:PACKAGE_PROJECT_DIR\Package.appxmanifest')
+        $xmlDoc.Save('$PACKAGE_PROJECT_DIR\Package.appxmanifest')
 
     # TODO: Move the command to PowerShell script instead
     - name: Use the ${{ env.CONFIGURATION }} logo sets
       shell: pwsh
       run: |
-        Get-ChildItem $env:WORKING_DIR\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
+        Get-ChildItem $WORKING_DIR\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process `
         { `
           (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview"}) | `
           Set-Content $_ -NoNewline `
