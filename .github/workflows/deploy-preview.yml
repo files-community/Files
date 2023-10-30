@@ -59,7 +59,7 @@ jobs:
           (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview"}) | `
           Set-Content $_ -NoNewline `
         }
-        
+
     - name: Inject the Bing Maps API token
       shell: pwsh
       run: |
@@ -70,7 +70,7 @@ jobs:
         }
       env:
         BING_MAPS_SECRET: ${{ secrets.BING_MAPS_SECRET }}
-        
+
     - name: Inject the AppCenter token
       shell: pwsh
       run: |
