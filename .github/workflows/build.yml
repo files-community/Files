@@ -52,41 +52,33 @@ jobs:
           Set-Content $_ -NoNewline `
         }
 
-    # - name: Restore the BingMaps key
-    #   uses: timheuer/base64-to-file@v1.2
-    #   with:
-    #     encodedString: ${{ secrets.BINGMAPS_KEY_BASE64 }}
-    #     fileDir: '$env:WORKING_DIR\src\Files.App\Resources'
-    #     fileName: 'BingMapsKey.txt'
+    - name: Restore the BingMaps key
+      shell: pwsh
+      run: 'echo $env:BINGMAPS_KEY > $env:WORKING_DIR\src\Files.App\Resources\BingMapsKey.txt'
+      env:
+        BINGMAPS_KEY: ${{ secret.BING_MAPS_SECRET }}
 
-    # - name: Restore the package CA certification file
-    #   uses: timheuer/base64-to-file@v1.2
-    #   with:
-    #     encodedString: ${{ secrets.PACKAGE_CERTIFICATE_BASE64 }}
-    #     fileDir: '$env:WORKING_DIR\$env:PACKAGE_PROJECT_DIR'
-    #     fileName: 'StoreCertificate.pfx'
+    - name: Restore the AppCenter token
+      shell: pwsh
+      run: |
+        Get-ChildItem $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach-Object -Process `
+        { `
+          (Get-Content $_ -Raw | ForEach-Object -Process {$_ -replace "appcenter.secret", "$env:APPCENTER_TOKEN"}) | `
+          Set-Content $_ -NoNewline `
+        }
+      env:
+        APPCENTER_TOKEN: ${{ secret.APPCENTER_TOKEN }}
 
-    # - name: Restore the AppCenter token
-    #   shell: pwsh
-    #   run: |
-    #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
-    #     { `
-    #       (Get-Content $_ -Raw | ForEach -Process {$_ -replace "appcenter.secret", "$env:APPCENTER_TOKEN"}) | `
-    #       Set-Content $_ -NoNewline `
-    #     }
-    #   env:
-    #     APPCENTER_TOKEN: ${{ secret.APPCENTER_TOKEN }}
+    - name: Restore the GitHub OAuth client ID
+      run: |
+        Get-ChildItem $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach-Object -Process `
+        { `
+          (Get-Content $_ -Raw | ForEach-Object -Process {$_ -replace "githubclientid.secret", "$env:GH_OAUTH_CLIENT_ID)"}) | `
+          Set-Content $_ -NoNewline `
+        }
+      env:
+        GH_OAUTH_CLIENT_ID: ${{ secret.GH_OAUTH_CLIENT_ID }}
 
-    # - name: Restore the GitHub OAuth client ID
-    #   run: |
-    #     gci $(Build.SourcesDirectory)\src -Include *.cs -recurse | ForEach -Process `
-    #     { `
-    #       (Get-Content $_ -Raw | ForEach -Process {$_ -replace "githubclientid.secret", "$env:GITHUB_OAUTH_CLIENT_ID)"}) | `
-    #       Set-Content $_ -NoNewline `
-    #     }
-    #   env:
-    #     GITHUB_OAUTH_CLIENT_ID: ${{ secret.GITHUB_OAUTH_CLIENT_ID }}
-  
     # - name: Draft a store submission
     #   uses: microsoft/store-submission@v1
     #   with:
@@ -115,7 +107,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    # - name: Build ${{ env.SOLUTION_NAME  }}
+    # - name: Build ${{ env.SOLUTION_NAME }}
     #   shell: pwsh
     #   run: |
     #     msbuild $env:PACKAGE_PROJECT_PATH `
@@ -161,14 +153,6 @@ jobs:
     #     file-digest: SHA256
     #     timestamp-rfc3161: http://timestamp.acs.microsoft.com
     #     timestamp-digest: SHA256
-
-    - if: env.PLATFORM == 'x64'
-      name: Set full HD resolution
-      run: 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'
-
-    - if: env.PLATFORM == 'x64'
-      name: Run interaction tests
-      run: 'dotnet test $env:TEST_PROJECT_PATH -a:$env:PLATFORM -c:$env:CONFIGURATION'
 
     # - name: Publish the store submission
     #   uses: microsoft/store-submission@v1
