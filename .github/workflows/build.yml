@@ -147,7 +147,23 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:AppxBundle=Never
 
-    - name: Set full HD resolution
+    # - name: Sign files with Azure Code Signing
+    #   uses: azure/azure-code-signing-action@v0.2.15
+    #   with:
+    #     azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #     azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #     azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+    #     endpoint: https://wus2.codesigning.azure.net/
+    #     code-signing-account-name: vscx-codesigning
+    #     certificate-profile-name: vscx-certificate-profile
+    #     files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
+    #     files-folder-filter: exe,dll
+    #     file-digest: SHA256
+    #     timestamp-rfc3161: http://timestamp.acs.microsoft.com
+    #     timestamp-digest: SHA256
+
+    - if: env.PLATFORM == 'x64'
+      name: Set full HD resolution
       run: 'Set-DisplayResolution -Width 1920 -Height 1080 -Force'
 
     - if: env.PLATFORM == 'x64'
