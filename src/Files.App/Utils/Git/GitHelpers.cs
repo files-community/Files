@@ -126,7 +126,7 @@ namespace Files.App.Utils.Git
 				return Task.FromResult(Array.Empty<BranchItem>());
 
 
-			return PostMethodToThreadWithMessageQueue(() =>
+			return PostMethodToThreadWithMessageQueue<BranchItem[]>(() =>
 			{
 				using var repository = new Repository(path);
 
@@ -145,7 +145,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Task.FromResult(string.Empty);
 
-			return PostMethodToThreadWithMessageQueue(() =>
+			return PostMethodToThreadWithMessageQueue<string>(() =>
 			{
 				using var repository = new Repository(path);
 				return GetValidBranches(repository.Branches)
@@ -723,12 +723,12 @@ namespace Files.App.Utils.Git
 			DisposeIfFinished();
 		}
 
-		private static async Task<T> PostMethodToThreadWithMessageQueue<T>(Func<T> payload)
+		private static async Task<T> PostMethodToThreadWithMessageQueue<T>(Func<object> payload)
 		{
 			Interlocked.Increment(ref _activeOperationsCount);
 			_owningThread ??= new ThreadWithMessageQueue();
 
-			var result = await _owningThread.PostMethod<T>(() => payload);
+			var result = await _owningThread.PostMethod<T>(payload);
 
 			DisposeIfFinished();
 
