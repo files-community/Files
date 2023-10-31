@@ -86,6 +86,7 @@
 			<StackPanel>
 				<!--  Startup disabled InfoBar  -->
 				<InfoBar
+					x:Name="OpenOnStartupInfoBar"
 					x:Load="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 					IsClosable="False"
 					IsIconVisible="True"
