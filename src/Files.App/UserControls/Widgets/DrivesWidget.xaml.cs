@@ -122,9 +122,9 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 
-			Drives_CollectionChangedAsync(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChangedAsync;
+			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
@@ -138,7 +138,7 @@ namespace Files.App.UserControls.Widgets
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
-		private async void Drives_CollectionChangedAsync(object? sender, NotifyCollectionChangedEventArgs e)
+		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
@@ -220,7 +220,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
@@ -303,7 +303,7 @@ namespace Files.App.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		private async void Button_ClickAsync(object sender, RoutedEventArgs e)
+		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate
@@ -324,7 +324,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void Button_PointerPressedAsync(object sender, PointerRoutedEventArgs e)
+		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
 				return;

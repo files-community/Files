@@ -170,12 +170,12 @@
 					IsRightTapEnabled="True"
 					IsTabStop="True"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
-					PreviewKeyDown="FileList_PreviewKeyDownAsync"
+					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
 					ScrollViewer.IsScrollInertiaEnabled="True"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
-					Tapped="FileList_ItemTappedAsync">
+					Tapped="FileList_ItemTapped">
 
 					<ListView.ItemContainerTransitions>
 						<TransitionCollection>
@@ -288,7 +288,7 @@
 									Margin="0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch"
-									BeforeTextChanging="ItemNameTextBox_BeforeTextChangingAsync"
+									BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 									TextAlignment="Left"
 									TextWrapping="Wrap"
 									Visibility="Collapsed" />

@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Enheten används för närvarande. Stäng alla program, fönster eller flikar som kan använda enheten och försök sedan igen.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Mata ut</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
