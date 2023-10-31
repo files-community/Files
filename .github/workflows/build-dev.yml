@@ -1,0 +1,60 @@
+name: Build Dev Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Dev]
+        platform: [x64, arm64]
+    env:
+      SOLUTION_NAME: 'Files.sln'
+      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
+      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
+      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      CONFIGURATION: ${{ matrix.configuration }}
+      PLATFORM: ${{ matrix.platform }}
+      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.1.1
+
+    - name: Setup .NET 7
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_NAME'
+
+    - name: Restore ${{ env.SOLUTION_NAME  }}
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_NAME `
+        -t:Restore `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:PublishReadyToRun=true
+
+    - name: Build ${{ env.SOLUTION_NAME }}
+      shell: pwsh
+      run: |
+        msbuild "$env:PACKAGE_PROJECT_PATH" `
+        -t:Build `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:AppxBundle=Never
+
+# TODO: Add tests running
