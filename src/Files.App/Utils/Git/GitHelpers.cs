@@ -125,8 +125,8 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Array.Empty<BranchItem>();
 
-			_owningThread ??= new ThreadWithMessageQueue();
 			Interlocked.Increment(ref _activeOperationsCount);
+			_owningThread ??= new ThreadWithMessageQueue();
 
 			var branches = await _owningThread.PostMethod<BranchItem[]>(() =>
 			{
