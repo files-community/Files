@@ -120,15 +120,13 @@ namespace Files.App.Utils.Git
 			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
-		public static async Task<BranchItem[]> GetBranchesNames(string? path)
+		public static Task<BranchItem[]> GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Array.Empty<BranchItem>();
+				return Task.FromResult(Array.Empty<BranchItem>());
 
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
 
-			var branches = await _owningThread.PostMethod<BranchItem[]>(() =>
+			return PostMethodToThreadWithMessageQueue(() =>
 			{
 				using var repository = new Repository(path);
 
@@ -140,30 +138,19 @@ namespace Files.App.Utils.Git
 					.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 					.ToArray();
 			});
-
-			DisposeIfFinished();
-
-			return branches;
 		}
 
-		public static async Task<string> GetRepositoryHeadName(string? path)
+		public static Task<string> GetRepositoryHeadName(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return string.Empty;
+				return Task.FromResult(string.Empty);
 
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
-
-			var name = await _owningThread.PostMethod<string>(() =>
+			return PostMethodToThreadWithMessageQueue(() =>
 			{
 				using var repository = new Repository(path);
 				return GetValidBranches(repository.Branches)
 					.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 			});
-
-			DisposeIfFinished();
-
-			return name;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -212,10 +199,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				Interlocked.Increment(ref _activeOperationsCount);
-				_owningThread ??= new ThreadWithMessageQueue();
-
-				await _owningThread.PostMethod(() =>
+				await PostMethodToThreadWithMessageQueue(() =>
 				{
 					if (checkoutBranch.IsRemote)
 						CheckoutRemoteBranch(repository, checkoutBranch);
@@ -228,8 +212,6 @@ namespace Files.App.Utils.Git
 						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
 					}
 				});
-
-				DisposeIfFinished();
 
 				return true;
 			}
@@ -314,10 +296,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				Interlocked.Increment(ref _activeOperationsCount);
-				_owningThread ??= new ThreadWithMessageQueue();
-
-				await _owningThread.PostMethod(() =>
+				await PostMethodToThreadWithMessageQueue(() =>
 				{
 					foreach (var remote in repository.Network.Remotes)
 					{
@@ -329,8 +308,6 @@ namespace Files.App.Utils.Git
 							"git fetch updated a ref");
 					}
 				});
-
-				DisposeIfFinished();
 			}
 			catch (Exception ex)
 			{
@@ -373,18 +350,12 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				Interlocked.Increment(ref _activeOperationsCount);
-				_owningThread ??= new ThreadWithMessageQueue();
-
-				await _owningThread.PostMethod(() =>
-				{
+				await PostMethodToThreadWithMessageQueue(() =>
 					LibGit2Sharp.Commands.Pull(
 						repository,
 						signature,
-						_pullOptions);
-				});
-
-				DisposeIfFinished();
+						_pullOptions)
+				);
 			}
 			catch (Exception ex)
 			{
@@ -458,15 +429,7 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				Interlocked.Increment(ref _activeOperationsCount);
-				_owningThread ??= new ThreadWithMessageQueue();
-
-				await _owningThread.PostMethod(() =>
-				{
-					repository.Network.Push(branch, options);
-				});
-
-				DisposeIfFinished();
+				await PostMethodToThreadWithMessageQueue(() => repository.Network.Push(branch, options));
 			}
 			catch (Exception ex)
 			{
@@ -748,6 +711,28 @@ namespace Files.App.Utils.Git
 		{
 			if (Interlocked.Decrement(ref _activeOperationsCount) == 0)
 				TryDispose();
+		}
+
+		private static async Task PostMethodToThreadWithMessageQueue(Action payload)
+		{
+			Interlocked.Increment(ref _activeOperationsCount);
+			_owningThread ??= new ThreadWithMessageQueue();
+
+			await _owningThread.PostMethod(payload);
+
+			DisposeIfFinished();
+		}
+
+		private static async Task<T> PostMethodToThreadWithMessageQueue<T>(Func<T> payload)
+		{
+			Interlocked.Increment(ref _activeOperationsCount);
+			_owningThread ??= new ThreadWithMessageQueue();
+
+			var result = await _owningThread.PostMethod<T>(() => payload);
+
+			DisposeIfFinished();
+
+			return result;
 		}
 	}
 }
