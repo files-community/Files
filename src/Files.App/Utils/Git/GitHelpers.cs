@@ -126,7 +126,7 @@ namespace Files.App.Utils.Git
 				return Task.FromResult(Array.Empty<BranchItem>());
 
 
-			return PostMethodToThreadWithMessageQueue<BranchItem[]>(() =>
+			return PostMethodToThreadWithMessageQueueAsync<BranchItem[]>(() =>
 			{
 				using var repository = new Repository(path);
 
@@ -145,7 +145,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Task.FromResult(string.Empty);
 
-			return PostMethodToThreadWithMessageQueue<string>(() =>
+			return PostMethodToThreadWithMessageQueueAsync<string>(() =>
 			{
 				using var repository = new Repository(path);
 				return GetValidBranches(repository.Branches)
@@ -199,7 +199,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				await PostMethodToThreadWithMessageQueue(() =>
+				await PostMethodToThreadWithMessageQueueAsync(() =>
 				{
 					if (checkoutBranch.IsRemote)
 						CheckoutRemoteBranch(repository, checkoutBranch);
@@ -296,7 +296,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				await PostMethodToThreadWithMessageQueue(() =>
+				await PostMethodToThreadWithMessageQueueAsync(() =>
 				{
 					foreach (var remote in repository.Network.Remotes)
 					{
@@ -350,7 +350,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				await PostMethodToThreadWithMessageQueue(() =>
+				await PostMethodToThreadWithMessageQueueAsync(() =>
 					LibGit2Sharp.Commands.Pull(
 						repository,
 						signature,
@@ -429,7 +429,7 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				await PostMethodToThreadWithMessageQueue(() => repository.Network.Push(branch, options));
+				await PostMethodToThreadWithMessageQueueAsync(() => repository.Network.Push(branch, options));
 			}
 			catch (Exception ex)
 			{
@@ -713,7 +713,7 @@ namespace Files.App.Utils.Git
 				TryDispose();
 		}
 
-		private static async Task PostMethodToThreadWithMessageQueue(Action payload)
+		private static async Task PostMethodToThreadWithMessageQueueAsync(Action payload)
 		{
 			Interlocked.Increment(ref _activeOperationsCount);
 			_owningThread ??= new ThreadWithMessageQueue();
@@ -723,7 +723,7 @@ namespace Files.App.Utils.Git
 			DisposeIfFinished();
 		}
 
-		private static async Task<T> PostMethodToThreadWithMessageQueue<T>(Func<object> payload)
+		private static async Task<T> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
 		{
 			Interlocked.Increment(ref _activeOperationsCount);
 			_owningThread ??= new ThreadWithMessageQueue();
