@@ -68,9 +68,10 @@ namespace Files.App.Utils.Git
 
 		public static void TryDispose()
 		{
-			_owningThread?.Dispose();
+			var threadToDispose = _owningThread;
 			_owningThread = null;
-			_activeOperationsCount = 0;
+			Interlocked.Exchange(ref _activeOperationsCount, 0);
+			threadToDispose?.Dispose();
 		}
 
 		public static string? GetGitRepositoryPath(string? path, string root)
