@@ -27,8 +27,6 @@ namespace Files.App.Utils.Git
 
 		private const int MAX_NUMBER_OF_BRANCHES = 15;
 
-		private static readonly object _operationsCountLock = new();
-
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -127,9 +125,7 @@ namespace Files.App.Utils.Git
 				return Array.Empty<BranchItem>();
 
 			_owningThread ??= new ThreadWithMessageQueue();
-			
-			lock (_operationsCountLock)
-				++_activeOperationsCount;
+			Interlocked.Increment(ref _activeOperationsCount);
 
 			var branches = await _owningThread.PostMethod<BranchItem[]>(() =>
 			{
@@ -155,9 +151,7 @@ namespace Files.App.Utils.Git
 				return string.Empty;
 
 			_owningThread ??= new ThreadWithMessageQueue();
-
-			lock (_operationsCountLock)
-				++_activeOperationsCount;
+			Interlocked.Increment(ref _activeOperationsCount);
 
 			var name = await _owningThread.PostMethod<string>(() =>
 			{
@@ -218,9 +212,7 @@ namespace Files.App.Utils.Git
 			try
 			{
 				_owningThread ??= new ThreadWithMessageQueue();
-
-				lock (_operationsCountLock)
-					++_activeOperationsCount;
+				Interlocked.Increment(ref _activeOperationsCount);
 
 				await _owningThread.PostMethod(() =>
 				{
@@ -322,9 +314,7 @@ namespace Files.App.Utils.Git
 			try
 			{
 				_owningThread ??= new ThreadWithMessageQueue();
-
-				lock (_operationsCountLock)
-					++_activeOperationsCount;
+				Interlocked.Increment(ref _activeOperationsCount);
 
 				await _owningThread.PostMethod(() =>
 				{
@@ -383,9 +373,7 @@ namespace Files.App.Utils.Git
 			try
 			{
 				_owningThread ??= new ThreadWithMessageQueue();
-
-				lock (_operationsCountLock)
-					++_activeOperationsCount;
+				Interlocked.Increment(ref _activeOperationsCount);
 
 				await _owningThread.PostMethod(() =>
 				{
@@ -470,9 +458,7 @@ namespace Files.App.Utils.Git
 				}
 
 				_owningThread ??= new ThreadWithMessageQueue();
-				
-				lock (_operationsCountLock)
-					++_activeOperationsCount;
+				Interlocked.Increment(ref _activeOperationsCount);
 
 				await _owningThread.PostMethod(() =>
 				{
@@ -759,11 +745,8 @@ namespace Files.App.Utils.Git
 
 		private static void DisposeIfFinished()
 		{
-			bool finished;
-			lock (_operationsCountLock)
-				finished = (--_activeOperationsCount) == 0;
-
-			if (finished)
+			Interlocked.Decrement(ref _activeOperationsCount);
+			if (Volatile.Read(ref _activeOperationsCount) == 0)
 				TryDispose();
 		}
 	}
