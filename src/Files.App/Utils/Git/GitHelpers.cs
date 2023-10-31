@@ -458,8 +458,8 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				_owningThread ??= new ThreadWithMessageQueue();
 				Interlocked.Increment(ref _activeOperationsCount);
+				_owningThread ??= new ThreadWithMessageQueue();
 
 				await _owningThread.PostMethod(() =>
 				{
