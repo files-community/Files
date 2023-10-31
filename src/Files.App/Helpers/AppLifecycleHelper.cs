@@ -255,7 +255,7 @@ namespace Files.App.Helpers
 				{
 					foreach (var tabArgs in tabsToBeRestored)
 					{
-						mainPageViewModel.AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationParameter);
+						mainPageViewModel.AddNewTabByParamAsync(tabArgs.InitialPageType, tabArgs.NavigationParameter);
 					}
 				}
 				else
