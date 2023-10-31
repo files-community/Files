@@ -373,8 +373,8 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				_owningThread ??= new ThreadWithMessageQueue();
 				Interlocked.Increment(ref _activeOperationsCount);
+				_owningThread ??= new ThreadWithMessageQueue();
 
 				await _owningThread.PostMethod(() =>
 				{
