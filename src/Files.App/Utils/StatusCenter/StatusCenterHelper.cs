@@ -498,7 +498,7 @@ namespace Files.App.Utils.StatusCenter
 
 			if (card.Source is not null && card.Source.Any())
 			{
-				// Include null check for items that don't have a parrent dir
+				// Include null check for items that don't have a parent dir
 				// This can happen when dragging an image from the browser
 				// https://github.com/files-community/Files/issues/13590
 				if (card.Source.First() != null)
