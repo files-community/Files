@@ -132,7 +132,7 @@ jobs:
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
     - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.2.15
+      uses: azure/azure-code-signing-action@v0.2.21
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
