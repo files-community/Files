@@ -26,11 +26,10 @@ namespace Files.App.Helpers
 
 		private static IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static List<TabItemWithIDArguments> tabsWithIdArgList = new List<TabItemWithIDArguments>();
-		/* 
-		Add sharedMemoryHeaderName because sharedMemory can't be released instantly and create a new one with the same name.
-		To dynamically expand the size of a sharedMemory, a new sharedMemory with a new name needs to be created.
-		Using sharedMemoryHeader, sharedMemoryName is saved and shared between all the Files instance.
-		*/
+	
+		// Add sharedMemoryHeaderName because sharedMemory can't be released instantly and create a new one with the same name.
+		// To dynamically expand the size of a sharedMemory, a new sharedMemory with a new name needs to be created.
+		// Using sharedMemoryHeader, sharedMemoryName is saved and shared between all the Files instance.
 		// Read or create a sharedMemory(sharedMemoryHeaderName) to save and share the sharedMemoryName
 		// The sharedMemoryName is used to identify the sharedMemory
 		// The sharedMemory is used to save and share the TabItemWithIDArguments
@@ -68,8 +67,9 @@ namespace Files.App.Helpers
 			}
 			return sharedMemoryHeader;
 		}
-
-		//	Check if the sharedMemory exists, if not create it
+		/// <summary>
+		/// Check if the sharedMemory exists, if not create it
+		/// </summary>
 		private static MemoryMappedFile CheckSharedMemory()
 		{
 			GetSharedMemoryNameHeader();
@@ -84,7 +84,9 @@ namespace Files.App.Helpers
 			return sharedMemory;
 		}
 
-		//	Check if the sharedMemory exists and if the BufferSize is enough, if not create a new one
+		/// <summary>
+		/// Check if sharedMemory exists, and if its capacity is sufficient. If not, create a new one.
+		/// </summary>
 		private static MemoryMappedFile CheckSharedMemory(int BufferSize)
 		{
 			sharedMemory = CheckSharedMemory();
@@ -108,7 +110,9 @@ namespace Files.App.Helpers
 			return sharedMemory;
 		}
 
-		//	Read tabsWithIdArgList from sharedMemory
+		/// <summary>
+		/// Read tabsWithIdArgList from sharedMemory
+		/// </summary>
 		private static async Task ReadSharedMemory()
 		{
 			try
@@ -138,7 +142,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		//	Write tabsWithIdArgList to sharedMemory
+		/// <summary>
+		/// Write tabsWithIdArgList to sharedMemory
+		/// </summary>
 		private static async Task WriteSharedMemory()
 		{
 			try
@@ -160,7 +166,6 @@ namespace Files.App.Helpers
 			}
 		}
 
-		//	Add Tabs of this instance to TabsWithIDList
 		private static List<TabItemWithIDArguments> AddTabsWithID()
 		{
 			var otherTabsWithIdArgList = tabsWithIdArgList.FindAll(x => x.instanceId != instanceId).ToList();
@@ -177,6 +182,10 @@ namespace Files.App.Helpers
 			return otherTabsWithIDArgList;
 		}
 
+		/// <summary>
+		/// Update the tabsWithIdArgList stored in sharedMemory and userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList.
+		/// Should be executed once when a tab is changed.
+		/// </summary>
 		public static async Task UpDate()
 		{
 			await ReadSharedMemory();
@@ -186,6 +195,10 @@ namespace Files.App.Helpers
 			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = tabsWithIdArgList.Select(x => x.Serialize()).ToList();
 		}
 
+		/// <summary>
+		/// Remove the tabs of the current instance from tabsWithIdArgList.
+		/// Should be executed once when closing the current instance.
+		/// </summary>
 		public static async void RemoveThisInstanceTabs()
 		{
 			await ReadSharedMemory();
@@ -194,6 +207,10 @@ namespace Files.App.Helpers
 			userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList = tabsWithIdArgList.Select(x => x.Serialize()).ToList();
 		}
 
+		/// <summary>
+		/// Compare tabsWithIdArgList and userSettingsService.GeneralSettingsService.LastAppsTabsWithIDList in sharedMemory, and restore tabs that were not closed normally (direct shutdown, etc.).
+		/// Should be executed once when starting a new instance.
+		/// </summary>
 		public static bool RestoreLastAppsTabs(MainPageViewModel mainPageViewModel)
 		{
 			ReadSharedMemory();
