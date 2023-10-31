@@ -745,8 +745,7 @@ namespace Files.App.Utils.Git
 
 		private static void DisposeIfFinished()
 		{
-			Interlocked.Decrement(ref _activeOperationsCount);
-			if (Volatile.Read(ref _activeOperationsCount) == 0)
+			if (Interlocked.Decrement(ref _activeOperationsCount) == 0)
 				TryDispose();
 		}
 	}
