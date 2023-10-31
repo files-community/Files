@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Dev]
+        configuration: [Debug]
         platform: [x64, arm64]
     env:
       SOLUTION_NAME: 'Files.sln'
