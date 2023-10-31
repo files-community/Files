@@ -151,8 +151,8 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return string.Empty;
 
-			_owningThread ??= new ThreadWithMessageQueue();
 			Interlocked.Increment(ref _activeOperationsCount);
+			_owningThread ??= new ThreadWithMessageQueue();
 
 			var name = await _owningThread.PostMethod<string>(() =>
 			{
