@@ -27,13 +27,13 @@ namespace Files.App.Utils.Git
 
 		private const int MAX_NUMBER_OF_BRANCHES = 15;
 
+		private static readonly object _operationsCountLock = new();
+
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private static readonly IApplicationService _applicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-
-		private static readonly ThreadWithMessageQueue _owningThread = new();
 
 		private static readonly FetchOptions _fetchOptions = new()
 		{
@@ -45,6 +45,10 @@ namespace Files.App.Utils.Git
 		private static readonly string _clientId = _applicationService.Environment is AppEnvironment.Store or AppEnvironment.Stable or AppEnvironment.Preview
 				? CLIENT_ID_SECRET
 				: string.Empty;
+
+		private static ThreadWithMessageQueue? _owningThread;
+
+		private static int _activeOperationsCount = 0;
 
 		private static bool _IsExecutingGitAction;
 		public static bool IsExecutingGitAction
@@ -64,9 +68,11 @@ namespace Files.App.Utils.Git
 
 		public static event EventHandler? GitFetchCompleted;
 
-		public static void Dispose()
+		public static void TryDispose()
 		{
-			_owningThread.Dispose();
+			_owningThread?.Dispose();
+			_owningThread = null;
+			_activeOperationsCount = 0;
 		}
 
 		public static string? GetGitRepositoryPath(string? path, string root)
@@ -115,12 +121,17 @@ namespace Files.App.Utils.Git
 			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
-		public static Task<BranchItem[]> GetBranchesNames(string? path)
+		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Task.FromResult(Array.Empty<BranchItem>());
+				return Array.Empty<BranchItem>();
 
-			return _owningThread.PostMethod<BranchItem[]>(() =>
+			_owningThread ??= new ThreadWithMessageQueue();
+			
+			lock (_operationsCountLock)
+				++_activeOperationsCount;
+
+			var branches = await _owningThread.PostMethod<BranchItem[]>(() =>
 			{
 				using var repository = new Repository(path);
 
@@ -132,19 +143,32 @@ namespace Files.App.Utils.Git
 					.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 					.ToArray();
 			});
+
+			DisposeIfFinished();
+
+			return branches;
 		}
 
-		public static Task<string> GetRepositoryHeadName(string? path)
+		public static async Task<string> GetRepositoryHeadName(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Task.FromResult(string.Empty);
+				return string.Empty;
 
-			return _owningThread.PostMethod<string>(() =>
+			_owningThread ??= new ThreadWithMessageQueue();
+
+			lock (_operationsCountLock)
+				++_activeOperationsCount;
+
+			var name = await _owningThread.PostMethod<string>(() =>
 			{
 				using var repository = new Repository(path);
 				return GetValidBranches(repository.Branches)
 					.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 			});
+
+			DisposeIfFinished();
+
+			return name;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -193,6 +217,11 @@ namespace Files.App.Utils.Git
 
 			try
 			{
+				_owningThread ??= new ThreadWithMessageQueue();
+
+				lock (_operationsCountLock)
+					++_activeOperationsCount;
+
 				await _owningThread.PostMethod(() =>
 				{
 					if (checkoutBranch.IsRemote)
@@ -206,6 +235,9 @@ namespace Files.App.Utils.Git
 						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
 					}
 				});
+
+				DisposeIfFinished();
+
 				return true;
 			}
 			catch (Exception ex)
@@ -289,6 +321,11 @@ namespace Files.App.Utils.Git
 
 			try
 			{
+				_owningThread ??= new ThreadWithMessageQueue();
+
+				lock (_operationsCountLock)
+					++_activeOperationsCount;
+
 				await _owningThread.PostMethod(() =>
 				{
 					foreach (var remote in repository.Network.Remotes)
@@ -301,6 +338,8 @@ namespace Files.App.Utils.Git
 							"git fetch updated a ref");
 					}
 				});
+
+				DisposeIfFinished();
 			}
 			catch (Exception ex)
 			{
@@ -343,6 +382,11 @@ namespace Files.App.Utils.Git
 
 			try
 			{
+				_owningThread ??= new ThreadWithMessageQueue();
+
+				lock (_operationsCountLock)
+					++_activeOperationsCount;
+
 				await _owningThread.PostMethod(() =>
 				{
 					LibGit2Sharp.Commands.Pull(
@@ -350,6 +394,8 @@ namespace Files.App.Utils.Git
 						signature,
 						_pullOptions);
 				});
+
+				DisposeIfFinished();
 			}
 			catch (Exception ex)
 			{
@@ -423,10 +469,17 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
+				_owningThread ??= new ThreadWithMessageQueue();
+				
+				lock (_operationsCountLock)
+					++_activeOperationsCount;
+
 				await _owningThread.PostMethod(() =>
 				{
 					repository.Network.Push(branch, options);
 				});
+
+				DisposeIfFinished();
 			}
 			catch (Exception ex)
 			{
@@ -702,6 +755,16 @@ namespace Files.App.Utils.Git
 			return
 				ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
 				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
+		}
+
+		private static void DisposeIfFinished()
+		{
+			bool finished;
+			lock (_operationsCountLock)
+				finished = (--_activeOperationsCount) == 0;
+
+			if (finished)
+				TryDispose();
 		}
 	}
 }

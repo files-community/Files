@@ -378,7 +378,7 @@ namespace Files.App
 			Logger);
 
 			// Dispose git operations' thread
-			GitHelpers.Dispose();
+			GitHelpers.TryDispose();
 
 			// Destroy cached properties windows
 			FilePropertiesHelpers.DestroyCachedWindows();
