@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return GitHelpers.PushToOrigin(
+			return GitHelpers.PushToOriginAsync(
 				_context.ShellPage?.InstanceViewModel.GitRepositoryPath,
 				_context.ShellPage?.InstanceViewModel.GitBranchName);
 		}

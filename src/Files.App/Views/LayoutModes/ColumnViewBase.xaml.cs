@@ -36,10 +36,14 @@ namespace Files.App.Views.LayoutModes
 
 		private ListViewItem? openedFolderPresenter;
 
+		// Indicates if the selection rectangle is currently being dragged
+		private bool isDraggingSelectionRectangle = false;
+
 		public ColumnViewBase() : base()
 		{
 			InitializeComponent();
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
@@ -155,7 +159,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (IsRenamingItem)
 			{
-				await ValidateItemNameInputText(textBox, args, (showError) =>
+				await ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -211,17 +215,29 @@ namespace Files.App.Views.LayoutModes
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
-			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder && openedFolderPresenter != FileList.ContainerFromItem(SelectedItem))
+			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
+				if (isDraggingSelectionRectangle)
+				{
+					CloseFolder();
+					return;
+				}
+
+				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+					return;
+
+				// Open the selected folder if selected through tap
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
 					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && ParentShellPageInstance != null &&
-				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter)))
+				|| openedFolderPresenter != null && ParentShellPageInstance != null
+				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
 			}
@@ -334,7 +350,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-							_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+							_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -384,7 +400,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
 			}
 			else if (item is not null)
 			{
@@ -397,7 +413,7 @@ namespace Files.App.Views.LayoutModes
 					FileList.ContainerFromItem(RenamingItem) is ListViewItem listViewItem &&
 					listViewItem.FindDescendant("ListViewTextBoxItemName") is TextBox textBox)
 				{
-					await CommitRename(textBox);
+					await CommitRenameAsync(textBox);
 				}
 
 				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -480,6 +496,23 @@ namespace Files.App.Views.LayoutModes
 					parent.FolderSettings.ToggleLayoutModeAdaptive();
 					break;
 			}
+		}
+
+		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
+		{
+			isDraggingSelectionRectangle = false;
+			// Open selected folder (if only one folder is selected) after the user finishes dragging the selection rectangle
+			if (SelectedItems?.Count is 1
+				&& SelectedItem is not null
+				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+
+			base.SelectionRectangle_SelectionEnded(sender, e);
+		}
+
+		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
+		{
+			isDraggingSelectionRectangle = true;
 		}
 
 		internal void ClearSelectionIndicator()

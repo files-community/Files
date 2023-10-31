@@ -127,13 +127,13 @@ namespace Files.App.UserControls.Widgets
 			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
-			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDevice);
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTab);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindow);
-			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPane);
+			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
+			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
+			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
+			OpenInNewPaneCommand = new AsyncRelayCommand<DriveCardItem>(OpenInNewPaneAsync);
 			OpenPropertiesCommand = new RelayCommand<DriveCardItem>(OpenProperties);
-			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavorites);
-			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavorites);
+			PinToFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(PinToFavoritesAsync);
+			UnpinFromFavoritesCommand = new AsyncRelayCommand<WidgetCardItem>(UnpinFromFavoritesAsync);
 			MapNetworkDriveCommand = new AsyncRelayCommand(DoNetworkMapDriveAsync); 
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
@@ -220,7 +220,7 @@ namespace Files.App.UserControls.Widgets
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
@@ -281,7 +281,7 @@ namespace Files.App.UserControls.Widgets
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		private async Task EjectDevice(DriveCardItem item)
+		private async Task EjectDeviceAsync(DriveCardItem item)
 		{
 			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
@@ -339,7 +339,7 @@ namespace Files.App.UserControls.Widgets
 			public string Path { get; set; }
 		}
 
-		private async Task OpenInNewPane(DriveCardItem item)
+		private async Task OpenInNewPaneAsync(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
 				return;
@@ -366,10 +366,10 @@ namespace Files.App.UserControls.Widgets
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
 			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSense(clickedCard);
+			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
 		}
 
-		public async Task RefreshWidget()
+		public async Task RefreshWidgetAsync()
 		{
 			var updateTasks = ItemsAdded.Select(item => item.Item.UpdatePropertiesAsync());
 			await Task.WhenAll(updateTasks);

@@ -88,7 +88,7 @@ namespace Files.App.ViewModels.Properties
 			});
 		}
 
-		public override async Task GetSpecialProperties()
+		public override async Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
@@ -142,7 +142,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			if (file.Properties is not null)
-				GetOtherProperties(file.Properties);
+				GetOtherPropertiesAsync(file.Properties);
 		}
 
 		public async Task GetSystemFilePropertiesAsync()

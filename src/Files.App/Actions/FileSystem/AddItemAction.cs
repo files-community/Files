@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			}
 			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
 			{
-				await UIFilesystemHelpers.CreateFileFromDialogResultType(
+				await UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(
 					viewModel.ResultType.ItemType,
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);

@@ -33,7 +33,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			context.Control!.ReopenClosedTab();
+			context.Control!.ReopenClosedTabAsync();
 
 			return Task.CompletedTask;
 		}

@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			if (arguments is null)
 				await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
 			else
-				await mainPageViewModel.AddNewTabByParam(arguments.InitialPageType, arguments.NavigationParameter, context.CurrentTabIndex + 1);
+				await mainPageViewModel.AddNewTabByParamAsync(arguments.InitialPageType, arguments.NavigationParameter, context.CurrentTabIndex + 1);
 		}
 	}
 }

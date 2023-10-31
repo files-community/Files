@@ -181,7 +181,7 @@ namespace Files.App.Views.Shells
 
 			InitToolbarCommands();
 
-			DisplayFilesystemConsentDialog();
+			DisplayFilesystemConsentDialogAsync();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -366,22 +366,22 @@ namespace Files.App.Views.Shells
 
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
-			Refresh_Click();
+			Refresh_ClickAsync();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
 		{
-			FilesystemViewModel?.UpdateSortDirectionStatus();
+			FilesystemViewModel?.UpdateSortDirectionStatusAsync();
 		}
 
 		protected void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
 		{
-			FilesystemViewModel?.UpdateSortOptionStatus();
+			FilesystemViewModel?.UpdateSortOptionStatusAsync();
 		}
 
 		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
 		{
-			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFiles();
+			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
 		}
 
 		protected void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
@@ -403,7 +403,7 @@ namespace Files.App.Views.Shells
 
 		protected void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
 		{
-			ToolbarViewModel.SetAddressBarSuggestions(e.AddressBarTextField, this);
+			ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
 		}
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
@@ -418,7 +418,7 @@ namespace Files.App.Views.Shells
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
-			await ToolbarViewModel.CheckPathInput(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
 		}
 
 		protected void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -433,7 +433,7 @@ namespace Files.App.Views.Shells
 		protected void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
-				DisplayFilesystemConsentDialog();
+				DisplayFilesystemConsentDialogAsync();
 		}
 
 		// Ensure that the path bar gets updated for user interaction
@@ -500,21 +500,21 @@ namespace Files.App.Views.Shells
 
 		public Task TabItemDragOver(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.DragOver(e);
+			return SlimContentPage?.CommandsViewModel.DragOverAsync(e);
 		}
 
 		public Task TabItemDrop(object sender, DragEventArgs e)
 		{
-			return SlimContentPage?.CommandsViewModel.Drop(e);
+			return SlimContentPage?.CommandsViewModel.DropAsync(e);
 		}
 
-		public async Task RefreshIfNoWatcherExists()
+		public async Task RefreshIfNoWatcherExistsAsync()
 		{
 			if (FilesystemViewModel.HasNoWatcher)
-				await Refresh_Click();
+				await Refresh_ClickAsync();
 		}
 
-		public async Task Refresh_Click()
+		public async Task Refresh_ClickAsync()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -677,8 +677,8 @@ namespace Files.App.Views.Shells
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultType(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdates());
+			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
+			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 
 		protected async Task<BaseLayout> GetContentOrNullAsync()
@@ -693,7 +693,7 @@ namespace Files.App.Views.Shells
 			return await tcs.Task as BaseLayout;
 		}
 
-		protected async Task DisplayFilesystemConsentDialog()
+		protected async Task DisplayFilesystemConsentDialogAsync()
 		{
 			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
 			{

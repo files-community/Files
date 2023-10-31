@@ -29,8 +29,8 @@ namespace Files.App.UserControls.TabBar
 
 		public UIElement FooterElement
 		{
-			get => (UIElement)GetValue(FooterElementProperty); 
-			set => SetValue(FooterElementProperty, value); 
+			get => (UIElement)GetValue(FooterElementProperty);
+			set => SetValue(FooterElementProperty, value);
 		}
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
@@ -55,6 +55,12 @@ namespace Files.App.UserControls.TabBar
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
+
+		/// <summary> Starting position when dragging a tab.</summary>
+		private InteropHelpers.POINT dragStartPoint;
+
+		/// <summary> Starting time when dragging a tab. </summary>
+		private DateTimeOffset dragStartTime;
 
 		public TabBar()
 		{
@@ -136,6 +142,9 @@ namespace Files.App.UserControls.TabBar
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
+
+			InteropHelpers.GetCursorPos(out dragStartPoint);
+			dragStartTime = DateTimeOffset.UtcNow;
 		}
 
 		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
@@ -188,7 +197,7 @@ namespace Files.App.UserControls.TabBar
 
 			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await mainPageViewModel.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
+			await mainPageViewModel.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -211,14 +220,20 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
-			if (sender.TabItems.Count == 1)
-			{
+			InteropHelpers.GetCursorPos(out var droppedPoint);
+			var droppedTime = DateTimeOffset.UtcNow;
+			var dragTime = droppedTime - dragStartTime;
+			var dragDistance = Math.Sqrt(Math.Pow((dragStartPoint.X - droppedPoint.X), 2) + Math.Pow((dragStartPoint.Y - droppedPoint.Y), 2));
+
+			if (sender.TabItems.Count == 1 ||
+				(dragTime.TotalSeconds < 1 &&
+				dragDistance < 100))
 				return;
-			}
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
+
 			Items.Remove(args.Item as TabBarItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{

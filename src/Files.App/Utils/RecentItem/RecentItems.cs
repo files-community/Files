@@ -45,10 +45,10 @@ namespace Files.App.Utils.RecentItem
 
 		public RecentItems()
 		{
-			RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChanged;
+			RecentItemsManager.Default.RecentItemsChanged += OnRecentItemsChangedAsync;
 		}
 
-		private async void OnRecentItemsChanged(object? sender, EventArgs e)
+		private async void OnRecentItemsChangedAsync(object? sender, EventArgs e)
 		{
 			await UpdateRecentFilesAsync();
 		}
@@ -297,7 +297,7 @@ namespace Files.App.Utils.RecentItem
 
 		public void Dispose()
 		{
-			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChanged;
+			RecentItemsManager.Default.RecentItemsChanged -= OnRecentItemsChangedAsync;
 		}
 	}
 }

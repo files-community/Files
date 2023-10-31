@@ -20,7 +20,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			await RecycleBinHelpers.RestoreRecycleBin();
+			await RecycleBinHelpers.RestoreRecycleBinAsync();
 		}
 	}
 }

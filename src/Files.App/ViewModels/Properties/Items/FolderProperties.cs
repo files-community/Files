@@ -69,7 +69,7 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public async override Task GetSpecialProperties()
+		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
@@ -108,9 +108,9 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestampReal = storageFolder.DateCreated;
 				if (storageFolder.Properties is not null)
 				{
-					GetOtherProperties(storageFolder.Properties);
+					GetOtherPropertiesAsync(storageFolder.Properties);
 				}
-				GetFolderSize(storageFolder.Path, TokenSource.Token);
+				GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -144,11 +144,11 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				GetFolderSize(folderPath, TokenSource.Token);
+				GetFolderSizeAsync(folderPath, TokenSource.Token);
 			}
 		}
 
-		private async Task GetFolderSize(string folderPath, CancellationToken token)
+		private async Task GetFolderSizeAsync(string folderPath, CancellationToken token)
 		{
 			if (string.IsNullOrEmpty(folderPath))
 			{
