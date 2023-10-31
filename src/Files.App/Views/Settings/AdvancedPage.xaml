@@ -14,8 +14,13 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Page.DataContext>
