@@ -23,9 +23,10 @@ env:
   APPLICATION_NAME: 'Files'
   SOLUTION_NAME: 'Files.sln'
   PRIMARY_ARCHITECTURE: 'x64'
-  PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-  PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-  INTERACTION_TESTS_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
+  PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+  INTERACTION_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
@@ -60,12 +61,12 @@ jobs:
 
     - name: Restore NuGet
       shell: pwsh
-      run: 'nuget restore $env:SOLUTION_NAME'
+      run: 'nuget restore $env:SOLUTION_PATH'
 
     - name: Restore Files
       shell: pwsh
       run: |
-        msbuild $env:SOLUTION_NAME `
+        msbuild $env:SOLUTION_PATH `
         -t:Restore `
         -p:Platform=$env:ARCHITECTURE `
         -p:Configuration=$env:CONFIGURATION `
