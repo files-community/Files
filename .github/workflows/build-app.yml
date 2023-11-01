@@ -120,7 +120,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PRIMARY_ARCHITECTURE }})'
-        path: ${{ env.APPX_PACKAGE_DIR }}
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     - name: Install package
       shell: pwsh
