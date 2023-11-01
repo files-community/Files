@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Files.App.Terminal
 {
+	/// <summary>
+	/// Code modified from https://github.com/felixse/FluentTerminal
+	/// </summary>
 	internal sealed class BufferedReader : IDisposable
 	{
 		private const int MaxTotalDelayMilliseconds = 100;
