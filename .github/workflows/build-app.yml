@@ -138,7 +138,11 @@ jobs:
 
     - name: Build interaction tests
       shell: pwsh
-      run: 'dotnet build $env:INTERACTION_TESTS_PROJECT_PATH'
+      run: |
+        msbuild $env:INTERACTION_TESTS_PROJECT_PATH
+        -t:Build `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:Platform=$env:PRIMARY_ARCHITECTURE
 
     - name: Run interaction tests
       shell: pwsh
