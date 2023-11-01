@@ -25,6 +25,7 @@ namespace Files.App.UserControls.Sidebar
 		private bool isPointerOver = false;
 		private bool isClicking = false;
 		private object? selectedChildItem = null;
+		private PointerUpdateKind pointerUpdateKind = PointerUpdateKind.Other;
 		private ItemsRepeater? childrenRepeater;
 		private ISidebarItemModel? lastSubscriber;
 
@@ -237,7 +238,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		internal void Clicked(PointerUpdateKind pointerUpdateKind)
+		internal void Clicked()
 		{
 			if (IsGroupHeader)
 			{
@@ -250,10 +251,10 @@ namespace Files.App.UserControls.Sidebar
 					SetFlyoutOpen(true);
 				}
 			}
-			RaiseItemInvoked(pointerUpdateKind);
+			RaiseItemInvoked();
 		}
 
-		internal void RaiseItemInvoked(PointerUpdateKind pointerUpdateKind)
+		internal void RaiseItemInvoked()
 		{
 			Owner?.RaiseItemInvoked(this, pointerUpdateKind);
 		}
@@ -386,11 +387,11 @@ namespace Files.App.UserControls.Sidebar
 			UpdatePointerState();
 
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
-			var pointerUpdateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
+			pointerUpdateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
 			if (pointerUpdateKind == PointerUpdateKind.LeftButtonReleased ||
 				pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased)
 			{
-				Clicked(pointerUpdateKind);
+				Clicked();
 			}
 		}
 
