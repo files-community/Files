@@ -83,6 +83,7 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
+    needs: [build]
     runs-on: windows-latest
     strategy:
       fail-fast: false
