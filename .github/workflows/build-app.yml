@@ -111,6 +111,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [Debug]
+        platform: [x64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
 
@@ -124,12 +125,22 @@ jobs:
     - name: Install package
       shell: pwsh
       run: |
-        cd "$env:APPX_PACKAGE_DIR"
+        # Go to generated appx packge dir
+        Set-Location "$env:APPX_PACKAGE_DIR"
+
+        # Get bundle dir
         $AppxPackageBundleDir = Get-ChildItem -Filter "Files.Package_*_$env:CONFIGURATION_Test" -Name
-        echo $AppxPackageBundleDir
-        cd $AppxPackageBundleDir
-        ls
+
+        Write-Output $AppxPackageBundleDir
+
+        # Go to bundle dir
+        Set-Location $AppxPackageBundleDir
+
+        Get-ChildItem
+
+        # Install the package
         ./Install.ps1 -Force
+
         Get-AppxPackage
 
     - name: Set full HD resolution
