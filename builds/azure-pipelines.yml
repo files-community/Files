@@ -4,6 +4,7 @@ trigger:
     - main
   paths:
     exclude:
+      - '.github/**'
       - 'docs/**'
       - '*.md'
 
