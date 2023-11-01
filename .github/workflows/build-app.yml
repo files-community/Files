@@ -25,7 +25,7 @@ env:
   PRIMARY_ARCHITECTURE: 'x64'
   PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-  TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  INTERACTION_TESTS_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
@@ -135,4 +135,7 @@ jobs:
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
     - name: Run UI tests
-      run: dotnet test
+      run: |
+        dotnet test "$env:INTERACTION_TESTS_PROJECT_PATH" `
+        -a $env:PRIMARY_ARCHITECTURE `
+        -c $env:CONFIGURATION
