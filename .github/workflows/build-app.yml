@@ -137,7 +137,6 @@ jobs:
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
     - name: Build interaction tests
-      shell: pwsh
       run: |
         msbuild $env:INTERACTION_TESTS_PROJECT_PATH `
         -t:Build `
@@ -145,7 +144,6 @@ jobs:
         -p:Platform=$env:PRIMARY_ARCHITECTURE
 
     - name: Run interaction tests
-      shell: pwsh
       run: |
         dotnet test $env:INTERACTION_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll `
         -a $env:PRIMARY_ARCHITECTURE `
