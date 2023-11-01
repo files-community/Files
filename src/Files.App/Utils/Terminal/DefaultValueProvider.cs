@@ -1,6 +1,6 @@
 ﻿using Windows.Foundation.Metadata;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal
 {
 	/// <summary>
 	/// Code modified from https://github.com/felixse/FluentTerminal

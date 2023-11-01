@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal
 {
 	/// <summary>
 	/// Code modified from https://github.com/felixse/FluentTerminal

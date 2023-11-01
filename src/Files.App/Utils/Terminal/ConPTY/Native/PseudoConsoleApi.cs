@@ -2,7 +2,7 @@ using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Terminal.Native
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// PInvoke signatures for win32 pseudo console api
@@ -19,15 +19,15 @@ namespace Files.App.Terminal.Native
 		}
 
 		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern int CreatePseudoConsole(COORD size, SafeFileHandle hInput, SafeFileHandle hOutput, uint dwFlags, out IntPtr phPC);
+		internal static extern int CreatePseudoConsole(COORD size, SafeFileHandle hInput, SafeFileHandle hOutput, uint dwFlags, out nint phPC);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern int ResizePseudoConsole(IntPtr hPC, COORD size);
+		internal static extern int ResizePseudoConsole(nint hPC, COORD size);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern int ClosePseudoConsole(IntPtr hPC);
+		internal static extern int ClosePseudoConsole(nint hPC);
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		internal static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, IntPtr lpPipeAttributes, int nSize);
+		internal static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, nint lpPipeAttributes, int nSize);
 	}
 }

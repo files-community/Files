@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
-using static Files.App.Terminal.Native.ProcessApi;
+using static Files.App.Utils.Terminal.ConPTY.ProcessApi;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// Support for starting and configuring processes.
@@ -15,25 +15,25 @@ namespace Files.App.Terminal
 		/// <summary>
 		/// Start and configure a process. The return value represents the process and should be disposed.
 		/// </summary>
-		internal static Process Start(string command, string directory, IntPtr attributes, IntPtr hPC)
+		internal static Process Start(string command, string directory, nint attributes, nint hPC)
 		{
 			var startupInfo = ConfigureProcessThread(hPC, attributes);
 			var processInfo = RunProcess(ref startupInfo, command, directory);
 			return new Process(startupInfo, processInfo);
 		}
 
-		private static STARTUPINFOEX ConfigureProcessThread(IntPtr hPC, IntPtr attributes)
+		private static STARTUPINFOEX ConfigureProcessThread(nint hPC, nint attributes)
 		{
 			// this method implements the behavior described in https://docs.microsoft.com/en-us/windows/console/creating-a-pseudoconsole-session#preparing-for-creation-of-the-child-process
 
-			var lpSize = IntPtr.Zero;
+			var lpSize = nint.Zero;
 			var success = InitializeProcThreadAttributeList(
-				lpAttributeList: IntPtr.Zero,
+				lpAttributeList: nint.Zero,
 				dwAttributeCount: 1,
 				dwFlags: 0,
 				lpSize: ref lpSize
 			);
-			if (success || lpSize == IntPtr.Zero) // we're not expecting `success` here, we just want to get the calculated lpSize
+			if (success || lpSize == nint.Zero) // we're not expecting `success` here, we just want to get the calculated lpSize
 			{
 				throw new InvalidOperationException("Could not calculate the number of bytes for the attribute list. " + Marshal.GetLastWin32Error());
 			}
@@ -58,9 +58,9 @@ namespace Files.App.Terminal
 				dwFlags: 0,
 				attribute: attributes,
 				lpValue: hPC,
-				cbSize: (IntPtr)IntPtr.Size,
-				lpPreviousValue: IntPtr.Zero,
-				lpReturnSize: IntPtr.Zero
+				cbSize: nint.Size,
+				lpPreviousValue: nint.Zero,
+				lpReturnSize: nint.Zero
 			);
 			if (!success)
 			{
@@ -82,7 +82,7 @@ namespace Files.App.Terminal
 				lpThreadAttributes: ref tSec,
 				bInheritHandles: false,
 				dwCreationFlags: EXTENDED_STARTUPINFO_PRESENT,
-				lpEnvironment: IntPtr.Zero,
+				lpEnvironment: nint.Zero,
 				lpCurrentDirectory: directory,
 				lpStartupInfo: ref sInfoEx,
 				lpProcessInformation: out PROCESS_INFORMATION pInfo

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal
 {
 	/// <summary>
 	/// Code modified from https://github.com/felixse/FluentTerminal
@@ -61,7 +61,7 @@ namespace Files.App.Terminal
 			Name = other.Name;
 			Author = other.Author;
 			PreInstalled = other.PreInstalled;
-			Colors = new TerminalColors(other.Colors);;
+			Colors = new TerminalColors(other.Colors); ;
 		}
 
 		public Guid Id { get; set; }

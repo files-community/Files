@@ -1,8 +1,8 @@
 using Microsoft.Win32.SafeHandles;
 using System;
-using static Files.App.Terminal.Native.PseudoConsoleApi;
+using static Files.App.Utils.Terminal.ConPTY.PseudoConsoleApi;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// A pipe used to talk to the pseudoconsole, as described in:
@@ -18,7 +18,7 @@ namespace Files.App.Terminal
 
 		public PseudoConsolePipe()
 		{
-			if (!CreatePipe(out ReadSide, out WriteSide, IntPtr.Zero, 0))
+			if (!CreatePipe(out ReadSide, out WriteSide, nint.Zero, 0))
 			{
 				throw new InvalidOperationException("failed to create pipe");
 			}

@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
-using static Files.App.Terminal.Native.ProcessApi;
+using static Files.App.Utils.Terminal.ConPTY.ProcessApi;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// Represents an instance of a process.
@@ -34,18 +34,18 @@ namespace Files.App.Terminal
 				// dispose unmanaged state
 
 				// Free the attribute list
-				if (StartupInfo.lpAttributeList != IntPtr.Zero)
+				if (StartupInfo.lpAttributeList != nint.Zero)
 				{
 					DeleteProcThreadAttributeList(StartupInfo.lpAttributeList);
 					Marshal.FreeHGlobal(StartupInfo.lpAttributeList);
 				}
 
 				// Close process and thread handles
-				if (ProcessInfo.hProcess != IntPtr.Zero)
+				if (ProcessInfo.hProcess != nint.Zero)
 				{
 					CloseHandle(ProcessInfo.hProcess);
 				}
-				if (ProcessInfo.hThread != IntPtr.Zero)
+				if (ProcessInfo.hThread != nint.Zero)
 				{
 					CloseHandle(ProcessInfo.hThread);
 				}
