@@ -140,7 +140,7 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind HeaderTooltip, Mode=OneWay}" />
 
 							</StackPanel>
 
@@ -235,12 +235,12 @@
 								CornerRadius="4"
 								Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-								<Grid Padding="-2,0">
+								<Grid Padding="-2,-2,-2,-2">
 
 									<!--  Background Fill  -->
 									<livecharts2:CartesianChart
 										x:Name="BackgroundCartesianChart"
-										Height="70"
+										Height="72"
 										VerticalAlignment="Bottom"
 										AnimationsSpeed="00:00:00.001"
 										Series="{x:Bind SpeedGraphBackgroundSeries, Mode=OneWay}"

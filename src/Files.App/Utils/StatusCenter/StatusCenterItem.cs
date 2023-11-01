@@ -182,6 +182,9 @@ namespace Files.App.Utils.StatusCenter
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
 
+		public string? HeaderTooltip
+			=> string.IsNullOrWhiteSpace(SubHeader) ? SubHeader : Header;
+
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
 		private readonly CancellationTokenSource? _operationCancellationToken;
@@ -389,6 +392,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			StatusCenterHelper.UpdateCardStrings(this);
+			OnPropertyChanged(nameof(HeaderTooltip));
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -443,6 +447,7 @@ namespace Files.App.Utils.StatusCenter
 
 			// Update UI for strings
 			StatusCenterHelper.UpdateCardStrings(this);
+			OnPropertyChanged(nameof(HeaderTooltip));
 
 			// Graph item point
 			ObservablePoint point;
