@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -42,6 +43,6 @@ namespace Files.App.UserControls.Sidebar
 		/// Gets invoked when an item is invoked (double clicked) on any item of the sidebar.
 		/// </summary>
 		/// <param name="item">The item that was invoked.</param>
-		void HandleItemInvokedAsync(object item);
+		void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind);
 	}
 }

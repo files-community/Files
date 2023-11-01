@@ -39,14 +39,14 @@ namespace Files.App.UserControls.Sidebar
 			SelectedItemContainer = container;
 		}
 
-		internal void RaiseItemInvoked(SidebarItem item)
+		internal void RaiseItemInvoked(SidebarItem item, PointerUpdateKind pointerUpdateKind)
 		{
 			// Only leaves can be selected
 			if (item.Item is null || item.IsGroupHeader) return;
 
 			SelectedItem = item.Item;
 			ItemInvoked?.Invoke(item, item.Item);
-			ViewModel.HandleItemInvokedAsync(item.Item);
+			ViewModel.HandleItemInvokedAsync(item.Item, pointerUpdateKind);
 		}
 
 		internal void RaiseContextRequested(SidebarItem item, Point e)
