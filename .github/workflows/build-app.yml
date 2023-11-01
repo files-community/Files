@@ -12,8 +12,18 @@ on:
       - 'docs/**'
       - '*.md'
 
+env:
+  APPLICATION_NAME: 'Files'
+  SOLUTION_NAME: 'Files.sln'
+  PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
+  TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+  ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
+  APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+
 jobs:
-  build-test:
+  build:
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -21,17 +31,9 @@ jobs:
         configuration: [Debug]
         platform: [x64, arm64]
     env:
-      APPLICATION_NAME: 'Files'
-      SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
       APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
-      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
-      APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
 
     steps:
     - name: Checkout the repository
@@ -52,7 +54,7 @@ jobs:
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
-    - name: Restore ${{ env.APPLICATION_NAME }}
+    - name: Restore Files
       shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
@@ -61,9 +63,11 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build & Publish ${{ env.APPLICATION_NAME }}
+    - name: Build & Publish Files
       run: |
-        msbuild
+        msbuild $env:SOLUTION_NAME `
+        -t:Build `
+        -t:_GenerateAppxPackage `
         -p:Configuration=$env:CONFIGURATION `
         -p:Platform=$env:PLATFORM `
         -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
@@ -71,6 +75,31 @@ jobs:
         -p:UapAppxPackageBuildMode=SideloadOnly `
         -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
         -p:AppxPackageSigningEnabled=true
+
+    - name: Upload the packages to GitHub Actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+  test:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug]
+        platform: [x64, arm64]
+    env:
+      CONFIGURATION: ${{ matrix.configuration }}
+      PLATFORM: ${{ matrix.platform }}
+      APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
+
+    steps:
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.APPX_PACKAGE_DIR }}
 
     - name: Install package
       shell: pwsh
