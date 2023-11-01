@@ -131,7 +131,7 @@ namespace Files.App.UserControls
 			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
 			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(
 				"terminal.files",
-				Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Utils", "Terminal", "UI"),
+				Path.Combine(Package.Current.InstalledLocation.Path, "Utils", "Terminal", "UI"),
 				CoreWebView2HostResourceAccessKind.DenyCors);
 			WebViewControl.Source = new Uri("http://terminal.files/index.html");
 
