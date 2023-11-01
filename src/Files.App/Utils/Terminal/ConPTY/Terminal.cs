@@ -2,9 +2,9 @@ using Microsoft.Win32.SafeHandles;
 using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
-using static Files.App.Terminal.Native.ConsoleApi;
+using static Files.App.Utils.Terminal.ConPTY.ConsoleApi;
 
-namespace Files.App.Terminal
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// The UI of the terminal. It's just a normal console window, but we're managing the input/output.
@@ -34,7 +34,7 @@ namespace Files.App.Terminal
 		{
 			// By default, UI applications don't have a console associated with them.
 			// So first, we check to see if this process has a console.
-			if (GetConsoleWindow() == IntPtr.Zero)
+			if (GetConsoleWindow() == nint.Zero)
 			{
 				// If it doesn't ask Windows to allocate one to it for us.
 				bool createConsoleSuccess = AllocConsole();
@@ -141,9 +141,9 @@ namespace Files.App.Terminal
 				null,
 				FileMode.Open,
 				FileFlagsAndAttributes.FILE_ATTRIBUTE_NORMAL,
-				IntPtr.Zero);
+				nint.Zero);
 
-			if (file == new IntPtr(-1))
+			if (file == new nint(-1))
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not get console screen buffer.");
 			}

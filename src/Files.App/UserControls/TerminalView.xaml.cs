@@ -1,6 +1,7 @@
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Terminal;
+using Files.App.Utils.Terminal;
+using Files.App.Utils.Terminal.ConPTY;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -114,7 +115,7 @@ namespace Files.App.UserControls
 
 		public WebView2 WebView => WebViewControl;
 
-		private Terminal.Terminal _terminal;
+		private Terminal _terminal;
 		private BufferedReader _reader;
 
 		public TerminalView()
@@ -130,7 +131,7 @@ namespace Files.App.UserControls
 			WebViewControl.NavigationStarting += WebViewControl_NavigationStarting;
 			WebViewControl.CoreWebView2.SetVirtualHostNameToFolderMapping(
 				"terminal.files",
-				Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Terminal", "UI"),
+				Path.Combine(Package.Current.InstalledLocation.Path, "Files.App", "Utils", "Terminal", "UI"),
 				CoreWebView2HostResourceAccessKind.DenyCors);
 			WebViewControl.Source = new Uri("http://terminal.files/index.html");
 
@@ -350,7 +351,7 @@ namespace Files.App.UserControls
 				? $"\"{profile.Location}\" {profile.Arguments}"
 				: profile.Arguments;
 
-			_terminal = new Terminal.Terminal();
+			_terminal = new Terminal();
 			_terminal.OutputReady += (s, e) =>
 			{
 				_reader = new BufferedReader(_terminal.ConsoleOutStream, OutputReceivedCallback, true);

@@ -1,7 +1,7 @@
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Terminal.Native
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// PInvoke signatures for win32 console api
@@ -16,7 +16,7 @@ namespace Files.App.Terminal.Native
 		internal static extern bool AllocConsole();
 
 		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern IntPtr GetConsoleWindow();
+		internal static extern nint GetConsoleWindow();
 
 		[DllImport("kernel32.dll", SetLastError = true)]
 		internal static extern SafeFileHandle GetStdHandle(int nStdHandle);

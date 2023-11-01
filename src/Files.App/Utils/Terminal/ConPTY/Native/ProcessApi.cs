@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Files.App.Terminal.Native
+namespace Files.App.Utils.Terminal.ConPTY
 {
 	/// <summary>
 	/// PInvoke signatures for win32 process api
@@ -14,37 +14,37 @@ namespace Files.App.Terminal.Native
 		internal struct STARTUPINFOEX
 		{
 			public STARTUPINFO StartupInfo;
-			public IntPtr lpAttributeList;
+			public nint lpAttributeList;
 		}
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 		internal struct STARTUPINFO
 		{
-			public Int32 cb;
+			public int cb;
 			public string lpReserved;
 			public string lpDesktop;
 			public string lpTitle;
-			public Int32 dwX;
-			public Int32 dwY;
-			public Int32 dwXSize;
-			public Int32 dwYSize;
-			public Int32 dwXCountChars;
-			public Int32 dwYCountChars;
-			public Int32 dwFillAttribute;
-			public Int32 dwFlags;
-			public Int16 wShowWindow;
-			public Int16 cbReserved2;
-			public IntPtr lpReserved2;
-			public IntPtr hStdInput;
-			public IntPtr hStdOutput;
-			public IntPtr hStdError;
+			public int dwX;
+			public int dwY;
+			public int dwXSize;
+			public int dwYSize;
+			public int dwXCountChars;
+			public int dwYCountChars;
+			public int dwFillAttribute;
+			public int dwFlags;
+			public short wShowWindow;
+			public short cbReserved2;
+			public nint lpReserved2;
+			public nint hStdInput;
+			public nint hStdOutput;
+			public nint hStdError;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		internal struct PROCESS_INFORMATION
 		{
-			public IntPtr hProcess;
-			public IntPtr hThread;
+			public nint hProcess;
+			public nint hThread;
 			public int dwProcessId;
 			public int dwThreadId;
 		}
@@ -53,34 +53,34 @@ namespace Files.App.Terminal.Native
 		internal struct SECURITY_ATTRIBUTES
 		{
 			public int nLength;
-			public IntPtr lpSecurityDescriptor;
+			public nint lpSecurityDescriptor;
 			public int bInheritHandle;
 		}
 
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool InitializeProcThreadAttributeList(
-			IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
+			nint lpAttributeList, int dwAttributeCount, int dwFlags, ref nint lpSize);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool UpdateProcThreadAttribute(
-			IntPtr lpAttributeList, uint dwFlags, IntPtr attribute, IntPtr lpValue,
-			IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
+			nint lpAttributeList, uint dwFlags, nint attribute, nint lpValue,
+			nint cbSize, nint lpPreviousValue, nint lpReturnSize);
 
 		[DllImport("kernel32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool CreateProcess(
 			string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
 			ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags,
-			IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,
+			nint lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,
 			out PROCESS_INFORMATION lpProcessInformation);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		internal static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
+		internal static extern bool DeleteProcThreadAttributeList(nint lpAttributeList);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
-		internal static extern bool CloseHandle(IntPtr hObject);
+		internal static extern bool CloseHandle(nint hObject);
 	}
 }
