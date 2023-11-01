@@ -143,6 +143,6 @@ jobs:
     - name: Run interaction tests
       shell: pwsh
       run: |
-        dotnet test $env:INTERACTION_TESTS_PROJECT_DIR\**\Files.InteractionTests.dll `
+        dotnet test $env:INTERACTION_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll `
         -a $env:PRIMARY_ARCHITECTURE `
         -c $env:CONFIGURATION
