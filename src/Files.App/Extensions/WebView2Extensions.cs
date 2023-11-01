@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using Windows.Foundation;
 
-namespace Files.App.UserControls
+namespace Files.App.Extensions
 {
 	/// <summary>
 	/// Code modified from https://gist.github.com/mqudsi/ceb4ecee76eb4c32238a438664783480
@@ -146,7 +146,7 @@ namespace Files.App.UserControls
 								var awaiter = resultType.GetMethod(nameof(Task.GetAwaiter));
 								if (awaiter is object)
 								{
-									task = (dynamic)result;
+									task = result;
 								}
 							}
 							if (task is object)
