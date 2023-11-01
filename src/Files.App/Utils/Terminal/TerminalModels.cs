@@ -61,7 +61,7 @@ namespace Files.App.Utils.Terminal
 			Name = other.Name;
 			Author = other.Author;
 			PreInstalled = other.PreInstalled;
-			Colors = new TerminalColors(other.Colors); ;
+			Colors = new TerminalColors(other.Colors);
 		}
 
 		public Guid Id { get; set; }
