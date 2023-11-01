@@ -1,4 +1,11 @@
-name: Build Files
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Abstract:
+#   This CI is triggered when a commit was added in the main branch directly or
+#   a commit was added in a PR whose base branch is the main branch within this repository.
+
+name: Build & test Files
 
 on:
   push:
@@ -15,6 +22,7 @@ on:
 env:
   APPLICATION_NAME: 'Files'
   SOLUTION_NAME: 'Files.sln'
+  PRIMARY_ARCHITECTURE: 'x64'
   PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
   TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
@@ -33,8 +41,7 @@ jobs:
         platform: [x64, arm64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM: ${{ matrix.platform }}
-      APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
+      ARCHITECTURE: ${{ matrix.platform }}
 
     steps:
     - name: Checkout the repository
@@ -60,18 +67,28 @@ jobs:
       run: |
         msbuild $env:SOLUTION_NAME `
         -t:Restore `
-        -p:Platform=$env:PLATFORM `
+        -p:Platform=$env:ARCHITECTURE `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build & Publish Files
+    - if: env.ARCHITECTURE != env.PRIMARY_ARCHITECTURE
+      name: Build Files
+      run: |
+        msbuild $env:PACKAGE_PROJECT_PATH `
+        -t:Build `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:Platform=$env:ARCHITECTURE `
+        -p:AppxBundle=Never
+  
+    - if: env.ARCHITECTURE == env.PRIMARY_ARCHITECTURE
+      name: Build & Publish Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
         -t:_GenerateAppxPackage `
         -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:PLATFORM `
-        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+        -p:Platform=$env:ARCHITECTURE `
+        -p:AppxBundlePlatforms=$env:PRIMARY_ARCHITECTURE `
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=SideloadOnly `
         -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
@@ -80,10 +97,11 @@ jobs:
         -p:PackageCertificatePassword="" `
         -p:PackageCertificateThumbprint=""
 
-    - name: Upload the packages to GitHub Actions
+    - if: env.ARCHITECTURE == env.PRIMARY_ARCHITECTURE
+      name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PRIMARY_ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
@@ -93,26 +111,23 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [Debug]
-        platform: [x64, arm64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM: ${{ matrix.platform }}
-      APPX_BUNDLE_PLATFORMS: ${{ matrix.platform }}
 
     steps:
 
     - uses: actions/download-artifact@v3
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PRIMARY_ARCHITECTURE }})'
         path: ${{ env.APPX_PACKAGE_DIR }}
 
     - name: Install package
       shell: pwsh
       run: |
         cd "$env:APPX_PACKAGE_DIR"
-        $AppBundle = Get-ChildItem -Filter Files*Test -Name
-        echo $AppBundle
-        cd $AppBundle
+        $AppxPackageBundleDir = Get-ChildItem -Filter "Files.Package_*_$env:CONFIGURATION_Test" -Name
+        echo $AppxPackageBundleDir
+        cd $AppxPackageBundleDir
         ls
         ./Install.ps1 -Force
         Get-AppxPackage
@@ -120,5 +135,5 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Execute UI tests
+    - name: Run UI tests
       run: dotnet test
