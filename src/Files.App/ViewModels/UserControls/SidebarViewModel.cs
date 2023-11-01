@@ -725,9 +725,9 @@ namespace Files.App.ViewModels.UserControls
 			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
 			if ((ctrlPressed ||
 				middleClickPressed) &&
-				navigationPath is not null)
+				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
 				return;
 			}
 
