@@ -26,6 +26,7 @@ env:
   SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
   PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+  INTERACTION_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
   INTERACTION_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
@@ -135,8 +136,13 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Run UI tests
+    - name: Build interaction tests
+      shell: pwsh
+      run: 'dotnet build $env:INTERACTION_TESTS_PROJECT_PATH'
+
+    - name: Run interaction tests
+      shell: pwsh
       run: |
-        dotnet test "$env:INTERACTION_TESTS_PROJECT_PATH" `
+        dotnet test $env:INTERACTION_TESTS_PROJECT_DIR\**\Files.InteractionTests.dll `
         -a $env:PRIMARY_ARCHITECTURE `
         -c $env:CONFIGURATION
