@@ -127,9 +127,8 @@ jobs:
       run: |
         Set-Location "$env:APPX_PACKAGE_DIR"
         $AppxPackageBundleDir = Get-ChildItem -Filter Files.Package_*_Test -Name
-        Write-Output $AppxPackageBundleDir
         Set-Location $AppxPackageBundleDir
-        Get-ChildItem
+        Import-Module Appx
         ./Install.ps1 -Force
         Get-AppxPackage
 
