@@ -150,6 +150,10 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_PATH'
+
     - name: Build interaction tests
       run: |
         msbuild $env:INTERACTION_TESTS_PROJECT_PATH `
