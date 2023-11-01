@@ -62,6 +62,9 @@ namespace Files.App.UserControls.TabBar
 		/// <summary> Starting time when dragging a tab. </summary>
 		private DateTimeOffset dragStartTime;
 
+		/// <summary> Cancel the tag drag event. </summary>
+		private bool cancelTagDrag;
+
 		public TabBar()
 		{
 			InitializeComponent();
@@ -139,9 +142,19 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
 		{
+			cancelTagDrag = false;
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
+
+			PreviewKeyDown += (s, e) =>
+			{
+				if (e.Key is Windows.System.VirtualKey.Escape)
+				{
+					args.Cancel = true;
+					cancelTagDrag = true;
+				}
+			};
 
 			InteropHelpers.GetCursorPos(out dragStartPoint);
 			dragStartTime = DateTimeOffset.UtcNow;
@@ -202,6 +215,9 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
+			if (cancelTagDrag)
+				return;
+
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
 			{
@@ -220,6 +236,9 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
+			if (cancelTagDrag)
+				return;
+
 			InteropHelpers.GetCursorPos(out var droppedPoint);
 			var droppedTime = DateTimeOffset.UtcNow;
 			var dragTime = droppedTime - dragStartTime;
