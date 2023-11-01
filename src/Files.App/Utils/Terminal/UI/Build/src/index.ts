@@ -69,6 +69,7 @@ window.createTerminal = (options, theme, keyBindings) => {
   }
 
   theme = JSON.parse(theme);
+  document.body.style.background = theme.background;
 
   window.keyBindings = JSON.parse(keyBindings);
   window.hoveredUri = "";
@@ -276,6 +277,7 @@ window.createTerminal = (options, theme, keyBindings) => {
 window.changeTheme = (theme) => {
   theme = JSON.parse(theme);
   term.setOption('theme', theme);
+  document.body.style.background = theme.background;
 }
 
 window.changeOptions = (options) => {

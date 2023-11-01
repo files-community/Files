@@ -144,7 +144,6 @@ namespace Files.App.UserControls
 			var profile = _mainPageModel.TerminalSelectedProfile;
 			var theme = provider.GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
 
-			WebViewControl.DefaultBackgroundColor = ColorHelpers.FromHex(theme.Colors.Background);
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 
 			var size = await CreateXtermViewAsync(options, theme.Colors,
@@ -482,7 +481,6 @@ namespace Files.App.UserControls
 			theme.Colors.CursorAccent = backgroundColor;
 			theme.Colors.Cursor = foregroundColor;
 
-			WebViewControl.DefaultBackgroundColor = ColorHelpers.FromHex(backgroundColor);
 			WebViewControl.CoreWebView2.Profile.PreferredColorScheme = (ActualTheme == Microsoft.UI.Xaml.ElementTheme.Dark) ? CoreWebView2PreferredColorScheme.Dark : CoreWebView2PreferredColorScheme.Light;
 
 			var serializedTheme = JsonConvert.SerializeObject(theme.Colors, serializerSettings);
