@@ -128,7 +128,7 @@ jobs:
         Set-Location "$env:APPX_PACKAGE_DIR"
         $AppxPackageBundleDir = Get-ChildItem -Filter Files.Package_*_Test -Name
         Set-Location $AppxPackageBundleDir
-        Import-Module Appx -UseWindowsPowerShell
+        Import-Module Appx -UseWindowsPowerShell -SkipEditionCheck
         ./Install.ps1 -Force
         Get-AppxPackage
 
