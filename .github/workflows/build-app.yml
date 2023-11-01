@@ -123,12 +123,11 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     - name: Install package
-      shell: pwsh
+      shell: powershell
       run: |
         Set-Location "$env:APPX_PACKAGE_DIR"
         $AppxPackageBundleDir = Get-ChildItem -Filter Files.Package_*_Test -Name
         Set-Location $AppxPackageBundleDir
-        Import-Module Appx -UseWindowsPowerShell -SkipEditionCheck
         ./Install.ps1 -Force
         Get-AppxPackage
 
