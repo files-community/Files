@@ -139,7 +139,7 @@ jobs:
     - name: Build interaction tests
       shell: pwsh
       run: |
-        msbuild $env:INTERACTION_TESTS_PROJECT_PATH
+        msbuild $env:INTERACTION_TESTS_PROJECT_PATH `
         -t:Build `
         -p:Configuration=$env:CONFIGURATION `
         -p:Platform=$env:PRIMARY_ARCHITECTURE
