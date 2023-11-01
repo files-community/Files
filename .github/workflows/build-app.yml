@@ -18,9 +18,10 @@ env:
   PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
   TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
+  WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\builds\Files_SelfSigned.pfx'
 
 jobs:
   build:
@@ -74,7 +75,10 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=SideloadOnly `
         -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
-        -p:AppxPackageSigningEnabled=true
+        -p:AppxPackageSigningEnabled=true `
+        -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
+        -p:PackageCertificatePassword="" `
+        -p:PackageCertificateThumbprint=""
 
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
