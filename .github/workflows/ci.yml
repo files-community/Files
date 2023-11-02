@@ -5,7 +5,7 @@
 #   This CI is triggered when a commit was added in the main branch directly or
 #   a commit was added in a PR whose base branch is the main branch within this repository.
 
-name: Build & test Files
+name: Files CI
 
 on:
   push:
