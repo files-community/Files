@@ -150,6 +150,9 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
+    - name: Start WinAppDriver
+      run: Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
+
     - name: Restore NuGet
       shell: pwsh
       run: 'nuget restore $env:SOLUTION_PATH'
