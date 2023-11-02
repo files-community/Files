@@ -147,6 +147,11 @@ namespace Files.App.UserControls.TabBar
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 
+			InteropHelpers.GetCursorPos(out dragStartPoint);
+			dragStartTime = DateTimeOffset.UtcNow;
+
+			// Force focus in order that the keydown event works
+			Focus(FocusState.Programmatic);
 			PreviewKeyDown += (s, e) =>
 			{
 				if (e.Key is Windows.System.VirtualKey.Escape)
@@ -155,9 +160,6 @@ namespace Files.App.UserControls.TabBar
 					cancelTagDrag = true;
 				}
 			};
-
-			InteropHelpers.GetCursorPos(out dragStartPoint);
-			dragStartTime = DateTimeOffset.UtcNow;
 		}
 
 		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
