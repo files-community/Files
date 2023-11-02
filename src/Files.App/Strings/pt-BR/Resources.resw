@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Este dispositivo está em uso. Feche todos os programas, janelas ou guias que possam estar usando o dispositivo e tente novamente.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Ejetar</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -1390,7 +1390,7 @@
     <value>a Lixeira</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Cancelando</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Limpar</value>
@@ -3262,13 +3262,13 @@
     <value>Iniciar em:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>
+    <value>Ativar BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Gerenciar BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>The following items are too large to be copied to this drive</value>
+    <value>Os seguintes itens são muito grandes para serem copiados para esta unidade</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Formatar unidade</value>
@@ -3280,7 +3280,7 @@
     <value>Files está sendo executado como administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>Devido a limitações da plataforma, arrastar e soltar não está disponível ao executar Files como administrador.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Leave app running in the background when the window is closed</value>
@@ -3365,10 +3365,10 @@
     <value>Limpar concluídos</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Nome:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>{0} de {1} processado</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
@@ -3384,10 +3384,10 @@
     <value>Adicionar página</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Processando itens...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Veocidade:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3583,5 +3583,11 @@
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Desbloquear arquivo baixado</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>No ongoing file operations</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

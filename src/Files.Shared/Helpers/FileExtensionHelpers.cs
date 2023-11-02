@@ -153,6 +153,17 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 		}
+		
+		/// <summary>
+		/// Check if the file extension is a screen saver file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a screen saver file; otherwise, <c>false</c>.</returns>
+		/// <remarks>Screen saver file types are; scr</remarks>
+		public static bool IsScreenSaverFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".scr");
+		}
 
 		/// <summary>
 		/// Check if the file extension is a media (audio/video) file.

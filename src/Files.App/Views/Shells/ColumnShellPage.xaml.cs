@@ -52,7 +52,7 @@ namespace Files.App.Views.Shells
 
 			ColumnParams = eventArgs.Parameter as ColumnParam;
 			if (ColumnParams?.IsLayoutSwitch ?? false)
-				FilesystemViewModel_DirectoryInfoUpdatedAsync(this, EventArgs.Empty);
+				FilesystemViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
 		}
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
@@ -79,7 +79,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
 			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
 			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdatedAsync;
+			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
 			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
@@ -98,7 +98,7 @@ namespace Files.App.Views.Shells
 				UpdatePathUIToWorkingDirectory(value);
 		}
 
-		private async void ItemDisplayFrame_NavigatedAsync(object sender, NavigationEventArgs e)
+		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
 
@@ -122,7 +122,7 @@ namespace Files.App.Views.Shells
 			};
 		}
 
-		private async void KeyboardAccelerator_InvokedAsync(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
 		{
 			args.Handled = true;
 			var tabInstance =

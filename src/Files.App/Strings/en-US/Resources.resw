@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Eject</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -3586,5 +3586,8 @@
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>No ongoing file operations</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

@@ -142,7 +142,7 @@
     <value>Size on disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Некомпресиран размер:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Това действие не може да се извърши</value>
@@ -160,10 +160,10 @@
     <value>Избор на всичко</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Обръщане на избора</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Изчистване на избраното</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Дата на промяна:</value>
@@ -277,7 +277,7 @@
     <value>Добре Дошли във Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Даване на разрешение</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>За да започнете, ще трябва да ни дадете разрешение да показваме вашите файлове. Това ще отвори страница с Настройки, където можете да ни предоставите това разрешение. Ще трябва да отворите отново приложението, след като завършите тази стъпка.</value>
@@ -289,7 +289,7 @@
     <value>Въведете име на елемент</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Задай име</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светъл</value>
@@ -304,10 +304,10 @@
     <value>Система</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Нова папка</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Нов файл</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Тази папка е празна.</value>
@@ -343,7 +343,7 @@
     <value>Моля, включете необходимото устройство за достъп до този елемент.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Устройството е изключено</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Файлът, до който се опитвате да осъществите достъп, може да е преместен или изтрит.</value>
@@ -613,7 +613,7 @@
     <value>Отказ</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Създаване на нов елемент</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Изберете тип за този нов елемент по-долу</value>
@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Това устройство в момента се използва. Затворете всички програми, прозорци или раздели, които може да използват устройството, и след това опитайте отново.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Извади</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -1051,7 +1051,7 @@
     <value>Желано име</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Toggle the preview pane</value>
+    <value>Превключване на панела за визуализация</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Няма налична визуализация</value>
@@ -1207,7 +1207,7 @@
     <value>Библиотека със същото име вече съществува!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Отвори Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копирай</value>
@@ -1390,7 +1390,7 @@
     <value>кошчето</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Отмяна</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Изчистване</value>
@@ -1450,7 +1450,7 @@
     <value>Неизвестен собственик</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract archive</value>
+    <value>Извличане на архив</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Отвори целевата папка, когато приключи</value>
@@ -1687,7 +1687,7 @@
     <value>Част от комплект</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open drive</value>
+    <value>Отвори диск</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Моля, поставете диск в устройство {0}</value>
@@ -1699,7 +1699,7 @@
     <value>Добре</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential required</value>
+    <value>Изискват се идентификационни данни</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Анонимен</value>
@@ -1729,13 +1729,13 @@
     <value>Колони</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Големи икони</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium icons</value>
+    <value>Средни икони</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Малки икони</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Плочки</value>
@@ -1780,10 +1780,10 @@
     <value>Път на папката</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Експортиране на настройки</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Импортиране на настройки</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Настройките не можаха да се импортират. Файлът с настройките е повреден.</value>
@@ -1897,7 +1897,7 @@
     <value>Скорошни файлове</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>Изпълни Files при стартиране на Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Атрибути</value>
@@ -1918,7 +1918,7 @@
     <value>Тип</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
+    <value>Решетка с икони</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>байтове</value>
@@ -2197,7 +2197,7 @@
     <value>Наскоро употребявани файлове в момента са изключени в Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Редактиране на файла с настройки</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
@@ -2239,7 +2239,7 @@
     <value>Въведете данните си за вход за свързване към: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>Въведете мрежови данни за вход</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Запомняне на данните ми за вход</value>
@@ -2308,10 +2308,10 @@
     <value>Прилагане на това действие за всички конфликтни елементи</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>Отвори в Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>Отваряне в Windows Terminal като администратор</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Запазване</value>
@@ -3583,5 +3583,11 @@
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>No ongoing file operations</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

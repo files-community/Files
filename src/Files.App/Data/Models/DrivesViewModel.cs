@@ -40,17 +40,17 @@ namespace Files.App.Data.Models
 			watcher = removableDrivesService.CreateWatcher();
 			watcher.DeviceAdded += Watcher_DeviceAdded;
 			watcher.DeviceRemoved += Watcher_DeviceRemoved;
-			watcher.DeviceModified += Watcher_DeviceModifiedAsync;
-			watcher.EnumerationCompleted += Watcher_EnumerationCompletedAsync;
+			watcher.DeviceModified += Watcher_DeviceModified;
+			watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
 		}
 
-		private async void Watcher_EnumerationCompletedAsync(object? sender, System.EventArgs e)
+		private async void Watcher_EnumerationCompleted(object? sender, System.EventArgs e)
 		{
 			logger.LogDebug("Watcher_EnumerationCompleted");
 			await folderSizeProvider.CleanAsync();
 		}
 
-		private async void Watcher_DeviceModifiedAsync(object? sender, string e)
+		private async void Watcher_DeviceModified(object? sender, string e)
 		{
 			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
@@ -68,7 +68,7 @@ namespace Files.App.Data.Models
 			}
 
 			// Update the collection on the ui-thread.
-			Watcher_EnumerationCompletedAsync(null, EventArgs.Empty);
+			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 
 		private void Watcher_DeviceAdded(object? sender, ILocatableFolder e)
@@ -90,7 +90,7 @@ namespace Files.App.Data.Models
 				Drives.Add(e);
 			}
 
-			Watcher_EnumerationCompletedAsync(null, EventArgs.Empty);
+			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 
 		public async Task UpdateDrivesAsync()
@@ -116,8 +116,8 @@ namespace Files.App.Data.Models
 			watcher.Stop();
 			watcher.DeviceAdded -= Watcher_DeviceAdded;
 			watcher.DeviceRemoved -= Watcher_DeviceRemoved;
-			watcher.DeviceModified -= Watcher_DeviceModifiedAsync;
-			watcher.EnumerationCompleted -= Watcher_EnumerationCompletedAsync;
+			watcher.DeviceModified -= Watcher_DeviceModified;
+			watcher.EnumerationCompleted -= Watcher_EnumerationCompleted;
 		}
 	}
 }

@@ -239,21 +239,21 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			CreateItemHomeAsync();
 
-			Manager_DataChangedAsync(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Manager_DataChangedAsync(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.Favorites, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.Drives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.CloudDrives, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.Network, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.WSL, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			Manager_DataChanged(SectionType.FileTag, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			App.QuickAccessManager.Model.DataChanged += Manager_DataChangedAsync;
-			App.LibraryManager.DataChanged += Manager_DataChangedAsync;
-			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChangedAsync(SectionType.Drives, args);
-			App.CloudDrivesManager.DataChanged += Manager_DataChangedAsync;
-			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChangedAsync(SectionType.Network, args);
-			App.WSLDistroManager.DataChanged += Manager_DataChangedAsync;
-			App.FileTagsManager.DataChanged += Manager_DataChangedAsync;
+			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
+			App.LibraryManager.DataChanged += Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			App.CloudDrivesManager.DataChanged += Manager_DataChanged;
+			networkDrivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
+			App.WSLDistroManager.DataChanged += Manager_DataChanged;
+			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
 
 			HideSectionCommand = new RelayCommand(HideSection);
@@ -273,7 +273,7 @@ namespace Files.App.ViewModels.UserControls
 			return CreateSectionAsync(SectionType.Home);
 		}
 
-		private async void Manager_DataChangedAsync(object sender, NotifyCollectionChangedEventArgs e)
+		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
@@ -587,7 +587,7 @@ namespace Files.App.ViewModels.UserControls
 					_ => () => Task.CompletedTask
 				};
 
-				Manager_DataChangedAsync(sectionType, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+				Manager_DataChanged(sectionType, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 				await action();
 			}
@@ -642,13 +642,13 @@ namespace Files.App.ViewModels.UserControls
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
-			App.QuickAccessManager.Model.DataChanged -= Manager_DataChangedAsync;
-			App.LibraryManager.DataChanged -= Manager_DataChangedAsync;
-			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChangedAsync(SectionType.Drives, args);
-			App.CloudDrivesManager.DataChanged -= Manager_DataChangedAsync;
-			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChangedAsync(SectionType.Network, args);
-			App.WSLDistroManager.DataChanged -= Manager_DataChangedAsync;
-			App.FileTagsManager.DataChanged -= Manager_DataChangedAsync;
+			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
+			App.LibraryManager.DataChanged -= Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			App.CloudDrivesManager.DataChanged -= Manager_DataChanged;
+			networkDrivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
+			App.WSLDistroManager.DataChanged -= Manager_DataChanged;
+			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
 
 		public void UpdateTabControlMargin()
@@ -699,21 +699,21 @@ namespace Files.App.ViewModels.UserControls
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			if (item.MenuOptions.ShowShellItems)
-				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_OpenedAsync;
+				itemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 
 			itemContextMenuFlyout.ShowAt(sidebarItem, new FlyoutShowOptions { Position = args.Position });
 		}
 
-		private async void ItemContextMenuFlyout_OpenedAsync(object? sender, object e)
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
 			if (sender is not CommandBarFlyout itemContextMenuFlyout)
 				return;
 
-			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_OpenedAsync;
+			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
-		public async void HandleItemInvokedAsync(object item)
+		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
 		{
 			if (item is not INavigationControlItem navigationControlItem) return;
 			var navigationPath = item as string;
@@ -722,9 +722,12 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed && navigationPath is not null)
+			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
+			if ((ctrlPressed ||
+				middleClickPressed) &&
+				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
 				return;
 			}
 
@@ -1011,7 +1014,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarEjectDevice/Text".GetLocalizedResource(),
+					Text = "Eject".GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
 				},
