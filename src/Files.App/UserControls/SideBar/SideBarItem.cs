@@ -38,6 +38,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				if (args.Key == Windows.System.VirtualKey.Enter)
 				{
+					pointerUpdateKind = PointerUpdateKind.Other;
 					Clicked();
 					args.Handled = true;
 				}
