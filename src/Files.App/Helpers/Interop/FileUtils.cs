@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Helpers
 {
@@ -130,9 +131,11 @@ namespace Files.App.Helpers
 							catch (ArgumentException) { }
 						}
 					}
-					else throw new Exception("Could not list processes locking resource.");
+					else
+						App.Logger.LogWarning("Could not list processes locking resource.");
 				}
-				else if (res != 0) throw new Exception("Could not list processes locking resource. Failed to get size of result.");
+				else if (res != 0)
+					App.Logger.LogWarning("Could not list processes locking resource. Failed to get size of result");
 			}
 			finally
 			{
