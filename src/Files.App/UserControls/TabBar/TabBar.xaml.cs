@@ -2,11 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.UI.Core;
 
 namespace Files.App.UserControls.TabBar
 {
@@ -211,6 +213,10 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabView_TabDroppedOutsideAsync(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Escape).HasFlag(CoreVirtualKeyStates.Down) ||
+				InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Escape).HasFlag(CoreVirtualKeyStates.Locked))
+				return;
+
 			if (sender.TabItems.Count == 1)
 			{
 				return;
