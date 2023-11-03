@@ -186,13 +186,12 @@
 					<MenuFlyout>
 						<MenuFlyoutItem
 							x:Name="OpenFolderInVSCodeButton"
-							x:Load="{x:Bind Commands.OpenInVSCode.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}" />
 						<MenuFlyoutItem
 							x:Name="OpenRepoInVSCodeButton"
-							x:Load="{x:Bind Commands.OpenRepoInVSCode.IsExecutable, Mode=OneWay}"
+							Visibility="{x:Bind Commands.OpenRepoInVSCode.IsExecutable, Mode=OneWay}"
 							Command="{x:Bind Commands.OpenRepoInVSCode}"
 							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
 							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}" />
