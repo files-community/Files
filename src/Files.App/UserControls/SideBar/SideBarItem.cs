@@ -37,7 +37,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				if (args.Key == Windows.System.VirtualKey.Enter)
 				{
-					Clicked();
+					Clicked(PointerUpdateKind.Other);
 					args.Handled = true;
 				}
 			};
@@ -237,7 +237,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		internal void Clicked()
+		internal void Clicked(PointerUpdateKind pointerUpdateKind)
 		{
 			if (IsGroupHeader)
 			{
@@ -250,12 +250,12 @@ namespace Files.App.UserControls.Sidebar
 					SetFlyoutOpen(true);
 				}
 			}
-			RaiseItemInvoked();
+			RaiseItemInvoked(pointerUpdateKind);
 		}
 
-		internal void RaiseItemInvoked()
+		internal void RaiseItemInvoked(PointerUpdateKind pointerUpdateKind)
 		{
-			Owner?.RaiseItemInvoked(this);
+			Owner?.RaiseItemInvoked(this, pointerUpdateKind);
 		}
 
 		private void SidebarDisplayModeChanged(SidebarDisplayMode oldValue)
@@ -386,10 +386,11 @@ namespace Files.App.UserControls.Sidebar
 			UpdatePointerState();
 
 			VisualStateManager.GoToState(this, IsExpanded ? "ExpandedIconNormal" : "CollapsedIconNormal", true);
-			var updateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
-			if (updateKind == PointerUpdateKind.LeftButtonReleased)
+			var pointerUpdateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
+			if (pointerUpdateKind == PointerUpdateKind.LeftButtonReleased ||
+				pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased)
 			{
-				Clicked();
+				Clicked(pointerUpdateKind);
 			}
 		}
 
