@@ -220,7 +220,7 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
-			// Unsubscribe from the key down event, it's only needed when a tag is actively being dragged
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
 
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
@@ -235,7 +235,7 @@ namespace Files.App.UserControls.TabBar
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
-			// Unsubscribe from the key down event, it's only needed when a tag is actively being dragged
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
 			PreviewKeyDown -= TabDragging_PreviewKeyDown;
 
 			if (isCancelingDragOperation)
