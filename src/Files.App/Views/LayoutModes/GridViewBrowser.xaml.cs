@@ -236,22 +236,27 @@ namespace Files.App.Views.LayoutModes
 			{
 				// NOTE: Navigating away, do nothing
 			}
-			else if (FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				popup!.IsOpen = false;
 				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings?.LayoutMode == FolderLayoutModes.TilesView)
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			// Unsubscribe from events
+			if (textBox is not null)
+			{
+				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
