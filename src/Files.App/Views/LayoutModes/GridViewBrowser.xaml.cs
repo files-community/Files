@@ -236,14 +236,14 @@ namespace Files.App.Views.LayoutModes
 			{
 				// NOTE: Navigating away, do nothing
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
+			else if (FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
 			{
 				Popup? popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				popup!.IsOpen = false;
 				textBlock!.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+			else if (FolderSettings?.LayoutMode == FolderLayoutModes.TilesView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox.Visibility = Visibility.Collapsed;
