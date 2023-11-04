@@ -25,7 +25,7 @@ namespace Files.App.Utils.Git
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
-		private const int MAX_NUMBER_OF_BRANCHES = 15;
+		private const int MAX_NUMBER_OF_BRANCHES = 30;
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
@@ -120,13 +120,12 @@ namespace Files.App.Utils.Git
 			return repositoryName[..repositoryName.LastIndexOf(".git")];
 		}
 
-		public static Task<BranchItem[]> GetBranchesNames(string? path)
+		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Task.FromResult(Array.Empty<BranchItem>());
+				return Array.Empty<BranchItem>();
 
-
-			return PostMethodToThreadWithMessageQueueAsync<BranchItem[]>(() =>
+			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<BranchItem[]>(() =>
 			{
 				using var repository = new Repository(path);
 
@@ -138,19 +137,27 @@ namespace Files.App.Utils.Git
 					.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 					.ToArray();
 			});
+
+			return result is GitOperationResult.Success
+				? returnValue!
+				: Array.Empty<BranchItem>();
 		}
 
-		public static Task<string> GetRepositoryHeadName(string? path)
+		public static async Task<string> GetRepositoryHeadName(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return Task.FromResult(string.Empty);
+				return string.Empty;
 
-			return PostMethodToThreadWithMessageQueueAsync<string>(() =>
+			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<string>(() =>
 			{
 				using var repository = new Repository(path);
 				return GetValidBranches(repository.Branches)
 					.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
 			});
+
+			return result is GitOperationResult.Success
+				? returnValue!
+				: string.Empty;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)
@@ -197,33 +204,23 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			try
+			var result = await PostMethodToThreadWithMessageQueueAsync(() =>
 			{
-				await PostMethodToThreadWithMessageQueueAsync(() =>
+				if (checkoutBranch.IsRemote)
+					CheckoutRemoteBranch(repository, checkoutBranch);
+				else
+					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+				if (isBringingChanges)
 				{
-					if (checkoutBranch.IsRemote)
-						CheckoutRemoteBranch(repository, checkoutBranch);
-					else
-						LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+					var lastStashIndex = repository.Stashes.Count() - 1;
+					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+				}
+			});
 
-					if (isBringingChanges)
-					{
-						var lastStashIndex = repository.Stashes.Count() - 1;
-						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
-					}
-				});
+			IsExecutingGitAction = false;
 
-				return true;
-			}
-			catch (Exception ex)
-			{
-				_logger.LogWarning(ex.Message);
-				return false;
-			}
-			finally
-			{
-				IsExecutingGitAction = false;
-			}
+			return result is GitOperationResult.Success;
 		}
 
 		public static async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
@@ -294,25 +291,18 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			try
+			await PostMethodToThreadWithMessageQueueAsync(() =>
 			{
-				await PostMethodToThreadWithMessageQueueAsync(() =>
+				foreach (var remote in repository.Network.Remotes)
 				{
-					foreach (var remote in repository.Network.Remotes)
-					{
-						LibGit2Sharp.Commands.Fetch(
-							repository,
-							remote.Name,
-							remote.FetchRefSpecs.Select(rs => rs.Specification),
-							_fetchOptions,
-							"git fetch updated a ref");
-					}
-				});
-			}
-			catch (Exception ex)
-			{
-				_logger.LogWarning(ex.Message);
-			}
+					LibGit2Sharp.Commands.Fetch(
+						repository,
+						remote.Name,
+						remote.FetchRefSpecs.Select(rs => rs.Specification),
+						_fetchOptions,
+						"git fetch updated a ref");
+				}
+			});
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
@@ -348,35 +338,28 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			try
-			{
-				await PostMethodToThreadWithMessageQueueAsync(() =>
-					LibGit2Sharp.Commands.Pull(
-						repository,
-						signature,
-						_pullOptions)
-				);
-			}
-			catch (Exception ex)
-			{
-				if (IsAuthorizationException(ex))
-				{
-					await RequireGitAuthenticationAsync();
-				}
-				else
-				{
-					_logger.LogWarning(ex.Message);
+			var result = await PostMethodToThreadWithMessageQueueAsync(() =>
+				LibGit2Sharp.Commands.Pull(
+					repository,
+					signature,
+					_pullOptions)
+			);
 
-					var viewModel = new DynamicDialogViewModel()
-					{
-						TitleText = "GitError".GetLocalizedResource(),
-						SubtitleText = "PullTimeoutError".GetLocalizedResource(),
-						CloseButtonText = "Close".GetLocalizedResource(),
-						DynamicButtons = DynamicDialogButtons.Cancel
-					};
-					var dialog = new DynamicDialog(viewModel);
-					await dialog.TryShowAsync();
-				}
+			if (result is GitOperationResult.AuthorizationError)
+			{
+				await RequireGitAuthenticationAsync();
+			}
+			else if (result is GitOperationResult.GenericError)
+			{
+				var viewModel = new DynamicDialogViewModel()
+				{
+					TitleText = "GitError".GetLocalizedResource(),
+					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
+					CloseButtonText = "Close".GetLocalizedResource(),
+					DynamicButtons = DynamicDialogButtons.Cancel
+				};
+				var dialog = new DynamicDialog(viewModel);
+				await dialog.TryShowAsync();
 			}
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -429,14 +412,13 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				await PostMethodToThreadWithMessageQueueAsync(() => repository.Network.Push(branch, options));
+				var result = await PostMethodToThreadWithMessageQueueAsync(() => repository.Network.Push(branch, options));
+				if (result is GitOperationResult.AuthorizationError)
+					await RequireGitAuthenticationAsync();
 			}
 			catch (Exception ex)
 			{
-				if (IsAuthorizationException(ex))
-					await RequireGitAuthenticationAsync();
-				else
-					_logger.LogWarning(ex.Message);
+				_logger.LogWarning(ex.Message);
 			}
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -713,26 +695,59 @@ namespace Files.App.Utils.Git
 				TryDispose();
 		}
 
-		private static async Task PostMethodToThreadWithMessageQueueAsync(Action payload)
+		private static async Task<GitOperationResult> PostMethodToThreadWithMessageQueueAsync(Action payload)
 		{
+			GitOperationResult result = GitOperationResult.Success;
+
 			Interlocked.Increment(ref _activeOperationsCount);
 			_owningThread ??= new ThreadWithMessageQueue();
 
-			await _owningThread.PostMethod(payload);
+			try
+			{
+				await _owningThread.PostMethod(payload);
+			}
+			catch (Exception ex)
+			{
+				result = IsAuthorizationException(ex)
+					? GitOperationResult.AuthorizationError
+					: GitOperationResult.GenericError;
 
-			DisposeIfFinished();
-		}
-
-		private static async Task<T> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
-		{
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
-
-			var result = await _owningThread.PostMethod<T>(payload);
-
-			DisposeIfFinished();
+				_logger.LogWarning(ex.Message);
+			}
+			finally
+			{
+				DisposeIfFinished();
+			}
 
 			return result;
+		}
+
+		private static async Task<(GitOperationResult, T?)> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
+		{
+			GitOperationResult result = GitOperationResult.Success;
+			T? returnValue = default;
+
+			Interlocked.Increment(ref _activeOperationsCount);
+			_owningThread ??= new ThreadWithMessageQueue();
+
+			try
+			{
+				returnValue = await _owningThread.PostMethod<T>(payload);
+			}
+			catch (Exception ex)
+			{
+				result = IsAuthorizationException(ex)
+					? GitOperationResult.AuthorizationError
+					: GitOperationResult.GenericError;
+
+				_logger.LogWarning(ex.Message);
+			}
+			finally
+			{
+				DisposeIfFinished();
+			}
+
+			return (result, returnValue);
 		}
 	}
 }
