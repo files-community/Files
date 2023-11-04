@@ -19,6 +19,8 @@ namespace Files.App.Views.Shells
 
 		IFilesystemHelpers FilesystemHelpers { get; }
 
+		PathBreadcrumbViewModel PathBreadcrumbViewModel { get; }
+
 		AddressToolbarViewModel ToolbarViewModel { get; }
 
 		bool CanNavigateBackward { get; }

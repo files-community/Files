@@ -19,7 +19,7 @@ namespace Files.App.Data.TemplateSelectors
 		{
 			var itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
 
-			if (itemsControl.ItemsSource is ObservableCollection<PathBoxItem> items)
+			if (itemsControl.ItemsSource is ObservableCollection<PathBreadcrumbItem> items)
 			{
 				return
 					itemsControl.IndexFromContainer(container) == items.Count - 1
@@ -28,7 +28,7 @@ namespace Files.App.Data.TemplateSelectors
 			}
 			else
 			{
-				throw new ArgumentException($"Type of {nameof(itemsControl.ItemsSource)} doesn't match ObservableCollection<{nameof(PathBoxItem)}>");
+				throw new ArgumentException($"Type of {nameof(itemsControl.ItemsSource)} doesn't match ObservableCollection<{nameof(PathBreadcrumbItem)}>");
 			}
 		}
 	}

@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.UserControls
 
 		// Properties
 
-		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+		public ObservableCollection<PathBreadcrumbItem> PathBreadcrumbItems { get; } = new();
 
 		public bool IsSingleItemOverride { get; set; } = false;
 
@@ -53,9 +53,9 @@ namespace Files.App.ViewModels.UserControls
 			_dragOverTimer = _dispatcherQueue.CreateTimer();
 		}
 
-		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
+		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBreadcrumbItem pathItem, IShellPage shellPage)
 		{
-			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
+			var nextPathItemTitle = PathBreadcrumbItems[PathBreadcrumbItems.IndexOf(pathItem) + 1].Name;
 			IList<StorageFolderWithPath>? childFolders = null;
 
 			StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
@@ -83,7 +83,7 @@ namespace Files.App.ViewModels.UserControls
 			var normalFontWeight = new FontWeight { Weight = 400 };
 
 			var workingPath =
-				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
+				PathBreadcrumbItems[PathBreadcrumbItems.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
 
 			foreach (var childFolder in childFolders)
 			{
@@ -121,14 +121,14 @@ namespace Files.App.ViewModels.UserControls
 
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
 			{
-				Item = (PathBoxItem)pathSeparatorIcon.DataContext,
+				Item = (PathBreadcrumbItem)pathSeparatorIcon.DataContext,
 				OpenedFlyout = (MenuFlyout)pathSeparatorIcon.ContextFlyout
 			});
 		}
 
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
-			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
+			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
 			{
 				return;
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.UserControls
 			// Reset dragged over PathBox item
 			_dragOverPath = null;
 
-			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
+			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
 			{
 				return;
@@ -178,7 +178,7 @@ namespace Files.App.ViewModels.UserControls
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
-				((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
+				((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
 			{
 				return;
@@ -189,7 +189,7 @@ namespace Files.App.ViewModels.UserControls
 				_dragOverPath = pathBoxItem.Path;
 				_dragOverTimer.Stop();
 
-				if (_dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
+				if (_dragOverPath != PathBreadcrumbItems.LastOrDefault()?.Path)
 				{
 					_dragOverTimer.Debounce(() =>
 					{
@@ -235,13 +235,13 @@ namespace Files.App.ViewModels.UserControls
 					x.Item is ZipStorageFolder) ||
 					ZipStorageFolder.IsZipPath(pathBoxItem.Path))
 			{
-				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
+				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Name);
 				e.AcceptedOperation = DataPackageOperation.Copy;
 			}
 			else
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
+				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Name);
 				e.AcceptedOperation = DataPackageOperation.Move;
 			}
 
@@ -264,7 +264,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBoxItem)?.Path;
+			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBreadcrumbItem)?.Path;
 			if (itemTappedPath is null)
 				return;
 

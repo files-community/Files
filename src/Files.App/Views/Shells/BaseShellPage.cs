@@ -415,12 +415,12 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await PathBreadcrumbViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			await PathBreadcrumbViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBreadcrumbItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
-			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, PathBreadcrumbViewModel.PathComponents.LastOrDefault()?.Path, this);
+			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, PathBreadcrumbViewModel.PathBreadcrumbItems.LastOrDefault()?.Path, this);
 		}
 
 		protected void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -446,22 +446,22 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-				var lastCommonItemIndex = PathBreadcrumbViewModel.PathComponents
+				var lastCommonItemIndex = PathBreadcrumbViewModel.PathBreadcrumbItems
 					.Select((value, index) => new { value, index })
 					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
 
-				while (PathBreadcrumbViewModel.PathComponents.Count > lastCommonItemIndex)
-					PathBreadcrumbViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+				while (PathBreadcrumbViewModel.PathBreadcrumbItems.Count > lastCommonItemIndex)
+					PathBreadcrumbViewModel.PathBreadcrumbItems.RemoveAt(lastCommonItemIndex);
 
 				foreach (var component in components.Skip(lastCommonItemIndex))
-					PathBreadcrumbViewModel.PathComponents.Add(component);
+					PathBreadcrumbViewModel.PathBreadcrumbItems.Add(component);
 			}
 			else
 			{
 				// Clear the path UI
-				PathBreadcrumbViewModel.PathComponents.Clear();
+				PathBreadcrumbViewModel.PathBreadcrumbItems.Clear();
 				PathBreadcrumbViewModel.IsSingleItemOverride = true;
-				PathBreadcrumbViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
+				PathBreadcrumbViewModel.PathBreadcrumbItems.Add(new PathBreadcrumbItem() { Path = null, Name = singleItemOverride });
 			}
 		}
 
