@@ -3587,4 +3587,7 @@
   <data name="NoFileOperations" xml:space="preserve">
     <value>No ongoing file operations</value>
   </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
 </root>
