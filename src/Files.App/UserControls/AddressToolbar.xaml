@@ -5,27 +5,24 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
-	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:extensions="using:CommunityToolkit.WinUI.UI"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
-	x:Name="NavToolbar"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctextensions="using:CommunityToolkit.WinUI.UI"
+	xmlns:wcttriggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	Height="50"
-	d:DesignHeight="50"
-	d:DesignWidth="800"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
-			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary>
@@ -226,39 +223,39 @@
 					x:Name="Back"
 					x:FieldModifier="public"
 					AccessKey="B"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateBack.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
 					x:Name="Forward"
 					x:FieldModifier="public"
 					AccessKey="F"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateForward.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateForward, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
 					x:Name="Up"
 					x:FieldModifier="public"
 					AccessKey="U"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateUp.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateUp, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
 				</Button>
 
 				<Button
@@ -341,7 +338,7 @@
 				MinHeight="33"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Center"
-				extensions:FrameworkElementExtensions.Cursor="Hand"
+				wctextensions:FrameworkElementExtensions.Cursor="Hand"
 				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
 				Background="{ThemeResource TextControlBackground}"
 				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
@@ -353,17 +350,19 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
+
 				<uc:PathBreadcrumb
 					Grid.Column="0"
 					VerticalAlignment="Stretch"
 					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+					VerticalContentAlignment="Stretch" />
+
 				<FontIcon
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
 					Glyph="&#xE70D;" />
+
 			</Grid>
 
 			<!--  Storage Search Box  -->
@@ -390,11 +389,11 @@
 				<Button
 					x:Name="ShowSearchButton"
 					AccessKey="I"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
-					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
+					AutomationProperties.Name="{x:Bind Commands.Search.Label}"
+					Command="{x:Bind Commands.Search, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.Search.IsExecutable}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
+					ToolTipService.ToolTip="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
@@ -407,7 +406,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
-					Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
+					Visibility="{x:Bind StatusCenterViewModel.HasAnyItem, Mode=OneWay}">
 
 					<Grid Margin="-16">
 
@@ -415,7 +414,7 @@
 							x:Name="StatusCenterIcon"
 							Width="16"
 							Height="16"
-							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+							x:Load="{x:Bind StatusCenterViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 							Style="{StaticResource ColorIconStatusCenter}" />
 
 						<ProgressRing
@@ -424,16 +423,16 @@
 							Height="20"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
-							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
+							x:Load="{x:Bind StatusCenterViewModel.HasAnyItemInProgress, Mode=OneWay}"
 							Background="{ThemeResource SubtleFillColorSecondaryBrush}"
 							IsIndeterminate="False"
-							Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
+							Value="{x:Bind StatusCenterViewModel.AverageOperationProgressValue, Mode=OneWay}" />
 
 						<InfoBadge
 							x:Name="StatusInfoBadge"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Top"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
+							Value="{x:Bind StatusCenterViewModel.InfoBadgeValue, Mode=OneWay}" />
 
 					</Grid>
 
@@ -514,11 +513,11 @@
 					x:Name="SettingsButton"
 					AccessKey="I"
 					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.Placement="Bottom"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
+					ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
 					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
 					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
 						<AnimatedIcon.Source>
@@ -545,13 +544,13 @@
 			<VisualStateGroup>
 				<VisualState x:Name="SearchBoxAlwaysShown">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
 					</VisualState.StateTriggers>
 				</VisualState>
 
 				<VisualState x:Name="SearchBoxCollapse">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
@@ -563,10 +562,7 @@
 			<VisualStateGroup>
 				<VisualState x:Name="TasksSuccess">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="0" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind StatusCenterViewModel.InfoBadgeState, Mode=OneWay}" To="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource SuccessIconInfoBadgeStyle}" />
@@ -574,10 +570,7 @@
 				</VisualState>
 				<VisualState x:Name="TasksOnging">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="1" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind StatusCenterViewModel.InfoBadgeState, Mode=OneWay}" To="1" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource AttentionValueInfoBadgeStyle}" />
@@ -585,10 +578,7 @@
 				</VisualState>
 				<VisualState x:Name="TasksFailure">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="2" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind StatusCenterViewModel.InfoBadgeState, Mode=OneWay}" To="2" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalValueInfoBadgeStyle}" />
@@ -596,10 +586,7 @@
 				</VisualState>
 				<VisualState x:Name="TasksCompletionWithFailure">
 					<VisualState.StateTriggers>
-						<triggers:CompareStateTrigger
-							Comparison="Equal"
-							Value="{x:Bind OngoingTasksViewModel.InfoBadgeState, Mode=OneWay}"
-							To="3" />
+						<wcttriggers:IsEqualStateTrigger Value="{x:Bind StatusCenterViewModel.InfoBadgeState, Mode=OneWay}" To="3" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
