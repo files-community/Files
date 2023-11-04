@@ -15,174 +15,159 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
+	/// <summary>
+	/// Represents ViewModel for <see cref="Files.App.UserControls.AddressToolbar"/>.
+	/// </summary>
 	public class ToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
+		// Dependency injection
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IDialogService DialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-		private readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
-		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
-
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		// Event delegates
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
-		public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
-
 		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
-
 		public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
-
+		public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
-		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
-
-		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
-
-		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
+		// Event handlers
 
 		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
-
-		public event EventHandler? EditModeEnabled;
-
 		public event IAddressToolbar.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
-
+		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
+		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
+		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
-
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
-
+		private PointerRoutedEventArgs? pointerRoutedEventArgs;
+		public event EventHandler? EditModeEnabled;
 		public event EventHandler? RefreshRequested;
-
 		public event EventHandler? RefreshWidgetsRequested;
 
-		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+		// Observable properties
 
-		private bool _isCommandPaletteOpen;
+		private bool _IsCommandPaletteOpen;
 		public bool IsCommandPaletteOpen
 		{
-			get => _isCommandPaletteOpen;
-			set => SetProperty(ref _isCommandPaletteOpen, value);
+			get => _IsCommandPaletteOpen;
+			set => SetProperty(ref _IsCommandPaletteOpen, value);
 		}
 
-		private bool isUpdating;
+		private bool _IsUpdating;
 		public bool IsUpdating
 		{
-			get => isUpdating;
-			set => SetProperty(ref isUpdating, value);
+			get => _IsUpdating;
+			set => SetProperty(ref _IsUpdating, value);
 		}
 
-		private bool isUpdateAvailable;
+		private bool _IsUpdateAvailable;
 		public bool IsUpdateAvailable
 		{
-			get => isUpdateAvailable;
-			set => SetProperty(ref isUpdateAvailable, value);
+			get => _IsUpdateAvailable;
+			set => SetProperty(ref _IsUpdateAvailable, value);
 		}
 
-		private string? releaseNotes;
+		private string? _ReleaseNotes;
 		public string? ReleaseNotes
 		{
-			get => releaseNotes;
-			set => SetProperty(ref releaseNotes, value);
+			get => _ReleaseNotes;
+			set => SetProperty(ref _ReleaseNotes, value);
 		}
 
-		private bool isReleaseNotesVisible;
+		private bool _IsReleaseNotesVisible;
 		public bool IsReleaseNotesVisible
 		{
-			get => isReleaseNotesVisible;
-			set => SetProperty(ref isReleaseNotesVisible, value);
+			get => _IsReleaseNotesVisible;
+			set => SetProperty(ref _IsReleaseNotesVisible, value);
 		}
 
-		private bool canCopyPathInPage;
+		private bool _CanCopyPathInPage;
 		public bool CanCopyPathInPage
 		{
-			get => canCopyPathInPage;
-			set => SetProperty(ref canCopyPathInPage, value);
+			get => _CanCopyPathInPage;
+			set => SetProperty(ref _CanCopyPathInPage, value);
 		}
 
-		private bool canGoBack;
+		private bool _CanGoBack;
 		public bool CanGoBack
 		{
-			get => canGoBack;
-			set => SetProperty(ref canGoBack, value);
+			get => _CanGoBack;
+			set => SetProperty(ref _CanGoBack, value);
 		}
 
-		private bool canGoForward;
+		private bool _CanGoForward;
 		public bool CanGoForward
 		{
-			get => canGoForward;
-			set => SetProperty(ref canGoForward, value);
+			get => _CanGoForward;
+			set => SetProperty(ref _CanGoForward, value);
 		}
 
-		private bool canNavigateToParent;
+		private bool _CanNavigateToParent;
 		public bool CanNavigateToParent
 		{
-			get => canNavigateToParent;
-			set => SetProperty(ref canNavigateToParent, value);
+			get => _CanNavigateToParent;
+			set => SetProperty(ref _CanNavigateToParent, value);
 		}
 
-		private bool previewPaneEnabled;
-		public bool PreviewPaneEnabled
+		private bool _IsPreviewPaneEnabled;
+		public bool IsPreviewPaneEnabled
 		{
-			get => previewPaneEnabled;
-			set => SetProperty(ref previewPaneEnabled, value);
+			get => _IsPreviewPaneEnabled;
+			set => SetProperty(ref _IsPreviewPaneEnabled, value);
 		}
 
-		private bool canRefresh;
+		private bool _CanRefresh;
 		public bool CanRefresh
 		{
-			get => canRefresh;
-			set => SetProperty(ref canRefresh, value);
+			get => _CanRefresh;
+			set => SetProperty(ref _CanRefresh, value);
 		}
 
-		private string searchButtonGlyph = "\uE721";
+		private string _SearchButtonGlyph = "\uE721";
 		public string SearchButtonGlyph
 		{
-			get => searchButtonGlyph;
-			set => SetProperty(ref searchButtonGlyph, value);
+			get => _SearchButtonGlyph;
+			set => SetProperty(ref _SearchButtonGlyph, value);
 		}
 
-		private bool isSearchBoxVisible;
+		private bool _IsSearchBoxVisible;
 		public bool IsSearchBoxVisible
 		{
-			get => isSearchBoxVisible;
+			get => _IsSearchBoxVisible;
 			set
 			{
-				if (SetProperty(ref isSearchBoxVisible, value))
+				if (SetProperty(ref _IsSearchBoxVisible, value))
 					SearchButtonGlyph = value ? "\uE711" : "\uE721";
 			}
 		}
 
-		private string? pathText;
+		private string? _PathText;
 		public string? PathText
 		{
-			get => pathText;
-			set
-			{
-				pathText = value;
-
-				OnPropertyChanged(nameof(PathText));
-			}
+			get => _PathText;
+			set => SetProperty(ref _PathText, value);
 		}
 
-		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
-
-		private CurrentInstanceViewModel instanceViewModel;
+		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
 		{
-			get => instanceViewModel;
+			get => _InstanceViewModel;
 			set
 			{
-				if (instanceViewModel?.FolderSettings is not null)
-					instanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
+				if (_InstanceViewModel?.FolderSettings is not null)
+					_InstanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 
-				if (SetProperty(ref instanceViewModel, value) && instanceViewModel?.FolderSettings is not null)
+				if (SetProperty(ref _InstanceViewModel, value) && _InstanceViewModel?.FolderSettings is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(FolderSettingsViewModel.LayoutMode)));
-					instanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					_InstanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
 				}
 			}
 		}
@@ -191,23 +176,154 @@ namespace Files.App.ViewModels.UserControls
 		public Style LayoutOpacityIcon
 		{
 			get => _LayoutOpacityIcon;
+			set => SetProperty(ref _LayoutOpacityIcon, value);
+		}
+
+		private bool _HasItem = false;
+		public bool HasItem
+		{
+			get => _HasItem;
+			set => SetProperty(ref _HasItem, value);
+		}
+
+		private List<ListedItem>? _SelectedItems;
+		public List<ListedItem> SelectedItems
+		{
+			get => _SelectedItems;
 			set
 			{
-				if (SetProperty(ref _LayoutOpacityIcon, value))
+				if (SetProperty(ref _SelectedItems, value))
 				{
+					OnPropertyChanged(nameof(CanCopy));
+					OnPropertyChanged(nameof(CanExtract));
+					OnPropertyChanged(nameof(ExtractToText));
+					OnPropertyChanged(nameof(IsArchiveOpened));
+					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
+					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
+					OnPropertyChanged(nameof(IsInfFile));
+					OnPropertyChanged(nameof(IsPowerShellScript));
+					OnPropertyChanged(nameof(IsImage));
+					OnPropertyChanged(nameof(IsMultipleImageSelected));
+					OnPropertyChanged(nameof(IsFont));
+					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}
 		}
 
-		private PointerRoutedEventArgs? pointerRoutedEventArgs;
+		private ISearchBox _SearchBox = new SearchBoxViewModel();
+		public ISearchBox SearchBox
+		{
+			get => _SearchBox;
+			set => SetProperty(ref _SearchBox, value);
+		}
+
+		private bool _ManualEntryBoxLoaded;
+		public bool ManualEntryBoxLoaded
+		{
+			get => _ManualEntryBoxLoaded;
+			set => SetProperty(ref _ManualEntryBoxLoaded, value);
+		}
+
+		private bool _ClickablePathLoaded = true;
+		public bool ClickablePathLoaded
+		{
+			get => _ClickablePathLoaded;
+			set => SetProperty(ref _ClickablePathLoaded, value);
+		}
+
+		private string _PathControlDisplayText;
+		public string PathControlDisplayText
+		{
+			get => _PathControlDisplayText;
+			set => SetProperty(ref _PathControlDisplayText, value);
+		}
+
+		// Auto properties
+
+		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
+
+		public bool IsEditModeEnabled
+		{
+			get => ManualEntryBoxLoaded;
+			set
+			{
+				if (value)
+				{
+					EditModeEnabled?.Invoke(this, EventArgs.Empty);
+
+					var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+					visiblePath?.Focus(FocusState.Programmatic);
+					visiblePath?.FindDescendant<TextBox>()?.SelectAll();
+
+					AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
+				}
+				else
+				{
+					IsCommandPaletteOpen = false;
+					ManualEntryBoxLoaded = false;
+					ClickablePathLoaded = true;
+				}
+			}
+		}
+
+		public SearchBoxViewModel SearchBoxViewModel
+			=> (SearchBoxViewModel)SearchBox;
+
+		public ICommand? OpenNewWindowCommand { get; set; }
+		public ICommand? CreateNewFileCommand { get; set; }
+		public ICommand? Share { get; set; }
+		public ICommand? UpdateCommand { get; set; }
+		public ICommand? RefreshClickCommand { get; }
+		public ICommand? ViewReleaseNotesAsyncCommand { get; }
+
+		public bool IsSingleItemOverride { get; set; } = false;
+		public bool SearchHasFocus { get; private set; }
+
+		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
+		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
+		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(_PathControlDisplayText));
+		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
+		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsTilesLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridSmallLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && _InstanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+		public bool IsGridMediumLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && _InstanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+		public bool IsGridLargeLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
+		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
+
+		public string ExtractToText =>
+			IsSelectionArchivesOnly
+				? SelectedItems.Count > 1
+					? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}")
+					: string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(_SelectedItems.First().Name))
+				: "ExtractToChildFolder".GetLocalizedResource();
+
+		private static AddressToolbar? AddressToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
+
+		private readonly DispatcherQueue _dispatcherQueue;
+		private readonly DispatcherQueueTimer _dragOverTimer;
+		private string? _dragOverPath = null;
+		private bool _lockFlag = false;
+
+		// Methods
 
 		public ToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
-			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-			dragOverTimer = dispatcherQueue.CreateTimer();
+			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+			_dragOverTimer = _dispatcherQueue.CreateTimer();
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -230,7 +346,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			var viewModel = new ReleaseNotesDialogViewModel(ReleaseNotes);
-			var dialog = _dialogService.GetDialog(viewModel);
+			var dialog = DialogService.GetDialog(viewModel);
 
 			await dialog.TryShowAsync();
 		}
@@ -265,23 +381,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private DispatcherQueue dispatcherQueue;
-		private DispatcherQueueTimer dragOverTimer;
-
-		private ISearchBox searchBox = new SearchBoxViewModel();
-		public ISearchBox SearchBox
-		{
-			get => searchBox;
-			set => SetProperty(ref searchBox, value);
-		}
-
-		public SearchBoxViewModel SearchBoxViewModel
-			=> (SearchBoxViewModel)SearchBox;
-
-		public bool IsSingleItemOverride { get; set; } = false;
-
-		private string? dragOverPath = null;
-
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -291,21 +390,19 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			// Reset dragged over pathbox item
-			if (pathBoxItem.Path == dragOverPath)
-				dragOverPath = null;
+			if (pathBoxItem.Path == _dragOverPath)
+				_dragOverPath = null;
 		}
-
-		private bool lockFlag = false;
 
 		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
-			if (lockFlag)
+			if (_lockFlag)
 				return;
 
-			lockFlag = true;
+			_lockFlag = true;
 
 			// Reset dragged over pathbox item
-			dragOverPath = null;
+			_dragOverPath = null;
 
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
@@ -330,7 +427,7 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 			await Task.Yield();
 
-			lockFlag = false;
+			_lockFlag = false;
 		}
 
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
@@ -342,23 +439,23 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			if (dragOverPath != pathBoxItem.Path)
+			if (_dragOverPath != pathBoxItem.Path)
 			{
-				dragOverPath = pathBoxItem.Path;
-				dragOverTimer.Stop();
+				_dragOverPath = pathBoxItem.Path;
+				_dragOverTimer.Stop();
 
-				if (dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
+				if (_dragOverPath != (this as IAddressToolbar).PathComponents.LastOrDefault()?.Path)
 				{
-					dragOverTimer.Debounce(() =>
+					_dragOverTimer.Debounce(() =>
 					{
-						if (dragOverPath is not null)
+						if (_dragOverPath is not null)
 						{
-							dragOverTimer.Stop();
+							_dragOverTimer.Stop();
 							ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
 							{
-								ItemPath = dragOverPath
+								ItemPath = _dragOverPath
 							});
-							dragOverPath = null;
+							_dragOverPath = null;
 						}
 					},
 					TimeSpan.FromMilliseconds(1000), false);
@@ -406,54 +503,6 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
-		public bool IsEditModeEnabled
-		{
-			get => ManualEntryBoxLoaded;
-			set
-			{
-				if (value)
-				{
-					EditModeEnabled?.Invoke(this, EventArgs.Empty);
-
-					var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
-					visiblePath?.Focus(FocusState.Programmatic);
-					visiblePath?.FindDescendant<TextBox>()?.SelectAll();
-
-					AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
-				}
-				else
-				{
-					IsCommandPaletteOpen = false;
-					ManualEntryBoxLoaded = false;
-					ClickablePathLoaded = true;
-				}
-			}
-		}
-
-		private bool manualEntryBoxLoaded;
-		public bool ManualEntryBoxLoaded
-		{
-			get => manualEntryBoxLoaded;
-			set => SetProperty(ref manualEntryBoxLoaded, value);
-		}
-
-		private bool clickablePathLoaded = true;
-		public bool ClickablePathLoaded
-		{
-			get => clickablePathLoaded;
-			set => SetProperty(ref clickablePathLoaded, value);
-		}
-
-		private string pathControlDisplayText;
-		public string PathControlDisplayText
-		{
-			get => pathControlDisplayText;
-			set => SetProperty(ref pathControlDisplayText, value);
-		}
-
-		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesAsyncCommand { get; }
-
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			var pathSeparatorIcon = sender as FontIcon;
@@ -467,7 +516,7 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public void PathboxItemFlyout_Opened(object sender, object e)
+		public void PathBoxItemFlyout_Opened(object sender, object e)
 		{
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
@@ -504,7 +553,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
+					await MainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -552,13 +601,11 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
-
 		private void CloseSearchBox(bool doFocus = false)
 		{
-			if (searchBox.WasQuerySubmitted)
+			if (_SearchBox.WasQuerySubmitted)
 			{
-				searchBox.WasQuerySubmitted = false;
+				_SearchBox.WasQuerySubmitted = false;
 			}
 			else
 			{
@@ -577,8 +624,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public bool SearchHasFocus { get; private set; }
-
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
 			SearchHasFocus = true;
@@ -596,14 +641,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
 			=> CloseSearchBox(true);
-
-		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
-
-		public ICommand? CreateNewFileCommand { get; set; }
-
-		public ICommand? Share { get; set; }
-
-		public ICommand? UpdateCommand { get; set; }
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem, IShellPage shellPage)
 		{
@@ -715,7 +752,7 @@ namespace Files.App.ViewModels.UserControls
 					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
 					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
@@ -910,14 +947,14 @@ namespace Files.App.ViewModels.UserControls
 			{
 				case nameof(FolderSettingsViewModel.GridViewSize):
 				case nameof(FolderSettingsViewModel.LayoutMode):
-					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+					LayoutOpacityIcon = _InstanceViewModel.FolderSettings.LayoutMode switch
 					{
 						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
 						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
 						FolderLayoutModes.GridView =>
-							instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
+							_InstanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall
 								? Commands.LayoutGridSmall.OpacityStyle!
-								: instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
+								: _InstanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium
 									? Commands.LayoutGridMedium.OpacityStyle!
 									: Commands.LayoutGridLarge.OpacityStyle!,
 						_ => Commands.LayoutDetails.OpacityStyle!
@@ -931,60 +968,6 @@ namespace Files.App.ViewModels.UserControls
 					break;
 			}
 		}
-
-		private bool hasItem = false;
-		public bool HasItem
-		{
-			get => hasItem;
-			set => SetProperty(ref hasItem, value);
-		}
-
-		private List<ListedItem>? selectedItems;
-
-		public List<ListedItem> SelectedItems
-		{
-			get => selectedItems;
-			set
-			{
-				if (SetProperty(ref selectedItems, value))
-				{
-					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanExtract));
-					OnPropertyChanged(nameof(ExtractToText));
-					OnPropertyChanged(nameof(IsArchiveOpened));
-					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
-					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
-					OnPropertyChanged(nameof(IsInfFile));
-					OnPropertyChanged(nameof(IsPowerShellScript));
-					OnPropertyChanged(nameof(IsImage));
-					OnPropertyChanged(nameof(IsMultipleImageSelected));
-					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(HasAdditionalAction));
-				}
-			}
-		}
-
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
-		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-
-		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
-		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
-		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
-		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
-
-		public string ExtractToText
-			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
 
 		public void Dispose()
 		{

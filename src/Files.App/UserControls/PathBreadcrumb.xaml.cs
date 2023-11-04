@@ -22,7 +22,7 @@ namespace Files.App.UserControls
 
 		private void PathBoxItemFlyout_Opened(object sender, object e)
 		{
-			ViewModel.PathboxItemFlyout_Opened(sender, e);
+			ViewModel.PathBoxItemFlyout_Opened(sender, e);
 		}
 
 		private void PathBoxItem_DragLeave(object sender, DragEventArgs e)

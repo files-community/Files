@@ -31,7 +31,6 @@
 					DragOver="PathBoxItem_DragOver"
 					Drop="PathBoxItem_Drop"
 					Orientation="Horizontal"
-					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
 					<i:Interaction.Behaviors>
 						<core:EventTriggerBehavior EventName="PointerEntered">
@@ -44,8 +43,9 @@
 
 					<!--  Header  -->
 					<TextBlock
+						Margin="0,0,0,4"
 						FontSize="12"
-						FontWeight="Medium"
+						Style="{StaticResource BodyStrongTextBlockStyle}"
 						Text="{x:Bind Title, Mode=OneWay}" />
 
 				</StackPanel>
@@ -68,7 +68,7 @@
 
 					<!--  Header  -->
 					<TextBlock
-						Padding="0,4"
+						Margin="0,4"
 						FontSize="12"
 						PointerPressed="PathBoxItem_PointerPressed"
 						Tapped="PathBoxItem_Tapped"
