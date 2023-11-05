@@ -166,7 +166,7 @@ jobs:
     - name: Run interaction tests
       run: |
         dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll
-        -l:"trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
+        --logger: "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
     - name: TRX to MD
       shell: pwsh
