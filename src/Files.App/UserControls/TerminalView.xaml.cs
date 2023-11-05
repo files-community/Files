@@ -360,19 +360,25 @@ namespace Files.App.UserControls
 					EventHandler<object> getResponse = (s, e) =>
 					{
 						var pwd = Encoding.UTF8.GetString((byte[])e);
-						var match = Regex.Match(pwd, @"[a-zA-Z]:\\(((?![<>:""/\\|?*]).)+((?<![ .])\\)?)*");
+						var match = Regex.Match(pwd, @"[a-zA-Z]:\\(((?![<>:""\r/\\|?*]).)+((?<![ .])\\)?)*");
 						if (match.Success)
 							tcs.TrySetResult(match.Value);
 					};
 					OnOutput += getResponse;
-					_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
+					if (profile.Location.Contains("wsl.exe"))
+						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"wslpath -w \"$(pwd)\"\r"));
+					else
+						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd .\r"));
 					var pwd = await tcs.Task.WithTimeoutAsync(TimeSpan.FromSeconds(1));
 					OnOutput -= getResponse;
 					return pwd;
 				};
 				_mainPageModel.SetTerminalFolder = (folder) =>
 				{
-					_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
+					if (profile.Location.Contains("wsl.exe"))
+						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"$(wslpath \"{folder}\")\"\r"));
+					else
+						_terminal.WriteToPseudoConsole(Encoding.UTF8.GetBytes($"cd \"{folder}\"\r"));
 				};
 			};
 			_terminal.Exited += (s, e) =>
@@ -468,8 +474,8 @@ namespace Files.App.UserControls
 			var theme = new DefaultValueProvider().GetPreInstalledThemes().First(x => x.Id == profile.TerminalThemeId);
 			var backgroundColor = ActualTheme switch
 			{
-				 Microsoft.UI.Xaml.ElementTheme.Dark => "#000000",
-				 _ => "#FFFFFF"
+				Microsoft.UI.Xaml.ElementTheme.Dark => "#000000",
+				_ => "#FFFFFF"
 			};
 			var foregroundColor = ActualTheme switch
 			{
