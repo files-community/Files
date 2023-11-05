@@ -74,7 +74,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - if: env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
@@ -83,7 +83,7 @@ jobs:
         -p:Platform=$env:ARCHITECTURE `
         -p:AppxBundle=Never
   
-    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build & package Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
