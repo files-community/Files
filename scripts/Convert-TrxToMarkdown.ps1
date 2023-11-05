@@ -40,13 +40,14 @@ class TrxTimes
 
 class TrxTestDefinition
 {
-    [string] $name
     [string] $id
+    [string] $name
     [string] $className
 }
 
 class TrxUnitTestResult
 {
+    [string] $id
     [string] $result
     [string] $name
     [string] $errorMessage
@@ -71,9 +72,9 @@ foreach ($item in $xmlDoc.TestRun.TestDefinitions.UnitTest)
 {
     $newOne = [TrxTestDefinition]::new()
 
+    $newOne.id = $item.Execution.id
     $newOne.name = $item.name
-    $newOne.id = $item.id
-    $newOne.className = $item.TestMethod.name
+    $newOne.className = $item.TestMethod.className
 
     $trxObject.TestDefinitions += $newOne
 }
@@ -83,6 +84,7 @@ foreach ($item in $xmlDoc.TestRun.Results.UnitTestResult)
 {
     $newOne = [TrxUnitTestResult]::new()
 
+    $newOne.id = $item.executionId
     $newOne.result = $item.outcome
     $newOne.name = $item.testName
     $newOne.errorMessage = $item.Output.ErrorInfo.Message
@@ -94,8 +96,8 @@ foreach ($item in $xmlDoc.TestRun.Results.UnitTestResult)
 $stringBuilder = New-Object System.Text.StringBuilder
 
 $title = "## Tested with Files <img alt=""logo"" src=""https://github.com/files-community/Files/assets/62196528/6d4b489a-12be-4819-9bbc-a5f95858e77d"" width=""28"" align=""top"" />"
-$pullRequestId = 20
-$AbbreviatedOid = "1323058"
+$pullRequestId = ${{ github.event.pull_request.number }}
+$AbbreviatedOid = $GITHUB_SHA.Substring(0, 7)
 $resultOverview = ""
 
 # Header
@@ -111,7 +113,6 @@ $unknownIcon = "⚠️"
 if ($trxObject.ResultSummary.failed -ne 0 -and $trxObject.ResultSummary.passed -ne 0)
 {
     $resultOverview = $partialSuccessfulfulIcon + "Some tests were not successful"
-    $resultOverview =  + $resultOverview
 }
 # Passed
 elseif ($trxObject.ResultSummary.failed -eq 0)
@@ -176,14 +177,15 @@ foreach ($item in $trxObject.Results)
 
     $failedClass = "_None_"
     $testName = $item.name
+    $baseClassName = $trxObject.TestDefinitions | Where-Object { $_.id -eq $item.id }
     if ($null -ne $item.errorMessage)
     {
-        $failedClass = "<code>" + $trxObject.TestDefinitions[0].className + "." + $item.name
+        $failedClass = "<code>" + $baseClassName.className + "." + $item.name + "</code>"
     }
 
     [void]$stringBuilder.AppendLine("$testName`|$resultStatus`|$failedClass");
 
-    $index = $index + 1
+    $index++
 }
 
 $stringBuilder.ToString() | Out-File -FilePath $Destination
