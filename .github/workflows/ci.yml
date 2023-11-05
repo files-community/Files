@@ -83,7 +83,7 @@ jobs:
         -p:AppxBundle=Never
   
     - if: env.ARCHITECTURE == env.PRIMARY_ARCHITECTURE
-      name: Build & Publish Files
+      name: Build & Package Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
