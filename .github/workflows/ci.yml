@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Debug]
+        configuration: [Debug, Release]
         platform: [x64, arm64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
