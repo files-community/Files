@@ -175,17 +175,41 @@ foreach ($item in $trxObject.Results)
         $resultStatus = $skippedIcon + " Unknown"
     }
 
-    $failedClass = "_None_"
+    $failedClassName = "_None_"
     $testName = $item.name
     $baseClassName = $trxObject.TestDefinitions | Where-Object { $_.id -eq $item.id }
     if ($null -ne $item.errorMessage)
     {
-        $failedClass = "<code>" + $baseClassName.className + "." + $item.name + "</code>"
+        $failedClassName = "<code>" + $baseClassName.className + "." + $item.name + "</code>"
     }
 
-    [void]$stringBuilder.AppendLine("$testName`|$resultStatus`|$failedClass");
+    [void]$stringBuilder.AppendLine("$testName`|$resultStatus`|$failedClassName");
 
     $index++
 }
+
+[void]$stringBuilder.AppendLine("");
+
+[void]$stringBuilder.AppendLine("<details>");
+[void]$stringBuilder.AppendLine("<summary>View logs</summary>");
+[void]$stringBuilder.AppendLine("<br/>");
+[void]$stringBuilder.AppendLine("");
+
+foreach ($item in $trxObject.Results)
+{
+    $baseClassName = $trxObject.TestDefinitions | Where-Object { $_.id -eq $item.id }
+    $failedClassName = "<code>" + $baseClassName.className + "." + $item.name + "</code>"
+    $stackTraceText = $item.errorStackTrace
+    [void]$stringBuilder.AppendLine("**``Class: " + $baseClassName.className + "``**");
+
+    [void]$stringBuilder.AppendLine("``````");
+    [void]$stringBuilder.AppendLine("$stackTraceText");
+    [void]$stringBuilder.AppendLine("``````");
+}
+
+[void]$stringBuilder.AppendLine("");
+[void]$stringBuilder.AppendLine("</details>");
+[void]$stringBuilder.AppendLine("");
+
 
 $stringBuilder.ToString() | Out-File -FilePath $Destination
