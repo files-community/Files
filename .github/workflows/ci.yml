@@ -30,8 +30,9 @@ env:
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
   AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
   AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
-  APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
+  AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
+  ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
+  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\builds\Files_SelfSigned.pfx'
 
 jobs:
@@ -101,7 +102,21 @@ jobs:
         -p:PackageCertificateThumbprint=""
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
-      name: Upload the packages to GitHub Actions
+      name: Build interaction tests
+      run: |
+        msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
+        -t:Build `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
+
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Copy tests dll to the artifacts dir
+      shell: pwsh
+      run: |
+        Copy-Item $env:AUTOMATED_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll $env:AUTOMATED_TESTS_ASSEMBLY_DIR
+
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Upload the packages to the Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
@@ -123,23 +138,13 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v3
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
-
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.1.1
-
-    - name: Setup .NET 7
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'
-
-    - uses: actions/download-artifact@v3
+    - name: Download the packages from the Artifacts
+      uses: actions/download-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-    - name: Install package
+    - name: Install Files
       shell: powershell
       run: |
         Set-Location "$env:APPX_PACKAGE_DIR"
@@ -151,22 +156,18 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Start WinAppDriver
-      run: Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
-
-    - name: Restore NuGet
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_PATH'
-
-    - name: Build interaction tests
-      run: |
-        msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
-        -t:Build `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
+    - name: Publish tests result
+      with:
+        header: test-result
+        message: |
+          Waiting the tests running to finish.
 
     - name: Run interaction tests
       run: |
-        dotnet test $env:AUTOMATED_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll `
-        -a $env:AUTOMATED_TESTS_ARCHITECTURE `
-        -c $env:CONFIGURATION
+        dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll
+
+    - name: Publish tests result
+      with:
+        header: test-result
+        message: |
+          The tests has been passed.
