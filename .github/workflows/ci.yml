@@ -164,7 +164,7 @@ jobs:
     #      Waiting the tests running to finish.
 
     - name: Run interaction tests
-      run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger: "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
+      run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
 
     - name: Convert TRX to MD
       shell: pwsh
