@@ -157,6 +157,7 @@ jobs:
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
     - name: Publish tests result
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
         header: test-result
         message: |
@@ -167,6 +168,7 @@ jobs:
         dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll
 
     - name: Publish tests result
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
         header: test-result
         message: |
