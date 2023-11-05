@@ -381,6 +381,9 @@ namespace Files.App.Views.LayoutModes
 
 			navigationArguments = (NavigationArguments)eventArgs.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
+			
+			// Git properties are not loaded by default
+			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 
 			InitializeCommandsViewModel();
 
@@ -475,9 +478,6 @@ namespace Files.App.Views.LayoutModes
 
 			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
-
-			// Git properties are not loaded by default
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
 		}
 
 		public void SetSelectedItemsOnNavigation()
