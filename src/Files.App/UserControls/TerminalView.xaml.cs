@@ -123,7 +123,7 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private async void WebViewControl_LoadedAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		private async void WebViewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			await WebViewControl.EnsureCoreWebView2Async();
 			//WebViewControl.CoreWebView2.OpenDevToolsWindow();
