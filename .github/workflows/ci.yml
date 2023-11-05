@@ -156,20 +156,32 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Publish tests result
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        header: test-result
-        message: |
-          Waiting the tests running to finish.
+    # - name: Prepare tests result
+    #  uses: marocchino/sticky-pull-request-comment@v2
+    #  with:
+    #    header: test-result
+    #    message: |
+    #      Waiting the tests running to finish.
 
     - name: Run interaction tests
       run: |
         dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll
+        -l:"trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
-    - name: Publish tests result
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        header: test-result
-        message: |
-          The tests has been passed.
+    - name: TRX to MD
+      shell: pwsh
+      run: |
+        . './scripts/Convert-TrxToMarkdown.ps1'
+          -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
+          -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
+
+    - name: Show MD
+      shell: pwsh
+      run: |
+        Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
+
+    # - name: Publish tests result
+    #  uses: marocchino/sticky-pull-request-comment@v2
+    #  with:
+    #    header: test-result
+    #    path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'
