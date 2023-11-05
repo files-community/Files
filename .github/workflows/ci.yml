@@ -12,23 +12,24 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'docs/**'
+      - 'specs/**'
       - '*.md'
   pull_request:
     paths-ignore:
-      - 'docs/**'
+      - 'specs/**'
       - '*.md'
 
+run-name: ${{ github.event_name == "pull_request" && "Files CI PR" || "Files CI Validation" }}
+
 env:
-  APPLICATION_NAME: 'Files'
-  SOLUTION_NAME: 'Files.sln'
-  PRIMARY_ARCHITECTURE: 'x64'
+  WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
   PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
-  INTERACTION_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
-  INTERACTION_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
+  AUTOMATED_TESTS_ARCHITECTURE: 'x64'
+  AUTOMATED_TESTS_CONFIGURATION: 'Release'
+  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
   ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
   APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\builds\Files_SelfSigned.pfx'
@@ -73,7 +74,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - if: env.ARCHITECTURE != env.PRIMARY_ARCHITECTURE
+    - if: env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
@@ -82,15 +83,15 @@ jobs:
         -p:Platform=$env:ARCHITECTURE `
         -p:AppxBundle=Never
   
-    - if: env.ARCHITECTURE == env.PRIMARY_ARCHITECTURE
-      name: Build & Package Files
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Build & package Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
         -t:_GenerateAppxPackage `
         -p:Configuration=$env:CONFIGURATION `
         -p:Platform=$env:ARCHITECTURE `
-        -p:AppxBundlePlatforms=$env:PRIMARY_ARCHITECTURE `
+        -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=SideloadOnly `
         -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
@@ -99,11 +100,11 @@ jobs:
         -p:PackageCertificatePassword="" `
         -p:PackageCertificateThumbprint=""
 
-    - if: env.ARCHITECTURE == env.PRIMARY_ARCHITECTURE
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PRIMARY_ARCHITECTURE }})'
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.CONFIGURATION }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
@@ -112,7 +113,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Debug]
+        configuration: [Release]
         platform: [x64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
@@ -135,7 +136,7 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PRIMARY_ARCHITECTURE }})'
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     - name: Install package
@@ -159,13 +160,13 @@ jobs:
 
     - name: Build interaction tests
       run: |
-        msbuild $env:INTERACTION_TESTS_PROJECT_PATH `
+        msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
         -t:Build `
         -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:PRIMARY_ARCHITECTURE
+        -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
 
     - name: Run interaction tests
       run: |
-        dotnet test $env:INTERACTION_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll `
-        -a $env:PRIMARY_ARCHITECTURE `
+        dotnet test $env:AUTOMATED_TESTS_PROJECT_DIR\bin\**\Files.InteractionTests.dll `
+        -a $env:AUTOMATED_TESTS_ARCHITECTURE `
         -c $env:CONFIGURATION
