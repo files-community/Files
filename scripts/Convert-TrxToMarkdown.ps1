@@ -198,13 +198,13 @@ foreach ($item in $trxObject.Results)
 foreach ($item in $trxObject.Results)
 {
     $baseClassName = $trxObject.TestDefinitions | Where-Object { $_.id -eq $item.id }
-    $failedClassName = "<code>" + $baseClassName.className + "." + $item.name + "</code>"
-    $stackTraceText = $item.errorStackTrace
-    [void]$stringBuilder.AppendLine("**``Class: " + $baseClassName.className + "``**");
+    $failedClassName = $baseClassName.className + "." + $item.name
+    [void]$stringBuilder.AppendLine("- **" + $failedClassName + "**");
 
-    [void]$stringBuilder.AppendLine("``````");
-    [void]$stringBuilder.AppendLine("$stackTraceText");
-    [void]$stringBuilder.AppendLine("``````");
+    $stackTraceText = $item.errorStackTrace
+    [void]$stringBuilder.AppendLine("  ``````");
+    [void]$stringBuilder.Append("$stackTraceText");
+    [void]$stringBuilder.AppendLine("  ``````");
 }
 
 [void]$stringBuilder.AppendLine("");
