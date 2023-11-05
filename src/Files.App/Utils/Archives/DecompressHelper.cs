@@ -178,6 +178,9 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 
+				if (archive is null)
+					return;
+
 				if (await FilesystemTasks.Wrap(() => IsArchiveEncrypted(archive)))
 				{
 					DecompressArchiveDialog decompressArchiveDialog = new();
@@ -212,6 +215,9 @@ namespace Files.App.Utils.Archives
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
 				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(associatedInstance.FilesystemViewModel.CurrentFolder.ItemPath);
 				BaseStorageFolder destinationFolder = null;
+
+				if (archive is null)
+					return;
 
 				if (await FilesystemTasks.Wrap(() => DecompressHelper.IsArchiveEncrypted(archive)))
 				{
