@@ -576,6 +576,7 @@ namespace Files.App.Utils.Shell
 			}
 			catch (NotImplementedException)
 			{
+				// explorer.exe is not running as a shell
 				return null;
 			}
 
