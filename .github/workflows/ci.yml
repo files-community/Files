@@ -113,7 +113,7 @@ jobs:
       name: Copy tests dll to the artifacts dir
       shell: pwsh
       run: |
-        Copy-Item $env:AUTOMATED_TESTS_PROJECT_DIR\bin\ $env:AUTOMATED_TESTS_ASSEMBLY_DIR
+        Copy-Item -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
