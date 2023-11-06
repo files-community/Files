@@ -134,6 +134,9 @@ jobs:
         platform: [x64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
 
