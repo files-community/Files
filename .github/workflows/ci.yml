@@ -3,7 +3,7 @@
 
 # Abstract:
 #  - This CI is executed when a new commit is created on the main branch or
-#    on a PR whose base branch is the main branch.
+#    on a PR whose head branch is the main branch.
 #  - However, the CI will not be executed if files not directly related to
 #    source code maintenance are updated.
 

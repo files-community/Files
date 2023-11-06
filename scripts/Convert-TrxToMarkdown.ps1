@@ -97,7 +97,8 @@ $stringBuilder = New-Object System.Text.StringBuilder
 
 $title = "## Tested with Files <img alt=""logo"" src=""https://github.com/files-community/Files/assets/62196528/6d4b489a-12be-4819-9bbc-a5f95858e77d"" width=""28"" align=""top"" />"
 $pullRequestId = $env:github.event.pull_request.number
-$AbbreviatedOid = $GITHUB_SHA.Substring(0, 7)
+$AbbreviatedOid = $env:GITHUB_SHA
+$AbbreviatedOid = $AbbreviatedOid.Substring(0, 7)
 $resultOverview = ""
 
 # Header
