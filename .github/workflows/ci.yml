@@ -156,23 +156,20 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    # - name: Prepare tests result
-    #  uses: marocchino/sticky-pull-request-comment@v2
-    #  with:
-    #    header: test-result
-    #    message: |
-    #      Waiting the tests running to finish.
+    - name: Start WinAppDriver
+      run: Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
 
     - name: Run interaction tests
       run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
 
-    - name: Convert TRX to MD
+    - name: Generate markdown from the tests result
       shell: pwsh
       run: |
         . './scripts/Convert-TrxToMarkdown.ps1' `
           -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
           -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
 
+    # This is a temporaly step for debugging
     - name: Publish tests result
       shell: pwsh
       run: |
