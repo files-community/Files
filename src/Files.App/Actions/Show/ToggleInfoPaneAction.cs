@@ -3,27 +3,24 @@
 
 namespace Files.App.Actions
 {
-	internal class TogglePreviewPaneAction : ObservableObject, IToggleAction
+	internal class ToggleInfoPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly PreviewPaneViewModel viewModel;
 		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		public string Label
-			=> "TogglePreviewPane".GetLocalizedResource();
+			=> "ToggleInfoPane".GetLocalizedResource();
 
 		public string Description
-			=> "TogglePreviewPaneDescription".GetLocalizedResource();
+			=> "ToggleInfoDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconRightPane");
 
-		public HotKey HotKey
-			=> new(Keys.P, KeyModifiers.MenuCtrl);
-
 		public bool IsOn
 			=> viewModel.IsEnabled;
 
-		public TogglePreviewPaneAction()
+		public ToggleInfoPaneAction()
 		{
 			viewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 			viewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -31,18 +28,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			if (viewModel.IsEnabled)
-			{
-				if (previewSettingsService.ShowPreviewOnly)
-					viewModel.IsEnabled = false;
-				else
-					previewSettingsService.ShowPreviewOnly = true;
-			}
-			else
-			{
-				viewModel.IsEnabled = true;
-				previewSettingsService.ShowPreviewOnly = true;
-			}
+			viewModel.IsEnabled = !IsOn;
 
 			return Task.CompletedTask;
 		}
