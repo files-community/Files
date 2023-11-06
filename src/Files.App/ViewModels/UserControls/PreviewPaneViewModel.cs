@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public bool LoadTagsList
-			=> SelectedItem?.HasTags ?? false && 
+			=> SelectedItem?.HasTags ?? false &&
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
@@ -289,8 +289,14 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
-					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+
+					if (previewSettingsService.ShowPreviewOnly)
+					{
+						loadCancellationTokenSource = new CancellationTokenSource();
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					}
+					else
+						await LoadBasicPreviewAsync();
 				}
 				catch (Exception e)
 				{
@@ -347,7 +353,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void UpdateDateDisplay()
 		{
-			SelectedItem?.FileDetails?.ForEach(property => {
+			SelectedItem?.FileDetails?.ForEach(property =>
+			{
 				if (property.Value is DateTimeOffset)
 					property.UpdateValueText();
 			});
