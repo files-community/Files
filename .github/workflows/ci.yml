@@ -21,7 +21,7 @@ on:
       - 'specs/**'
       - '*.md'
 
-run-name: ${{ github.event_name == 'pull_request' && 'Files CI":" ${{ github.event.pull_request.title }}' || 'Files CI' }}
+run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation || 'Files CI Validation' }}
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
