@@ -12,7 +12,7 @@ namespace Files.App.Actions
 			=> "ToggleInfoPane".GetLocalizedResource();
 
 		public string Description
-			=> "ToggleInfoDescription".GetLocalizedResource();
+			=> "ToggleInfoPaneDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconRightPane");
