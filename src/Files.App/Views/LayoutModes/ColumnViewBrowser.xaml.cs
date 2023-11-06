@@ -115,7 +115,7 @@ namespace Files.App.Views.LayoutModes
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path,
-				SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+				SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 			});
 
 			var index = 0;
@@ -127,7 +127,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					Column = ++index,
 					NavPathParam = path,
-					SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+					SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 				});
 			}
 		}
@@ -406,15 +406,15 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 			}
-			if (PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
-				PathNormalization.NormalizePath(e.ItemPath))
-			{
+
+			if (ParentShellPageInstance is null)
+				return;
+
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
+				NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
-			}
 			else
-			{
 				DismissOtherBlades(0);
-			}
 		}
 
 		public IShellPage ActiveColumnShellPage
