@@ -197,7 +197,7 @@ jobs:
       targetType: 'inline'
       script: |
         gci $(Build.SourcesDirectory)\src -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach -Process {
-        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release"}) | Set-Content $_ -NoNewline
+        (Get-Content $_ -Raw | ForEach -Process {$_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Stable"}) | Set-Content $_ -NoNewline
         }
       failOnStderr: true
 

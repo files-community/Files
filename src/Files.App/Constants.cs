@@ -73,7 +73,7 @@ namespace Files.App
 		{
 			public const string DevLogo = "Assets/AppTiles/Dev/Logo.ico";
 			public const string PreviewLogo = "Assets/AppTiles/Preview/Logo.ico";
-			public const string StableLogo = "Assets/AppTiles/Release/Logo.ico";
+			public const string StableLogo = "Assets/AppTiles/Stable/Logo.ico";
 		}
 
 		public static class UI
