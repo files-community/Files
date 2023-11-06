@@ -23,8 +23,11 @@ namespace Files.App.Views
 			}
 			set
 			{
-				_props.InsertBoolean(nameof(CanNavigateForward), value);
-				_tracker.MaxPosition = new(value ? 96f : 0f);
+				if (!_disposed)
+				{
+					_props.InsertBoolean(nameof(CanNavigateForward), value);
+					_tracker.MaxPosition = new(value ? 96f : 0f);
+				}
 			}
 		}
 
@@ -37,8 +40,11 @@ namespace Files.App.Views
 			}
 			set
 			{
-				_props.InsertBoolean(nameof(CanNavigateBackward), value);
-				_tracker.MinPosition = new(value ? -96f : 0f);
+				if (!_disposed)
+				{
+					_props.InsertBoolean(nameof(CanNavigateBackward), value);
+					_tracker.MinPosition = new(value ? -96f : 0f);
+				}
 			}
 		}
 
@@ -157,6 +163,8 @@ namespace Files.App.Views
 			if (_disposed)
 				return;
 
+			_disposed = true;
+
 			_rootElement.RemoveHandler(UIElement.PointerPressedEvent, _pointerPressedHandler);
 			_backVisual.StopAnimation("Translation.X");
 			_forwardVisual.StopAnimation("Translation.X");
@@ -164,7 +172,6 @@ namespace Files.App.Views
 			_source.Dispose();
 			_props.Dispose();
 
-			_disposed = true;
 			GC.SuppressFinalize(this);
 		}
 
