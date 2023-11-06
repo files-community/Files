@@ -173,6 +173,8 @@ jobs:
         . './scripts/Convert-TrxToMarkdown.ps1' `
           -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
           -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
+      env:
+        PULL_REQUEST_ID: ${{ github.event.pull_request_id }}
 
     # This is a temporaly step for debugging
     - name: Publish tests result

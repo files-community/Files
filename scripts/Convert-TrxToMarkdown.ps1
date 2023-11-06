@@ -96,7 +96,6 @@ foreach ($item in $xmlDoc.TestRun.Results.UnitTestResult)
 $stringBuilder = New-Object System.Text.StringBuilder
 
 $title = "## Tested with Files <img alt=""logo"" src=""https://github.com/files-community/Files/assets/62196528/6d4b489a-12be-4819-9bbc-a5f95858e77d"" width=""28"" align=""top"" />"
-$pullRequestId = $env:github.event.pull_request.number
 $AbbreviatedOid = $env:GITHUB_SHA
 $AbbreviatedOid = $AbbreviatedOid.Substring(0, 7)
 $resultOverview = ""
@@ -134,7 +133,7 @@ else
 [void]$stringBuilder.AppendLine("<table>");
 [void]$stringBuilder.AppendLine("<tr>");
 [void]$stringBuilder.AppendLine("<td><strong>Commit:</strong></td>");
-[void]$stringBuilder.AppendLine("<td><a href=""https://github.com/files-community/Files/pull/$pullRequestId/commits/$AbbreviatedOid""><code>$AbbreviatedOid</code></a></td>");
+[void]$stringBuilder.AppendLine("<td><a href=""https://github.com/files-community/Files/pull/$env:PULL_REQUEST_ID/commits/$AbbreviatedOid""><code>$AbbreviatedOid</code></a></td>");
 [void]$stringBuilder.AppendLine("</tr>");
 [void]$stringBuilder.AppendLine("<tr>");
 [void]$stringBuilder.AppendLine("<td><strong>Status:</strong></td>");
@@ -142,7 +141,7 @@ else
 [void]$stringBuilder.AppendLine("</tr>");
 [void]$stringBuilder.AppendLine("<tr>");
 [void]$stringBuilder.AppendLine("<td><strong>Full log:</strong></td>");
-[void]$stringBuilder.AppendLine("<td><a href=""https://github.com/files-community/Files/actions/runs/$GITHUB_RUN_ID/job/$GITHUB_JOB"">https://github.com/files-community/Files/actions/runs/$GITHUB_RUN_ID/job/$GITHUB_JOB</a></td>");
+[void]$stringBuilder.AppendLine("<td><a href=""https://github.com/files-community/Files/actions/runs/$env:GITHUB_RUN_ID/job/$env:GITHUB_JOB"">https://github.com/files-community/Files/actions/runs/$GITHUB_RUN_ID/job/$GITHUB_JOB</a></td>");
 [void]$stringBuilder.AppendLine("</tr>");
 [void]$stringBuilder.AppendLine("</table>");
 [void]$stringBuilder.AppendLine("");
