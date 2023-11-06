@@ -29,9 +29,9 @@ parameters:
   - name: iconVariant
     displayName: Icon Variant
     type: string
-    default: 'Release'
+    default: 'Stable'
     values:
-    - 'Release'
+    - 'Stable'
     - 'Preview'
 
 variables:
