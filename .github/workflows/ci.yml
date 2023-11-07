@@ -7,7 +7,7 @@
 #  - However, the CI will not be executed if files not directly related to
 #    source code maintenance are updated.
 
-name: Files CIXamlStyler
+name: Files CI
 
 on:
   push:
