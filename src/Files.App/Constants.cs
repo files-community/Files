@@ -144,6 +144,9 @@ namespace Files.App
 			public static class Drives
 			{
 				public const float LowStorageSpacePercentageThreshold = 90.0f;
+
+				public const float AlmostLowStoragePercentageThreshold = 80.0f;
+
 			}
 
 			public const int WidgetIconSize = 256;

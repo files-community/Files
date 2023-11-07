@@ -162,6 +162,8 @@ namespace Files.App.Data.Items
 
 				if (Type == DriveType.Fixed)
 					ShowStorageSense = percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
+
+				OnPropertyChanged(nameof(ProgressBarColor));
 			}
 		}
 
@@ -171,6 +173,10 @@ namespace Files.App.Data.Items
 			get => showStorageSense;
 			set => SetProperty(ref showStorageSense, value);
 		}
+
+		public string ProgressBarColor
+			// color for drive progress bar will be red when space used is between 90-100%, orange between 80-90%, and blue otherwise.
+			=> PercentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold ? "Red" : PercentageUsed >= Constants.Widgets.Drives.AlmostLowStoragePercentageThreshold ? "Orange" : "Blue";
 
 		public string Id => DeviceID;
 

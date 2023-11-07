@@ -86,6 +86,7 @@
 								VerticalContentAlignment="Stretch"
 								x:Load="{x:Bind Item.ShowDriveDetails, Mode=OneWay}"
 								AutomationProperties.AccessibilityView="Raw"
+								Foreground="{x:Bind Item.ProgressBarColor, Mode=OneWay}"
 								Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
 								Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
