@@ -112,7 +112,7 @@ jobs:
         -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
-      name: Copy tests dll to the artifacts dir
+      name: Copy tests binaries to the artifacts dir
       shell: pwsh
       run: |
         Copy-Item -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
@@ -161,29 +161,28 @@ jobs:
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
-    - name: Start WinAppDriver
+    - name: Start WinAppDriver process
       run: Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
 
     - name: Run interaction tests
       run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
 
-    - name: Generate markdown from the tests result
-      shell: pwsh
-      run: |
-        . './scripts/Convert-TrxToMarkdown.ps1' `
-          -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
-          -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
-      env:
-        PULL_REQUEST_ID: ${{ github.event.pull_request_id }}
+    # - name: Generate markdown from the tests result
+    #   shell: pwsh
+    #   run: |
+    #     . './scripts/Convert-TrxToMarkdown.ps1' `
+    #       -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
+    #       -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
+    #   env:
+    #     PULL_REQUEST_ID: ${{ github.event.pull_request_id }}
 
-    # This is a temporaly step for debugging
-    - name: Publish tests result
-      shell: pwsh
-      run: |
-        Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
+    # - name: Display the markdown on the output (temp)
+    #   shell: pwsh
+    #   run: |
+    #     Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
 
     # - name: Publish tests result
-    #  uses: marocchino/sticky-pull-request-comment@v2
-    #  with:
-    #    header: test-result
-    #    path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'
+    #   uses: marocchino/sticky-pull-request-comment@v2
+    #   with:
+    #     header: test-result
+    #     path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'
