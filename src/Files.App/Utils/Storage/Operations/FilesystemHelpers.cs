@@ -751,21 +751,26 @@ namespace Files.App.Utils.Storage
 			}
 
 			// workaround for pasting folders from remote desktop (#12318)
-			if (hasVirtualItems && packageView.Contains("FileContents"))
+			try
 			{
-				var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
-				for (var ii = 0; ii < descriptor.cItems; ii++)
+				if (hasVirtualItems && packageView.Contains("FileContents"))
 				{
-					if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
+					var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
+					for (var ii = 0; ii < descriptor.cItems; ii++)
 					{
-						itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
-					}
-					else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
-					{
-						var streamContent = new ComStreamWrapper(stream);
-						itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
+						if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
+							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
+						else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
+						{
+							var streamContent = new ComStreamWrapper(stream);
+							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
+						}
 					}
 				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most

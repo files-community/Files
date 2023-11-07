@@ -137,7 +137,7 @@ namespace Files.App.Utils.RecentItem
 					}
 					catch (Exception ex)
 					{
-						App.Logger.LogWarning(ex, ex.Message);
+						// other error (usually a COMException)
 					}
 
 					return null;

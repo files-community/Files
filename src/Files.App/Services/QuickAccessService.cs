@@ -17,27 +17,25 @@ namespace Files.App.Services
 			return result;
 		}
 
-		public Task PinToSidebarAsync(string folderPath)
-		{ 
-			return PinToSidebarAsync(new[] { folderPath });
-		}
-		
-		public async Task PinToSidebarAsync(string[] folderPaths)
+		public Task PinToSidebarAsync(string folderPath) => PinToSidebarAsync(new[] { folderPath });
+
+		public Task PinToSidebarAsync(string[] folderPaths) => PinToSidebarAsync(folderPaths, true);
+
+		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			foreach (string folderPath in folderPaths)
 				await ContextMenu.InvokeVerb("pintohome", new[] {folderPath});
 
 			await App.QuickAccessManager.Model.LoadAsync();
-			
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
+			if (doUpdateQuickAccessWidget)
+				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebarAsync(string folderPath)
-		{ 
-			return UnpinFromSidebarAsync(new[] { folderPath }); 
-		}
-		
-		public async Task UnpinFromSidebarAsync(string[] folderPaths)
+		public Task UnpinFromSidebarAsync(string folderPath) => UnpinFromSidebarAsync(new[] { folderPath }); 
+
+		public Task UnpinFromSidebarAsync(string[] folderPaths) => UnpinFromSidebarAsync(folderPaths, true);
+
+		private async Task UnpinFromSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			Type? shellAppType = Type.GetTypeFromProgID("Shell.Application");
 			object? shell = Activator.CreateInstance(shellAppType);
@@ -76,8 +74,8 @@ namespace Files.App.Services
 			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
-			
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
+			if (doUpdateQuickAccessWidget)
+				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, false));
 		}
 
 		public bool IsItemPinned(string folderPath)
@@ -93,11 +91,15 @@ namespace Files.App.Services
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
-			await UnpinFromSidebarAsync(Array.Empty<string>());
+			await UnpinFromSidebarAsync(Array.Empty<string>(), false);
 
-			await PinToSidebarAsync(items);
+			await PinToSidebarAsync(items, false);
 			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
-			await App.QuickAccessManager.Model.LoadAsync();
+
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(items, true)
+			{
+				Reorder = true
+			});
 		}
 	}
 }

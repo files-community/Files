@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Closing="ContentDialog_Closing"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="None"
 	RequestedTheme="{x:Bind helpers:ThemeHelper.RootTheme}"
@@ -18,7 +19,7 @@
 		</ResourceDictionary>
 	</ContentDialog.Resources>
 
-	<Grid>
+	<Grid x:Name="ContainerGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
