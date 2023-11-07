@@ -48,7 +48,9 @@ jobs:
         shell: pwsh
 
     steps:
-    - uses: actions/checko
+
+    - name: Checkout the repository
+      uses: actions/checkout@v3
     
     - name: Install XamlStyler console
       run: 'dotnet tool install --global XamlStyler.Console'
@@ -83,6 +85,7 @@ jobs:
       ARCHITECTURE: ${{ matrix.platform }}
 
     steps:
+
     - name: Checkout the repository
       uses: actions/checkout@v3
 
