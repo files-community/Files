@@ -124,6 +124,11 @@ jobs:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
+    - name: Remove annotations
+      run: |
+        echo "::remove-matcher owner=eslint-compact::"
+        echo "::remove-matcher owner=eslint-stylish::"
+
   test:
     needs: [build]
     runs-on: windows-latest
