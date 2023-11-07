@@ -50,7 +50,7 @@ jobs:
 
     - name: Install XamlStyler console
       shell: pwsh
-      run: 'dotnet tool install --global .Console'
+      run: 'dotnet tool install --global XamlStyler.Console'
 
     - name: Check XAML formatting
       id: check-step
