@@ -36,6 +36,8 @@ env:
   ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\builds\Files_SelfSigned.pfx'
+  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
+  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
   build:
@@ -82,6 +84,7 @@ jobs:
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Build `
+        -clp:ErrorsOnly `
         -p:Configuration=$env:CONFIGURATION `
         -p:Platform=$env:ARCHITECTURE `
         -p:AppxBundle=Never
@@ -164,7 +167,8 @@ jobs:
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
     - name: Start WinAppDriver process
-      run: Start-Process -FilePath "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
+      shell: pwsh
+      run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
     - name: Run interaction tests
       run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
