@@ -69,10 +69,10 @@ namespace Files.App.Views
 
 				quickAccessWidget.CardInvoked -= QuickAccessWidget_CardInvoked;
 				quickAccessWidget.CardNewPaneInvoked -= WidgetCardNewPaneInvoked;
-				quickAccessWidget.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvokedAsync;
+				quickAccessWidget.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
 				quickAccessWidget.CardInvoked += QuickAccessWidget_CardInvoked;
 				quickAccessWidget.CardNewPaneInvoked += WidgetCardNewPaneInvoked;
-				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvokedAsync;
+				quickAccessWidget.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
 			}
 
 			// Reload DrivesWidget
@@ -108,9 +108,9 @@ namespace Files.App.Views
 
 				recentFilesWidget.AppInstance = AppInstance;
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
-				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvokedAsync;
+				recentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
 				recentFilesWidget.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
-				recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvokedAsync;
+				recentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace Files.App.Views
 			ReloadWidgets();
 		}
 
-		private async void RecentFilesWidget_RecentFileInvokedAsync(object sender, PathNavigationEventArgs e)
+		private async void RecentFilesWidget_RecentFileInvoked(object sender, PathNavigationEventArgs e)
 		{
 			try
 			{
@@ -173,7 +173,7 @@ namespace Files.App.Views
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private async void QuickAccessWidget_CardPropertiesInvokedAsync(object sender, QuickAccessCardEventArgs e)
+		private async void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
 			ListedItem listedItem = new(null!)
 			{
@@ -220,8 +220,8 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequestedAsync;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequestedAsync;
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
 			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
@@ -246,10 +246,10 @@ namespace Files.App.Views
 		{
 			base.OnNavigatingFrom(e);
 
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequestedAsync;
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 		}
 
-		private async void ToolbarViewModel_RefreshRequestedAsync(object? sender, EventArgs e)
+		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
 			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
@@ -260,7 +260,7 @@ namespace Files.App.Views
 		{
 			ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;
 			Widgets.ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequestedAsync;
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			ViewModel?.Dispose();
 		}
 	}

@@ -28,6 +28,9 @@ namespace Files.App.Helpers
 		[DllImport("kernel32.dll")]
 		public static extern bool SetEvent(IntPtr hEvent);
 
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern void SwitchToThisWindow(IntPtr hWnd, bool altTab);
+
 		[DllImport("ole32.dll")]
 		public static extern uint CoWaitForMultipleObjects(uint dwFlags, uint dwMilliseconds, ulong nHandles, IntPtr[] pHandles, out uint dwIndex);
 

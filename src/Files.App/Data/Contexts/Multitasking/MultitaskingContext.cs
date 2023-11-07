@@ -17,8 +17,8 @@ namespace Files.App.Data.Contexts
 		private ushort tabCount = 0;
 		public ushort TabCount => tabCount;
 
-		public TabBarItem CurrentTabItem => MainPageViewModel.AppInstances[currentTabIndex];
-		public TabBarItem SelectedTabItem => MainPageViewModel.AppInstances[selectedTabIndex];
+		public TabBarItem CurrentTabItem => MainPageViewModel.AppInstances.ElementAtOrDefault(currentTabIndex);
+		public TabBarItem SelectedTabItem => MainPageViewModel.AppInstances.ElementAtOrDefault(selectedTabIndex);
 
 		private ushort currentTabIndex = 0;
 		public ushort CurrentTabIndex => currentTabIndex;

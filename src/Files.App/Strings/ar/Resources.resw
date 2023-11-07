@@ -142,7 +142,7 @@
     <value>الحجم في القرص:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>الحجم الغير مضغوط:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>لا يمكن القيام بهذا الامر</value>
@@ -160,10 +160,10 @@
     <value>تحديد الكل</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>إعكس التحديد</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>إلغاء إختيار</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>تاريخ التعديل</value>
@@ -277,7 +277,7 @@
     <value>مرحبا بك في Files</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>منح الصلاحية</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>للبدء ، ستحتاج إلى منحنا إذنًا لعرض ملفاتك. سيؤدي هذا إلى فتح صفحة الإعدادات حيث يمكنك منحنا هذا الإذن. ستحتاج إلى إعادة فتح التطبيق بمجرد الانتهاء من هذه الخطوة</value>
@@ -289,7 +289,7 @@
     <value>ادخل اسم عنصر</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>تعيين اسم</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>فاتح</value>
@@ -304,10 +304,10 @@
     <value>النظام</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>مجلد جديد</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>ملف جديد</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>‏‏هذا المجلد فارغ</value>
@@ -343,7 +343,7 @@
     <value>الرجاء ادخال المحرك المطلوب لهذا العنصر</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>محرك الأقراص غير موصول</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>الملف الذي تحاول الوصول إليه قد تم نقله او حذفه.</value>
@@ -613,7 +613,7 @@
     <value>إلغاء الأمر</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>إنشاء عنصر جديد</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>اختر نوعًا لهذا العنصر الجديد أدناه</value>
@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>هذا الجهاز قيد الاستخدام حاليا. أغلق أي برامج أو نوافذ أو علامات تبويب قد تستخدم الجهاز ، ثم حاول مرة أخرى</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>إخراج</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -970,7 +970,7 @@
     <value>تحقق من حالة عمليات الملف هنا</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>مركز الحالات</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>نتائج البحث في</value>
@@ -1390,7 +1390,7 @@
     <value>سلة المهملات</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>الإلغاء</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>مسح</value>
@@ -1450,7 +1450,7 @@
     <value>مالك غير معروف</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract archive</value>
+    <value>استخرج الأرشيف</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>فتح مجلد الوجهة عند الاكتمال</value>
@@ -1687,7 +1687,7 @@
     <value>‏‏جزء من المجموعة</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open drive</value>
+    <value>فتح القرص</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>الرجاء إدخال قرص في محرك الأقراص {0}</value>
@@ -1699,7 +1699,7 @@
     <value>موافق</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential required</value>
+    <value>بيانات الاعتماد مطلوبة</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>مجهول</value>
@@ -1711,7 +1711,7 @@
     <value>اسم المستخدم</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives widget</value>
+    <value>عنصر واجهة الأقراص</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Recent Files widget</value>
@@ -1729,13 +1729,13 @@
     <value>الأعمدة</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>أيقونات كبيرة</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium icons</value>
+    <value>أيقونات متوسطة</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>أيقونات صغيرة</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>لوحات</value>
@@ -1744,7 +1744,7 @@
     <value>فتح المجلدات في علامة تبويب جديدة</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>مركز الحالات</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>عمود تاريخ الإنشاء</value>
@@ -1780,10 +1780,10 @@
     <value>مسار المجلد</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>تصدير الإعدادات</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>استيراد الإعدادات</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>تعذر استيراد الإعدادات. ملف الإعدادات تالف.</value>
@@ -1897,7 +1897,7 @@
     <value>أخر الملفات</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>فتح الملفات عند بدء تشغيل Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>‏‏سمات</value>
@@ -1918,7 +1918,7 @@
     <value>النوع</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
+    <value>أيقونة الشبكة</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>بايت</value>
@@ -2005,7 +2005,7 @@
     <value>تعيين كعرض شرائح سطح المكتب</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>ضبط حجم الأعمدة لتتناسب</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatically choose the best layout</value>
@@ -2197,7 +2197,7 @@
     <value>الملفات المستخدمة حديثًا معطلة حاليًا في مستكشف ملفات ويندوز.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>تعديل ملف الإعدادات</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>ما الجديد</value>
@@ -2239,7 +2239,7 @@
     <value>أدخل بيانات الاعتماد الخاصة بك للاتصال بـ: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>أدخل بيانات اعتماد الشبكة</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>تذكر بيانات اعتمادي</value>
@@ -2308,10 +2308,10 @@
     <value>تطبيق هذا الإجراء على جميع العناصر المتضاربة</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>فتح في نافذة محرر الأوامر</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>فتح في نافذة محرر الأوامر كمسؤول</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
@@ -2894,7 +2894,7 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>تبديل التحديد</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>إظهار التحذير عند تغيير امتداد الملفات</value>
@@ -3041,7 +3041,7 @@
     <value>لديك تغييرات غير محفوظة في هذا الفرع. ماذا تريد أن تفعل بها؟</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>تغيير الفرع</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>الفروع</value>
@@ -3104,7 +3104,7 @@
     <value>حالة Git</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>خطأ في Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>فشل سحب git بسبب خطأ في المهلة</value>
@@ -3171,13 +3171,13 @@
     <value>لا يمكن لـ Files الوصول إلى GitHub الآن.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>فتح المجلد في VS Code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>فتح المجلد الحالي في Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>فتح المستودع في VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
     <value>Open the root of the Git repo in Visual Studio Code</value>
@@ -3271,7 +3271,7 @@
     <value>العناصر التالية حجمها كبير جدًا بحيث لا يمكن نسخه إلى محرك الأقراص هذا</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
-    <value>Format drive</value>
+    <value>تهيئة القرص</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
     <value>لا تُظهر مجدّدًا</value>
@@ -3362,13 +3362,13 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>مسح المهام المُنجَزة</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>الاسم:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>تم معالجة {0} من {1}</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
@@ -3378,16 +3378,16 @@
     <value>Files can't initialize this directory as a Git repository.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Contributing Artist</value>
+    <value>الفنان المساهم</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>إضافة صفحة</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>جاري معالجة العناصر...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>السرعة:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3462,7 +3462,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>تم استخراج "{0}" إلى "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
@@ -3570,18 +3570,24 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>فشل في إفراغ سلة المحذوفات</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>جارٍ إعداد العملية...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>{0}/{1} عنصر (عناصر) معالجة</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>إلغاء حظر الملف المحمّل</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>لا توجد عمليات ملفات جارية</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

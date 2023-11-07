@@ -121,6 +121,7 @@ namespace Files.App.Helpers
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
+			bool isScreenSaver = FileExtensionHelpers.IsScreenSaverFile(path);
 			bool isTag = path.StartsWith("tag:");
 			FilesystemResult opened = (FilesystemResult)false;
 
@@ -200,6 +201,10 @@ namespace Files.App.Helpers
 					break;
 
 				case FilesystemItemType.File:
+					// Starts the screensaver in full-screen mode
+					if (isScreenSaver)
+						args += "/s";
+
 					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
 					break;
 			};

@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -29,8 +30,8 @@ namespace Files.App.UserControls.TabBar
 
 		public UIElement FooterElement
 		{
-			get => (UIElement)GetValue(FooterElementProperty); 
-			set => SetValue(FooterElementProperty, value); 
+			get => (UIElement)GetValue(FooterElementProperty);
+			set => SetValue(FooterElementProperty, value);
 		}
 
 		public static readonly DependencyProperty TabStripVisibilityProperty =
@@ -56,6 +57,18 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
+		/// <summary> Starting position when dragging a tab.</summary>
+		private InteropHelpers.POINT dragStartPoint;
+
+		/// <summary> Starting time when dragging a tab. </summary>
+		private DateTimeOffset dragStartTime;
+
+		/// <summary>
+		/// Indicates if drag operation should be canceled.
+		/// This value gets reset at the start of the drag operation
+		/// </summary>
+		private bool isCancelingDragOperation;
+
 		public TabBar()
 		{
 			InitializeComponent();
@@ -76,9 +89,7 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
-			}
 
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
 			{
@@ -97,14 +108,14 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.SelectedIndex = App.AppModel.TabStripSelectedIndex;
 		}
 
-		private async void TabViewItem_DropAsync(object sender, DragEventArgs e)
+		private async void TabViewItem_Drop(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDrop(sender, e);
 			HorizontalTabView.CanReorderTabs = true;
 			tabHoverTimer.Stop();
 		}
 
-		private async void TabViewItem_DragEnterAsync(object sender, DragEventArgs e)
+		private async void TabViewItem_DragEnter(object sender, DragEventArgs e)
 		{
 			await ((sender as TabViewItem).DataContext as TabBarItem).TabItemContent.TabItemDragOver(sender, e);
 			if (e.AcceptedOperation != DataPackageOperation.None)
@@ -115,7 +126,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private void TabViewItem_DragLeaveAsync(object sender, DragEventArgs e)
+		private void TabViewItem_DragLeave(object sender, DragEventArgs e)
 		{
 			tabHoverTimer.Stop();
 			hoveredTabViewItem = null;
@@ -126,16 +137,34 @@ namespace Files.App.UserControls.TabBar
 		{
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
-			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
-			}
 		}
 
 		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
 		{
+			// Reset value
+			isCancelingDragOperation = false;
+
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
+
+			// Get cursor position & time to track how far the tab was dragged.
+			InteropHelpers.GetCursorPos(out dragStartPoint);
+			dragStartTime = DateTimeOffset.UtcNow;
+
+			// Focus the UI Element, without this the focus sometimes changes
+			// and the PreviewKeyDown event won't trigger.
+			Focus(FocusState.Programmatic);
+			PreviewKeyDown += TabDragging_PreviewKeyDown;
+		}
+
+		private void TabDragging_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			// Pressing escape will automatically complete the drag event but we need to set the
+			// isCancelingDragOperation field in order to detect if escape was pressed.
+			if (e.Key is Windows.System.VirtualKey.Escape)
+				isCancelingDragOperation = true;
 		}
 
 		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
@@ -160,7 +189,7 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 		}
 
-		private async void TabView_TabStripDropAsync(object sender, DragEventArgs e)
+		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
 			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
 
@@ -169,9 +198,7 @@ namespace Files.App.UserControls.TabBar
 
 			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
 				!(tabViewItemPathObj is string tabViewItemString))
-			{
 				return;
-			}
 
 			var index = -1;
 
@@ -193,32 +220,41 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
+			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
-			{
 				CloseTab(args.Item as TabBarItem);
-			}
 			else
-			{
 				HorizontalTabView.SelectedItem = args.Tab;
-			}
 
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
-			{
 				ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
-			}
 		}
 
-		private async void TabView_TabDroppedOutsideAsync(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
-			if (sender.TabItems.Count == 1)
-			{
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
+			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+
+			if (isCancelingDragOperation)
 				return;
-			}
+
+			InteropHelpers.GetCursorPos(out var droppedPoint);
+			var droppedTime = DateTimeOffset.UtcNow;
+			var dragTime = droppedTime - dragStartTime;
+			var dragDistance = Math.Sqrt(Math.Pow((dragStartPoint.X - droppedPoint.X), 2) + Math.Pow((dragStartPoint.Y - droppedPoint.Y), 2));
+
+			if (sender.TabItems.Count == 1 ||
+				(dragTime.TotalSeconds < 1 &&
+				dragDistance < 100))
+				return;
 
 			var indexOfTabViewItem = sender.TabItems.IndexOf(args.Item);
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			var selectedTabViewItemIndex = sender.SelectedIndex;
+
 			Items.Remove(args.Item as TabBarItem);
 			if (!await NavigationHelpers.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
 			{
@@ -226,10 +262,8 @@ namespace Files.App.UserControls.TabBar
 				sender.SelectedIndex = selectedTabViewItemIndex;
 			}
 			else
-			{
 				// Dispose tab arguments
 				(args.Item as TabBarItem)?.Unload();
-			}
 		}
 
 		private void TabItemContextMenu_Opening(object sender, object e)

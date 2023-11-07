@@ -160,10 +160,10 @@
     <value>Alles selecteren</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Selectie omkeren</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Selectie wissen</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Gewijzigd op:</value>
@@ -175,7 +175,7 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Voer een pad in om naar te navigeren of type "&gt;" om het opdrachtpalet te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
@@ -277,7 +277,7 @@
     <value>Welkom bij Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Toestemming verlenen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Om aan de slag te gaan, moet u toestemming geven om uw bestanden weer te geven. Hiermee wordt er een pagina in Instellingen geopend waar u toestemming kunt geven. U moet de app hierna opnieuw starten.</value>
@@ -304,10 +304,10 @@
     <value>Systeem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Nieuwe map</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Nieuw bestand</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Deze map is leeg.</value>
@@ -613,7 +613,7 @@
     <value>Annuleren</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Maak een nieuw item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Kies hieronder het type item</value>
@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Dit apparaat is in gebruik. Sluit alle programma's, vensters en tabbladen die dit apparaat gebruiken en probeer het opnieuw.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Uitwerpen</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -970,7 +970,7 @@
     <value>Controleer hier de status van bewerkingen</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statuscentrum</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Zoekresultaten in</value>
@@ -1390,7 +1390,7 @@
     <value>de prullenbak</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Annuleren</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Wissen</value>
@@ -1450,7 +1450,7 @@
     <value>Onbekende eigenaar</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract archive</value>
+    <value>Archief uitpakken</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Open doelmap na voltooiing</value>
@@ -1729,13 +1729,13 @@
     <value>Kolommen</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Grote iconen</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium icons</value>
+    <value>Middelgrote iconen</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Kleine iconen</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tegels</value>
@@ -1744,7 +1744,7 @@
     <value>Open mappen in nieuw tabblad</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statuscentrum</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Aanmaakdatum kolom</value>
@@ -1780,10 +1780,10 @@
     <value>Mappad</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Exporteer instellingen</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Importeer instellingen</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Kan instellingen niet importeren. Het instellingenbestand is beschadigd.</value>
@@ -1897,7 +1897,7 @@
     <value>Recente bestanden</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>Open Files bij opstarten van Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Attributen</value>
@@ -1918,7 +1918,7 @@
     <value>Soort</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
+    <value>Icoon raster</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -2005,7 +2005,7 @@
     <value>Instellen als bureaublad diavoorstelling</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>Grootte van alle kolommen naar passend maken</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatically choose the best layout</value>
@@ -2197,7 +2197,7 @@
     <value>Recent gebruikte bestanden zijn momenteel uitgeschakeld in Windows Verkenner.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Bewerk instellingenbestand</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>Wat is er nieuw</value>
@@ -2308,10 +2308,10 @@
     <value>Deze actie toepassen op alle conflicterende items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>Openen in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>Open in Windows Terminal als beheerder</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Opslaan</value>
@@ -2894,7 +2894,7 @@
     <value>Wijzigen</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>Selectie omkeren</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Waarschuwing weergeven bij wijzigen van bestandsextensies</value>
@@ -3041,7 +3041,7 @@
     <value>Je hebt niet-gecommitte wijzigingen in deze branche. Wat wil je ermee doen?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>Wissel van branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branches</value>
@@ -3104,7 +3104,7 @@
     <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Git fout</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull is mislukt door een time-out fout</value>
@@ -3141,7 +3141,7 @@
     <value>Achtergrond materiaal</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>Effen</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Branches beheren</value>
@@ -3153,7 +3153,7 @@
     <value>Run git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Synchroniseren</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Start Git pull en dan Git push</value>
@@ -3171,7 +3171,7 @@
     <value>Files kan nu geen toegang krijgen tot GitHub.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Open map in VS code</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Open de huidige map in Visual Studio Code</value>
@@ -3180,7 +3180,7 @@
     <value>Open repo in VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>Open de hoofdmap van de Git repo in Visual Studio Code</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Kopieer code</value>
@@ -3368,7 +3368,7 @@
     <value>Name:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>{0} van {1} verwerkt</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
@@ -3381,13 +3381,13 @@
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Pagina toevoegen</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Snelheid:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3554,34 +3554,40 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>Prullenbak legen geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Prullenbak geleegd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Prullenbak leegmaken</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Fout bij het leegmaken van de prullenbak</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>Prullenbak leegmaken is mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>De operatie wordt voorbereid...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>{0}/{1} item(s) verwerkt</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>Geen lopende bestandsbewerkingen</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

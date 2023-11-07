@@ -269,7 +269,7 @@ namespace Files.App.Views.LayoutModes
 			jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
 			jumpTimer.Tick += JumpTimer_Tick;
 
-			Item_DragOverEventHandler = new DragEventHandler(Item_DragOverAsync);
+			Item_DragOverEventHandler = new DragEventHandler(Item_DragOver);
 
 			SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
 			DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
@@ -387,9 +387,9 @@ namespace Files.App.Views.LayoutModes
 			IsItemSelected = false;
 
 			FolderSettings!.LayoutModeChangeRequested += BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdatedAsync;
-			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdatedAsync;
-			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdatedAsync;
+			FolderSettings.GroupOptionPreferenceUpdated += FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated += FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated += FolderSettings_GroupByDateUnitPreferenceUpdated;
 
 			ParentShellPageInstance.FilesystemViewModel.EmptyTextType = EmptyTextType.None;
 			ParentShellPageInstance.ToolbarViewModel.CanRefresh = true;
@@ -473,8 +473,8 @@ namespace Files.App.Views.LayoutModes
 
 			SetSelectedItemsOnNavigation();
 
-			ItemContextMenuFlyout.Opening += ItemContextFlyout_OpeningAsync;
-			BaseContextMenuFlyout.Opening += BaseContextFlyout_OpeningAsync;
+			ItemContextMenuFlyout.Opening += ItemContextFlyout_Opening;
+			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 
 			// Git properties are not loaded by default
 			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GitProperties.None;
@@ -508,17 +508,17 @@ namespace Files.App.Views.LayoutModes
 
 		private CancellationTokenSource? groupingCancellationToken;
 
-		private async void FolderSettings_GroupOptionPreferenceUpdatedAsync(object? sender, GroupOption e)
+		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}
 
-		private async void FolderSettings_GroupDirectionPreferenceUpdatedAsync(object? sender, SortDirection e)
+		private async void FolderSettings_GroupDirectionPreferenceUpdated(object? sender, SortDirection e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}
 
-		private async void FolderSettings_GroupByDateUnitPreferenceUpdatedAsync(object? sender, GroupByDateUnit e)
+		private async void FolderSettings_GroupByDateUnitPreferenceUpdated(object? sender, GroupByDateUnit e)
 		{
 			await GroupPreferenceUpdatedAsync();
 		}
@@ -544,11 +544,11 @@ namespace Files.App.Views.LayoutModes
 			// Remove item jumping handler
 			CharacterReceived -= Page_CharacterReceived;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdatedAsync;
-			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdatedAsync;
-			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdatedAsync;
-			ItemContextMenuFlyout.Opening -= ItemContextFlyout_OpeningAsync;
-			BaseContextMenuFlyout.Opening -= BaseContextFlyout_OpeningAsync;
+			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
+			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
+			FolderSettings.GroupByDateUnitPreferenceUpdated -= FolderSettings_GroupByDateUnitPreferenceUpdated;
+			ItemContextMenuFlyout.Opening -= ItemContextFlyout_Opening;
+			BaseContextMenuFlyout.Opening -= BaseContextFlyout_Opening;
 
 			var parameter = e.Parameter as NavigationArguments;
 			if (parameter is not null && !parameter.IsLayoutSwitch)
@@ -558,7 +558,7 @@ namespace Files.App.Views.LayoutModes
 		private CancellationTokenSource? shellContextMenuItemCancellationToken;
 		private bool shiftPressed;
 
-		private async void ItemContextFlyout_OpeningAsync(object? sender, object e)
+		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
 
@@ -621,7 +621,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void BaseContextFlyout_OpeningAsync(object? sender, object e)
+		private async void BaseContextFlyout_Opening(object? sender, object e)
 		{
 			App.LastOpenedFlyout = sender as CommandBarFlyout;
 
@@ -1000,7 +1000,7 @@ namespace Files.App.Views.LayoutModes
 				dragOverItem = null;
 		}
 
-		private async void Item_DragOverAsync(object sender, DragEventArgs e)
+		private async void Item_DragOver(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
 			if (item is null)
@@ -1097,7 +1097,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void Item_DropAsync(object sender, DragEventArgs e)
+		private async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
 
@@ -1259,7 +1259,7 @@ namespace Files.App.Views.LayoutModes
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);
 				container.DragLeave += Item_DragLeave;
-				container.Drop += Item_DropAsync;
+				container.Drop += Item_Drop;
 			}
 		}
 
@@ -1268,7 +1268,7 @@ namespace Files.App.Views.LayoutModes
 			element.AllowDrop = false;
 			element.RemoveHandler(UIElement.DragOverEvent, Item_DragOverEventHandler);
 			element.DragLeave -= Item_DragLeave;
-			element.Drop -= Item_DropAsync;
+			element.Drop -= Item_Drop;
 		}
 
 		// VirtualKey doesn't support or accept plus and minus by default.

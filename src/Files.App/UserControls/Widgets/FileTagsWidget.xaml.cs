@@ -93,7 +93,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		private async void FileTagItem_ItemClickAsync(object sender, ItemClickEventArgs e)
+		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
 				await itemViewModel.ClickCommand.ExecuteAsync(null);
@@ -134,16 +134,16 @@ namespace Files.App.UserControls.Widgets
 			if (rightClickedItem is not null)
 			{
 				FlyouItemPath = rightClickedItem.Path;
-				ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_OpenedAsync;
+				ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			}
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 
 			e.Handled = true;
 		}
 
-		private async void ItemContextMenuFlyout_OpenedAsync(object? sender, object e)
+		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
-			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_OpenedAsync;
+			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 

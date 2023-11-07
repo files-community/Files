@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public bool LoadTagsList
-			=> SelectedItem?.HasTags ?? false && 
+			=> SelectedItem?.HasTags ?? false &&
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
@@ -98,7 +98,7 @@ namespace Files.App.ViewModels.UserControls
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
-			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEventAsync;
+			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -289,8 +289,14 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
-					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+
+					if (previewSettingsService.ShowPreviewOnly)
+					{
+						loadCancellationTokenSource = new CancellationTokenSource();
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					}
+					else
+						await LoadBasicPreviewAsync();
 				}
 				catch (Exception e)
 				{
@@ -347,7 +353,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void UpdateDateDisplay()
 		{
-			SelectedItem?.FileDetails?.ForEach(property => {
+			SelectedItem?.FileDetails?.ForEach(property =>
+			{
 				if (property.Value is DateTimeOffset)
 					property.UpdateValueText();
 			});
@@ -355,7 +362,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public ICommand ShowPreviewOnlyInvoked { get; }
 
-		private async void PreviewSettingsService_OnPropertyChangedEventAsync(object sender, PropertyChangedEventArgs e)
+		private async void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
@@ -408,7 +415,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
-			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEventAsync;
+			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 		}
 	}
 }

@@ -947,14 +947,14 @@ namespace Files.App.Utils.Storage
 				public bool Canceled { get; set; }
 			}
 
-			private readonly Shell32.ITaskbarList4 taskbar;
+			private readonly Shell32.ITaskbarList4? taskbar;
 			private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
 			public HWND OwnerWindow { get; set; }
 
 			public ProgressHandler()
 			{
-				taskbar = Win32API.CreateTaskbarObject()!;
+				taskbar = Win32API.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}
@@ -1034,7 +1034,8 @@ namespace Files.App.Utils.Storage
 				if (disposing)
 				{
 					operationsCompletedEvent?.Dispose();
-					Marshal.ReleaseComObject(taskbar);
+					if (taskbar is not null)
+						Marshal.ReleaseComObject(taskbar);
 				}
 			}
 		}

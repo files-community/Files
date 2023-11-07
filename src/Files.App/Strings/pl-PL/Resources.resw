@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>To urządzenie jest obecnie w użyciu. Zamknij programy, które mogą używać tego urządzenia i spróbuj ponownie.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>Wysuń</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -1390,7 +1390,7 @@
     <value>Kosz</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Anulowanie</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Wyczyść</value>
@@ -2197,7 +2197,7 @@
     <value>Funkcja Ostatnio używane pliki jest obecnie wyłączona w Eksploratorze plików Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Edytuj plik ustawień</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>Co nowego</value>
@@ -3286,11 +3286,11 @@
     <value>Pozostaw aplikację uruchomioną w tle, gdy okno jest zamknięte</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Niebieski</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Niebiesko-szary</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
@@ -3583,5 +3583,11 @@
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>No ongoing file operations</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>

@@ -205,8 +205,8 @@ namespace Files.App.Views.LayoutModes
 			}
 
 			textBox.Focus(FocusState.Pointer);
-			textBox.LostFocus += RenameTextBox_LostFocusAsync;
-			textBox.KeyDown += RenameTextBox_KeyDownAsync;
+			textBox.LostFocus += RenameTextBox_LostFocus;
+			textBox.KeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 			if (!SelectedItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
@@ -250,8 +250,13 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocusAsync;
-			textBox.KeyDown -= RenameTextBox_KeyDownAsync;
+			// Unsubscribe from events
+			if (textBox is not null)
+			{
+				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
@@ -259,7 +264,7 @@ namespace Files.App.Views.LayoutModes
 			gridViewItem?.Focus(FocusState.Programmatic);
 		}
 
-		protected override async void FileList_PreviewKeyDownAsync(object sender, KeyRoutedEventArgs e)
+		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null || IsRenamingItem)
 				return;
@@ -359,7 +364,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private async void FileList_ItemTappedAsync(object sender, TappedRoutedEventArgs e)
+		private async void FileList_ItemTapped(object sender, TappedRoutedEventArgs e)
 		{
 			var clickedItem = e.OriginalSource as FrameworkElement;
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);

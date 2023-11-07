@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
@@ -74,7 +75,7 @@ namespace Files.App.UserControls.Sidebar
 
 		public void Invoke()
 		{
-			Owner.RaiseItemInvoked();
+			Owner.RaiseItemInvoked(PointerUpdateKind.Other);
 		}
 
 		public void AddToSelection()

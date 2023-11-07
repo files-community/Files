@@ -157,13 +157,13 @@
     <value>छोड़ें</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>सभी चुनें</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>उलट चयन</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>चयन मिटाएं</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>संशोधित:</value>
@@ -175,7 +175,7 @@
     <value>सभी वस्तुओं को साफ़ करें</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>नेविगेट करने के लिए एक पथ दर्ज करें या कमांड पैलेट खोलने के लिए "&gt;" टाइप करें</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>खोज</value>
@@ -187,13 +187,13 @@
     <value>इस वस्तु को निकालें</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>गिटहब रिपोजिटरी</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>बारे में</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>खुला स्रोत</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>दिनांक स्वरूप</value>
@@ -202,13 +202,13 @@
     <value>थीम</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>ज्ञात फ़ाइल प्रकारों के लिए एक्सटेंशन दिखाएँ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>छुपी हुई फ़ाइलें और फ़ोल्डर दिखाएँ</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>डॉट से शुरू होने वाली फाइल दिखाये</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>उपस्थिति</value>
@@ -217,7 +217,7 @@
     <value>बैकग्राउंड</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>उन्नत</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>जहां आपने छोड़ा था, वहां जारी रखें</value>
@@ -244,22 +244,22 @@
     <value>बढ़तेक्रममें</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>पेस्ट</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>नया(N)</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>प्रापर्टी</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>खोलें</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>नए टैब में खोलें</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>नई विंडो में खोलें</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>साझा</value>
@@ -271,25 +271,25 @@
     <value>हटायें</value>
   </data>
   <data name="PinToFavorites" xml:space="preserve">
-    <value>Pin to Favorites</value>
+    <value>पसंदीदा में जोड़ें</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Files UWP में आपका स्वागत है</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>अनुमति दें</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>शुरू करने के लिए, आपको अपनी फ़ाइलों को प्रदर्शित करने की अनुमति हमें प्रदान करनी होगी। यह एक सेटिंग पेज खोलेगा जहां आप हमें यह अनुमति दे सकते हैं। एक बार पूरा होने के बाद आपको ऐप को फिर से खोलना होगा।</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>दिखाएँ</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>वस्तु का नाम दर्ज करें</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>नाम निर्धारित करें</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>प्रकाश</value>
@@ -304,10 +304,10 @@
     <value>सिस्टम</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>नया फोल्डर</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>नई फ़ाइल</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>यह फोल्डर खाली है।</value>
@@ -322,7 +322,7 @@
     <value>ऊपर (Alt + Up Arrow)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>रिफ्रेश</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>इस नाम के साथ एक आइटम पहले से ही इस निर्देशिका में मौजूद है ।</value>
@@ -334,7 +334,7 @@
     <value>वस्तु पहले से मौजूद है</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>लॉकस्क्रीन पृष्ठभूमि के रूप में सेट करें</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>हम इस आइटम को हटाने में सक्षम नहीं हुए</value>
@@ -343,7 +343,7 @@
     <value>कृपया इस आइटम को एक्सेस करने के लिए आवश्यक ड्राइव डालें।</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>ड्राइव निकाल दिया गया है</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>आप जिस फ़ाइल तक पहुंचने का प्रयास कर रहे हैं, उसे स्थानांतरित या हटा दिया गया हो सकता है।</value>
@@ -358,16 +358,16 @@
     <value>क्या आपने इस फ़ोल्डर को हटा दिया?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>फ़ाइल जिसे आप एक्सेस करने की कोशिश कर रहे हैं वो वर्तमान में {0} द्वारा उपयोग कि जा रही है</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>फ़ाइल जिसे आप एक्सेस करने की कोशिश कर रहे हैं वो वर्तमान में एक और एप्लीकेशन द्वारा उपयोग कि जा रही है</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>फ़ाइल अभी उपयोग में है</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>लेआउट</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>केवल पढ़ने के लिए</value>
@@ -394,7 +394,7 @@
     <value>{0} सेकंड पहले</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 सेकंड पहले</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>अभी</value>
@@ -406,7 +406,7 @@
     <value>{1} से {0} खाली</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>भेजें</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>आइटम नाम में निम्नलिखित वर्ण नहीं होने चाहिए: \/:*? " &lt; &gt; |</value>
@@ -948,7 +948,7 @@
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>बाहर निकालें</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
@@ -3583,5 +3583,11 @@
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
     <value>Unblock downloaded file</value>
+  </data>
+  <data name="NoFileOperations" xml:space="preserve">
+    <value>No ongoing file operations</value>
+  </data>
+  <data name="OpenOnStartupDisabled" xml:space="preserve">
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
 </root>
