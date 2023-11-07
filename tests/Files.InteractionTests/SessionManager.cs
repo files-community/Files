@@ -17,7 +17,8 @@ namespace Files.InteractionTests
 		private static string[] FilesAppIDs = new string[]{
 			"49306atecsolution.FilesUWP_dwm5abbcs5pn0!App",
 			"FilesDev_ykqwq8d6ps0ag!App",
-			"FilesDev_dwm5abbcs5pn0!App"
+			"FilesDev_dwm5abbcs5pn0!App",
+			"FilesDev_9bhem8es8z4gp!App",
 		};
 
 		private static uint appIdIndex = 0;
