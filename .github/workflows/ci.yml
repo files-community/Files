@@ -113,6 +113,9 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
+    - name: Create self signed certificate
+      run: ./builds/GenerateTestPFX.ps1
+
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
