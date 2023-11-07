@@ -205,10 +205,7 @@ namespace Files.App.Utils.Archives
 
 		public static async Task DecompressArchiveToChildFolderAsync(IShellPage associatedInstance)
 		{
-			if (associatedInstance == null)
-				return;
-
-			if (associatedInstance.SlimContentPage == null)
+			if (associatedInstance?.SlimContentPage == null)
 				return;
 
 			foreach (var selectedItem in associatedInstance.SlimContentPage.SelectedItems)
