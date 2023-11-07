@@ -79,7 +79,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
         msbuild $env:PACKAGE_PROJECT_PATH `
