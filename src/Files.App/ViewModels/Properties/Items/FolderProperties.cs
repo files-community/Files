@@ -148,9 +148,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				// Only load the size for items on the device
-				if (Item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.FileOnline)
-					GetFolderSizeAsync(folderPath, TokenSource.Token);
+				GetFolderSizeAsync(folderPath, TokenSource.Token);
 			}
 		}
 
