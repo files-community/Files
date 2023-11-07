@@ -472,7 +472,7 @@ namespace Files.App
 			Debugger.Break();
 
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex.Message);
+			App.Logger.LogError(ex, ex?.Message);
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;
