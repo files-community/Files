@@ -52,7 +52,7 @@ jobs:
       shell: pwsh
       run: |
         $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
-        if ($changedFiles.Count == 0)
+        if ($changedFiles.Count -eq 0)
           exit 0
 
     - name: Install XamlStyler console
