@@ -1,15 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class CachingJsonSettingsDatabase : DefaultJsonSettingsDatabase
 	{
-		private Dictionary<string, object?>? _settingsCache;
+		private IDictionary<string, object?>? _settingsCache;
 
 		public CachingJsonSettingsDatabase(ISettingsSerializer settingsSerializer, IJsonSettingsSerializer jsonSettingsSerializer)
 			: base(settingsSerializer, jsonSettingsSerializer)
@@ -27,7 +23,7 @@ namespace Files.App.Utils.Serialization.Implementation
 			else
 			{
 				if (base.SetValue(key, defaultValue))
-					_settingsCache.Add(key, defaultValue);
+					_settingsCache.TryAdd(key, defaultValue);
 
 				return defaultValue;
 			}
@@ -37,12 +33,8 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			_settingsCache ??= GetFreshSettings();
 
-			if (!_settingsCache.ContainsKey(key))
-			{
-				_settingsCache.Add(key, newValue);
-
+			if (_settingsCache.TryAdd(key, newValue))
 				return SaveSettings(_settingsCache);
-			}
 			else
 				return UpdateValueInCache(_settingsCache[key]);
 
