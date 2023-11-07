@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemType = Item.ItemType;
 				ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
-				ViewModel.ItemModifiedTimestampReal= Item.ItemDateModifiedReal;
+				ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 				ViewModel.CustomIconSource = Item.CustomIconSource;
@@ -86,11 +86,15 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemSizeVisibility = true;
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-				var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
-				if (sizeOnDisk is not null)
+
+				// Only load the size for items on the device
+				if (Item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.FileOnline)
 				{
-					ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
+					var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
+					if (sizeOnDisk is not null)
+						ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
 				}
+
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
@@ -144,7 +148,9 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				GetFolderSizeAsync(folderPath, TokenSource.Token);
+				// Only load the size for items on the device
+				if (Item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.FileOnline)
+					GetFolderSizeAsync(folderPath, TokenSource.Token);
 			}
 		}
 
