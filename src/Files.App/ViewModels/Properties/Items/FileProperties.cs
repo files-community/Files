@@ -166,7 +166,7 @@ namespace Files.App.ViewModels.Properties
 			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
-				var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
+				var order = Math.Min((int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024)), 3);
 				var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
 				encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
 			}
