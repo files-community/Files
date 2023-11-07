@@ -7,7 +7,7 @@
 #  - However, the CI will not be executed if files not directly related to
 #    source code maintenance are updated.
 
-name: Files CI
+name: Files CIXamlStyler
 
 on:
   push:
@@ -40,6 +40,38 @@ env:
   WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
+
+  check-formatting:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Install XamlStyler console
+      shell: pwsh
+      run: 'dotnet tool install --global .Console'
+
+    - name: Check XAML formatting
+      id: check-step
+      shell: pwsh
+      run: |
+        $changedFiles = (git diff --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
+        foreach ($file in $changedFiles)
+        {
+          xstyler -p -l None -f $file
+          if ($LASTEXITCODE -ne 0)
+          {
+            echo "::error file=$file::Format check failed"
+          }
+        }
+      continue-on-error: true
+    
+    - if: steps.check-step.outcome == 'failure'
+      name: Post Check XAML formatting
+      shell: pwsh
+      run: exit 1
+
   build:
     runs-on: windows-latest
     strategy:
