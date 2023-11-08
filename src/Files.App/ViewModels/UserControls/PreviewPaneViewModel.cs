@@ -290,7 +290,8 @@ namespace Files.App.ViewModels.UserControls
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
 
-					if (previewSettingsService.ShowPreviewOnly)
+					if (previewSettingsService.ShowPreviewOnly ||
+						SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 					{
 						loadCancellationTokenSource = new CancellationTokenSource();
 						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
