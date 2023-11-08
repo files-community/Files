@@ -296,7 +296,10 @@ namespace Files.App.ViewModels.UserControls
 						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
 					}
 					else
+					{
 						await LoadBasicPreviewAsync();
+						return;
+					}
 				}
 				catch (Exception e)
 				{
