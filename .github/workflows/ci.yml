@@ -102,24 +102,23 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    # - name: Restore NuGet
-    #   shell: pwsh
-    #   run: 'nuget restore $env:SOLUTION_PATH'
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_PATH'
 
     - name: Restore Files
       shell: pwsh
       run: |
-        dotnet restore `
-          $env:SOLUTION_PATH
-
-    # -p:Platform=$env:ARCHITECTURE `
-    # -p:Configuration=$env:CONFIGURATION `
-    # -p:PublishReadyToRun=true
+        msbuild $env:SOLUTION_PATH `
+          -t:Restore `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:PublishReadyToRun=true
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
-        dotnet msbuild `
+        msbuild `
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
           -clp:ErrorsOnly `
@@ -134,7 +133,7 @@ jobs:
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build & package Files
       run: |
-        dotnet msbuild `
+        msbuild `
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
           -t:_GenerateAppxPackage `
