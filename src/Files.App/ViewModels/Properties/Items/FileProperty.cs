@@ -228,7 +228,22 @@ namespace Files.App.ViewModels.Properties
 			if (EnumeratedList is not null)
 			{
 				var value = "";
-				return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalizedResource() : null;
+				int valueKey;
+
+				try
+				{
+					valueKey = Convert.ToInt32(Value);
+				}
+				catch
+				{
+					if (!int.TryParse(Value.ToString(), out valueKey))
+					{
+						return null;
+					}
+				}
+
+				return EnumeratedList.TryGetValue(valueKey, out value) ? value.GetLocalizedResource() : null;
+
 			}
 
 			if (DisplayFunction is not null)
