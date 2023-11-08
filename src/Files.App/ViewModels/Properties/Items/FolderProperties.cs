@@ -111,10 +111,11 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = storageFolder.DateCreated;
 				if (storageFolder.Properties is not null)
-				{
 					GetOtherPropertiesAsync(storageFolder.Properties);
-				}
-				GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
+
+				// Only load the size for items on the device
+				if (Item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.FileOnline)
+					GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
