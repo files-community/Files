@@ -117,7 +117,8 @@ namespace Files.App
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
 				{
 					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
-					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+					if ((parsedArgs.Length == 2 && parsedArgs[0] == "cmd") ||
+						parsedArgs.Length == 1) // Treat Win+E & Open file location as command line launch
 					{
 						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
