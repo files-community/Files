@@ -125,22 +125,31 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return Array.Empty<BranchItem>();
 
-			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<BranchItem[]>(() =>
+			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem[])>(() =>
 			{
-				using var repository = new Repository(path);
+				var branches = Array.Empty<BranchItem>();
+				var result = GitOperationResult.Success;
+				try
+				{
+					using var repository = new Repository(path);
 
-				return GetValidBranches(repository.Branches)
-					.Where(b => !b.IsRemote || b.RemoteName == "origin")
-					.OrderByDescending(b => b.Tip?.Committer.When)
-					.Take(MAX_NUMBER_OF_BRANCHES)
-					.OrderByDescending(b => b.IsCurrentRepositoryHead)
-					.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
-					.ToArray();
+					branches = GetValidBranches(repository.Branches)
+						.Where(b => !b.IsRemote || b.RemoteName == "origin")
+						.OrderByDescending(b => b.Tip?.Committer.When)
+						.Take(MAX_NUMBER_OF_BRANCHES)
+						.OrderByDescending(b => b.IsCurrentRepositoryHead)
+						.Select(b => new BranchItem(b.FriendlyName, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
+						.ToArray();
+				} 
+				catch (Exception)
+				{
+					result = GitOperationResult.GenericError;
+				}
+				
+				return (result, branches);
 			});
 
-			return result is GitOperationResult.Success
-				? returnValue!
-				: Array.Empty<BranchItem>();
+			return returnValue;
 		}
 
 		public static async Task<string> GetRepositoryHeadName(string? path)
@@ -148,11 +157,21 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
 				return string.Empty;
 
-			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<string>(() =>
+			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, string)>(() =>
 			{
-				using var repository = new Repository(path);
-				return GetValidBranches(repository.Branches)
-					.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
+				string branchName = string.Empty;
+				try
+				{
+					using var repository = new Repository(path);
+					branchName = GetValidBranches(repository.Branches)
+						.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
+				}
+				catch
+				{
+					return (GitOperationResult.GenericError, string.Empty);
+				}
+
+				return (GitOperationResult.Success, branchName);
 			});
 
 			return result is GitOperationResult.Success
@@ -204,18 +223,27 @@ namespace Files.App.Utils.Git
 				}
 			}
 
-			var result = await PostMethodToThreadWithMessageQueueAsync(() =>
+			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
 			{
-				if (checkoutBranch.IsRemote)
-					CheckoutRemoteBranch(repository, checkoutBranch);
-				else
-					LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
-
-				if (isBringingChanges)
+				try
 				{
-					var lastStashIndex = repository.Stashes.Count() - 1;
-					repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+					if (checkoutBranch.IsRemote)
+						CheckoutRemoteBranch(repository, checkoutBranch);
+					else
+						LibGit2Sharp.Commands.Checkout(repository, checkoutBranch, options);
+
+					if (isBringingChanges)
+					{
+						var lastStashIndex = repository.Stashes.Count() - 1;
+						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
+					}
 				}
+				catch (Exception)
+				{
+					return GitOperationResult.GenericError;
+				}
+
+				return GitOperationResult.Success;
 			});
 
 			IsExecutingGitAction = false;
@@ -291,17 +319,29 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			await PostMethodToThreadWithMessageQueueAsync(() =>
+			await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
 			{
-				foreach (var remote in repository.Network.Remotes)
+				var result = GitOperationResult.Success;
+				try
 				{
-					LibGit2Sharp.Commands.Fetch(
-						repository,
-						remote.Name,
-						remote.FetchRefSpecs.Select(rs => rs.Specification),
-						_fetchOptions,
-						"git fetch updated a ref");
+					foreach (var remote in repository.Network.Remotes)
+					{
+						LibGit2Sharp.Commands.Fetch(
+							repository,
+							remote.Name,
+							remote.FetchRefSpecs.Select(rs => rs.Specification),
+							_fetchOptions,
+							"git fetch updated a ref");
+					}
 				}
+				catch (Exception ex)
+				{
+					result = IsAuthorizationException(ex)
+						? GitOperationResult.AuthorizationError
+						: GitOperationResult.GenericError;
+				}
+
+				return result;
 			});
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -338,12 +378,24 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
-			var result = await PostMethodToThreadWithMessageQueueAsync(() =>
-				LibGit2Sharp.Commands.Pull(
-					repository,
-					signature,
-					_pullOptions)
-			);
+			var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+			{
+				try
+				{
+					LibGit2Sharp.Commands.Pull(
+						repository,
+						signature,
+						_pullOptions);
+				}
+				catch (Exception ex)
+				{
+					return IsAuthorizationException(ex)
+						? GitOperationResult.AuthorizationError
+						: GitOperationResult.GenericError;
+				}
+
+				return GitOperationResult.Success;
+			});
 
 			if (result is GitOperationResult.AuthorizationError)
 			{
@@ -412,7 +464,22 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				var result = await PostMethodToThreadWithMessageQueueAsync(() => repository.Network.Push(branch, options));
+				var result = await PostMethodToThreadWithMessageQueueAsync<GitOperationResult>(() =>
+				{
+					try
+					{
+						repository.Network.Push(branch, options);
+					}
+					catch (Exception ex)
+					{
+						return IsAuthorizationException(ex)
+							? GitOperationResult.AuthorizationError
+							: GitOperationResult.GenericError;
+					}
+
+					return GitOperationResult.Success;
+				});
+
 				if (result is GitOperationResult.AuthorizationError)
 					await RequireGitAuthenticationAsync();
 			}
@@ -695,36 +762,8 @@ namespace Files.App.Utils.Git
 				TryDispose();
 		}
 
-		private static async Task<GitOperationResult> PostMethodToThreadWithMessageQueueAsync(Action payload)
+		private static async Task<T?> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
 		{
-			GitOperationResult result = GitOperationResult.Success;
-
-			Interlocked.Increment(ref _activeOperationsCount);
-			_owningThread ??= new ThreadWithMessageQueue();
-
-			try
-			{
-				await _owningThread.PostMethod(payload);
-			}
-			catch (Exception ex)
-			{
-				result = IsAuthorizationException(ex)
-					? GitOperationResult.AuthorizationError
-					: GitOperationResult.GenericError;
-
-				_logger.LogWarning(ex.Message);
-			}
-			finally
-			{
-				DisposeIfFinished();
-			}
-
-			return result;
-		}
-
-		private static async Task<(GitOperationResult, T?)> PostMethodToThreadWithMessageQueueAsync<T>(Func<object> payload)
-		{
-			GitOperationResult result = GitOperationResult.Success;
 			T? returnValue = default;
 
 			Interlocked.Increment(ref _activeOperationsCount);
@@ -734,20 +773,12 @@ namespace Files.App.Utils.Git
 			{
 				returnValue = await _owningThread.PostMethod<T>(payload);
 			}
-			catch (Exception ex)
-			{
-				result = IsAuthorizationException(ex)
-					? GitOperationResult.AuthorizationError
-					: GitOperationResult.GenericError;
-
-				_logger.LogWarning(ex.Message);
-			}
 			finally
 			{
 				DisposeIfFinished();
 			}
 
-			return (result, returnValue);
+			return returnValue;
 		}
 	}
 }
