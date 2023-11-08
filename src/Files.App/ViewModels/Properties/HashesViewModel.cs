@@ -69,7 +69,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			// Don't calculate hashes for online files
-			if (_item.SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline)
+			if (_item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
 			{
 				hashInfoItem.HashValue = "CalculationOnlineFileHashError".GetLocalizedResource();
 				return;
