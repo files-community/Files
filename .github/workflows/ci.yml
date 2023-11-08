@@ -51,6 +51,8 @@ jobs:
 
     - name: Checkout the repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
     
     - name: Install XamlStyler console
       run: 'dotnet tool install --global XamlStyler.Console'
