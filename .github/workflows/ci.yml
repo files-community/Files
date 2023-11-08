@@ -71,7 +71,7 @@ jobs:
         }
       continue-on-error: true
     
-    - name: Fail the job
+    - name: Fail the job if the XamlStyler found unformatted file(s)
       if: steps.check-step.outcome == 'failure'
       run: exit 1
 
@@ -102,28 +102,30 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    - name: Restore NuGet
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_PATH'
+    # - name: Restore NuGet
+    #   shell: pwsh
+    #   run: 'nuget restore $env:SOLUTION_PATH'
 
     - name: Restore Files
       shell: pwsh
       run: |
-        msbuild $env:SOLUTION_PATH `
-        -t:Restore `
-        -p:Platform=$env:ARCHITECTURE `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true
+        dotnet restore `
+          $env:SOLUTION_PATH
+
+    # -p:Platform=$env:ARCHITECTURE `
+    # -p:Configuration=$env:CONFIGURATION `
+    # -p:PublishReadyToRun=true
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
-        msbuild $env:PACKAGE_PROJECT_PATH `
-        -t:Build `
-        -clp:ErrorsOnly `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:ARCHITECTURE `
-        -p:AppxBundle=Never
+        dotnet msbuild `
+          $env:PACKAGE_PROJECT_PATH `
+          -t:Build `
+          -clp:ErrorsOnly `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundle=Never
 
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Create self signed cert as a pfx file
@@ -132,35 +134,38 @@ jobs:
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build & package Files
       run: |
-        msbuild $env:PACKAGE_PROJECT_PATH `
-        -t:Build `
-        -t:_GenerateAppxPackage `
-        -clp:ErrorsOnly `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:ARCHITECTURE `
-        -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
-        -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=SideloadOnly `
-        -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
-        -p:AppxPackageSigningEnabled=true `
-        -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
-        -p:PackageCertificatePassword="" `
-        -p:PackageCertificateThumbprint=""
+        dotnet msbuild `
+          $env:PACKAGE_PROJECT_PATH `
+          -t:Build `
+          -t:_GenerateAppxPackage `
+          -clp:ErrorsOnly `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
+          -p:AppxBundle=Always `
+          -p:UapAppxPackageBuildMode=SideloadOnly `
+          -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
+          -p:AppxPackageSigningEnabled=true `
+          -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
+          -p:PackageCertificatePassword="" `
+          -p:PackageCertificateThumbprint=""
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
       run: |
         msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
-        -t:Build `
-        -clp:ErrorsOnly `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
+          -t:Build `
+          -clp:ErrorsOnly `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
-      name: Copy tests binaries to the artifacts dir
+      name: Copy tests bin to the artifacts dir
       shell: pwsh
       run: |
-        Copy-Item -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
+        Copy-Item `
+          -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" `
+          -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
@@ -211,7 +216,10 @@ jobs:
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
     - name: Run interaction tests
-      run: 'dotnet test $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"'
+      run: |
+        dotnet test `
+          $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+          --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
     # - name: Generate markdown from the tests result
     #   shell: pwsh
