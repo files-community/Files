@@ -402,7 +402,7 @@ namespace Files.App.Utils
 		private bool CheckElevationRights()
 		{
 			// Avoid downloading file to check elevation
-			if (SyncStatusUI.SyncStatus == CloudDriveSyncStatus.FileOnline)
+			if (SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
 				return false;
 
 			return IsShortcut

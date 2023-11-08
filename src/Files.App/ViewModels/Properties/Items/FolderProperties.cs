@@ -88,12 +88,9 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
 				// Only load the size for items on the device
-				if (Item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.FileOnline)
-				{
-					var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
-					if (sizeOnDisk is not null)
-						ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
-				}
+				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+					ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+					   string.Empty;
 
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
