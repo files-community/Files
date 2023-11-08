@@ -472,7 +472,9 @@ namespace Files.App
 			Debugger.Break();
 
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex?.Message);
+
+			var exMessage = ex?.Message ?? "An error occured";
+			App.Logger.LogError(ex, exMessage);
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;
