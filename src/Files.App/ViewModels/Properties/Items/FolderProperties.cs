@@ -86,8 +86,6 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemSizeVisibility = true;
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-
-				// Only load the size for items on the device
 				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
