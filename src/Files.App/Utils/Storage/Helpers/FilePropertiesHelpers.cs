@@ -41,6 +41,9 @@ namespace Files.App.Utils.Storage
 		/// <param name="associatedInstance">Associated main window instance</param>
 		public static void OpenPropertiesWindow(IShellPage associatedInstance)
 		{
+			if (associatedInstance is null)
+				return;
+
 			object item;
 
 			var page = associatedInstance.SlimContentPage;
