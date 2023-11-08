@@ -1,6 +1,10 @@
 # Copyright (c) 2023 Files Community
 # Licensed under the MIT License. See the LICENSE.
 
+# Abstract:
+#  This script analyzes the trx file that is the result of executing dotnet test and
+#  converts it to markdown, which is used for the Files CI.
+
 using namespace System.Collections.Generic;
 using namespace System.Linq;
 
