@@ -3588,6 +3588,6 @@
     <value>Aucune opération de fichier en cours</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison de vos paramètres du système ou de la stratégie de groupe. Pour la réactiver, ouvrez la page de démarrage dans le Gestionnaire des tâches.</value>
+    <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
   </data>
 </root>

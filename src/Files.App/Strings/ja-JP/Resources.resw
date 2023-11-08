@@ -121,10 +121,10 @@
     <value>新しいウィンドウ</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>パスのコピー</value>
+    <value>パスをコピー</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>ブラウズ</value>
+    <value>参照</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>サイズ</value>
@@ -175,7 +175,7 @@
     <value>すべて削除</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>移動先のパスを入力するか、「&gt;」をタイプしてコマンド パレットを開く</value>
+    <value>コマンドパレットを開くには、移動先のパスを入力するか、「&gt;」と入力してください</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>検索</value>
@@ -205,7 +205,7 @@
     <value>既知のファイル タイプの拡張子を表示する</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>すべてのファイルとフォルダーを表示する</value>
+    <value>すべての隠しファイルと隠しフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>ドット ファイルを表示する</value>
@@ -280,7 +280,7 @@
     <value>付与された権限</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>使用を開始する前に、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。</value>
+    <value>開始するには、ファイル システムへのアクセスを許可してください。Windows の設定が開き、アクセス許可の付与を選択できます。設定が完了したら、アプリケーションを再起動する必要があります。 </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>表示</value>
@@ -307,7 +307,7 @@
     <value>新しいフォルダー</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>新しいファイル</value>
+    <value>新規ファイル</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>このフォルダーは空です。</value>
@@ -325,22 +325,22 @@
     <value>最新の情報に更新</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>同じ名前のファイルがこのフォルダーに既に存在します。</value>
+    <value>このフォルダーに同じ名前のアイテムが既に存在します。</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>既存のファイルを置換</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>ファイルが既に存在します</value>
+    <value>アイテムが既に存在します</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景として設定</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>ファイルを削除できませんでした</value>
+    <value>アイテムを削除できませんでした</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>このファイルが入ったドライブを挿入してください</value>
+    <value>このアイテムが入ったドライブを挿入してください</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>ドライブが取り外されました</value>
@@ -412,25 +412,25 @@
     <value>ファイル名に次の文字を含めることはできません: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>指定された項目名は無効です</value>
+    <value>指定されたアイテム名は無効です</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
-    <value>選択されたファイル</value>
+    <value>選択中のアイテム</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>選択されたファイル</value>
+    <value>選択中のアイテム</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>ファイル</value>
+    <value>アイテム</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
-    <value>ファイル</value>
+    <value>アイテム</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>はい</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>すべてのファイルを完全に削除しますか?</value>
+    <value>すべてのアイテムを完全に削除しますか?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -460,7 +460,7 @@
     <value>{0:#,##0} ファイル, {1:#,##0} フォルダー</value>
   </data>
   <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{2:#,##0} か所からの {0:#,##0} ファイル, {1:#,##0} フォルダー</value>
+    <value>{2:#,##0} ヶ所からの {0:#,##0} ファイル, {1:#,##0} フォルダー</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>別のユーザーとして実行</value>
@@ -502,7 +502,7 @@
     <value>結果なし</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>表示するファイルにアクセスできません</value>
+    <value>表示するアイテムにアクセスできません</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>{0} に移動</value>
@@ -511,7 +511,7 @@
     <value>{0} にコピー</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>ショートカットの作成</value>
+    <value>ショートカットを作成</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>ファイルの場所を開く</value>
@@ -550,10 +550,10 @@
     <value>この問題を報告</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>参照されているファイルは無効であるか、アクセスできません。{0} エラーメッセージ: {0} {1}</value>
+    <value>無効またはアクセス不可のアイテムです。{0} エラーメッセージ: {0} {1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>無効なファイル</value>
+    <value>無効なアイテム</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>バージョン:</value>
@@ -562,10 +562,10 @@
     <value>現在共有できるものはありません。</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>選択したファイルが共有されます</value>
+    <value>選択したアイテムが共有されます</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>選択したファイルが共有されます</value>
+    <value>選択したアイテムが共有されます</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>{0} を共有しています</value>
@@ -574,7 +574,7 @@
     <value>{0} {1} を共有しています</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>名前を変更しようとしているファイルが既に存在しません。名前を変更する必要があるファイルの正しい場所を確認してください。</value>
+    <value>名前を変更しようとしているアイテムが既に存在しません。アイテムの正しい場所を確認してください。</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>ファイルが既に存在しません</value>
@@ -601,7 +601,7 @@
     <value>GitHub で支援</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>このファイルを作成できませんでした</value>
+    <value>このアイテムを作成できませんでした</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>アクセスが拒否されました</value>
@@ -613,10 +613,10 @@
     <value>キャンセル</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>新しいファイルの作成</value>
+    <value>新規アイテムの作成</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>以下で新しいファイルの種類を選択してください</value>
+    <value>新規アイテムの種類を選択してください</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>ファイル</value>
@@ -643,7 +643,7 @@
     <value>シェル拡張機能をサブメニューに移動</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>ファイルを削除する前に確認ダイアログを表示する</value>
+    <value>アイテム削除の前に確認ダイアログを表示する</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>プロパティを保存する際に問題が発生しました。</value>
@@ -658,10 +658,10 @@
     <value>評価</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>ファイルのパス</value>
+    <value>アイテムのパス</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>ファイルの種類</value>
+    <value>アイテムの種類</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>タイトル</value>
@@ -754,7 +754,7 @@
     <value>アーティスト</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>ビート数/分</value>
+    <value>1 分あたりの拍数 (BPM)</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>作曲者</value>
@@ -898,7 +898,7 @@
     <value>写真</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
-    <value>GPS (複数)</value>
+    <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
     <value>メディア</value>
@@ -925,7 +925,7 @@
     <value>選択</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>ごみ箱のファイル</value>
+    <value>ごみ箱のアイテム</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>ショートカットの項目</value>
@@ -967,7 +967,7 @@
     <value>すべてのプロパティを削除</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>ここでファイルの操作の状況を確認できます</value>
+    <value>ここでファイル操作の状況を確認できます</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
     <value>ステータス センター</value>
@@ -988,7 +988,7 @@
     <value>保護されたシステム ファイルを表示する</value>
   </data>
   <data name="SettingsSearchUnindexedItems" xml:space="preserve">
-    <value>インデックスされていないファイルを検索結果に含める</value>
+    <value>インデックスされていないアイテムを検索結果に含める</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>フォルダー間でレイアウトと並べ替えの設定を同期する</value>
@@ -1009,16 +1009,16 @@
     <value>削除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>デュアル ペイン モードでタブを開く</value>
+    <value>デュアル パネル モードでタブを開く</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>"新しいペインでフォルダーを開く" オプションを表示する</value>
+    <value>"新しいパネルでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>新しいペイン</value>
+    <value>新しいパネル</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>新しいペインで開く</value>
+    <value>新しいパネルで開く</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>フォルダー</value>
@@ -1054,7 +1054,7 @@
     <value>プレビュー ペインの表示を切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>プレビューを利用できません</value>
+    <value>プレビューは利用できません</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>名前</value>
@@ -1105,7 +1105,7 @@
     <value>不明</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>拡張子を変更すると、ファイルが使えなくなる可能性があります。変更しますか?</value>
+    <value>拡張子を変更するとファイルが使えなくなる可能性があります。本当に変更しますか?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM ドライブ</value>
@@ -1135,7 +1135,7 @@
     <value>不明</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>バーチャル ドライブ</value>
+    <value>仮想 ドライブ</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>作成日時</value>
@@ -1165,7 +1165,7 @@
     <value>既定</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>ファイル数</value>
+    <value>アイテム数</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
     <value>続行するには管理者権限が必要です</value>
@@ -1195,10 +1195,10 @@
     <value>場所なし</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>入力フィールドが空欄です!</value>
+    <value>入力フィールドが空です!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>名前には以下の文字は使用できません: \ / : * ? " &lt; &gt; |</value>
+    <value>名前には次の文字は使用できません: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>この名前は使用できません!</value>
@@ -1213,31 +1213,31 @@
     <value>コピー</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個のファイルがコピーされます</value>
+    <value>{0} 個のアイテムがコピーされます</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>ファイルをコピー</value>
+    <value>アイテムをコピー</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>ファイルを削除</value>
+    <value>アイテムを削除</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移動</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個のファイルが移動されます</value>
+    <value>{0} 個のアイテムが移動されます</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>ファイルを移動</value>
+    <value>アイテムを移動</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個のファイルが削除されます</value>
+    <value>{0} 個のアイテムが削除されます</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>続行</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>{0} 個の競合するファイル名と、{1} 個の競合しないファイルがあります</value>
+    <value>{0} 個の競合するファイル名と、{1} 個の競合しないアイテムがあります。</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>ファイル名が競合しています</value>
@@ -1246,13 +1246,13 @@
     <value>1 個の競合するファイル名と、{0} 個の競合しないファイルがあります</value>
   </data>
   <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個のファイルがコピーされます</value>
+    <value>1 個のアイテムがコピーされます</value>
   </data>
   <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個のファイルが削除されます</value>
+    <value>1 個のアイテムが削除されます</value>
   </data>
   <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個のファイルが移動されます</value>
+    <value>1 個のアイテムが移動されます</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>完全に削除</value>
@@ -1261,22 +1261,22 @@
     <value>ISO 感度</value>
   </data>
   <data name="SearchUnindexedItemsLabel.Text" xml:space="preserve">
-    <value>お探しのファイルが見つかりませんでしたか?</value>
+    <value>探しているアイテムが見つかりませんでしたか?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>インデックスされていないファイルを検索する</value>
+    <value>インデックスされていないアイテムを検索する</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>既存のファイルを置換</value>
+    <value>既存と置換</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>名前の変更</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>{0} 個の競合するファイル名があります</value>
+    <value>{0} 個の競合するファイル名があります。</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>1 個の競合するファイル名があります</value>
+    <value>1 個の競合するファイル名があります。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>選択したファイルでフォルダーを作成</value>
@@ -1297,7 +1297,7 @@
     <value>元のパス</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>ファイル タイプ</value>
+    <value>アイテムタイプ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
     <value>更新日時</value>
@@ -1369,13 +1369,13 @@
     <value>昨年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>{0}年</value>
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} ファイル</value>
+    <value>{0} アイテム</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} ファイル</value>
+    <value>{0} アイテム</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
     <value>閉じたタブを再度開く</value>
@@ -1453,13 +1453,13 @@
     <value>アーカイブを展開</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>完了したら展開されたファイルを表示する</value>
+    <value>完了したら展開されたフォルダーを開く</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>{0} へ展開</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>新しいライブラリの作成</value>
+    <value>新しいライブラリを作成</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>既定のライブラリを復元</value>
@@ -1585,7 +1585,7 @@
     <value>すべての子オブジェクトのアクセス許可エントリを、このオブジェクトから継承可能なアクセス許可エントリに置き換えます</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>ペインを閉じる</value>
+    <value>パネルを閉じる</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
@@ -1615,7 +1615,7 @@
     <value>クラウドからファイルをダウンロードし、プレビューを表示する</value>
   </data>
   <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} 項目 ({1} ファイル、{2} フォルダー)</value>
+    <value>{0} アイテム ({1} ファイル、{2} フォルダー)</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ</value>
@@ -1717,7 +1717,7 @@
     <value>最近のファイルウィジェット</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>項目は見つかりませんでした</value>
+    <value>アイテムは見つかりませんでした</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>ログの場所を開く</value>
@@ -1750,7 +1750,7 @@
     <value>作成日時</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>ファイル サイズ</value>
+    <value>アイテムサイズ</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
     <value>実験的な機能フラグ</value>
@@ -1774,7 +1774,7 @@
     <value>ファイル タグ</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>シングル クリックでファイルを開く</value>
+    <value>シングル クリックでアイテムを開く</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
@@ -1786,7 +1786,7 @@
     <value>設定をインポート</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>設定をインポートすることができませんでした。設定ファイルが壊れています。</value>
+    <value>設定をインポートできませんでした。設定ファイルが壊れています。</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
     <value>設定のインポートにエラーが発生しました</value>
@@ -1927,7 +1927,7 @@
     <value>展開</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>ファイルを展開</value>
+    <value>ファイルを抽出</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
     <value>ここに展開</value>
@@ -1978,7 +1978,7 @@
     <value>タグ</value>
   </data>
   <data name="UseCompactSpacing" xml:space="preserve">
-    <value>詳細レイアウトで項目の間隔を狭くする</value>
+    <value>詳細レイアウトでアイテムの間隔を狭くする</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>ユニバーサル</value>
@@ -1987,22 +1987,22 @@
     <value>例: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>縮小版を表示する</value>
+    <value>サムネイルを表示する</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>再試行</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>ここではファイルの移動がサポートされていません。代わりにファイルをコピーしますか?</value>
+    <value>ここではファイルの移動がサポートされていません。代わりにアイテムをコピーしますか?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>隠しファイル</value>
+    <value>隠しアイテム</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>カスタム</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>デスクトップ スライドショーとして設定</value>
+    <value>デスクトップのスライドショーとして設定</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>すべての列のサイズを合わせる</value>
@@ -2062,7 +2062,7 @@
     <value>カラム レイアウトでシングル クリックでフォルダーを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>ファイルを開くとき</value>
+    <value>アイテムを開く</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>圧縮</value>
@@ -2071,28 +2071,28 @@
     <value>上にカーソルを合わせたときにファイルとフォルダーを選択する</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>ごみ箱内のすべての項目を復元してもよろしいですか?</value>
+    <value>ごみ箱内のすべてのアイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>すべての項目を復元</value>
+    <value>すべてのアイテムを復元</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>選択した {0} 項目を復元しますか?</value>
+    <value>選択した {0} アイテムを復元しますか?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>選択したファイルを復元</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>すべての項目を復元</value>
+    <value>すべてのアイテムを復元</value>
   </data>
   <data name="Restore" xml:space="preserve">
     <value>復元</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>ショートカットを開くことができません</value>
+    <value>ショートカットを開けません</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>参照先の項目 {0} が見つかりません。このショートカットを削除しますか?</value>
+    <value>参照先のアイテム {0} が見つかりません。このショートカットを削除しますか?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
     <value>このフォルダーにアクセスする権限がありません。</value>
@@ -2188,7 +2188,7 @@
     <value>ローカルまたはネットワーク上のプログラム、ファイル、フォルダー、コンピューター、またはインターネット アドレスへのショートカットを作成します。</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>項目の場所を入力:</value>
+    <value>アイテムの場所を入力:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
     <value>ショートカットを作成</value>
@@ -2209,13 +2209,13 @@
     <value>代わりにデスクトップにショートカットを作成しますか?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>指定された項目名は無効です</value>
+    <value>指定されたアイテム名は無効です</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>項目のない領域をダブル クリックして1つ上のフォルダーに移動する</value>
+    <value>アイテムのない領域をダブル クリックして1つ上のフォルダーに移動する</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>さらに表示する</value>
@@ -2233,16 +2233,16 @@
     <value>"新しいウインドウでフォルダーを開く" オプションを表示する</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>クイック アクセス</value>
+    <value>クイックアクセス</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>{0} に接続するためのログイン情報を入力してください</value>
+    <value>{0} に接続するための資格情報を入力してください</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>ログイン情報を入力</value>
+    <value>資格情報を入力</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>ログイン情報を保存する</value>
+    <value>資格情報を保存する</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
     <value>ネットワークフォルダー エラー</value>
@@ -2278,10 +2278,10 @@
     <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>ファイル名拡張子を表示</value>
+    <value>ファイル拡張子を表示</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>隠しアイテムを表示</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>フォーマット…</value>
@@ -2293,7 +2293,7 @@
     <value>全画面表示に切り替える</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>このタグを削除してもよろしいですか?</value>
+    <value>本当にこのタグを削除しますか？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>すべて再生</value>
@@ -2305,13 +2305,13 @@
     <value>幅</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>すべての競合する項目にこれを実行する</value>
+    <value>すべての競合するアイテムにこれを実行する</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>ターミナルで開く</value>
+    <value>Windows Terminal で開く</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>管理者としてターミナルで開く</value>
+    <value>管理者として Windows Terminal で開く</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
@@ -2320,7 +2320,7 @@
     <value>複数選択</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>サイドバーの項目を並べ替え</value>
+    <value>サイドバーのアイテムを並べ替え</value>
   </data>
   <data name="Hashes" xml:space="preserve">
     <value>ハッシュ</value>
@@ -2341,7 +2341,7 @@
     <value>計算中...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>ピン留めされた項目</value>
+    <value>ピン留めされたアイテム</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>サイズを小さくする</value>
@@ -2389,7 +2389,7 @@
     <value>隠しファイルを表示するかどうかを切り替える</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>ファイル名拡張子を表示するかどうかを切り替える</value>
+    <value>ファイル拡張子を表示するかどうかを切り替える</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>プレビューペインを表示するかどうかを切り替える</value>
@@ -2398,19 +2398,19 @@
     <value>サイドバーを表示するかどうかを切り替える</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>ファイルをクリップボードにコピーする</value>
+    <value>アイテムをクリップボードにコピーする</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>ファイルのパスをクリップボードにコピーする</value>
+    <value>アイテムのパスをクリップボードにコピーする</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>ファイルをクリップボードに切り取る</value>
+    <value>アイテムをクリップボードに切り取る</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>ファイルをクリップボードから現在のフォルダーに貼り付ける</value>
+    <value>アイテムをクリップボードから現在のフォルダーに貼り付ける</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>ファイルをクリップボードから選択したフォルダーに貼り付ける</value>
+    <value>アイテムをクリップボードから選択したフォルダーに貼り付ける</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>ファイルを削除する</value>
@@ -2419,7 +2419,7 @@
     <value>新しいフォルダーを作成</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>選択した項目へのショートカットを作成</value>
+    <value>選択したアイテムのショートカットを作成</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>ショートカットを作成</value>
@@ -2428,31 +2428,31 @@
     <value>ごみ箱を空にする</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>選択した項目の「フォーマット」メニューを開く</value>
+    <value>選択したアイテムの「フォーマット」メニューを開く</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>ごみ箱から選択した項目を復元</value>
+    <value>ごみ箱から選択したアイテムを復元</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>ごみ箱からすべての項目を復元</value>
+    <value>ごみ箱からすべてのアイテムを復元</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>項目を開く</value>
+    <value>アイテムを開く</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>選択したアプリケーションでファイルを開く</value>
+    <value>選択したアプリケーションでアイテムを開く</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>検索したファイルの親フォルダーを開く</value>
+    <value>検索したアイテムの親フォルダーを開く</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>ページ内容を更新</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>選択したファイルの名前を変更</value>
+    <value>選択したアイテムの名前を変更</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>すべてのファイルを選択</value>
+    <value>すべてのアイテムを選択</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>選択状態を反転</value>
@@ -2461,16 +2461,16 @@
     <value>選択をクリア</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>項目の選択を切り替える</value>
+    <value>アイテムの選択を切り替える</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>選択したファイルを他の人と共有する</value>
+    <value>選択したファイルを共有する</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>スタートメニューに項目をピン留めする</value>
+    <value>スタートメニューにアイテムをピン留めする</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>スタートメニューから項目のピン留めを外す</value>
+    <value>スタートメニューからアイテムのピン留めを外す</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>お気に入りにフォルダーをピン留めする</value>
@@ -2509,22 +2509,22 @@
     <value>ポップアップ ウィンドウでプレビューを開く</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>選択した項目でアーカイブを作成する</value>
+    <value>選択したアイテムでアーカイブを作成する</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>選択した項目で即座に 7z アーカイブを作成する</value>
+    <value>選択したアイテムで 7z アーカイブを作成する</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>選択した項目で即座に zip アーカイブを作成する</value>
+    <value>選択したアイテムで zip アーカイブを作成する</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>選択したアーカイブから任意のフォルダーに項目を抽出する</value>
+    <value>選択したアーカイブから任意のフォルダーにアイテムを抽出する</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>選択したアーカイブから現在のフォルダーに項目を抽出する</value>
+    <value>選択したアーカイブから現在のフォルダーにアイテムを抽出する</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>選択したアーカイブから新しいフォルダーに項目を抽出する</value>
+    <value>選択したアーカイブから新しいフォルダーにアイテムを抽出する</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>選択した画像を左に回転する</value>
@@ -2569,85 +2569,85 @@
     <value>適切なビューに切り替える</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>項目を名前で並べ替える</value>
+    <value>アイテムを名前で並べ替える</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>項目を変更日で並べ替える</value>
+    <value>アイテムを変更日時で並べ替える</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>項目を作成日時で並べ替える</value>
+    <value>アイテムを作成日時で並べ替える</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>項目をサイズで並べ替える</value>
+    <value>アイテムをサイズで並べ替える</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>項目を種類で並べ替える</value>
+    <value>アイテムを種類で並べ替える</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>項目を同期状況で並べ替える</value>
+    <value>アイテムを同期ステータスで並べ替える</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>項目をタグで並べ替える</value>
+    <value>アイテムをタグで並べ替える</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>項目を元のフォルダーで並べ替える</value>
+    <value>アイテムを元のフォルダーで並べ替える</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>項目を削除した日時で並べ替える</value>
+    <value>アイテムを削除日時で並べ替える</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>項目を昇順で並べ替える</value>
+    <value>アイテムを昇順で並べ替える</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>項目を降順で並べ替える</value>
+    <value>アイテムを降順で並べ替える</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>項目の並べ替え順を切り替える</value>
+    <value>アイテムの並べ替え順を切り替える</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>ファイルとフォルダーを分けずに並べ替える</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>項目をグループ化せずに表示する</value>
+    <value>アイテムをグループ化せずに表示する</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>項目を名前でグループ化する</value>
+    <value>アイテムを名前でグループ化する</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>項目を変更日でグループ化する</value>
+    <value>アイテムを変更日時でグループ化する</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>項目を作成日時でグループ化する</value>
+    <value>アイテムを作成日時でグループ化する</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>項目をサイズでグループ化する</value>
+    <value>アイテムをサイズでグループ化する</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>項目を種類でグループ化する</value>
+    <value>アイテムを種類でグループ化する</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>項目を同期状況でグループ化する</value>
+    <value>アイテムを同期ステータスでグループ化する</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>項目をタグでグループ化する</value>
+    <value>アイテムをタグでグループ化する</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>項目を元のフォルダーでグループ化する</value>
+    <value>アイテムを元のフォルダーでグループ化する</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>項目を削除した日時でグループ化する</value>
+    <value>アイテムを削除した日時でグループ化する</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>項目をフォルダー パスでグループ化する</value>
+    <value>アイテムをフォルダー パスでグループ化する</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>項目を昇順でグループ化する</value>
+    <value>アイテムを昇順でグループ化する</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>項目を降順でグループ化する</value>
+    <value>アイテムを降順でグループ化する</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>項目のグループ化順を切り替える</value>
+    <value>アイテムのグループ順を切り替える</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>新しいタブを開く</value>
@@ -2942,28 +2942,28 @@
     <value>これらのファイルをプロパティなしで移動しますか?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>項目選択時にチェックボックスを表示する</value>
+    <value>アイテム選択時にチェックボックスを表示する</value>
   </data>
   <data name="SearchUnindexedItemsDescription" xml:space="preserve">
-    <value>インデックスされていないファイルを検索する</value>
+    <value>インデックスされていないアイテムを検索する</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
     <value>パス バーに移動する</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>新しいファイルを作成する</value>
+    <value>新規アイテムを作成する</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>このオブジェクトにアクセスする権限を持つグループまたはユーザーがありません。ただし、このオブジェクトの所有者は権限を割り当てることができます。</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
-    <value>ファイルの場所を開く</value>
+    <value>アイテムの場所を開く</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
     <value>完全に削除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>ファイルを完全に削除する</value>
+    <value>アイテムを完全に削除する</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>選択したメディア ファイルを再生</value>
@@ -2978,10 +2978,10 @@
     <value>場所:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>項目を月でグループ化する</value>
+    <value>アイテムを月でグループ化する</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>項目を年でグループ化する</value>
+    <value>アイテムを年でグループ化する</value>
   </data>
   <data name="Month" xml:space="preserve">
     <value>月</value>
@@ -2999,31 +2999,31 @@
     <value>年のかわりに月でグループ化する</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
-    <value>項目を作成日時の月でグループ化する</value>
+    <value>アイテムを作成日時の月でグループ化する</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>項目を作成日時の年でグループ化する</value>
+    <value>アイテムを作成日時の年でグループ化する</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
-    <value>項目を削除した日時の月でグループ化する</value>
+    <value>アイテムを削除日時の月でグループ化する</value>
   </data>
   <data name="GroupByDateDeletedYearDescription" xml:space="preserve">
-    <value>項目を削除した日時の年でグループ化する</value>
+    <value>アイテムを削除日時の年でグループ化する</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>項目を変更日の月でグループ化する</value>
+    <value>アイテムを変更日時の月でグループ化する</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>項目を変更日の年でグループ化する</value>
+    <value>アイテムを変更日時の年でグループ化する</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>「高度な権限」をクリックして続行してください。</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>このファイルのプロパティを表示するには、読み取り権限が必要です。</value>
+    <value>このアイテムのプロパティを表示するには、読み取り権限が必要です。</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>プロパティを表示する権限があるファイルの所有権を取得するには、上記の [変更] をクリックします。</value>
+    <value>プロパティを表示する権限があるアイテムの所有権を取得するには、上記の [変更] をクリックします。</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>権限を表示できません。</value>
@@ -3068,7 +3068,7 @@
     <value>新しいブランチに切り替える</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>選択した項目でフォルダーを作成する</value>
+    <value>選択したアイテムでフォルダーを作成する</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティを開く</value>
@@ -3129,13 +3129,13 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>アクリル</value>
+    <value>Acrylic</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>マイカ</value>
+    <value>Mica</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>マイカ Alt</value>
+    <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景の素材</value>
@@ -3156,7 +3156,7 @@
     <value>同期</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>git pull と git push を順番に実行する</value>
+    <value>git pull と git push を実行する</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
     <value>{0} 送信/ {1} 受信コミット</value>
@@ -3165,7 +3165,7 @@
     <value>GitHub に接続</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>GitHub リポジトリでの作業を開始するには、以下のリンクに次のコードを入力してください。</value>
+    <value>GitHub リポジトリでの作業を開始するには、以下のリンクで次のコードを入力してください。</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files は現在 GitHub にアクセスできません。</value>
@@ -3219,10 +3219,10 @@
     <value>パス</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>項目をパスで並べ替える</value>
+    <value>アイテムをパスで並べ替える</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>新しいペインでフォルダーを開く</value>
+    <value>新しいパネルでフォルダーを開く</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
@@ -3234,7 +3234,7 @@
     <value>すべて開く</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>すべてのタグ付けされた項目を開く</value>
+    <value>すべてのタグ付けされたアイテムを開く</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
     <value>ドライブ ({0})</value>
@@ -3268,7 +3268,7 @@
     <value>BitLocker の管理</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>以下のファイルは大きすぎて、このドライブにコピーできません。</value>
+    <value>以下のアイテムは大きすぎるため、このドライブにコピーできません。</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>ドライブのフォーマット</value>
@@ -3372,7 +3372,7 @@
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>ファイル</value>
+    <value>アイテム</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>このディレクトリを Git リポジトリとして初期化できません。</value>
@@ -3384,73 +3384,73 @@
     <value>ページの追加</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>項目を処理しています...</value>
+    <value>アイテムを処理しています...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>{0} 項目の "{1}" への圧縮をキャンセルしました</value>
+    <value>{0} アイテムの "{1}" への圧縮をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>{0} 項目の "{1}" から "{2}" への圧縮をキャンセルしました</value>
+    <value>{0} アイテムの "{1}" から "{2}" への圧縮をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へ圧縮しました</value>
+    <value>{0} アイテムを "{1}" へ圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へ圧縮しました</value>
+    <value>{0} アイテムを "{1}" から "{2}" へ圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へ圧縮中にエラーが発生しました</value>
+    <value>{0} アイテムを "{1}" へ圧縮中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へ圧縮できませんでした</value>
+    <value>{0} アイテムを "{1}" から "{2}" へ圧縮できませんでした</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へ圧縮しています</value>
+    <value>{0} アイテムを "{1}" へ圧縮しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へ圧縮しています</value>
+    <value>{0} アイテムを "{1}" から "{2}" へ圧縮しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>{0} 項目の "{1}" へのコピーをキャンセルしました</value>
+    <value>{0} アイテムの "{1}" へのコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>{0} 項目の "{1}" から "{2}" へのコピーをキャンセルしました</value>
+    <value>{0} アイテムの "{1}" から "{2}" へのコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へコピーしました</value>
+    <value>{0} アイテムを "{1}" へコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へコピーしました</value>
+    <value>{0} アイテムを "{1}" から "{2}" へコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へコピー中にエラーが発生しました</value>
+    <value>{0} アイテムを "{1}" へコピー中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へコピーできませんでした</value>
+    <value>{0} アイテムを "{1}" から "{2}" へコピーできませんでした</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" へコピーしています</value>
+    <value>{0} アイテムを "{1}" へコピーしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>{0} 項目を "{1}" から "{2}" へコピーしています</value>
+    <value>{0} アイテムを "{1}" から "{2}" へコピーしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3486,15 +3486,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>{0} 項目の "{1}" からの完全な削除をキャンセルしました</value>
+    <value>{0} アイテムの "{1}" からの完全な削除をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" から完全に削除しました</value>
+    <value>{0} アイテムを "{1}" から完全に削除しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" から完全に削除中にエラーが発生しました</value>
+    <value>{0} アイテムを "{1}" から完全に削除中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
@@ -3502,15 +3502,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" から完全に削除しています</value>
+    <value>{0} アイテムを "{1}" から完全に削除しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>{0} 項目の "{1}" からの削除をキャンセルしました</value>
+    <value>{0} アイテムの "{1}" からの削除をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>{0} 項目を "{1}" から削除しました</value>
+    <value>{0} アイテムを "{1}" から削除しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
@@ -3566,7 +3566,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>ゴミ箱を空にしているときにエラーが発生しました</value>
+    <value>ごみ箱を空にしているときにエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
