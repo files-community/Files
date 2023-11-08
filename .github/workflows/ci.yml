@@ -35,7 +35,7 @@ env:
   AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
   ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
-  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\temp\FilesApp_SelfSigned.pfx'
+  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
   WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
   WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
