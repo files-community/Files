@@ -21,6 +21,8 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
 		public bool IsExecutable =>
+			context.ShellPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
 			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
@@ -36,7 +38,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
+			foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage?.SelectedItems)
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
