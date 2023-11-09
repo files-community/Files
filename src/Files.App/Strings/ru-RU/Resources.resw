@@ -2041,7 +2041,7 @@
     <value>Столбец даты изменения</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Дата создания</value>
+    <value>Столбец даты создания</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Столбец размера</value>
@@ -2053,7 +2053,7 @@
     <value>Столбец типа</value>
   </data>
   <data name="DetailsLayoutColumns" xml:space="preserve">
-    <value>Макет табличной разметки</value>
+    <value>Разметка подробного макета</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Экран блокировки</value>
