@@ -41,12 +41,15 @@ namespace Files.App.Utils.Storage
 		/// <param name="associatedInstance">Associated main window instance</param>
 		public static void OpenPropertiesWindow(IShellPage associatedInstance)
 		{
+			if (associatedInstance is null)
+				return;
+
 			object item;
 
 			var page = associatedInstance.SlimContentPage;
 
 			// Item(s) selected
-			if (page.IsItemSelected)
+			if (page is not null && page.IsItemSelected)
 			{
 				// Selected item(s)
 				item = page.SelectedItems?.Count is 1
@@ -57,7 +60,7 @@ namespace Files.App.Utils.Storage
 			else
 			{
 				// Instance's current folder
-				var folder = associatedInstance.FilesystemViewModel.CurrentFolder;
+				var folder = associatedInstance.FilesystemViewModel?.CurrentFolder;
 				if (folder is null)
 					return;
 

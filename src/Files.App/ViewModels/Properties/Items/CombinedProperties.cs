@@ -73,8 +73,9 @@ namespace Files.App.ViewModels.Properties
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
 			long foldersSize = 0;
 			long totalSizeOnDisk = 0;
-			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File)
-				.Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
+			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File &&
+				x.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+					.Sum(x => NativeFileOperationsHelper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
 			long foldersSizeOnDisk = 0;
 
 			ViewModel.ItemSizeProgressVisibility = true;
@@ -84,12 +85,12 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
 				{
-					var fileSizeTask = Task.Run(async () =>
-					{
-						var size = await CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token);
+					if (item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or
+						CloudDriveSyncStatus.FolderOnline or
+						CloudDriveSyncStatus.FolderOfflinePartial)
+						continue;
 
-						return size;
-					});
+					var fileSizeTask = Task.Run(() => CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token));
 
 					try
 					{

@@ -1438,7 +1438,7 @@
     <value>எழுது</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>தெரியாத கணக்கு</value>
+    <value>தெரியாதக் கணக்கு</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
@@ -1462,7 +1462,7 @@
     <value>புதிய நூலகத்தை உருவாக்கவும்</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>இயல்புநிலை நூலகங்களை மீட்டமைக்கவும்</value>
+    <value>இயல்புநிலை நூலகங்களை மீட்டெடு</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
@@ -1585,7 +1585,7 @@
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>பலகத்தை மூடு</value>
+    <value>பலகையை மூடு</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Enter compact overlay</value>
@@ -1630,7 +1630,7 @@
     <value>கோப்பைச் சேர்</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
+    <value>புதுப்பிப்புகள் கிடைக்கின்றன</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
     <value>நிறுவுவதற்கு புதுப்பிப்புகள் தயாராக உள்ளன</value>
@@ -1702,7 +1702,7 @@
     <value>Credential required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>பெயரிலா</value>
+    <value>பெயரில்லா</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
     <value>Provide your credential:</value>
@@ -1717,7 +1717,7 @@
     <value>Recent Files widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>உருப்படிகள் எதுவும் காணப்படவில்லை.</value>
+    <value>உருப்படிகள் எதுவும் காணப்படவில்லை</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
     <value>Open log location</value>
@@ -1792,10 +1792,10 @@
     <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>காலி மறுசுழற்சி கூடை</value>
+    <value>மறுசுழற்சி கூடையை வெறுமையாக்கு</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>துணைப்பட்டி</value>
+    <value>பக்கப்பட்டி</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
     <value>Choose a custom folder icon</value>
@@ -1804,7 +1804,7 @@
     <value>தனிப்பயனாக்கம்</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>இயல்புநிலைக்கு மீட்டெடு</value>
+    <value>இயல்புநிலையை மீட்டெடு</value>
   </data>
   <data name="OpenNewInstance" xml:space="preserve">
     <value>Open new instance when opening directories from the taskbar jumplist</value>
@@ -1816,7 +1816,7 @@
     <value>இணக்கத்தன்மை</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>ஏதுமில்லை</value>
+    <value>எதுவுமில்லை</value>
   </data>
   <data name="HighDpiOption_UseDPIOnLogin" xml:space="preserve">
     <value>On Windows login</value>
@@ -1900,7 +1900,7 @@
     <value>Open Files on Windows startup</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>பண்புக் கூறுகள்:</value>
+    <value>பண்புக்கூறுகள்</value>
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>மறைந்த</value>
@@ -1990,7 +1990,7 @@
     <value>Show thumbnails</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>மறுமுயற்சி</value>
+    <value>மீண்டும் முயல்க</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
     <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
