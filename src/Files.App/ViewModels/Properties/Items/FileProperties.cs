@@ -97,8 +97,11 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
-				string.Empty;
+
+			// Only load the size for items on the device
+			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				   string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
 			if (fileIconData is not null)
@@ -131,15 +134,14 @@ namespace Files.App.ViewModels.Properties
 			if (Item.IsShortcut)
 				return;
 
-			if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
-			{
-				if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
-				{
-					var uncompressedSize = await zipFolder.GetUncompressedSize();
-					ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
-					ViewModel.UncompressedItemSizeBytes = uncompressedSize;
-				}
-			}
+			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+				if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+					if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+					{
+						var uncompressedSize = await zipFolder.GetUncompressedSize();
+						ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+						ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+					}
 
 			if (file.Properties is not null)
 				GetOtherPropertiesAsync(file.Properties);
