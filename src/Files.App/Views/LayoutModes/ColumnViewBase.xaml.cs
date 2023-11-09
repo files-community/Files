@@ -169,6 +169,13 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void EndRename(TextBox textBox)
 		{
+			// Unsubscribe from events
+			if (textBox is not null)
+			{
+				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
 			if (textBox is not null && textBox.Parent is not null)
 			{
 				ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
@@ -181,13 +188,6 @@ namespace Files.App.Views.LayoutModes
 				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
 				textBox!.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
-			}
-
-			// Unsubscribe from events
-			if (textBox is not null)
-			{
-				textBox!.LostFocus -= RenameTextBox_LostFocus;
-				textBox.KeyDown -= RenameTextBox_KeyDown;
 			}
 
 			FileNameTeachingTip.IsOpen = false;
