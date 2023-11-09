@@ -922,7 +922,7 @@
     <value>Opciones de selección</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Selección</value>
+    <value>Seleccionar</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Elemento de papelera de reciclaje</value>
@@ -1213,7 +1213,7 @@
     <value>Copiar</value>
   </data>
   <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se copiarán {0} elementos</value>
+    <value>{0} elementos serán copiados</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Copiar elemento(s)</value>
@@ -1225,13 +1225,13 @@
     <value>Mover</value>
   </data>
   <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se moverán {0} elementos</value>
+    <value>{0} elementos serán movidos</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
     <value>Mover elementos(s)</value>
   </data>
   <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se eliminarán {0} elementos</value>
+    <value>{0} elementos serán eliminados</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continuar</value>
@@ -1291,7 +1291,7 @@
     <value>Abrir con</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>Ícono de archivo</value>
+    <value>Icono de archivo</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Columna de ruta original</value>

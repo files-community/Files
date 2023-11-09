@@ -3588,6 +3588,6 @@
     <value>Немає поточних операцій з файлами</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну відкрийте сторінку автозапуску в диспетчері задач.</value>
   </data>
 </root>

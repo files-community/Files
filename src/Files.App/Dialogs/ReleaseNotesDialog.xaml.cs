@@ -17,6 +17,24 @@ namespace Files.App.Dialogs
 		public ReleaseNotesDialog()
 		{
 			InitializeComponent();
+
+			MainWindow.Instance.SizeChanged += Current_SizeChanged;
+			UpdateDialogLayout();
+		}
+
+		private void UpdateDialogLayout()
+		{
+			ContainerGrid.MaxHeight = MainWindow.Instance.Bounds.Height - 70;
+		}
+
+		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+		{
+			UpdateDialogLayout();
+		}
+
+		private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
+		{
+			MainWindow.Instance.SizeChanged -= Current_SizeChanged;
 		}
 
 		public new async Task<DialogResult> ShowAsync()
