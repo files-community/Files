@@ -15,6 +15,7 @@ namespace Files.InteractionTests
 	{
 		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
 		private static string[] FilesAppIDs = new string[]{
+			"FilesDev_ykqwq8d6ps0ag!App",
 			"FilesDev_dwm5abbcs5pn0!App",
 			"FilesDev_9bhem8es8z4gp!App",
 		};
