@@ -134,15 +134,14 @@ namespace Files.App.ViewModels.Properties
 			if (Item.IsShortcut)
 				return;
 
-			if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
-			{
-				if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
-				{
-					var uncompressedSize = await zipFolder.GetUncompressedSize();
-					ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
-					ViewModel.UncompressedItemSizeBytes = uncompressedSize;
-				}
-			}
+			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+				if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+					if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+					{
+						var uncompressedSize = await zipFolder.GetUncompressedSize();
+						ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+						ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+					}
 
 			if (file.Properties is not null)
 				GetOtherPropertiesAsync(file.Properties);
