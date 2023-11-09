@@ -351,7 +351,7 @@ namespace Files.App.Views
 				if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
 				{
 					page.PreviewPaneViewModel.IsItemSelected = false;
-					await page.PreviewPaneViewModel.UpdateSelectedItemPreview();
+					await page.PreviewPaneViewModel.UpdateSelectedItemPreviewAsync();
 				}
 			}
 		}

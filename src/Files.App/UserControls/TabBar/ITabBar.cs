@@ -16,7 +16,7 @@ namespace Files.App.UserControls.TabBar
 
 		public List<ITabBarItemContent> GetAllTabInstances();
 
-		public Task ReopenClosedTab();
+		public Task ReopenClosedTabAsync();
 
 		public void CloseTab(TabBarItem tabItem);
 

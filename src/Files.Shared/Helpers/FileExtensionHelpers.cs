@@ -65,7 +65,7 @@ namespace Files.Shared.Helpers
 			}
 
 			// Only extensions we want to browse
-			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".gz", ".lzh" }
+			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".gz", ".lzh", ".jar" }
 				.FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
 
 			return ext is not null;
@@ -152,6 +152,17 @@ namespace Files.Shared.Helpers
 		public static bool IsVhdFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
+		}
+		
+		/// <summary>
+		/// Check if the file extension is a screen saver file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a screen saver file; otherwise, <c>false</c>.</returns>
+		/// <remarks>Screen saver file types are; scr</remarks>
+		public static bool IsScreenSaverFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".scr");
 		}
 
 		/// <summary>

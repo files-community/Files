@@ -84,7 +84,7 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public bool LoadTagsList
-			=> SelectedItem?.HasTags ?? false && 
+			=> SelectedItem?.HasTags ?? false &&
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
@@ -94,7 +94,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			previewSettingsService = previewSettings;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreview());
+			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreviewAsync());
 
 			IsEnabled = previewSettingsService.IsEnabled;
 
@@ -279,7 +279,7 @@ namespace Files.App.ViewModels.UserControls
 			return control ?? null;
 		}
 
-		public async Task UpdateSelectedItemPreview(bool downloadItem = false)
+		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
 			if (SelectedItem is not null && IsItemSelected)
@@ -289,8 +289,18 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
-					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+
+					if (previewSettingsService.ShowPreviewOnly ||
+						SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+					{
+						loadCancellationTokenSource = new CancellationTokenSource();
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					}
+					else
+					{
+						await LoadBasicPreviewAsync();
+						return;
+					}
 				}
 				catch (Exception e)
 				{
@@ -347,7 +357,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void UpdateDateDisplay()
 		{
-			SelectedItem?.FileDetails?.ForEach(property => {
+			SelectedItem?.FileDetails?.ForEach(property =>
+			{
 				if (property.Value is DateTimeOffset)
 					property.UpdateValueText();
 			});
@@ -360,7 +371,7 @@ namespace Files.App.ViewModels.UserControls
 			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
 			{
 				// The preview will need refreshing as the file details won't be accurate
-				await UpdateSelectedItemPreview();
+				await UpdateSelectedItemPreviewAsync();
 			}
 			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
 			{

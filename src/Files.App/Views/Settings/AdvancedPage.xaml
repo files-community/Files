@@ -3,6 +3,7 @@
 	x:Class="Files.App.Views.Settings.AdvancedPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -13,7 +14,13 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
 	</Page.Resources>
 
 	<Page.DataContext>
@@ -81,22 +88,35 @@
 			</local:SettingsBlockControl>
 
 			<!--  Open on Windows startup  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE7E8;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
-					IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
-					IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}">
-					<i:Interaction.Behaviors>
-						<icore:EventTriggerBehavior EventName="Toggled">
-							<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesOnWindowsStartupCommand, Mode=OneWay}" />
-						</icore:EventTriggerBehavior>
-					</i:Interaction.Behaviors>
-				</ToggleSwitch>
-			</local:SettingsBlockControl>
+			<StackPanel>
+				<!--  Startup disabled InfoBar  -->
+				<InfoBar
+					x:Name="OpenOnStartupInfoBar"
+					x:Load="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+					IsClosable="False"
+					IsIconVisible="True"
+					IsOpen="True"
+					Message="{helpers:ResourceString Name=OpenOnStartupDisabled}"
+					Severity="Warning" />
+
+				<!--  Setting block  -->
+				<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsOpenInLogin}" HorizontalAlignment="Stretch">
+					<local:SettingsBlockControl.Icon>
+						<FontIcon Glyph="&#xE7E8;" />
+					</local:SettingsBlockControl.Icon>
+					<ToggleSwitch
+						AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
+						IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
+						IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}"
+						Style="{StaticResource RightAlignedToggleSwitchStyle}">
+						<i:Interaction.Behaviors>
+							<icore:EventTriggerBehavior EventName="Toggled">
+								<icore:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesOnWindowsStartupCommand, Mode=OneWay}" />
+							</icore:EventTriggerBehavior>
+						</i:Interaction.Behaviors>
+					</ToggleSwitch>
+				</local:SettingsBlockControl>
+			</StackPanel>
 
 			<!--  Leave App Running  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsLeaveAppRunning}" HorizontalAlignment="Stretch">

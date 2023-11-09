@@ -17,7 +17,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync()
 		{
-			return ArchiveHelpers.DecompressArchiveHere(context.ShellPage);
+			return DecompressHelper.DecompressArchiveHereAsync(context.ShellPage);
 		}
 	}
 }
