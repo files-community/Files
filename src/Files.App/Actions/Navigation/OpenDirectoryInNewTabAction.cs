@@ -38,8 +38,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.ShellPage?.SlimContentPage is null ||
-				context.ShellPage.SlimContentPage?.SelectedItems is null)
+			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
 			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
