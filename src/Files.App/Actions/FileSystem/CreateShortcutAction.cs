@@ -17,6 +17,7 @@ namespace Files.App.Actions
 			=> new(opacityStyle: "ColorIconShortcut");
 
 		public override bool IsExecutable =>
+			context.ShellPage is not null &&
 			context.HasSelection &&
 			context.CanCreateItem &&
 			UIHelpers.CanShowDialog;

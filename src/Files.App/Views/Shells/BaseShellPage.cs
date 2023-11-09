@@ -366,7 +366,7 @@ namespace Files.App.Views.Shells
 
 		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
-			Refresh_ClickAsync();
+			Refresh_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -511,10 +511,10 @@ namespace Files.App.Views.Shells
 		public async Task RefreshIfNoWatcherExistsAsync()
 		{
 			if (FilesystemViewModel.HasNoWatcher)
-				await Refresh_ClickAsync();
+				await Refresh_Click();
 		}
 
-		public async Task Refresh_ClickAsync()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
