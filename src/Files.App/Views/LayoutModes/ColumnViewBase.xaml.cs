@@ -169,6 +169,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void EndRename(TextBox textBox)
 		{
+			FileNameTeachingTip.IsOpen = false;
+			IsRenamingItem = false;
+
 			// Unsubscribe from events
 			if (textBox is not null)
 			{
@@ -189,9 +192,6 @@ namespace Files.App.Views.LayoutModes
 				textBox!.Visibility = Visibility.Collapsed;
 				textBlock!.Visibility = Visibility.Visible;
 			}
-
-			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
 		}
 
 		public override void ResetItemOpacity()
