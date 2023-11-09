@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 
+		public HotKey HotKey
+			=> new(Keys.I, KeyModifiers.CtrlShift);
+
 		public bool IsExecutable
 			=> context.CanCreateItem;
 

@@ -375,10 +375,9 @@ namespace Files.App.Utils.Shell
 			using Process process = CreatePowershellProcess(command, runAsAdmin);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
-			process.Start();
-
 			try
 			{
+				process.Start();
 				await process.WaitForExitAsync(cts.Token);
 				return process.ExitCode == 0;
 			}

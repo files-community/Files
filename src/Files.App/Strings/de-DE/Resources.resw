@@ -157,7 +157,7 @@
     <value>Überspringen</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Alle auswählen</value>
+    <value>Alles wählen</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>
