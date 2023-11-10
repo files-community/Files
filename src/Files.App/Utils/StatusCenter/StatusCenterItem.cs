@@ -167,16 +167,23 @@ namespace Files.App.Utils.StatusCenter
 
 		public ObservableCollection<ISeries>? SpeedGraphSeries { get; private set; }
 
+		public ObservableCollection<ISeries>? SpeedGraphBackgroundSeries { get; private set; }
+
 		public ObservableCollection<ICartesianAxis>? SpeedGraphXAxes { get; private set; }
 
 		public ObservableCollection<ICartesianAxis>? SpeedGraphYAxes { get; private set; }
 
-		public double IconBackgroundCircleBorderOpacity { get; private set; }
+		public ObservableCollection<ICartesianAxis>? SpeedGraphBackgroundXAxes { get; private set; }
 
-		public double? CurrentHighestPointValue { get; private set; }
+		public ObservableCollection<ICartesianAxis>? SpeedGraphBackgroundYAxes { get; private set; }
+
+		public double IconBackgroundCircleBorderOpacity { get; private set; }
 
 		public CancellationToken CancellationToken
 			=> _operationCancellationToken?.Token ?? default;
+
+		public string? HeaderTooltip
+			=> string.IsNullOrWhiteSpace(SubHeader) ? SubHeader : Header;
 
 		public readonly Progress<StatusCenterItemProgressModel> ProgressEventSource;
 
@@ -221,6 +228,31 @@ namespace Files.App.Utils.StatusCenter
 			if (App.Current.Resources["App.Theme.FillColorAttentionBrush"] is not SolidColorBrush accentBrush)
 				return;
 
+			// Initialize graph background fill series
+			SpeedGraphBackgroundSeries = new()
+			{
+				new LineSeries<ObservablePoint>
+				{
+					Values = SpeedGraphBackgroundValues,
+					GeometrySize = 0d,
+					DataPadding = new(0, 0),
+					IsHoverable = false,
+					
+					// Stroke
+					Stroke = new SolidColorPaint(
+						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40),
+						0.1f),
+
+					// Fill under the stroke
+					Fill = new LinearGradientPaint(
+						new SKColor[] {
+							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
+						},
+						new(0f, 0f),
+						new(0f, 0f)),
+				}
+			};
+
 			// Initialize graph series
 			SpeedGraphSeries = new()
 			{
@@ -246,25 +278,17 @@ namespace Files.App.Utils.StatusCenter
 						new(0f, 0f),
 						new[] { 0.1f, 1.0f }),
 				},
-				new LineSeries<ObservablePoint>
-				{
-					Values = SpeedGraphBackgroundValues,
-					GeometrySize = 0d,
-					DataPadding = new(0, 0),
-					IsHoverable = false,
-					
-					// Stroke
-					Stroke = new SolidColorPaint(
-						new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40),
-						0.1f),
+			};
 
-					// Fill under the stroke
-					Fill = new LinearGradientPaint(
-						new SKColor[] {
-							new(accentBrush.Color.R, accentBrush.Color.G, accentBrush.Color.B, 40)
-						},
-						new(0f, 0f),
-						new(0f, 0f)),
+			// Initialize X axes of the graph background fill
+			SpeedGraphBackgroundXAxes = new()
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+					MaxLimit = 100,
+					ShowSeparatorLines = false,
 				}
 			};
 
@@ -280,6 +304,18 @@ namespace Files.App.Utils.StatusCenter
 				}
 			};
 
+			// Initialize Y axes of the graph background fill
+			SpeedGraphBackgroundYAxes = new()
+			{
+				new Axis
+				{
+					Padding = new Padding(0, 0),
+					Labels = new List<string>(),
+					ShowSeparatorLines = false,
+					MaxLimit = 100,
+				}
+			};
+
 			// Initialize Y axes of the graph
 			SpeedGraphYAxes = new()
 			{
@@ -290,6 +326,9 @@ namespace Files.App.Utils.StatusCenter
 					ShowSeparatorLines = false,
 				}
 			};
+
+			SpeedGraphXAxes[0].SharedWith = SpeedGraphBackgroundXAxes;
+			SpeedGraphBackgroundXAxes[0].SharedWith = SpeedGraphXAxes;
 
 			// Set icon and initialize string resources
 			switch (FileSystemOperationReturnResult)
@@ -353,6 +392,7 @@ namespace Files.App.Utils.StatusCenter
 			}
 
 			StatusCenterHelper.UpdateCardStrings(this);
+			OnPropertyChanged(nameof(HeaderTooltip));
 		}
 
 		private void ReportProgress(StatusCenterItemProgressModel value)
@@ -407,6 +447,7 @@ namespace Files.App.Utils.StatusCenter
 
 			// Update UI for strings
 			StatusCenterHelper.UpdateCardStrings(this);
+			OnPropertyChanged(nameof(HeaderTooltip));
 
 			// Graph item point
 			ObservablePoint point;
@@ -463,31 +504,11 @@ namespace Files.App.Utils.StatusCenter
 				isSamePoint = true;
 			}
 
-			CurrentHighestPointValue ??= point.Y;
-
+			// Add a new background fill point
 			if (!isSamePoint)
 			{
-				// NOTE: -0.4 is the value that is needs to set for the graph drawing
-				var maxHeight = CurrentHighestPointValue * 1.44d - 0.4;
-
-				if (CurrentHighestPointValue < point.Y &&
-					SpeedGraphYAxes is not null &&
-					SpeedGraphYAxes.FirstOrDefault() is var item &&
-					item is not null)
-				{
-					// Max height is updated
-					CurrentHighestPointValue = point.Y;
-					maxHeight = CurrentHighestPointValue * 1.44d;
-					item.MaxLimit = maxHeight;
-
-					// NOTE: -0.1 is the value that is needs to set for the graph drawing
-					UpdateGraphBackgroundPoints(point.X, maxHeight - 0.1, true);
-				}
-				else
-				{
-					// Max height is not updated
-					UpdateGraphBackgroundPoints(point.X, maxHeight, false);
-				}
+				ObservablePoint newPoint = new(point.X, 100);
+				SpeedGraphBackgroundValues?.Add(newPoint);
 			}
 
 			// Add a new point
@@ -499,20 +520,6 @@ namespace Files.App.Utils.StatusCenter
 
 			// Update UI of the address bar
 			_viewModel.NotifyChanges();
-		}
-
-		private void UpdateGraphBackgroundPoints(double? x, double? y, bool redraw)
-		{
-			if (SpeedGraphBackgroundValues is null)
-				return;
-
-			ObservablePoint newPoint = new(x, y);
-			SpeedGraphBackgroundValues.Add(newPoint);
-
-			if (redraw)
-			{
-				SpeedGraphBackgroundValues.ForEach(x => x.Y = CurrentHighestPointValue * 1.44d - 0.1);
-			}
 		}
 
 		public void ExecuteCancelCommand()
