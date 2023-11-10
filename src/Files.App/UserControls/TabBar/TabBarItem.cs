@@ -109,7 +109,12 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (TabItemContent is IDisposable disposableContent)
 				disposableContent?.Dispose();
-
+			try
+			{
+				AppLifecycleHelper.UpDate();
+			}
+			catch
+			{ }
 			ContentFrame.Content = null;
 		}
 	}
