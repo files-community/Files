@@ -1,20 +1,8 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.Shared.Extensions;
 using Files.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
@@ -78,6 +66,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				ShowHashes[hashInfoItem.Algorithm] = hashInfoItem.IsEnabled;
 				UserSettingsService.GeneralSettingsService.ShowHashesDictionary = ShowHashes;
+			}
+
+			// Don't calculate hashes for online files
+			if (_item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
+			{
+				hashInfoItem.HashValue = "CalculationOnlineFileHashError".GetLocalizedResource();
+				return;
 			}
 
 			if (hashInfoItem.HashValue is null && hashInfoItem.IsEnabled)
