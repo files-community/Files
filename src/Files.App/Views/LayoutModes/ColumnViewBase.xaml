@@ -291,7 +291,11 @@
 									BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
 									TextAlignment="Left"
 									TextWrapping="Wrap"
-									Visibility="Collapsed" />
+									Visibility="Collapsed">
+									<TextBox.Resources>
+										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+									</TextBox.Resources>
+								</TextBox>
 
 								<Grid Grid.Column="2">
 									<StackPanel Orientation="Horizontal" Spacing="4">
