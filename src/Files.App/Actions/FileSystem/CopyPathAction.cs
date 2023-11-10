@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.C, KeyModifiers.CtrlShift);
 
+		public bool IsExecutable
+			=> context.HasSelection;
+
 		public CopyPathAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();

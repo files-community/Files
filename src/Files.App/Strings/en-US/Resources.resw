@@ -2328,6 +2328,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>An error occurred during the calculation</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithm</value>
   </data>

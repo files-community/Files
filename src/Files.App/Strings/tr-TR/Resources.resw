@@ -142,7 +142,7 @@
     <value>Diskteki boyutu:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Sıkıştırılmamış Boyut:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Bu işlem yapılamaz</value>
@@ -160,10 +160,10 @@
     <value>Tümünü Seç</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Seçimi tersine çevir</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Seçimi temizle</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Değiştirme:</value>
@@ -277,7 +277,7 @@
     <value>Files'a hoş geldiniz!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>İzin ver</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Başlamak için uygulamaya dosyalarınızı görüntüleme izni vermelisiniz. Bu aşamada bu izni verebileceğiniz bir Ayarlar sayfası açılacak. Bu adımı tamamladıktan sonra uygulamayı yeniden başlatmalısınız. </value>
@@ -292,10 +292,10 @@
     <value>Set name</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Aydınlık</value>
+    <value>Açık</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Karanlık</value>
+    <value>Koyu</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Uygulama</value>
@@ -304,10 +304,10 @@
     <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Yeni klasör</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Yeni dosya</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Bu dizin boş.</value>
@@ -1021,7 +1021,7 @@
     <value>Yeni bölmede aç</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Dizinler</value>
+    <value>Klasörler</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ayrıntılar Görünümü (Ctrl+Shift+1)</value>
@@ -1390,7 +1390,7 @@
     <value>Geri Dönüşüm Kutusu</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>İptal ediliyor</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Temizle</value>
@@ -1450,7 +1450,7 @@
     <value>Bilinmeyen sahip</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract archive</value>
+    <value>Arşivi çıkart</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Tamamlandığında hedef dizini aç</value>
@@ -3104,7 +3104,7 @@
     <value>Git durumu</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Git hatası</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>zaman aşımı hatası nedeniyle git pull başarısız oldu</value>
@@ -3387,7 +3387,7 @@
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Hız:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>

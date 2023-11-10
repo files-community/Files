@@ -142,7 +142,7 @@
     <value>גודל על הדיסק:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>גודל לפני דחיסה:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>אין אפשרות לבצע פעולה זו</value>
@@ -160,10 +160,10 @@
     <value>בחר הכל</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>הפוך בחירה</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>ניקוי בחירה</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>השתנה</value>
@@ -175,7 +175,7 @@
     <value>נקה את כל פריטים</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>הזן נתיב על מנת להוות אליו או הקלד "&gt;" כדי לפתוח את לוח הפקודות</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>חיפוש</value>
@@ -277,7 +277,7 @@
     <value>ברוכים הבאים לFiles!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>מתן הרשאה</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>על מנת להתחיל, תצטרכו לתת לנו הרשאה להציג את הקבצים שלכם. זה יפתח עמוד הגדרות שבו תוכלו לתת לנו את ההרשאה. לאחר השלמת שלב זה, תצטרכו לפתוח מחדש את האפליקציה. </value>
@@ -289,7 +289,7 @@
     <value>הזן שם פריט</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>הגדר שם</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>בהיר</value>
@@ -304,10 +304,10 @@
     <value>מערכת</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>תיקייה חדשה</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>קובץ חדש</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>תיקיה זו ריקה.</value>
@@ -343,7 +343,7 @@
     <value>אנא חבר את הכונן הנדרש עבור גישה לפריט זה</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>הכונן נותק</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>הקובץ אליו אתה מנסה לגשת עשוי להיות מוזז או מחוק</value>
@@ -613,7 +613,7 @@
     <value>ביטול</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>יצירת פריט חדש</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>בחרו סוג עבור הפריט החדש מתחת</value>

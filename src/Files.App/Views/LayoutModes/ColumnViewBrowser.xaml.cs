@@ -410,7 +410,7 @@ namespace Files.App.Views.LayoutModes
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) !=
 				NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
 			else
