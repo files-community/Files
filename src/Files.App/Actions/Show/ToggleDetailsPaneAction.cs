@@ -31,18 +31,8 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			if (viewModel.IsEnabled)
-			{
-				if (previewSettingsService.ShowPreviewOnly)
-					previewSettingsService.ShowPreviewOnly = false;
-				else
-					viewModel.IsEnabled = false;
-			}
-			else
-			{
-				viewModel.IsEnabled = true;
-				previewSettingsService.ShowPreviewOnly = false;
-			}
+			viewModel.IsEnabled = true;
+			previewSettingsService.ShowPreviewOnly = false;
 
 			return Task.CompletedTask;
 		}
