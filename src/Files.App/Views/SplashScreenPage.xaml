@@ -34,7 +34,7 @@
 			Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 			LineHeight="32">
 			<Run FontWeight="SemiBold" Text="Files" />
-			<Run FontWeight="SemiLight" Text="Preview" />
+			<Run FontWeight="SemiLight" Text="{x:Bind BranchLabel, Mode=OneTime}" />
 		</TextBlock>
 
 		<!--  Loading Indicator  -->

@@ -217,7 +217,7 @@ namespace Files.App.ViewModels.Properties
 		/// Converts the property to a string to be displayed
 		/// </summary>
 		/// <returns></returns>
-		private string ConvertToString()
+		private string? ConvertToString()
 		{
 			// Don't attempt any convert null values
 			if (Value is null)
@@ -227,13 +227,27 @@ namespace Files.App.ViewModels.Properties
 
 			if (EnumeratedList is not null)
 			{
-				var value = "";
-				return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalizedResource() : null;
+				try
+				{
+					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ? 
+						value.GetLocalizedResource() : null;
+				}
+				catch
+				{
+					return null;
+				}
 			}
 
 			if (DisplayFunction is not null)
 			{
-				return DisplayFunction.Invoke(Value);
+				try
+				{
+					return DisplayFunction.Invoke(Value);
+				}
+				catch
+				{
+					return null;
+				}
 			}
 
 			if (Converter is not null)
