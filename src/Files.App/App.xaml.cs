@@ -226,7 +226,9 @@ namespace Files.App
 
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
+				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
+				MainWindow.Instance.Activated += Window_Activated;
 
 				// TODO: Remove App.Logger instance and replace with DI
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
@@ -259,9 +261,6 @@ namespace Files.App
 		{
 			// Get the MainWindow instance
 			var window = MainWindow.Instance;
-
-			// Hook events for the window
-			window.Activated += Window_Activated;
 
 			// Attempt to activate it
 			window.Activate();
