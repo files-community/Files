@@ -411,7 +411,11 @@
 							Canvas.ZIndex="1"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextWrapping="Wrap"
-							Visibility="Collapsed" />
+							Visibility="Collapsed">
+							<TextBox.Resources>
+								<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+							</TextBox.Resources>
+						</TextBox>
 
 						<TextBlock
 							Grid.Row="1"

@@ -88,13 +88,14 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			var path = navigationArguments.NavPathParam;
+			var pathRoot = GetPathRoot(path);
 			var pathStack = new Stack<string>();
 
-			if (path is not null)
+			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
 					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
-				rootPathList.Add(NormalizePath(GetPathRoot(path)));
+				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
 				{
