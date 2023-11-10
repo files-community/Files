@@ -297,6 +297,8 @@ namespace Files.App
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			StatusCenterViewModel satusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			// A Workaround for the crash (#10110)
 			if (LastOpenedFlyout?.IsOpen ?? false)
@@ -307,15 +309,15 @@ namespace Files.App
 				return;
 			}
 
-			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
-				
+
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
+				satusCenterViewModel.RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
