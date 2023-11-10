@@ -3,12 +3,10 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Helpers;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -22,8 +20,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -230,6 +226,8 @@ namespace Files.App
 
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
+				MainWindow.Instance.Closed += Window_Closed;
+
 				// TODO: Remove App.Logger instance and replace with DI
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
@@ -264,7 +262,6 @@ namespace Files.App
 
 			// Hook events for the window
 			window.Activated += Window_Activated;
-			window.Closed += Window_Closed;
 
 			// Attempt to activate it
 			window.Activate();
