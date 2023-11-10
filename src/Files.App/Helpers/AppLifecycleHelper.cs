@@ -37,8 +37,6 @@ namespace Files.App.Helpers
 		// The sharedMemoryName is used to identify the sharedMemory
 		// The sharedMemory is used to save and share the TabItemWithIDArguments
 
-
-
 		private static bool WriteMemory(MemoryMappedFile memory, string dataBuffer)
 		{
 			try
@@ -87,6 +85,9 @@ namespace Files.App.Helpers
 			return sharedMemoryNameSuffix;
 		}
 
+		/// <summary>
+		/// Get sharedMemoryName from sharedMemoryHeader. If sharedMemoryHeader doesn't exist, create it.
+		/// </summary>
 		private static string GetSharedMemoryName()
 		{
 			try
@@ -104,12 +105,18 @@ namespace Files.App.Helpers
 			return sharedMemoryName;
 		}
 
+		/// <summary>
+		/// Write sharedMemoryName to sharedMemoryHeader.
+		/// </summary>
 		private static void WriteSharedMemoryName(string sharedMemoryNameIn)
 		{
 			sharedMemoryHeader = MemoryMappedFile.CreateOrOpen(sharedMemoryHeaderName, defaultBufferSize);
 			WriteMemory(sharedMemoryHeader, sharedMemoryNameIn);
 		}
 
+		/// <summary>
+		/// Get current used sharedMemory reference. If current sharedMemory is disposed, try the previous one. 
+		/// </summary>
 		private static MemoryMappedFile GetSharedMemory()
 		{
 			sharedMemoryName = GetSharedMemoryName();
@@ -135,6 +142,11 @@ namespace Files.App.Helpers
 			return sharedMemory;
 		}
 
+		/// <summary>
+		/// Increase the size of sharedMemory.
+		/// For dynamic expansion, a new sharedMemory with a unique name must be created. Transfer data from the old sharedMemory to the new one, and attempt to clear the old sharedMemory.
+		/// Note that the old sharedMemory may still be in use by other instances. Therefore, if this instance creates a new sharedMemory, its record will be removed from the old sharedMemory.
+		/// </summary>
 		private static MemoryMappedFile ExtendSharedMemory(long newBufferSize)
 		{
 			sharedMemoryName = GetSharedMemoryName();
@@ -153,9 +165,6 @@ namespace Files.App.Helpers
 			return sharedMemory;
 		}
 
-		/// <summary>
-		/// Check if sharedMemory exists, and if its capacity is sufficient. If not, create a new one.
-		/// </summary>
 		private static bool CheckMemorySize(MemoryMappedFile memory, long size)
 		{
 			var accessor = memory.CreateViewAccessor();
