@@ -6,7 +6,6 @@ namespace Files.App.Actions
 	internal class ToggleInfoPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly PreviewPaneViewModel viewModel;
-		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		public string Label
 			=> "ToggleInfoPane".GetLocalizedResource();
