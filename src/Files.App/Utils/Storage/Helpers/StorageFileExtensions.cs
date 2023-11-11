@@ -96,7 +96,7 @@ namespace Files.App.Utils.Storage
 
 		public static List<PathBreadcrumbItem> GetDirectoryPathComponents(string value)
 		{
-			List<PathBreadcrumbItem> pathBoxItems = new();
+			List<PathBreadcrumbItem> pathBreadcrumbItems = new();
 
 			if (value.Contains('/', StringComparison.Ordinal))
 			{
@@ -123,13 +123,13 @@ namespace Files.App.Utils.Storage
 					var component = value.Substring(lastIndex, i - lastIndex);
 					var path = value.Substring(0, i + 1);
 					if (!_ftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
-						pathBoxItems.Add(GetPathItem(component, path));
+						pathBreadcrumbItems.Add(GetPathItem(component, path));
 
 					lastIndex = i + 1;
 				}
 			}
 
-			return pathBoxItems;
+			return pathBreadcrumbItems;
 		}
 
 		public static string GetResolvedPath(string path, bool isFtp)

@@ -21,15 +21,15 @@
 				ParentItems="{StaticResource ParentItems}" />
 
 			<!--  Current Item Style  -->
-			<DataTemplate x:Name="CurrentItem" x:DataType="dataitem:PathBoxItem">
+			<DataTemplate x:Name="CurrentItem" x:DataType="dataitem:PathBreadcrumbItem">
 				<StackPanel
 					x:Name="ListViewItemContentGrid"
 					AllowDrop="True"
-					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 					Background="Transparent"
-					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragLeave="PathBreadcrumbItem_DragLeave"
+					DragOver="PathBreadcrumbItem_DragOver"
+					Drop="PathBreadcrumbItem_Drop"
 					Orientation="Horizontal"
 					Tag="{x:Bind Path, Mode=OneWay}">
 					<i:Interaction.Behaviors>
@@ -46,22 +46,22 @@
 						Margin="0,0,0,4"
 						FontSize="12"
 						Style="{StaticResource BodyStrongTextBlockStyle}"
-						Text="{x:Bind Title, Mode=OneWay}" />
+						Text="{x:Bind Name, Mode=OneWay}" />
 
 				</StackPanel>
 			</DataTemplate>
 
 			<!--  Parent Item Style  -->
-			<DataTemplate x:Name="ParentItems" x:DataType="dataitem:PathBoxItem">
+			<DataTemplate x:Name="ParentItems" x:DataType="dataitem:PathBreadcrumbItem">
 				<StackPanel
 					x:Name="ListViewItemContentGrid"
 					VerticalAlignment="Center"
 					AllowDrop="True"
-					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 					Background="Transparent"
-					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragLeave="PathBreadcrumbItem_DragLeave"
+					DragOver="PathBreadcrumbItem_DragOver"
+					Drop="PathBreadcrumbItem_Drop"
 					Orientation="Horizontal"
 					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
@@ -70,9 +70,9 @@
 					<TextBlock
 						Margin="0,4"
 						FontSize="12"
-						PointerPressed="PathBoxItem_PointerPressed"
-						Tapped="PathBoxItem_Tapped"
-						Text="{x:Bind Title, Mode=OneWay}">
+						PointerPressed="PathBreadcrumbItem_PointerPressed"
+						Tapped="PathBreadcrumbItem_Tapped"
+						Text="{x:Bind Name, Mode=OneWay}">
 						<i:Interaction.Behaviors>
 							<core:EventTriggerBehavior EventName="PointerEntered">
 								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
@@ -133,7 +133,7 @@
 		CornerRadius="{StaticResource ControlCornerRadius}"
 		IsItemClickEnabled="True"
 		ItemTemplateSelector="{StaticResource PathBreadcrumbItemSelector}"
-		ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+		ItemsSource="{x:Bind ViewModel.PathBreadcrumbItems, Mode=OneWay}"
 		ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 		ScrollViewer.HorizontalScrollMode="Enabled"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"

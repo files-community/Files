@@ -15,7 +15,7 @@ namespace Files.App.Data.TemplateSelectors
 
 		public DataTemplate? CurrentItem { get; set; }
 
-		protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+		protected override DataTemplate? SelectTemplateCore(object item, DependencyObject container)
 		{
 			var itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
 
@@ -26,10 +26,8 @@ namespace Files.App.Data.TemplateSelectors
 						? CurrentItem!
 						: ParentItems!;
 			}
-			else
-			{
-				throw new ArgumentException($"Type of {nameof(itemsControl.ItemsSource)} doesn't match ObservableCollection<{nameof(PathBreadcrumbItem)}>");
-			}
+
+			return null;
 		}
 	}
 }

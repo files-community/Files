@@ -21,11 +21,11 @@ namespace Files.App.ViewModels.UserControls
 		// Event handlers
 
 		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
-		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
+		public delegate void PathBreadcrumbItemDroppedEventHandler(object sender, PathBreadcrumbItemDroppedEventArgs e);
 		public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
-		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
+		public event PathBreadcrumbItemDroppedEventHandler? PathBreadcrumbItemDropped;
 		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
@@ -126,20 +126,20 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
+		public void PathBreadcrumbItem_DragLeave(object sender, DragEventArgs e)
 		{
-			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
-				pathBoxItem.Path == "Home")
+			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBreadcrumbItem ||
+				pathBreadcrumbItem.Path == "Home")
 			{
 				return;
 			}
 
 			// Reset dragged over PathBox item
-			if (pathBoxItem.Path == _dragOverPath)
+			if (pathBreadcrumbItem.Path == _dragOverPath)
 				_dragOverPath = null;
 		}
 
-		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
+		public async Task PathBreadcrumbItem_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockFlag)
 				return;
@@ -149,8 +149,8 @@ namespace Files.App.ViewModels.UserControls
 			// Reset dragged over PathBox item
 			_dragOverPath = null;
 
-			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
-				pathBoxItem.Path == "Home")
+			if (((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBreadcrumbItem ||
+				pathBreadcrumbItem.Path == "Home")
 			{
 				return;
 			}
@@ -159,11 +159,11 @@ namespace Files.App.ViewModels.UserControls
 
 			var signal = new AsyncManualResetEvent();
 
-			PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
+			PathBreadcrumbItemDropped?.Invoke(this, new PathBreadcrumbItemDroppedEventArgs()
 			{
 				AcceptedOperation = e.AcceptedOperation,
 				Package = e.DataView,
-				Path = pathBoxItem.Path,
+				Path = pathBreadcrumbItem.Path,
 				SignalEvent = signal
 			});
 
@@ -175,18 +175,18 @@ namespace Files.App.ViewModels.UserControls
 			_lockFlag = false;
 		}
 
-		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
+		public async Task PathBreadcrumbItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
-				((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBoxItem ||
-				pathBoxItem.Path == "Home")
+				((StackPanel)sender).DataContext is not PathBreadcrumbItem pathBreadcrumbItem ||
+				pathBreadcrumbItem.Path == "Home")
 			{
 				return;
 			}
 
-			if (_dragOverPath != pathBoxItem.Path)
+			if (_dragOverPath != pathBreadcrumbItem.Path)
 			{
-				_dragOverPath = pathBoxItem.Path;
+				_dragOverPath = pathBreadcrumbItem.Path;
 				_dragOverTimer.Stop();
 
 				if (_dragOverPath != PathBreadcrumbItems.LastOrDefault()?.Path)
@@ -208,7 +208,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			// In search page
-			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView) || string.IsNullOrEmpty(pathBoxItem.Path))
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView) || string.IsNullOrEmpty(pathBreadcrumbItem.Path))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
 
@@ -222,7 +222,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (!storageItems.Any(storageItem =>
 					!string.IsNullOrEmpty(storageItem?.Path) &&
-					storageItem.Path.Replace(pathBoxItem.Path, string.Empty, StringComparison.Ordinal)
+					storageItem.Path.Replace(pathBreadcrumbItem.Path, string.Empty, StringComparison.Ordinal)
 						.Trim(Path.DirectorySeparatorChar)
 						.Contains(Path.DirectorySeparatorChar)))
 			{
@@ -233,9 +233,9 @@ namespace Files.App.ViewModels.UserControls
 			else if (storageItems.Any(x =>
 					x.Item is ZipStorageFile ||
 					x.Item is ZipStorageFolder) ||
-					ZipStorageFolder.IsZipPath(pathBoxItem.Path))
+					ZipStorageFolder.IsZipPath(pathBreadcrumbItem.Path))
 			{
-				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Name);
+				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBreadcrumbItem.Name);
 				e.AcceptedOperation = DataPackageOperation.Copy;
 			}
 			else
@@ -248,12 +248,12 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
-		public void PathBoxItemFlyout_Opened(object sender, object e)
+		public void PathBreadcrumbItemFlyout_Opened(object sender, object e)
 		{
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
 
-		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+		public void PathBreadcrumbItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse)
 				return;
@@ -262,7 +262,7 @@ namespace Files.App.ViewModels.UserControls
 			pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async Task PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+		public async Task PathBreadcrumbItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var itemTappedPath = ((sender as TextBlock)?.DataContext as PathBreadcrumbItem)?.Path;
 			if (itemTappedPath is null)

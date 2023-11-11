@@ -192,7 +192,7 @@ namespace Files.App.Views.Shells
 			PathBreadcrumbViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpened;
 			PathBreadcrumbViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
-			PathBreadcrumbViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
+			PathBreadcrumbViewModel.PathBreadcrumbItemDropped += ShellPage_PathBreadcrumbItemDropped;
 
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
@@ -397,7 +397,7 @@ namespace Files.App.Views.Shells
 				Forward_Click();
 		}
 
-		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
+		protected async void ShellPage_PathBreadcrumbItemDropped(object sender, PathBreadcrumbItemDroppedEventArgs e)
 		{
 			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
 			e.SignalEvent?.Set();
@@ -764,7 +764,7 @@ namespace Files.App.Views.Shells
 			PathBreadcrumbViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
 			PathBreadcrumbViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
-			PathBreadcrumbViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
+			PathBreadcrumbViewModel.PathBreadcrumbItemDropped -= ShellPage_PathBreadcrumbItemDropped;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			PathBreadcrumbViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
