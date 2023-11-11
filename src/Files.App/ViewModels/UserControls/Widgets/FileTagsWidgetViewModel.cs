@@ -108,28 +108,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			});
 		}
 
-		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
-		{
-			if (e.ClickedItem is FileTagsItemViewModel itemViewModel)
-				await itemViewModel.ClickCommand.ExecuteAsync(null);
-		}
-
-		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-		{
-			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not FileTagsItemViewModel item)
-			{
-				return;
-			}
-
-			LoadContextMenu(
-				element,
-				e,
-				GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
-				rightClickedItem: item);
-		}
-
-		private void LoadContextMenu(
+		public void LoadContextMenu(
 			FrameworkElement element,
 			RightTappedRoutedEventArgs e,
 			List<ContextMenuFlyoutItemViewModel> menuItems,

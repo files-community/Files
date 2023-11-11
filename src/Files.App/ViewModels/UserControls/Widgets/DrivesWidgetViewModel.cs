@@ -78,6 +78,25 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			DisconnectNetworkDriveCommand = new RelayCommand<DriveCardItem>(DisconnectNetworkDrive);
 		}
 
+		public async Task Open(string path)
+		{
+			if (await DriveHelpers.CheckEmptyDrive(path))
+				return;
+
+			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			if (ctrlPressed)
+			{
+				await NavigationHelpers.OpenPathInNewTab(path);
+
+				return;
+			}
+
+			DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
+			{
+				Path = path
+			});
+		}
+
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
@@ -243,37 +262,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
-		{
-			string ClickedCard = (sender as Button).Tag.ToString();
-			string NavigationPath = ClickedCard; // path to navigate
-
-			if (await DriveHelpers.CheckEmptyDrive(NavigationPath))
-				return;
-
-			var ctrlPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed)
-			{
-				await NavigationHelpers.OpenPathInNewTab(NavigationPath);
-				return;
-			}
-
-			DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
-			{
-				Path = NavigationPath
-			});
-		}
-
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			if (!e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
-				return;
-			string navigationPath = (sender as Button).Tag.ToString();
-			if (await DriveHelpers.CheckEmptyDrive(navigationPath))
-				return;
-			await NavigationHelpers.OpenPathInNewTab(navigationPath);
-		}
-
 		private async Task OpenInNewPaneAsync(DriveCardItem item)
 		{
 			if (await DriveHelpers.CheckEmptyDrive(item.Item.Path))
@@ -296,12 +284,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
 			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
-		}
-
-		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
-		{
-			string clickedCard = (sender as Button).Tag.ToString();
-			StorageSenseHelper.OpenStorageSenseAsync(clickedCard);
 		}
 
 		public async Task RefreshWidgetAsync()
