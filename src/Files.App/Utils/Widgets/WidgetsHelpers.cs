@@ -2,17 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.Widgets;
-using Files.Core.Services.Settings;
-using System.Collections.Generic;
+using Files.App.ViewModels.UserControls.Widgets;
 
 namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, WidgetsListControlViewModel widgetsViewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
+		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, HomeViewModel viewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetItemModel, new()
 		{
-			bool canAddWidget = widgetsViewModel.CanAddWidget(typeof(TWidget).Name);
+			bool canAddWidget = viewModel.CanAddWidget(typeof(TWidget).Name);
 			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(generalSettingsService);
 
 			if (canAddWidget && isWidgetSettingEnabled)
@@ -20,10 +18,11 @@ namespace Files.App.Helpers
 				shouldReload = true;
 				return new TWidget();
 			}
-			else if (!canAddWidget && !isWidgetSettingEnabled) // The widgets exists but the setting has been disabled for it
+			// The widgets exists but the setting has been disabled for it
+			else if (!canAddWidget && !isWidgetSettingEnabled)
 			{
 				// Remove the widget
-				widgetsViewModel.RemoveWidget<TWidget>();
+				viewModel.RemoveWidget<TWidget>();
 				shouldReload = false;
 				return default;
 			}
@@ -57,8 +56,7 @@ namespace Files.App.Helpers
 				return generalSettingsService.ShowRecentFilesWidget;
 			}
 
-			// A custom widget it is - TWidget implements ICustomWidgetItemModel
-			return typeof(ICustomWidgetItemModel).IsAssignableFrom(typeof(TWidget)); // Return true for custom widgets - they're always enabled
+			return false
 		}
 	}
 }

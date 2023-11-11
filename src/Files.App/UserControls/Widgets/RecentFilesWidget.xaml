@@ -121,4 +121,5 @@
 		</ListView>
 
 	</StackPanel>
+
 </local:HomePageWidget>

@@ -19,7 +19,6 @@
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 	</UserControl.Resources>
 
-	<!--  Collection of containers  -->
 	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
 
 		<ItemsRepeater.Layout>
@@ -166,4 +165,5 @@
 		</ItemsRepeater.ItemTemplate>
 
 	</ItemsRepeater>
+
 </local:HomePageWidget>

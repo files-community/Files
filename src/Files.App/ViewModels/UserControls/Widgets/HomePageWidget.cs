@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
+using Files.App.UserControls.Widgets;
 using Files.Core.Storage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,7 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.Windows.Input;
 
-namespace Files.App.UserControls.Widgets
+namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public abstract class HomePageWidget : UserControl
 	{
@@ -78,6 +79,5 @@ namespace Files.App.UserControls.Widgets
 		{
 			_ = QuickAccessService.UnpinFromSidebarAsync(item.Path);
 		}
-
 	}
 }
