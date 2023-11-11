@@ -375,10 +375,9 @@ namespace Files.App.Utils.Shell
 			using Process process = CreatePowershellProcess(command, runAsAdmin);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
-			process.Start();
-
 			try
 			{
+				process.Start();
 				await process.WaitForExitAsync(cts.Token);
 				return process.ExitCode == 0;
 			}
@@ -570,7 +569,15 @@ namespace Files.App.Utils.Shell
 		public static Shell32.ITaskbarList4? CreateTaskbarObject()
 		{
 			var taskbar2 = new Shell32.ITaskbarList2();
-			taskbar2.HrInit();
+			try
+			{
+				taskbar2.HrInit();
+			}
+			catch (NotImplementedException)
+			{
+				// explorer.exe is not running as a shell
+				return null;
+			}
 
 			return taskbar2 as Shell32.ITaskbarList4;
 		}

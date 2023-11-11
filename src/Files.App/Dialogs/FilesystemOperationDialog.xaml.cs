@@ -121,9 +121,6 @@ namespace Files.App.Dialogs
 
 		private void FilesystemOperationDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
 		{
-			if (ViewModel.FileSystemDialogMode.IsInDeleteMode)
-				DescriptionText.Foreground = App.Current.Resources["TextControlForeground"] as SolidColorBrush;
-
 			UpdateDialogLayout();
 		}
 
