@@ -1,10 +1,34 @@
-name: Deploy Preview Pipeline
+# Copyright (c) 2023 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Abstract:
+#  - This CI is executed manually by the maintainer of Files.
+#  - Handles Preview and Store verions to deploy.
+
+name: Files Deploy
 
 on:
   workflow_dispatch:
 
+env:
+  WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
+  SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
+  PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+  AUTOMATED_TESTS_ARCHITECTURE: 'x64'
+  AUTOMATED_TESTS_CONFIGURATION: 'Release'
+  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
+  ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
+  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
+  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
+  APPX_BUNDLE_PLATFORMS: 'x64|arm64'
+  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
+  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
+
 jobs:
-  build:
+  deploy:
     runs-on: windows-latest
     environment: Deployments
     strategy:
@@ -13,16 +37,8 @@ jobs:
         configuration: [Preview]
         platform: [x64]
     env:
-      SOLUTION_NAME: 'Files.sln'
-      PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH: 'src\Files.App (Package)\Files.Package.wapproj'
-      TEST_PROJECT_PATH: 'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       CONFIGURATION: ${{ matrix.configuration }}
       PLATFORM: ${{ matrix.platform }}
-      APPX_BUNDLE_PLATFORMS: 'x64|arm64'
-      WORKING_DIR: ${{ github.workspace }} # Default: D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:  ${{ github.workspace }}\artifacts
-      APPX_PACKAGE_DIR: ${{ github.workspace }}\artifacts\AppxPackages
 
     steps:
     - name: Checkout the repository
@@ -101,18 +117,18 @@ jobs:
 
     - name: Restore NuGet
       shell: pwsh
-      run: 'nuget restore $env:SOLUTION_NAME'
+      run: 'nuget restore $env:SOLUTION_PATH'
 
-    - name: Restore ${{ env.SOLUTION_NAME  }}
+    - name: Restore Files
       shell: pwsh
       run: |
-        msbuild $env:SOLUTION_NAME `
+        msbuild $env:SOLUTION_PATH `
         -t:Restore `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - name: Build ${{ env.SOLUTION_NAME }}
+    - name: Build, package & publish Files
       shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
@@ -127,6 +143,7 @@ jobs:
         -p:GenerateAppInstallerFile=True `
         -p:AppInstallerUri=https://cdn.files.community/files/preview/
 
+    # NOTE: actions/upload-artifact sometimes fail because of having empty file 
     - name: Remove empty files from the packages
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
@@ -148,23 +165,23 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - uses: azure/login@v1
+    - name: Log in to the Azure
+      uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
+    - name: Upload to the blob storage
       uses: azure/powershell@v1
       with:
-        inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "test" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
+        inlineScript: |
+          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "test" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
 
-    # Azure logout
-    - name: logout
+    - name: Log out from the Azure
       run: |
           az logout
           
-    - name: Upload the packages to GitHub Actions
+      name: Upload the packages to the Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
