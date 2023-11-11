@@ -16,7 +16,7 @@ namespace Files.App.Data.Contexts
 
 		public IShellPage? ShellPage => context?.PaneOrColumn;
 
-		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutBrowser);
+		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsViewLayout);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;

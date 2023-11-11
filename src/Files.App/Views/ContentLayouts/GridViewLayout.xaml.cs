@@ -14,12 +14,12 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.ContentLayouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
-	public sealed partial class GridViewBrowser : StandardViewBase
+	public sealed partial class GridViewLayout : BaseGroupableLayout
 	{
 		private uint currentIconSize;
 
@@ -41,9 +41,9 @@ namespace Files.App.Views.LayoutModes
 		}
 
 		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewBrowser), new PropertyMetadata(false));
+			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewLayout), new PropertyMetadata(false));
 
-		public GridViewBrowser() : base()
+		public GridViewLayout() : base()
 		{
 			InitializeComponent();
 			DataContext = this;

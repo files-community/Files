@@ -15,12 +15,12 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.ContentLayouts
 {
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
-	public sealed partial class DetailsLayoutBrowser : StandardViewBase
+	public sealed partial class DetailsViewLayout : BaseGroupableLayout
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
@@ -55,7 +55,7 @@ namespace Files.App.Views.LayoutModes
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		public DetailsLayoutBrowser() : base()
+		public DetailsViewLayout() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
