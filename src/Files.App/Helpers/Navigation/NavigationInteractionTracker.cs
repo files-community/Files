@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Input;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace Files.App.Views
+namespace Files.App.Helpers
 {
 	internal class NavigationInteractionTracker : IDisposable
 	{
@@ -221,7 +221,7 @@ namespace Files.App.Views
 					}
 				}
 				else
-				{					
+				{
 					_parent._tracker.TryUpdatePositionWithAnimation(_returnAnimation);
 				}
 				_shouldBounceBack = false;
