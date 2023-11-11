@@ -97,7 +97,9 @@ namespace Files.App.Utils.Archives
 				StatusCenterHelper.AddCard_Compress(
 					creator.Sources,
 					archivePath.CreateEnumerable(),
-					ReturnResult.Failed,
+					creator.CancellationToken.IsCancellationRequested
+						? ReturnResult.Cancelled
+						: ReturnResult.Failed,
 					creator.Sources.Count());
 			}
 		}

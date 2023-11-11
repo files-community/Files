@@ -18,32 +18,15 @@ namespace Files.App.Utils.Archives
 
 		private static IThreadingService _threadingService = Ioc.Default.GetRequiredService<IThreadingService>();
 
-		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
-		{
-			return await FilesystemTasks.Wrap(async () =>
-			{
-				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
-				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
-			});
-		}
-
-		public static async Task<bool> IsArchiveEncrypted(BaseStorageFile archive)
-		{
-			using SevenZipExtractor? zipFile = await GetZipFile(archive);
-			if (zipFile is null)
-				return true;
-
-			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
-		}
-
-		public static async Task ExtractArchiveAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
+		public static async Task<bool> DecompressArchiveAsync(BaseStorageFile archive, BaseStorageFolder destinationFolder, string password, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
 		{
 			using SevenZipExtractor? zipFile = await GetZipFile(archive, password);
 			if (zipFile is null)
-				return;
+				return false;
 
-			if (cancellationToken.IsCancellationRequested) // Check if canceled
-				return;
+			// Check if the decompress operation canceled
+			if (cancellationToken.IsCancellationRequested)
+				return false;
 
 			// Fill files
 
@@ -88,34 +71,55 @@ namespace Files.App.Utils.Archives
 
 			try
 			{
+				// TODO: Get this method return result
 				await zipFile.ExtractArchiveAsync(destinationFolder.Path);
 			}
 			catch (Exception ex)
 			{
 				App.Logger.LogWarning(ex, $"Error extracting file: {archive.Name}");
-				return; // TODO: handle error
+
+				return false;
 			}
+
+			return true;
 		}
 
-		private static async Task ExtractArchiveAsync(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
+		private static async Task DecompressArchiveAsync(BaseStorageFile archive, BaseStorageFolder? destinationFolder, string password)
 		{
 			if (archive is null || destinationFolder is null)
 				return;
 
-			var banner = StatusCenterHelper.AddCard_Decompress(
+			// Initialize a new in-progress status card
+			var statusCard = StatusCenterHelper.AddCard_Decompress(
 				archive.Path.CreateEnumerable(),
 				destinationFolder.Path.CreateEnumerable(),
 				ReturnResult.InProgress);
 
-			await FilesystemTasks.Wrap(() =>
-				ExtractArchiveAsync(archive, destinationFolder, password, banner.ProgressEventSource, banner.CancellationToken));
+			// Operate decompress
+			var result = await FilesystemTasks.Wrap(() =>
+				DecompressArchiveAsync(archive, destinationFolder, password, statusCard.ProgressEventSource, statusCard.CancellationToken));
 
-			_statusCenterViewModel.RemoveItem(banner);
+			// Remove the in-progress status card
+			_statusCenterViewModel.RemoveItem(statusCard);
 
-			StatusCenterHelper.AddCard_Decompress(
-				archive.Path.CreateEnumerable(),
-				destinationFolder.Path.CreateEnumerable(),
-				ReturnResult.Success);
+			if (result.Result)
+			{
+				// Successful
+				StatusCenterHelper.AddCard_Decompress(
+					archive.Path.CreateEnumerable(),
+					destinationFolder.Path.CreateEnumerable(),
+					ReturnResult.Success);
+			}
+			else
+			{
+				// Error
+				StatusCenterHelper.AddCard_Decompress(
+					archive.Path.CreateEnumerable(),
+					destinationFolder.Path.CreateEnumerable(),
+					statusCard.CancellationToken.IsCancellationRequested
+						? ReturnResult.Cancelled
+						: ReturnResult.Failed);
+			}
 		}
 
 		public static async Task DecompressArchiveAsync(IShellPage associatedInstance)
@@ -161,7 +165,7 @@ namespace Files.App.Utils.Archives
 				destinationFolder = await FilesystemTasks.Wrap(() => parentFolder.CreateFolderAsync(Path.GetFileName(destinationFolderPath), CreationCollisionOption.GenerateUniqueName).AsTask());
 			}
 
-			await ExtractArchiveAsync(archive, destinationFolder, password);
+			await DecompressArchiveAsync(archive, destinationFolder, password);
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, associatedInstance, FilesystemItemType.Directory);
@@ -199,7 +203,7 @@ namespace Files.App.Utils.Archives
 					password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
 				}
 
-				await ExtractArchiveAsync(archive, currentFolder, password);
+				await DecompressArchiveAsync(archive, currentFolder, password);
 			}
 		}
 
@@ -239,8 +243,26 @@ namespace Files.App.Utils.Archives
 				if (currentFolder is not null)
 					destinationFolder = await FilesystemTasks.Wrap(() => currentFolder.CreateFolderAsync(Path.GetFileNameWithoutExtension(archive.Path), CreationCollisionOption.GenerateUniqueName).AsTask());
 
-				await ExtractArchiveAsync(archive, destinationFolder, password);
+				await DecompressArchiveAsync(archive, destinationFolder, password);
 			}
+		}
+
+		private static async Task<SevenZipExtractor?> GetZipFile(BaseStorageFile archive, string password = "")
+		{
+			return await FilesystemTasks.Wrap(async () =>
+			{
+				var arch = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
+				return arch?.ArchiveFileData is null ? null : arch; // Force load archive (1665013614u)
+			});
+		}
+
+		private static async Task<bool> IsArchiveEncrypted(BaseStorageFile archive)
+		{
+			using SevenZipExtractor? zipFile = await GetZipFile(archive);
+			if (zipFile is null)
+				return true;
+
+			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
 		}
 	}
 }
