@@ -2419,7 +2419,7 @@
     <value>Új mappa létrehozása</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Új parancsikon(ok) létrehozása a kiválasztott elem(ek)-hez</value>
+    <value>Új parancsikon(ok) létrehozása a kiválasztott elem(ek)hez</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Új parancsikon létrehozása</value>
@@ -2440,7 +2440,7 @@
     <value>Elem(ek) megnyitása</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Elem(ek) megnyitása a kiválasztott applikációval</value>
+    <value>Elem(ek) megnyitása a kiválasztott alkalmazással</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>A keresett elem forrás mappájának megnyitása</value>
@@ -2467,10 +2467,10 @@
     <value>Kiválasztott fájl(ok) megosztása másokkal</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Kiválasztott elem(ek) kitűzése a Start Menu-be</value>
+    <value>Kiválasztott elem(ek) kitűzése a Start menübe</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Elem(ek) levétele a Start Menu-ből</value>
+    <value>Elem(ek) levétele a Start menüből</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Mappá(k) kitűzése a kedvencekbe</value>
@@ -3129,7 +3129,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Akril</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -3138,7 +3138,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Háttér típus</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Szolid</value>

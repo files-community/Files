@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -62,6 +63,12 @@ namespace Files.App.UserControls.TabBar
 		/// <summary> Starting time when dragging a tab. </summary>
 		private DateTimeOffset dragStartTime;
 
+		/// <summary>
+		/// Indicates if drag operation should be canceled.
+		/// This value gets reset at the start of the drag operation
+		/// </summary>
+		private bool isCancelingDragOperation;
+
 		public TabBar()
 		{
 			InitializeComponent();
@@ -82,9 +89,7 @@ namespace Files.App.UserControls.TabBar
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
 			if (args.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabBarItem);
-			}
 
 			if (App.AppModel.TabStripSelectedIndex >= 0 && App.AppModel.TabStripSelectedIndex < Items.Count)
 			{
@@ -132,19 +137,34 @@ namespace Files.App.UserControls.TabBar
 		{
 			tabHoverTimer.Stop();
 			if (hoveredTabViewItem is not null)
-			{
 				App.AppModel.TabStripSelectedIndex = Items.IndexOf(hoveredTabViewItem.DataContext as TabBarItem);
-			}
 		}
 
 		private void TabView_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
 		{
+			// Reset value
+			isCancelingDragOperation = false;
+
 			var tabViewItemArgs = (args.Item as TabBarItem).NavigationParameter;
 			args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
 			args.Data.RequestedOperation = DataPackageOperation.Move;
 
+			// Get cursor position & time to track how far the tab was dragged.
 			InteropHelpers.GetCursorPos(out dragStartPoint);
 			dragStartTime = DateTimeOffset.UtcNow;
+
+			// Focus the UI Element, without this the focus sometimes changes
+			// and the PreviewKeyDown event won't trigger.
+			Focus(FocusState.Programmatic);
+			PreviewKeyDown += TabDragging_PreviewKeyDown;
+		}
+
+		private void TabDragging_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			// Pressing escape will automatically complete the drag event but we need to set the
+			// isCancelingDragOperation field in order to detect if escape was pressed.
+			if (e.Key is Windows.System.VirtualKey.Escape)
+				isCancelingDragOperation = true;
 		}
 
 		private void TabView_TabStripDragOver(object sender, DragEventArgs e)
@@ -178,9 +198,7 @@ namespace Files.App.UserControls.TabBar
 
 			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
 				!(tabViewItemPathObj is string tabViewItemString))
-			{
 				return;
-			}
 
 			var index = -1;
 
@@ -202,24 +220,27 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
 		{
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
+			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
 				(bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
-			{
 				CloseTab(args.Item as TabBarItem);
-			}
 			else
-			{
 				HorizontalTabView.SelectedItem = args.Tab;
-			}
 
 			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
-			{
 				ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
-			}
 		}
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
 		{
+			// Unsubscribe from the key down event, it's only needed when a tab is actively being dragged
+			PreviewKeyDown -= TabDragging_PreviewKeyDown;
+
+			if (isCancelingDragOperation)
+				return;
+
 			InteropHelpers.GetCursorPos(out var droppedPoint);
 			var droppedTime = DateTimeOffset.UtcNow;
 			var dragTime = droppedTime - dragStartTime;
@@ -241,10 +262,8 @@ namespace Files.App.UserControls.TabBar
 				sender.SelectedIndex = selectedTabViewItemIndex;
 			}
 			else
-			{
 				// Dispose tab arguments
 				(args.Item as TabBarItem)?.Unload();
-			}
 		}
 
 		private void TabItemContextMenu_Opening(object sender, object e)

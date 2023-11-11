@@ -88,13 +88,14 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			var path = navigationArguments.NavPathParam;
+			var pathRoot = GetPathRoot(path);
 			var pathStack = new Stack<string>();
 
-			if (path is not null)
+			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
 					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
-				rootPathList.Add(NormalizePath(GetPathRoot(path)));
+				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
 				{
@@ -115,7 +116,7 @@ namespace Files.App.Views.LayoutModes
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path,
-				SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+				SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 			});
 
 			var index = 0;
@@ -127,7 +128,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					Column = ++index,
 					NavPathParam = path,
-					SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+					SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 				});
 			}
 		}
@@ -406,15 +407,15 @@ namespace Files.App.Views.LayoutModes
 					}
 				}
 			}
-			if (PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
-				PathNormalization.NormalizePath(e.ItemPath))
-			{
+
+			if (ParentShellPageInstance is null)
+				return;
+
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) !=
+				NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
-			}
 			else
-			{
 				DismissOtherBlades(0);
-			}
 		}
 
 		public IShellPage ActiveColumnShellPage

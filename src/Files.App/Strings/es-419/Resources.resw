@@ -1195,7 +1195,7 @@
     <value>Sin ubicaciones</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>Este campo no puede estar vacío</value>
+    <value>Este campo no puede estar vacío!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
     <value>El nombre no debe contener los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>

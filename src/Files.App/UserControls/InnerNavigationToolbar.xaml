@@ -911,19 +911,19 @@
 
 			</AppBarButton>
 
-			<!--  Toggle Preview Pane  -->
+			<!--  Toggle Preview\Details Pane  -->
 			<AppBarToggleButton
 				x:Name="PreviewPane"
 				Width="Auto"
 				MinWidth="40"
 				AccessKey="P"
-				AutomationProperties.Name="{x:Bind Commands.TogglePreviewPane.AutomationName}"
-				IsChecked="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=TwoWay}"
-				Label="{x:Bind Commands.TogglePreviewPane.Label}"
+				AutomationProperties.Name="{x:Bind Commands.ToggleInfoPane.AutomationName}"
+				IsChecked="{x:Bind Commands.ToggleInfoPane.IsOn, Mode=TwoWay}"
+				Label="{x:Bind Commands.ToggleInfoPane.Label}"
 				LabelPosition="Collapsed"
-				ToolTipService.ToolTip="{x:Bind Commands.TogglePreviewPane.LabelWithHotKey, Mode=OneWay}"
+				ToolTipService.ToolTip="{x:Bind Commands.ToggleInfoPane.LabelWithHotKey, Mode=OneWay}"
 				Visibility="{x:Bind ShowPreviewPaneButton, Mode=OneWay}">
-				<local:OpacityIcon IsSelected="{x:Bind Commands.TogglePreviewPane.IsOn, Mode=OneWay}" Style="{x:Bind Commands.TogglePreviewPane.OpacityStyle}" />
+				<local:OpacityIcon IsSelected="{x:Bind Commands.ToggleInfoPane.IsOn, Mode=OneWay}" Style="{x:Bind Commands.ToggleInfoPane.OpacityStyle}" />
 			</AppBarToggleButton>
 
 			<!--  3 Dots Commands  -->
