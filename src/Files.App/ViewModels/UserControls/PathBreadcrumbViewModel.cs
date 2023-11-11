@@ -241,7 +241,7 @@ namespace Files.App.ViewModels.UserControls
 			else
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Name);
+				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBreadcrumbItem.Name);
 				e.AcceptedOperation = DataPackageOperation.Move;
 			}
 
