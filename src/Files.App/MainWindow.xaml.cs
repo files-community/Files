@@ -181,6 +181,10 @@ namespace Files.App
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
+
+				case IStartupTaskActivatedEventArgs startupArgs:
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					break;
 			}
 
 			if (!AppWindow.IsVisible)
