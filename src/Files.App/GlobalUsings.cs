@@ -50,6 +50,7 @@ global using global::Files.App.UserControls;
 global using global::Files.App.UserControls.TabBar;
 global using global::Files.App.ViewModels;
 global using global::Files.App.ViewModels.UserControls;
+global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Views;
 global using global::Files.App.Views.LayoutModes;
 global using global::Files.App.Views.Shells;

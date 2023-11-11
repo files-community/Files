@@ -54,7 +54,7 @@ namespace Files.App.ViewModels
 		public bool InsertWidget(WidgetItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
-			if (widgetModel.WidgetItemModel is not IWidgetItemModel widgetItemModel)
+			if (widgetModel.WidgetItemModel is not IWidgetViewModel widgetItemModel)
 			{
 				return false;
 			}
@@ -93,7 +93,7 @@ namespace Files.App.ViewModels
 			WidgetItems.RemoveAt(index);
 		}
 
-		public void RemoveWidget<TWidget>() where TWidget : IWidgetItemModel
+		public void RemoveWidget<TWidget>() where TWidget : IWidgetViewModel
 		{
 			int indexToRemove = -1;
 

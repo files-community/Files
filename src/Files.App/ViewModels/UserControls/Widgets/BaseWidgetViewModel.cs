@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.Widgets;
 using Files.Core.Storage;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,23 +11,24 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public abstract class HomePageWidget : UserControl
+	public abstract class BaseWidgetViewModel
 	{
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 		public IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		public ICommand RemoveRecentItemCommand;
-		public ICommand ClearAllItemsCommand;
-		public ICommand OpenFileLocationCommand;
-		public ICommand OpenInNewTabCommand;
-		public ICommand OpenInNewWindowCommand;
-		public ICommand OpenPropertiesCommand;
-		public ICommand PinToFavoritesCommand;
-		public ICommand UnpinFromFavoritesCommand;
+		public ICommand RemoveRecentItemCommand = null!;
+		public ICommand ClearAllItemsCommand = null!;
+		public ICommand OpenFileLocationCommand = null!;
+		public ICommand OpenInNewTabCommand = null!;
+		public ICommand OpenInNewWindowCommand = null!;
+		public ICommand OpenPropertiesCommand = null!;
+		public ICommand PinToFavoritesCommand = null!;
+		public ICommand UnpinFromFavoritesCommand = null!;
 
-		protected CommandBarFlyout ItemContextMenuFlyout;
-		protected string FlyouItemPath;
+		protected CommandBarFlyout ItemContextMenuFlyout = null!;
+
+		protected string FlyouItemPath = null!;
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 

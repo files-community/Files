@@ -21,10 +21,10 @@ namespace Files.App.Views
 		public FolderSettingsViewModel? FolderSettings
 			=> AppInstance?.InstanceViewModel.FolderSettings;
 
-		private QuickAccessWidget? quickAccessWidget;
-		private DrivesWidget? drivesWidget;
-		private FileTagsWidget? fileTagsWidget;
-		private RecentFilesWidget? recentFilesWidget;
+		private QuickAccessWidgetViewModel? quickAccessWidget;
+		private DrivesWidgetViewModel? drivesWidget;
+		private FileTagsWidgetViewModel? fileTagsWidget;
+		private RecentFilesWidgetViewModel? recentFilesWidget;
 
 		public HomePage()
 		{
@@ -99,7 +99,7 @@ namespace Files.App.Views
 				fileTagsWidget.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
 				fileTagsWidget.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;
 				fileTagsWidget.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
-				_ = fileTagsWidget.ViewModel.InitAsync();
+				_ = fileTagsWidget.InitAsync();
 			}
 
 			// Reload RecentFilesWidget
@@ -187,12 +187,12 @@ namespace Files.App.Views
 			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance!);
 		}
 
-		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidgetInvokedEventArgs e)
 		{
 			AppInstance!.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+		private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidgetInvokedEventArgs e)
 		{
 			AppInstance!.NavigateWithArguments(FolderSettings!.GetLayoutType(e.Path), new NavigationArguments()
 			{

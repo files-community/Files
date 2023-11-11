@@ -27,9 +27,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
-		public IWidgetItemModel WidgetItemModel
+		public IWidgetViewModel WidgetItemModel
 		{
-			get => WidgetControl as IWidgetItemModel;
+			get => WidgetControl as IWidgetViewModel;
 		}
 
 		public string WidgetAutomationProperties

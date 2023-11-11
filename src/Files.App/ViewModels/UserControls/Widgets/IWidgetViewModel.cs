@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
-	public interface IWidgetItemModel : IDisposable
+	public interface IWidgetViewModel : IDisposable
 	{
 		string WidgetName { get; }
 
