@@ -183,6 +183,12 @@ namespace Files.App
 					break;
 
 				case IStartupTaskActivatedEventArgs startupArgs:
+					// Just launch the app with no arguments
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					break;
+
+				default:
+					// Just launch the app with no arguments
 					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					break;
 			}
