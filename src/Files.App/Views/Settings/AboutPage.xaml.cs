@@ -14,10 +14,10 @@ namespace Files.App.Views.Settings
 			InitializeComponent();
 		}
 
-		private void ThirdPartyLicenses_Click(object sender, bool e)
+		private async void ThirdPartyLicenses_Click(object sender, bool e)
 		{
 			if (e && ViewModel.ThirdPartyNotices is null)
-				ViewModel.LoadThirdPartyNoticesAsync();
+				await ViewModel.LoadThirdPartyNoticesAsync();
 		}
 
 		private async void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)

@@ -73,14 +73,14 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
-		protected virtual void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
+		protected virtual async void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
-			ReloadSelectedItemsIconAsync();
+			await ReloadSelectedItemsIconAsync();
 		}
 
-		protected virtual void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
+		protected virtual async void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
 		{
-			ReloadSelectedItemIconAsync();
+			await ReloadSelectedItemIconAsync();
 		}
 
 		protected virtual async Task ReloadSelectedItemIconAsync()

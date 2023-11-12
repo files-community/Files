@@ -403,7 +403,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
@@ -411,7 +411,7 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIconsAsync();
+				await ReloadItemIconsAsync();
 			}
 		}
 
