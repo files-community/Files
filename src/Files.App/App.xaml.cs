@@ -150,7 +150,7 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
-					.AddSingleton<HomeViewModel>()
+					.AddTransient<HomeViewModel>()
 					.AddTransient<DrivesWidgetViewModel>()
 					.AddTransient<FileTagsWidgetViewModel>()
 					.AddTransient<QuickAccessWidgetViewModel>()
