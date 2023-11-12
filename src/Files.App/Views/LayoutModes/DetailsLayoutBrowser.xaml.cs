@@ -492,6 +492,10 @@ namespace Files.App.Views.LayoutModes
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
+				// Don't navigate up if user double tapped the column header
+				if (sender is DataGridHeader)
+					return;
+
 				ParentShellPageInstance?.Up_Click();
 			}
 			ResetRenameDoubleClick();
