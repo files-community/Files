@@ -11,7 +11,7 @@
 	<ItemsRepeater
 		x:Name="CardsList"
 		HorizontalAlignment="Stretch"
-		ItemsSource="{x:Bind ViewModel.ItemsAdded, Mode=OneWay}">
+		ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
 
 		<ItemsRepeater.Layout>
 			<UniformGridLayout

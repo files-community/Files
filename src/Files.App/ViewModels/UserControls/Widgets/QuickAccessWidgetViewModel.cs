@@ -15,15 +15,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
-		public IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
-		public ObservableCollection<FolderCardItem> ItemsAdded = new();
+		// Widget information
 
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 		public bool ShowMenuFlyout => false;
 		public string WidgetName => "QuickAccess";
 		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
 		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
+
+		public MenuFlyoutItem? MenuFlyoutItem => null;
+
+		public ObservableCollection<FolderCardItem> Items = new();
+
+		// Events
 
 		public delegate void QuickAccessCardInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
 		public delegate void QuickAccessCardNewPaneInvokedEventHandler(object sender, QuickAccessCardInvokedEventArgs e);
@@ -34,7 +38,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public MenuFlyoutItem? MenuFlyoutItem => null;
+		// Commands
 
 		public ICommand OpenInNewPaneCommand;
 
@@ -44,7 +48,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 
-			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
+			Items.CollectionChanged += ItemsAdded_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewTabAsync);
 			OpenInNewWindowCommand = new AsyncRelayCommand<FolderCardItem>(OpenInNewWindowAsync);
@@ -77,7 +81,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -88,14 +92,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -156,23 +160,23 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (e.Reset)
 				{
 					// Find the intersection between the two lists and determine whether to remove or add
-					var itemsToRemove = ItemsAdded.Where(x => !e.Paths.Contains(x.Path)).ToList();
-					var itemsToAdd = e.Paths.Where(x => !ItemsAdded.Any(y => y.Path == x)).ToList();
+					var itemsToRemove = Items.Where(x => !e.Paths.Contains(x.Path)).ToList();
+					var itemsToAdd = e.Paths.Where(x => !Items.Any(y => y.Path == x)).ToList();
 
 					// Remove items
 					foreach (var itemToRemove in itemsToRemove)
-						ItemsAdded.Remove(itemToRemove);
+						Items.Remove(itemToRemove);
 
 					// Add items
 					foreach (var itemToAdd in itemsToAdd)
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
+						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned));
 						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(isPinned && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
+						Items.Insert(isPinned && lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), isPinned)
 						{
 							Path = item.Path,
 						});
@@ -183,18 +187,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (e.Reorder)
 				{
 					// Remove pinned items
-					foreach (var itemToRemove in ItemsAdded.Where(x => x.IsPinned).ToList())
-						ItemsAdded.Remove(itemToRemove);
+					foreach (var itemToRemove in Items.Where(x => x.IsPinned).ToList())
+						Items.Remove(itemToRemove);
 
 					// Add pinned items in the new order
 					foreach (var itemToAdd in e.Paths)
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned));
+						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
 
-						ItemsAdded.Insert(lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
+						Items.Insert(lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), true)
 						{
 							Path = item.Path,
 						});
@@ -207,18 +211,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					foreach (var itemToAdd in e.Paths)
 					{
 						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = ItemsAdded.IndexOf(ItemsAdded.FirstOrDefault(x => !x.IsPinned));
-						if (ItemsAdded.Any(x => x.Path == itemToAdd))
+						var lastIndex = Items.IndexOf(Items.FirstOrDefault(x => !x.IsPinned));
+						if (Items.Any(x => x.Path == itemToAdd))
 							continue;
-						ItemsAdded.Insert(e.Pin && lastIndex >= 0 ? lastIndex : ItemsAdded.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
+						Items.Insert(e.Pin && lastIndex >= 0 ? lastIndex : Items.Count, new FolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
 						{
 							Path = item.Path,
 						});
 					}
 				}
 				else
-					foreach (var itemToRemove in ItemsAdded.Where(x => e.Paths.Contains(x.Path)).ToList())
-						ItemsAdded.Remove(itemToRemove);
+					foreach (var itemToRemove in Items.Where(x => e.Paths.Contains(x.Path)).ToList())
+						Items.Remove(itemToRemove);
 			});
 		}
 
@@ -252,15 +256,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			CardNewPaneInvoked?.Invoke(this, new QuickAccessCardInvokedEventArgs { Path = item.Path });
 		}
 
-		private async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
-			{
-				string navigationPath = ((Button)sender).Tag.ToString()!;
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
-			}
-		}
-
 		private void OpenProperties(FolderCardItem item)
 		{
 			EventHandler<object> flyoutClosed = null!;
@@ -281,7 +276,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var items = (await QuickAccessService.GetPinnedFoldersAsync())
 				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
 
-			var recentItem = items.Where(x => !ItemsAdded.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
+			var recentItem = items.Where(x => !Items.Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
 			if (recentItem is not null)
 			{
 				ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { recentItem.FilePath }, true)
@@ -298,7 +293,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ModifyItemAsync(this, new ModifyQuickAccessEventArgs(new[] { item.Path }, false));
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
+		public async void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed) // check middle click
+			{
+				string navigationPath = ((Button)sender).Tag.ToString()!;
+				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+			}
+		}
+
+		public async void Button_Click(object sender, RoutedEventArgs e)
 		{
 			string ClickedCard = (sender as Button).Tag.ToString();
 			string NavigationPath = ClickedCard; // path to navigate

@@ -18,7 +18,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged, IAsyncInitialize
 	{
 		private IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
-		private readonly IUserSettingsService userSettingsService;
 
 		private readonly Func<string, Task> _openAction;
 
@@ -44,19 +43,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private ICommand OpenInNewPaneCommand;
 
-		public FileTagsWidgetViewModel(Func<string, Task> openAction)
-		{
-			_openAction = openAction;
-			Containers = new();
-		}
-
 		public FileTagsWidgetViewModel()
 		{
-			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 			// Second function is layered on top to ensure that OpenPath function is late initialized and a null reference is not passed-in
 			// See FileTagItemViewModel._openAction for more information
 
+			_openAction = x => NavigationHelpers.OpenPath(x, AppInstance);
+			Containers = new();
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewTabAsync);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(OpenInNewWindowAsync);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(OpenFileLocation);
@@ -127,7 +120,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ItemContextMenuFlyout = itemContextMenuFlyout;
 			if (rightClickedItem is not null)
 			{
-				FlyouItemPath = rightClickedItem.Path;
+				FlyoutItemPath = rightClickedItem.Path;
 				ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			}
 			itemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
@@ -138,7 +131,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
 			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -159,7 +152,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
+					ShowItem = !isFolder && UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -196,7 +189,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

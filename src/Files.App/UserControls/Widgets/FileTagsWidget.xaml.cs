@@ -10,13 +10,17 @@ namespace Files.App.UserControls.Widgets
 {
 	public sealed partial class FileTagsWidget : UserControl
 	{
-		private FileTagsWidgetViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<FileTagsWidgetViewModel>();
+		// Dependency injections
+
 		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public FileTagsWidgetViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<FileTagsWidgetViewModel>();
 
 		public FileTagsWidget()
 		{
 			InitializeComponent();
 		}
+
+		// Event methods
 
 		private async void FileTagItem_ItemClick(object sender, ItemClickEventArgs e)
 		{
@@ -26,17 +30,15 @@ namespace Files.App.UserControls.Widgets
 
 		private void AdaptiveGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			if (e.OriginalSource is not FrameworkElement element ||
-				element.DataContext is not FileTagsItemViewModel item)
+			if (e.OriginalSource is FrameworkElement element &&
+				element.DataContext is FileTagsItemViewModel item)
 			{
-				return;
+				ViewModel.LoadContextMenu(
+					element,
+					e,
+					ViewModel.GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
+					rightClickedItem: item);
 			}
-
-			ViewModel.LoadContextMenu(
-				element,
-				e,
-				ViewModel.GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path), item.IsFolder),
-				rightClickedItem: item);
 		}
 	}
 }

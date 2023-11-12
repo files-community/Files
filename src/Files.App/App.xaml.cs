@@ -151,10 +151,10 @@ namespace Files.App
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 					.AddSingleton<HomeViewModel>()
-					.AddSingleton<DrivesWidgetViewModel>()
-					.AddSingleton<FileTagsWidgetViewModel>()
-					.AddSingleton<QuickAccessWidgetViewModel>()
-					.AddSingleton<RecentFilesWidgetViewModel>()
+					.AddTransient<DrivesWidgetViewModel>()
+					.AddTransient<FileTagsWidgetViewModel>()
+					.AddTransient<QuickAccessWidgetViewModel>()
+					.AddTransient<RecentFilesWidgetViewModel>()
 				).Build();
 		}
 

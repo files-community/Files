@@ -28,7 +28,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		protected CommandBarFlyout ItemContextMenuFlyout = null!;
 
-		protected string FlyouItemPath = null!;
+		protected string FlyoutItemPath = null!;
 
 		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
@@ -49,7 +49,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			secondaryElements.ForEach(i => itemContextMenuFlyout.SecondaryCommands.Add(i));
 			ItemContextMenuFlyout = itemContextMenuFlyout;
-			FlyouItemPath = item.Path;
+			FlyoutItemPath = item.Path;
 			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			itemContextMenuFlyout.ShowAt(widgetCardItem, new FlyoutShowOptions { Position = e.GetPosition(widgetCardItem) });
 
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
 			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout);
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, ItemContextMenuFlyout);
 		}
 
 		public async Task OpenInNewTabAsync(WidgetCardItem item)

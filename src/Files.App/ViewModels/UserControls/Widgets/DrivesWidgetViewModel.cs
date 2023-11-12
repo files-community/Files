@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -14,16 +13,20 @@ namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
-		private NetworkDrivesViewModel networkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
-		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		// Dependency injections
+
+		private NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+
+		// Widget information
 
 		public string WidgetName => "Drives";
 		public string AutomationProperties => "DrivesWidgetAutomationProperties/Name".GetLocalizedResource();
 		public string WidgetHeader => "Drives".GetLocalizedResource();
-		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
+		public bool IsWidgetSettingEnabled => base.UserSettingsService.GeneralSettingsService.ShowDrivesWidget;
 		public bool ShowMenuFlyout => true;
 
+		// Fields & properties
 		public ObservableCollection<DriveCardItem> ItemsAdded = new();
 
 		private IShellPage associatedInstance;
@@ -47,11 +50,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			Command = MapNetworkDriveCommand
 		};
 
+		// Events
+
 		public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 		public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 		public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
 		public event PropertyChangedEventHandler? PropertyChanged;
+
+		// Commands
 
 		public ICommand FormatDriveCommand;
 		public ICommand EjectDeviceCommand;
@@ -64,7 +71,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			drivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			FormatDriveCommand = new RelayCommand<DriveCardItem>(FormatDrive);
 			EjectDeviceCommand = new AsyncRelayCommand<DriveCardItem>(EjectDeviceAsync);
@@ -101,7 +108,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
+				foreach (DriveItem drive in DrivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -113,7 +120,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (DriveCardItem driveCard in ItemsAdded.ToList())
 				{
-					if (!drivesViewModel.Drives.Contains(driveCard.Item))
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
 						ItemsAdded.Remove(driveCard);
 				}
 			});
@@ -135,7 +142,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -146,14 +153,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -232,7 +239,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private Task DoNetworkMapDriveAsync()
 		{
-			return networkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
+			return NetworkDrivesViewModel.OpenMapNetworkDriveDialogAsync();
 		}
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -283,7 +290,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void DisconnectNetworkDrive(DriveCardItem item)
 		{
-			networkDrivesViewModel.DisconnectNetworkDrive(item.Item);
+			NetworkDrivesViewModel.DisconnectNetworkDrive(item.Item);
 		}
 
 		public async Task RefreshWidgetAsync()

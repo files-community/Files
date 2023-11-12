@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,13 +10,12 @@ using Microsoft.UI.Xaml.Input;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
-using Windows.System;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	public class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel, INotifyPropertyChanged
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		// Dependency injections
 
 		public string WidgetName => "RecentFiles";
 		public string AutomationProperties => "RecentFilesWidgetAutomationProperties/Name".GetLocalizedResource();
@@ -25,25 +23,25 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 		public bool ShowMenuFlyout => false;
 
-		private SemaphoreSlim refreshRecentsSemaphore;
-
-		private CancellationTokenSource refreshRecentsCTS;
-
-		public ObservableCollection<RecentItem> Items = new();
-
 		public MenuFlyoutItem? MenuFlyoutItem
 			=> null;
 
-		private bool isEmptyRecentsTextVisible = false;
-		public bool IsEmptyRecentsTextVisible
+		private SemaphoreSlim _refreshRecentFilesSemaphore;
+
+		private CancellationTokenSource _refreshRecentFilesCTS;
+
+		public ObservableCollection<RecentItem> Items = new();
+
+		private bool isEmptyRecentFilesTextVisible = false;
+		public bool IsEmptyRecentFilesTextVisible
 		{
-			get => isEmptyRecentsTextVisible;
+			get => isEmptyRecentFilesTextVisible;
 			internal set
 			{
-				if (isEmptyRecentsTextVisible != value)
+				if (isEmptyRecentFilesTextVisible != value)
 				{
-					isEmptyRecentsTextVisible = value;
-					NotifyPropertyChanged(nameof(IsEmptyRecentsTextVisible));
+					isEmptyRecentFilesTextVisible = value;
+					NotifyPropertyChanged(nameof(IsEmptyRecentFilesTextVisible));
 				}
 			}
 		}
@@ -76,6 +74,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 		}
 
+		// Events
+
 		public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
@@ -84,8 +84,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public RecentFilesWidgetViewModel()
 		{
-			refreshRecentsSemaphore = new SemaphoreSlim(1, 1);
-			refreshRecentsCTS = new CancellationTokenSource();
+			_refreshRecentFilesSemaphore = new SemaphoreSlim(1, 1);
+			_refreshRecentFilesCTS = new CancellationTokenSource();
 
 			// recent files could have changed while widget wasn't loaded
 			_ = RefreshWidgetAsync();
@@ -112,7 +112,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
 
 			secondaryElements.ForEach(i => ItemContextMenuFlyout.SecondaryCommands.Add(i));
-			FlyouItemPath = item.Path;
+			FlyoutItemPath = item.Path;
 			ItemContextMenuFlyout.Opened += ItemContextMenuFlyout_Opened;
 			ItemContextMenuFlyout.ShowAt(element, new FlyoutShowOptions { Position = e.GetPosition(element) });
 		}
@@ -120,7 +120,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		private async void ItemContextMenuFlyout_Opened(object? sender, object e)
 		{
 			ItemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
+			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyoutItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -140,7 +140,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = userSettingsService.GeneralSettingsService.ShowSendToMenu
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -200,7 +200,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				// e.Action can only be Reset right now; naively refresh everything for simplicity
-				await UpdateRecentsListAsync(e);
+				await UpdateRecentFilesListAsync(e);
 			});
 		}
 
@@ -208,8 +208,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
 			{
-				ItemPath = Directory.GetParent(item.RecentPath).FullName,    // parent directory
-				ItemName = Path.GetFileName(item.RecentPath),                // file name w extension
+				// Parent directory
+				ItemPath = Directory.GetParent(item.RecentPath).FullName,
+
+				// File name with extension
+				ItemName = Path.GetFileName(item.RecentPath),
 			});
 		}
 
@@ -225,11 +228,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ItemContextMenuFlyout.Closed += flyoutClosed;
 		}
 
-		private async Task UpdateRecentsListAsync(NotifyCollectionChangedEventArgs e)
+		private async Task UpdateRecentFilesListAsync(NotifyCollectionChangedEventArgs e)
 		{
 			try
 			{
-				await refreshRecentsSemaphore.WaitAsync(refreshRecentsCTS.Token);
+				await _refreshRecentFilesSemaphore.WaitAsync(_refreshRecentFilesCTS.Token);
 			}
 			catch (OperationCanceledException)
 			{
@@ -238,11 +241,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			try
 			{
-				// drop other waiting instances
-				refreshRecentsCTS.Cancel();
-				refreshRecentsCTS = new CancellationTokenSource();
+				// Drop other waiting instances
+				_refreshRecentFilesCTS.Cancel();
+				_refreshRecentFilesCTS = new CancellationTokenSource();
 
-				IsEmptyRecentsTextVisible = false;
+				IsEmptyRecentFilesTextVisible = false;
 
 				switch (e.Action)
 				{
@@ -288,7 +291,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				// update chevron if there aren't any items
 				if (Items.Count == 0 && !IsRecentFilesDisabledInWindows)
 				{
-					IsEmptyRecentsTextVisible = true;
+					IsEmptyRecentFilesTextVisible = true;
 				}
 			}
 			catch (Exception ex)
@@ -297,7 +300,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 			finally
 			{
-				refreshRecentsSemaphore.Release();
+				_refreshRecentFilesSemaphore.Release();
 			}
 		}
 
@@ -329,7 +332,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private async Task RemoveRecentItemAsync(RecentItem item)
 		{
-			await refreshRecentsSemaphore.WaitAsync();
+			await _refreshRecentFilesSemaphore.WaitAsync();
 
 			try
 			{
@@ -337,13 +340,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}
 			finally
 			{
-				refreshRecentsSemaphore.Release();
+				_refreshRecentFilesSemaphore.Release();
 			}
 		}
 
 		private async Task ClearRecentItemsAsync()
 		{
-			await refreshRecentsSemaphore.WaitAsync();
+			await _refreshRecentFilesSemaphore.WaitAsync();
 			try
 			{
 				Items.Clear();
@@ -351,12 +354,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				if (success)
 				{
-					IsEmptyRecentsTextVisible = true;
+					IsEmptyRecentFilesTextVisible = true;
 				}
 			}
 			finally
 			{
-				refreshRecentsSemaphore.Release();
+				_refreshRecentFilesSemaphore.Release();
 			}
 		}
 

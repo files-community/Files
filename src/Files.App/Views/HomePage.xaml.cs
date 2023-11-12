@@ -18,10 +18,6 @@ namespace Files.App.Views
 	{
 		// Dependency injections
 
-		private QuickAccessWidgetViewModel QuickAccessWidgetViewModel { get; } = Ioc.Default.GetRequiredService<QuickAccessWidgetViewModel>();
-		private RecentFilesWidgetViewModel RecentFilesWidgetViewModel { get; } = Ioc.Default.GetRequiredService<RecentFilesWidgetViewModel>();
-		private FileTagsWidgetViewModel FileTagsWidgetViewModel { get; } = Ioc.Default.GetRequiredService<FileTagsWidgetViewModel>();
-		private DrivesWidgetViewModel DrivesWidgetViewModel { get; } = Ioc.Default.GetRequiredService<DrivesWidgetViewModel>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private HomeViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
 
@@ -122,86 +118,86 @@ namespace Files.App.Views
 			var shouldReloadRecentFiles = WidgetsHelpers.ShouldReloadWidgetItem<RecentFilesWidgetViewModel>();
 
 			// Reload QuickAccessWidget
-			if (shouldReloadQuickAccessWidget && QuickAccessWidgetViewModel is not null)
+			if (shouldReloadQuickAccessWidget)
 			{
 				var quickAccessWidget = new QuickAccessWidget();
 
 				ViewModel.InsertWidget(
 					new(
 						quickAccessWidget,
-						QuickAccessWidgetViewModel,
+						quickAccessWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded),
 					0);
 
-				QuickAccessWidgetViewModel.CardInvoked -= QuickAccessWidget_CardInvoked;
-				QuickAccessWidgetViewModel.CardNewPaneInvoked -= WidgetCardNewPaneInvoked;
-				QuickAccessWidgetViewModel.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
-				QuickAccessWidgetViewModel.CardInvoked += QuickAccessWidget_CardInvoked;
-				QuickAccessWidgetViewModel.CardNewPaneInvoked += WidgetCardNewPaneInvoked;
-				QuickAccessWidgetViewModel.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
+				quickAccessWidget.ViewModel.CardInvoked -= QuickAccessWidget_CardInvoked;
+				quickAccessWidget.ViewModel.CardNewPaneInvoked -= WidgetCardNewPaneInvoked;
+				quickAccessWidget.ViewModel.CardPropertiesInvoked -= QuickAccessWidget_CardPropertiesInvoked;
+				quickAccessWidget.ViewModel.CardInvoked += QuickAccessWidget_CardInvoked;
+				quickAccessWidget.ViewModel.CardNewPaneInvoked += WidgetCardNewPaneInvoked;
+				quickAccessWidget.ViewModel.CardPropertiesInvoked += QuickAccessWidget_CardPropertiesInvoked;
 			}
 
 			// Reload DrivesWidget
-			if (shouldReloadDrivesWidget && DrivesWidgetViewModel is not null)
+			if (shouldReloadDrivesWidget)
 			{
 				var drivesWidget = new DrivesWidget();
 
 				ViewModel.InsertWidget(
 					new(
 						drivesWidget,
-						DrivesWidgetViewModel,
+						drivesWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded),
 					1);
 
-				DrivesWidgetViewModel.AppInstance = AppInstance!;
-				DrivesWidgetViewModel.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
-				DrivesWidgetViewModel.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
-				DrivesWidgetViewModel.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
-				DrivesWidgetViewModel.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
+				drivesWidget.ViewModel.AppInstance = AppInstance!;
+				drivesWidget.ViewModel.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
+				drivesWidget.ViewModel.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
+				drivesWidget.ViewModel.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
+				drivesWidget.ViewModel.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
 			}
 
 			// Reload FileTags
-			if (shouldReloadFileTags && FileTagsWidgetViewModel is not null)
+			if (shouldReloadFileTags)
 			{
 				var fileTagsWidget = new FileTagsWidget();
 
 				ViewModel.InsertWidget(
 					new(
 						fileTagsWidget,
-						FileTagsWidgetViewModel,
+						fileTagsWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded),
 					2);
 
-				FileTagsWidgetViewModel.AppInstance = AppInstance!;
-				FileTagsWidgetViewModel.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance!);
-				FileTagsWidgetViewModel.FileTagsOpenLocationInvoked -= WidgetOpenLocationInvoked;
-				FileTagsWidgetViewModel.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
-				FileTagsWidgetViewModel.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;
-				FileTagsWidgetViewModel.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
-				_ = FileTagsWidgetViewModel.InitAsync();
+				fileTagsWidget.ViewModel.AppInstance = AppInstance!;
+				fileTagsWidget.ViewModel.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance!);
+				fileTagsWidget.ViewModel.FileTagsOpenLocationInvoked -= WidgetOpenLocationInvoked;
+				fileTagsWidget.ViewModel.FileTagsNewPaneInvoked -= WidgetCardNewPaneInvoked;
+				fileTagsWidget.ViewModel.FileTagsOpenLocationInvoked += WidgetOpenLocationInvoked;
+				fileTagsWidget.ViewModel.FileTagsNewPaneInvoked += WidgetCardNewPaneInvoked;
+				_ = fileTagsWidget.ViewModel.InitAsync();
 			}
 
 			// Reload RecentFilesWidget
-			if (shouldReloadRecentFiles && RecentFilesWidgetViewModel is not null)
+			if (shouldReloadRecentFiles)
 			{
 				var recentFilesWidget = new RecentFilesWidget();
 
 				ViewModel.InsertWidget(
 					new(
 						recentFilesWidget,
-						RecentFilesWidgetViewModel,
+						recentFilesWidget.ViewModel,
 						(value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value,
 						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded),
 					4);
 
-				RecentFilesWidgetViewModel.AppInstance = AppInstance!;
-				RecentFilesWidgetViewModel.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
-				RecentFilesWidgetViewModel.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
-				RecentFilesWidgetViewModel.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
-				RecentFilesWidgetViewModel.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+				recentFilesWidget.ViewModel.AppInstance = AppInstance!;
+				recentFilesWidget.ViewModel.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
+				recentFilesWidget.ViewModel.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
+				recentFilesWidget.ViewModel.RecentFilesOpenLocationInvoked += WidgetOpenLocationInvoked;
+				recentFilesWidget.ViewModel.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
 			}
 		}
 
