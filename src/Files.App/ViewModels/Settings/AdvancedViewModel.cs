@@ -46,12 +46,12 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task OpenSettingsJsonAsync()
 		{
-			var settingsJsonPath = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
-
-			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
-			}
+				var settingsJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
+				if (!await Launcher.LaunchFileAsync(settingsJsonFile))
+					await ContextMenu.InvokeVerb("open", settingsJsonFile.Path);
+			});
 		}
 
 		private async Task SetAsDefaultExplorerAsync()

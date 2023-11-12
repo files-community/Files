@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemType = Item.ItemType;
 				ViewModel.ItemLocation = (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
-				ViewModel.ItemModifiedTimestampReal= Item.ItemDateModifiedReal;
+				ViewModel.ItemModifiedTimestampReal = Item.ItemDateModifiedReal;
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.LoadCustomIcon = Item.LoadCustomIcon;
 				ViewModel.CustomIconSource = Item.CustomIconSource;
@@ -86,11 +86,12 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemSizeVisibility = true;
 				ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-				var sizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath);
-				if (sizeOnDisk is not null)
-				{
-					ViewModel.ItemSizeOnDisk = ((long)sizeOnDisk).ToLongSizeString();
-				}
+
+				// Only load the size for items on the device
+				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+					ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+					   string.Empty;
+
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
@@ -107,10 +108,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = storageFolder.DateCreated;
 				if (storageFolder.Properties is not null)
-				{
 					GetOtherPropertiesAsync(storageFolder.Properties);
-				}
-				GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
+
+				// Only load the size for items on the device
+				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not 
+					CloudDriveSyncStatus.FolderOnline and not
+					CloudDriveSyncStatus.FolderOfflinePartial)
+					GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.UserControls.Selection;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,9 +14,8 @@ using System.IO;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using static Files.App.Constants;
-using Microsoft.UI.Dispatching;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.LayoutModes
 {
@@ -169,16 +169,8 @@ namespace Files.App.Views.LayoutModes
 
 		protected override void EndRename(TextBox textBox)
 		{
-			if (textBox is not null && textBox.Parent is not null)
-			{
-				// Re-focus selected list item
-				var listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
-				listViewItem?.Focus(FocusState.Programmatic);
-
-				var textBlock = listViewItem?.FindDescendant("ItemName") as TextBlock;
-				textBox!.Visibility = Visibility.Collapsed;
-				textBlock!.Visibility = Visibility.Visible;
-			}
+			FileNameTeachingTip.IsOpen = false;
+			IsRenamingItem = false;
 
 			// Unsubscribe from events
 			if (textBox is not null)
@@ -187,8 +179,19 @@ namespace Files.App.Views.LayoutModes
 				textBox.KeyDown -= RenameTextBox_KeyDown;
 			}
 
-			FileNameTeachingTip.IsOpen = false;
-			IsRenamingItem = false;
+			if (textBox is not null && textBox.Parent is not null)
+			{
+				ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+				if (listViewItem is null)
+					return;
+
+				// Re-focus selected list item
+				listViewItem.Focus(FocusState.Programmatic);
+
+				TextBlock? textBlock = listViewItem.FindDescendant("ItemName") as TextBlock;
+				textBox!.Visibility = Visibility.Collapsed;
+				textBlock!.Visibility = Visibility.Visible;
+			}
 		}
 
 		public override void ResetItemOpacity()
