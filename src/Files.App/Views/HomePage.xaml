@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
@@ -418,14 +419,14 @@
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.YourHomeLoadedCommand, Mode=OneWay}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<!--  Widget List  -->
 	<ScrollViewer>
 		<Border>
-			<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
+			<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 				<ListView.ItemContainerStyle>
 					<Style TargetType="ListViewItem">
 						<!--  Spacing  -->
@@ -444,7 +445,7 @@
 				</ListView.ItemContainerStyle>
 
 				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
+					<DataTemplate x:DataType="dataitems:WidgetItem">
 						<Grid>
 							<Expander
 								Padding="16,0,16,0"

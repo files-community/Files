@@ -1,11 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -34,15 +32,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public event QuickAccessCardNewPaneInvokedEventHandler CardNewPaneInvoked;
 		public event QuickAccessCardPropertiesInvokedEventHandler CardPropertiesInvoked;
 		public event EventHandler QuickAccessWidgetShowMultiPaneControlsInvoked;
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
-		public ICommand OpenPropertiesCommand;
 		public ICommand OpenInNewPaneCommand;
 
 		public QuickAccessWidgetViewModel()
 		{
+			LoadQuickAccess();
+
 			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
 
 			ItemsAdded.CollectionChanged += ItemsAdded_CollectionChanged;
@@ -55,7 +54,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			UnpinFromFavoritesCommand = new AsyncRelayCommand<FolderCardItem>(UnpinFromFavoritesAsync);
 		}
 
-		private void LoadQuickAccess()
+		private async Task LoadQuickAccess()
 		{
 			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
 

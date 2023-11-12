@@ -40,6 +40,11 @@ namespace Files.App.UserControls.Widgets
 			await NavigationHelpers.OpenPathInNewTab(navigationPath);
 		}
 
+		private void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			ViewModel.Button_RightTapped(sender, e);
+		}
+
 		private void GoToStorageSense_Click(object sender, RoutedEventArgs e)
 		{
 			string clickedCard = (sender as Button).Tag.ToString();

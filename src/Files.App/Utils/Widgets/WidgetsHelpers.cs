@@ -1,62 +1,51 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.Widgets;
-using Files.App.ViewModels.UserControls.Widgets;
+using Files.App.Services.Settings;
 
 namespace Files.App.Helpers
 {
 	public static class WidgetsHelpers
 	{
-		public static TWidget? TryGetWidget<TWidget>(IGeneralSettingsService generalSettingsService, HomeViewModel viewModel, out bool shouldReload, TWidget? defaultValue = default) where TWidget : IWidgetViewModel, new()
+		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static HomeViewModel HomeViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
+
+		public static bool ShouldReloadWidgetItem<TWidgetViewModel>()
+				where TWidgetViewModel : IWidgetViewModel, new()
 		{
-			bool canAddWidget = viewModel.CanAddWidget(typeof(TWidget).Name);
-			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidget>(generalSettingsService);
+			bool canAddWidget = HomeViewModel.CanAddWidget(typeof(TWidgetViewModel).Name);
+			bool isWidgetSettingEnabled = TryGetIsWidgetSettingEnabled<TWidgetViewModel>();
 
 			if (canAddWidget && isWidgetSettingEnabled)
 			{
-				shouldReload = true;
-				return new TWidget();
+				return true;
 			}
 			// The widgets exists but the setting has been disabled for it
 			else if (!canAddWidget && !isWidgetSettingEnabled)
 			{
 				// Remove the widget
-				viewModel.RemoveWidget<TWidget>();
-				shouldReload = false;
-				return default;
+				HomeViewModel.RemoveWidget<TWidgetViewModel>();
+
+				return false;
 			}
 			else if (!isWidgetSettingEnabled)
 			{
-				shouldReload = false;
-				return default;
+				return false;
 			}
 
-			shouldReload = EqualityComparer<TWidget>.Default.Equals(defaultValue, default);
-
-			return (defaultValue);
+			return false;
 		}
 
-		public static bool TryGetIsWidgetSettingEnabled<TWidget>(IGeneralSettingsService generalSettingsService) where TWidget : IWidgetViewModel
+		private static bool TryGetIsWidgetSettingEnabled<TWidgetViewModel>() where TWidgetViewModel : IWidgetViewModel
 		{
-			if (typeof(TWidget) == typeof(QuickAccessWidget))
+			return typeof(TWidgetViewModel).Name switch
 			{
-				return generalSettingsService.ShowQuickAccessWidget;
-			}
-			if (typeof(TWidget) == typeof(DrivesWidget))
-			{
-				return generalSettingsService.ShowDrivesWidget;
-			}
-			if (typeof(TWidget) == typeof(FileTagsWidget))
-			{
-				return generalSettingsService.ShowFileTagsWidget;
-			}
-			if (typeof(TWidget) == typeof(RecentFilesWidget))
-			{
-				return generalSettingsService.ShowRecentFilesWidget;
-			}
-
-			return false
+				nameof(QuickAccessWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget,
+				nameof(DrivesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowDrivesWidget,
+				nameof(FileTagsWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget,
+				nameof(RecentFilesWidgetViewModel) => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget,
+				_ => false,
+			};
 		}
 	}
 }

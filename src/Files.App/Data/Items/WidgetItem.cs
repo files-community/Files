@@ -3,15 +3,18 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Files.App.ViewModels.UserControls.Widgets
+namespace Files.App.Data.Items
 {
+	/// <summary>
+	/// Represents item for Widget, providing the Widget name, the right-click Context<see cref="MenuFlyout"/>.
+	/// </summary>
 	public class WidgetItem : ObservableObject, IDisposable
 	{
 		private readonly Action<bool> _expanderValueChangedCallback;
 		private readonly Func<bool> _expanderValueRequestedCallback;
 
-		private object _WidgetControl;
-		public object WidgetControl
+		private object? _WidgetControl;
+		public object? WidgetControl
 		{
 			get => _WidgetControl;
 			set => SetProperty(ref _WidgetControl, value);
@@ -23,33 +26,27 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			set
 			{
 				_expanderValueChangedCallback?.Invoke(value);
+
 				OnPropertyChanged();
 			}
 		}
 
-		public IWidgetViewModel WidgetItemModel
-		{
-			get => WidgetControl as IWidgetViewModel;
-		}
+		public IWidgetViewModel? WidgetItemModel { get; }
 
-		public string WidgetAutomationProperties
-		{
-			get => WidgetItemModel.AutomationProperties;
-		}
+		public string? WidgetAutomationProperties
+			=> WidgetItemModel?.AutomationProperties;
 
 		public bool ShowMenuFlyout
-		{
-			get => WidgetItemModel.ShowMenuFlyout;
-		}
+			=> WidgetItemModel?.ShowMenuFlyout ?? false;
 
-		public MenuFlyoutItem MenuFlyoutItem
-		{
-			get => WidgetItemModel.MenuFlyoutItem;
-		}
+		public MenuFlyoutItem? MenuFlyoutItem
+			=> WidgetItemModel?.MenuFlyoutItem;
 
-		public WidgetItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
+		public WidgetItem(object innerControl, IWidgetViewModel widgetModel, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
-			WidgetControl = widgetControl;
+			WidgetControl = innerControl;
+			WidgetItemModel = widgetModel;
+
 			_expanderValueChangedCallback = expanderValueChangedCallback;
 			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 		}

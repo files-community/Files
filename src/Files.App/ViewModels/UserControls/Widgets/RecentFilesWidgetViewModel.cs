@@ -317,7 +317,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			return false;
 		}
 
-		private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
+		public void RecentFilesListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			var recentItem = e.ClickedItem as RecentItem;
 			RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()

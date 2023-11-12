@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.UserControls.Widgets;
 using Microsoft.UI.Xaml;
 using System.Windows.Input;
 
@@ -21,11 +20,6 @@ namespace Files.App.ViewModels
 			WidgetItems = new();
 
 			HomePageLoadedCommand = new RelayCommand<RoutedEventArgs>(ExecuteHomePageLoadedCommand);
-		}
-
-		public void ChangeAppInstance(IShellPage associatedInstance)
-		{
-			this.associatedInstance = associatedInstance;
 		}
 
 		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
@@ -79,7 +73,7 @@ namespace Files.App.ViewModels
 
 		public bool CanAddWidget(string widgetName)
 		{
-			return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+			return !(WidgetItems.Any((item) => item.WidgetItemModel?.WidgetName == widgetName));
 		}
 
 		public void RemoveWidgetAt(int index)

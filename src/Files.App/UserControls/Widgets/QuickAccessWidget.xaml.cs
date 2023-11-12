@@ -13,5 +13,20 @@ namespace Files.App.UserControls.Widgets
 		{
 			InitializeComponent();
 		}
-	}
+
+		private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
+
+        }
+
+		private void Button_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		{
+
+        }
+
+		private void Button_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+		{
+
+        }
+    }
 }
