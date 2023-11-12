@@ -201,7 +201,7 @@
 			<SemanticZoom.ZoomedInView>
 				<ListView
 					x:Name="FileList"
-					Padding="8,0,8,12"
+					Padding="0,0,0,12"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
 					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
