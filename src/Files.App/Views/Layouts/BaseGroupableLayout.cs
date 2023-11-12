@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.ViewModels.ContentLayouts;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,7 +12,7 @@ using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.ContentLayouts
+namespace Files.App.Views.Layouts
 {
 	public abstract class BaseGroupableLayout : BaseLayout
 	{

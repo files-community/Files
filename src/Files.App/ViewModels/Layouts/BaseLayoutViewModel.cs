@@ -10,7 +10,7 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.ViewModels.ContentLayouts
+namespace Files.App.ViewModels.Layouts
 {
 	/// <summary>
 	/// Represents ViewModel for <see cref="BaseLayout"/>.

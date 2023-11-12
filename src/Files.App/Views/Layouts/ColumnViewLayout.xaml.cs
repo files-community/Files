@@ -17,7 +17,7 @@ using Windows.UI.Core;
 using static Files.App.Constants;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Views.ContentLayouts
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base page of Column View

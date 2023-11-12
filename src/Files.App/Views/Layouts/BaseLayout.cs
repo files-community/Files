@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels.ContentLayouts;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,7 +26,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App.Views.ContentLayouts
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base class which every layout page must derive from

@@ -14,7 +14,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.ContentLayouts
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
@@ -46,6 +46,7 @@ namespace Files.App.Views.ContentLayouts
 		public GridViewLayout() : base()
 		{
 			InitializeComponent();
+
 			DataContext = this;
 
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);

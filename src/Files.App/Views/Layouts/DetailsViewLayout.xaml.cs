@@ -15,7 +15,7 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
-namespace Files.App.Views.ContentLayouts
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Details View
