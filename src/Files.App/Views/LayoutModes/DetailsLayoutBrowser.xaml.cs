@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Actions;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -462,7 +463,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else
 			{
@@ -488,7 +489,7 @@ namespace Files.App.Views.LayoutModes
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+				Commands.OpenItem.ExecuteAsync();
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
