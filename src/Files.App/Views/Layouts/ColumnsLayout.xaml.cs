@@ -16,7 +16,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Column View
 	/// </summary>
-	public sealed partial class ColumnsViewLayout : BaseLayout
+	public sealed partial class ColumnsLayout : BaseLayout
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 
@@ -26,16 +26,16 @@ namespace Files.App.Views.Layouts
 
 		public int FocusIndex { get; private set; }
 
-		public ColumnsViewLayout() : base()
+		public ColumnsLayout() : base()
 		{
 			InitializeComponent();
 		}
 
-		public void HandleSelectionChange(ColumnViewLayout initiator)
+		public void HandleSelectionChange(ColumnLayout initiator)
 		{
 			foreach (var blade in ColumnHost.ActiveBlades)
 			{
-				var columnView = blade.FindDescendant<ColumnViewLayout>();
+				var columnView = blade.FindDescendant<ColumnLayout>();
 				if (columnView != null && columnView != initiator)
 					columnView.ClearSelectionIndicator();
 			}
@@ -55,7 +55,7 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnsViewLayout>() != this)
+			if (column?.ListView.FindAscendant<ColumnsLayout>() != this)
 				return;
 
 			var nextBladeIndex = ColumnHost.ActiveBlades.IndexOf(column.ListView.FindAscendant<BladeItem>()) + 1;
@@ -155,7 +155,7 @@ namespace Files.App.Views.Layouts
 				if (frame?.Content is ColumnShellPage shPage)
 				{
 					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
-					if (shPage.SlimContentPage is ColumnViewLayout viewBase)
+					if (shPage.SlimContentPage is ColumnLayout viewBase)
 					{
 						viewBase.ItemInvoked -= ColumnViewBase_ItemInvoked;
 						viewBase.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -197,7 +197,7 @@ namespace Files.App.Views.Layouts
 						if (frame?.Content is IDisposable disposableContent)
 							disposableContent.Dispose();
 
-						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnViewLayout columnLayout)
+						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnLayout columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
@@ -253,7 +253,7 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBrowser_ContentChanged(object sender, CustomTabViewItemParameter e)
 		{
 			var c = sender as IShellPage;
-			var columnView = c?.SlimContentPage as ColumnViewLayout;
+			var columnView = c?.SlimContentPage as ColumnLayout;
 			if (columnView is not null)
 			{
 				columnView.ItemInvoked -= ColumnViewBase_ItemInvoked;
@@ -332,20 +332,20 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private ColumnViewLayout? RetrieveBladeColumnViewBase(BladeItem blade)
+		private ColumnLayout? RetrieveBladeColumnViewBase(BladeItem blade)
 		{
 			if (blade.Content is not Frame activeBladeFrame ||
 				activeBladeFrame.Content is not ColumnShellPage activeBladePage)
 				return null;
 
-			return activeBladePage.SlimContentPage as ColumnViewLayout;
+			return activeBladePage.SlimContentPage as ColumnLayout;
 		}
 
 		public void SetSelectedPathOrNavigate(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
-				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsViewLayout), navArgs);
+				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayout), navArgs);
 				return;
 			}
 
@@ -436,7 +436,7 @@ namespace Files.App.Views.Layouts
 		private void ColumnViewBase_ItemTapped(object? sender, EventArgs e)
 		{
 			var column = sender as ColumnParam;
-			if (column?.ListView.FindAscendant<ColumnsViewLayout>() != this || string.IsNullOrEmpty(column.NavPathParam))
+			if (column?.ListView.FindAscendant<ColumnsLayout>() != this || string.IsNullOrEmpty(column.NavPathParam))
 				return;
 
 			CloseUnnecessaryColumns(column);
@@ -453,7 +453,7 @@ namespace Files.App.Views.Layouts
 			{
 				for (var i = 0; i < ColumnHost.ActiveBlades.Count && relativeIndex is -1; i++)
 				{
-					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnViewLayout>();
+					var bladeColumn = ColumnHost.ActiveBlades[i].FindDescendant<ColumnLayout>();
 					if (bladeColumn is not null && bladeColumn == column.Source)
 						relativeIndex = i;
 				}
@@ -471,7 +471,7 @@ namespace Files.App.Views.Layouts
 
 			if (relativeIndex >= 0)
 			{
-				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnViewLayout>()?.ClearOpenedFolderSelectionIndicator();
+				ColumnHost.ActiveBlades[relativeIndex].FindDescendant<ColumnLayout>()?.ClearOpenedFolderSelectionIndicator();
 				DismissOtherBlades(relativeIndex);
 			}
 		}

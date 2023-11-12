@@ -143,7 +143,7 @@ namespace Files.App.Views
 			get
 			{
 				if (ActivePane is not null && ActivePane.IsColumnView)
-					return (ActivePane.SlimContentPage as ColumnsViewLayout).ActiveColumnShellPage;
+					return (ActivePane.SlimContentPage as ColumnsLayout).ActiveColumnShellPage;
 
 				return ActivePane ?? PaneLeft;
 			}
@@ -358,7 +358,7 @@ namespace Files.App.Views
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
-			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsViewLayout)
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayout)
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 

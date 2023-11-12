@@ -67,7 +67,7 @@ namespace Files.App.Views.Shells
 
 		public abstract bool CanNavigateBackward { get; }
 
-		public bool IsColumnView => SlimContentPage is ColumnsViewLayout;
+		public bool IsColumnView => SlimContentPage is ColumnsLayout;
 
 		public ItemViewModel FilesystemViewModel { get; protected set; }
 
@@ -135,7 +135,7 @@ namespace Files.App.Views.Shells
 				{
 					_IsCurrentInstance = value;
 
-					if (!value && SlimContentPage is not ColumnsViewLayout)
+					if (!value && SlimContentPage is not ColumnsLayout)
 						ToolbarViewModel.IsEditModeEnabled = false;
 
 					if (value)
@@ -315,10 +315,10 @@ namespace Files.App.Views.Shells
 			var shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 			var alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
 			var tabInstance =
-				CurrentPageType == typeof(DetailsViewLayout) ||
-				CurrentPageType == typeof(GridViewLayout) ||
-				CurrentPageType == typeof(ColumnsViewLayout) ||
-				CurrentPageType == typeof(ColumnViewLayout);
+				CurrentPageType == typeof(DetailsLayout) ||
+				CurrentPageType == typeof(GridLayout) ||
+				CurrentPageType == typeof(ColumnsLayout) ||
+				CurrentPageType == typeof(ColumnLayout);
 
 			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.Key)
 			{
@@ -479,7 +479,7 @@ namespace Files.App.Views.Shells
 			};
 
 			if (this is ColumnShellPage)
-				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsViewLayout), args);
+				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayout), args);
 			else
 				ItemDisplay.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), args);
 		}
@@ -492,7 +492,7 @@ namespace Files.App.Views.Shells
 		public void NavigateToPath(string navigationPath, NavigationArguments? navArgs = null)
 		{
 			var layout = navigationPath.StartsWith("tag:")
-				? typeof(DetailsViewLayout)
+				? typeof(DetailsLayout)
 				: FolderSettings.GetLayoutType(navigationPath);
 
 			NavigateToPath(navigationPath, layout, navArgs);
@@ -611,7 +611,7 @@ namespace Files.App.Views.Shells
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress:
 					var columnCanNavigateBackward = false;
 					var columnCanNavigateForward = false;
-					if (SlimContentPage is ColumnsViewLayout browser)
+					if (SlimContentPage is ColumnsLayout browser)
 					{
 						columnCanNavigateBackward = browser.ParentShellPageInstance.CanNavigateBackward;
 						columnCanNavigateForward = browser.ParentShellPageInstance.CanNavigateForward;

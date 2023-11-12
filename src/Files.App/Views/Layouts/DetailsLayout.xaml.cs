@@ -20,7 +20,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
-	public sealed partial class DetailsViewLayout : BaseGroupableLayout
+	public sealed partial class DetailsLayout : BaseGroupableLayout
 	{
 		private const int TAG_TEXT_BLOCK = 1;
 
@@ -55,7 +55,7 @@ namespace Files.App.Views.Layouts
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
-		public DetailsViewLayout() : base()
+		public DetailsLayout() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
