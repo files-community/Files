@@ -16,7 +16,7 @@
 		<KeyboardAccelerator
 			Key="Space"
 			Invoked="TogglePlaybackAcceleratorInvoked"
-			Modifiers="Control" />
+			Modifiers="Menu" />
 	</UserControl.KeyboardAccelerators>
 
 	<Border CornerRadius="{StaticResource ControlCornerRadius}">

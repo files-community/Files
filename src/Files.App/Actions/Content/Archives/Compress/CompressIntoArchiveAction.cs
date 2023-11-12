@@ -20,6 +20,9 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return;
+
 			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
 
 			var dialog = new CreateArchiveDialog
