@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
@@ -77,6 +78,9 @@ namespace Files.App.Views
 				PrimaryButtonText = "Yes".ToLocalized(),
 				SecondaryButtonText = "No".ToLocalized()
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				promptForReviewDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			var result = await promptForReviewDialog.TryShowAsync();
 
