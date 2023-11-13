@@ -1,6 +1,6 @@
 <!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <local:BaseGroupableLayout
-	x:Class="Files.App.Views.Layouts.GridViewBrowser"
+	x:Class="Files.App.Views.Layouts.GridLayout"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:cloud="using:Files.App.Utils.Cloud"
