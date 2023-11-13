@@ -245,6 +245,7 @@
 							Padding="16,0,0,0"
 							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
+							DoubleTapped="FileListHeader_DoubleTapped"
 							PointerPressed="Grid_PointerPressed">
 
 							<!--  Header Grid MenuFlyout  -->
