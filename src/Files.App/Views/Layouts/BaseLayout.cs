@@ -41,6 +41,8 @@ namespace Files.App.Views.Layouts
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
 		public FolderSettingsViewModel? FolderSettings
@@ -1084,7 +1086,7 @@ namespace Files.App.Views.Layouts
 								dragOverTimer.Stop();
 								ItemManipulationModel.SetSelectedItem(dragOverItem);
 								dragOverItem = null;
-								_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance!, false);
+								Commands.OpenItem.ExecuteAsync();
 							}
 						},
 						TimeSpan.FromMilliseconds(1000), false);

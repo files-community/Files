@@ -284,12 +284,12 @@ namespace Files.App.Views.Layouts
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public void NavigateUp()
+		public async void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				(ParentShellPageInstance as ModernShellPage)?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)

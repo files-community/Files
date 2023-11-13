@@ -346,7 +346,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			doubleClickTimer.Stop();
 
@@ -358,7 +358,7 @@ namespace Files.App.Views.Layouts
 				{
 					case StorageItemTypes.File:
 						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-							_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+							await Commands.OpenItem.ExecuteAsync();
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
@@ -366,13 +366,13 @@ namespace Files.App.Views.Layouts
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-							ParentShellPageInstance?.Up_Click();
+							await Commands.NavigateUp.ExecuteAsync();
 						break;
 				}
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 			}
 
 			ResetRenameDoubleClick();
@@ -408,7 +408,7 @@ namespace Files.App.Views.Layouts
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else if (item is not null)
 			{
