@@ -187,7 +187,9 @@ namespace Files.App.ViewModels
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null && navigationArg == tabItem.NavigationParameter.NavigationParameter)
+			if (result.Item1 is not null && 
+				(navigationArg is PaneNavigationArguments && navigationArg as PaneNavigationArguments == tabItem.NavigationParameter.NavigationParameter as PaneNavigationArguments
+				|| navigationArg is string && navigationArg as string == tabItem.NavigationParameter.NavigationParameter as string))
 				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
 		}
 
