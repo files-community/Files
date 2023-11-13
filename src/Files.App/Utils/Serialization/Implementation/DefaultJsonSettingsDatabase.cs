@@ -33,6 +33,7 @@ namespace Files.App.Utils.Serialization.Implementation
 			}
 			catch (Exception)
 			{
+				// TODO Display prompt to notify user #710
 				return JsonSettingsSerializer.DeserializeFromJson<ConcurrentDictionary<string, object?>?>("null") ?? new();
 			}
 		}
