@@ -903,6 +903,12 @@ namespace Files.App.Views.LayoutModes
 				args.TryCancel();
 		}
 
+		private void FileListHeader_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Fixes an issue where double clicking the column header would navigate back as if clicking on empty space
+			e.Handled = true;
+		}
+
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)
 		{
 			var enableStatus = !columnsViewModel.GitStatusColumn.IsHidden && !columnsViewModel.GitStatusColumn.UserCollapsed;
