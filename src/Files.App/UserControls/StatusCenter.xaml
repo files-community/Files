@@ -140,7 +140,7 @@
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap"
-									ToolTipService.ToolTip="{x:Bind Header, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind HeaderTooltip, Mode=OneWay}" />
 
 							</StackPanel>
 
@@ -235,17 +235,30 @@
 								CornerRadius="4"
 								Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
-								<!--  NOTE: The Graph Control Somehow Includes Slight Padding, Which Is Removed By Setting Negative Margin  -->
-								<Grid Margin="-2,0,0,-2">
+								<Grid Padding="-2,-2,-2,-2">
+
+									<!--  Background Fill  -->
+									<livecharts2:CartesianChart
+										x:Name="BackgroundCartesianChart"
+										Height="72"
+										VerticalAlignment="Bottom"
+										AnimationsSpeed="00:00:00.001"
+										Series="{x:Bind SpeedGraphBackgroundSeries, Mode=OneWay}"
+										TooltipPosition="Hidden"
+										XAxes="{x:Bind SpeedGraphBackgroundXAxes, Mode=OneWay}"
+										YAxes="{x:Bind SpeedGraphBackgroundYAxes, Mode=OneWay}" />
+
+									<!--  Main Graph  -->
 									<livecharts2:CartesianChart
 										x:Name="MainCartesianChart"
-										Height="72"
+										Height="48"
 										VerticalAlignment="Bottom"
 										AnimationsSpeed="00:00:00.001"
 										Series="{x:Bind SpeedGraphSeries, Mode=OneWay}"
 										TooltipPosition="Hidden"
 										XAxes="{x:Bind SpeedGraphXAxes, Mode=OneWay}"
 										YAxes="{x:Bind SpeedGraphYAxes, Mode=OneWay}" />
+
 								</Grid>
 
 								<!--  Speed Text  -->

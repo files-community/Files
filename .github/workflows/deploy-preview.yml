@@ -148,6 +148,22 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
+    - uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to blob storage
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "test" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+        azPSVersion: "latest"
+
+    # Azure logout
+    - name: logout
+      run: |
+          az logout
+          
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
       with:

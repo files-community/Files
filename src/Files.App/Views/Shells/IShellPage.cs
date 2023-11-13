@@ -38,7 +38,7 @@ namespace Files.App.Views.Shells
 
 		Task RefreshIfNoWatcherExistsAsync();
 
-		Task Refresh_ClickAsync();
+		Task Refresh_Click();
 
 		void Back_Click();
 

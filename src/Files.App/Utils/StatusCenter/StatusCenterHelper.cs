@@ -219,7 +219,7 @@ namespace Files.App.Utils.StatusCenter
 			long totalSize = 0)
 		{
 			string? sourceDir = string.Empty;
-			
+
 			if (source is not null && source.Any())
 				sourceDir = PathNormalization.GetParentDir(source.First().Path);
 
@@ -498,15 +498,21 @@ namespace Files.App.Utils.StatusCenter
 
 			if (card.Source is not null && card.Source.Any())
 			{
-				sourcePath = PathNormalization.GetParentDir(card.Source.First());
-				sourceDirName = sourcePath.Split('\\').Last();
-				sourceFileName = card.Source.First().Split('\\').Last();
+				// Include null check for items that don't have a parent dir
+				// This can happen when dragging an image from the browser
+				// https://github.com/files-community/Files/issues/13590
+				if (card.Source.First() != null)
+				{
+					sourcePath = PathNormalization.GetParentDir(card.Source.First());
+					sourceDirName = sourcePath.Split('\\').Last();
+					sourceFileName = card.Source.First().Split('\\').Last();
+				}
 			}
 
 			if (card.Destination is not null && card.Destination.Any())
 			{
 				destinationPath = PathNormalization.GetParentDir(card.Destination.First());
-				destinationDirName = card.Destination.First().Split('\\').Last();
+				destinationDirName = destinationPath.Split('\\').Last();
 			}
 
 			string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty : card.HeaderStringResource.GetLocalizedResource();

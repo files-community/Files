@@ -713,7 +713,7 @@ namespace Files.App.ViewModels.UserControls
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
 		}
 
-		public async void HandleItemInvokedAsync(object item)
+		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
 		{
 			if (item is not INavigationControlItem navigationControlItem) return;
 			var navigationPath = item as string;
@@ -722,9 +722,12 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-			if (ctrlPressed && navigationPath is not null)
+			var middleClickPressed = pointerUpdateKind == PointerUpdateKind.MiddleButtonReleased;
+			if ((ctrlPressed ||
+				middleClickPressed) &&
+				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationPath);
+				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
 				return;
 			}
 
