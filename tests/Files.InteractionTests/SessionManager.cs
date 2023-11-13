@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using OpenQA.Selenium.Appium;
@@ -15,8 +15,9 @@ namespace Files.InteractionTests
 	{
 		private const string WindowsApplicationDriverUrl = "http://127.0.0.1:4723";
 		private static string[] FilesAppIDs = new string[]{
-			"49306atecsolution.FilesUWP_dwm5abbcs5pn0!App",
-			"FilesDev_ykqwq8d6ps0ag!App"
+			"FilesDev_ykqwq8d6ps0ag!App", // Needed to run on the local end and/or the CI
+			"FilesDev_9bhem8es8z4gp!App", // Needed to run on the local end and/or the CI
+			"FilesDev_dwm5abbcs5pn0!App", // Needed to run on the CI
 		};
 
 		private static uint appIdIndex = 0;

@@ -6,7 +6,7 @@ namespace Files.App.Utils.Archives
 	/// <summary>
 	/// Represents an interface for archive creation support.
 	/// </summary>
-	public interface IArchiveCreator
+	public interface ICompressArchiveModel
 	{
 		/// <summary>
 		/// File path to archive.
@@ -52,6 +52,11 @@ namespace Files.App.Utils.Archives
 		/// Archiving progress.
 		/// </summary>
 		IProgress<StatusCenterItemProgressModel> Progress { get; set; }
+
+		/// <summary>
+		/// Cancellation request.
+		/// </summary>
+		CancellationToken CancellationToken { get; set; }
 
 		/// <summary>
 		/// Get path which target will be archived to.

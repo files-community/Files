@@ -197,7 +197,7 @@ namespace Files.App.Utils.Storage
 				var file = new ZipStorageFile(filePath, containerPath, entry, backingFile);
 				((IPasswordProtectedItem)file).CopyFrom(this);
 				return file;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
@@ -253,7 +253,7 @@ namespace Files.App.Utils.Storage
 					}
 				}
 				return items;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 		public override IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync(uint startIndex, uint maxItemsToRetrieve)
 			=> AsyncInfo.Run<IReadOnlyList<IStorageItem>>(async (cancellationToken)
@@ -329,7 +329,7 @@ namespace Files.App.Utils.Storage
 				var folder = new ZipStorageFolder(zipDesiredName, containerPath, backingFile);
 				((IPasswordProtectedItem)folder).CopyFrom(this);
 				return folder;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncOperation<BaseStorageFolder> MoveAsync(IStorageFolder destinationFolder) => throw new NotSupportedException();
@@ -338,7 +338,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncAction RenameAsync(string desiredName) => RenameAsync(desiredName, NameCollisionOption.FailIfExists);
 		public override IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -380,13 +380,13 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override IAsyncAction DeleteAsync() => DeleteAsync(StorageDeleteOption.Default);
 		public override IAsyncAction DeleteAsync(StorageDeleteOption option)
 		{
-			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.Wrap(async () =>
+			return AsyncInfo.Run((cancellationToken) => SafetyExtensions.WrapAsync(async () =>
 			{
 				if (Path == containerPath)
 				{
@@ -428,7 +428,7 @@ namespace Files.App.Utils.Storage
 						}
 					}
 				}
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		public override bool AreQueryOptionsSupported(QueryOptions queryOptions) => false;
@@ -641,7 +641,7 @@ namespace Files.App.Utils.Storage
 				var file = new ZipStorageFile(zipDesiredName, containerPath, backingFile);
 				((IPasswordProtectedItem)file).CopyFrom(this);
 				return file;
-			}, ((IPasswordProtectedItem)this).RetryWithCredentials));
+			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
 		private class ZipFolderBasicProperties : BaseBasicProperties

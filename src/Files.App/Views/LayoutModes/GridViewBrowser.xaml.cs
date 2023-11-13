@@ -99,7 +99,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -110,7 +110,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 		}
 
-		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
@@ -121,7 +121,7 @@ namespace Files.App.Views.LayoutModes
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
-					ReloadItemIcons();
+					await ReloadItemIconsAsync();
 				}
 			}
 		}
@@ -221,7 +221,7 @@ namespace Files.App.Views.LayoutModes
 			if (!IsRenamingItem)
 				return;
 
-			ValidateItemNameInputText(textBox, args, (showError) =>
+			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 			{
 				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 				FileNameTeachingTip.IsOpen = showError;
@@ -250,8 +250,13 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			// Unsubscribe from events
+			if (textBox is not null)
+			{
+				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
@@ -330,7 +335,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
 
@@ -342,11 +347,11 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Update icon size before refreshing
 				currentIconSize = requestedIconSize;
-				ReloadItemIcons();
+				await ReloadItemIconsAsync();
 			}
 		}
 
-		private async Task ReloadItemIcons()
+		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
@@ -355,7 +360,7 @@ namespace Files.App.Views.LayoutModes
 				if (FileList.ContainerFromItem(listedItem) is null)
 					return;
 
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
 			}
 		}
 
@@ -382,7 +387,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else
 			{
@@ -399,27 +404,27 @@ namespace Files.App.Views.LayoutModes
 							Popup popup = gridViewItem.FindDescendant("EditPopup") as Popup;
 							var textBox = popup.Child as TextBox;
 
-							await CommitRename(textBox);
+							await CommitRenameAsync(textBox);
 						}
 						else
 						{
 							var textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
 
-							await CommitRename(textBox);
+							await CommitRenameAsync(textBox);
 						}
 					}
 				}
 			}
 		}
 
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-				ParentShellPageInstance.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 
 			ResetRenameDoubleClick();
 		}

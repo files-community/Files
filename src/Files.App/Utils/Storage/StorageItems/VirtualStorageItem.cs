@@ -83,7 +83,7 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		private async void StreamedFileWriter(StreamedFileDataRequest request)
+		private async void StreamedFileWriterAsync(StreamedFileDataRequest request)
 		{
 			try
 			{
@@ -125,7 +125,7 @@ namespace Files.App.Utils.Storage
 			{
 				async Task<BasicProperties> GetFakeBasicProperties()
 				{
-					var streamedFile = await StorageFile.CreateStreamedFileAsync(Name, StreamedFileWriter, null);
+					var streamedFile = await StorageFile.CreateStreamedFileAsync(Name, StreamedFileWriterAsync, null);
 					return await streamedFile.GetBasicPropertiesAsync();
 				}
 				return props ?? (props = await GetFakeBasicProperties());

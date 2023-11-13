@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Previews;
+using Files.Shared.Helpers;
 using IniParser.Model;
 using Windows.Storage;
 using static Files.App.Constants.AdaptiveLayout;
@@ -110,7 +111,8 @@ namespace Files.App.Helpers
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& MediaPreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
+				&& (FileExtensionHelpers.IsAudioFile(item.FileExtension) 
+				|| FileExtensionHelpers.IsVideoFile(item.FileExtension));
 		}
 
 		private enum Layouts

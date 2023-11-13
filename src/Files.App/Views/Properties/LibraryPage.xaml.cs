@@ -71,7 +71,7 @@ namespace Files.App.Views.Properties
 		{
 			InitializeComponent();
 
-			AddLocationCommand = new AsyncRelayCommand(AddLocation);
+			AddLocationCommand = new AsyncRelayCommand(AddLocationAsync);
 			SetDefaultLocationCommand = new RelayCommand(SetDefaultLocation);
 			RemoveLocationCommand = new RelayCommand(RemoveLocation);
 		}
@@ -98,7 +98,7 @@ namespace Files.App.Views.Properties
 			}
 		}
 
-		private async Task AddLocation()
+		private async Task AddLocationAsync()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Actions;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -135,7 +136,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIcons();
+				ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -285,7 +286,7 @@ namespace Files.App.Views.LayoutModes
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputText(textBox, args, (showError) =>
+				ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;
@@ -311,8 +312,13 @@ namespace Files.App.Views.LayoutModes
 				textBlock!.Visibility = Visibility.Visible;
 			}
 
-			textBox!.LostFocus -= RenameTextBox_LostFocus;
-			textBox.KeyDown -= RenameTextBox_KeyDown;
+			// Unsubscribe from events
+			if (textBox is not null)
+			{
+				textBox!.LostFocus -= RenameTextBox_LostFocus;
+				textBox.KeyDown -= RenameTextBox_KeyDown;
+			}
+
 			FileNameTeachingTip.IsOpen = false;
 			IsRenamingItem = false;
 
@@ -398,7 +404,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
@@ -406,18 +412,18 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIcons();
+				await ReloadItemIconsAsync();
 			}
 		}
 
-		private async Task ReloadItemIcons()
+		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
 			}
 		}
 
@@ -435,7 +441,7 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 				}
 				return;
@@ -457,7 +463,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else
 			{
@@ -471,23 +477,23 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 				}
 			}
 		}
 
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItems(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 			}
 			ResetRenameDoubleClick();
 		}
@@ -895,6 +901,12 @@ namespace Files.App.Views.LayoutModes
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
 			if (args.NewFocusedElement == FileList)
 				args.TryCancel();
+		}
+
+		private void FileListHeader_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Fixes an issue where double clicking the column header would navigate back as if clicking on empty space
+			e.Handled = true;
 		}
 
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)

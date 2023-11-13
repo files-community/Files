@@ -681,7 +681,7 @@
   <data name="Drives" xml:space="preserve">
     <value>ଡ୍ରାଇଭ୍‌ସମୂହ:</value>
   </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+  <data name="Eject" xml:space="preserve">
     <value>ବହିଷ୍କାର</value>
   </data>
   <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">

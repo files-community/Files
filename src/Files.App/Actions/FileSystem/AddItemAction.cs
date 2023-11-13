@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 
+		public HotKey HotKey
+			=> new(Keys.I, KeyModifiers.CtrlShift);
+
 		public bool IsExecutable
 			=> context.CanCreateItem;
 
@@ -41,11 +44,13 @@ namespace Files.App.Actions
 			}
 			else if (viewModel.ResultType.ItemType != AddItemDialogItemType.Cancel)
 			{
-				await UIFilesystemHelpers.CreateFileFromDialogResultType(
+				await UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(
 					viewModel.ResultType.ItemType,
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);
 			}
+
+			viewModel.ResultType.ItemType = AddItemDialogItemType.Cancel;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

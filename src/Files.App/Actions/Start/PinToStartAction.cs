@@ -23,6 +23,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconPinToFavorites");
 
+		public bool IsExecutable =>
+			context.ShellPage is not null;
+
 		public PinToStartAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -30,18 +33,14 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (context.SelectedItems.Count > 0)
+			if (context.SelectedItems.Count > 0 && context.ShellPage?.SlimContentPage?.SelectedItems is not null)
 			{
-				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
-				{
-					var folder = await StorageService.GetFolderAsync(listedItem.ItemPath);
-					await SystemPinService.PinAsync(folder);
-				}
+				foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
+					await App.SecondaryTileHelper.TryPinFolderAsync(listedItem.ItemPath, listedItem.Name);
 			}
-			else
+			else if (context.ShellPage?.FilesystemViewModel?.CurrentFolder is not null)
 			{
-				var folder = await StorageService.GetFolderAsync(context.ShellPage?.FilesystemViewModel.CurrentFolder.ItemPath);
-				await SystemPinService.PinAsync(folder);
+				await App.SecondaryTileHelper.TryPinFolderAsync(context.ShellPage.FilesystemViewModel.CurrentFolder.ItemPath, context.ShellPage.FilesystemViewModel.CurrentFolder.Name);
 			}
 		}
 	}

@@ -30,7 +30,7 @@
 							Text="{x:Bind Commands.DuplicateSelectedTab.Label}" />
 						<MenuFlyoutItem
 							x:Name="MenuItemMoveTabToNewWindow"
-							Click="MoveTabToNewWindow"
+							Click="MoveTabToNewWindowAsync"
 							Text="{helpers:ResourceString Name=HorizontalMultitaskingControlMoveTabToNewWindow/Text}">
 							<MenuFlyoutItem.Icon>
 								<FontIcon Glyph="&#xE8A7;" />

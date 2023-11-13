@@ -90,10 +90,10 @@ namespace Files.App.ViewModels.Settings
 
 		public GeneralViewModel()
 		{
-			ChangePageCommand = new AsyncRelayCommand(ChangePage);
+			ChangePageCommand = new AsyncRelayCommand(ChangePageAsync);
 			RemovePageCommand = new RelayCommand<PageOnStartupViewModel>(RemovePage);
-			AddPageCommand = new RelayCommand<string>(async (path) => await AddPage(path));
-			RestartCommand = new RelayCommand(DoRestart);
+			AddPageCommand = new RelayCommand<string>(async (path) => await AddPageAsync(path));
+			RestartCommand = new RelayCommand(DoRestartAsync);
 			CancelRestartCommand = new RelayCommand(DoCancelRestart);
 
 			AddSupportedAppLanguages();
@@ -113,7 +113,7 @@ namespace Files.App.ViewModels.Settings
 			InitStartupSettingsRecentFoldersFlyout();
 		}
 
-		private async void DoRestart()
+		private async void DoRestartAsync()
 		{
 			UserSettingsService.AppSettingsService.RestoreTabsOnStartup = true; // Tells the app to restore tabs when it's next launched
 			App.SaveSessionTabs(); // Saves the open tabs
@@ -222,17 +222,17 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref addFlyoutItemsSource, value);
 		}
 
-		public bool AlwaysOpenANewInstance
+		public bool OpenTabInExistingInstance
 		{
-			get => UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance;
+			get => UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance;
 			set
 			{
-				if (value != UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance)
+				if (value != UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance)
 				{
-					UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance = value;
+					UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance = value;
 
 					// Needed in Program.cs
-					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value;
+					ApplicationData.Current.LocalSettings.Values["OpenTabInExistingInstance"] = value;
 
 					OnPropertyChanged();
 				}
@@ -267,7 +267,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private async Task ChangePage()
+		private async Task ChangePageAsync()
 		{
 			var folderPicker = InitializeWithWindow(new FolderPicker());
 			folderPicker.FileTypeFilter.Add("*");
@@ -293,7 +293,7 @@ namespace Files.App.ViewModels.Settings
 				PagesOnStartupList.Remove(page);
 		}
 
-		private async Task AddPage(string path = null)
+		private async Task AddPageAsync(string path = null)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{

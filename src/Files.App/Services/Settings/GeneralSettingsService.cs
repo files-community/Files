@@ -1,10 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Serialization;
-using Files.Core.Services.Settings;
 using Microsoft.AppCenter.Analytics;
-using System.Collections.Generic;
 
 namespace Files.App.Services.Settings
 {
@@ -46,9 +43,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool AlwaysOpenNewInstance
+		public bool OpenTabInExistingInstance
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
@@ -210,7 +207,11 @@ namespace Files.App.Services.Settings
 
 		public bool LeaveAppRunning
 		{
+#if STORE || STABLE || PREVIEW
 			get => Get(true);
+#else
+			get => Get(false);
+#endif
 			set => Set(value);
 		}
 
@@ -240,7 +241,7 @@ namespace Files.App.Services.Settings
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
-				case nameof(AlwaysOpenNewInstance):
+				case nameof(OpenTabInExistingInstance):
 				case nameof(AlwaysOpenDualPaneInNewTab):
 				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):

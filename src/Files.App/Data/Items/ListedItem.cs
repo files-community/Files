@@ -42,12 +42,12 @@ namespace Files.App.Utils
 			get
 			{
 				var tooltipBuilder = new StringBuilder();
-				tooltipBuilder.AppendLine($"{"ToolTipDescriptionName".GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{"NameWithColon".GetLocalizedResource()} {Name}");
 				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
-				if(!string.IsNullOrWhiteSpace(FileSize))
+				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				if(SyncStatusUI.LoadSyncStatus)
+				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
@@ -405,6 +405,10 @@ namespace Files.App.Utils
 
 		private bool CheckElevationRights()
 		{
+			// Avoid downloading file to check elevation
+			if (SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
+				return false;
+
 			return IsShortcut
 				? ElevationHelpers.IsElevationRequired(((ShortcutItem)this).TargetPath)
 				: ElevationHelpers.IsElevationRequired(this.ItemPath);

@@ -42,7 +42,7 @@ namespace Files.App
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
 			var proc = Process.GetCurrentProcess();
-			var alwaysOpenNewInstance = ApplicationData.Current.LocalSettings.Values.Get("AlwaysOpenANewInstance", false);
+			var OpenTabInExistingInstance = ApplicationData.Current.LocalSettings.Values.Get("OpenTabInExistingInstance", true);
 			var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
 
 			if (activatedArgs.Data is ICommandLineActivatedEventArgs cmdLineArgs)
@@ -76,7 +76,7 @@ namespace Files.App
 
 				// Always open a new instance for OpenDialog, never open new instance for "-Tag" command
 				if (parsedCommands is null || !parsedCommands.Any(x => x.Type == ParsedCommandType.OutputPath) &&
-					(!alwaysOpenNewInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
+					(OpenTabInExistingInstance || parsedCommands.Any(x => x.Type == ParsedCommandType.TagFiles)))
 				{
 					var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 					var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());
@@ -102,7 +102,7 @@ namespace Files.App
 				}
 			}
 
-			if (!alwaysOpenNewInstance)
+			if (OpenTabInExistingInstance)
 			{
 				if (activatedArgs.Data is ILaunchActivatedEventArgs launchArgs)
 				{
@@ -117,7 +117,8 @@ namespace Files.App
 				else if (activatedArgs.Data is IProtocolActivatedEventArgs protocolArgs)
 				{
 					var parsedArgs = protocolArgs.Uri.Query.TrimStart('?').Split('=');
-					if (parsedArgs.Length == 2 && parsedArgs[0] == "cmd") // Treat as command line launch
+					if ((parsedArgs.Length == 2 && parsedArgs[0] == "cmd") ||
+						parsedArgs.Length == 1) // Treat Win+E & Open file location as command line launch
 					{
 						var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
 						var instance = AppInstance.FindOrRegisterForKey(activePid.ToString());

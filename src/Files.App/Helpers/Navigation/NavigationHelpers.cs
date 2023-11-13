@@ -44,7 +44,7 @@ namespace Files.App.Helpers
 			return Launcher.LaunchUriAsync(filesUWPUri).AsTask();
 		}
 
-		public static async Task OpenSelectedItems(IShellPage associatedInstance, bool openViaApplicationPicker = false)
+		public static async Task OpenSelectedItemsAsync(IShellPage associatedInstance, bool openViaApplicationPicker = false)
 		{
 			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
@@ -81,7 +81,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task OpenItemsWithExecutable(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
+		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
 		{
 			// Don't open files and folders inside  recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
@@ -121,6 +121,7 @@ namespace Files.App.Helpers
 			bool isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.Directory);
 			bool isReparsePoint = NativeFileOperationsHelper.HasFileAttribute(path, SystemIO.FileAttributes.ReparsePoint);
 			bool isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
+			bool isScreenSaver = FileExtensionHelpers.IsScreenSaverFile(path);
 			bool isTag = path.StartsWith("tag:");
 			FilesystemResult opened = (FilesystemResult)false;
 
@@ -200,6 +201,10 @@ namespace Files.App.Helpers
 					break;
 
 				case FilesystemItemType.File:
+					// Starts the screensaver in full-screen mode
+					if (isScreenSaver)
+						args += "/s";
+
 					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
 					break;
 			};
@@ -229,7 +234,7 @@ namespace Files.App.Helpers
 			{
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)
-					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
+					await OpenPathAsync(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
 			}
 			return opened;
 		}
@@ -422,9 +427,9 @@ namespace Files.App.Helpers
 		}
 
 		private static Task OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
-			=> OpenPath(forceOpenInNewTab, openFolderInNewTabSetting, path, path, associatedInstance, selectItems);
+			=> OpenPathAsync(forceOpenInNewTab, openFolderInNewTabSetting, path, path, associatedInstance, selectItems);
 
-		private static async Task OpenPath(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, string text, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
+		private static async Task OpenPathAsync(bool forceOpenInNewTab, bool openFolderInNewTabSetting, string path, string text, IShellPage associatedInstance, IEnumerable<string>? selectItems = null)
 		{
 			if (forceOpenInNewTab || openFolderInNewTabSetting)
 			{

@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Dialogs
 
 		public void SaveChanges()
 		{
-			quickAccessService.Save(SidebarFavoriteItems.Select(x => x.Path).ToArray());
+			quickAccessService.SaveAsync(SidebarFavoriteItems.Select(x => x.Path).ToArray());
 		}
 	}
 }

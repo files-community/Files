@@ -73,32 +73,32 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
-		protected virtual void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
+		protected virtual async void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
-			ReloadSelectedItemsIcon();
+			await ReloadSelectedItemsIconAsync();
 		}
 
-		protected virtual void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
+		protected virtual async void ItemManipulationModel_RefreshItemThumbnail(object? sender, EventArgs args)
 		{
-			ReloadSelectedItemIcon();
+			await ReloadSelectedItemIconAsync();
 		}
 
-		protected virtual async Task ReloadSelectedItemIcon()
+		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
+			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
 		}
 
-		protected virtual async Task ReloadSelectedItemsIcon()
+		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(selectedItem, IconSize);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem, IconSize);
 			}
 		}
 
@@ -213,7 +213,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected abstract void EndRename(TextBox textBox);
 
-		protected virtual async Task CommitRename(TextBox textBox)
+		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
 			string newItemName = textBox.Text.Trim().TrimEnd('.');
@@ -227,7 +227,7 @@ namespace Files.App.Views.LayoutModes
 			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRename(textBox);
+				await CommitRenameAsync(textBox);
 			}
 		}
 
@@ -244,7 +244,7 @@ namespace Files.App.Views.LayoutModes
 					break;
 				case VirtualKey.Enter:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
-					await CommitRename(textBox);
+					await CommitRenameAsync(textBox);
 					e.Handled = true;
 					break;
 				case VirtualKey.Up:
@@ -269,7 +269,7 @@ namespace Files.App.Views.LayoutModes
 
 					if (textBox.Text != OldItemName)
 					{
-						await CommitRename(textBox);
+						await CommitRenameAsync(textBox);
 					}
 					else
 					{

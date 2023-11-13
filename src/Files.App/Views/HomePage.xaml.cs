@@ -199,7 +199,9 @@ namespace Files.App.Views
 			});
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		protected override async void OnNavigatedTo(NavigationEventArgs e) => await OnNavigatedToAsync(e);
+
+		private async Task OnNavigatedToAsync(NavigationEventArgs eventArgs)
 		{
 			var parameters = eventArgs.Parameter as NavigationArguments;
 
@@ -250,7 +252,7 @@ namespace Files.App.Views
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
-			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidget()));
+			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 		}
 

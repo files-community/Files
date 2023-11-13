@@ -26,7 +26,7 @@ namespace Files.Core.ViewModels.Dialogs.AddItemDialog
 			};
 		}
 
-		public async Task AddItemsToList(IEnumerable<ShellNewEntry> itemTypes)
+		public async Task AddItemsToListAsync(IEnumerable<ShellNewEntry> itemTypes)
 		{
 			AddItemsList.Clear();
 
