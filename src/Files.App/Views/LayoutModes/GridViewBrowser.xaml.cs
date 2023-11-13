@@ -424,7 +424,7 @@ namespace Files.App.Views.LayoutModes
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-				ParentShellPageInstance.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 
 			ResetRenameDoubleClick();
 		}

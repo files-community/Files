@@ -366,13 +366,13 @@ namespace Files.App.Views.LayoutModes
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-							ParentShellPageInstance?.Up_Click();
+							await Commands.NavigateUp.ExecuteAsync();
 						break;
 				}
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 			}
 
 			ResetRenameDoubleClick();
