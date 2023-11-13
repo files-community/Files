@@ -3,12 +3,10 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Helpers;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -22,8 +20,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -230,6 +226,10 @@ namespace Files.App
 
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
+				// Hook events for the window
+				MainWindow.Instance.Closed += Window_Closed;
+				MainWindow.Instance.Activated += Window_Activated;
+
 				// TODO: Remove App.Logger instance and replace with DI
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
@@ -262,10 +262,6 @@ namespace Files.App
 			// Get the MainWindow instance
 			var window = MainWindow.Instance;
 
-			// Hook events for the window
-			window.Activated += Window_Activated;
-			window.Closed += Window_Closed;
-
 			// Attempt to activate it
 			window.Activate();
 		}
@@ -297,6 +293,8 @@ namespace Files.App
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			StatusCenterViewModel satusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			// A Workaround for the crash (#10110)
 			if (LastOpenedFlyout?.IsOpen ?? false)
@@ -307,15 +305,15 @@ namespace Files.App
 				return;
 			}
 
-			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
-				
+
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
+				satusCenterViewModel.RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
