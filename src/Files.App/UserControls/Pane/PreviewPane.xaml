@@ -417,6 +417,7 @@
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
@@ -431,6 +432,7 @@
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
@@ -443,6 +445,7 @@
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 					</VisualState.Setters>
@@ -456,6 +459,7 @@
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
+						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
