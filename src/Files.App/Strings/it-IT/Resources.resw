@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Abilita anteprima</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Mostra o nascondi il riquadro dettagli</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Mostra o nascondi il riquadro dettagli o anteprima</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Mostra o nasconde il riquadro dettagli o anteprima</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>
@@ -1591,7 +1600,7 @@
     <value>Entra in modalità Compact Overlay</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Esci dalla modalità Compact Overlay</value>
+    <value>Esci dalla modalità Overlay Compatta</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Descrizione</value>
@@ -2011,7 +2020,7 @@
     <value>Seleziona automaticamente il layout migliore</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adattivo (Ctrl+Maiusc+7)</value>
+    <value>Layout Adattivo (Ctrl+Maiusc+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+7</value>
@@ -2041,7 +2050,7 @@
     <value>Data modifica</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Data creazione</value>
+    <value>Data di creazione</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Dimensione</value>
@@ -2167,7 +2176,7 @@
     <value>Formato</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Stato sincronizzazione</value>
+    <value>Stato di sincronizzazione</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Raggruppa per</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Si è verificato un errore durante il calcolo</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Gli hash non sono disponibili per i file online</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmo</value>
   </data>
@@ -2374,7 +2386,7 @@
     <value>Modalità a schermo intero</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Entra in modalità Compact Overlay</value>
+    <value>Entra in modalità Overlay Compatto</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Esci dalla modalità Compact Overlay</value>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione del riquadro di anteprima</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Mostra o nascondi il riquadro dettagli</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione della barra laterale</value>
