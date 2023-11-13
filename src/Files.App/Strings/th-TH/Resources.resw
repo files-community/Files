@@ -139,7 +139,7 @@
     <value>ขนาด:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value/>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Uncompressed size:</value>
@@ -1052,6 +1052,15 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>เปิดปิดบานหน้าต่างแสดงตัวอย่าง</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the details/preview pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggles the details/preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>ไม่มีตัวอย่างให้ดู</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>An error occurred during the calculation</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithm</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Toggle whether to show preview pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Toggle whether to show sidebar</value>
