@@ -384,8 +384,7 @@ namespace Files.App
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+			var userSettingsService = Ioc.Default.GetService<IUserSettingsService>() ?? new UserSettingsService();
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
 				if (tab is not null && tab.NavigationParameter is not null)
