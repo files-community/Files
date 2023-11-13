@@ -181,6 +181,16 @@ namespace Files.App
 						await mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), fileArgs.Files[index].Path);
 					}
 					break;
+
+				case IStartupTaskActivatedEventArgs startupArgs:
+					// Just launch the app with no arguments
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					break;
+
+				default:
+					// Just launch the app with no arguments
+					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					break;
 			}
 
 			if (!AppWindow.IsVisible)
