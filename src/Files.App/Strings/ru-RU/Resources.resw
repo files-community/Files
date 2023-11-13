@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Показать панель предварительного просмотра</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the details/preview pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggles the details/preview pane</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Предпросмотр недоступен</value>
   </data>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Произошла ошибка при вычислении</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритм</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Показать панель предпросмотра</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Вкл/Выкл отображение боковой панели</value>

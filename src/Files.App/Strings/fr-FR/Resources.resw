@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Afficher le volet de prévisualisation</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Basculer le volet des détails</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Basculer le volet de détails/prévisualisation</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Bascule le volet de détails/prévisualisation</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
   </data>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Une erreur s'est produite lors du calcul</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Les hashes ne sont pas disponibles pour les fichiers en ligne</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithme</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Afficher/Masquer le volet de prévisualisation</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Basculer le volet des détails</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>

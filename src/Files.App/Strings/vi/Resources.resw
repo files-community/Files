@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Chuyển đổi ngăn xem trước</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Chuyển đổi ngăn chi tiết</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Chuyển đổi ngăn xem trước/ngăn chi tiết</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Chuyển đổi bật/tắt ngăn xem trước hoặc ngăn chi tiết</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Xem trước không sẵn dùng</value>
   </data>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Một lỗi đã xảy ra trong quá trình tính toán</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hash không khả dụng cho các tệp trực tuyến</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Thuật toán</value>
   </data>
@@ -2350,7 +2362,7 @@
     <value>Tăng kích thước</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Thay đổi hướng sắp xếp</value>
+    <value>Chuyển đổi hướng sắp xếp</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Tên không hợp lệ</value>
@@ -2371,7 +2383,7 @@
     <value>Mở trang trợ giúp trực tuyến trong trình duyệt</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Bật/Tắt toàn màn hình</value>
+    <value>Chuyển đổi bật/tắt toàn màn hình</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Mở cửa sổ dạng thu gọn</value>
@@ -2380,7 +2392,7 @@
     <value>Thoát cửa sổ dạng thu gọn</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Chuyển đổi dạng xem thu gọn</value>
+    <value>Chuyển đổi bật/tắt dạng xem thu gọn</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Chuyển đến hộp tìm kiếm</value>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện ngăn xem trước</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Chuyển đổi ẩn/hiện ngăn chi tiết</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện thanh bên</value>
@@ -2461,7 +2476,7 @@
     <value>Bỏ lựa chọn</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Chuyển đổi lựa chọn</value>
+    <value>Chuyển đổi bật/tắt tính năng lựa chọn mục</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Chia sẻ tệp đã chọn với người khác</value>
@@ -2602,10 +2617,10 @@
     <value>Sắp xếp mục theo thứ tự giảm dần</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Thay đổi hướng sắp xếp mục</value>
+    <value>Chuyển đổi hướng sắp xếp mục</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Hiển thị và sắp xếp thư mục chung với tệp</value>
+    <value>Liệt kê và sắp xếp thư mục chung với tệp</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Hiện danh sách mục không nhóm</value>
@@ -2647,7 +2662,7 @@
     <value>Sắp xếp nhóm theo thứ tự giảm dần</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Thay đổi hướng sắp xếp nhóm</value>
+    <value>Chuyển đổi hướng sắp xếp nhóm</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Mở thẻ mới</value>
@@ -2704,7 +2719,7 @@
     <value>Đóng ngăn bên phải</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Bật/Tắt thanh bên</value>
+    <value>Chuyển đổi thanh bên</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2987,7 +3002,7 @@
     <value>Tháng</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Chuyển đổi đơn vị cho việc nhóm theo ngày tháng</value>
+    <value>Chuyển đổi bật/tắt đơn vị khi nhóm theo ngày tháng</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
     <value>Chuyển đổi đơn vị nhóm</value>
