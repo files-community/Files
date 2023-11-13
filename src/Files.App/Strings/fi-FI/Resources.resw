@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Vaihda esikatseluruutua</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Vaihda tietoruutua</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Vaihda tieto-/esikatseluruutua</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Vaihtaa tieto-/esikatseluruutua</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Esikatselua ei ole saatavilla</value>
   </data>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Laskennassa tapahtui virhe</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Tarkistussummat eivät ole saatavilla verkkotiedostoille</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmi</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Valitse, näytetäänkö esikatseluruutu</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Vaihda tietoruutua</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Valitse, näytetäänkö sivupalkki</value>
