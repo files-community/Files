@@ -1,23 +1,22 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Utils.Cloud;
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using Windows.Storage;
 
 namespace Files.App.Utils.Cloud
 {
-	public class CloudDrivesManager
+	public static class CloudDrivesManager
 	{
-		private readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-		private readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
+		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
 
-		public EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
+		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 
-		private readonly List<DriveItem> _Drives = new();
-		public IReadOnlyList<DriveItem> Drives
+		private static readonly List<DriveItem> _Drives = new();
+		public static IReadOnlyList<DriveItem> Drives
 		{
 			get
 			{
@@ -28,7 +27,7 @@ namespace Files.App.Utils.Cloud
 			}
 		}
 
-		public async Task UpdateDrivesAsync()
+		public static async Task UpdateDrivesAsync()
 		{
 			var providers = await _detector.DetectCloudProvidersAsync();
 			if (providers is null)

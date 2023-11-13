@@ -94,7 +94,7 @@ namespace Files.App.Views.LayoutModes
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
-					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
+					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))

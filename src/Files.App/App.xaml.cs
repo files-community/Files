@@ -45,8 +45,6 @@ namespace Files.App
 		public static AppModel AppModel { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
-		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
 
@@ -251,8 +249,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			CloudDrivesManager ??= new CloudDrivesManager();
-			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			QuickAccessManager ??= new QuickAccessManager();
 		}
