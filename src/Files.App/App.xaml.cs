@@ -154,31 +154,30 @@ namespace Files.App
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
-			{
-				await Task.WhenAll(
-					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					QuickAccessManager.InitializeAsync()
-				);
+			await Task.WhenAll(
+				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				LibraryManager.UpdateLibrariesAsync(),
+				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				QuickAccessManager.InitializeAsync()
+			);
 
-				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+			await Task.WhenAll(
+				JumpListHelper.InitializeUpdatesAsync(),
+				addItemService.InitializeAsync(),
+				ContextMenu.WarmUpQueryContextMenuAsync()
+			);
 
-				FileTagsHelper.UpdateTagsDb();
-			});
+			FileTagsHelper.UpdateTagsDb();
 
 			await CheckForRequiredUpdatesAsync();
 
-			static async Task OptionalTaskAsync(Task task, bool condition)
+			static Task OptionalTaskAsync(Task task, bool condition)
 			{
 				if (condition)
-					await task;
+					return task;
+
+				return Task.CompletedTask;
 			}
 		}
 
@@ -236,8 +235,7 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
-				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
+				_ = InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
