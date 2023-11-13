@@ -150,7 +150,7 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public async void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
@@ -162,7 +162,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			ViewModel.UpdateInstancePropertiesAsync(paneArgs);
+			await ViewModel.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)

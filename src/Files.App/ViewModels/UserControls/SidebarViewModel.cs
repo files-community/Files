@@ -597,7 +597,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+		private async void UserSettingsService_OnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			switch (e.SettingName)
 			{
@@ -608,31 +608,31 @@ namespace Files.App.ViewModels.UserControls
 					}
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFavoritesSection):
-					UpdateSectionVisibilityAsync(SectionType.Favorites, ShowFavoritesSection);
+					await UpdateSectionVisibilityAsync(SectionType.Favorites, ShowFavoritesSection);
 					OnPropertyChanged(nameof(ShowFavoritesSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowLibrarySection):
-					UpdateSectionVisibilityAsync(SectionType.Library, ShowLibrarySection);
+					await UpdateSectionVisibilityAsync(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection):
-					UpdateSectionVisibilityAsync(SectionType.CloudDrives, ShowCloudDrivesSection);
+					await UpdateSectionVisibilityAsync(SectionType.CloudDrives, ShowCloudDrivesSection);
 					OnPropertyChanged(nameof(ShowCloudDrivesSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesSection):
-					UpdateSectionVisibilityAsync(SectionType.Drives, ShowDrivesSection);
+					await UpdateSectionVisibilityAsync(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkDrivesSection):
-					UpdateSectionVisibilityAsync(SectionType.Network, ShowNetworkDrivesSection);
+					await UpdateSectionVisibilityAsync(SectionType.Network, ShowNetworkDrivesSection);
 					OnPropertyChanged(nameof(ShowNetworkDrivesSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowWslSection):
-					UpdateSectionVisibilityAsync(SectionType.WSL, ShowWslSection);
+					await UpdateSectionVisibilityAsync(SectionType.WSL, ShowWslSection);
 					OnPropertyChanged(nameof(ShowWslSection));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsSection):
-					UpdateSectionVisibilityAsync(SectionType.FileTag, ShowFileTagsSection);
+					await UpdateSectionVisibilityAsync(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
 					break;
 			}
@@ -1262,7 +1262,7 @@ namespace Files.App.ViewModels.UserControls
 					foreach (var item in storageItems)
 					{
 						if (item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.FavoriteItems.Contains(item.Path))
-							QuickAccessService.PinToSidebarAsync(item.Path);
+							await QuickAccessService.PinToSidebarAsync(item.Path);
 					}
 				}
 				else

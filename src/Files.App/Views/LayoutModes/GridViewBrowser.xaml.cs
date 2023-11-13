@@ -110,7 +110,7 @@ namespace Files.App.Views.LayoutModes
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 		}
 
-		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
 			{
@@ -121,7 +121,7 @@ namespace Files.App.Views.LayoutModes
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
-					ReloadItemIconsAsync();
+					await ReloadItemIconsAsync();
 				}
 			}
 		}
@@ -335,7 +335,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			SetItemMinWidth();
 
@@ -347,7 +347,7 @@ namespace Files.App.Views.LayoutModes
 			{
 				// Update icon size before refreshing
 				currentIconSize = requestedIconSize;
-				ReloadItemIconsAsync();
+				await ReloadItemIconsAsync();
 			}
 		}
 
