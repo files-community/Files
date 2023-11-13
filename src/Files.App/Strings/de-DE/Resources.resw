@@ -157,7 +157,7 @@
     <value>Überspringen</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Alles wählen</value>
+    <value>Alle auswählen</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Auswahl umkehren</value>
@@ -175,13 +175,13 @@
     <value>Verlauf leeren</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie einen Pfad zum Navigieren ein oder Tippen "&gt;", um die Befehlspalette zu öffnen</value>
+    <value>Gebe einen Pfad zum Navigieren ein oder Tippe "&gt;" ein, um die Befehlspalette zu öffnen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Kürzlich verwendete Dateien und Ordner werden hier zu sehen sein</value>
+    <value>Kürzlich verwendete Dateien und Ordner werden hier angezeigt</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Datei aus Verlauf entfernen</value>
@@ -199,19 +199,19 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Modus</value>
+    <value>Theme</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Dateierweiterungen für bekannte Dateitypen anzeigen</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Versteckte Dateien und Ordner anzeigen</value>
+    <value>Alle Dateien und Ordner anzeigen</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Dateien die mit einem Punkt beginnen anzeigen</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Aussehen</value>
+    <value>Erscheinungsbild</value>
   </data>
   <data name="Background" xml:space="preserve">
     <value>Hintergrund</value>
@@ -220,7 +220,7 @@
     <value>Erweitert</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Weitermachen, wo Du aufgehört hast</value>
+    <value>Fortsetzen, wo Du aufgehört hast</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Einen neuen Tab öffnen</value>
@@ -277,10 +277,10 @@
     <value>Willkommen bei Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Berechtigung erteilen</value>
+    <value>Zugriff erlauben</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, Deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
+    <value>Um loslegen zu können, musst Du uns die Erlaubnis geben, deine Dateien anzeigen zu dürfen. Es wird eine Einstellungsseite geöffnet, auf der Du diese Erlaubnis erteilen kannst. Wenn Du diesen Schritt erledigt hast, musst Du die Anwendung neu starten. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Anzeige</value>
@@ -319,7 +319,7 @@
     <value>Vorwärts (Alt+Pfeiltaste rechts)</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Ebenen nach oben (Alt+Pfeiltaste oben)</value>
+    <value>Nach oben (Alt+Pfeiltaste oben)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Aktualisieren</value>
@@ -430,7 +430,7 @@
     <value>OK</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Bist Du sicher, dass Du alle Elemente löschen möchtest?</value>
+    <value>Bist Du sicher, dass Du alle Elemente endgültig löschen möchtest?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -1052,6 +1052,15 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Vorschaupanel umschalten</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Detailbereich umschalten</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Details-/Vorschaubereich umschalten</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Schaltet den Details-/Vorschaubereich um</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Während der Berechnung ist ein Fehler aufgetreten</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes sind für Online-Dateien nicht verfügbar</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithmus</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Umschalten, ob Vorschaupanel angezeigt werden soll</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Detailbereich umschalten</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Umschalten, ob Seitenleiste angezeigt werden soll</value>
