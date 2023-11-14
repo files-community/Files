@@ -13,9 +13,9 @@ namespace Files.App.UserControls
 {
 	public sealed partial class AddressToolbar : UserControl
 	{
+		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public static readonly DependencyProperty ShowOngoingTasksProperty =
 			DependencyProperty.Register(

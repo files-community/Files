@@ -9,6 +9,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -43,7 +44,7 @@
 
 					<!--  Header  -->
 					<TextBlock
-						Margin="0,0,0,4"
+						Margin="0,0,4,0"
 						FontSize="12"
 						Style="{StaticResource BodyStrongTextBlockStyle}"
 						Text="{x:Bind Name, Mode=OneWay}" />

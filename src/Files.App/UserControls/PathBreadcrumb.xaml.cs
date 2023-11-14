@@ -10,9 +10,10 @@ namespace Files.App.UserControls
 	/// <summary>
 	/// Represents control for breadcrumbs of item path.
 	/// </summary>
-	[DependencyProperty<PathBreadcrumbViewModel>("ViewModel")]
 	public sealed partial class PathBreadcrumb : UserControl
 	{
+		private PathBreadcrumbViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<PathBreadcrumbViewModel>();
+
 		public PathBreadcrumb()
 		{
 			InitializeComponent();
