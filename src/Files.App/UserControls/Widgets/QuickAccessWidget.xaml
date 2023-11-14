@@ -24,6 +24,7 @@
 				Orientation="Horizontal" />
 		</ItemsRepeater.Layout>
 
+		<!--  QuickAccess Card Item Template  -->
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:FolderCardItem">
 				<Button
@@ -48,6 +49,7 @@
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
+						<!--  Pinned Icon  -->
 						<FontIcon
 							x:Name="PinIcon"
 							HorizontalAlignment="Right"
@@ -56,6 +58,7 @@
 							FontSize="12"
 							Glyph="&#xE840;" />
 
+						<!--  Item Thumbnail  -->
 						<Image
 							Grid.Row="0"
 							Width="32"
@@ -65,6 +68,7 @@
 							Source="{x:Bind Thumbnail, Mode=OneWay}"
 							Stretch="Uniform" />
 
+						<!--  Item Name  -->
 						<TextBlock
 							x:Name="ItemLocationName"
 							Grid.Row="1"

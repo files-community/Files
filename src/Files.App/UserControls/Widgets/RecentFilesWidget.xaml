@@ -12,7 +12,7 @@
 
 	<StackPanel x:Name="RecentsListGrid" Orientation="Vertical">
 
-		<!--  Message when recent files are disabled in File Explorer  -->
+		<!--  Shown If Disabled In The File Explorer  -->
 		<muxc:InfoBar
 			x:Name="RecentFilesDisabledOnWindowsWarning"
 			x:Load="{x:Bind ViewModel.IsRecentFilesDisabledInWindows, Mode=OneWay}"
@@ -22,7 +22,7 @@
 			Message="{helpers:ResourceString Name=RecentFilesDisabledOnWindowsWarning}"
 			Severity="Warning" />
 
-		<!--  Message when there are no recent files to display  -->
+		<!--  Shown If No Recent Files Found  -->
 		<TextBlock
 			x:Name="RecentItemDescription"
 			HorizontalAlignment="Stretch"
@@ -32,7 +32,6 @@
 			TextAlignment="Center"
 			TextWrapping="WrapWholeWords" />
 
-		<!--  List of recent files  -->
 		<ListView
 			x:Name="RecentFilesListView"
 			HorizontalAlignment="Stretch"
@@ -53,6 +52,7 @@
 				</Style>
 			</ListView.ItemContainerStyle>
 
+			<!--  Recent File Item Template  -->
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="recent:RecentItem">
 					<Grid
@@ -67,6 +67,8 @@
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
+
+						<!--  Item Folder Thumbnail  -->
 						<FontIcon
 							x:Name="RecentFolderImg"
 							Grid.Column="0"
@@ -77,6 +79,8 @@
 							FontSize="24"
 							Foreground="#ffe793"
 							Glyph="&#xE8B7;" />
+
+						<!--  Defaul Thumbnail  -->
 						<FontIcon
 							x:Name="EmptyImg"
 							Grid.Column="0"
@@ -86,6 +90,8 @@
 							x:Phase="1"
 							FontSize="24"
 							Glyph="&#xE7C3;" />
+
+						<!--  Item Thumbnail  -->
 						<Image
 							x:Name="RecentFileImg"
 							Grid.Column="0"
@@ -98,6 +104,7 @@
 							Source="{x:Bind FileImg, Mode=OneWay}"
 							Stretch="Uniform" />
 
+						<!--  Item Name  -->
 						<TextBlock
 							Grid.Column="1"
 							VerticalAlignment="Center"
@@ -105,6 +112,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
+						<!--  Item Path  -->
 						<TextBlock
 							Grid.Column="2"
 							VerticalAlignment="Center"
@@ -112,6 +120,7 @@
 							Text="{x:Bind RecentPath}"
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
+
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>

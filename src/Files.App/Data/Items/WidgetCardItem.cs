@@ -4,7 +4,7 @@
 namespace Files.App.Data.Items
 {
 	/// <summary>
-	/// Represents item for Widget card, shown inner Widget control and displayed as a list.
+	/// Represents item for Widget card, shown as inner Widget control and displayed as a list.
 	/// </summary>
 	public abstract class WidgetCardItem : ObservableObject
 	{

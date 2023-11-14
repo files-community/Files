@@ -9,7 +9,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
-	<ItemsRepeater x:Name="CardsList" ItemsSource="{x:Bind ViewModel.ItemsAdded, Mode=OneWay}">
+	<ItemsRepeater ItemsSource="{x:Bind ViewModel.ItemsAdded, Mode=OneWay}">
 
 		<ItemsRepeater.Layout>
 			<UniformGridLayout
@@ -21,6 +21,7 @@
 				Orientation="Horizontal" />
 		</ItemsRepeater.Layout>
 
+		<!--  Drive Card Item Template  -->
 		<ItemsRepeater.ItemTemplate>
 			<DataTemplate x:DataType="dataitems:DriveCardItem">
 				<Button
@@ -53,6 +54,7 @@
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
+						<!--  Thumbnail  -->
 						<Image
 							Grid.RowSpan="3"
 							Grid.Column="0"
@@ -62,6 +64,7 @@
 							Source="{x:Bind Thumbnail, Mode=OneWay}"
 							Stretch="Uniform" />
 
+						<!--  Drive Name  -->
 						<TextBlock
 							x:Name="ItemLocationName"
 							Grid.Row="0"
@@ -74,6 +77,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
+						<!--  Drive Space Usage  -->
 						<ProgressBar
 							x:Name="DriveSpaceProgressBar"
 							Grid.Row="1"
@@ -85,6 +89,7 @@
 							Maximum="{x:Bind Item.MaxSpace.GigaBytes, Mode=OneWay}"
 							Value="{x:Bind Item.SpaceUsed.GigaBytes, Mode=OneWay}" />
 
+						<!--  Storage Sense Button  -->
 						<Button
 							x:Name="GoToStorageSense"
 							Grid.RowSpan="3"
@@ -109,6 +114,7 @@
 								Glyph="&#xE946;" />
 						</Button>
 
+						<!--  Humanized Drive Space Text  -->
 						<TextBlock
 							x:Name="DriveSpaceTextBlock"
 							Grid.Row="2"
