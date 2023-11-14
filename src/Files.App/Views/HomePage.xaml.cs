@@ -11,6 +11,11 @@ using Windows.Storage;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents home page that provides quick shortcuts.
+	/// <br/>
+	/// Displays every time opened a tab or a window unless startup settings is not changed.
+	/// </summary>
 	public sealed partial class HomePage : Page, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

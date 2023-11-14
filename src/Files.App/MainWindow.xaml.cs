@@ -17,6 +17,9 @@ using IO = System.IO;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents main window holds <see cref="MainPage"/>.
+	/// </summary>
 	public sealed partial class MainWindow : WindowEx
 	{
 		private readonly IApplicationService ApplicationService;

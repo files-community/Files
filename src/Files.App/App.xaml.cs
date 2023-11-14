@@ -36,6 +36,9 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents entry point for foreground for Files app.
+	/// </summary>
 	public partial class App : Application
 	{
 		private IHost? _host;

@@ -12,6 +12,9 @@ using static Files.App.Helpers.InteropHelpers;
 
 namespace Files.App
 {
+	/// <summary>
+	/// Represents entry point for background for Files app.
+	/// </summary>
 	internal class Program
 	{
 		public static Semaphore Pool;

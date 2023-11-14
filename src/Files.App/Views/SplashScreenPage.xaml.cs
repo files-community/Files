@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Files.App.Views
 {
 	/// <summary>
-	/// Display the app splash screen.
+	/// Represents the app splash screen shown on the startup.
 	/// </summary>
 	public sealed partial class SplashScreenPage : Page
 	{

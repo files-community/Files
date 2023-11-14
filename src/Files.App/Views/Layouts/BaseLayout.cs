@@ -29,7 +29,7 @@ using VanaraWindowsShell = Vanara.Windows.Shell;
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
-	/// Represents the base class which every layout page must derive from
+	/// Represents base layout for the layouts and provides fundamental components.
 	/// </summary>
 	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
 	{

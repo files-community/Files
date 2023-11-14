@@ -19,7 +19,7 @@ using SortDirection = Files.Core.Data.Enums.SortDirection;
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
-	/// Represents the browser page of Details View
+	/// Represents layout for the Details layout
 	/// </summary>
 	public sealed partial class DetailsLayout : BaseGroupableLayout
 	{

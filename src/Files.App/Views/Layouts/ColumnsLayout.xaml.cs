@@ -14,7 +14,7 @@ using static Files.App.Helpers.PathNormalization;
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
-	/// Represents the browser page of Column View
+	/// Represents overall layout for the Columns layout.
 	/// </summary>
 	public sealed partial class ColumnsLayout : BaseLayout
 	{

@@ -20,6 +20,9 @@ using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
+	/// <summary>
+	/// Represents the main page that contains every UI componenets.
+	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
 		public IUserSettingsService UserSettingsService { get; }

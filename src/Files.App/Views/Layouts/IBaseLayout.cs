@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Views.Layouts
 {
+	/// <summary>
+	/// Represents contract that every layout must define. 
+	/// </summary>
 	public interface IBaseLayout : IDisposable
 	{
 		bool IsRenamingItem { get; }

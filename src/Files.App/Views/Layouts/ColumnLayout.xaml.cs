@@ -20,7 +20,7 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
-	/// Represents the base page of Column View
+	/// Represents single layout for the Columns layout
 	/// </summary>
 	public sealed partial class ColumnLayout : BaseGroupableLayout
 	{

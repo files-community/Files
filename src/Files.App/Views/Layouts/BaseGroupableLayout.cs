@@ -14,6 +14,9 @@ using Windows.UI.Core;
 
 namespace Files.App.Views.Layouts
 {
+	/// <summary>
+	/// Represents base class for the layouts that can be grouped by.
+	/// </summary>
 	public abstract class BaseGroupableLayout : BaseLayout
 	{
 		private const int KEY_DOWN_MASK = 0x8000;

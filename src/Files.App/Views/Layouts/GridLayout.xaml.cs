@@ -17,7 +17,7 @@ using Windows.UI.Core;
 namespace Files.App.Views.Layouts
 {
 	/// <summary>
-	/// Represents the browser page of Grid View
+	/// Represents layout for the Tile and Icon layouts.
 	/// </summary>
 	public sealed partial class GridLayout : BaseGroupableLayout
 	{
