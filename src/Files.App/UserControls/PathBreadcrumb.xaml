@@ -86,10 +86,10 @@
 					<!--  Chevron  -->
 					<FontIcon
 						x:Name="PathSeaparatorIcon"
-						DataContextChanged="PathItemSeparator_DataContextChanged"
+						DataContextChanged="PathBreadcrumbItemChevron_DataContextChanged"
 						FontSize="12"
 						Glyph="&#xE76C;"
-						Loaded="PathItemSeparator_Loaded">
+						Loaded="PathBreadcrumbItemChevron_Loaded">
 						<i:Interaction.Behaviors>
 							<core:EventTriggerBehavior EventName="PointerEntered">
 								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
@@ -102,7 +102,7 @@
 						<!--  Child Items  -->
 						<FontIcon.ContextFlyout>
 							<MenuFlyout
-								Opened="PathBoxItemFlyout_Opened"
+								Opened="PathBreadcrumbItemFlyout_Opened"
 								Placement="BottomEdgeAlignedLeft"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ScrollViewer.VerticalScrollMode="Auto">
