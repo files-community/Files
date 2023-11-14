@@ -45,13 +45,10 @@ namespace Files.App
 		public static AppModel AppModel { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
-		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
 		/// Initializes the singleton application object. This is the first line of authored code
@@ -138,6 +135,7 @@ namespace Files.App
 					.AddSingleton<IJumpListService, JumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<PreviewPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
@@ -156,31 +154,30 @@ namespace Files.App
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
-			{
-				await Task.WhenAll(
-					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					QuickAccessManager.InitializeAsync()
-				);
+			await Task.WhenAll(
+				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				LibraryManager.UpdateLibrariesAsync(),
+				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				QuickAccessManager.InitializeAsync()
+			);
 
-				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+			await Task.WhenAll(
+				JumpListHelper.InitializeUpdatesAsync(),
+				addItemService.InitializeAsync(),
+				ContextMenu.WarmUpQueryContextMenuAsync()
+			);
 
-				FileTagsHelper.UpdateTagsDb();
-			});
+			FileTagsHelper.UpdateTagsDb();
 
 			await CheckForRequiredUpdatesAsync();
 
-			static async Task OptionalTaskAsync(Task task, bool condition)
+			static Task OptionalTaskAsync(Task task, bool condition)
 			{
 				if (condition)
-					await task;
+					return task;
+
+				return Task.CompletedTask;
 			}
 		}
 
@@ -238,8 +235,7 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
-				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
+				_ = InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
@@ -251,8 +247,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			CloudDrivesManager ??= new CloudDrivesManager();
-			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			QuickAccessManager ??= new QuickAccessManager();
 		}
@@ -388,8 +382,7 @@ namespace Files.App
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+			var userSettingsService = Ioc.Default.GetService<IUserSettingsService>() ?? new UserSettingsService();
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
 				if (tab is not null && tab.NavigationParameter is not null)
