@@ -18,7 +18,7 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+		private void PathBreadcrumbItemChevron_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			ViewModel.PathItemSeparator_DataContextChanged(sender, args);
 		}
@@ -53,7 +53,7 @@ namespace Files.App.UserControls
 			ViewModel.PathBreadcrumbItem_PointerPressed(sender, e);
 		}
 
-		private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
+		private void PathBreadcrumbItemChevron_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is not FontIcon pathSeparatorIcon)
 				return;
