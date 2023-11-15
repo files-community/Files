@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconRightPane");
 
+		public HotKey HotKey
+			=> new(Keys.I, KeyModifiers.MenuCtrl);
+
 		public bool IsOn
 			=> viewModel.IsEnabled;
 

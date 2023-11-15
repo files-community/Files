@@ -262,7 +262,7 @@
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
 				<!--  Preview Pane  -->
-				<uc:PreviewPane
+				<uc:InfoPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"

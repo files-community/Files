@@ -14,7 +14,7 @@ namespace Files.App.UserControls
 		Bottom,
 	}
 
-	public sealed partial class PreviewPane : UserControl
+	public sealed partial class InfoPane : UserControl
 	{
 		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
 
@@ -26,7 +26,7 @@ namespace Files.App.UserControls
 
 		private ObservableContext Context { get; } = new();
 
-		public PreviewPane()
+		public InfoPane()
 		{
 			InitializeComponent();
 			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
