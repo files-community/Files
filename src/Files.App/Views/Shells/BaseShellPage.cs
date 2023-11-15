@@ -324,7 +324,7 @@ namespace Files.App.Views.Shells
 			{
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
-					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;

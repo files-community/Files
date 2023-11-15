@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Files.Core.Services.Settings
 {
-	public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IInfoPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets a value indicating if the preview pane is enabled.
@@ -28,8 +28,8 @@ namespace Files.Core.Services.Settings
 		double MediaVolume { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating if the preview pane should only show the item preview without the details section.
+		/// Gets or sets a value indicating the selected tab in the Info Pane.
 		/// </summary>
-		bool ShowPreviewOnly { get; set; }
+		InfoPaneTabs SelectedTab { get; set; }
 	}
 }
