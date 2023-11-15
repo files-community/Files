@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
@@ -80,6 +81,9 @@ namespace Files.App.Views
 				PrimaryButtonText = "Yes".ToLocalized(),
 				SecondaryButtonText = "No".ToLocalized()
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				promptForReviewDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			var result = await promptForReviewDialog.TryShowAsync();
 
@@ -153,7 +157,7 @@ namespace Files.App.Views
 				dragZoneLeftIndent: (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth));
 		}
 
-		public void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
+		public async void TabItemContent_ContentChanged(object? sender, CustomTabViewItemParameter e)
 		{
 			if (SidebarAdaptiveViewModel.PaneHolder is null)
 				return;
@@ -165,7 +169,7 @@ namespace Files.App.Views
 			UpdateStatusBarProperties();
 			LoadPaneChanged();
 			UpdateNavToolbarProperties();
-			ViewModel.UpdateInstancePropertiesAsync(paneArgs);
+			await ViewModel.UpdateInstancePropertiesAsync(paneArgs);
 		}
 
 		public void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)

@@ -190,6 +190,7 @@
 						<TextBlock
 							x:Name="ItemName"
 							Grid.Column="2"
+							Height="60"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							Opacity="{x:Bind Opacity, Mode=OneWay}"

@@ -355,36 +355,77 @@ namespace Files.App.Data.Models
 				userSettingsService.FoldersSettingsService.DefaultGroupByDateUnit = prefs.DirectoryGroupByDateUnit;
 				userSettingsService.FoldersSettingsService.DefaultSortDirectoriesAlongsideFiles = prefs.SortDirectoriesAlongsideFiles;
 
-				userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !prefs.ColumnsViewModel.GitStatusColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !prefs.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !prefs.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !prefs.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !prefs.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowPathColumn = !prefs.ColumnsViewModel.PathColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !prefs.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
-				userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !prefs.ColumnsViewModel.StatusColumn.UserCollapsed;
-
 				userSettingsService.FoldersSettingsService.NameColumnWidth = prefs.ColumnsViewModel.NameColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.GitStatusColumnWidth = prefs.ColumnsViewModel.GitStatusColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = prefs.ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = prefs.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = prefs.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = prefs.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.PathColumnWidth = prefs.ColumnsViewModel.PathColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = prefs.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
-				userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = prefs.ColumnsViewModel.StatusColumn.UserLengthPixels;
+				if (!prefs.ColumnsViewModel.DateModifiedColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowDateColumn = !prefs.ColumnsViewModel.DateModifiedColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.DateModifiedColumnWidth = prefs.ColumnsViewModel.DateModifiedColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.DateCreatedColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowDateCreatedColumn = !prefs.ColumnsViewModel.DateCreatedColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.DateCreatedColumnWidth = prefs.ColumnsViewModel.DateCreatedColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.ItemTypeColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowTypeColumn = !prefs.ColumnsViewModel.ItemTypeColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.TypeColumnWidth = prefs.ColumnsViewModel.ItemTypeColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.SizeColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowSizeColumn = !prefs.ColumnsViewModel.SizeColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.SizeColumnWidth = prefs.ColumnsViewModel.SizeColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.TagColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowFileTagColumn = !prefs.ColumnsViewModel.TagColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.TagColumnWidth = prefs.ColumnsViewModel.TagColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.GitStatusColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowGitStatusColumn = !prefs.ColumnsViewModel.GitStatusColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.GitStatusColumnWidth = prefs.ColumnsViewModel.GitStatusColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.GitLastCommitDateColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowGitLastCommitDateColumn = !prefs.ColumnsViewModel.GitLastCommitDateColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.GitLastCommitDateColumnWidth = prefs.ColumnsViewModel.GitLastCommitDateColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.GitLastCommitMessageColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowGitLastCommitMessageColumn = !prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.GitLastCommitMessageColumnWidth = prefs.ColumnsViewModel.GitLastCommitMessageColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.GitCommitAuthorColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowGitCommitAuthorColumn = !prefs.ColumnsViewModel.GitCommitAuthorColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.GitCommitAuthorColumnWidth = prefs.ColumnsViewModel.GitCommitAuthorColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.GitLastCommitShaColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowGitLastCommitShaColumn = !prefs.ColumnsViewModel.GitLastCommitShaColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.GitLastCommitShaColumnWidth = prefs.ColumnsViewModel.GitLastCommitShaColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.DateDeletedColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowDateDeletedColumn = !prefs.ColumnsViewModel.DateDeletedColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.DateDeletedColumnWidth = prefs.ColumnsViewModel.DateDeletedColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.PathColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowPathColumn = !prefs.ColumnsViewModel.PathColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.PathColumnWidth = prefs.ColumnsViewModel.PathColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.OriginalPathColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowOriginalPathColumn = !prefs.ColumnsViewModel.OriginalPathColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.OriginalPathColumnWidth = prefs.ColumnsViewModel.OriginalPathColumn.UserLengthPixels;
+				}
+				if (!prefs.ColumnsViewModel.StatusColumn.IsHidden)
+				{
+					userSettingsService.FoldersSettingsService.ShowSyncStatusColumn = !prefs.ColumnsViewModel.StatusColumn.UserCollapsed;
+					userSettingsService.FoldersSettingsService.SyncStatusColumnWidth = prefs.ColumnsViewModel.StatusColumn.UserLengthPixels;
+				}
 			}
 		}
 

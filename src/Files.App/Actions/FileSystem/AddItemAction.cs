@@ -49,6 +49,8 @@ namespace Files.App.Actions
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);
 			}
+
+			viewModel.ResultType.ItemType = AddItemDialogItemType.Cancel;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
