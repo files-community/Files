@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
 using Vanara.PInvoke;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Utils.RecycleBin
@@ -25,7 +26,7 @@ namespace Files.App.Utils.RecycleBin
 		{
 			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
 		}
-		
+
 		public static async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
@@ -54,6 +55,9 @@ namespace Files.App.Utils.RecycleBin
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				ConfirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			// If the operation is approved by the user
 			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never ||
@@ -102,6 +106,9 @@ namespace Files.App.Utils.RecycleBin
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				ConfirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 

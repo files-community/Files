@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using SevenZip;
 using System.IO;
 using System.Text;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Utils.Archives
@@ -145,6 +146,9 @@ namespace Files.App.Utils.Archives
 			};
 			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 			ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 			if (option != ContentDialogResult.Primary)
 				return;
@@ -196,6 +200,9 @@ namespace Files.App.Utils.Archives
 
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
 
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
 						return;
@@ -232,6 +239,9 @@ namespace Files.App.Utils.Archives
 						ShowPathSelection = false
 					};
 					decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						decompressArchiveDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 					ContentDialogResult option = await decompressArchiveDialog.TryShowAsync();
 					if (option != ContentDialogResult.Primary)
