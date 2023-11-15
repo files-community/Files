@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
-		private readonly IPreviewPaneSettingsService previewSettingsService;
+		private IPreviewPaneSettingsService previewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 
 		private readonly IContentPageContext contentPageContextService;
 
@@ -58,6 +58,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public InfoPaneTabs SelectedTab
+		{
+			get => previewSettingsService.SelectedTab;
+			set
+			{
+				if (value != previewSettingsService.SelectedTab)
+				{
+					previewSettingsService.SelectedTab = value;
+				}
+			}
+		}
+
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
@@ -90,15 +102,11 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<TagsListItem> Items { get; } = new();
 
-		public InfoPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
+		public InfoPaneViewModel(IContentPageContext contentPageContextService = null)
 		{
-			previewSettingsService = previewSettings;
-
-			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreviewAsync());
+			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
 			IsEnabled = previewSettingsService.IsEnabled;
-
-			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -290,7 +298,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
 
-					if (previewSettingsService.ShowPreviewOnly ||
+					if (SelectedTab == InfoPaneTabs.Preview ||
 						SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
 					{
 						loadCancellationTokenSource = new CancellationTokenSource();
@@ -364,16 +372,16 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public ICommand ShowPreviewOnlyInvoked { get; }
-
-		private async void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+		private async void PreviewSettingsService_OnPropertyChangedEvent(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
+			if (e.PropertyName is nameof(previewSettingsService.SelectedTab))
 			{
+				OnPropertyChanged(nameof(SelectedTab));
+
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(previewSettingsService.IsEnabled))
 			{
 				var newEnablingStatus = previewSettingsService.IsEnabled;
 				if (isEnabled != newEnablingStatus)
@@ -419,7 +427,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
-			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
+
 		}
 	}
 }

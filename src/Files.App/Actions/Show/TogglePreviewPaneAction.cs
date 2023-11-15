@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			viewModel.IsEnabled = true;
-			previewSettingsService.ShowPreviewOnly = true;
+			previewSettingsService.SelectedTab = InfoPaneTabs.Preview;
 
 			return Task.CompletedTask;
 		}

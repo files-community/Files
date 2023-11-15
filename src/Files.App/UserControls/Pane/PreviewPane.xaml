@@ -8,6 +8,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
+	xmlns:local="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
@@ -31,6 +32,7 @@
 
 				<ResourceDictionary>
 					<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+					<local:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 
 					<Style x:Key="Local.RadioButtonStyle" TargetType="RadioButton">
 						<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -166,13 +168,15 @@
 			Orientation="Horizontal">
 			<!--  Details  -->
 			<RadioButton
+				Command="{x:Bind Commands.ToggleDetailsPane, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=Details}"
-				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+				IsChecked="{x:Bind ViewModel.SelectedTab, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Details, Mode=OneWay}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 			<!--  Preview  -->
 			<RadioButton
+				Command="{x:Bind Commands.TogglePreviewPane, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=Preview}"
-				IsChecked="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=TwoWay}"
+				IsChecked="{x:Bind ViewModel.SelectedTab, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Preview, Mode=OneWay}"
 				Style="{StaticResource Local.RadioButtonStyle}" />
 		</StackPanel>
 
@@ -465,7 +469,7 @@
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="False" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.SelectedTab, Mode=OneWay}" To="Details" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Visible" />
@@ -475,7 +479,7 @@
 				</VisualState>
 				<VisualState>
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind PaneSettingsService.ShowPreviewOnly, Mode=OneWay}" To="True" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.SelectedTab, Mode=OneWay}" To="Preview" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="RootPropertiesScrollViewer.Visibility" Value="Collapsed" />

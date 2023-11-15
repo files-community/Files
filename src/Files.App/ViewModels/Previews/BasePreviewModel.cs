@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Previews
 			await Task.Run(async () =>
 			{
 				DetailsFromPreview = await LoadPreviewAndDetailsAsync();
-				if (!userSettingsService.PreviewPaneSettingsService.ShowPreviewOnly)
+				if (userSettingsService.PreviewPaneSettingsService.SelectedTab == InfoPaneTabs.Details)
 				{
 					// Add the details from the preview function, then the system file properties
 					DetailsFromPreview?.ForEach(i => detailsFull.Add(i));
