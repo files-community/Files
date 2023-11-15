@@ -18,7 +18,7 @@ namespace Files.App.UserControls
 	{
 		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
 
-		private readonly IPreviewPaneSettingsService PaneSettingsService;
+		private readonly IInfoPaneSettingsService PaneSettingsService;
 
 		private readonly ICommandManager Commands;
 
@@ -29,7 +29,7 @@ namespace Files.App.UserControls
 		public InfoPane()
 		{
 			InitializeComponent();
-			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+			PaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			ViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		}

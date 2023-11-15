@@ -6,7 +6,7 @@ namespace Files.App.Actions
 	internal class TogglePreviewPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly InfoPaneViewModel viewModel;
-		private readonly IPreviewPaneSettingsService previewSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+		private readonly IInfoPaneSettingsService infoPaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 
 		public string Label
 			=> "TogglePreviewPane".GetLocalizedResource();
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			viewModel.IsEnabled = true;
-			previewSettingsService.SelectedTab = InfoPaneTabs.Preview;
+			infoPaneSettingsService.SelectedTab = InfoPaneTabs.Preview;
 
 			return Task.CompletedTask;
 		}

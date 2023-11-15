@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Files.Core.Services.Settings
 {
-	public interface IPreviewPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
+	public interface IInfoPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets or sets a value indicating if the preview pane is enabled.

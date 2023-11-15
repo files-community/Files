@@ -8,7 +8,7 @@ using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPreviewPaneSettingsService
+	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsEnabled
 		{
@@ -40,7 +40,7 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public PreviewPaneSettingsService(ISettingsSharingContext settingsSharingContext)
+		public InfoPaneSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			RegisterSettingsContext(settingsSharingContext);
 		}

@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
-		private IPreviewPaneSettingsService previewSettingsService { get; } = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 
 		private readonly IContentPageContext contentPageContextService;
 
@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.UserControls
 			get => isEnabled;
 			set
 			{
-				previewSettingsService.IsEnabled = value;
+				infoPaneSettingsService.IsEnabled = value;
 
 				SetProperty(ref isEnabled, value);
 			}
@@ -60,12 +60,12 @@ namespace Files.App.ViewModels.UserControls
 
 		public InfoPaneTabs SelectedTab
 		{
-			get => previewSettingsService.SelectedTab;
+			get => infoPaneSettingsService.SelectedTab;
 			set
 			{
-				if (value != previewSettingsService.SelectedTab)
+				if (value != infoPaneSettingsService.SelectedTab)
 				{
-					previewSettingsService.SelectedTab = value;
+					infoPaneSettingsService.SelectedTab = value;
 				}
 			}
 		}
@@ -104,9 +104,9 @@ namespace Files.App.ViewModels.UserControls
 
 		public InfoPaneViewModel(IContentPageContext contentPageContextService = null)
 		{
-			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
-			IsEnabled = previewSettingsService.IsEnabled;
+			IsEnabled = infoPaneSettingsService.IsEnabled;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -374,16 +374,16 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void PreviewSettingsService_OnPropertyChangedEvent(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(previewSettingsService.SelectedTab))
+			if (e.PropertyName is nameof(infoPaneSettingsService.SelectedTab))
 			{
 				OnPropertyChanged(nameof(SelectedTab));
 
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(previewSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(infoPaneSettingsService.IsEnabled))
 			{
-				var newEnablingStatus = previewSettingsService.IsEnabled;
+				var newEnablingStatus = infoPaneSettingsService.IsEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
