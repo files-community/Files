@@ -14,7 +14,7 @@ namespace Files.App.Views.Shells
 	public sealed partial class ColumnShellPage : BaseShellPage
 	{
 		public override bool IsCurrentPane
-			=> this.FindAscendant<ColumnsLayout>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
+			=> this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.IsCurrentPane ?? false;
 
 		public override bool CanNavigateBackward
 			=> false;
@@ -56,12 +56,12 @@ namespace Files.App.Views.Shells
 		}
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
-			=> this.FindAscendant<ColumnsLayout>().SetSelectedPathOrNavigate(e);
+			=> this.FindAscendant<ColumnsLayoutPage>().SetSelectedPathOrNavigate(e);
 
 		protected override void OnNavigationParamsChanged()
 		{
 			ItemDisplayFrame.Navigate(
-				typeof(ColumnLayout),
+				typeof(ColumnLayoutPage),
 				new NavigationArguments()
 				{
 					IsSearchResultPage = ColumnParams.IsSearchResultPage,
@@ -84,7 +84,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
-			PaneHolder = this.FindAscendant<ColumnsLayout>()?.ParentShellPageInstance?.PaneHolder;
+			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
@@ -108,7 +108,7 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.IsSearchBoxVisible = false;
 			}
 
-			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayout))
+			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
 				ContentPage.ResetItemOpacity();
@@ -126,10 +126,10 @@ namespace Files.App.Views.Shells
 		{
 			args.Handled = true;
 			var tabInstance =
-				CurrentPageType == typeof(DetailsLayout) ||
-				CurrentPageType == typeof(GridLayout) ||
-				CurrentPageType == typeof(ColumnsLayout) ||
-				CurrentPageType == typeof(ColumnLayout);
+				CurrentPageType == typeof(DetailsLayoutPage) ||
+				CurrentPageType == typeof(GridLayoutPage) ||
+				CurrentPageType == typeof(ColumnsLayoutPage) ||
+				CurrentPageType == typeof(ColumnLayoutPage);
 
 			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
 			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
@@ -151,7 +151,7 @@ namespace Files.App.Views.Shells
 			if (ItemDisplayFrame.CanGoBack)
 				base.Back_Click();
 			else
-				this.FindAscendant<ColumnsLayout>().NavigateBack();
+				this.FindAscendant<ColumnsLayoutPage>().NavigateBack();
 		}
 
 		public override void Forward_Click()
@@ -160,26 +160,26 @@ namespace Files.App.Views.Shells
 			if (ItemDisplayFrame.CanGoForward)
 				base.Forward_Click();
 			else
-				this.FindAscendant<ColumnsLayout>().NavigateForward();
+				this.FindAscendant<ColumnsLayoutPage>().NavigateForward();
 		}
 
 		public override void Up_Click()
 		{
-			this.FindAscendant<ColumnsLayout>()?.NavigateUp();
+			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
 		}
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			this.FindAscendant<ColumnsLayout>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			this.FindAscendant<ColumnsLayoutPage>().SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
 		}
 
 		public override void NavigateHome()
 		{
-			this.FindAscendant<ColumnsLayout>()?.ParentShellPageInstance?.NavigateHome();
+			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateHome();
 		}
 
 		public override Task WhenIsCurrent()
-			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayout>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
 
 		public void RemoveLastPageFromBackStack()
 		{
@@ -191,7 +191,7 @@ namespace Files.App.Views.Shells
 			FilesystemViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 			InstanceViewModel.SearchedUnindexedItems = searchUnindexedItems;
-			ItemDisplayFrame.Navigate(typeof(ColumnLayout), new NavigationArguments()
+			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,

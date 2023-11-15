@@ -9,7 +9,7 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents contract that every layout must define. 
 	/// </summary>
-	public interface IBaseLayout : IDisposable
+	public interface IBaseLayoutPage : IDisposable
 	{
 		bool IsRenamingItem { get; }
 
@@ -18,7 +18,7 @@ namespace Files.App.Views.Layouts
 		bool IsMiddleClickToScrollEnabled { get; set; }
 
 		/// <summary>
-		/// If true, the preview pane is not updated when the selected item is changed.
+		/// Gets or sets the value that indicates if the preview pane is not updated when the selected item is changed.
 		/// </summary>
 		bool LockPreviewPaneContent { get; set; }
 

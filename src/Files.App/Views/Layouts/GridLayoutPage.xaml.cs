@@ -19,31 +19,40 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents layout for the Tile and Icon layouts.
 	/// </summary>
-	public sealed partial class GridLayout : BaseGroupableLayout
+	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
-		private uint currentIconSize;
+		// Overrides
 
-		protected override uint IconSize => currentIconSize;
-
+		protected override uint IconSize => _currentIconSize;
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		private uint _currentIconSize;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
-		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+		public int GridViewItemMinWidth =>
+			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				? Constants.Browser.GridViewBrowser.TilesView
+				: FolderSettings.GridViewSize;
 
 		public bool IsPointerOver
 		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
+			get => (bool)GetValue(IsPointerOverProperty);
+			set => SetValue(IsPointerOverProperty, value);
 		}
 
 		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridLayout), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(IsPointerOver),
+				typeof(bool),
+				typeof(GridLayoutPage),
+				new PropertyMetadata(false));
 
-		public GridLayout() : base()
+		// Constructor
+
+		public GridLayoutPage() : base()
 		{
 			InitializeComponent();
 
@@ -52,6 +61,8 @@ namespace Files.App.Views.Layouts
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -88,7 +99,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetIconSize();
+			_currentIconSize = FolderSettings.GetIconSize();
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
@@ -119,9 +130,9 @@ namespace Files.App.Views.Layouts
 				SetItemTemplate();
 
 				var requestedIconSize = FolderSettings.GetIconSize();
-				if (requestedIconSize != currentIconSize)
+				if (requestedIconSize != _currentIconSize)
 				{
-					currentIconSize = requestedIconSize;
+					_currentIconSize = requestedIconSize;
 					await ReloadItemIconsAsync();
 				}
 			}
@@ -334,7 +345,9 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected override bool CanGetItemFromElement(object element)
-			=> element is GridViewItem;
+		{
+			return element is GridViewItem;
+		}
 
 		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
@@ -344,10 +357,10 @@ namespace Files.App.Views.Layouts
 			var requestedIconSize = FolderSettings.GetIconSize();
 
 			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
+			if (requestedIconSize != _currentIconSize)
 			{
 				// Update icon size before refreshing
-				currentIconSize = requestedIconSize;
+				_currentIconSize = requestedIconSize;
 				await ReloadItemIconsAsync();
 			}
 		}
@@ -355,13 +368,14 @@ namespace Files.App.Views.Layouts
 		private async Task ReloadItemIconsAsync()
 		{
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+
 			foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList())
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is null)
 					return;
 
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, currentIconSize);
+				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem, _currentIconSize);
 			}
 		}
 
@@ -421,7 +435,7 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+			if (e.OriginalSource is FrameworkElement { DataContext: ListedItem item } &&
 				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -499,8 +513,8 @@ namespace Files.App.Views.Layouts
 
 		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			// Re-assign values to update date display
 			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
 				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
@@ -526,8 +540,9 @@ namespace Files.App.Views.Layouts
 				// Handle visual states
 				// Show checkboxes when items are selected (as long as the setting is enabled)
 				// Show checkboxes when hovering over the checkbox area (regardless of the setting to hide them)
-				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems && control.IsSelected
-					|| isPointerOver)
+				if (UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems &&
+					control.IsSelected ||
+					isPointerOver)
 					VisualStateManager.GoToState(userControl, "ShowCheckbox", true);
 				else
 					VisualStateManager.GoToState(userControl, "HideCheckbox", true);

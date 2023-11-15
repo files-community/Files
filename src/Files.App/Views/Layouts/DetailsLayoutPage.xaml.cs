@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Windows.Input;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
@@ -21,48 +22,54 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents layout for the Details layout
 	/// </summary>
-	public sealed partial class DetailsLayout : BaseGroupableLayout
+	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Constants
+
 		private const int TAG_TEXT_BLOCK = 1;
 
-		private uint currentIconSize;
-
-		private ListedItem? _nextItemToSelect;
+		// Overrides
 
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
+		// Fields
+
+		private uint currentIconSize;
+		private ListedItem? _nextItemToSelect;
+
+		// Properties
+
+		private ICommand UpdateSortOptionsCommand { get; set; }
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
+		public ScrollViewer? ContentScroller { get; private set; }
 
-		private double maxWidthForRenameTextbox;
-
+		private double _MaxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
-			get => maxWidthForRenameTextbox;
+			get => _MaxWidthForRenameTextbox;
 			set
 			{
-				if (value != maxWidthForRenameTextbox)
+				if (value != _MaxWidthForRenameTextbox)
 				{
-					maxWidthForRenameTextbox = value;
+					_MaxWidthForRenameTextbox = value;
 					NotifyPropertyChanged(nameof(MaxWidthForRenameTextbox));
 				}
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
+		// Constructor
 
-		public ScrollViewer? ContentScroller { get; private set; }
-
-		public DetailsLayout() : base()
+		public DetailsLayoutPage() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -88,7 +95,9 @@ namespace Files.App.Views.Layouts
 				FileList.LayoutUpdated += FileList_LayoutUpdated;
 			}
 			else if (FileList?.Items.Contains(e) ?? false)
+			{
 				FileList!.SelectedItems.Add(e);
+			}
 		}
 
 		protected override void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e)
@@ -167,6 +176,7 @@ namespace Files.App.Views.Layouts
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
 		{
 			base.OnNavigatingFrom(e);
+
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
@@ -402,7 +412,9 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected override bool CanGetItemFromElement(object element)
-			=> element is ListViewItem;
+		{
+			return element is ListViewItem;
+		}
 
 		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
@@ -448,12 +460,9 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
-			if
-			(
-				ctrlPressed ||
+			if (ctrlPressed ||
 				shiftPressed ||
-				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle
-			)
+				clickedItem is Microsoft.UI.Xaml.Shapes.Rectangle)
 			{
 				e.Handled = true;
 				return;
@@ -467,7 +476,7 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
-				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
+				if (clickedItem is TextBlock block && block.Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem?.DataContext);
 				}
@@ -486,8 +495,8 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (e.OriginalSource is FrameworkElement { DataContext: ListedItem item } &&
+				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				await Commands.OpenItem.ExecuteAsync();
 			}
@@ -495,6 +504,7 @@ namespace Files.App.Views.Layouts
 			{
 				await Commands.NavigateUp.ExecuteAsync();
 			}
+
 			ResetRenameDoubleClick();
 		}
 
@@ -503,8 +513,10 @@ namespace Files.App.Views.Layouts
 			// This is the best way I could find to set the context flyout, as doing it in the styles isn't possible
 			// because you can't use bindings in the setters
 			DependencyObject item = VisualTreeHelper.GetParent(sender as StackPanel);
+
 			while (item is not ListViewItem)
 				item = VisualTreeHelper.GetParent(item);
+
 			if (item is ListViewItem itemContainer)
 				itemContainer.ContextFlyout = ItemContextMenuFlyout;
 		}
@@ -566,6 +578,7 @@ namespace Files.App.Views.Layouts
 		private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
+
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
@@ -583,6 +596,7 @@ namespace Files.App.Views.Layouts
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
+
 			ResizeColumnToFit(columnToResize);
 
 			e.Handled = true;
@@ -596,6 +610,7 @@ namespace Files.App.Views.Layouts
 
 			// For scalability, just count the # of public `ColumnViewModel` properties in ColumnsViewModel
 			int totalColumnCount = ColumnsViewModel.GetType().GetProperties().Count(prop => prop.PropertyType == typeof(ColumnViewModel));
+
 			for (int columnIndex = 1; columnIndex <= totalColumnCount; columnIndex++)
 				ResizeColumnToFit(columnIndex);
 		}
@@ -666,10 +681,12 @@ namespace Files.App.Views.Layouts
 
 		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
 		{
-			if (columnIndex == 15) // sync status
+			// Sync status
+			if (columnIndex == 15)
 				return maxItemLength;
 
-			if (columnIndex == 8) // file tag
+			// FileTags
+			if (columnIndex == 8)
 				return MeasureTagColumnEstimate(columnIndex);
 
 			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
@@ -688,17 +705,18 @@ namespace Files.App.Views.Layouts
 				.First()
 				.ToArray();
 
-			var mesuredSize = stackPanels.Select(x =>
+			var measuredSize = stackPanels.Select(x =>
 			{
-				x.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+				x.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
 				return x.DesiredSize.Width;
 			}).Sum();
 
+			// The spacing between the tags
 			if (stackPanels.Length >= 2)
-				mesuredSize += 4 * (stackPanels.Length - 1); // The spacing between the tags
+				measuredSize += 4 * (stackPanels.Length - 1);
 
-			return mesuredSize;
+			return measuredSize;
 		}
 
 		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
@@ -707,8 +725,8 @@ namespace Files.App.Views.Layouts
 				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
 				.Where(tb => IsCorrectColumn(tb, columnIndex));
 
-			// heuristic: usually, text with more letters are wider than shorter text with wider letters
-			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
+			// Heuristic: The text with more letters are usually wider than shorter text with wider letters with this,
+			// we can calculate avg width using longest text(s) to avoid overshooting the width
 			var widthPerLetter = tbs
 				.OrderByDescending(x => x.Text.Length)
 				.Where(tb => !string.IsNullOrEmpty(tb.Text))

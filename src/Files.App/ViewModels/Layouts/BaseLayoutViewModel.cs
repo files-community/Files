@@ -13,7 +13,7 @@ using Windows.System;
 namespace Files.App.ViewModels.Layouts
 {
 	/// <summary>
-	/// Represents ViewModel for <see cref="BaseLayout"/>.
+	/// Represents ViewModel for <see cref="BaseLayoutPage"/>.
 	/// </summary>
 	public class BaseLayoutViewModel : IDisposable
 	{

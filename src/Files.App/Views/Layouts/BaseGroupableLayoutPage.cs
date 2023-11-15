@@ -17,23 +17,35 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents base class for the layouts that can be grouped by.
 	/// </summary>
-	public abstract class BaseGroupableLayout : BaseLayout
+	public abstract class BaseGroupableLayoutPage : BaseLayoutPage
 	{
+		// Constants
+
 		private const int KEY_DOWN_MASK = 0x8000;
 
+		// Fields and properties
+
 		protected int NextRenameIndex = 0;
-
-		protected abstract ListViewBase ListViewBase { get; }
-
 		protected override ItemsControl ItemsControl => ListViewBase;
-
+		protected abstract ListViewBase ListViewBase { get; }
 		protected abstract SemanticZoom RootZoom { get; }
 
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		// Constructor
 
-		public BaseGroupableLayout() : base()
+		public BaseGroupableLayoutPage() : base()
 		{
 		}
+
+		// Abstract methods
+
+		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
+		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
+		protected abstract void EndRename(TextBox textBox);
+
+		// Overridden methods
 
 		protected override void InitializeCommandsViewModel()
 		{
@@ -74,6 +86,8 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
+
+		// Virtual methods
 
 		protected virtual async void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
@@ -145,14 +159,6 @@ namespace Files.App.Views.Layouts
 			StartRenameItem();
 		}
 
-		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
-
-		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
-
-		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
-
-		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
-
 		protected virtual void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -163,8 +169,6 @@ namespace Files.App.Views.Layouts
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 		}
-
-		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
@@ -213,8 +217,6 @@ namespace Files.App.Views.Layouts
 			IsRenamingItem = true;
 		}
 
-		protected abstract void EndRename(TextBox textBox);
-
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
@@ -232,6 +234,8 @@ namespace Files.App.Views.Layouts
 				await CommitRenameAsync(textBox);
 			}
 		}
+
+		// Methods
 
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
@@ -334,12 +338,16 @@ namespace Files.App.Views.Layouts
 			e.Handled = true;
 		}
 
+		// Disposer
+
 		public override void Dispose()
 		{
 			base.Dispose();
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
+
+		// P/Invoke
 
 		[DllImport("User32.dll")]
 		private extern static short GetKeyState(int n);

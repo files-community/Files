@@ -22,59 +22,67 @@ namespace Files.App.Views.Layouts
 	/// <summary>
 	/// Represents single layout for the Columns layout
 	/// </summary>
-	public sealed partial class ColumnLayout : BaseGroupableLayout
+	public sealed partial class ColumnLayoutPage : BaseGroupableLayoutPage
 	{
 		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
-		private readonly DispatcherQueueTimer doubleClickTimer;
+		// Fields
 
-		private ColumnsLayout? columnsOwner;
+		private readonly DispatcherQueueTimer _doubleClickTimer;
+		private ColumnsLayoutPage? _columnsOwner;
+		private ListViewItem? _openedFolderPresenter;
+		private bool _isDraggingSelectionRectangle = false;
 
-		private ListViewItem? openedFolderPresenter;
+		// Events
 
-		// Indicates if the selection rectangle is currently being dragged
-		private bool isDraggingSelectionRectangle = false;
+		public event EventHandler? ItemInvoked;
+		public event EventHandler? ItemTapped;
 
-		public ColumnLayout() : base()
+		// Methods
+
+		public ColumnLayoutPage() : base()
 		{
 			InitializeComponent();
+
+			// Definte selection rectangle
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+
+			// Hook events
 			ItemInvoked += ColumnViewBase_ItemInvoked;
 			GotFocus += ColumnViewBase_GotFocus;
 
-			doubleClickTimer = DispatcherQueue.CreateTimer();
+			// Initialize timer
+			_doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if (FileList.SelectedItem == null && openedFolderPresenter != null)
+			if (FileList.SelectedItem == null && _openedFolderPresenter != null)
 			{
-				openedFolderPresenter.Focus(FocusState.Programmatic);
-				FileList.SelectedItem = FileList.ItemFromContainer(openedFolderPresenter);
+				_openedFolderPresenter.Focus(FocusState.Programmatic);
+				FileList.SelectedItem = FileList.ItemFromContainer(_openedFolderPresenter);
 			}
 		}
 
 		private void ColumnViewBase_ItemInvoked(object? sender, EventArgs e)
 		{
 			ClearOpenedFolderSelectionIndicator();
-			openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
+			_openedFolderPresenter = FileList.ContainerFromItem(FileList.SelectedItem) as ListViewItem;
 		}
 
 		internal void ClearOpenedFolderSelectionIndicator()
 		{
-			if (openedFolderPresenter is null)
+			if (_openedFolderPresenter is null)
 				return;
 
-			openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+			_openedFolderPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+			var presenter = _openedFolderPresenter.FindDescendant<Grid>()!;
 			presenter!.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-			openedFolderPresenter = null;
+			_openedFolderPresenter = null;
 		}
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
@@ -111,19 +119,15 @@ namespace Files.App.Views.Layouts
 			FileList?.SelectedItems.Remove(e);
 		}
 
-		public event EventHandler? ItemInvoked;
-
-		public event EventHandler? ItemTapped;
-
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 			{
-				columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnsLayout>();
+				_columnsOwner = (navArgs.AssociatedTabInstance as FrameworkElement)?.FindAscendant<ColumnsLayoutPage>();
 				var index = (navArgs.AssociatedTabInstance as ColumnShellPage)?.ColumnParams?.Column;
-				navArgs.FocusOnNavigation = index == columnsOwner?.FocusIndex;
+				navArgs.FocusOnNavigation = index == _columnsOwner?.FocusIndex;
 
-				if (index < columnsOwner?.FocusIndex)
+				if (index < _columnsOwner?.FocusIndex)
 					FileList.ContainerContentChanging += HighlightPathDirectory;
 			}
 
@@ -135,12 +139,12 @@ namespace Files.App.Views.Layouts
 
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
+			if (args.Item is ListedItem item && _columnsOwner?.OwnerPath is string ownerPath
 				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
 			{
 				var presenter = args.ItemContainer.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
-				openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
+				_openedFolderPresenter = FileList.ContainerFromItem(item) as ListViewItem;
 				FileList.ContainerContentChanging -= HighlightPathDirectory;
 			}
 		}
@@ -200,12 +204,8 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected override bool CanGetItemFromElement(object element)
-			=> element is ListViewItem;
-
-		public override void Dispose()
 		{
-			base.Dispose();
-			columnsOwner = null;
+			return element is ListViewItem;
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -215,37 +215,51 @@ namespace Files.App.Views.Layouts
 				return;
 
 			if (e.AddedItems.Count > 0)
-				columnsOwner?.HandleSelectionChange(this);
+				_columnsOwner?.HandleSelectionChange(this);
 
-			if (e.RemovedItems.Count > 0 && openedFolderPresenter != null)
+			if (e.RemovedItems.Count > 0 && _openedFolderPresenter != null)
 			{
-				var presenter = openedFolderPresenter.FindDescendant<Grid>()!;
+				var presenter = _openedFolderPresenter.FindDescendant<Grid>()!;
 				presenter!.Background = this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush;
 			}
 
-			if (SelectedItems?.Count == 1 && SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
+			if (SelectedItems?.Count == 1 &&
+				SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder)
 			{
 				// // Prevents the first selected folder from opening if the user is currently dragging the selection rectangle (#13418)
-				if (isDraggingSelectionRectangle)
+				if (_isDraggingSelectionRectangle)
 				{
 					CloseFolder();
 					return;
 				}
 
-				if (openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
+				if (_openedFolderPresenter == FileList.ContainerFromItem(SelectedItem))
 					return;
 
 				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick &&
+					!_isDraggingSelectionRectangle)
+				{
+					ItemInvoked?.Invoke(
+						new ColumnParam()
+						{
+							Source = this,
+							NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath),
+							ListView = FileList
+						},
+						EventArgs.Empty);
+				}
 				else
+				{
 					CloseFolder();
+				}
 			}
-			else if (SelectedItems?.Count > 1
-				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
-				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(openedFolderPresenter))
-				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
+			// Skip closing if dragging since nothing should be open 
+			else if (SelectedItems?.Count > 1 ||
+				SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File ||
+				_openedFolderPresenter != null && ParentShellPageInstance != null &&
+				!ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Contains(FileList.ItemFromContainer(_openedFolderPresenter)) &&
+				!_isDraggingSelectionRectangle)
 			{
 				CloseFolder();
 			}
@@ -254,7 +268,9 @@ namespace Files.App.Views.Layouts
 		private void CloseFolder()
 		{
 			var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-			this.FindAscendant<ColumnsLayout>()?.DismissOtherBlades(currentBladeIndex);
+
+			this.FindAscendant<ColumnsLayoutPage>()?.DismissOtherBlades(currentBladeIndex);
+
 			ClearOpenedFolderSelectionIndicator();
 		}
 
@@ -266,12 +282,9 @@ namespace Files.App.Views.Layouts
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if
-			(
-				ParentShellPageInstance is null ||
+			if (ParentShellPageInstance is null ||
 				IsRenamingItem ||
-				SelectedItems?.Count > 1
-			)
+				SelectedItems?.Count > 1)
 				return;
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -305,12 +318,12 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{
-				// Unfocus the GridView so keyboard shortcut can be handled
+				// Un-focus the GridView so keyboard shortcut can be handled
 				Focus(FocusState.Pointer);
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
 			{
-				// Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
+				// Un-focus the ListView so keyboard shortcut can be handled (alt + shift + "+")
 				Focus(FocusState.Pointer);
 			}
 			else if (e.Key == VirtualKey.Up || e.Key == VirtualKey.Down)
@@ -321,34 +334,39 @@ namespace Files.App.Views.Layouts
 				if (!IsItemSelected)
 				{
 					FileList.SelectedIndex = 0;
+
 					e.Handled = true;
 				}
 			}
-			else if (e.Key == VirtualKey.Left) // Left arrow: select parent folder (previous column)
+			// Left arrow: select parent folder (previous column)
+			else if (e.Key == VirtualKey.Left)
 			{
 				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnsLayout>()?.MoveFocusToPreviousBlade(currentBladeIndex);
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToPreviousBlade(currentBladeIndex);
 				FileList.SelectedItem = null;
 				ClearOpenedFolderSelectionIndicator();
 				e.Handled = true;
 			}
-			else if (e.Key == VirtualKey.Right) // Right arrow: switch focus to next column
+			// Right arrow: switch focus to next column
+			else if (e.Key == VirtualKey.Right)
 			{
 				if (ParentShellPageInstance is not null && ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
 					return;
 
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
-				this.FindAscendant<ColumnsLayout>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+
+				this.FindAscendant<ColumnsLayoutPage>()?.MoveFocusToNextBlade(currentBladeIndex + 1);
+
 				e.Handled = true;
 			}
 		}
 
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			doubleClickTimer.Stop();
+			_doubleClickTimer.Stop();
 
 			var clickedItem = e.OriginalSource as FrameworkElement;
 
@@ -387,7 +405,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (ParentShellPageInstance is UIElement element &&
 				(!ParentShellPageInstance.IsCurrentPane
-				|| columnsOwner is not null && ParentShellPageInstance != columnsOwner.ActiveColumnShellPage))
+				|| _columnsOwner is not null && ParentShellPageInstance != _columnsOwner.ActiveColumnShellPage))
 				element.Focus(FocusState.Programmatic);
 		}
 
@@ -413,6 +431,7 @@ namespace Files.App.Views.Layouts
 			else if (item is not null)
 			{
 				var clickedItem = e.OriginalSource as FrameworkElement;
+
 				if (clickedItem is TextBlock textBlock && textBlock.Name == "ItemName")
 				{
 					CheckRenameDoubleClick(clickedItem.DataContext);
@@ -448,7 +467,7 @@ namespace Files.App.Views.Layouts
 
 		private void CheckDoubleClick(ListedItem item)
 		{
-			doubleClickTimer.Debounce(() =>
+			_doubleClickTimer.Debounce(() =>
 			{
 				ClearOpenedFolderSelectionIndicator();
 
@@ -458,7 +477,7 @@ namespace Files.App.Views.Layouts
 
 				ItemTapped?.Invoke(new ColumnParam { Source = this, NavPathParam = Path.GetDirectoryName(itemPath), ListView = FileList }, EventArgs.Empty);
 
-				doubleClickTimer.Stop();
+				_doubleClickTimer.Stop();
 			},
 			TimeSpan.FromMilliseconds(200));
 		}
@@ -475,8 +494,8 @@ namespace Files.App.Views.Layouts
 
 		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			// Re-assign values to update date display
 			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
 				ToolTipService.SetToolTip(element, item.ItemTooltipText);
 		}
 
@@ -508,11 +527,12 @@ namespace Files.App.Views.Layouts
 
 		protected override void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
-			isDraggingSelectionRectangle = false;
+			_isDraggingSelectionRectangle = false;
+
 			// Open selected folder (if only one folder is selected) after the user finishes dragging the selection rectangle
-			if (SelectedItems?.Count is 1
-				&& SelectedItem is not null
-				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
+			if (SelectedItems?.Count is 1 &&
+				SelectedItem is not null &&
+				SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
 				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 
 			base.SelectionRectangle_SelectionEnded(sender, e);
@@ -520,7 +540,7 @@ namespace Files.App.Views.Layouts
 
 		private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
 		{
-			isDraggingSelectionRectangle = true;
+			_isDraggingSelectionRectangle = true;
 		}
 
 		internal void ClearSelectionIndicator()
@@ -528,6 +548,14 @@ namespace Files.App.Views.Layouts
 			LockPreviewPaneContent = true;
 			FileList.SelectedItem = null;
 			LockPreviewPaneContent = false;
+		}
+
+		// Disposer
+
+		public override void Dispose()
+		{
+			base.Dispose();
+			_columnsOwner = null;
 		}
 	}
 }
