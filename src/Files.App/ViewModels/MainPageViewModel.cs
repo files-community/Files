@@ -144,10 +144,8 @@ namespace Files.App.ViewModels
 					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
 					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 				}
-				else
-				{
+				else if (paneArgs.LeftPaneNavPathParam is not null)
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-				}
 			}
 			else if (navigationArg is string pathArgs)
 			{
