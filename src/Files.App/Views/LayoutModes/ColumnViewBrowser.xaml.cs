@@ -94,7 +94,7 @@ namespace Files.App.Views.LayoutModes
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
-					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
+					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
@@ -284,12 +284,12 @@ namespace Files.App.Views.LayoutModes
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public void NavigateUp()
+		public async void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				(ParentShellPageInstance as ModernShellPage)?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)

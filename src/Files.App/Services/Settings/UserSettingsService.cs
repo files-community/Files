@@ -67,7 +67,7 @@ namespace Files.App.Services.Settings
 
 		public override object ExportSettings()
 		{
-			var export = (Dictionary<string, object>)base.ExportSettings();
+			var export = (IDictionary<string, object>)base.ExportSettings();
 
 			// Remove session settings
 			export.Remove(nameof(GeneralSettingsService.LastSessionTabList));

@@ -241,10 +241,11 @@
 						<Grid
 							x:Name="HeaderGrid"
 							Height="40"
-							Margin="0"
-							Padding="16,0,0,0"
+							Margin="-8,0,-8,0"
+							Padding="24,0,0,0"
 							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 							BorderThickness="0,0,0,1"
+							DoubleTapped="FileListHeader_DoubleTapped"
 							PointerPressed="Grid_PointerPressed">
 
 							<!--  Header Grid MenuFlyout  -->

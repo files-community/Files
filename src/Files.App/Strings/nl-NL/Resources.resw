@@ -175,7 +175,7 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Voer een pad in om naar te navigeren of type "&gt;" om het opdrachtpalet te openen</value>
+    <value>Voer een pad in om naar te navigeren of type "&gt;" om het commandopaneel te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
@@ -1053,6 +1053,15 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Voorbeeld paneel in-/uitschakelen</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Schakel het detailvenster in of uit</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Schakel het details-/voorbeeldvenster in of uit</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Schakelt het details-/voorbeeldvenster in of uit</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
   </data>
@@ -1771,7 +1780,7 @@
     <value>Gebruik Files als Open Bestand Dialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Bestandslabel</value>
+    <value>Label</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Open items met één klik</value>
@@ -2071,7 +2080,7 @@
     <value>Selecteer bestanden en mappen wanneer je over hen beweegt</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Weet u zeker dat u deze bestanden uit de prullenbak wilt herstellen?</value>
+    <value>Weet je zeker dat je alle items uit de prullenbak wilt terugplaatsen?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Alle items herstellen</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes zijn niet beschikbaar voor online bestanden</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritme</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Zet voorvertoningspaneel aan/uit</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Schakel het detailvenster in of uit</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>
@@ -2491,7 +2506,7 @@
     <value>Geselecteerde lettertype(s) installeren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
+    <value>Installeer de driver(s) met behulp van geselecteerde inf bestand(en)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
     <value>Geselecteerde certificaat(en) installeren</value>
@@ -3253,10 +3268,10 @@
     <value>Het '{0}' commando is niet klaar om uitgevoerd te worden.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Opdrachtenpalet</value>
+    <value>Commandopaneel</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Opdrachtenpalet openen</value>
+    <value>Commandopaneel openen</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
@@ -3362,7 +3377,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Verwijderen voltooid</value>
+    <value>Voltooide taken wissen</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Naam:</value>
@@ -3390,11 +3405,11 @@
     <value>Snelheid:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) naar "{1}" geannuleerd</value>
+    <value>Comprimeren van {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) van "{1}" naar "{2}" geannuleerd</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
@@ -3406,15 +3421,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Fout bij het comprimeren van {0} bestand(en) naar "{1}"</value>
+    <value>Fout bij het comprimeren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Comprimeren van {0} bestand(en) van "{1}" naar "{2}" mislukt</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>{0} bestand(en) naar "{1}" comprimeren</value>
+    <value>{0} item(s) naar "{1}" comprimeren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
@@ -3422,27 +3437,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Kopiëren {0} bestand(en) naar "{1}" geannuleerd</value>
+    <value>Kopiëren {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Kopiëren {0} bestand(en) van "{1}" naar "{2}" geannuleerd</value>
+    <value>Kopiëren {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>{0} bestand(en) naar "{1}" gekopieerd</value>
+    <value>{0} item(s) naar "{1}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>{0} bestand(en) van "{1}" naar "{2}" gekopieerd</value>
+    <value>{0} item(s) van "{1}" naar "{2}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Fout bij het kopiëren van {0} bestand(en) naar "{1}"</value>
+    <value>Fout bij het kopiëren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Kopiëren van {0} bestand(en) van "{1}" naar "{2}" mislukt</value>
+    <value>Kopiëren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
@@ -3502,7 +3517,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>{0} bestand(en) worden permanent verwijderd uit "{1}"</value>
+    <value>{0} item(s) worden permanent verwijderd uit "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">

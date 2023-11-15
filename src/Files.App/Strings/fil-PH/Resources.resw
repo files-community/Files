@@ -121,7 +121,7 @@
     <value>Bagong window</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Kopyahin ang pinaglagyan</value>
+    <value>Kopyahin ang daan</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Mag-browse</value>
@@ -133,22 +133,22 @@
     <value>Ginawa:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Pinaglagyan</value>
+    <value>Daan</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Sukat:</value>
+    <value>Laki:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
     <value>Laki sa disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Di naka-compress na laki:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Hindi maaaring magawa ang aksyon na ito</value>
+    <value>Hindi magagawa ito</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Ang paroroonang folder</value>
+    <value>Paroroonang folder</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ay nasa loob ng pinang-galingang folder</value>
@@ -1052,6 +1052,15 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Pindutin ang preview pane</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the details/preview pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggles the details/preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Walang available na preview</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>May naganap na pagkakamali habang kina-kalkula</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmo</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Pindutin maalin kung ipakita ang preview pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Pindutin maalin kung ipakita ang sidebar</value>

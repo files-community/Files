@@ -187,7 +187,9 @@ namespace Files.App.ViewModels
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null && navigationArg == tabItem.NavigationParameter.NavigationParameter)
+			if (result.Item1 is not null && 
+				(navigationArg is PaneNavigationArguments && navigationArg as PaneNavigationArguments == tabItem.NavigationParameter.NavigationParameter as PaneNavigationArguments
+				|| navigationArg is string && navigationArg as string == tabItem.NavigationParameter.NavigationParameter as string))
 				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
 		}
 
@@ -233,7 +235,7 @@ namespace Files.App.ViewModels
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
-			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
 				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
@@ -241,7 +243,7 @@ namespace Files.App.ViewModels
 			else
 			{
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;
