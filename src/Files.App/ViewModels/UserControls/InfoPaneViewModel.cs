@@ -11,7 +11,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class PreviewPaneViewModel : ObservableObject, IDisposable
+	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private readonly IPreviewPaneSettingsService previewSettingsService;
 
@@ -90,7 +90,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public ObservableCollection<TagsListItem> Items { get; } = new();
 
-		public PreviewPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
+		public InfoPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
 		{
 			previewSettingsService = previewSettings;
 

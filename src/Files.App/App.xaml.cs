@@ -137,7 +137,7 @@ namespace Files.App
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<MainPageViewModel>()
-					.AddSingleton<PreviewPaneViewModel>()
+					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()

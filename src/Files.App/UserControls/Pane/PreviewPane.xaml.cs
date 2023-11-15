@@ -22,7 +22,7 @@ namespace Files.App.UserControls
 
 		private readonly ICommandManager Commands;
 
-		public PreviewPaneViewModel ViewModel { get; private set; }
+		public InfoPaneViewModel ViewModel { get; private set; }
 
 		private ObservableContext Context { get; } = new();
 
@@ -31,7 +31,7 @@ namespace Files.App.UserControls
 			InitializeComponent();
 			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			ViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		}
 
 		public void UpdatePosition(double panelWidth, double panelHeight)
