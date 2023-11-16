@@ -22,7 +22,7 @@ jobs:
 
       - name: Login to gh cli and git
         run: |
-          gh auth login --with-token ${{ steps.generate.outputs.token }}
+          "GH_TOKEN=${{ steps.generate.outputs.token }}" | Out-File -FilePath $env:GITHUB_ENV -Append
           $data = gh api graphql -f query='query {
             viewer {
               login
