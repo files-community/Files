@@ -9,6 +9,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -21,17 +22,16 @@
 				ParentItems="{StaticResource ParentItems}" />
 
 			<!--  Current Item Style  -->
-			<DataTemplate x:Name="CurrentItem" x:DataType="dataitem:PathBoxItem">
+			<DataTemplate x:Name="CurrentItem" x:DataType="dataitem:PathBreadcrumbItem">
 				<StackPanel
 					x:Name="ListViewItemContentGrid"
 					AllowDrop="True"
-					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 					Background="Transparent"
-					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragLeave="PathBreadcrumbItem_DragLeave"
+					DragOver="PathBreadcrumbItem_DragOver"
+					Drop="PathBreadcrumbItem_Drop"
 					Orientation="Horizontal"
-					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
 					<i:Interaction.Behaviors>
 						<core:EventTriggerBehavior EventName="PointerEntered">
@@ -44,35 +44,36 @@
 
 					<!--  Header  -->
 					<TextBlock
+						Margin="0,0,4,0"
 						FontSize="12"
-						FontWeight="Medium"
-						Text="{x:Bind Title, Mode=OneWay}" />
+						Style="{StaticResource BodyStrongTextBlockStyle}"
+						Text="{x:Bind Name, Mode=OneWay}" />
 
 				</StackPanel>
 			</DataTemplate>
 
 			<!--  Parent Item Style  -->
-			<DataTemplate x:Name="ParentItems" x:DataType="dataitem:PathBoxItem">
+			<DataTemplate x:Name="ParentItems" x:DataType="dataitem:PathBreadcrumbItem">
 				<StackPanel
 					x:Name="ListViewItemContentGrid"
 					VerticalAlignment="Center"
 					AllowDrop="True"
-					AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
 					Background="Transparent"
-					DragLeave="PathBoxItem_DragLeave"
-					DragOver="PathBoxItem_DragOver"
-					Drop="PathBoxItem_Drop"
+					DragLeave="PathBreadcrumbItem_DragLeave"
+					DragOver="PathBreadcrumbItem_DragOver"
+					Drop="PathBreadcrumbItem_Drop"
 					Orientation="Horizontal"
 					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
 
 					<!--  Header  -->
 					<TextBlock
-						Padding="0,4"
+						Margin="0,4"
 						FontSize="12"
-						PointerPressed="PathBoxItem_PointerPressed"
-						Tapped="PathBoxItem_Tapped"
-						Text="{x:Bind Title, Mode=OneWay}">
+						PointerPressed="PathBreadcrumbItem_PointerPressed"
+						Tapped="PathBreadcrumbItem_Tapped"
+						Text="{x:Bind Name, Mode=OneWay}">
 						<i:Interaction.Behaviors>
 							<core:EventTriggerBehavior EventName="PointerEntered">
 								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
@@ -86,10 +87,10 @@
 					<!--  Chevron  -->
 					<FontIcon
 						x:Name="PathSeaparatorIcon"
-						DataContextChanged="PathItemSeparator_DataContextChanged"
+						DataContextChanged="PathBreadcrumbItemChevron_DataContextChanged"
 						FontSize="12"
 						Glyph="&#xE76C;"
-						Loaded="PathItemSeparator_Loaded">
+						Loaded="PathBreadcrumbItemChevron_Loaded">
 						<i:Interaction.Behaviors>
 							<core:EventTriggerBehavior EventName="PointerEntered">
 								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
@@ -102,7 +103,7 @@
 						<!--  Child Items  -->
 						<FontIcon.ContextFlyout>
 							<MenuFlyout
-								Opened="PathBoxItemFlyout_Opened"
+								Opened="PathBreadcrumbItemFlyout_Opened"
 								Placement="BottomEdgeAlignedLeft"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ScrollViewer.VerticalScrollMode="Auto">
@@ -133,7 +134,7 @@
 		CornerRadius="{StaticResource ControlCornerRadius}"
 		IsItemClickEnabled="True"
 		ItemTemplateSelector="{StaticResource PathBreadcrumbItemSelector}"
-		ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+		ItemsSource="{x:Bind ViewModel.PathBreadcrumbItems, Mode=OneWay}"
 		ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 		ScrollViewer.HorizontalScrollMode="Enabled"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"

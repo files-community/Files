@@ -49,7 +49,11 @@ namespace Files.App.Views.Shells
 
 		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public ToolbarViewModel ToolbarViewModel { get; } = new ToolbarViewModel();
+		public PathBreadcrumbViewModel PathBreadcrumbViewModel { get; } = Ioc.Default.GetRequiredService<PathBreadcrumbViewModel>();
+
+		public AddressToolbarViewModel ToolbarViewModel { get; } = Ioc.Default.GetRequiredService<AddressToolbarViewModel>();
+
+		private MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 		public IBaseLayout SlimContentPage => ContentPage;
 
@@ -179,22 +183,20 @@ namespace Files.App.Views.Shells
 
 			ToolbarViewModel.InstanceViewModel = InstanceViewModel;
 
-			InitToolbarCommands();
-
 			DisplayFilesystemConsentDialogAsync();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
 
-			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpened;
-			ToolbarViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
+			PathBreadcrumbViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
+			PathBreadcrumbViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpened;
+			PathBreadcrumbViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
-			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
+			PathBreadcrumbViewModel.PathBreadcrumbItemDropped += ShellPage_PathBreadcrumbItemDropped;
 
 			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
-			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
+			PathBreadcrumbViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
 			ToolbarViewModel.SearchBox.TextChanged += ShellPage_TextChanged;
 			ToolbarViewModel.SearchBox.QuerySubmitted += ShellPage_QuerySubmitted;
@@ -395,7 +397,7 @@ namespace Files.App.Views.Shells
 				Forward_Click();
 		}
 
-		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
+		protected async void ShellPage_PathBreadcrumbItemDropped(object sender, PathBreadcrumbItemDroppedEventArgs e)
 		{
 			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
 			e.SignalEvent?.Set();
@@ -408,17 +410,17 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+			await PathBreadcrumbViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
 		}
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			await PathBreadcrumbViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBreadcrumbItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
 		{
-			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, ToolbarViewModel.PathComponents.LastOrDefault()?.Path, this);
+			await ToolbarViewModel.CheckPathInputAsync(e.QueryText, PathBreadcrumbViewModel.PathBreadcrumbItems.LastOrDefault()?.Path, this);
 		}
 
 		protected void NavigationToolbar_EditModeEnabled(object sender, EventArgs e)
@@ -444,22 +446,22 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				var components = StorageFileExtensions.GetDirectoryPathComponents(newWorkingDir);
-				var lastCommonItemIndex = ToolbarViewModel.PathComponents
+				var lastCommonItemIndex = PathBreadcrumbViewModel.PathBreadcrumbItems
 					.Select((value, index) => new { value, index })
 					.LastOrDefault(x => x.index < components.Count && x.value.Path == components[x.index].Path)?.index ?? 0;
 
-				while (ToolbarViewModel.PathComponents.Count > lastCommonItemIndex)
-					ToolbarViewModel.PathComponents.RemoveAt(lastCommonItemIndex);
+				while (PathBreadcrumbViewModel.PathBreadcrumbItems.Count > lastCommonItemIndex)
+					PathBreadcrumbViewModel.PathBreadcrumbItems.RemoveAt(lastCommonItemIndex);
 
 				foreach (var component in components.Skip(lastCommonItemIndex))
-					ToolbarViewModel.PathComponents.Add(component);
+					PathBreadcrumbViewModel.PathBreadcrumbItems.Add(component);
 			}
 			else
 			{
 				// Clear the path UI
-				ToolbarViewModel.PathComponents.Clear();
-				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
+				PathBreadcrumbViewModel.PathBreadcrumbItems.Clear();
+				PathBreadcrumbViewModel.IsSingleItemOverride = true;
+				PathBreadcrumbViewModel.PathBreadcrumbItems.Add(new PathBreadcrumbItem() { Path = null, Name = singleItemOverride });
 			}
 		}
 
@@ -674,13 +676,6 @@ namespace Files.App.Views.Shells
 		{
 		}
 
-		protected void InitToolbarCommands()
-		{
-			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
-			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
-		}
-
 		protected async Task<BaseLayout> GetContentOrNullAsync()
 		{
 			// WINUI3: Make sure not to run this synchronously, do not use EnqueueAsync
@@ -714,7 +709,7 @@ namespace Files.App.Views.Shells
 
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
 		{
-			var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+			var multitaskingControls = MainPageViewModel.MultitaskingControls;
 
 			foreach (var x in multitaskingControls)
 				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);
@@ -765,14 +760,14 @@ namespace Files.App.Views.Shells
 			PointerPressed -= CoreWindow_PointerPressed;
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
-			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
-			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
+			PathBreadcrumbViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
+			PathBreadcrumbViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
+			PathBreadcrumbViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
-			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
+			PathBreadcrumbViewModel.PathBreadcrumbItemDropped -= ShellPage_PathBreadcrumbItemDropped;
 			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
-			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
+			PathBreadcrumbViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
 			ToolbarViewModel.SearchBox.TextChanged -= ShellPage_TextChanged;
 
