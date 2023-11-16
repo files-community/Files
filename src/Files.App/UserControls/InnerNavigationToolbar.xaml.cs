@@ -37,16 +37,6 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty ViewModelProperty =
 			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
-		public bool ShowViewControlButton
-		{
-			get { return (bool)GetValue(ShowViewControlButtonProperty); }
-			set { SetValue(ShowViewControlButtonProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ShowViewControlButton.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowViewControlButtonProperty =
-			DependencyProperty.Register("ShowViewControlButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
 		public bool ShowPreviewPaneButton
 		{
 			get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
