@@ -135,30 +135,33 @@ namespace Files.App.ViewModels
 
 		public async Task UpdateInstancePropertiesAsync(object navigationArg)
 		{
-			string windowTitle = string.Empty;
-			if (navigationArg is PaneNavigationArguments paneArgs)
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+				string windowTitle = string.Empty;
+				if (navigationArg is PaneNavigationArguments paneArgs)
 				{
-					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+					if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+					{
+						var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+						var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+					}
+					else
+					{
+						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					}
 				}
-				else
+				else if (navigationArg is string pathArgs)
 				{
-					(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
 				}
-			}
-			else if (navigationArg is string pathArgs)
-			{
-				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
-			}
 
-			if (AppInstances.Count > 1)
-				windowTitle = $"{windowTitle} ({AppInstances.Count})";
+				if (AppInstances.Count > 1)
+					windowTitle = $"{windowTitle} ({AppInstances.Count})";
 
-			if (navigationArg == SelectedTabItem?.NavigationParameter?.NavigationParameter)
-				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+				if (navigationArg == SelectedTabItem?.NavigationParameter?.NavigationParameter)
+					MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+			});
 		}
 
 		public async Task UpdateTabInfoAsync(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
