@@ -121,7 +121,7 @@
     <value>Nytt vindu</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopier filbanen</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bla gjennom</value>
@@ -136,13 +136,13 @@
     <value>Sti</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Size:</value>
+    <value>Størrelse:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Størrelse på disk:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Ukomprimert størrelse:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Denne handlingen kan ikke utføres</value>
@@ -157,13 +157,13 @@
     <value>Hopp over</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
+    <value>Velg alle</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Inverter utvalg</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Fjern Utvalg</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Endret:</value>
@@ -175,10 +175,10 @@
     <value>Fjern alle elementer</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Angi en bane å navigere til eller skriv "&gt;" for å åpne kommandopaletten</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Search</value>
+    <value>Søk</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Filer du tidligere har åpnet vil vises her</value>
@@ -193,7 +193,7 @@
     <value>Om</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Åpen kildekode</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datoformat</value>
@@ -277,7 +277,7 @@
     <value>Velkommen til Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Gi tilgang</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>For å komme i gang, trenger vi din tillatelse til å vise filene dine. Dette vil åpne en side med innstillinger der du kan gi oss denne tillatelsen. Etter du har fullført dette steget, må du starte appen på nytt.</value>
@@ -289,7 +289,7 @@
     <value>Angi et navn</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Angi navn</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Lyst</value>
@@ -304,10 +304,10 @@
     <value>systemet</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Ny mappe</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Ny fil</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Denne mappen er tom.</value>
@@ -343,7 +343,7 @@
     <value>Koble til nødvendig enhet for å få tilgang til dette elementet.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Disk frakoblet</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Filen du forsøker å få tilgang til kan ha blitt flyttet eller slettet.</value>
@@ -367,7 +367,7 @@
     <value>Filen er i bruk</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>Oppsett</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Skrivebeskyttet</value>
@@ -394,10 +394,10 @@
     <value>{0} sekunder siden</value>
   </data>
   <data name="OneSecondAgo" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>1 sekund siden</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Nå</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Den ønskede handlingen er ikke støttet</value>
@@ -412,7 +412,7 @@
     <value>Elementets navn kan ikke inneholde følgende tegn: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Elementnavnet som er angitt er ugyldig</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>valgt element</value>
@@ -472,7 +472,7 @@
     <value>Forskjellige typer</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Alle i {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Brukt plass:</value>
@@ -613,7 +613,7 @@
     <value>Avbryt</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Opprett nytt element</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Velg en type for det nye elementet nedenfor</value>
@@ -640,10 +640,10 @@
     <value>Språk</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Flytt skallutvidelser til en undermeny</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Show confirmation dialog when deleting items</value>
+    <value>Vis bekreftelsesdialog når du sletter elementer</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Noen egenskaper kunne ikke lagres.</value>
@@ -919,7 +919,7 @@
     <value>Adresse</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>Selection options</value>
+    <value>Valgmuligheter</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
     <value>Velg</value>
@@ -970,7 +970,7 @@
     <value>Sjekk status for filoperasjoner her</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statussenter</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Søkeresultater i {1} for {0}</value>
@@ -991,7 +991,7 @@
     <value>Inkluder uindekserte elementer i søkeresultater</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sync layout and sorting preferences across directories</value>
+    <value>Synkroniser oppsett og sortering preferanser på tvers av kataloger</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Tilpass høyreklikk-kontekstmenyen</value>
@@ -1012,7 +1012,7 @@
     <value>Åpne faner i topanel-modus</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Vis alternativ for å åpne mapper i et nytt panel</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nytt panel</value>
@@ -1054,13 +1054,16 @@
     <value>Vis/skjul forhåndsvisningspanel</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Skru av/på detaljruten</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Velg detaljruten for å vise grunnleggende filegenskaper</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>Vis/Skjul info-ruten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>Velg informasjonspanelet for å se detalj i forhåndsvisningsruten</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Forhåndsvisning ikke tilgjengelig</value>
@@ -1216,7 +1219,7 @@
     <value>Et bibliotek med samme navn eksisterer fra før!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Open Storage Sense</value>
+    <value>Åpne Storage Sense</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopier</value>
@@ -1273,10 +1276,10 @@
     <value>Fant du ikke det du letet etter?</value>
   </data>
   <data name="SearchUnindexedItemsButton.Content" xml:space="preserve">
-    <value>Search unindexed items</value>
+    <value>Søk i uindekserte elementer</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>Replace existing</value>
+    <value>Erstatt eksisterende</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generer nytt navn</value>
@@ -1288,7 +1291,7 @@
     <value>Det er konflikt med ett filnavn.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Opprett mappe med merkede elementer</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type:</value>
@@ -1315,7 +1318,7 @@
     <value>Dato slettet-kolonne</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sorter</value>
   </data>
   <data name="NavToolbarGroupByRadioButtons.Text" xml:space="preserve">
     <value>Grupper etter</value>
@@ -1324,7 +1327,7 @@
     <value>Dato endret</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Opprinnelig mappe</value>
   </data>
   <data name="NavToolbarSortByRadioButtons.Text" xml:space="preserve">
     <value>Sorter etter</value>
@@ -1351,7 +1354,7 @@
     <value>Veldig liten</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Fremtid</value>
   </data>
   <data name="Today" xml:space="preserve">
     <value>I dag</value>
@@ -1366,19 +1369,19 @@
     <value>Forrige uke</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Earlier this month</value>
+    <value>Tidligere denne måneden</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Forrige måned</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>Earlier this year</value>
+    <value>Tidligere i år</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>Last year</value>
+    <value>I fjor</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>Year {0}</value>
+    <value>År {0}</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} element</value>
@@ -1390,22 +1393,22 @@
     <value>Åpne lukket fane igjen</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Gi nytt navn</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Personvern</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Papirkurven</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Avbryter</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Tøm</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgeter</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Synkroniseringsstatus</value>
@@ -1420,7 +1423,7 @@
     <value>Tillat</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Deny</value>
+    <value>Avvis</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Full kontroll</value>
@@ -1429,7 +1432,7 @@
     <value>List opp innhold i mappe</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Rediger</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
     <value>Permissions for {0}</value>
@@ -1753,7 +1756,7 @@
     <value>Open folders in new tab</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Statussenter</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Dato opprettet-kolonne</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Tilbakestill</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Åpne nytt vindu når mapper åpnes fra jumplist-menyen på oppgavelinjen</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Innstillinger for oppstart</value>
@@ -2404,10 +2407,7 @@
     <value>Velg om filendelser skal vises</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Velg om forhåndsvisningsruten skal vises</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Velg om du vil vise sidepanelet</value>
@@ -2866,7 +2866,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>Search</value>
+    <value>Søk</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

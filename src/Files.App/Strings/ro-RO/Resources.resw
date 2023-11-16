@@ -874,7 +874,7 @@
     <value>Cadre pe secundă</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Encoding Bitrate</value>
+    <value>Codare Bitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresie</value>
@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Afișați sau ascundeți panoul de detalii</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Comută panoul de detalii pentru a vizualiza proprietățile de bază ale fișierelor</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Afișați sau ascundeți panoul de detalii/previzualizare</value>
+    <value>Comută panoul de informații</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Afișează sau ascunde panoul de detalii/previzualizare</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restabiliți valorile implicite</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Deschideți o nouă instanță la deschiderea de directoare din lista jumplist de pe bara de activități</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Setări pornire</value>
@@ -2032,7 +2035,7 @@
     <value>Comportamente</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+    <value>Lăsați o recenzie pentru Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
     <value>Doriți să revizuiți Files?</value>
@@ -2197,40 +2200,40 @@
     <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, dosare, computere sau adrese de internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>Enter the location of the item:</value>
+    <value>Introduceți locația elementului:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Creați o comandă rapidă</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Recently used files is currently disabled in Windows File Explorer.</value>
+    <value>Fișierele utilizate recent sunt dezactivate în Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Editați fișierul de setări</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>What's new</value>
+    <value>Ce e nou</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>Creating a shortcut in this location requires administrator privileges</value>
+    <value>Crearea unei comenzi rapide în această locație necesită privilegii de administrator</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>Would you like to create the shortcut on the desktop instead?</value>
+    <value>Doriți în schimb să creați o comandă rapidă pe desktop?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>The specified item name is invalid</value>
+    <value>Numele elementului specificat nu este valid</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Setări</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double click on a blank space to go up one directory</value>
+    <value>Dublu-clic pe un spațiu gol pentru a urca un director</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>View more</value>
+    <value>Vedeți mai mult</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Afișează editarea etichetelor</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>Arată meniul Trimitere La</value>
@@ -2248,13 +2251,13 @@
     <value>Introduceți acreditările pentru a vă conecta la: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>Introduceți acreditările rețelei</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Memorează-mi acreditările</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>Network folder error</value>
+    <value>Eroare la dosarul rețelei</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>Versiune aplicație</value>
@@ -2317,10 +2320,10 @@
     <value>Aplică această acțiune tuturor elementelor contradictorii</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>Deschideți în Terminal Windows</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>Deschideți în Terminal Windows ca administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salvare</value>
@@ -2338,7 +2341,7 @@
     <value>A apărut o eroare in timpul calculului</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Hash-urile nu sunt disponibile pentru fișierele online</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritm</value>
@@ -2404,10 +2407,7 @@
     <value>Comută dacă se afișează extensiile fișierelor</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Comută dacă se afișează panoul de previzualizare</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Afișați sau ascundeți panoul de detalii</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Comută dacă se afișează bara laterală</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>
