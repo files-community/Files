@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class InvertSelectionAction : IAction
+	internal class InvertSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -41,6 +41,8 @@ namespace Files.App.Actions
 		public InvertSelectionAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync()
@@ -48,6 +50,18 @@ namespace Files.App.Actions
 			context?.ShellPage?.SlimContentPage?.ItemManipulationModel?.InvertSelection();
 
 			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+				case nameof(IContentPageContext.HasItem):
+				case nameof(IContentPageContext.ShellPage):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
