@@ -43,9 +43,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool AlwaysOpenNewInstance
+		public bool OpenTabInExistingInstance
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
@@ -241,7 +241,7 @@ namespace Files.App.Services.Settings
 				case nameof(OpenSpecificPageOnStartup):
 				case nameof(ContinueLastSessionOnStartUp):
 				case nameof(OpenNewTabOnStartup):
-				case nameof(AlwaysOpenNewInstance):
+				case nameof(OpenTabInExistingInstance):
 				case nameof(AlwaysOpenDualPaneInNewTab):
 				case nameof(ShowQuickAccessWidget):
 				case nameof(ShowRecentFilesWidget):

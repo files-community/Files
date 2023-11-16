@@ -326,7 +326,7 @@ namespace Files.App.Views.Shells
 			{
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
-					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -366,9 +366,9 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
+		protected async void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
-			Refresh_Click();
+			await Refresh_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -403,9 +403,9 @@ namespace Files.App.Views.Shells
 			e.SignalEvent?.Set();
 		}
 
-		protected void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
+		protected async void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
 		{
-			ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
+			await ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
 		}
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
@@ -432,10 +432,10 @@ namespace Files.App.Views.Shells
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-		protected void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
-				DisplayFilesystemConsentDialogAsync();
+				await DisplayFilesystemConsentDialogAsync();
 		}
 
 		// Ensure that the path bar gets updated for user interaction

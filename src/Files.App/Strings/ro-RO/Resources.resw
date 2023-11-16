@@ -142,7 +142,7 @@
     <value>Dimensiune pe disc:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Mărime necomprimată:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Această acțiune nu poate fi efectuată</value>
@@ -160,10 +160,10 @@
     <value>Selectaţi tot</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Inversare selecție</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Deselectare totală</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificat în:</value>
@@ -277,7 +277,7 @@
     <value>Bun venit la Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Acordați permisiunea</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Pentru a începe, va trebui să ne acordați permisiunea de a vă afișa fișierele. Asta va deschide o pagină de setări unde ne puteți acorda aceasta permisiune. Va trebui sa redeschideți aplicația pentru a completa acest pas. </value>
@@ -289,7 +289,7 @@
     <value>Introduceți un nume</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Setați numele</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Luminos</value>
@@ -304,10 +304,10 @@
     <value>Sistem</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Folder nou</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Fișier nou</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Acest folder este gol.</value>
@@ -343,7 +343,7 @@
     <value>Introduceți unitatea necesară pentru a accesa acest element.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Unitate deconectată</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Fișierul pe care încercați să-l accesați a fost mutat sau șters.</value>
@@ -613,7 +613,7 @@
     <value>Anulare</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Creați un element nou</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Alege un tip pentru acest fișier nou mai jos</value>
@@ -970,7 +970,7 @@
     <value>Verificați starea operațiunilor cu fișiere aici</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Centru de stare</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Rezultatele căutării în {1} pentru {0}</value>
@@ -1052,6 +1052,15 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Afișați sau ascundeți panoul de previzualizare</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Afișați sau ascundeți panoul de detalii</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Afișați sau ascundeți panoul de detalii/previzualizare</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Afișează sau ascunde panoul de detalii/previzualizare</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -1390,7 +1399,7 @@
     <value>Coșul de reciclare</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Se anulează</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Gol</value>
@@ -1450,7 +1459,7 @@
     <value>Proprietar necunoscut</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extract archive</value>
+    <value>Extrage Arhiva</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>Deschideți folderul de destinație când se finalizează</value>
@@ -1687,7 +1696,7 @@
     <value>Parte din set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open drive</value>
+    <value>Deschidere unitate</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Introduceți un disc în unitatea {0}</value>
@@ -1699,7 +1708,7 @@
     <value>OK</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential required</value>
+    <value>Acreditări necesare</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Anonim</value>
@@ -1711,10 +1720,10 @@
     <value>Nume de utilizator</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives widget</value>
+    <value>Widget unități</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files widget</value>
+    <value>Widget fișiere recente</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Niciun element găsit</value>
@@ -1729,13 +1738,13 @@
     <value>Coloane</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Pictograme mari</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium icons</value>
+    <value>Pictograme medii</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Pictograme mici</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Dale</value>
@@ -1744,7 +1753,7 @@
     <value>Deschide foldere în filă nouă</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Centru de stare</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Coloană dată de creare</value>
@@ -1780,10 +1789,10 @@
     <value>Cale folder</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Exportare setări</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Importare setări</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Nu s-au putut importa setările. Fișierul de setări este corupt.</value>
@@ -1897,7 +1906,7 @@
     <value>Fişiere recente</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>Deschideți Files la pornirea Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atribute</value>
@@ -1918,7 +1927,7 @@
     <value>Tip</value>
   </data>
   <data name="IconGrid" xml:space="preserve">
-    <value>Icon grid</value>
+    <value>Grilă pictograme</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Octeți</value>
@@ -2005,7 +2014,7 @@
     <value>Setează ca diapozitiv pe desktop</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>Poziționează toate coloanele să încapă</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Automatically choose the best layout</value>
@@ -2065,85 +2074,85 @@
     <value>Deschidere elemente</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Comprimare</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Selectați fișiere și foldere când treceți cu mouse-ul peste ele</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Are you sure you want to restore all items in the recycle bin?</value>
+    <value>Sunteți sigur că vreți să restaurați toate elementele din coșul de reciclare?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>Restore all items</value>
+    <value>Restaurați toate elementele</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0} selected item(s)?</value>
+    <value>Doriți să restaurați cele {0} elemente selectate?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>Restore selection</value>
+    <value>Restaurare selecție</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>Restore All Items</value>
+    <value>Restaurați toate elementele</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Restaurare</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>Shortcut cannot be opened</value>
+    <value>Comanda rapidă nu poate fi deschisă</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
-    <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
+    <value>Destinația țintă nu poate fi găsită {0}. Doriți să ștergeți această comandă rapidă?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>You don't have permission to access this folder.</value>
+    <value>Nu aveți permisiunea de a accesa acest folder.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Archive password</value>
+    <value>Parolă arhivă</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Cale</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Sorting and grouping</value>
+    <value>Sortare și grupare</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>Create archive</value>
+    <value>Creare arhivă</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Creare</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>Create {0}</value>
+    <value>Creare {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Introduceți un nume</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>Compression level</value>
+    <value>Nivel de comprimare</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
     <value>Ultra</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>High</value>
+    <value>Ridicat</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
     <value>Normal</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>Low</value>
+    <value>Scăzută</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>Fast</value>
+    <value>Rapidă</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
     <value>Niciuna</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>Splitting size</value>
+    <value>Dimensiune împărțită</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Nu despărți</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2167,7 +2176,7 @@
     <value>Format</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Sync status column</value>
+    <value>Sincronizați coloana de status</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Grupaţi după</value>
@@ -2176,16 +2185,16 @@
     <value>Sortați după</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>Group in descending order</value>
+    <value>Grupare în ordine descrescătoare</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Sortare în ordine descrescătoare</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>Create a new shortcut</value>
+    <value>Creați o comandă rapidă nouă</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
+    <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, dosare, computere sau adrese de internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Enter the location of the item:</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>A apărut o eroare in timpul calculului</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritm</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Comută dacă se afișează panoul de previzualizare</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Afișați sau ascundeți panoul de detalii</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Comută dacă se afișează bara laterală</value>
@@ -2461,7 +2476,7 @@
     <value>Clear item selection</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Comută selecția elementelor</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Share selected file(s) with others</value>
@@ -2602,7 +2617,7 @@
     <value>Sort items in descending order</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Comutare direcție sortare</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
     <value>Listează și sortează directoarele alături de fișiere</value>
@@ -2647,7 +2662,7 @@
     <value>Sort groups in descending order</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Toggle group sort direction</value>
+    <value>Comutare direcție sortare grup</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Open new tab</value>
@@ -2704,7 +2719,7 @@
     <value>Close right pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Toggle the sidebar</value>
+    <value>Comutare bară laterală</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2894,7 +2909,7 @@
     <value>Change</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>Comutare selecție</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Show warning when changing file extensions</value>
@@ -2987,10 +3002,10 @@
     <value>Month</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Toggle unit for grouping by date</value>
+    <value>Comută unitatea pentru grupare după dată</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Toggle grouping unit</value>
+    <value>Comutare unitate de grupare</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>An</value>

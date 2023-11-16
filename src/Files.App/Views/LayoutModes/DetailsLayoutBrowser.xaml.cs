@@ -404,7 +404,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
@@ -412,7 +412,7 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIconsAsync();
+				await ReloadItemIconsAsync();
 			}
 		}
 
@@ -901,6 +901,12 @@ namespace Files.App.Views.LayoutModes
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
 			if (args.NewFocusedElement == FileList)
 				args.TryCancel();
+		}
+
+		private void FileListHeader_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Fixes an issue where double clicking the column header would navigate back as if clicking on empty space
+			e.Handled = true;
 		}
 
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)

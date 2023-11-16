@@ -19,7 +19,7 @@ namespace Files.Core.Services.Settings
 
 		IApplicationSettingsService ApplicationSettingsService { get; }
 
-		IPreviewPaneSettingsService PreviewPaneSettingsService { get; }
+		IInfoPaneSettingsService InfoPaneSettingsService { get; }
 
 		ILayoutSettingsService LayoutSettingsService { get; }
 

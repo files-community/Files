@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
 using Vanara.PInvoke;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Utils.RecycleBin
@@ -25,7 +26,7 @@ namespace Files.App.Utils.RecycleBin
 		{
 			return (ulong)Win32Shell.QueryRecycleBin().BinSize;
 		}
-		
+
 		public static async Task<bool> IsRecycleBinItem(IStorageItem item)
 		{
 			List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
@@ -55,6 +56,9 @@ namespace Files.App.Utils.RecycleBin
 				DefaultButton = ContentDialogButton.Primary
 			};
 
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				ConfirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 			// If the operation is approved by the user
 			if (userSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never ||
 				await ConfirmEmptyBinDialog.TryShowAsync() == ContentDialogResult.Primary)
@@ -75,7 +79,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreRecycleBinAsync()
 		{
-			var ConfirmEmptyBinDialog = new ContentDialog()
+			var confirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmRestoreBinDialogTitle".GetLocalizedResource(),
 				Content = "ConfirmRestoreBinDialogContent".GetLocalizedResource(),
@@ -84,11 +88,30 @@ namespace Files.App.Utils.RecycleBin
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				confirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			ContentDialogResult result = await confirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
-				Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				try
+				{
+					Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				}
+				catch (Exception)
+				{
+					var errorDialog = new ContentDialog()
+					{
+						Title = "FailedToRestore".GetLocalizedResource(),
+						PrimaryButtonText = "OK".GetLocalizedResource(),
+					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await errorDialog.TryShowAsync();
+				}
 			}
 		}
 
@@ -102,6 +125,9 @@ namespace Files.App.Utils.RecycleBin
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				ConfirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
 

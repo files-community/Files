@@ -4,6 +4,7 @@
 using Files.Core.Storage;
 using Files.Core.Storage.Extensions;
 using Files.Shared.Helpers;
+using Files.Shared.Utils;
 
 namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 {
@@ -15,8 +16,8 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 		// This workaround must be kept until further refactor of navigation code is completed
 		private readonly Func<string, Task> _openAction;
 
-		private IImageModel? _Icon;
-		public IImageModel? Icon
+		private IImage? _Icon;
+		public IImage? Icon
 		{
 			get => _Icon;
 			set => SetProperty(ref _Icon, value);
@@ -36,7 +37,7 @@ namespace Files.Core.ViewModels.Widgets.FileTagsWidget
 			set => SetProperty(ref _Path, value);
 		}
 
-		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImageModel? icon)
+		public FileTagsItemViewModel(IStorable associatedStorable, Func<string, Task> openAction, IImage? icon)
 		{
 			_associatedStorable = associatedStorable;
 			_openAction = openAction;
