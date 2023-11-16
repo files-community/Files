@@ -70,7 +70,7 @@ jobs:
         run: |
           # this is all to get the right repo and branch to push to 
 
-          $repo = ${{ github.repository }} -split '/'
+          $repo = '${{ github.repository }}' -split '/'
           $owner = $repo[0]
           $name = $repo[1]
           $number = ${{ github.event.issue.number }}
