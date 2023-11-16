@@ -35,9 +35,9 @@ namespace Files.Core.Services.Settings
 		bool OpenNewTabOnStartup { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
+		/// Gets or sets a value indicating whether or not opening Files from another app should open a tab in the existing instance.
 		/// </summary>
-		bool AlwaysOpenNewInstance { get; set; }
+		bool OpenTabInExistingInstance { get; set; }
 
 		/// <summary>
 		/// A list containing all paths to open at startup.

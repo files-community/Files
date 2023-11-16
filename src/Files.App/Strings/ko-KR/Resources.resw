@@ -214,7 +214,7 @@
     <value>모양</value>
   </data>
   <data name="Background" xml:space="preserve">
-    <value>배경 화면</value>
+    <value>배경 색</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>고급</value>
@@ -1052,6 +1052,15 @@
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>미리보기 화면</value>
+  </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the details/preview pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggles the details/preview pane</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
@@ -2328,6 +2337,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>작업 도중 오류가 발생했습니다</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>알고리즘</value>
   </data>
@@ -2393,6 +2405,9 @@
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>미리보기 화면 표시 전환</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>사이드바 표시 전환</value>

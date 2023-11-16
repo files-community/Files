@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public string Description
 			=> "OpenInNewWindowDescription".GetLocalizedResource();
 
+		public HotKey HotKey
+			=> new(Keys.Enter, KeyModifiers.MenuCtrl);
+
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewWindow");
 

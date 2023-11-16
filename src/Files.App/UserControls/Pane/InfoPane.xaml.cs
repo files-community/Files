@@ -14,24 +14,24 @@ namespace Files.App.UserControls
 		Bottom,
 	}
 
-	public sealed partial class PreviewPane : UserControl
+	public sealed partial class InfoPane : UserControl
 	{
 		public PreviewPanePositions Position { get; private set; } = PreviewPanePositions.None;
 
-		private readonly IPreviewPaneSettingsService PaneSettingsService;
+		private readonly IInfoPaneSettingsService PaneSettingsService;
 
 		private readonly ICommandManager Commands;
 
-		public PreviewPaneViewModel ViewModel { get; private set; }
+		public InfoPaneViewModel ViewModel { get; private set; }
 
 		private ObservableContext Context { get; } = new();
 
-		public PreviewPane()
+		public InfoPane()
 		{
 			InitializeComponent();
-			PaneSettingsService = Ioc.Default.GetRequiredService<IPreviewPaneSettingsService>();
+			PaneSettingsService = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			ViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+			ViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		}
 
 		public void UpdatePosition(double panelWidth, double panelHeight)
