@@ -92,7 +92,10 @@ namespace Files.App.Utils.RecycleBin
 
 			if (result == ContentDialogResult.Primary)
 			{
-				Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				SafetyExtensions.IgnoreExceptions(() =>
+				{
+					Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				});
 			}
 		}
 
