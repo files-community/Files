@@ -38,7 +38,7 @@ namespace Files.App.Utils.Shell
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
-			);
+			});
 
 			return HandleApplicationLaunch("MSDT.exe", $"/id PCWDiagnostic /af \"{compatibilityTroubleshooterAnswerFile}\"", "");
 		}
