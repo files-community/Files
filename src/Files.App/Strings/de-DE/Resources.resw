@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Detailbereich umschalten</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Umschalten des Detailfensters, um die grundlegenden Datei-Eigenschaften anzuzeigen</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Details-/Vorschaubereich umschalten</value>
+    <value>Info-Fenster umschalten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Schaltet den Details-/Vorschaubereich um</value>
+    <value>Umschalten des Info-Fensters, um Detail\Vorschau-Fenster anzuzeigen</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standard wiederherstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Neue Instanz öffnen, wenn Ordner von der Taskleisten-Sprungliste geöffnet werden</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tab in existierender Instanz öffnen, wenn Files von einer anderen App geöffnet wird</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Starteinstellungen</value>
@@ -2404,10 +2407,7 @@
     <value>Umschalten, ob Dateierweiterungen angezeigt werden sollen</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Umschalten, ob Vorschaupanel angezeigt werden soll</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Detailbereich umschalten</value>
+    <value>Vorschau-Fenster umschalten, um Datei-Eigenschaften zu sehen</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Umschalten, ob Seitenleiste angezeigt werden soll</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Die Option, Files beim Start von Windows zu öffnen, ist aufgrund Ihrer Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Zum erneuten Aktivieren öffnen Sie die Autostart-Seite im Task-Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
   </data>
 </root>
