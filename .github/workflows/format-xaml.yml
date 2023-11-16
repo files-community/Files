@@ -29,7 +29,7 @@ jobs:
 
       - name: Check if PR can be committed to
         run: |
-          if (!(gh pr view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
+          if (!(gh pr -R ${{ github.repository }} view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
           { 
             gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
