@@ -13,54 +13,73 @@ namespace Files.App.UserControls
 {
 	public sealed partial class AddressToolbar : UserControl
 	{
-		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private StatusCenterViewModel StatusCenterViewModel { get; } = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowOngoingTasksProperty =
-			DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(ShowOngoingTasks),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowOngoingTasks
 		{
 			get => (bool)GetValue(ShowOngoingTasksProperty);
 			set => SetValue(ShowOngoingTasksProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSettingsButtonProperty =
-			DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(ShowSettingsButton),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowSettingsButton
 		{
 			get => (bool)GetValue(dp: ShowSettingsButtonProperty);
 			set => SetValue(ShowSettingsButtonProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowSearchBoxProperty =
-			DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new(null));
+			DependencyProperty.Register(
+				nameof(ShowSearchBox),
+				typeof(bool),
+				typeof(AddressToolbar),
+				new(null));
+
 		public bool ShowSearchBox
 		{
-			get { return (bool)GetValue(ShowSearchBoxProperty); }
-			set { SetValue(ShowSearchBoxProperty, value); }
+			get => (bool) GetValue(ShowSearchBoxProperty);
+			set => SetValue(ShowSearchBoxProperty, value);
 		}
 
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
-		public ToolbarViewModel ViewModel
+			DependencyProperty.Register(
+				nameof(ViewModel),
+				typeof(AddressToolbarViewModel),
+				typeof(AddressToolbar),
+				new PropertyMetadata(null));
+
+		public AddressToolbarViewModel ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 
-		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
-
-		public AddressToolbar() => InitializeComponent();
+		public AddressToolbar()
+		{
+			InitializeComponent();
+		}
 
 		private void NavToolbar_Loading(FrameworkElement _, object e)
 		{
 			Loading -= NavToolbar_Loading;
-			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
+
+			if (StatusCenterViewModel is not null)
+				StatusCenterViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
 		}
 
 		private void VisiblePath_Loaded(object _, RoutedEventArgs e)
@@ -81,10 +100,11 @@ namespace Files.App.UserControls
 		{
 			if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
 			{
-				var ptrPt = e.GetCurrentPoint(NavToolbar);
+				var ptrPt = e.GetCurrentPoint(this);
 				if (ptrPt.Properties.IsMiddleButtonPressed)
 					return;
 			}
+
 			ViewModel.IsEditModeEnabled = true;
 		}
 
@@ -93,43 +113,61 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 				ViewModel.IsEditModeEnabled = false;
 		}
+
 		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
 		{
 			var element = FocusManager.GetFocusedElement(XamlRoot);
 			if (element is FlyoutBase or AppBarButton or Popup)
 				return;
 
-			var control = element as Control;
-			if (control is null)
+			if (element is not Control control)
 			{
 				if (ViewModel.IsEditModeEnabled)
 					ViewModel.IsEditModeEnabled = false;
+
 				return;
 			}
 
 			if (control.FocusState is not FocusState.Programmatic and not FocusState.Keyboard)
+			{
 				ViewModel.IsEditModeEnabled = false;
+			}
 			else if (ViewModel.IsEditModeEnabled)
+			{
 				VisiblePath.Focus(FocusState.Programmatic);
+			}
 		}
 
-		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
-		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
-		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args) => sender.Focus(FocusState.Keyboard);
+		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e)
+		{
+			ViewModel.SearchRegion_GotFocus(sender, e);
+		}
+
+		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
+		{
+			ViewModel.SearchRegion_LostFocus(sender, e);
+		}
+
+		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			sender.Focus(FocusState.Keyboard);
+		}
 
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
+		{
+			ViewModel.VisiblePath_QuerySubmitted(sender, args);
+		}
 
 		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
 		{
-			if (OngoingTasksViewModel is not null)
-				OngoingTasksViewModel.NewItemAdded -= OngoingTasksActions_ProgressBannerPosted;
+			if (StatusCenterViewModel is not null)
+				StatusCenterViewModel.NewItemAdded -= OngoingTasksActions_ProgressBannerPosted;
 
 			// Displays a teaching tip the first time a banner is posted
-			if (userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip)
+			if (UserSettingsService.AppSettingsService.ShowStatusCenterTeachingTip)
 			{
 				StatusCenterTeachingTip.IsOpen = true;
-				userSettingsService.AppSettingsService.ShowStatusCenterTeachingTip = false;
+				UserSettingsService.AppSettingsService.ShowStatusCenterTeachingTip = false;
 			}
 		}
 	}

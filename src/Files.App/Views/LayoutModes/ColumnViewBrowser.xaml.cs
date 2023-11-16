@@ -476,7 +476,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private (int, int) GetLastCommonAndRelativeIndex(List<PathBoxItem> destComponents, string columnPath, string columnFirstPath)
+		private (int, int) GetLastCommonAndRelativeIndex(List<PathBreadcrumbItem> destComponents, string columnPath, string columnFirstPath)
 		{
 			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
 			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);

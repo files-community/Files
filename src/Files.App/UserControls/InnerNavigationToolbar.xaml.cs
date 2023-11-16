@@ -17,7 +17,6 @@ namespace Files.App.UserControls
 		public InnerNavigationToolbar()
 		{
 			InitializeComponent();
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
 		}
 
 		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -28,27 +27,15 @@ namespace Files.App.UserControls
 
 		public AppModel AppModel => App.AppModel;
 
-		public readonly PreviewPaneViewModel PreviewPaneViewModel;
-
-		public ToolbarViewModel ViewModel
+		public AddressToolbarViewModel ViewModel
 		{
-			get => (ToolbarViewModel)GetValue(ViewModelProperty);
+			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
 			set => SetValue(ViewModelProperty, value);
 		}
 
 		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
-
-		public bool ShowViewControlButton
-		{
-			get { return (bool)GetValue(ShowViewControlButtonProperty); }
-			set { SetValue(ShowViewControlButtonProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ShowViewControlButton.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowViewControlButtonProperty =
-			DependencyProperty.Register("ShowViewControlButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
 
 		public bool ShowPreviewPaneButton
 		{

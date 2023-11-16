@@ -25,7 +25,7 @@ namespace Files.App.Views.LayoutModes
 
 		ItemManipulationModel ItemManipulationModel { get; }
 
-		PreviewPaneViewModel PreviewPaneViewModel { get; }
+		InfoPaneViewModel InfoPaneViewModel { get; }
 
 		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
