@@ -30,12 +30,13 @@ jobs:
             }
           }'  --jq '.data.viewer' | ConvertFrom-Json
 
+          Write-Host $data
           git config --global user.name "$($data.login)[bot]"
           git config --global user.email "$($data.databaseId)+($data.login)[bot]@users.noreply.github.com"
 
       - name: Check if PR can be committed to
         run: |
-          if (!(gh pr view 1 --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
+          if (!(gh pr view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
           { 
             gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
             exit 0
@@ -92,7 +93,6 @@ jobs:
           $url = [UriBuilder]($data.Url)
           $url.UserName = 'Personal Access Token'
           $url.Password = '${{ steps.generate.outputs.token }}'
-          Write-Host $url.Uri.AbsoluteUri
           git push $url.Uri.AbsoluteUri pr:$($data.Branch)
 
           if ($LASTEXITCODE -eq 0)
