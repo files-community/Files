@@ -183,8 +183,9 @@ namespace Files.App
 					break;
 
 				case IStartupTaskActivatedEventArgs startupArgs:
-					// Just launch the app with no arguments
+					// Just launch the app with no arguments and hide the window
 					rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+					AppWindow.Hide();
 					break;
 
 				default:
