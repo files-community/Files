@@ -238,7 +238,6 @@
 					x:Load="False"
 					Loaded="NavToolbar_Loaded"
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-					ShowViewControlButton="{x:Bind ShouldViewControlBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<!--  Page Content  -->

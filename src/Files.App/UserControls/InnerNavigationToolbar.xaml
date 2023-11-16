@@ -445,7 +445,7 @@
 				x:Name="SelectionOptions"
 				Width="Auto"
 				MinWidth="40"
-				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
+				x:Load="{x:Bind Commands.InvertSelection.IsExecutable, Mode=OneWay}"
 				AccessKey="S"
 				AutomationProperties.Name="{helpers:ResourceString Name=SelectionOptions}"
 				Label="{helpers:ResourceString Name=NavToolbarSelectionOptions/Label}"
@@ -484,11 +484,12 @@
 			</AppBarButton>
 
 			<!--  Sort Commands  -->
+			<!--  Check if InvertSelection.IsExecutable to unload button on the home page  -->
 			<AppBarButton
 				x:Name="ArrangementOptions"
 				Width="Auto"
 				MinWidth="40"
-				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
+				x:Load="{x:Bind Commands.InvertSelection.IsExecutable, Mode=OneWay}"
 				AccessKey="A"
 				AutomationProperties.Name="{helpers:ResourceString Name=Sort}"
 				Label="{helpers:ResourceString Name=Sort}"
@@ -592,11 +593,12 @@
 			</AppBarButton>
 
 			<!--  Layout Commands  -->
+			<!--  Check if InvertSelection.IsExecutable to unload button on the home page  -->
 			<AppBarButton
 				x:Name="LayoutOptionsButton"
 				Width="Auto"
 				MinWidth="40"
-				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
+				x:Load="{x:Bind Commands.InvertSelection.IsExecutable, Mode=OneWay}"
 				AccessKey="L"
 				AutomationProperties.Name="{helpers:ResourceString Name=Layout}"
 				Label="{helpers:ResourceString Name=Layout}"
