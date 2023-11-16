@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Toggle the details pane</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>가능한 미리보기가 없습니다</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>기본값 복원</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>작업 표시줄 점프 목록에서 디렉터리를 열 때 새 인스턴스에서 열기</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>프로그램 시작 시</value>
@@ -2404,10 +2407,7 @@
     <value>파일 확장자 표시 여부를 전환합니다</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>미리보기 화면 표시 전환</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>사이드바 표시 전환</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

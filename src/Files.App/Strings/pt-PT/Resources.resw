@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Alternar painel de detalhes</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Alternar painel de detalhes para ver as propriedades básicas do ficheiro</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Alternar painel de detalhes/pré-visualização</value>
+    <value>Alternar painel de informações</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Alterna o painel de detalhes/pré-visualização</value>
+    <value>Alternar painel de informações para ver os painéis detalhes ou de pré-visualização</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma pré-visualização disponível</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar predefinição</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir nova instância ao abrir pastas a partir da barra de tarefas</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Abrir separador na instância existente ao abrir Files a partir de outra aplicação</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Definições de arranque</value>
@@ -2404,10 +2407,7 @@
     <value>Alternar exibição das extensões dos ficheiros</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alternar exibição do painel de pré-visualização</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Alterna o painel de detalhes</value>
+    <value>Alternar painel de pré-visualização para pré-visualizar os ficheiros</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Alternar exibição da barra lateral</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>A opção de abrir a aplicação ao iniciar o sistema não está disponível devido às definições do sistema ou à política de grupo. Para ativar esta opção, abra o separador Arranque no Gestor de tarefas.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

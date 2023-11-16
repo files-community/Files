@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>詳細ウィンドウの表示を切り替える</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>基本的なファイル情報を確認するための詳細ウィンドウを表示する</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>詳細/プレビュー ウィンドウの表示を切り替える</value>
+    <value>情報ウィンドウの表示を切り替える</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>詳細/プレビュー ウィンドウを表示するかどうかを切り替える</value>
+    <value>詳細およびプレビューのための情報ウィンドウを表示するかどうかを切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>既定値に戻す</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>タスクバーのジャンプ リストからフォルダーを開くとき、新しいウィンドウで開く</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>別のアプリから Files を開くときに既存のウィンドウのタブを開く</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>起動時の設定</value>
@@ -2404,10 +2407,7 @@
     <value>ファイル名拡張子を表示するかどうかを切り替える</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>プレビュー ウィンドウを表示するかどうかを切り替える</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>詳細ウィンドウを表示するかどうかを切り替える</value>
+    <value>ファイルをプレビューするためのプレビュー ウィンドウを表示する</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>サイドバーを表示するかどうかを切り替える</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Windows 起動時に Files を開くオプションはあなたのシステム設定かグループ ポリシーによって利用できません。再度有効にするにはタスク マネージャーのスタートアップ ページを開いてください。</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>ごみ箱から項目を復元できませんでした</value>
   </data>
 </root>

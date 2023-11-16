@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Alternar o painel de detalhes</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Alternar o painel de detalhes para ver as propriedades básicas do arquivo</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Alternar o painel de detalhes/visualização</value>
+    <value>Exibir o painel de informações</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Alterna os detalhes/painel de pré-visualização</value>
+    <value>Ative o painel de informações para visualizar os painéis\na visualização de detalhes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma visualização disponível</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar padrão</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir nova instância ao abrir diretórios da lista de atalhos na barra de tarefas</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Abrir aba na janela existente ao abrir Files a partir de outro programa</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Configurações de inicialização</value>
@@ -2404,10 +2407,7 @@
     <value>Alternar entre mostrar extensões de arquivos</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alternar se deseja mostrar painel de pré-visualização</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Alternar o painel de detalhes</value>
+    <value>Alternar o painel de pré-visualização para visualizar os arquivos</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Alternar se deseja mostrar a barra lateral</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>A opção de abrir Files no Windows Startup não está disponível devido às configurações do sistema ou à política de grupo. Para habilitar novamente, abra a página de inicialização no Gerenciador de Tarefas.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Falha ao restaurar itens da Lixeira</value>
   </data>
 </root>
