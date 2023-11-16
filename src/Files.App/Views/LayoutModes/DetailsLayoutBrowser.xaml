@@ -1091,7 +1091,7 @@
 										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<ItemsRepeater
 											x:Name="TagsRepeater"
-											x:Load="{x:Bind HasTags, Mode=OneWay}"
+											x:Load="{x:Bind HasTags, Mode=OneWay, FallbackValue=False}"
 											ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
 											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 											<ItemsRepeater.Layout>
