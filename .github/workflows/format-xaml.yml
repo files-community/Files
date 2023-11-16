@@ -20,11 +20,23 @@ jobs:
           app_id: ${{ secrets.FILES_APP_ID }}
           private_key: ${{ secrets.FILES_PRIVATE_KEY }}
 
+      - run: |
+          "CAN_RUN=1" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Login to gh cli
         run: |
           "GH_TOKEN=${{ steps.generate.outputs.token }}" | Out-File -FilePath $env:GITHUB_ENV -Append
 
+      - name: Check if PR can be committed to
+        run: |
+          if (!(gh pr view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
+          { 
+            gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+
       - name: Set git identity
+        if: env.CAN_RUN == 1
         run: |
           $data = gh api graphql -f query='query {
             viewer {
@@ -33,45 +45,44 @@ jobs:
             }
           }'  --jq '.data.viewer' | ConvertFrom-Json
 
-          Write-Host $data
           git config --global user.name "$($data.login)"
           git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
 
-      - name: Check if PR can be committed to
-        run: |
-          if (!(gh pr view ${{ github.event.issue.number }} --json maintainerCanModify -q '.maintainerCanModify' | ConvertFrom-Json))
-          { 
-            gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
-            exit 0
-          }
 
       - uses: actions/checkout@v4
+        if: env.CAN_RUN == 1
 
       - name: Checkout PR
+        if: env.CAN_RUN == 1
         run: gh pr checkout ${{ github.event.issue.number }} -b pr
 
       - name: Check if PR has modified XAML files
+        if: env.CAN_RUN == 1
         run: |
           $baseRef = gh pr view ${{ github.event.issue.number }} --json baseRefName --jq '.baseRefName'
           $changedFiles = (git diff --name-only pr..$baseRef) -split "\n" | Where-Object {$_ -like "*.xaml"}
           if ($changedFiles.Count -eq 0)
           {
             gh pr comment ${{ github.event.issue.number }} -b "No XAML files found to format."
-            exit 0
+            "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
   
       - name: Install Xaml Styler
+        if: env.CAN_RUN == 1
         run: dotnet tool install --global XamlStyler.Console
   
       - name: Format XAML files
+        if: env.CAN_RUN == 1
         run: xstyler -l None -r -d src/Files.App
 
       - name: Commit formatted files
+        if: env.CAN_RUN == 1
         run: |
           git add .
           git commit -m "Formatted XAML files"
 
       - name: Push to PR
+        if: env.CAN_RUN == 1
         run: |
           # this is all to get the right repo and branch to push to 
 
@@ -105,5 +116,5 @@ jobs:
         continue-on-error: true
 
       - name: Comment if failed
-        if: failure()
+        if: failure() && env.CAN_RUN == 1
         run: gh pr comment ${{ github.event.issue.number }} -b "Failed to format XAML files, check logs for more information."
