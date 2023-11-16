@@ -20,7 +20,11 @@ jobs:
           app_id: ${{ secrets.FILES_APP_ID }}
           private_key: ${{ secrets.FILES_PRIVATE_KEY }}
 
-      - run: |
+      - name: Create run condition variable
+        run: |
+          # this is required for early termination in case any conditions aren't satisfied
+          # https://github.com/actions/runner/issues/662
+          
           "CAN_RUN=1" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Login to gh cli
@@ -34,6 +38,8 @@ jobs:
             gh pr comment ${{ github.event.issue.number }} -b "This PR cannot be committed to. Ensure that Allow edits from maintainers is enabled."
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
+          
+          # all steps after this one must have the env.CAN_RUN == 1 condition
 
       - name: Set git identity
         if: env.CAN_RUN == 1
