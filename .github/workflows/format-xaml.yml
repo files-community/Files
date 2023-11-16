@@ -90,8 +90,8 @@ jobs:
           }' -F owner=$owner -F name=$name -F number=$number --jq '{Branch: .data.repository.pullRequest.headRef.name, Url: .data.repository.pullRequest.headRepository.url}' | ConvertFrom-Json
           
           $url = [UriBuilder]($data.Url)
-          $url.UserName = "Personal Access Token"
-          $url.Password = ${{ steps.generate.outputs.token }}
+          $url.UserName = 'Personal Access Token'
+          $url.Password = '${{ steps.generate.outputs.token }}'
           git push $url.AbsoluteUri pr:$($data.Branch)
 
           if ($LASTEXITCODE -eq 0)
