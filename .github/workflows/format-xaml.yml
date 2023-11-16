@@ -92,6 +92,7 @@ jobs:
           $url = [UriBuilder]($data.Url)
           $url.UserName = 'Personal Access Token'
           $url.Password = '${{ steps.generate.outputs.token }}'
+          Write-Output $url.AbsoluteUri
           git push $url.AbsoluteUri pr:$($data.Branch)
 
           if ($LASTEXITCODE -eq 0)
