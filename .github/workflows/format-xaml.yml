@@ -35,7 +35,7 @@ jobs:
 
           Write-Host $data
           git config --global user.name "$($data.login)"
-          git config --global user.email "$($data.databaseId)+$($data.login)[bot]@users.noreply.github.com"
+          git config --global user.email "$($data.databaseId)+$($data.login)@users.noreply.github.com"
 
       - name: Check if PR can be committed to
         run: |
