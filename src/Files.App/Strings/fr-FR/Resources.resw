@@ -1054,13 +1054,16 @@
     <value>Afficher le volet de prévisualisation</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Basculer le volet des détails</value>
+    <value>Afficher le volet des détails</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Basculer le volet de détails/prévisualisation</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Bascule le volet de détails/prévisualisation</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurer les valeurs par défaut</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Ouvrir une nouvelle instance lors de l'ouverture d'un dossier depuis la liste de raccourcis de la barre des tâches</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Ouvrir l'onglet dans l'instance existante lors de l'ouverture de Files à partir d'une autre application</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Paramètres de démarrage</value>
@@ -2338,7 +2341,7 @@
     <value>Une erreur s'est produite lors du calcul</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Les hashes ne sont pas disponibles pour les fichiers en ligne</value>
+    <value>Les hachages ne sont pas disponibles pour les fichiers en ligne</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algorithme</value>
@@ -2404,10 +2407,7 @@
     <value>Afficher/Masquer les extensions de fichier</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet de prévisualisation</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Basculer le volet des détails</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>
