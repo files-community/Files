@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Chuyển đổi ngăn chi tiết</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Chuyển đổi ẩn/hiện ngăn chi tiết để xem các thuộc tính cơ bản của tệp</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Chuyển đổi ngăn xem trước/ngăn chi tiết</value>
+    <value>Chuyển đổi ngăn thông tin</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Chuyển đổi bật/tắt ngăn xem trước hoặc ngăn chi tiết</value>
+    <value>Chuyển đổi ẩn/hiện ngăn thông tin để hiện ngăn chi tiết hoặc ngăn xem trước</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Xem trước không sẵn dùng</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Khôi phục mặc định</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Mở phiên bản mới khi mở thư mục từ danh sách nhảy trên thanh tác vụ</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Mở thẻ trong cửa sổ hiện hoạt khi chạy Files từ một ứng dụng khác</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Thiết lập Khởi động</value>
@@ -2404,10 +2407,7 @@
     <value>Chuyển đổi ẩn/hiện phần mở rộng tệp</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Chuyển đổi ẩn/hiện ngăn xem trước</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Chuyển đổi ẩn/hiện ngăn chi tiết</value>
+    <value>Chuyển đổi ẩn/hiện ngăn xem trước để xem nhanh nội dung tệp</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện thanh bên</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Tuỳ chọn mở Files khi khởi động Windows không khả dụng do các cài đặt hệ thống hoặc group policy của bạn. Để kích hoạt lại, hãy mở mục khởi động trong Trình quản lý Tác vụ.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Không thể khôi phục khoản mục từ thùng rác</value>
   </data>
 </root>
