@@ -1,10 +1,9 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Controls;
 using Vanara.PInvoke;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System.UserProfile;
 
@@ -14,18 +13,35 @@ namespace Files.App.Utils
 	{
 		public static async Task SetAsBackgroundAsync(WallpaperType type, string filePath)
 		{
-			if (type == WallpaperType.Desktop)
+			try
 			{
-				// Set the desktop background
-				var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
-				wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
-				wallpaper.SetWallpaper(monitorId, filePath);
+				if (type == WallpaperType.Desktop)
+				{
+					// Set the desktop background
+					var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
+					wallpaper.GetMonitorDevicePathAt(0, out var monitorId);
+					wallpaper.SetWallpaper(monitorId, filePath);
+				}
+				else if (type == WallpaperType.LockScreen)
+				{
+					// Set the lockscreen background
+					IStorageFile sourceFile = await StorageFile.GetFileFromPathAsync(filePath);
+					await LockScreen.SetImageFileAsync(sourceFile);
+				}
 			}
-			else if (type == WallpaperType.LockScreen)
+			catch (Exception ex)
 			{
-				// Set the lockscreen background
-				IStorageFile sourceFile = await StorageFile.GetFileFromPathAsync(filePath);
-				await LockScreen.SetImageFileAsync(sourceFile);
+				var errorDialog = new ContentDialog()
+				{
+					Title = "FailedToSetBackground".GetLocalizedResource(),
+					Content = ex.Message,
+					PrimaryButtonText = "OK".GetLocalizedResource(),
+				};
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+				await errorDialog.TryShowAsync();
 			}
 		}
 
