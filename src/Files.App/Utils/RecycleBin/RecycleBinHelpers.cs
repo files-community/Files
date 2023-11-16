@@ -103,7 +103,7 @@ namespace Files.App.Utils.RecycleBin
 				{
 					var errorDialog = new ContentDialog()
 					{
-						Title = "ConfirmRestoreBinDialogTitle".GetLocalizedResource(),
+						Title = "FailedToRestore".GetLocalizedResource(),
 						PrimaryButtonText = "OK".GetLocalizedResource(),
 					};
 
