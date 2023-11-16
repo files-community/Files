@@ -163,7 +163,7 @@ namespace Files.App.UserControls
 			if (StatusCenterViewModel is not null)
 				StatusCenterViewModel.NewItemAdded -= OngoingTasksActions_ProgressBannerPosted;
 
-			// Displays a teaching tip at the first time a banner is posted
+			// Displays a teaching tip the first time a banner is posted
 			if (UserSettingsService.AppSettingsService.ShowStatusCenterTeachingTip)
 			{
 				StatusCenterTeachingTip.IsOpen = true;
