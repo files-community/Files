@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Vaihda tietoruutua</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Vaihda tieto-/esikatseluruutua</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Vaihtaa tieto-/esikatseluruutua</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Esikatselua ei ole saatavilla</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Palauta oletusarvot</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Avaa uusi esiintymä, kun avaat hakemistoja tehtäväpalkin pikaluettelosta</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Avaa välilehti nykyisessä instanssissa, kun avaat Filesin toisesta sovelluksesta</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Käynnistysasetukset</value>
@@ -2404,10 +2407,7 @@
     <value>Valitse, näytetäänkö tiedostotunnisteet</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Valitse, näytetäänkö esikatseluruutu</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Vaihda tietoruutua</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Valitse, näytetäänkö sivupalkki</value>
@@ -3421,19 +3421,19 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Virhe pakattaessa {0} kohde(tta) tiedostoon "{1}"</value>
+    <value>Virhe pakattaessa {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen pakkaaminen epäonnistui kansiosta "{1}" tiedostoon "{2}"</value>
+    <value>{0} kohteen pakkaaminen epäonnistui kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Pakataan {0} kohde(tta) tiedostoon "{1}"</value>
+    <value>Pakataan {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Pakataan {0} kohde(tta) kansiosta "{1}" tiedostoon "{2}"</value>
+    <value>Pakataan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
@@ -3445,15 +3445,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopioitu {0} kohde(tta) kansioon "{1}"</value>
+    <value>Kopioitu {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Kopioitu {0} kohde(tta) kansiosta "{1}" kansioon "{2}"</value>
+    <value>Kopioitu {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Virhe kopioitaessa {0} kohde(tta) kansioon "{1}"</value>
+    <value>Virhe kopioitaessa {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
@@ -3461,11 +3461,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Kopioidaan {0} kohde(tta) kansioon "{1}"</value>
+    <value>Kopioidaan {0} kohdetta kansioon "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Kopioidaan {0} kohde(tta) kansiosta "{1}" kansioon "{2}"</value>
+    <value>Kopioidaan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3505,7 +3505,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Poistettu pysyvästi {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Poistettu pysyvästi {0} kohdetta kansiosta "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
@@ -3593,7 +3593,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} kohde(tta) käsitelty</value>
+    <value>{0}/{1} kohdetta käsitelty</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Mahdollisuus avata Files Windowsin käynnistyksessä ei ole käytettävissä järjestelmäasetusten tai ryhmäkäytäntöjen vuoksi. Ota se uudelleen käyttöön avaamalla käynnistysohjelmat Tehtävienhallinnassa.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>
