@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Panel vlastností</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Pánel vlastností/náhledu</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Zapne/vypne panel vlastností/náhledu</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Náhled není dostupný</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Obnovit výchozí</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Otevřít novou instanci při otevírání adresářů ze seznamu úloh</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Nastavení spouštění</value>
@@ -2404,10 +2407,7 @@
     <value>Určuje, zda se zobrazí přípony souborů</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Zvolte, zda zobrazit panel náhledu</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Panel vlastností</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Přepněte, zda se zobrazí postranní panel</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>
