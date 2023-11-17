@@ -25,17 +25,7 @@ namespace Files.App.Utils
 				}
 				catch (Exception ex)
 				{
-					var errorDialog = new ContentDialog()
-					{
-						Title = "FailedToSetBackground".GetLocalizedResource(),
-						Content = ex.Message,
-						PrimaryButtonText = "OK".GetLocalizedResource(),
-					};
-
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-					await errorDialog.TryShowAsync();
+					ShowErrorPrompt(ex.Message);
 				}
 			}
 			else if (type == WallpaperType.LockScreen)
@@ -51,15 +41,37 @@ namespace Files.App.Utils
 			if (filePaths is null || !filePaths.Any())
 				return;
 
-			var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
-			Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, idList.ToArray(), out var shellItemArray);
+			try
+			{
+				var idList = filePaths.Select(Shell32.IntILCreateFromPath).ToArray();
+				Shell32.SHCreateShellItemArrayFromIDLists((uint)idList.Length, idList.ToArray(), out var shellItemArray);
 
-			// Set SlideShow
-			var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
-			wallpaper.SetSlideshow(shellItemArray);
+				// Set SlideShow
+				var wallpaper = (Shell32.IDesktopWallpaper)new Shell32.DesktopWallpaper();
+				wallpaper.SetSlideshow(shellItemArray);
 
-			// Set wallpaper to fill desktop.
-			wallpaper.SetPosition(Shell32.DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+				// Set wallpaper to fill desktop.
+				wallpaper.SetPosition(Shell32.DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+			}
+			catch (Exception ex)
+			{
+				ShowErrorPrompt(ex.Message);
+			}
+		}
+
+		private static async void ShowErrorPrompt(string exception)
+		{
+			var errorDialog = new ContentDialog()
+			{
+				Title = "FailedToSetBackground".GetLocalizedResource(),
+				Content = exception,
+				PrimaryButtonText = "OK".GetLocalizedResource(),
+			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			await errorDialog.TryShowAsync();
 		}
 	}
 }
