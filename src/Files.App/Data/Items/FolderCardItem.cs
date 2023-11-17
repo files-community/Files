@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents folder card used in the <see cref="WidgetItem"/>.
 	/// </summary>
-	public class FolderCardItem : WidgetCardItem<LocationItem>, IWidgetCardItem<LocationItem>
+	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
 	{
 		private byte[] _thumbnailData;
 
