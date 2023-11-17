@@ -225,8 +225,12 @@ namespace Files.App.ViewModels.UserControls
 		/// <summary>
 		/// Used to hide the selection, sort, & layout toolbar buttons on the home page
 		/// </summary>
-		public bool IsRightToolbarVisible => ContentPageContext.PageType is not ContentPageTypes.Home;
-
+		public bool _IsRightToolbarVisible = false;
+		public bool IsRightToolbarVisible
+		{
+			get => _IsRightToolbarVisible;
+			set => SetProperty(ref _IsRightToolbarVisible, value);
+		}
 
 		// Auto properties
 
@@ -306,6 +310,8 @@ namespace Files.App.ViewModels.UserControls
 			OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
 			UpdateCommand = new AsyncRelayCommand(UpdateService.DownloadUpdatesAsync);
+
+			IsRightToolbarVisible = ContentPageContext.PageType is not ContentPageTypes.Home;
 
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
