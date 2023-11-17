@@ -6,6 +6,8 @@ using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -14,6 +16,7 @@ namespace Files.App.ViewModels.UserControls
 	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
+		private IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 
 		private readonly IContentPageContext contentPageContextService;
 
@@ -422,7 +425,73 @@ namespace Files.App.ViewModels.UserControls
 
 			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
-			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
+			var flyout = GenerateTagsFlyout();
+			if (flyout is not null)
+			{
+				var flyoutItem = new FlyoutItem(flyout);
+
+				Items.Add(flyoutItem);
+			}
+		}
+
+		private MenuFlyout? GenerateTagsFlyout()
+		{
+			// Leave the placeholder and bottom's separator hidden
+			if (FileTagsSettingsService.FileTagList.Count == 0 || SelectedItem is null)
+				return null;
+
+			var flyout = new MenuFlyout();
+
+			// Get all available tags and generate toggleable flyout items
+			foreach (var item in FileTagsSettingsService.FileTagList)
+			{
+				var tagItem = new ToggleMenuFlyoutItem
+				{
+					Text = item.Name,
+					Tag = item,
+					Icon = new PathIcon()
+					{
+						Data = (Geometry)XamlBindingHelper.ConvertValue(
+							typeof(Geometry),
+							(string)Application.Current.Resources["ColorIconFilledTag"]),
+						Foreground = new SolidColorBrush(ColorHelpers.FromHex(item.Color))
+					}
+				};
+
+				tagItem.Click += TagItem_Click;
+
+				flyout.Items.Add(tagItem);
+			}
+
+			return flyout;
+		}
+
+		private void TagItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (SelectedItem is null)
+				return;
+
+			var tagItem = (ToggleMenuFlyoutItem)sender;
+			var tag = (TagViewModel)tagItem.Tag;
+			if (tagItem.IsChecked)
+			{
+				var existingTags = SelectedItem.FileTags ?? Array.Empty<string>();
+
+				if (!existingTags.Contains(tag.Uid))
+				{
+					SelectedItem.FileTags = existingTags.Append(tag.Uid).ToArray();
+				}
+			}
+			else
+			{
+				var existingTags = SelectedItem.FileTags ?? Array.Empty<string>();
+
+				if (existingTags.Contains(tag.Uid))
+				{
+					var tagList = existingTags.Except(new[] { tag.Uid }).ToArray();
+					SelectedItem.FileTags = tagList.Any() ? tagList : null;
+				}
+			}
 		}
 
 		public void Dispose()

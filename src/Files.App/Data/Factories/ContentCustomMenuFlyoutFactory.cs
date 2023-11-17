@@ -546,6 +546,33 @@ namespace Files.App.Data.Factories
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
+				new CustomMenuFlyoutItem()
+				{
+					Text = "EditTags".GetLocalizedResource(),
+					OpacityIcon = new OpacityIconModel()
+					{
+						OpacityIconStyle = "ColorIconTag"
+					},
+					Tag = "EditTagsOverflow",
+					IsHidden = true,
+					CollapseLabel = true,
+					Items = new List<CustomMenuFlyoutItem>() {},
+					ShowInSearchPage = true,
+					ShowItem =
+						itemsSelected &&
+						UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
+						currentInstanceViewModel.CanTagFilesInPage,
+				},
+				new CustomMenuFlyoutItem()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					Tag = "EditTagsOverflowSeparator",
+					IsHidden = true,
+					ShowInFtpPage = false,
+					ShowInZipPage = false,
+					ShowInRecycleBin = false,
+					ShowInSearchPage = true,
+				},
 				// NOTE: Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
 				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)

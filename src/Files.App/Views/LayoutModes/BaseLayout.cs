@@ -9,6 +9,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -588,21 +590,37 @@ namespace Files.App.Views.LayoutModes
 					SelectedItemsPropertiesViewModel.CheckAllFileExtensions(SelectedItems!.Select(selectedItem => selectedItem?.FileExtension).ToList()!);
 
 					shiftPressed = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
-					var items = ContentCustomMenuFlyoutFactory.GetContextMenuItemsWithoutShellItems(currentInstanceViewModel: InstanceViewModel!, selectedItems: SelectedItems!, selectedItemsPropertiesViewModel: SelectedItemsPropertiesViewModel, commandsViewModel: CommandsViewModel!, shiftPressed: shiftPressed, itemViewModel: null);
+
+					var items = ContentCustomMenuFlyoutFactory.GetContextMenuItemsWithoutShellItems(
+						InstanceViewModel!,
+						SelectedItems!,
+						CommandsViewModel!,
+						shiftPressed,
+						SelectedItemsPropertiesViewModel,
+						null);
 
 					ItemContextMenuFlyout.PrimaryCommands.Clear();
 					ItemContextMenuFlyout.SecondaryCommands.Clear();
 
 					var (primaryElements, secondaryElements) = MenuFlyoutFactory.GetAppBarItemsFromModel(items);
 					AddCloseHandler(ItemContextMenuFlyout, primaryElements, secondaryElements);
+
+					// Set menu min width
+					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
+
 					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
-					secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth); // Set menu min width
 					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
-					if (InstanceViewModel!.CanTagFilesInPage)
-						AddNewFileTagsToMenu(ItemContextMenuFlyout);
+					// Add available file tags
+					if (UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
+						InstanceViewModel.CanTagFilesInPage)
+					{
+						AddAvailableFileTagItems(ItemContextMenuFlyout);
+					}
 
-					if (!InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+					// Add shell menu items and remove the placeholder
+					if (!InstanceViewModel.IsPageTypeZipFolder &&
+						!InstanceViewModel.IsPageTypeFtp)
 					{
 						var shellMenuItems = await ShellContextMenuHelper.GetShellContextMenuAsync(
 							false,
@@ -616,6 +634,7 @@ namespace Files.App.Views.LayoutModes
 						else
 							RemoveOverflow(ItemContextMenuFlyout);
 					}
+					// Remove the placeholder
 					else
 					{
 						RemoveOverflow(ItemContextMenuFlyout);
@@ -665,9 +684,22 @@ namespace Files.App.Views.LayoutModes
 
 				// Set menu min width
 				secondaryElements.OfType<FrameworkElement>().ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);
-				secondaryElements.ForEach(i => BaseContextMenuFlyout.SecondaryCommands.Add(i));
 
-				if (!InstanceViewModel!.IsPageTypeSearchResults && !InstanceViewModel.IsPageTypeZipFolder && !InstanceViewModel.IsPageTypeFtp)
+				// Add items
+				secondaryElements.ForEach(BaseContextMenuFlyout.SecondaryCommands.Add);
+
+				// Add available file tags
+				// Add available file tags
+				if (UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
+					InstanceViewModel.CanTagFilesInPage)
+				{
+					AddAvailableFileTagItems(BaseContextMenuFlyout);
+				}
+
+				// Add shell menu items and remove the placeholder
+				if (!InstanceViewModel!.IsPageTypeSearchResults &&
+					!InstanceViewModel.IsPageTypeZipFolder &&
+					!InstanceViewModel.IsPageTypeFtp)
 				{
 					var shellMenuItems = await ShellContextMenuHelper.GetShellContextMenuAsync(
 						false,
@@ -681,6 +713,7 @@ namespace Files.App.Views.LayoutModes
 					else
 						RemoveOverflow(BaseContextMenuFlyout);
 				}
+				// Remove the placeholder
 				else
 				{
 					RemoveOverflow(BaseContextMenuFlyout);
@@ -738,29 +771,6 @@ namespace Files.App.Views.LayoutModes
 				menuFlyoutItems.OfType<MenuFlyoutSubItem>()
 					.ForEach(menu => addCloseHandler(menu.Items));
 			}
-		}
-
-		private void AddNewFileTagsToMenu(CommandBarFlyout contextMenu)
-		{
-			var fileTagsContextMenu = new FileTagsContextMenu(SelectedItems!);
-			var overflowSeparator = contextMenu.SecondaryCommands.FirstOrDefault(x => x is FrameworkElement fe && fe.Tag as string == "OverflowSeparator") as AppBarSeparator;
-			var index = contextMenu.SecondaryCommands.IndexOf(overflowSeparator);
-			index = index >= 0 ? index : contextMenu.SecondaryCommands.Count;
-
-			// Only show the edit tags flyout if settings is enabled
-			if (!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu)
-				return;
-
-			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
-			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
-			{
-				Label = "EditTags".GetLocalizedResource(),
-				Content = new OpacityIcon()
-				{
-					Style = (Style)Application.Current.Resources["ColorIconTag"],
-				},
-				Flyout = fileTagsContextMenu
-			});
 		}
 
 		private async Task AddShellMenuItemsAsync(List<CustomMenuFlyoutItem> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
@@ -951,6 +961,83 @@ namespace Files.App.Views.LayoutModes
 					clickAction(flyout.Items);
 				}
 			});
+		}
+
+		private void AddAvailableFileTagItems(CommandBarFlyout contextMenuFlyout)
+		{
+			var editTagsOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "EditTagsOverflow") as AppBarButton;
+			var flyout = (MenuFlyout)editTagsOverflow.Flyout;
+
+			// Leave the placeholder and bottom's separator hidden
+			if (FileTagsSettingsService.FileTagList.Count == 0)
+				return;
+
+			// Get all available tags and generate toggleable flyout items
+			foreach (var item in FileTagsSettingsService.FileTagList)
+			{
+				var tagItem = new ToggleMenuFlyoutItem
+				{
+					Text = item.Name,
+					Tag = item,
+					Icon = new PathIcon()
+					{
+						Data = (Geometry)XamlBindingHelper.ConvertValue(
+							typeof(Geometry),
+							(string)Application.Current.Resources["ColorIconFilledTag"]),
+						Foreground = new SolidColorBrush(ColorHelpers.FromHex(item.Color))
+					}
+				};
+
+				tagItem.Click += TagItem_Click;
+
+				flyout.Items.Add(tagItem);
+			}
+
+			// Go through each tag and find the common one for all files
+			var commonFileTags = SelectedItems
+				.Select(x => x.FileTags ?? Enumerable.Empty<string>())
+				.Aggregate((x, y) => x.Intersect(y))
+				.Select(x => flyout.Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
+
+			// Set checked or unchecked state
+			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
+
+			editTagsOverflow.Flyout = flyout;
+			editTagsOverflow.Visibility = Visibility.Visible;
+		}
+
+		private void TagItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (SelectedItems is null)
+				return;
+
+			var tagItem = (ToggleMenuFlyoutItem)sender;
+			var tag = (TagViewModel)tagItem.Tag;
+			if (tagItem.IsChecked)
+			{
+				foreach (var selectedItem in SelectedItems)
+				{
+					var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+
+					if (!existingTags.Contains(tag.Uid))
+					{
+						selectedItem.FileTags = existingTags.Append(tag.Uid).ToArray();
+					}
+				}
+			}
+			else
+			{
+				foreach (var selectedItem in SelectedItems)
+				{
+					var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+
+					if (existingTags.Contains(tag.Uid))
+					{
+						var tagList = existingTags.Except(new[] { tag.Uid }).ToArray();
+						selectedItem.FileTags = tagList.Any() ? tagList : null;
+					}
+				}
+			}
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
