@@ -41,6 +41,7 @@ namespace Files.App.Utils.Shell
 			}
 			catch (IOException)
 			{
+				// Try with a different file name
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
 					compatibilityTroubleshooterAnswerFile = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile1.xml");
