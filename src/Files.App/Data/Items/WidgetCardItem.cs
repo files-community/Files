@@ -6,7 +6,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for Widget card, shown as inner Widget control and displayed as a list.
 	/// </summary>
-	public abstract class WidgetCardItem : ObservableObject
+	public abstract class WidgetCardItem<T> : ObservableObject
 	{
 		/// <summary>
 		/// Gets or sets the path that indicates folder or file location.
@@ -16,6 +16,6 @@ namespace Files.App.Data.Items
 		/// <summary>
 		/// Gets or sets the object of the card.
 		/// </summary>
-		public virtual object? Item { get; set; }
+		public virtual T? Item { get; set; }
 	}
 }

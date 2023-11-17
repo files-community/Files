@@ -1,35 +1,37 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Collections.Specialized;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.Data.Items
 {
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	/// <summary>
+	/// Represents folder card used in the <see cref="WidgetItem"/>.
+	/// </summary>
+	public class FolderCardItem : WidgetCardItem<LocationItem>, IWidgetCardItem<LocationItem>
 	{
-		private BitmapImage thumbnail;
-		private byte[] thumbnailData;
+		private byte[] _thumbnailData;
 
 		public string AutomationProperties { get; set; }
-		public bool HasPath => !string.IsNullOrEmpty(Path);
-		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
+
+		public LocationItem Item { get; private set; }
+
+		public string Text { get; set; }
+
+		public bool IsPinned { get; set; }
+
+		public bool HasPath
+			=> !string.IsNullOrEmpty(Path);
+
+		public bool HasThumbnail
+			=> _Thumbnail is not null && _thumbnailData is not null;
+
+		private BitmapImage _Thumbnail;
 		public BitmapImage Thumbnail
 		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
+			get => _Thumbnail;
+			set => SetProperty(ref _Thumbnail, value);
 		}
-		public LocationItem Item { get; private set; }
-		public string Text { get; set; }
-		public bool IsPinned { get; set; }
 
 		public FolderCardItem(LocationItem item, string text, bool isPinned)
 		{
@@ -38,6 +40,7 @@ namespace Files.App.Data.Items
 				Text = text;
 				AutomationProperties = Text;
 			}
+
 			IsPinned = isPinned;
 			Item = item;
 			Path = item.Path;
@@ -45,13 +48,14 @@ namespace Files.App.Data.Items
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			if (thumbnailData is null || thumbnailData.Length == 0)
+			if (_thumbnailData is null || _thumbnailData.Length == 0)
 			{
-				thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+				_thumbnailData = await FileThumbnailHelper.LoadIconFromPathAsync(Path, Convert.ToUInt32(Constants.Widgets.WidgetIconSize), Windows.Storage.FileProperties.ThumbnailMode.SingleItem, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
 			}
-			if (thumbnailData is not null && thumbnailData.Length > 0)
+
+			if (_thumbnailData is not null && _thumbnailData.Length > 0)
 			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
 			}
 		}
 	}

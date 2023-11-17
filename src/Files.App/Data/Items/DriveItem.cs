@@ -17,24 +17,24 @@ namespace Files.App.Data.Items
 {
 	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
-		private BitmapImage icon;
-		public BitmapImage Icon
+		private BitmapImage? _Icon;
+		public BitmapImage? Icon
 		{
-			get => icon;
+			get => _Icon;
 			set
 			{
-				SetProperty(ref icon, value, nameof(Icon));
+				SetProperty(ref _Icon, value, nameof(Icon));
 				OnPropertyChanged(nameof(IconSource));
 			}
 		}
 
 		public byte[] IconData { get; set; }
 
-		private string path;
+		private string _Path;
 		public string Path
 		{
-			get => path;
-			set => path = value;
+			get => _Path;
+			set => _Path = value;
 		}
 
 		public string DeviceID { get; set; }
@@ -52,7 +52,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.FavoriteItems.Contains(path);
+			=> App.QuickAccessManager.Model.FavoriteItems.Contains(_Path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -133,43 +133,43 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private string text;
+		private string _Text;
 		public string Text
 		{
-			get => text;
-			set => SetProperty(ref text, value);
+			get => _Text;
+			set => SetProperty(ref _Text, value);
 		}
 
-		private string spaceText;
+		private string _SpaceText;
 		public string SpaceText
 		{
-			get => spaceText;
-			set => SetProperty(ref spaceText, value);
+			get => _SpaceText;
+			set => SetProperty(ref _SpaceText, value);
 		}
 
 		public SectionType Section { get; set; }
 
 		public ContextMenuOptions MenuOptions { get; set; }
 
-		private float percentageUsed = 0.0f;
+		private float _PercentageUsed = 0.0f;
 		public float PercentageUsed
 		{
-			get => percentageUsed;
+			get => _PercentageUsed;
 			set
 			{
-				if (!SetProperty(ref percentageUsed, value))
+				if (!SetProperty(ref _PercentageUsed, value))
 					return;
 
 				if (Type == DriveType.Fixed)
-					ShowStorageSense = percentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
+					ShowStorageSense = _PercentageUsed >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
 			}
 		}
 
-		private bool showStorageSense = false;
+		private bool _ShowStorageSense = false;
 		public bool ShowStorageSense
 		{
-			get => showStorageSense;
-			set => SetProperty(ref showStorageSense, value);
+			get => _ShowStorageSense;
+			set => SetProperty(ref _ShowStorageSense, value);
 		}
 
 		public string Id => DeviceID;
@@ -178,13 +178,13 @@ namespace Files.App.Data.Items
 
 		public object? Children => null;
 
-		private object toolTip = "";
+		private object _ToolTip = "";
 		public object ToolTip
 		{
-			get => toolTip;
+			get => _ToolTip;
 			set
 			{
-				SetProperty(ref toolTip, value);
+				SetProperty(ref _ToolTip, value);
 			}
 		}
 
@@ -242,7 +242,7 @@ namespace Files.App.Data.Items
 				DriveType.CDRom when !string.IsNullOrEmpty(label) => root.DisplayName.Replace(label.Left(32), label),
 				_ => root.DisplayName
 			};
-			item.Type = type;
+
 			item.MenuOptions = new ContextMenuOptions
 			{
 				IsLocationItem = true,
@@ -251,6 +251,8 @@ namespace Files.App.Data.Items
 				ShowFormatDrive = !(item.Type == DriveType.Network || string.Equals(root.Path, "C:\\", StringComparison.OrdinalIgnoreCase)),
 				ShowProperties = true
 			};
+
+			item.Type = type;
 			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
 			item.DeviceID = deviceId;
 			item.Root = root;
@@ -337,6 +339,7 @@ namespace Files.App.Data.Items
 
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder).IconData;
 			}
+
 			Icon ??= await IconData.ToBitmapAsync();
 		}
 
@@ -351,24 +354,28 @@ namespace Files.App.Data.Items
 		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
+
 			return folder.GetFileAsync(fileName, cancellationToken);
 		}
 
 		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
+
 			return folder.GetFolderAsync(folderName, cancellationToken);
 		}
 
 		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
+
 			return folder.GetItemsAsync(kind, cancellationToken);
 		}
 
 		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			var folder = new WindowsStorageFolder(Root);
+
 			return folder.GetParentAsync(cancellationToken);
 		}
 	}
