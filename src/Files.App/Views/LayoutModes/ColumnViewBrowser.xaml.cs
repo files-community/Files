@@ -399,8 +399,7 @@ namespace Files.App.Views.LayoutModes
 				foreach (var item in ColumnHost.ActiveBlades)
 				{
 					if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-						PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
-						PathNormalization.NormalizePath(e.ItemPath))
+						NormalizePath(s.FilesystemViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
 					{
 						DismissOtherBlades(item);
 						return;
@@ -411,8 +410,7 @@ namespace Files.App.Views.LayoutModes
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) !=
-				NormalizePath(e.ItemPath))
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
 			else
 				DismissOtherBlades(0);
