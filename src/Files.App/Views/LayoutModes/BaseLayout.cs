@@ -1448,7 +1448,7 @@ namespace Files.App.Views.LayoutModes
 				InfoPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 				// Check if the preview pane is open before updating the model
-				if (InfoPaneViewModel.IsEnabled)
+				if (InfoPaneViewModel.IsEnabled && !App.AppModel.IsMainWindowClosed)
 				{
 					var isPaneEnabled = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 					if (isPaneEnabled)
