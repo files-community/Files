@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers.ContextFlyouts;
 using Files.Shared.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -15,10 +14,16 @@ using Windows.UI.Core;
 
 namespace Files.App.Helpers
 {
-	public static class ShellContextmenuHelper
+	public static class ShellContextMenuHelper
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
+
+		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextMenuAsync(
+			bool showOpenMenu,
+			bool shiftPressed,
+			string workingDirectory,
+			List<ListedItem>? selectedItems,
+			CancellationToken cancellationToken)
 		{
 			bool IsItemSelected = selectedItems?.Count > 0;
 
@@ -63,12 +68,13 @@ namespace Files.App.Helpers
 			return menuItemsList;
 		}
 
-		private static void LoadMenuFlyoutItem(IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
-								ContextMenu contextMenu,
-								IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
-								CancellationToken cancellationToken,
-								bool showIcons = true,
-								int itemsBeforeOverflow = int.MaxValue)
+		private static void LoadMenuFlyoutItem(
+			IList<ContextMenuFlyoutItemViewModel> menuItemsListLocal,
+			ContextMenu contextMenu,
+			IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+			CancellationToken cancellationToken,
+			bool showIcons = true,
+			int itemsBeforeOverflow = int.MaxValue)
 		{
 			if (cancellationToken.IsCancellationRequested)
 				return;
@@ -239,11 +245,12 @@ namespace Files.App.Helpers
 					return;
 
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(
-					workingDir: null,
+
+				var shellMenuItems = await GetShellContextMenuAsync(
+					false,
+					shiftPressed,
+					null,
 					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
-					shiftPressed: shiftPressed,
-					showOpenMenu: false,
 					default);
 
 				var openWithItem = showOpenWithMenu ? shellMenuItems.Where(x => (x.Tag as Win32ContextMenuItem)?.CommandString == "openas").ToList().FirstOrDefault() : null;
@@ -262,7 +269,7 @@ namespace Files.App.Helpers
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);
 
-				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				ContextFlyoutItemHelper.ReplacePlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"TurnOnBitLockerPlaceholder",
 					turnOnBitLocker,
@@ -273,7 +280,7 @@ namespace Files.App.Helpers
 				if (manageBitLocker is not null)
 					shellMenuItems.Remove(manageBitLocker);
 
-				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				ContextFlyoutItemHelper.ReplacePlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"ManageBitLockerPlaceholder",
 					manageBitLocker,
@@ -371,7 +378,9 @@ namespace Files.App.Helpers
 			catch { }
 		}
 
-		public static void AddItemsToMainMenu(IEnumerable<ICommandBarElement> mainMenu, ContextMenuFlyoutItemViewModel viewModel)
+		public static void AddItemsToMainMenu(
+			IEnumerable<ICommandBarElement> mainMenu,
+			ContextMenuFlyoutItemViewModel viewModel)
 		{
 			var appBarButton = mainMenu.FirstOrDefault(x => (x as AppBarButton)?.Tag == viewModel.Tag) as AppBarButton;
 
@@ -385,7 +394,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static void AddItemsToOverflowMenu(AppBarButton? overflowItem, ContextMenuFlyoutItemViewModel viewModel)
+		public static void AddItemsToOverflowMenu(
+			AppBarButton? overflowItem,
+			ContextMenuFlyoutItemViewModel viewModel)
 		{
 			if (overflowItem?.Flyout is MenuFlyout flyout)
 			{
