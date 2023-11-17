@@ -40,8 +40,8 @@ namespace Files.App.Views.Layouts
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
-		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+		public InfoPaneViewModel InfoPaneViewModel { get; private set; }
 
 		// Properties
 
@@ -50,8 +50,6 @@ namespace Files.App.Views.Layouts
 
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
-
-		public InfoPaneViewModel InfoPaneViewModel { get; private set; }
 
 		public AppModel AppModel
 			=> App.AppModel;

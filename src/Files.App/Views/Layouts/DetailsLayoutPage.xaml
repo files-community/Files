@@ -31,7 +31,7 @@
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
-	<local:BaseGroupableLayout.Resources>
+	<local:BaseGroupableLayoutPage.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
@@ -166,7 +166,7 @@
 			</Style>
 
 		</ResourceDictionary>
-	</local:BaseGroupableLayout.Resources>
+	</local:BaseGroupableLayoutPage.Resources>
 
 	<Grid
 		x:Name="RootGrid"
