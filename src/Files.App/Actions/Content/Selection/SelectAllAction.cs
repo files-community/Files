@@ -37,7 +37,7 @@ namespace Files.App.Actions
 
 				bool isCommandPaletteOpen = page.ToolbarViewModel.IsCommandPaletteOpen;
 				bool isEditing = page.ToolbarViewModel.IsEditModeEnabled;
-				bool isRenaming = page.SlimContentPage.IsRenamingItem;
+				bool isRenaming = page.SlimContentPage?.IsRenamingItem ?? false;
 
 				return isCommandPaletteOpen || (!isEditing && !isRenaming);
 			}

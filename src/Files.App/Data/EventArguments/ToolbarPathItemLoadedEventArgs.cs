@@ -11,6 +11,6 @@ namespace Files.App.Data.EventArguments
 	{
 		public MenuFlyout OpenedFlyout { get; set; }
 
-		public PathBoxItem Item { get; set; }
+		public PathBreadcrumbItem Item { get; set; }
 	}
 }

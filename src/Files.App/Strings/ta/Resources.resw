@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NavigationToolbarNewWindow.Label" xml:space="preserve">
-    <value>புதியச் சாளரம்</value>
+    <value>புதிய சாளரம்</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>பாதையை நகலெடு</value>
@@ -193,10 +193,10 @@
     <value>பற்றி</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>திறந்த மூலம்</value>
+    <value>திறமூல</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>தேதி வடிவமைப்பு</value>
+    <value>தேதி வடிவம்</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>கருப்பொருள்</value>
@@ -205,7 +205,7 @@
     <value>அறிந்த கோப்பு வகைகளுக்கு நீடிப்புகளைக் காண்பி</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
+    <value>மறைக்கப்பட்ட கோப்புகளையும் கோப்புறைகளையும் காட்டு</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
     <value>Show dot files</value>
@@ -223,10 +223,10 @@
     <value>நீங்கள் விட்ட இடத்திலிருந்து தொடரவும்</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>ஒரு புதிய தாவலைத் திற</value>
+    <value>புதிய தாவலைத் திற</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>ஒரு குறிப்பிட்ட பக்கத்தை அல்லது பக்கங்களைத் திற</value>
+    <value>குறிப்பிட்ட பக்கத்தையோ பக்கங்களையோ திற</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>திரைப்பலகம்</value>
@@ -247,7 +247,7 @@
     <value>ஒட்டு</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>புதிது</value>
+    <value>புதிய</value>
   </data>
   <data name="Properties" xml:space="preserve">
     <value>பண்புகள்</value>
@@ -256,10 +256,10 @@
     <value>திற</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>புதியத் தாவலில் திற</value>
+    <value>புதிய தாவலில் திற</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>புதியச் சாளரத்தில் திற</value>
+    <value>புதிய சாளரத்தில் திற</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>பகிர்</value>
@@ -559,13 +559,13 @@
     <value>பதிப்பு:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>இப்போது பகிர ஒன்றுமில்லை.</value>
+    <value>இப்போது பகிர ஒன்றுமில்லை...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>நீங்கள் தேர்வுசெய்த உருப்படிகள் பகிரப்படும்</value>
+    <value>நீங்கள் தேர்ந்தெடுத்துள்ள உருப்படிகள் பகிரப்படும்</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>தேர்வுசெய்யப்பட்ட உருப்படி பகிரப்படும்</value>
+    <value>தேர்ந்தெடுத்துள்ள உருப்படி பகிரப்படும்</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>பகிர்தல் {0}</value>
@@ -616,7 +616,7 @@
     <value>Create a new item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>இந்த புதிய உருப்படியின் வகையை கீழே தேர்வுசெய்க</value>
+    <value>இந்தப் புதிய உருப்படியின் வகையைக் கீழே தேர்வுசெய்க</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>கோப்பு</value>
@@ -733,10 +733,10 @@
     <value>துளை</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>People Names</value>
+    <value>ஆட்களின் பெயர்கள்</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Channel Count</value>
+    <value>சேனல் எண்ணிக்கை</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>வடிவமைப்பு</value>
@@ -955,7 +955,7 @@
     <value>Duplicate tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>தாவலை புதியச் சாளரத்திற்கு நகர்த்து</value>
+    <value>தாவலைப் புதிய சாளரத்திற்கு நகர்த்து</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>புதியத் தாவல்</value>
@@ -970,7 +970,7 @@
     <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>நிலை மையம்</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
@@ -1039,7 +1039,7 @@
     <value>Tiles (Ctrl+Shift+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>தேதி நீக்கப்பட்டது</value>
+    <value>நீக்கப்பட்டத் தேதி</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drives</value>
@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Toggle the details pane</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>முன்னோட்டம் கிடைக்கவில்லை</value>
@@ -1192,16 +1195,16 @@
     <value>Unpin from the Start Menu</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>நூலகம்</value>
+    <value>கோப்பகம்</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>இருப்பிடங்கள்</value>
+    <value>இருப்பிடங்கள்:</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>Set as default save path</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>No locations</value>
+    <value>இருப்பிடங்கள் இல்லை</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
@@ -1213,7 +1216,7 @@
     <value>Using this name is not allowed!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>Library with the same name already exists!</value>
+    <value>அதேப் பெயருடன் கோப்பகம் ஏற்கனவே உள்ளது!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Open Storage Sense</value>
@@ -1348,7 +1351,7 @@
     <value>சிறிய</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>&amp;மிகச்சிறிய</value>
+    <value>மிகச்சிறிய</value>
   </data>
   <data name="Future" xml:space="preserve">
     <value>Future</value>
@@ -1414,7 +1417,7 @@
     <value>பாதுகாப்பு</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>Advanced permissions</value>
+    <value>மேம்பட்ட இசைவுகள்</value>
   </data>
   <data name="Allow" xml:space="preserve">
     <value>அனுமதி</value>
@@ -1447,7 +1450,7 @@
     <value>எழுது</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>தெரியாதக் கணக்கு</value>
+    <value>தெரியாத கணக்கு</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
@@ -1468,10 +1471,10 @@
     <value>Extract to {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>புதிய நூலகத்தை உருவாக்கவும்</value>
+    <value>புதிய கோப்பகத்தை உருவாக்கு</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>இயல்புநிலை நூலகங்களை மீட்டெடு</value>
+    <value>இயல்புநிலை கோப்பகங்களை மீட்டெடு</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
     <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
@@ -1717,7 +1720,7 @@
     <value>Provide your credential:</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>பயனர் பெயர்</value>
+    <value>பயனர்பெயர்</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
     <value>Drives widget</value>
@@ -1750,10 +1753,10 @@
     <value>டைல்கள்</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>கோப்புறைகளைப் புதிய தாவலில் திற</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>நிலை மையம்</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
@@ -1765,7 +1768,7 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>உதவி மற்றும் ஆதரவு</value>
+    <value>உதவியும் ஆதரவும்</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Submit feature request</value>
@@ -1801,7 +1804,7 @@
     <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>மறுசுழற்சி கூடையை வெறுமையாக்கு</value>
+    <value>மறுசுழற்சிக் கூடையை வெறுமையாக்கு</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
     <value>பக்கப்பட்டி</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>இயல்புநிலையை மீட்டெடு</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Open new instance when opening directories from the taskbar jumplist</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Startup settings</value>
@@ -1855,7 +1858,7 @@
     <value>Windows Vista SP2</value>
   </data>
   <data name="ReducedColorMode_Color16Bit" xml:space="preserve">
-    <value>16-bit வண்ணங்கள் (65,536)</value>
+    <value>16-பிட் வண்ணங்கள் (65'536)</value>
   </data>
   <data name="ReducedColorMode_Color8Bit" xml:space="preserve">
     <value>8-bit வண்ணங்கள் (256)</value>
@@ -1894,10 +1897,10 @@
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
+    <value>கோப்பகத்தை உருவாக்கு</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>கோப்பகப் பெயரை உள்ளிடுங்கள்</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Calculate folder sizes</value>
@@ -1918,7 +1921,7 @@
     <value>மேலும் விவரங்கள்</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>படிக்க மட்டும்</value>
+    <value>படிக்க-மட்டும்</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Cleanup your drive contents</value>
@@ -1957,10 +1960,10 @@
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>இடதுபுறம் சுழற்று</value>
+    <value>இடப்பறம் சுழற்று</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>வலதுபுறம் சுழற்று</value>
+    <value>வலபுறம் சுழற்று</value>
   </data>
   <data name="Install" xml:space="preserve">
     <value>இது புரிந்தது!</value>
@@ -1969,7 +1972,7 @@
     <value>Close tabs to the left</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>வலது பக்கம் உள்ள தாவல்களை மூடு</value>
+    <value>வலது பக்கமுள்ள தாவல்களை மூடு</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>மற்ற தாவல்களை மூடு</value>
@@ -2290,7 +2293,7 @@
     <value>கோப்பு நீட்டிப்புகளைக் காண்பி</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>மறைக்கப்பட்ட உருப்படிகளைக் காண்பி</value>
+    <value>மறைக்கப்பட்ட உருப்படிகளைக் காட்டு</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>வடிவமை...</value>
@@ -2404,10 +2407,7 @@
     <value>Toggle whether to show file extensions</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle whether to show preview pane</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Toggle whether to show sidebar</value>
@@ -2665,7 +2665,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>புதியத் தாவலை திற</value>
+    <value>புதிய தாவலைத் திற</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -3098,7 +3098,7 @@
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Crowdin-இல் மொழிபெயருங்கள்</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3240,7 +3240,7 @@
     <value>Open directory in new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>கோப்புறையைப் புதிய தாவலில் திற</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Open directory in new window</value>
@@ -3329,7 +3329,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>பச்சை</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
@@ -3353,7 +3353,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>சிவப்பு</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

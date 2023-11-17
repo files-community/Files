@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Cambiar el panel de detalles</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Activar el panel de detalles para ver las propiedades básicas del archivo</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Alternar el panel de detalles/vista previa</value>
+    <value>Activar/Desactivar panel de información</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Alternar el panel de detalles/vista previa</value>
+    <value>Activar el panel de información para ver los paneles de detalle y vista previa</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Restaurar predeterminado</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Abrir una nueva instancia al abrir directorios desde la lista de accesos directos de la barra de tareas</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Abrir pestaña en instancia existente al abrir Archivos desde otra app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Ajustes de inicio</value>
@@ -2404,10 +2407,7 @@
     <value>Mostrar o no las extensiones de los archivos</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Mostrar o no el panel de vista previa</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Cambiar el panel de detalles</value>
+    <value>Activar el panel de vista previa para ver la vista previa del archivo</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Mostrar o no la barra lateral</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>La opción de abrir Files al iniciar Windows no está disponible debido a la configuración del sistema o política de grupo. Para volver a activarla, abra la página de inicio en el Administrador de tareas.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Error al restaurar elementos de la papelera de reciclaje</value>
   </data>
 </root>

@@ -94,9 +94,9 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static List<PathBoxItem> GetDirectoryPathComponents(string value)
+		public static List<PathBreadcrumbItem> GetDirectoryPathComponents(string value)
 		{
-			List<PathBoxItem> pathBoxItems = new();
+			List<PathBreadcrumbItem> pathBreadcrumbItems = new();
 
 			if (value.Contains('/', StringComparison.Ordinal))
 			{
@@ -123,13 +123,13 @@ namespace Files.App.Utils.Storage
 					var component = value.Substring(lastIndex, i - lastIndex);
 					var path = value.Substring(0, i + 1);
 					if (!_ftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
-						pathBoxItems.Add(GetPathItem(component, path));
+						pathBreadcrumbItems.Add(GetPathItem(component, path));
 
 					lastIndex = i + 1;
 				}
 			}
 
-			return pathBoxItems;
+			return pathBreadcrumbItems;
 		}
 
 		public static string GetResolvedPath(string path, bool isFtp)
@@ -155,10 +155,10 @@ namespace Files.App.Utils.Storage
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path).SkipLast(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Name);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
-					var file = await folder.GetFileAsync(currComponents.Last().Title);
+					var file = await folder.GetFileAsync(currComponents.Last().Name);
 					path = PathNormalization.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
@@ -168,10 +168,10 @@ namespace Files.App.Utils.Storage
 					var path = rootFolder.Path;
 					foreach (var component in currComponents.Skip(1).SkipLast(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Name);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
-					var file = await folder.GetFileAsync(currComponents.Last().Title);
+					var file = await folder.GetFileAsync(currComponents.Last().Name);
 					path = PathNormalization.Combine(path, file.Name);
 					return new StorageFileWithPath(file, path);
 				}
@@ -213,7 +213,7 @@ namespace Files.App.Utils.Storage
 					var path = parentFolder.Path;
 					foreach (var component in currComponents.ExceptBy(prevComponents, c => c.Path))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Name);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
@@ -224,7 +224,7 @@ namespace Files.App.Utils.Storage
 					var path = rootFolder.Path;
 					foreach (var component in currComponents.Skip(1))
 					{
-						folder = await folder.GetFolderAsync(component.Title);
+						folder = await folder.GetFolderAsync(component.Name);
 						path = PathNormalization.Combine(path, folder.Name);
 					}
 					return new StorageFolderWithPath(folder, path);
@@ -261,7 +261,7 @@ namespace Files.App.Utils.Storage
 				.Select(x => new StorageFolderWithPath(x, string.IsNullOrEmpty(x.Path) ? PathNormalization.Combine(parentFolder.Path, x.Name) : x.Path)).ToList();
 		}
 
-		private static PathBoxItem GetPathItem(string component, string path)
+		private static PathBreadcrumbItem GetPathItem(string component, string path)
 		{
 			var title = string.Empty;
 			if (component.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -293,9 +293,9 @@ namespace Files.App.Utils.Storage
 				title = component;
 			}
 
-			return new PathBoxItem()
+			return new PathBreadcrumbItem()
 			{
-				Title = title,
+				Name = title,
 				Path = path
 			};
 		}

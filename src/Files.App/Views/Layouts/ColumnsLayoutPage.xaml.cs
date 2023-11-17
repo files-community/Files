@@ -414,8 +414,7 @@ namespace Files.App.Views.Layouts
 				foreach (var item in ColumnHost.ActiveBlades)
 				{
 					if (item.Content is Frame { Content: ColumnShellPage s } &&
-						NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
-						NormalizePath(e.ItemPath))
+						NormalizePath(s.FilesystemViewModel.WorkingDirectory) == NormalizePath(e.ItemPath))
 					{
 						DismissOtherBlades(item);
 						return;
@@ -426,8 +425,7 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) !=
-				NormalizePath(e.ItemPath))
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
 			else
 				DismissOtherBlades(0);
@@ -493,7 +491,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private (int, int) GetLastCommonAndRelativeIndex(List<PathBoxItem> destComponents, string columnPath, string columnFirstPath)
+		private (int, int) GetLastCommonAndRelativeIndex(List<PathBreadcrumbItem> destComponents, string columnPath, string columnFirstPath)
 		{
 			var columnComponents = StorageFileExtensions.GetDirectoryPathComponents(columnPath);
 			var columnFirstComponents = StorageFileExtensions.GetDirectoryPathComponents(columnFirstPath);

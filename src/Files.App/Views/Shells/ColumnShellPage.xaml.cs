@@ -56,7 +56,9 @@ namespace Files.App.Views.Shells
 		}
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
-			=> this.FindAscendant<ColumnsLayoutPage>().SetSelectedPathOrNavigate(e);
+		{
+			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(e);
+		}
 
 		protected override void OnNavigationParamsChanged()
 		{

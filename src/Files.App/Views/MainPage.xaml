@@ -179,7 +179,6 @@
 				HorizontalContentAlignment="Stretch"
 				x:Load="False"
 				Loaded="NavToolbar_Loaded"
-				OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
 				ShowOngoingTasks="True"
 				ShowSearchBox="True"
 				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -239,7 +238,6 @@
 					x:Load="False"
 					Loaded="NavToolbar_Loaded"
 					ShowPreviewPaneButton="{x:Bind ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
-					ShowViewControlButton="{x:Bind ShouldViewControlBeDisplayed, Mode=OneWay}"
 					TabIndex="2" />
 
 				<!--  Page Content  -->
@@ -262,7 +260,7 @@
 					Style="{StaticResource DefaultGridSplitterStyle}" />
 
 				<!--  Preview Pane  -->
-				<uc:PreviewPane
+				<uc:InfoPane
 					x:Name="PreviewPane"
 					Grid.Row="1"
 					Grid.Column="2"

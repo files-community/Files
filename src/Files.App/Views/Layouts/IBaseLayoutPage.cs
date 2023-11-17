@@ -28,7 +28,7 @@ namespace Files.App.Views.Layouts
 
 		ItemManipulationModel ItemManipulationModel { get; }
 
-		PreviewPaneViewModel PreviewPaneViewModel { get; }
+		InfoPaneViewModel InfoPaneViewModel { get; }
 
 		SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
