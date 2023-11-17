@@ -8,7 +8,6 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
-using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
@@ -18,8 +17,6 @@ namespace Files.App.ViewModels.Settings
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private bool disposed;
-
-		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
 
 		public AsyncRelayCommand ChangePageCommand { get; }
 		public RelayCommand<PageOnStartupViewModel> RemovePageCommand { get; }
@@ -109,8 +106,6 @@ namespace Files.App.ViewModels.Settings
 				PagesOnStartupList = new ObservableCollection<PageOnStartupViewModel>();
 
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
-
-			InitStartupSettingsRecentFoldersFlyout();
 		}
 
 		private async void DoRestartAsync()
@@ -148,18 +143,6 @@ namespace Files.App.ViewModels.Settings
 			string languageID = ApplicationLanguages.PrimaryLanguageOverride;
 			SelectedAppLanguageIndex = AppLanguages
 				.IndexOf(AppLanguages.FirstOrDefault(dl => dl.LanguagID == languageID) ?? AppLanguages.First());
-		}
-
-		private void InitStartupSettingsRecentFoldersFlyout()
-		{
-			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
-			{
-				Command = AddPageCommand,
-				CommandParameter = "Home",
-				Tooltip = "Home".GetLocalizedResource()
-			});
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });		
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -215,12 +198,6 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public ObservableCollection<PageOnStartupViewModel> PagesOnStartupList { get; set; }
-
-		public ReadOnlyCollection<IMenuFlyoutItemViewModel> AddFlyoutItemsSource
-		{
-			get => addFlyoutItemsSource;
-			set => SetProperty(ref addFlyoutItemsSource, value);
-		}
 
 		public bool OpenTabInExistingInstance
 		{

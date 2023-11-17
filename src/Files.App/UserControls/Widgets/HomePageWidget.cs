@@ -28,7 +28,7 @@ namespace Files.App.UserControls.Widgets
 		protected CommandBarFlyout ItemContextMenuFlyout;
 		protected string FlyouItemPath;
 
-		public abstract List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
+		public abstract List<CustomMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false);
 
 		public void Button_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
@@ -38,7 +38,7 @@ namespace Files.App.UserControls.Widgets
 				return;
 
 			var menuItems = GetItemMenuItems(item, QuickAccessService.IsItemPinned(item.Path));
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = MenuFlyoutFactory.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements.OfType<FrameworkElement>()
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);

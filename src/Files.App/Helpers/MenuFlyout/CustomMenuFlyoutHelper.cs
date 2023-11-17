@@ -5,18 +5,12 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Helpers
 {
-	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
-	/// menus and toolbars for the user.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
-	/// <see cref="ItemModelListToContextFlyoutHelper"/>
-	/// </summary>
-	public static class ContextFlyoutItemHelper
+	public static class CustomMenuFlyoutHelper
 	{
 		public static void ReplacePlaceholderWithShellOption(
 			CommandBarFlyout contextMenu,
 			string placeholderName,
-			ContextMenuFlyoutItemViewModel? replacingItem,
+			CustomMenuFlyoutItem? replacingItem,
 			int position)
 		{
 			// Get placeholder item
@@ -28,7 +22,7 @@ namespace Files.App.Helpers
 			placeholder.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
 
 			var (_, bitLockerCommands) =
-				ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(
+				MenuFlyoutFactory.GetAppBarItemsFromModel(
 					new()
 					{
 						replacingItem

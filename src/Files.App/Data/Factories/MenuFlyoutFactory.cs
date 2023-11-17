@@ -5,16 +5,15 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
-namespace Files.App.Helpers
+namespace Files.App.Data.Factories
 {
 	/// <summary>
 	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
 	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
 	/// </summary>
-	public static class ItemModelListToContextFlyoutHelper
+	public static class MenuFlyoutFactory
 	{
-		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
+		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<CustomMenuFlyoutItem>? items)
 		{
 			if (items is null)
 				return null;
@@ -47,7 +46,7 @@ namespace Files.App.Helpers
 			return flyout;
 		}
 
-		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<ContextMenuFlyoutItemViewModel> items)
+		public static (List<ICommandBarElement> primaryElements, List<ICommandBarElement> secondaryElements) GetAppBarItemsFromModel(List<CustomMenuFlyoutItem> items)
 		{
 			// Get primary items
 			var primaryModels = items.Where(i => i.IsPrimary).ToList();
@@ -71,7 +70,7 @@ namespace Files.App.Helpers
 			return (primary, secondary);
 		}
 
-		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
+		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<CustomMenuFlyoutItem> items)
 		{
 			// Generate command bar from all items
 			var elements = new List<ICommandBarElement>();
@@ -80,7 +79,7 @@ namespace Files.App.Helpers
 			return elements;
 		}
 
-		public static MenuFlyoutItemBase GetMenuItem(ContextMenuFlyoutItemViewModel item)
+		public static MenuFlyoutItemBase GetMenuItem(CustomMenuFlyoutItem item)
 		{
 			return item.ItemType switch
 			{
@@ -89,7 +88,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		private static MenuFlyoutItemBase GetMenuFlyoutItem(ContextMenuFlyoutItemViewModel item)
+		private static MenuFlyoutItemBase GetMenuFlyoutItem(CustomMenuFlyoutItem item)
 		{
 			// Return single item
 			if (item.Items is null)
@@ -113,7 +112,7 @@ namespace Files.App.Helpers
 			return flyoutSubItem;
 		}
 
-		private static MenuFlyoutItemBase GetItem(ContextMenuFlyoutItemViewModel i)
+		private static MenuFlyoutItemBase GetItem(CustomMenuFlyoutItem i)
 		{
 			// Generate imaging item
 			if (i.BitmapIcon is not null)
@@ -153,7 +152,7 @@ namespace Files.App.Helpers
 				};
 
 				if (!string.IsNullOrEmpty(i.Glyph))
-					flyoutItem.Icon = new FontIcon{ Glyph = i.Glyph };
+					flyoutItem.Icon = new FontIcon { Glyph = i.Glyph };
 			}
 			// Generate default item
 			else
@@ -192,7 +191,7 @@ namespace Files.App.Helpers
 			return flyoutItem;
 		}
 
-		public static ICommandBarElement GetCommandBarItem(ContextMenuFlyoutItemViewModel item)
+		public static ICommandBarElement GetCommandBarItem(CustomMenuFlyoutItem item)
 		{
 			return item.ItemType switch
 			{
@@ -205,7 +204,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		private static ICommandBarElement GetCommandBarButton(ContextMenuFlyoutItemViewModel item)
+		private static ICommandBarElement GetCommandBarButton(CustomMenuFlyoutItem item)
 		{
 			ICommandBarElement element;
 			FontIcon? icon = null;
@@ -219,14 +218,14 @@ namespace Files.App.Helpers
 
 				if (!string.IsNullOrEmpty(item.GlyphFontFamilyName))
 				{
-					var fontFamily = App.Current.Resources[item.GlyphFontFamilyName] as FontFamily;
+					var fontFamily = Application.Current.Resources[item.GlyphFontFamilyName] as FontFamily;
 					icon.FontFamily = fontFamily;
 				}
 			}
 
 			MenuFlyout? ctxFlyout = null;
 
-			if ((item.Items is not null && item.Items.Count > 0) || item.ID == "ItemOverflow")
+			if (item.Items is not null && item.Items.Count > 0 || item.ID == "ItemOverflow")
 			{
 				ctxFlyout = new MenuFlyout();
 				GetMenuFlyoutItemsFromModel(item.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
