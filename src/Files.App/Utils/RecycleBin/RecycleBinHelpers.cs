@@ -79,7 +79,7 @@ namespace Files.App.Utils.RecycleBin
 
 		public static async Task RestoreRecycleBinAsync()
 		{
-			var ConfirmEmptyBinDialog = new ContentDialog()
+			var confirmEmptyBinDialog = new ContentDialog()
 			{
 				Title = "ConfirmRestoreBinDialogTitle".GetLocalizedResource(),
 				Content = "ConfirmRestoreBinDialogContent".GetLocalizedResource(),
@@ -88,11 +88,30 @@ namespace Files.App.Utils.RecycleBin
 				DefaultButton = ContentDialogButton.Primary
 			};
 
-			ContentDialogResult result = await ConfirmEmptyBinDialog.TryShowAsync();
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				confirmEmptyBinDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			ContentDialogResult result = await confirmEmptyBinDialog.TryShowAsync();
 
 			if (result == ContentDialogResult.Primary)
 			{
-				Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				try
+				{
+					Vanara.Windows.Shell.RecycleBin.RestoreAll();
+				}
+				catch (Exception)
+				{
+					var errorDialog = new ContentDialog()
+					{
+						Title = "FailedToRestore".GetLocalizedResource(),
+						PrimaryButtonText = "OK".GetLocalizedResource(),
+					};
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						errorDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await errorDialog.TryShowAsync();
+				}
 			}
 		}
 

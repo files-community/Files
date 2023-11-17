@@ -8,7 +8,7 @@ using System;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class PreviewPaneSettingsService : BaseObservableJsonSettings, IPreviewPaneSettingsService
+	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsEnabled
 		{
@@ -34,20 +34,20 @@ namespace Files.App.Services.Settings
 			set => Set(Math.Max(0d, Math.Min(value, 1d)));
 		}
 
-		public bool ShowPreviewOnly
+		public InfoPaneTabs SelectedTab
 		{
-			get => Get(false);
+			get => Get(InfoPaneTabs.Details);
 			set => Set(value);
 		}
 
-		public PreviewPaneSettingsService(ISettingsSharingContext settingsSharingContext)
+		public InfoPaneSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			RegisterSettingsContext(settingsSharingContext);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			if (e.SettingName is nameof(ShowPreviewOnly))
+			if (e.SettingName is nameof(SelectedTab))
 			{
 				Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
 			}

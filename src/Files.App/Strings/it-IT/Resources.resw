@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Mostra o nascondi il riquadro dettagli</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Commuta il riquadro dettagli per visualizzare le proprietà di base dei file</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Mostra o nascondi il riquadro dettagli o anteprima</value>
+    <value>Commuta il riquadro informazioni</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Mostra o nasconde il riquadro dettagli o anteprima</value>
+    <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio\anteprima</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Ripristina predefiniti</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Apri una nuova instanza quando si apre una cartella dalla barra delle applicazioni</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Apri la scheda nell'istanza esistente quando apri Files da un'altra app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Impostazioni di Avvio</value>
@@ -2404,10 +2407,7 @@
     <value>Attiva o disattiva la visualizzazione delle estensioni dei file</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Attiva o disattiva la visualizzazione del riquadro di anteprima</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Mostra o nascondi il riquadro dettagli</value>
+    <value>Commuta il riquadro di anteprima per visualizzare le anteprime dei file</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione della barra laterale</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>L'opzione per aprire Files all'avvio di Windows non è disponibile a causa delle impostazioni di sistema o dei criteri di gruppo. Per riattivare, apri la pagina App di avvio in Gestione attività.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Recupero degli oggetti dal Cestino non riuscito</value>
   </data>
 </root>

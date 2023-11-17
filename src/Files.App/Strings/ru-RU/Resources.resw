@@ -1054,13 +1054,16 @@
     <value>Показать панель предварительного просмотра</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Показать панель подробного просмотра</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Показать панель деталей для просмотра основных свойств файла</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>Показать информационную панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>Показать информационную панель для просмотра панелей деталь\предварительного просмотра</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Предпросмотр недоступен</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Сбросить до заводских</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Открывать новый экземпляр при открытии папок из выскакивающего меню в панели задач</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Открывать вкладку в существующем экземпляре File при открытии из другого приложения</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Настройки запуска</value>
@@ -2338,7 +2341,7 @@
     <value>Произошла ошибка при вычислении</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Хэши недоступны для онлайн-файлов</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритм</value>
@@ -2404,10 +2407,7 @@
     <value>Вкл/Выкл отображение скрытых элементов</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Показать панель предпросмотра</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Переключить панель предварительного просмотра для просмотра превью файла</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Вкл/Выкл отображение боковой панели</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>Возможность открытия Files при запуске Windows недоступна из-за ваших системных настроек или групповой политики. Чтобы снова включить, откройте "Автозагрузка" в Диспетчере задач.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

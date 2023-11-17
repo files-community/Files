@@ -157,13 +157,13 @@
     <value>跳过</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>全部选择</value>
+    <value>全选</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>反向选择</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>清空所选</value>
+    <value>清除选择</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>修改日期:</value>
@@ -175,7 +175,7 @@
     <value>清空所有项目</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>输入要导航到的路径，或键入"&gt;"以打开命令面板</value>
+    <value>输入要定位到的路径，或键入"&gt;"以打开命令面板</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
@@ -1051,16 +1051,19 @@
     <value>期望名称</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>显示/隐藏预览面板</value>
+    <value>显示/隐藏预览窗格</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>显示/隐藏详细信息窗格</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>切换到详细信息窗格以查看文件的基本属性</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the details/preview pane</value>
+    <value>显示/隐藏信息窗格</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggles the details/preview pane</value>
+    <value>打开信息窗格以查看详细信息/预览窗格</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>没有预览</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>恢复默认</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>从任务栏跳转列表打开文件夹时，启动新的实例</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>从另一个应用程序打开 Files 时，在现有窗口中新建标签页</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>启动设置</value>
@@ -2404,10 +2407,7 @@
     <value>切换文件扩展名显示</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>切换预览面板显示</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>切换到预览窗格以预览文件</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>切换侧边栏显示</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>由于您的系统设置或组策略，选项“在 Windows 启动时打开 Files”不可用。 若要重新启用，请在任务管理器中打开“启动”页。</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>从回收站还原项目失败</value>
   </data>
 </root>

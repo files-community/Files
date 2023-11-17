@@ -1056,11 +1056,14 @@
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Schakel het detailvenster in of uit</value>
   </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Schakel het details-/voorbeeldvenster in of uit</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Schakelt het details-/voorbeeldvenster in of uit</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standaardwaarden herstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Nieuwe instantie openen bij het openen van mappen vanuit de Jumplist in de taakbalk</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tabblad openen in bestaande instantie wanneer Files vanuit een andere app wordt geopend</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstart instellingen</value>
@@ -2404,10 +2407,7 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Zet voorvertoningspaneel aan/uit</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Schakel het detailvenster in of uit</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>
@@ -3604,5 +3604,8 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>De optie om Files te openen tijdens het opstarten van Windows is niet beschikbaar door systeeminstellingen of het groepsbeleid. Om dit opnieuw in te stellen, open het Opstarten tabblad in Taakbeheer.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

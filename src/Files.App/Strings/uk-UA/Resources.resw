@@ -1054,13 +1054,16 @@
     <value>Відобразити панель попереднього перегляду</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Відобразити панель подробиць</value>
+    <value>Зобразити панель подробиць</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Відобразити панель подробиць/попереднього перегляду</value>
+    <value>Toggle the info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Відображає панель подробиць/попереднього перегляду</value>
+    <value>Toggle the info pane to view the detail\preview panes</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1815,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Відновити значення за замовчуванням</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Відкриття нового екземпляра під час відкриття каталогів зі списку переходів на панелі завдань</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Відкрити вкладку в наявному вікні, коли відкривається Files з іншої програми</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Налаштування запуску</value>
@@ -2338,7 +2341,7 @@
     <value>Під час обрахунку сталась помилка</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes aren't available for online files</value>
+    <value>Хеші не доступні для файлів онлайн</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритм</value>
@@ -2404,10 +2407,7 @@
     <value>Перемкнути для показу розширень файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Відобразити панель попереднього перегляду</value>
-  </data>
-  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Відобразити панель подробиць</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Перемкнути для показу бічної панелі</value>
@@ -3393,7 +3393,7 @@
     <value>Files не можуть ініціалізувати Git-репозиторій в цьому каталозі.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Подякувати розробникам</value>
+    <value>Художник-учасник</value>
   </data>
   <data name="AddPage" xml:space="preserve">
     <value>Додати сторінку</value>
@@ -3603,6 +3603,9 @@
     <value>Немає поточних операцій з файлами</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну відкрийте сторінку автозапуску в диспетчері задач.</value>
+    <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну, відкрийте сторінку автозапуску в диспетчері задач.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
   </data>
 </root>

@@ -51,7 +51,7 @@ namespace Files.App.Views.LayoutModes
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public PreviewPaneViewModel PreviewPaneViewModel { get; private set; }
+		public InfoPaneViewModel InfoPaneViewModel { get; private set; }
 
 		public AppModel AppModel
 			=> App.AppModel;
@@ -261,7 +261,7 @@ namespace Files.App.Views.LayoutModes
 
 		public BaseLayout()
 		{
-			PreviewPaneViewModel = Ioc.Default.GetRequiredService<PreviewPaneViewModel>();
+			InfoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 			ItemManipulationModel = new ItemManipulationModel();
 
 			HookBaseEvents();
@@ -1280,7 +1280,7 @@ namespace Files.App.Views.LayoutModes
 
 		public virtual void Dispose()
 		{
-			PreviewPaneViewModel?.Dispose();
+			InfoPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 
@@ -1441,18 +1441,18 @@ namespace Files.App.Views.LayoutModes
 			if (LockPreviewPaneContent)
 				return;
 
-			if (value?.FirstOrDefault() != PreviewPaneViewModel.SelectedItem)
+			if (value?.FirstOrDefault() != InfoPaneViewModel.SelectedItem)
 			{
 				// Update preview pane properties
-				PreviewPaneViewModel.IsItemSelected = value?.Count > 0;
-				PreviewPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
+				InfoPaneViewModel.IsItemSelected = value?.Count > 0;
+				InfoPaneViewModel.SelectedItem = value?.Count == 1 ? value.First() : null;
 
 				// Check if the preview pane is open before updating the model
-				if (PreviewPaneViewModel.IsEnabled)
+				if (InfoPaneViewModel.IsEnabled && !App.AppModel.IsMainWindowClosed)
 				{
 					var isPaneEnabled = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ShouldPreviewPaneBeActive ?? false;
 					if (isPaneEnabled)
-						_ = PreviewPaneViewModel.UpdateSelectedItemPreviewAsync();
+						_ = InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
 				}
 			}
 		}
