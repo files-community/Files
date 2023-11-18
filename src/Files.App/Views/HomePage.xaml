@@ -10,13 +10,12 @@
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Widgets"
-	xmlns:widgets="using:Files.App.UserControls.Widgets"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.YourHomeLoadedCommand, Mode=OneWay}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -424,27 +423,12 @@
 
 	<!--  Widget List  -->
 	<ScrollViewer>
-		<ListView ItemsSource="{x:Bind ViewModel.Widgets, Mode=OneWay}" SelectionMode="None">
-			<ListView.ItemContainerStyle>
-				<Style TargetType="ListViewItem">
-					<!--  Spacing  -->
-					<Setter Property="Margin" Value="0,4" />
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="ListViewItem">
-								<ListViewItemPresenter
-									x:Name="Root"
-									HorizontalContentAlignment="Stretch"
-									VerticalContentAlignment="Stretch" />
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</ListView.ItemContainerStyle>
+		<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 
 			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="vm:WidgetsListControlItemViewModel">
+				<DataTemplate x:DataType="vm:WidgetItem">
 					<Grid>
+
 						<Expander
 							Padding="16,0,16,0"
 							HorizontalAlignment="Stretch"
@@ -513,6 +497,22 @@
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
+
+			<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<Setter Property="Margin" Value="0,4" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ListViewItem">
+								<ListViewItemPresenter
+									x:Name="Root"
+									HorizontalContentAlignment="Stretch"
+									VerticalContentAlignment="Stretch" />
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ListView.ItemContainerStyle>
 
 		</ListView>
 	</ScrollViewer>
