@@ -13,27 +13,93 @@ namespace Files.App.Views
 {
 	public sealed partial class HomePage : Page, IDisposable
 	{
+		// Dependency injections
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		private IShellPage AppInstance = null;
+		// Properties
 
-		public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+		private IShellPage AppInstance
+			=> ContentPageContext.ShellPage!;
 
-		private QuickAccessWidget quickAccessWidget;
-		private DrivesWidget drivesWidget;
-		private FileTagsWidget fileTagsWidget;
-		private RecentFilesWidget recentFilesWidget;
+		public FolderSettingsViewModel FolderSettings
+			=> ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings!;
+
+		private QuickAccessWidget? quickAccessWidget;
+		private DrivesWidget? drivesWidget;
+		private FileTagsWidget? fileTagsWidget;
+		private RecentFilesWidget? recentFilesWidget;
 
 		public HomeViewModel ViewModel { get; set; }
+
+		// Constructor
 
 		public HomePage()
 		{
 			InitializeComponent();
 
-			ViewModel = new(Widgets.ViewModel, AppInstance);
+			ViewModel = new();
 
-			ViewModel.YourHomeLoadedInvoked += ViewModel_YourHomeLoadedInvoked;
-			Widgets.ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
+			ViewModel.HomePageLoadedInvoked += ViewModel_HomePageLoadedInvoked;
+			ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
+		}
+
+		// Overridden methods
+
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
+		{
+			var parameters = e.Parameter as NavigationArguments;
+
+			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
+			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
+			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
+			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
+			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
+			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
+			AppInstance.InstanceViewModel.GitRepositoryPath = null;
+			AppInstance.ToolbarViewModel.CanRefresh = true;
+			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
+			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
+			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
+
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
+			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
+
+			// Set path of working directory empty
+			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
+
+			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
+
+			// Clear the path UI and replace with Favorites
+			AppInstance.ToolbarViewModel.PathComponents.Clear();
+
+			string componentLabel =
+				parameters?.NavPathParam == "Home"
+					? "Home".GetLocalizedResource()
+					: parameters?.NavPathParam
+				?? string.Empty;
+
+			string tag = parameters?.NavPathParam ?? string.Empty;
+
+			var item = new PathBoxItem()
+			{
+				Title = componentLabel,
+				Path = tag,
+			};
+
+			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+
+			base.OnNavigatedTo(e);
+		}
+
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+		{
+			base.OnNavigatingFrom(e);
+
+			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 		}
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -43,24 +109,24 @@ namespace Files.App.Views
 			base.OnNavigatedFrom(e);
 		}
 
-		public void RefreshWidgetList() => Widgets.ViewModel.RefreshWidgetList();
+		// Methods
 
-		private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
+		public void RefreshWidgetList()
 		{
-			ReloadWidgets();
+			ViewModel.RefreshWidgetList();
 		}
 
 		public void ReloadWidgets()
 		{
-			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
-			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
-			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
-			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, Widgets.ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
+			quickAccessWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, ViewModel, out bool shouldReloadQuickAccessWidget, quickAccessWidget);
+			drivesWidget =      WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, ViewModel, out bool shouldReloadDrivesWidget, drivesWidget);
+			fileTagsWidget =    WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, ViewModel, out bool shouldReloadFileTags, fileTagsWidget);
+			recentFilesWidget = WidgetsHelpers.TryGetWidget(UserSettingsService.GeneralSettingsService, ViewModel, out bool shouldReloadRecentFiles, recentFilesWidget);
 
 			// Reload QuickAccessWidget
 			if (shouldReloadQuickAccessWidget && quickAccessWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(
+				ViewModel.InsertWidget(
 					new(
 						quickAccessWidget,
 						(value) => UserSettingsService.GeneralSettingsService.FoldersWidgetExpanded = value,
@@ -78,7 +144,7 @@ namespace Files.App.Views
 			// Reload DrivesWidget
 			if (shouldReloadDrivesWidget && drivesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded), 1);
+				ViewModel.InsertWidget(new(drivesWidget, (value) => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.DrivesWidgetExpanded), 1);
 
 				drivesWidget.AppInstance = AppInstance;
 				drivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
@@ -90,7 +156,7 @@ namespace Files.App.Views
 			// Reload FileTags
 			if (shouldReloadFileTags && fileTagsWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded), 2);
+				ViewModel.InsertWidget(new(fileTagsWidget, (value) => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.FileTagsWidgetExpanded), 2);
 
 				fileTagsWidget.AppInstance = AppInstance;
 				fileTagsWidget.OpenAction = x => NavigationHelpers.OpenPath(x, AppInstance);
@@ -104,7 +170,7 @@ namespace Files.App.Views
 			// Reload RecentFilesWidget
 			if (shouldReloadRecentFiles && recentFilesWidget is not null)
 			{
-				Widgets.ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded), 4);
+				ViewModel.InsertWidget(new(recentFilesWidget, (value) => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded = value, () => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded), 4);
 
 				recentFilesWidget.AppInstance = AppInstance;
 				recentFilesWidget.RecentFilesOpenLocationInvoked -= WidgetOpenLocationInvoked;
@@ -114,11 +180,15 @@ namespace Files.App.Views
 			}
 		}
 
-		private void ViewModel_YourHomeLoadedInvoked(object? sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-		{
-			// NOTE: We must change the associatedInstance because only now it has loaded and not null
-			ViewModel.ChangeAppInstance(AppInstance);
+		// Event methods
 
+		private void ViewModel_WidgetListRefreshRequestedInvoked(object? sender, EventArgs e)
+		{
+			ReloadWidgets();
+		}
+
+		private void ViewModel_HomePageLoadedInvoked(object? sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+		{
 			ReloadWidgets();
 		}
 
@@ -129,7 +199,7 @@ namespace Files.App.Views
 				if (e.IsFile)
 				{
 					var directoryName = Path.GetDirectoryName(e.ItemPath);
-					await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName);
+					await Win32Helpers.InvokeWin32ComponentAsync(e.ItemPath, AppInstance, workingDirectory: directoryName ?? string.Empty);
 				}
 				else
 				{
@@ -173,7 +243,7 @@ namespace Files.App.Views
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private async void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
+		private void QuickAccessWidget_CardPropertiesInvoked(object sender, QuickAccessCardEventArgs e)
 		{
 			ListedItem listedItem = new(null!)
 			{
@@ -199,67 +269,19 @@ namespace Files.App.Views
 			});
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs e) => await OnNavigatedToAsync(e);
-
-		private async Task OnNavigatedToAsync(NavigationEventArgs eventArgs)
-		{
-			var parameters = eventArgs.Parameter as NavigationArguments;
-
-			AppInstance = parameters.AssociatedTabInstance;
-			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
-			AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
-			AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-			AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-			AppInstance.InstanceViewModel.IsPageTypeFtp = false;
-			AppInstance.InstanceViewModel.IsPageTypeZipFolder = false;
-			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
-			AppInstance.InstanceViewModel.GitRepositoryPath = null;
-			AppInstance.ToolbarViewModel.CanRefresh = true;
-			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
-			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
-			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
-
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
-
-			// Set path of working directory empty
-			await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
-
-			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
-
-			// Clear the path UI and replace with Favorites
-			AppInstance.ToolbarViewModel.PathComponents.Clear();
-			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
-			string tag = parameters.NavPathParam;
-			var item = new PathBoxItem()
-			{
-				Title = componentLabel,
-				Path = tag,
-			};
-
-			AppInstance.ToolbarViewModel.PathComponents.Add(item);
-			base.OnNavigatedTo(eventArgs);
-		}
-
-		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-		{
-			base.OnNavigatingFrom(e);
-
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-		}
-
 		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
 		{
 			AppInstance.ToolbarViewModel.CanRefresh = false;
-			await Task.WhenAll(Widgets.ViewModel.Widgets.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
+			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 		}
 
+		// Disposer
+
 		public void Dispose()
 		{
-			ViewModel.YourHomeLoadedInvoked -= ViewModel_YourHomeLoadedInvoked;
-			Widgets.ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
+			ViewModel.HomePageLoadedInvoked -= ViewModel_HomePageLoadedInvoked;
+			ViewModel.WidgetListRefreshRequestedInvoked -= ViewModel_WidgetListRefreshRequestedInvoked;
 			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			ViewModel?.Dispose();
 		}
