@@ -1,9 +1,11 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.Widgets;
+
 namespace Files.App.Actions
 {
-	internal class OpenDirectoryInNewTabAction : ObservableObject, IAction
+	internal class OpenDirectoryInNewTabAction : ObservableObject, IExtendedAction
 	{
 		private readonly IContentPageContext context;
 
@@ -20,12 +22,10 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable =>
-			context.ShellPage is not null &&
-			context.ShellPage.SlimContentPage is not null &&
-			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
-			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
+		public bool IsExecutable
+			=> GetIsExecutable();
+
+		public object? Parameter { get; set; }
 
 		public OpenDirectoryInNewTabAction()
 		{
@@ -38,19 +38,46 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			if (Parameter is not null && Parameter is WidgetCardItem item)
+			{
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
+					async () =>
+					{
+						await _mainPageViewModel.AddNewTabByPathAsync(
+							typeof(PaneHolderPage),
+							item.Path);
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+				return;
+			}
+
 			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 
+			// Execute with selection
 			foreach (ListedItem listedItem in context.ShellPage.SlimContentPage.SelectedItems)
 			{
-				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await _mainPageViewModel.AddNewTabByPathAsync(
-						typeof(PaneHolderPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
-				},
-				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
+					async () =>
+					{
+						await _mainPageViewModel.AddNewTabByPathAsync(
+							typeof(PaneHolderPage),
+							(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
+		}
+
+		public bool GetIsExecutable()
+		{
+			return
+				context.ShellPage is not null &&
+				((context.ShellPage.SlimContentPage is not null &&
+				context.SelectedItems.Count <= 5 &&
+				context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count) ||
+				Parameter is not null) &&
+				userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

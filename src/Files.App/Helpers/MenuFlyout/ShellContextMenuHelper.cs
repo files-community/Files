@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Helpers.ContextFlyouts;
 using Files.Shared.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -239,7 +238,7 @@ namespace Files.App.Helpers
 					return;
 
 				var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-				var shellMenuItems = await ContextFlyoutItemHelper.GetItemContextShellCommandsAsync(
+				var shellMenuItems = await ContentContextFlyoutFactory.GetItemContextShellCommandsAsync(
 					workingDir: null,
 					new List<ListedItem>() { new ListedItem(null) { ItemPath = path } },
 					shiftPressed: shiftPressed,
@@ -262,7 +261,7 @@ namespace Files.App.Helpers
 				if (turnOnBitLocker is not null)
 					shellMenuItems.Remove(turnOnBitLocker);
 
-				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				ContentContextFlyoutFactory.SwapPlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"TurnOnBitLockerPlaceholder",
 					turnOnBitLocker,
@@ -273,7 +272,7 @@ namespace Files.App.Helpers
 				if (manageBitLocker is not null)
 					shellMenuItems.Remove(manageBitLocker);
 
-				ContextFlyoutItemHelper.SwapPlaceholderWithShellOption(
+				ContentContextFlyoutFactory.SwapPlaceholderWithShellOption(
 					itemContextMenuFlyout,
 					"ManageBitLockerPlaceholder",
 					manageBitLocker,
@@ -284,7 +283,7 @@ namespace Files.App.Helpers
 
 				if (!UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 				{
-					var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(shellMenuItems);
+					var (_, secondaryElements) = ItemToCommandBarConversionHelper.GetAppBarItemsFromModel(shellMenuItems);
 					if (secondaryElements.Any())
 					{
 						var openedPopups = Microsoft.UI.Xaml.Media.VisualTreeHelper.GetOpenPopups(MainWindow.Instance);
@@ -310,7 +309,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var overflowItems = ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
+					var overflowItems = ItemToCommandBarConversionHelper.GetMenuFlyoutItemsFromModel(shellMenuItems);
 					if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton && (appBarButton.Tag as string) == "ItemOverflow") is not AppBarButton overflowItem
 						|| itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarSeparator appBarSeparator && (appBarSeparator.Tag as string) == "OverflowSeparator") is not AppBarSeparator overflowSeparator)
 						return;
@@ -334,7 +333,7 @@ namespace Files.App.Helpers
 					{
 						OpacityIconStyle = "ColorIconOpenWith",
 					};
-					var (_, openWithItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
+					var (_, openWithItems) = ItemToCommandBarConversionHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { openWithItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
@@ -346,7 +345,7 @@ namespace Files.App.Helpers
 				{
 					await sendToItem.LoadSubMenuAction();
 
-					var (_, sendToItems) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
+					var (_, sendToItems) = ItemToCommandBarConversionHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { sendToItem });
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.Where(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")).FirstOrDefault() as AppBarButton;
 					if (placeholder is not null)
 						placeholder.Visibility = Visibility.Collapsed;
@@ -378,7 +377,7 @@ namespace Files.App.Helpers
 			if (appBarButton is not null)
 			{
 				var ctxFlyout = new MenuFlyout();
-				ItemModelListToContextFlyoutHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
+				ItemToCommandBarConversionHelper.GetMenuFlyoutItemsFromModel(viewModel.Items)?.ForEach(i => ctxFlyout.Items.Add(i));
 				appBarButton.Flyout = ctxFlyout;
 				appBarButton.Visibility = Visibility.Collapsed;
 				appBarButton.Visibility = Visibility.Visible;
@@ -392,7 +391,7 @@ namespace Files.App.Helpers
 				var flyoutSubItem = flyout.Items.FirstOrDefault(x => x.Tag == viewModel.Tag) as MenuFlyoutSubItem;
 				if (flyoutSubItem is not null)
 				{
-					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ItemModelListToContextFlyoutHelper.GetMenuItem(i)));
+					viewModel.Items.ForEach(i => flyoutSubItem.Items.Add(ItemToCommandBarConversionHelper.GetMenuItem(i)));
 					flyout.Items[flyout.Items.IndexOf(flyoutSubItem) + 1].Visibility = Visibility.Collapsed;
 					flyoutSubItem.Visibility = Visibility.Visible;
 				}

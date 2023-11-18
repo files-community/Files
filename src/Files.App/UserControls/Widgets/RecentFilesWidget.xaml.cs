@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Helpers.ContextFlyouts;
 using Files.App.ViewModels.Widgets;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -115,7 +114,7 @@ namespace Files.App.UserControls.Widgets
 				return;
 
 			var menuItems = GetItemMenuItems(item, false);
-			var (_, secondaryElements) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(menuItems);
+			var (_, secondaryElements) = ItemToCommandBarConversionHelper.GetAppBarItemsFromModel(menuItems);
 
 			secondaryElements.OfType<FrameworkElement>()
 							 .ForEach(i => i.MinWidth = Constants.UI.ContextMenuItemsMaxWidth);

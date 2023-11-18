@@ -29,6 +29,8 @@ namespace Files.App.Data.Commands
 		string? HotKeyText { get; }
 		HotKeyCollection HotKeys { get; set; }
 
+		object? Parameter { get; set; }
+
 		bool IsToggle { get; }
 		bool IsOn { get; set; }
 		bool IsExecutable { get; }

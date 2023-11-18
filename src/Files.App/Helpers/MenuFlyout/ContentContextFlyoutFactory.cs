@@ -3,8 +3,6 @@
 
 using Files.App.ViewModels.LayoutModes;
 using Files.Shared.Helpers;
-using Files.App.Helpers.ContextFlyouts;
-using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -13,29 +11,44 @@ using Windows.Storage;
 namespace Files.App.Helpers
 {
 	/// <summary>
-	/// Used to create lists of ContextMenuFlyoutItemViewModels that can be used by ItemModelListToContextFlyoutHelper to create context
-	/// menus and toolbars for the user.
-	/// <see cref="ContextMenuFlyoutItemViewModel"/>
-	/// <see cref="Files.App.Helpers.ContextFlyouts.ItemModelListToContextFlyoutHelper"/>
+	/// Provides static factory of a list of <see cref="ContextMenuFlyoutItemViewModel"/> used in content area.
 	/// </summary>
-	public static class ContextFlyoutItemHelper
+	public static class ContentContextFlyoutFactory
 	{
-		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private static readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
-		private static readonly IModifiableCommandManager modifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
-		private static readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private static IModifiableCommandManager modifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
+		private static IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static IAddItemService addItemService { get; } = Ioc.Default.GetRequiredService<IAddItemService>();
+		private static ICommandManager commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(
+			CurrentInstanceViewModel currentInstanceViewModel,
+			List<ListedItem> selectedItems,
+			BaseLayoutViewModel commandsViewModel,
+			bool shiftPressed,
+			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
+			ItemViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
 			return menuItemsList;
 		}
 
-		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(string workingDir, List<ListedItem> selectedItems, bool shiftPressed, bool showOpenMenu, CancellationToken cancellationToken)
-			=> ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
+		public static Task<List<ContextMenuFlyoutItemViewModel>> GetItemContextShellCommandsAsync(
+			string workingDir,
+			List<ListedItem> selectedItems,
+			bool shiftPressed,
+			bool showOpenMenu,
+			CancellationToken cancellationToken)
+		{
+			return ShellContextmenuHelper.GetShellContextmenuAsync(shiftPressed: shiftPressed, showOpenMenu: showOpenMenu, workingDirectory: workingDir, selectedItems: selectedItems, cancellationToken: cancellationToken);
+		}
 
-		public static List<ContextMenuFlyoutItemViewModel> Filter(List<ContextMenuFlyoutItemViewModel> items, List<ListedItem> selectedItems, bool shiftPressed, CurrentInstanceViewModel currentInstanceViewModel, bool removeOverflowMenu = true)
+		public static List<ContextMenuFlyoutItemViewModel> Filter(
+			List<ContextMenuFlyoutItemViewModel> items,
+			List<ListedItem> selectedItems,
+			bool shiftPressed,
+			CurrentInstanceViewModel currentInstanceViewModel,
+			bool removeOverflowMenu = true)
 		{
 			items = items.Where(x => Check(item: x, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList();
 			items.ForEach(x => x.Items = x.Items?.Where(y => Check(item: y, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems)).ToList());
@@ -63,7 +76,10 @@ namespace Files.App.Helpers
 			return items;
 		}
 
-		private static bool Check(ContextMenuFlyoutItemViewModel item, CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems)
+		private static bool Check(
+			ContextMenuFlyoutItemViewModel item,
+			CurrentInstanceViewModel currentInstanceViewModel,
+			List<ListedItem> selectedItems)
 		{
 			return (item.ShowInRecycleBin || !currentInstanceViewModel.IsPageTypeRecycleBin)
 				&& (item.ShowInSearchPage || !currentInstanceViewModel.IsPageTypeSearchResults)
@@ -589,7 +605,9 @@ namespace Files.App.Helpers
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(BaseLayoutViewModel commandsViewModel, bool canCreateFileInPage)
+		public static List<ContextMenuFlyoutItemViewModel> GetNewItemItems(
+			BaseLayoutViewModel commandsViewModel,
+			bool canCreateFileInPage)
 		{
 			var list = new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -646,7 +664,11 @@ namespace Files.App.Helpers
 			return list;
 		}
 
-		public static void SwapPlaceholderWithShellOption(CommandBarFlyout contextMenu, string placeholderName, ContextMenuFlyoutItemViewModel? replacingItem, int position)
+		public static void SwapPlaceholderWithShellOption(
+			CommandBarFlyout contextMenu,
+			string placeholderName,
+			ContextMenuFlyoutItemViewModel? replacingItem,
+			int position)
 		{
 			var placeholder = contextMenu.SecondaryCommands
 															.Where(x => Equals((x as AppBarButton)?.Tag, placeholderName))
@@ -656,7 +678,7 @@ namespace Files.App.Helpers
 
 			if (replacingItem is not null)
 			{
-				var (_, bitLockerCommands) = ItemModelListToContextFlyoutHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { replacingItem });
+				var (_, bitLockerCommands) = ItemToCommandBarConversionHelper.GetAppBarItemsFromModel(new List<ContextMenuFlyoutItemViewModel>() { replacingItem });
 				contextMenu.SecondaryCommands.Insert(
 					position,
 					bitLockerCommands.FirstOrDefault()

@@ -4,14 +4,14 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-namespace Files.App.Helpers.ContextFlyouts
+
+namespace Files.App.Helpers
 {
 	/// <summary>
-	/// This helper class is used to convert ContextMenuFlyoutItemViewModels into a control that can be displayed to the user.
-	/// This is for use in scenarios where XAML templates and data binding will not suffice.
-	/// <see cref="Files.App.ViewModels.ContextMenuFlyoutItemViewModel"/>
+	/// Provides static helper for conversion from <see cref="ContextMenuFlyoutItemViewModel"/>
+	/// to <see cref="MenuFlyoutItemBase"/> or <see cref="ICommandBarElement"/>.
 	/// </summary>
-	public static class ItemModelListToContextFlyoutHelper
+	public static class ItemToCommandBarConversionHelper
 	{
 		public static List<MenuFlyoutItemBase>? GetMenuFlyoutItemsFromModel(List<ContextMenuFlyoutItemViewModel>? items)
 		{
@@ -50,17 +50,13 @@ namespace Files.App.Helpers.ContextFlyouts
 
 			var primary = new List<ICommandBarElement>();
 			primaryModels.ForEach(i => primary.Add(GetCommandBarItem(i)));
+
 			var secondary = new List<ICommandBarElement>();
 			secondaryModels.ForEach(i => secondary.Add(GetCommandBarItem(i)));
 
 			return (primary, secondary);
 		}
 
-		/// <summary>
-		/// Same as GetAppBarItemsFromModel, but ignores the IsPrimary property and returns one list
-		/// </summary>
-		/// <param name="items"></param>
-		/// <returns></returns>
 		public static List<ICommandBarElement> GetAppBarButtonsFromModelIgnorePrimary(List<ContextMenuFlyoutItemViewModel> items)
 		{
 			var elements = new List<ICommandBarElement>();
@@ -216,7 +212,7 @@ namespace Files.App.Helpers.ContextFlyouts
 				{
 					Source = item.BitmapIcon,
 				};
-			else if (item.OpacityIcon.IsValid)
+			else if (item.OpacityIcon is not null && item.OpacityIcon.IsValid)
 				content = item.OpacityIcon.ToOpacityIcon();
 			else if (item.ShowLoadingIndicator)
 				content = new ProgressRing()

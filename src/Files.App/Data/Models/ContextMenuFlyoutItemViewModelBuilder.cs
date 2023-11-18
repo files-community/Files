@@ -24,11 +24,9 @@ namespace Files.App.Data.Models
 
 		public bool IsPrimary { get; init; } = false;
 		public bool IsToggle { get; init; } = false;
-
-		public object Tag { get; init; }
-
+		public object? CommandParameter { get; init; }
+		public object? Tag { get; init; }
 		public bool ShowOnShift { get; init; } = false;
-
 		public List<ContextMenuFlyoutItemViewModel>? Items { get; init; } = null;
 
 		public ContextMenuFlyoutItemViewModelBuilder(IRichCommand command)
@@ -41,6 +39,9 @@ namespace Files.App.Data.Models
 			if (isVisible is false)
 				return none;
 
+			if (CommandParameter is not null)
+				command.Parameter = CommandParameter;
+
 			bool isExecutable = command.IsExecutable;
 
 			if (isVisible is null && !isExecutable)
@@ -51,12 +52,10 @@ namespace Files.App.Data.Models
 			var viewModel = new ContextMenuFlyoutItemViewModel
 			{
 				Text = command.Label,
-				Tag = Tag,
 				Command = command,
 				IsEnabled = isExecutable,
 				IsChecked = command.IsOn,
 				IsPrimary = IsPrimary,
-				Items = Items,
 				ItemType = type,
 				ShowItem = true,
 				ShowOnShift = ShowOnShift,
@@ -66,18 +65,20 @@ namespace Files.App.Data.Models
 				ShowInZipPage = true,
 			};
 
-			var glyph = command.Glyph;
-			if (!string.IsNullOrEmpty(glyph.OpacityStyle))
+			if (Items is not null)
+				viewModel.Items = Items;
+
+			if (Tag is not null)
+				viewModel.Tag = Tag;
+
+			if (!string.IsNullOrEmpty(command.Glyph.OpacityStyle))
 			{
-				viewModel.OpacityIcon = new OpacityIconModel
-				{
-					OpacityIconStyle = glyph.OpacityStyle,
-				};
+				viewModel.OpacityIcon = new OpacityIconModel(command.Glyph.OpacityStyle);
 			}
 			else
 			{
-				viewModel.Glyph = glyph.BaseGlyph;
-				viewModel.GlyphFontFamilyName = glyph.FontFamily;
+				viewModel.Glyph = command.Glyph.BaseGlyph;
+				viewModel.GlyphFontFamilyName = command.Glyph.FontFamily;
 			}
 
 			if (command.HotKeys.Length > 0 &&

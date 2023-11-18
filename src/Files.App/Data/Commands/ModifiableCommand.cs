@@ -40,6 +40,12 @@ namespace Files.App.Data.Commands
 			set => BaseCommand.HotKeys = value;
 		}
 
+		public object? Parameter
+		{
+			get => BaseCommand.Parameter;
+			set => BaseCommand.Parameter = value;
+		}
+
 		public bool IsToggle => BaseCommand.IsToggle;
 
 		public bool IsOn

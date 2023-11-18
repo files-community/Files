@@ -48,6 +48,7 @@ namespace Files.App.Data.Commands
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
+		IRichCommand EjectDrive { get; }
 		IRichCommand FormatDrive { get; }
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }

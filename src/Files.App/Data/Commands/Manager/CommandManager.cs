@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Files.App.Data.Commands
 {
@@ -154,6 +155,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GroupByMonth => commands[CommandCodes.GroupByMonth];
 		public IRichCommand ToggleGroupByDateUnit => commands[CommandCodes.ToggleGroupByDateUnit];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
+		public IRichCommand EjectDrive => commands[CommandCodes.EjectDrive];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
@@ -317,6 +319,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.GroupByMonth] = new GroupByMonthAction(),
 			[CommandCodes.ToggleGroupByDateUnit] = new ToggleGroupByDateUnitAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
+			[CommandCodes.EjectDrive] = new EjectDriveAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
@@ -454,7 +457,24 @@ namespace Files.App.Data.Commands
 				}
 			}
 
-			public bool IsToggle => Action is IToggleAction;
+			public bool IsToggle
+				=> Action is IToggleAction;
+
+			public object? Parameter
+			{
+				get
+				{
+					if (Action is IExtendedAction extendedAction)
+						return extendedAction.Parameter;
+
+					return null;
+				}
+				set
+				{
+					if (Action is IExtendedAction extendedAction)
+						extendedAction.Parameter = value;
+				}
+			}
 
 			public bool IsOn
 			{
@@ -532,6 +552,9 @@ namespace Files.App.Data.Commands
 						break;
 					case nameof(IToggleAction.IsOn) when IsToggle:
 						OnPropertyChanging(nameof(IsOn));
+						break;
+					case nameof(IExtendedAction.Parameter):
+						OnPropertyChanging(nameof(IsExecutable));
 						break;
 					case nameof(IAction.IsExecutable):
 						OnPropertyChanging(nameof(IsExecutable));

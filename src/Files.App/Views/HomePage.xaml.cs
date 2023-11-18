@@ -186,12 +186,12 @@ namespace Files.App.Views
 			FilePropertiesHelpers.OpenPropertiesWindow(listedItem, AppInstance);
 		}
 
-		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+		private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidgetInvokedEventArgs e)
 		{
 			AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
 		}
 
-		private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+		private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidgetInvokedEventArgs e)
 		{
 			AppInstance.NavigateWithArguments(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
 			{
