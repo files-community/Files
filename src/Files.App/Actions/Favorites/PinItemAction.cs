@@ -1,13 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services;
 using Files.App.UserControls.Widgets;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class PinItemAction : ObservableObject, IAction
+	internal class PinItemAction : ObservableObject, IExtendedAction
 	{
 		private readonly IContentPageContext context;
 
@@ -24,6 +23,8 @@ namespace Files.App.Actions
 
 		public bool IsExecutable
 			=> GetIsExecutable();
+
+		public object? Parameter { get; set; }
 
 		public PinItemAction()
 		{
@@ -46,21 +47,35 @@ namespace Files.App.Actions
 			{
 				await service.PinToSidebarAsync(context.Folder.ItemPath);
 			}
+			else if (Parameter is not null && Parameter is WidgetCardItem item)
+			{
+				await service.PinToSidebarAsync(item.Path);
+			}
 		}
 
 		private bool GetIsExecutable()
 		{
 			string[] favorites = App.QuickAccessManager.Model.FavoriteItems.ToArray();
 
-			return context.HasSelection
-				? context.SelectedItems.All(IsPinnable)
-				: context.Folder is not null && IsPinnable(context.Folder);
-
-			bool IsPinnable(ListedItem item)
+			if (context.HasSelection)
 			{
-				return
-					item.PrimaryItemAttribute is StorageItemTypes.Folder &&
-					!favorites.Contains(item.ItemPath);
+				return context.SelectedItems.All(x => CanPin(x.ItemPath, x.PrimaryItemAttribute is StorageItemTypes.Folder));
+			}
+			else if (context.Folder is not null)
+			{
+				return CanPin(context.Folder.ItemPath, context.Folder.PrimaryItemAttribute is StorageItemTypes.Folder);
+			}
+			else if (Parameter is not null && Parameter is WidgetCardItem item)
+			{
+				var isFolder = NativeFileOperationsHelper.HasFileAttribute(item.Path, SystemIO.FileAttributes.Directory);
+				return CanPin(item.Path, isFolder);
+			}
+
+			return false;
+
+			bool CanPin(string path, bool isFolder)
+			{
+				return isFolder && !favorites.Contains(path);
 			}
 		}
 

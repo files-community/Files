@@ -116,7 +116,7 @@ namespace Files.App.UserControls.Widgets
 		private void LoadContextMenu(
 			FrameworkElement element,
 			RightTappedRoutedEventArgs e,
-			List<ContextMenuFlyoutItemViewModel> menuItems,
+			List<CustomMenuFlyoutItem> menuItems,
 			FileTagsItemViewModel? rightClickedItem = null)
 		{
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
@@ -146,11 +146,11 @@ namespace Files.App.UserControls.Widgets
 			await ShellContextmenuHelper.LoadShellMenuItemsAsync(FlyouItemPath, ItemContextMenuFlyout, showOpenWithMenu: true, showSendToMenu: true);
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<CustomMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			return new List<ContextMenuFlyoutItemViewModel>()
+			return new List<CustomMenuFlyoutItem>()
 			{
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "OpenWith".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -158,15 +158,15 @@ namespace Files.App.UserControls.Widgets
 						OpacityIconStyle = "ColorIconOpenWith",
 					},
 					Tag = "OpenWithPlaceholder",
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
-					ShowItem = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
+					IsAvailable = !isFolder && userSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "OpenInNewTab".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -175,9 +175,9 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewTabCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "OpenInNewWindow".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -186,24 +186,24 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenInNewWindowCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "OpenFileLocation".GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,
-					ShowItem = !isFolder
+					IsAvailable = !isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "OpenInNewPane".GetLocalizedResource(),
 					Command = OpenInNewPaneCommand,
 					CommandParameter = item,
-					ShowItem = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
+					IsAvailable = userSettingsService.GeneralSettingsService.ShowOpenInNewPane && isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "PinToFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -212,9 +212,9 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = PinToFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned && isFolder
+					IsAvailable = !isPinned && isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "UnpinFromFavorites".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -223,9 +223,9 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = UnpinFromFavoritesCommand,
 					CommandParameter = item,
-					ShowItem = isPinned && isFolder
+					IsAvailable = isPinned && isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "Properties".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
@@ -234,23 +234,23 @@ namespace Files.App.UserControls.Widgets
 					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
-					ShowItem = isFolder
+					IsAvailable = isFolder
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 				},
-				new ContextMenuFlyoutItemViewModel()
+				new CustomMenuFlyoutItem()
 				{
 					Text = "Loading".GetLocalizedResource(),
 					Glyph = "\xE712",
-					Items = new List<ContextMenuFlyoutItemViewModel>(),
+					Items = new List<CustomMenuFlyoutItem>(),
 					ID = "ItemOverflow",
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 				}
-			}.Where(x => x.ShowItem).ToList();
+			}.Where(x => x.IsAvailable).ToList();
 		}
 
 		public void OpenFileLocation(WidgetCardItem? item)

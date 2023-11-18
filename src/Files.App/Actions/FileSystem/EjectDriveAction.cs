@@ -5,7 +5,7 @@ using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
-	internal class EjectDriveAction : ObservableObject, IAction
+	internal class EjectDriveAction : ObservableObject, IExtendedAction
 	{
 		private IContentPageContext PageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -17,13 +17,13 @@ namespace Files.App.Actions
 			=> "EjectDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
-			PageContext.HasItem &&
+			(PageContext.HasItem &&
 			!PageContext.HasSelection &&
 			(DrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-				string.Equals(x.Path, PageContext.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+				string.Equals(x.Path, PageContext.Folder?.ItemPath))?.MenuOptions.ShowEjectDevice ?? false)) ||
+			Parameter is not null;
 
-		// EXPERIMENT
-		public object? Parameter { get; }
+		public object? Parameter { get; set; }
 
 		public EjectDriveAction()
 		{
@@ -32,12 +32,12 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
-			if (Parameter is null || Parameter is not DriveCardItem item)
+			if (Parameter is null || Parameter is not WidgetCardItem item)
 				return;
 
-			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
+			var result = await DriveHelpers.EjectDeviceAsync(item.Path);
 
-			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
+			await UIHelpers.ShowDeviceEjectResultAsync(((DriveCardItem)item).Item.Type, result);
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

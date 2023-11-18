@@ -22,8 +22,13 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconOpenInNewTab");
 
-		public bool IsExecutable
-			=> GetIsExecutable();
+		public bool IsExecutable =>
+			context.ShellPage is not null &&
+			((context.ShellPage.SlimContentPage is not null &&
+			context.SelectedItems.Count <= 5 &&
+			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count) ||
+			Parameter is not null) &&
+			userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 
 		public object? Parameter { get; set; }
 
@@ -67,17 +72,6 @@ namespace Files.App.Actions
 					},
 					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 			}
-		}
-
-		public bool GetIsExecutable()
-		{
-			return
-				context.ShellPage is not null &&
-				((context.ShellPage.SlimContentPage is not null &&
-				context.SelectedItems.Count <= 5 &&
-				context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count) ||
-				Parameter is not null) &&
-				userSettingsService.GeneralSettingsService.ShowOpenInNewTab;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

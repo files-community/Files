@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenPropertiesAction : ObservableObject, IAction
+	internal class OpenPropertiesAction : ObservableObject, IExtendedAction
 	{
 		private readonly IContentPageContext context;
 
@@ -20,9 +20,12 @@ namespace Files.App.Actions
 			=> new(Keys.Enter, KeyModifiers.Menu);
 
 		public bool IsExecutable =>
-			context.PageType is not ContentPageTypes.Home &&
+			(context.PageType is not ContentPageTypes.Home &&
 			!(context.PageType is ContentPageTypes.SearchResults && 
-			!context.HasSelection);
+			!context.HasSelection)) ||
+			Parameter is not null;
+
+		public object? Parameter { get; set; }
 
 		public OpenPropertiesAction()
 		{
@@ -33,34 +36,16 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			var page = context.ShellPage?.SlimContentPage;
-
-			if (page?.ItemContextMenuFlyout.IsOpen ?? false)
-				page.ItemContextMenuFlyout.Closed += OpenPropertiesFromItemContextMenuFlyout;
-			else if (page?.BaseContextMenuFlyout.IsOpen ?? false)
-				page.BaseContextMenuFlyout.Closed += OpenPropertiesFromBaseContextMenuFlyout;
+			if (Parameter is not null && Parameter is DriveCardItem item)
+			{
+				FilePropertiesHelpers.OpenPropertiesWindow(item.Item, context.ShellPage!);
+			}
 			else
+			{
 				FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
+			}
 
 			return Task.CompletedTask;
-		}
-
-		private void OpenPropertiesFromItemContextMenuFlyout(object? _, object e)
-		{
-			var page = context.ShellPage?.SlimContentPage;
-			if (page is not null)
-				page.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			
-			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
-		}
-
-		private void OpenPropertiesFromBaseContextMenuFlyout(object? _, object e)
-		{
-			var page = context.ShellPage?.SlimContentPage;
-			if (page is not null)
-				page.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			
-			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

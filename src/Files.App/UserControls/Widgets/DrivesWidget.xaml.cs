@@ -95,7 +95,7 @@ namespace Files.App.UserControls.Widgets
 			});
 		}
 
-		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
+		public override List<CustomMenuFlyoutItem> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
 			var drive = ItemsAdded.Where(x =>
 				string.Equals(
@@ -107,7 +107,7 @@ namespace Files.App.UserControls.Widgets
 			if (drive is null)
 				return default;
 
-			var items = SideBarDriveItemContextMenuFactory.Generate(drive, item, isPinned, isFolder);
+			var items = DriveItemContextFlyoutFactory.Generate(drive, isPinned);
 
 			return items;
 		}

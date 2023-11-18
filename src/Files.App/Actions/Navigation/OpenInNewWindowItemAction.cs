@@ -1,11 +1,12 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.UserControls.Widgets;
 using Windows.System;
 
 namespace Files.App.Actions
 {
-	internal class OpenInNewWindowItemAction : ObservableObject, IAction
+	internal class OpenInNewWindowItemAction : ObservableObject, IExtendedAction
 	{
 		private readonly IContentPageContext context;
 
@@ -25,10 +26,13 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
-			context.ShellPage.SlimContentPage is not null &&
+			((context.ShellPage.SlimContentPage is not null &&
 			context.SelectedItems.Count <= 5 &&
-			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count &&
+			context.SelectedItems.Where(x => x.IsFolder == true).Count() == context.SelectedItems.Count) ||
+			Parameter is not null) &&
 			userSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
+
+		public object? Parameter { get; set; }
 
 		public OpenInNewWindowItemAction()
 		{
@@ -40,6 +44,16 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync()
 		{
+			if (Parameter is not null && Parameter is WidgetCardItem item)
+			{
+				var selectedItemPath = item.Path;
+				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+
+				await Launcher.LaunchUriAsync(folderUri);
+
+				return;
+			}
+
 			if (context.ShellPage?.SlimContentPage?.SelectedItems is null)
 				return;
 

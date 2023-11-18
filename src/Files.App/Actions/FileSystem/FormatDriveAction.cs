@@ -1,11 +1,11 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
+using Files.App.UserControls.Widgets;
 
 namespace Files.App.Actions
 {
-	internal class FormatDriveAction : ObservableObject, IAction
+	internal class FormatDriveAction : ObservableObject, IExtendedAction
 	{
 		private readonly IContentPageContext context;
 
@@ -18,10 +18,13 @@ namespace Files.App.Actions
 			=> "FormatDriveDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
-			context.HasItem &&
+			(context.HasItem &&
 			!context.HasSelection &&
 			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
-				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
+				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false)) ||
+			Parameter is not null;
+
+		public object? Parameter { get; set; }
 
 		public FormatDriveAction()
 		{
@@ -33,7 +36,14 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync()
 		{
-			return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+			if (Parameter is not null && Parameter is WidgetCardItem item)
+			{
+				return Win32API.OpenFormatDriveDialog(item.Path ?? string.Empty);
+			}
+			else
+			{
+				return Win32API.OpenFormatDriveDialog(context.Folder?.ItemPath ?? string.Empty);
+			}
 		}
 
 		public void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
