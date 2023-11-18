@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Windows.Input;
@@ -32,6 +33,8 @@ namespace Files.App.Data.Models
 		public List<CustomMenuFlyoutItem> Items { get; set; }
 
 		public BitmapImage BitmapIcon { get; set; }
+
+		public IconElement Icon { get; set; }
 
 		public bool ShowOnShift { get; set; }
 

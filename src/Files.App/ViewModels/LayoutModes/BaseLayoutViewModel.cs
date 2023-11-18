@@ -19,7 +19,11 @@ namespace Files.App.ViewModels.LayoutModes
 	{
 		private readonly IShellPage _associatedInstance;
 
+		private readonly IContentPageContext _context;
+
 		private readonly ItemManipulationModel _itemManipulationModel;
+
+		public ICommand ToggleFileTagsCommand { get; private set; }
 
 		public ICommand CreateNewFileCommand { get; private set; }
 
@@ -33,14 +37,42 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public BaseLayoutViewModel(IShellPage associatedInstance, ItemManipulationModel itemManipulationModel)
 		{
+			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			_associatedInstance = associatedInstance;
 			_itemManipulationModel = itemManipulationModel;
 
+			ToggleFileTagsCommand = new RelayCommand<TagViewModel>(ToggleFileTags);
 			CreateNewFileCommand = new RelayCommand<ShellNewEntry>(CreateNewFile);
 			ItemPointerPressedCommand = new AsyncRelayCommand<PointerRoutedEventArgs>(ItemPointerPressedAsync);
 			PointerWheelChangedCommand = new RelayCommand<PointerRoutedEventArgs>(PointerWheelChanged);
 			DragOverCommand = new AsyncRelayCommand<DragEventArgs>(DragOverAsync);
 			DropCommand = new AsyncRelayCommand<DragEventArgs>(DropAsync);
+		}
+
+		private void ToggleFileTags(TagViewModel? tag)
+		{
+			if (tag is null)
+				return;
+
+			var selectedItems = _context.ShellPage.SlimContentPage.SelectedItems;
+
+			foreach (var selectedItem in selectedItems)
+			{
+				var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+
+				// Add the tag
+				if (!existingTags.Contains(tag.Uid))
+				{
+					selectedItem.FileTags = existingTags.Append(tag.Uid).ToArray();
+				}
+				// Remove the tag
+				else
+				{
+					var tagList = existingTags.Except(new[] { tag.Uid }).ToArray();
+					selectedItem.FileTags = tagList.Any() ? tagList : null;
+				}
+			}
+
 		}
 
 		private void CreateNewFile(ShellNewEntry f)

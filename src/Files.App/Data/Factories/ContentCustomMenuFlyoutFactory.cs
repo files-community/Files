@@ -3,6 +3,10 @@
 
 using Files.App.ViewModels.LayoutModes;
 using Files.Shared.Helpers;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
@@ -11,6 +15,7 @@ namespace Files.App.Data.Factories
 {
 	public static class ContentCustomMenuFlyoutFactory
 	{
+		private static IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 		private static IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static IAddItemService AddItemService { get; } = Ioc.Default.GetRequiredService<IAddItemService>();
@@ -78,6 +83,8 @@ namespace Files.App.Data.Factories
 			bool isDriveRoot =
 				itemViewModel?.CurrentFolder is not null &&
 				(itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
+
+			var tagItems = GetFileTagItems(commandsViewModel, selectedItems);
 
 			return new List<CustomMenuFlyoutItem>()
 			{
@@ -548,30 +555,34 @@ namespace Files.App.Data.Factories
 				},
 				new CustomMenuFlyoutItem()
 				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					Tag = "EditTagsOverflowSeparator",
+					IsHidden =
+						tagItems is null ||
+						tagItems.Count == 0 ||
+						!itemsSelected ||
+						!UserSettingsService.GeneralSettingsService.ShowEditTagsMenu ||
+						!currentInstanceViewModel.CanTagFilesInPage,
+					ShowInFtpPage = false,
+					ShowInZipPage = false,
+					ShowInRecycleBin = false,
+					ShowInSearchPage = true,
+				},
+				new CustomMenuFlyoutItem()
+				{
 					Text = "EditTags".GetLocalizedResource(),
 					OpacityIcon = new OpacityIconModel()
 					{
 						OpacityIconStyle = "ColorIconTag"
 					},
+					IsHidden = tagItems is null || tagItems.Count == 0,
 					Tag = "EditTagsOverflow",
-					IsHidden = true,
-					CollapseLabel = true,
-					Items = new List<CustomMenuFlyoutItem>() {},
+					Items = tagItems,
 					ShowInSearchPage = true,
 					ShowItem =
 						itemsSelected &&
 						UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
 						currentInstanceViewModel.CanTagFilesInPage,
-				},
-				new CustomMenuFlyoutItem()
-				{
-					ItemType = ContextMenuFlyoutItemType.Separator,
-					Tag = "EditTagsOverflowSeparator",
-					IsHidden = true,
-					ShowInFtpPage = false,
-					ShowInZipPage = false,
-					ShowInRecycleBin = false,
-					ShowInSearchPage = true,
 				},
 				// NOTE: Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
@@ -656,6 +667,53 @@ namespace Files.App.Data.Factories
 					}
 				});
 			}
+
+			return list;
+		}
+
+		private static List<CustomMenuFlyoutItem>? GetFileTagItems(
+			BaseLayoutViewModel commandsViewModel,
+			List<ListedItem> selectedItems)
+		{
+			if (FileTagsSettingsService.FileTagList.Count == 0)
+				return null;
+
+			var list = new List<CustomMenuFlyoutItem>();
+
+			FileTagsSettingsService.FileTagList.ForEach(item =>
+			{
+				bool isChecked = true;
+
+				foreach (var selectedItem in selectedItems)
+				{
+					var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
+
+					if (!existingTags.Contains(item.Uid))
+					{
+						isChecked = false;
+						break;
+					}
+				}
+
+				var tagItem = new CustomMenuFlyoutItem
+				{
+					Text = item.Name,
+					Tag = item,
+					ItemType = ContextMenuFlyoutItemType.Toggle,
+					IsChecked = isChecked,
+					Icon = new PathIcon()
+					{
+						Data = (Geometry)XamlBindingHelper.ConvertValue(
+							typeof(Geometry),
+							(string)Application.Current.Resources["ColorIconFilledTag"]),
+						Foreground = new SolidColorBrush(ColorHelpers.FromHex(item.Color))
+					},
+					Command = commandsViewModel.ToggleFileTagsCommand,
+					CommandParameter = item,
+				};
+
+				list.Add(tagItem);
+			});
 
 			return list;
 		}

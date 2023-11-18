@@ -114,7 +114,7 @@ namespace Files.App.Data.Factories
 
 		private static MenuFlyoutItemBase GetItem(CustomMenuFlyoutItem i)
 		{
-			// Generate imaging item
+			// Generate image item
 			if (i.BitmapIcon is not null)
 			{
 				var item = new MenuFlyoutItemWithImage()
@@ -153,6 +153,17 @@ namespace Files.App.Data.Factories
 
 				if (!string.IsNullOrEmpty(i.Glyph))
 					flyoutItem.Icon = new FontIcon { Glyph = i.Glyph };
+			}
+			else if (i.Icon is not null)
+			{
+				flyoutItem = new MenuFlyoutItem()
+				{
+					Text = i.Text,
+					Tag = i.Tag,
+					Command = i.Command,
+					CommandParameter = i.CommandParameter,
+					Icon = i.Icon,
+				};
 			}
 			// Generate default item
 			else
@@ -243,6 +254,10 @@ namespace Files.App.Data.Factories
 			else if (item.OpacityIcon.IsValid)
 			{
 				content = item.OpacityIcon.ToOpacityIcon();
+			}
+			else if (item.Icon is not null)
+			{
+				content = item.Icon;
 			}
 			else if (item.ShowLoadingIndicator)
 			{

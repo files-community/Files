@@ -610,13 +610,6 @@ namespace Files.App.Views.LayoutModes
 					primaryElements.ForEach(ItemContextMenuFlyout.PrimaryCommands.Add);
 					secondaryElements.ForEach(ItemContextMenuFlyout.SecondaryCommands.Add);
 
-					// Add available file tags
-					if (UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
-						InstanceViewModel.CanTagFilesInPage)
-					{
-						AddAvailableFileTagItems(ItemContextMenuFlyout);
-					}
-
 					// Add shell menu items and remove the placeholder
 					if (!InstanceViewModel.IsPageTypeZipFolder &&
 						!InstanceViewModel.IsPageTypeFtp)
@@ -686,14 +679,6 @@ namespace Files.App.Views.LayoutModes
 
 				// Add items
 				secondaryElements.ForEach(BaseContextMenuFlyout.SecondaryCommands.Add);
-
-				// Add available file tags
-				// Add available file tags
-				if (UserSettingsService.GeneralSettingsService.ShowEditTagsMenu &&
-					InstanceViewModel.CanTagFilesInPage)
-				{
-					AddAvailableFileTagItems(BaseContextMenuFlyout);
-				}
 
 				// Add shell menu items and remove the placeholder
 				if (!InstanceViewModel!.IsPageTypeSearchResults &&
@@ -960,83 +945,6 @@ namespace Files.App.Views.LayoutModes
 					clickAction(flyout.Items);
 				}
 			});
-		}
-
-		private void AddAvailableFileTagItems(CommandBarFlyout contextMenuFlyout)
-		{
-			var editTagsOverflow = contextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton abb && (abb.Tag as string) == "EditTagsOverflow") as AppBarButton;
-			var flyout = (MenuFlyout)editTagsOverflow.Flyout;
-
-			// Leave the placeholder and bottom's separator hidden
-			if (FileTagsSettingsService.FileTagList.Count == 0)
-				return;
-
-			// Get all available tags and generate toggleable flyout items
-			foreach (var item in FileTagsSettingsService.FileTagList)
-			{
-				var tagItem = new ToggleMenuFlyoutItem
-				{
-					Text = item.Name,
-					Tag = item,
-					Icon = new PathIcon()
-					{
-						Data = (Geometry)XamlBindingHelper.ConvertValue(
-							typeof(Geometry),
-							(string)Application.Current.Resources["ColorIconFilledTag"]),
-						Foreground = new SolidColorBrush(ColorHelpers.FromHex(item.Color))
-					}
-				};
-
-				tagItem.Click += TagItem_Click;
-
-				flyout.Items.Add(tagItem);
-			}
-
-			// Go through each tag and find the common one for all files
-			var commonFileTags = SelectedItems
-				.Select(x => x.FileTags ?? Enumerable.Empty<string>())
-				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => flyout.Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
-
-			// Set checked or unchecked state
-			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
-
-			editTagsOverflow.Flyout = flyout;
-			editTagsOverflow.Visibility = Visibility.Visible;
-		}
-
-		private void TagItem_Click(object sender, RoutedEventArgs e)
-		{
-			if (SelectedItems is null)
-				return;
-
-			var tagItem = (ToggleMenuFlyoutItem)sender;
-			var tag = (TagViewModel)tagItem.Tag;
-			if (tagItem.IsChecked)
-			{
-				foreach (var selectedItem in SelectedItems)
-				{
-					var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
-
-					if (!existingTags.Contains(tag.Uid))
-					{
-						selectedItem.FileTags = existingTags.Append(tag.Uid).ToArray();
-					}
-				}
-			}
-			else
-			{
-				foreach (var selectedItem in SelectedItems)
-				{
-					var existingTags = selectedItem.FileTags ?? Array.Empty<string>();
-
-					if (existingTags.Contains(tag.Uid))
-					{
-						var tagList = existingTags.Except(new[] { tag.Uid }).ToArray();
-						selectedItem.FileTags = tagList.Any() ? tagList : null;
-					}
-				}
-			}
 		}
 
 		private void RemoveOverflow(CommandBarFlyout contextMenuFlyout)
