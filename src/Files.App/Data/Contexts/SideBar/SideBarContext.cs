@@ -5,7 +5,7 @@ namespace Files.App.Data.Contexts
 {
 	internal class SideBarContext : ObservableObject, ISideBarContext
 	{
-		public static event EventHandler<SideBarRightClickedItemChangedEventArgs>? RightClickedItemChanged;
+		private SidebarViewModel SideBarViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		public bool IsAnyItemRightClicked
 			=> _RightClickedItem is not null;
@@ -23,7 +23,7 @@ namespace Files.App.Data.Contexts
 
 		public SideBarContext()
 		{
-			RightClickedItemChanged += SideBar_RightClickedItemChanged;
+			SideBarViewModel.RightClickedItemChanged += SideBar_RightClickedItemChanged;
 		}
 
 		private void SideBar_RightClickedItemChanged(object? sender, SideBarRightClickedItemChangedEventArgs e)

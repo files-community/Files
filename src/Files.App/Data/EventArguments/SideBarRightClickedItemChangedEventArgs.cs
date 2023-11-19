@@ -5,6 +5,6 @@ namespace Files.App.Data.EventArguments
 {
 	public class SideBarRightClickedItemChangedEventArgs
 	{
-		public ILocatableSideBarItem? Item { get; }
+		public ILocatableSideBarItem? Item { get; init }
 	}
 }

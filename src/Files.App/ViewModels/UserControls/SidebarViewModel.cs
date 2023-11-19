@@ -24,12 +24,12 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
+		private NetworkDrivesViewModel networkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IFileTagsService fileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
+		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly IFileTagsService fileTagsService;
-
-		private readonly NetworkDrivesViewModel networkDrivesViewModel = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
+		private ISideBarContext SideBarContext { get; } = Ioc.Default.GetRequiredService<ISideBarContext>();
 
 		private IPaneHolder paneHolder;
 		public IPaneHolder PaneHolder
@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.UserControls
 			=> PaneHolder?.FilesystemHelpers;
 
 		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
+
 		private ILocatableSideBarItem rightClickedItem;
 
 		public object SidebarItems => sidebarItems;
@@ -71,6 +72,8 @@ namespace Files.App.ViewModels.UserControls
 		public delegate void SelectedTagChangedEventHandler(object sender, SelectedTagChangedEventArgs e);
 
 		public static event SelectedTagChangedEventHandler? SelectedTagChanged;
+
+		public event EventHandler<SideBarRightClickedItemChangedEventArgs>? RightClickedItemChanged;
 
 		private readonly SectionType[] SectionOrder =
 			new SectionType[]
@@ -233,7 +236,6 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarViewModel()
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			sidebarItems = new BulkConcurrentObservableCollection<ILocatableSideBarItem>();
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -688,6 +690,8 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			rightClickedItem = item;
+			RightClickedItemChanged?.Invoke(this, new() { Item = item });
+
 			var itemContextMenuFlyout = new CommandBarFlyout { Placement = FlyoutPlacementMode.Full };
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
