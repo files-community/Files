@@ -77,7 +77,7 @@ namespace Files.App.Views.Properties
 				return false;
 			}
 
-			bool SaveDrive(DriveItem drive)
+			bool SaveDrive(LocatableDriveItem drive)
 			{
 				var fsVM = AppInstance.FilesystemViewModel;
 				if (!GetNewName(out var newName) || fsVM is null)

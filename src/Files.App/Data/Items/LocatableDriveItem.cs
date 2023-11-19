@@ -15,7 +15,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
+	public class LocatableDriveItem : ObservableObject, ILocatableSideBarItem, ILocatableFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -230,9 +230,9 @@ namespace Files.App.Data.Items
 			await UIHelpers.ShowDeviceEjectResultAsync(Type, result);
 		}
 
-		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
+		public static async Task<LocatableDriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
 		{
-			var item = new DriveItem();
+			var item = new LocatableDriveItem();
 
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
@@ -308,9 +308,9 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(ILocatableSideBarItem other)
 		{
-			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
+			var result = Type.CompareTo((other as LocatableDriveItem)?.Type ?? Type);
 			return result == 0 ? Text.CompareTo(other.Text) : result;
 		}
 

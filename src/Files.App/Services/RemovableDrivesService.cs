@@ -39,7 +39,7 @@ namespace Files.App.Services
 				using var thumbnail = await DriveHelpers.GetThumbnailAsync(res.Result);
 				var type = DriveHelpers.GetDriveType(drive);
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
-				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
+				var driveItem = await LocatableDriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
@@ -56,7 +56,7 @@ namespace Files.App.Services
 		public async Task UpdateDrivePropertiesAsync(ILocatableFolder drive)
 		{
 			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());
-			if (rootModified && drive is DriveItem matchingDriveEjected)
+			if (rootModified && drive is LocatableDriveItem matchingDriveEjected)
 			{
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{

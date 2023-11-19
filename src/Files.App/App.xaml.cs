@@ -89,6 +89,7 @@ namespace Files.App
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
+					// Settings services
 					.AddSingleton<IUserSettingsService, UserSettingsService>()
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
@@ -98,12 +99,16 @@ namespace Files.App
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					// Contexts
 					.AddSingleton<IPageContext, PageContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ISideBarContext, SideBarContext>()
+					// Services
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()

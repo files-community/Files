@@ -238,7 +238,7 @@ namespace Files.App.ViewModels
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
-			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			else if (WSLDistroManager.TryGetDistro(currentPath, out LocatableWSLItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
 				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
@@ -254,8 +254,8 @@ namespace Files.App.ViewModels
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
 				{
-					var matchingDrive = networkDrivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
+					var matchingDrive = networkDrivesViewModel.Drives.Cast<LocatableDriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
+					matchingDrive ??= drivesViewModel.Drives.Cast<LocatableDriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
 					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
 				}
 				else

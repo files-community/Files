@@ -16,7 +16,7 @@ namespace Files.App.UserControls.Widgets
 {
 	public class QuickAccessCardEventArgs : EventArgs
 	{
-		public LocationItem Item { get; set; }
+		public LocatableStorageItem Item { get; set; }
 	}
 
 	public class QuickAccessCardInvokedEventArgs : EventArgs
@@ -47,7 +47,7 @@ namespace Files.App.UserControls.Widgets
 		}
 	}
 
-	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public class FolderCardItem : WidgetCardItem, IWidgetCardItem<LocatableStorageItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
@@ -60,11 +60,11 @@ namespace Files.App.UserControls.Widgets
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-		public LocationItem Item { get; private set; }
+		public LocatableStorageItem Item { get; private set; }
 		public string Text { get; set; }
 		public bool IsPinned { get; set; }
 
-		public FolderCardItem(LocationItem item, string text, bool isPinned)
+		public FolderCardItem(LocatableStorageItem item, string text, bool isPinned)
 		{
 			if (!string.IsNullOrWhiteSpace(text))
 			{

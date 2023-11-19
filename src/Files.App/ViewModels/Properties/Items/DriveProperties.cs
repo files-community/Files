@@ -11,9 +11,9 @@ namespace Files.App.ViewModels.Properties
 {
 	internal class DriveProperties : BaseProperties
 	{
-		public DriveItem Drive { get; }
+		public LocatableDriveItem Drive { get; }
 
-		public DriveProperties(SelectedItemsPropertiesViewModel viewModel, DriveItem driveItem, IShellPage instance)
+		public DriveProperties(SelectedItemsPropertiesViewModel viewModel, LocatableDriveItem driveItem, IShellPage instance)
 		{
 			ViewModel = viewModel;
 			Drive = driveItem;

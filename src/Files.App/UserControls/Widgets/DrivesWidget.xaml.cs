@@ -19,19 +19,19 @@ using Windows.UI.Core;
 
 namespace Files.App.UserControls.Widgets
 {
-	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<DriveCardItem>
+	public class DriveCardItem : WidgetCardItem, IWidgetCardItem<LocatableDriveItem>, IComparable<DriveCardItem>
 	{
 		private BitmapImage thumbnail;
 		private byte[] thumbnailData;
 
-		public new DriveItem Item { get; private set; }
+		public new LocatableDriveItem Item { get; private set; }
 		public bool HasThumbnail => thumbnail is not null && thumbnailData is not null;
 		public BitmapImage Thumbnail
 		{
 			get => thumbnail;
 			set => SetProperty(ref thumbnail, value);
 		}
-		public DriveCardItem(DriveItem item)
+		public DriveCardItem(LocatableDriveItem item)
 		{
 			Item = item;
 			Path = item.Path;
@@ -142,7 +142,7 @@ namespace Files.App.UserControls.Widgets
 		{
 			await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in drivesViewModel.Drives.ToList())
+				foreach (LocatableDriveItem drive in drivesViewModel.Drives.ToList())
 				{
 					if (!ItemsAdded.Any(x => x.Item == drive) && drive.Type != DriveType.VirtualDrive)
 					{
@@ -352,10 +352,10 @@ namespace Files.App.UserControls.Widgets
 		private void MenuFlyout_Opening(object sender, object e)
 		{
 			var pinToFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "PinToFavorites");
-			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
+			pinToFavoritesItem.Visibility = (pinToFavoritesItem.DataContext as LocatableDriveItem).IsPinned ? Visibility.Collapsed : Visibility.Visible;
 
 			var unpinFromFavoritesItem = (sender as MenuFlyout).Items.Single(x => x.Name == "UnpinFromFavorites");
-			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as DriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
+			unpinFromFavoritesItem.Visibility = (unpinFromFavoritesItem.DataContext as LocatableDriveItem).IsPinned ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void DisconnectNetworkDrive(DriveCardItem item)

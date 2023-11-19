@@ -102,7 +102,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in drivesViewModel.Drives.Cast<LocatableDriveItem>().Where(x => !x.IsNetwork))
 				{
 					await AddItemsAsync(drive.Path, results, token);
 				}

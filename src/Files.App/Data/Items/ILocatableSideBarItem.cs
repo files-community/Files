@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace Files.App.Data.Items
 {
 
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface ILocatableSideBarItem : IComparable<ILocatableSideBarItem>, INotifyPropertyChanged, ISidebarItemModel
 	{
 		public new string Text { get; }
 
