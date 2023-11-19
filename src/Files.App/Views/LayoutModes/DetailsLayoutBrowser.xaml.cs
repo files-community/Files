@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Actions;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -97,14 +96,14 @@ namespace Files.App.Views.LayoutModes
 				FileList.SelectedItems.Remove(e);
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 				navArgs.FocusOnNavigation = true;
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings.ColumnsViewModel is not null)
+			if (FolderSettings?.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
 				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
@@ -136,7 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				await ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -441,7 +440,8 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 				return;
@@ -477,7 +477,8 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 			}
@@ -842,9 +843,12 @@ namespace Files.App.Views.LayoutModes
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
-			item.FileTags = item.FileTags
-				.Except(new string[] { tagId })
-				.ToArray();
+			if (tagId is not null)
+			{
+				item.FileTags = item.FileTags
+					.Except(new string[] { tagId })
+					.ToArray();
+			}
 
 			e.Handled = true;
 		}
