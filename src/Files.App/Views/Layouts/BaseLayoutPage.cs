@@ -84,7 +84,7 @@ namespace Files.App.Views.Layouts
 
 		// NOTE: Dragging makes the app crash when run as admin. (#12390)
 		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
-		public static bool AllowItemDrag
+		public bool AllowItemDrag
 			=> !ElevationHelpers.IsAppRunAsAdmin();
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
