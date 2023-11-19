@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contexts
 {
-	internal interface ISideBarContext
+	public interface ISideBarContext
 	{
 		/// <summary>
 		/// The last right clicked item
