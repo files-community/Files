@@ -21,6 +21,8 @@ namespace Files.App.Views.Shells
 
 		AddressToolbarViewModel ToolbarViewModel { get; }
 
+		PathBreadcrumbViewModel PathBreadcrumbViewModel { get; }
+
 		bool CanNavigateBackward { get; }
 
 		bool CanNavigateForward { get; }

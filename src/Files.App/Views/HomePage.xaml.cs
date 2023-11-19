@@ -229,7 +229,7 @@ namespace Files.App.Views
 			AppInstance.SlimContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(false, string.Empty, Array.Empty<BranchItem>());
 
 			// Clear the path UI and replace with Favorites
-			AppInstance.ToolbarViewModel.PathComponents.Clear();
+			AppInstance.PathBreadcrumbViewModel.PathComponents.Clear();
 			string componentLabel = parameters.NavPathParam == "Home" ? "Home".GetLocalizedResource() : parameters.NavPathParam;
 			string tag = parameters.NavPathParam;
 			var item = new PathBoxItem()
@@ -238,7 +238,7 @@ namespace Files.App.Views
 				Path = tag,
 			};
 
-			AppInstance.ToolbarViewModel.PathComponents.Add(item);
+			AppInstance.PathBreadcrumbViewModel.PathComponents.Add(item);
 			base.OnNavigatedTo(eventArgs);
 		}
 
