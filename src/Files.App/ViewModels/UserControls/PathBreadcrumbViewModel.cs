@@ -36,7 +36,8 @@ namespace Files.App.ViewModels.UserControls
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
-		public event IAddressToolbar.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
+		public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
+		public event ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 
 		private string? dragOverPath = null;
 
