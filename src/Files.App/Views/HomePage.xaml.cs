@@ -16,30 +16,25 @@ namespace Files.App.Views
 		// Dependency injections
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private HomeViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
 
 		// Properties
 
-		private IShellPage AppInstance
-			=> ContentPageContext.ShellPage!;
+		private IShellPage AppInstance { get; set; } = null!;
 
 		public FolderSettingsViewModel FolderSettings
-			=> ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings!;
+			=> AppInstance?.InstanceViewModel.FolderSettings!;
 
 		private QuickAccessWidget? quickAccessWidget;
 		private DrivesWidget? drivesWidget;
 		private FileTagsWidget? fileTagsWidget;
 		private RecentFilesWidget? recentFilesWidget;
 
-		public HomeViewModel ViewModel { get; set; }
-
 		// Constructor
 
 		public HomePage()
 		{
 			InitializeComponent();
-
-			ViewModel = new();
 
 			ViewModel.HomePageLoadedInvoked += ViewModel_HomePageLoadedInvoked;
 			ViewModel.WidgetListRefreshRequestedInvoked += ViewModel_WidgetListRefreshRequestedInvoked;
@@ -49,7 +44,10 @@ namespace Files.App.Views
 
 		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var parameters = e.Parameter as NavigationArguments;
+			if (e.Parameter is not NavigationArguments parameters)
+				return;
+
+			AppInstance = parameters.AssociatedTabInstance!;
 
 			AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
 			AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
