@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.UserControls
 
 		// Properties
 
-		public MenuFlyout PaneFlyout { get; }
+		public MenuFlyout PaneFlyout { get; set; }
 
 		public BulkConcurrentObservableCollection<ILocatableSideBarItem> sidebarItems { get; init; }
 
