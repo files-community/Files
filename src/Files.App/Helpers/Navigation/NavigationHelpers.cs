@@ -293,7 +293,7 @@ namespace Files.App.Helpers
 
 			if (isShortcut)
 			{
-				if (string.IsNullOrEmpty(shortcutInfo.TargetPath))
+				if (string.IsNullOrEmpty(shortcutInfo.TargetPath) && args is not null)
 				{
 					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
 				}
@@ -310,7 +310,7 @@ namespace Files.App.Helpers
 				}
 				opened = (FilesystemResult)true;
 			}
-			else if (isHiddenItem)
+			else if (isHiddenItem && args is not null)
 			{
 				await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
 			}
@@ -411,7 +411,7 @@ namespace Files.App.Helpers
 									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
 							}
 
-							if (!launchSuccess)
+							if (!launchSuccess && args is not null)
 								await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance, args);
 						}
 					});
