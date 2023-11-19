@@ -14,11 +14,15 @@ namespace Files.App.ViewModels.UserControls
 {
 	public class AddressToolbarViewModel : ObservableObject, IAddressToolbar, IDisposable
 	{
+		// Dependency injections
+
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IDialogService _dialogService { get; } = Ioc.Default.GetRequiredService<IDialogService>();
+		private IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		// Events
 
 		public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
 		public event EventHandler? EditModeEnabled;
@@ -26,6 +30,66 @@ namespace Files.App.ViewModels.UserControls
 		public event AddressBarTextEnteredEventHandler? AddressBarTextEntered;
 		public event EventHandler? RefreshRequested;
 		public event EventHandler? RefreshWidgetsRequested;
+
+		// Properties
+
+		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
+
+		public SearchBoxViewModel SearchBoxViewModel
+			=> (SearchBoxViewModel)SearchBox;
+
+		public bool IsEditModeEnabled
+		{
+			get => ManualEntryBoxLoaded;
+			set
+			{
+				if (value)
+				{
+					EditModeEnabled?.Invoke(this, EventArgs.Empty);
+
+					var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+					visiblePath?.Focus(FocusState.Programmatic);
+					visiblePath?.FindDescendant<TextBox>()?.SelectAll();
+
+					AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
+				}
+				else
+				{
+					IsCommandPaletteOpen = false;
+					ManualEntryBoxLoaded = false;
+					ClickablePathLoaded = true;
+				}
+			}
+		}
+
+		private AddressToolbar? AddressToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
+
+		public string ExtractToText =>
+			IsSelectionArchivesOnly
+				? SelectedItems.Count > 1
+					? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}")
+					: string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name))
+				: "ExtractToChildFolder".GetLocalizedResource();
+
+		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
+		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
+		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
+		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
+		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
+		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
+
+		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
+		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
+		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
+		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
+		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
+		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
 
 		private bool _isCommandPaletteOpen;
 		public bool IsCommandPaletteOpen
@@ -134,8 +198,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = new();
-
 		private CurrentInstanceViewModel instanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
 		{
@@ -165,6 +227,76 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private ISearchBox searchBox = new SearchBoxViewModel();
+		public ISearchBox SearchBox
+		{
+			get => searchBox;
+			set => SetProperty(ref searchBox, value);
+		}
+
+		private bool manualEntryBoxLoaded;
+		public bool ManualEntryBoxLoaded
+		{
+			get => manualEntryBoxLoaded;
+			set => SetProperty(ref manualEntryBoxLoaded, value);
+		}
+
+		private bool clickablePathLoaded = true;
+		public bool ClickablePathLoaded
+		{
+			get => clickablePathLoaded;
+			set => SetProperty(ref clickablePathLoaded, value);
+		}
+
+		private string pathControlDisplayText;
+		public string PathControlDisplayText
+		{
+			get => pathControlDisplayText;
+			set => SetProperty(ref pathControlDisplayText, value);
+		}
+
+		private bool hasItem = false;
+		public bool HasItem
+		{
+			get => hasItem;
+			set => SetProperty(ref hasItem, value);
+		}
+
+		private List<ListedItem>? selectedItems;
+		public List<ListedItem> SelectedItems
+		{
+			get => selectedItems;
+			set
+			{
+				if (SetProperty(ref selectedItems, value))
+				{
+					OnPropertyChanged(nameof(CanCopy));
+					OnPropertyChanged(nameof(CanExtract));
+					OnPropertyChanged(nameof(ExtractToText));
+					OnPropertyChanged(nameof(IsArchiveOpened));
+					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
+					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
+					OnPropertyChanged(nameof(IsInfFile));
+					OnPropertyChanged(nameof(IsPowerShellScript));
+					OnPropertyChanged(nameof(IsImage));
+					OnPropertyChanged(nameof(IsMultipleImageSelected));
+					OnPropertyChanged(nameof(IsFont));
+					OnPropertyChanged(nameof(HasAdditionalAction));
+				}
+			}
+		}
+
+		// Commands
+
+		public ICommand RefreshClickCommand;
+		public ICommand ViewReleaseNotesAsyncCommand;
+		public ICommand? OpenNewWindowCommand;
+		public ICommand? CreateNewFileCommand;
+		public ICommand? Share;
+		public ICommand? UpdateCommand;
+
+		// Constructor
+
 		public AddressToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
@@ -174,6 +306,8 @@ namespace Files.App.ViewModels.UserControls
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
 		}
+
+		// Methods
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
@@ -226,64 +360,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private ISearchBox searchBox = new SearchBoxViewModel();
-		public ISearchBox SearchBox
-		{
-			get => searchBox;
-			set => SetProperty(ref searchBox, value);
-		}
-
-		public SearchBoxViewModel SearchBoxViewModel
-			=> (SearchBoxViewModel)SearchBox;
-
-		public bool IsEditModeEnabled
-		{
-			get => ManualEntryBoxLoaded;
-			set
-			{
-				if (value)
-				{
-					EditModeEnabled?.Invoke(this, EventArgs.Empty);
-
-					var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
-					visiblePath?.Focus(FocusState.Programmatic);
-					visiblePath?.FindDescendant<TextBox>()?.SelectAll();
-
-					AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
-				}
-				else
-				{
-					IsCommandPaletteOpen = false;
-					ManualEntryBoxLoaded = false;
-					ClickablePathLoaded = true;
-				}
-			}
-		}
-
-		private bool manualEntryBoxLoaded;
-		public bool ManualEntryBoxLoaded
-		{
-			get => manualEntryBoxLoaded;
-			set => SetProperty(ref manualEntryBoxLoaded, value);
-		}
-
-		private bool clickablePathLoaded = true;
-		public bool ClickablePathLoaded
-		{
-			get => clickablePathLoaded;
-			set => SetProperty(ref clickablePathLoaded, value);
-		}
-
-		private string pathControlDisplayText;
-		public string PathControlDisplayText
-		{
-			get => pathControlDisplayText;
-			set => SetProperty(ref pathControlDisplayText, value);
-		}
-
-		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesAsyncCommand { get; }
-
 		public void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 		{
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -331,8 +407,6 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
-		private AddressToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
-
 		private void CloseSearchBox(bool doFocus = false)
 		{
 			if (searchBox.WasQuerySubmitted)
@@ -375,14 +449,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private void SearchRegion_Escaped(object? sender, ISearchBox searchBox)
 			=> CloseSearchBox(true);
-
-		public IAsyncRelayCommand? OpenNewWindowCommand { get; set; }
-
-		public ICommand? CreateNewFileCommand { get; set; }
-
-		public ICommand? Share { get; set; }
-
-		public ICommand? UpdateCommand { get; set; }
 
 		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
@@ -650,59 +716,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private bool hasItem = false;
-		public bool HasItem
-		{
-			get => hasItem;
-			set => SetProperty(ref hasItem, value);
-		}
-
-		private List<ListedItem>? selectedItems;
-
-		public List<ListedItem> SelectedItems
-		{
-			get => selectedItems;
-			set
-			{
-				if (SetProperty(ref selectedItems, value))
-				{
-					OnPropertyChanged(nameof(CanCopy));
-					OnPropertyChanged(nameof(CanExtract));
-					OnPropertyChanged(nameof(ExtractToText));
-					OnPropertyChanged(nameof(IsArchiveOpened));
-					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
-					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
-					OnPropertyChanged(nameof(IsInfFile));
-					OnPropertyChanged(nameof(IsPowerShellScript));
-					OnPropertyChanged(nameof(IsImage));
-					OnPropertyChanged(nameof(IsMultipleImageSelected));
-					OnPropertyChanged(nameof(IsFont));
-					OnPropertyChanged(nameof(HasAdditionalAction));
-				}
-			}
-		}
-
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
-		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-
-		public bool IsTilesLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.TilesView;
-		public bool IsColumnLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
-		public bool IsGridSmallLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall;
-		public bool IsGridMediumLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && instanceViewModel.FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium;
-		public bool IsGridLargeLayout => instanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.GridView && !IsGridSmallLayout && !IsGridMediumLayout;
-		public bool IsDetailsLayout => !IsTilesLayout && !IsColumnLayout && !IsGridSmallLayout && !IsGridMediumLayout && !IsGridLargeLayout;
-
-		public string ExtractToText
-			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
+		// Disposer
 
 		public void Dispose()
 		{
