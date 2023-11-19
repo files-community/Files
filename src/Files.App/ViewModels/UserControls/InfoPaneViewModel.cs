@@ -6,7 +6,6 @@ using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -206,7 +205,8 @@ namespace Files.App.ViewModels.UserControls
 
 			var ext = item.FileExtension.ToLowerInvariant();
 
-			if (FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext))
+			if (item.IsFtpItem == false &&
+				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
