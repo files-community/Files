@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,12 +26,12 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base class which every layout page must derive from
 	/// </summary>
-	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
+	public abstract class BaseLayoutPage : Page, IBaseLayoutPage, INotifyPropertyChanged
 	{
 		private readonly DispatcherQueueTimer jumpTimer;
 
@@ -259,7 +259,7 @@ namespace Files.App.Views.LayoutModes
 		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowItemDrag => !ElevationHelpers.IsAppRunAsAdmin();
 
-		public BaseLayout()
+		public BaseLayoutPage()
 		{
 			InfoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 			ItemManipulationModel = new ItemManipulationModel();
