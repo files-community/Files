@@ -164,17 +164,13 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public async Task DropAsync(DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
+			e.Handled = true;
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-				e.Handled = true;
-
 				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
-
-			deferral.Complete();
 		}
 
 		public void Dispose()
