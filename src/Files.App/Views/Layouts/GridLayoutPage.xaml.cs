@@ -21,27 +21,38 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
+		// Fields
+
 		private uint currentIconSize;
 
+		// Properties
+
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
-		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+		public int GridViewItemMinWidth =>
+			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				? Constants.Browser.GridViewBrowser.TilesView
+				: FolderSettings.GridViewSize;
 
 		public bool IsPointerOver
 		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
+			get => (bool)GetValue(IsPointerOverProperty);
+			set => SetValue(IsPointerOverProperty, value);
 		}
 
 		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridLayoutPage), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(IsPointerOver),
+				typeof(bool),
+				typeof(GridLayoutPage),
+				new PropertyMetadata(false));
+
+		// Constructor
 
 		public GridLayoutPage() : base()
 		{
@@ -51,6 +62,8 @@ namespace Files.App.Views.Layouts
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{

@@ -23,22 +23,29 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Constants
+
 		private const int TAG_TEXT_BLOCK = 1;
+
+		// Fields
 
 		private uint currentIconSize;
 
 		private ListedItem? _nextItemToSelect;
 
+		// Properties
+
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		private double maxWidthForRenameTextbox;
+		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
+		public ScrollViewer? ContentScroller { get; private set; }
+
+		private double maxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;
@@ -52,9 +59,7 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
-
-		public ScrollViewer? ContentScroller { get; private set; }
+		// Constructor
 
 		public DetailsLayoutPage() : base()
 		{
@@ -63,6 +68,8 @@ namespace Files.App.Views.Layouts
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{

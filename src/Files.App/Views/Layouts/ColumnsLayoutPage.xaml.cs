@@ -18,18 +18,23 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class ColumnsLayoutPage : BaseLayoutPage
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		// Properties
 
+		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
 		protected override ItemsControl ItemsControl => ColumnHost;
 
 		public string? OwnerPath { get; private set; }
 
 		public int FocusIndex { get; private set; }
 
+		// Constructor
+
 		public ColumnsLayoutPage() : base()
 		{
 			InitializeComponent();
 		}
+
+		// Methods
 
 		public void HandleSelectionChange(ColumnLayoutPage initiator)
 		{

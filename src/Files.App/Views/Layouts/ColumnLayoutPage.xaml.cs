@@ -24,11 +24,7 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class ColumnLayoutPage : BaseGroupableLayoutPage
 	{
-		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
-
-		protected override ListViewBase ListViewBase => FileList;
-
-		protected override SemanticZoom RootZoom => RootGridZoom;
+		// Fields
 
 		private readonly DispatcherQueueTimer doubleClickTimer;
 
@@ -36,8 +32,18 @@ namespace Files.App.Views.Layouts
 
 		private ListViewItem? openedFolderPresenter;
 
-		// Indicates if the selection rectangle is currently being dragged
 		private bool isDraggingSelectionRectangle = false;
+
+		public event EventHandler? ItemInvoked;
+		public event EventHandler? ItemTapped;
+
+		// Properties
+
+		protected override uint IconSize => Browser.ColumnViewBrowser.ColumnViewSizeSmall;
+		protected override ListViewBase ListViewBase => FileList;
+		protected override SemanticZoom RootZoom => RootGridZoom;
+
+		// Constructor
 
 		public ColumnLayoutPage() : base()
 		{
@@ -50,6 +56,8 @@ namespace Files.App.Views.Layouts
 
 			doubleClickTimer = DispatcherQueue.CreateTimer();
 		}
+
+		// Methods
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
 		{
@@ -110,10 +118,6 @@ namespace Files.App.Views.Layouts
 		{
 			FileList?.SelectedItems.Remove(e);
 		}
-
-		public event EventHandler? ItemInvoked;
-
-		public event EventHandler? ItemTapped;
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
