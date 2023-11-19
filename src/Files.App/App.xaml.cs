@@ -106,7 +106,6 @@ namespace Files.App
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
-					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<ISideBarContext, SideBarContext>()
 					// Services
 					.AddSingleton<IDialogService, DialogService>()
