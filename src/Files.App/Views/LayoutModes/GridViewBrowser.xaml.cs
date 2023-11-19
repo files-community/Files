@@ -271,7 +271,7 @@ namespace Files.App.Views.LayoutModes
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+			var focusedElement = FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as FrameworkElement;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
 			if (ctrlPressed && e.Key is VirtualKey.A)

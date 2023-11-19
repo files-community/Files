@@ -85,7 +85,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance?.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
@@ -93,7 +93,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance?.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
@@ -104,7 +104,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
 			if (!isFileListFocused)
 				ListViewBase.Focus(FocusState.Programmatic);
@@ -224,7 +224,7 @@ namespace Files.App.Views.LayoutModes
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
+			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
 				await CommitRenameAsync(textBox);
@@ -315,7 +315,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			// Don't block the various uses of enter key (key 13)
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
 				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
