@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contexts
 {
-	internal class SideBarContext : ObservableObject, ISideBarContext
+	public class SideBarContext : ObservableObject, ISideBarContext
 	{
 		private SidebarViewModel SideBarViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
