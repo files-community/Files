@@ -7,9 +7,10 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
-	[DependencyProperty<ToolbarViewModel>("ViewModel")]
 	public sealed partial class PathBreadcrumb : UserControl
 	{
+		private PathBreadcrumbViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<PathBreadcrumbViewModel>();
+
 		public PathBreadcrumb()
 		{
 			InitializeComponent();

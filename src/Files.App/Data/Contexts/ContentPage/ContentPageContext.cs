@@ -164,15 +164,15 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ToolbarViewModel.CanGoBack):
-				case nameof(ToolbarViewModel.CanGoForward):
-				case nameof(ToolbarViewModel.CanNavigateToParent):
-				case nameof(ToolbarViewModel.HasItem):
-				case nameof(ToolbarViewModel.CanRefresh):
-				case nameof(ToolbarViewModel.IsSearchBoxVisible):
+				case nameof(AddressToolbarViewModel.CanGoBack):
+				case nameof(AddressToolbarViewModel.CanGoForward):
+				case nameof(AddressToolbarViewModel.CanNavigateToParent):
+				case nameof(AddressToolbarViewModel.HasItem):
+				case nameof(AddressToolbarViewModel.CanRefresh):
+				case nameof(AddressToolbarViewModel.IsSearchBoxVisible):
 					OnPropertyChanged(e.PropertyName);
 					break;
-				case nameof(ToolbarViewModel.SelectedItems):
+				case nameof(AddressToolbarViewModel.SelectedItems):
 					UpdateSelectedItems();
 					break;
 			}
