@@ -96,7 +96,7 @@ namespace Files.App.Views.LayoutModes
 				FileList.SelectedItems.Remove(e);
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
 		{
 			if (eventArgs.Parameter is NavigationArguments navArgs)
 				navArgs.FocusOnNavigation = true;
@@ -135,7 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				await ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
