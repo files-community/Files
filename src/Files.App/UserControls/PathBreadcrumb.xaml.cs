@@ -9,7 +9,17 @@ namespace Files.App.UserControls
 {
 	public sealed partial class PathBreadcrumb : UserControl
 	{
-		private PathBreadcrumbViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<PathBreadcrumbViewModel>();
+		public static readonly DependencyProperty ViewModelProperty =
+			DependencyProperty.Register(nameof(ViewModel),
+				typeof(PathBreadcrumbViewModel),
+				typeof(PathBreadcrumb),
+				new PropertyMetadata(null));
+
+		public PathBreadcrumbViewModel ViewModel
+		{
+			get => (PathBreadcrumbViewModel)GetValue(ViewModelProperty);
+			set => SetValue(ViewModelProperty, value);
+		}
 
 		public PathBreadcrumb()
 		{

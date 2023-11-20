@@ -144,8 +144,6 @@ namespace Files.App
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
-					.AddSingleton<AddressToolbarViewModel>()
-					.AddSingleton<PathBreadcrumbViewModel>()
 				).Build();
 		}
 

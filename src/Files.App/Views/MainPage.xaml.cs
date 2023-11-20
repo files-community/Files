@@ -23,41 +23,55 @@ namespace Files.App.Views
 {
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
 	{
-		public IUserSettingsService UserSettingsService { get; }
-		public IApplicationService ApplicationService { get; }
+		// Dependency injections
 
-		public ICommandManager Commands { get; }
+		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		public IApplicationService ApplicationService { get; } = Ioc.Default.GetRequiredService<IApplicationService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public IWindowContext WindowContext { get; } = Ioc.Default.GetRequiredService<IWindowContext>();
+		public SidebarViewModel SidebarAdaptiveViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
+		public MainPageViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		public IWindowContext WindowContext { get; }
+		// Fields
 
-		public SidebarViewModel SidebarAdaptiveViewModel { get; }
+		private DispatcherQueueTimer _updateDateDisplayTimer;
 
-		public MainPageViewModel ViewModel { get; }
+		private bool keyReleased = true;
 
-		public StatusCenterViewModel OngoingTasksViewModel { get; }
+		// Properties
 
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		private bool keyReleased = true;
+		private bool isAppRunningAsAdmin
+			=> ElevationHelpers.IsAppRunAsAdmin();
 
-		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
+		public bool ShouldViewControlBeDisplayed
+			=> SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
-		private DispatcherQueueTimer _updateDateDisplayTimer;
+		public bool ShouldPreviewPaneBeActive
+			=> UserSettingsService.InfoPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
+
+		public bool ShouldPreviewPaneBeDisplayed
+		{
+			get
+			{
+				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
+				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
+				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
+
+				return isEnabled;
+			}
+		}
+
+		// Constructor
 
 		public MainPage()
 		{
 			InitializeComponent();
 
-			// Dependency Injection
-			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			ApplicationService = Ioc.Default.GetRequiredService<IApplicationService>();
-			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
-			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -68,6 +82,8 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 		}
+
+		// Methods
 
 		private async Task PromptForReviewAsync()
 		{
@@ -114,15 +130,6 @@ namespace Files.App.Views
 
 			if (result == ContentDialogResult.Secondary)
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
-		}
-
-		// WINUI3
-		private ContentDialog SetContentDialogRoot(ContentDialog contentDialog)
-		{
-			if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-			return contentDialog;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -213,7 +220,10 @@ namespace Files.App.Views
 		private void UpdateNavToolbarProperties()
 		{
 			if (NavToolbar is not null)
+			{
 				NavToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
+				NavToolbar.PathBreadcrumbViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.PathBreadcrumbViewModel;
+			}
 
 			if (InnerNavigationToolbar is not null)
 				InnerNavigationToolbar.ViewModel = SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.ToolbarViewModel;
@@ -224,7 +234,8 @@ namespace Files.App.Views
 			ViewModel.OnNavigatedToAsync(e);
 		}
 
-		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
+		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e)
+			=> await OnPreviewKeyDownAsync(e);
 
 		private async Task OnPreviewKeyDownAsync(KeyRoutedEventArgs e)
 		{
@@ -430,23 +441,6 @@ namespace Files.App.Views
 			}
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
-		}
-
-		public bool ShouldViewControlBeDisplayed => SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
-
-		public bool ShouldPreviewPaneBeActive => UserSettingsService.InfoPaneSettingsService.IsEnabled && ShouldPreviewPaneBeDisplayed;
-
-		public bool ShouldPreviewPaneBeDisplayed
-		{
-			get
-			{
-				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
-				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isBigEnough = MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360;
-				var isEnabled = (!isHomePage || isMultiPane) && isBigEnough;
-
-				return isEnabled;
-			}
 		}
 
 		private void LoadPaneChanged()
