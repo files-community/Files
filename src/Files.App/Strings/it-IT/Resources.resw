@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>Recupero degli oggetti dal Cestino non riuscito</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Impossibile impostare lo sfondo</value>
+  </data>
 </root>
