@@ -1402,7 +1402,7 @@
     <value>τον Κάδο Ανακύκλωσης</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Ακύρωση</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Εκκαθάριση</value>
@@ -2882,11 +2882,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>Προηγ. κομμάτι</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>ΕπόμενοΚομμάτι</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
@@ -3607,5 +3607,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>
