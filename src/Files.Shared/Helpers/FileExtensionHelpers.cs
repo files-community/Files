@@ -144,13 +144,13 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
 		/// <returns><c>true</c> if the filePathToCheck is an executable file; otherwise, <c>false</c>.</returns>
-		/// /// <remarks>Executable file types are; exe, bat, cmd</remarks>
+		/// /// <remarks>Executable file types are; exe, bat, cmd, py</remarks>
 		public static bool IsExecutableFile(string? filePathToCheck, bool exeOnly = false)
 		{
 			return
 				exeOnly
 					? HasExtension(filePathToCheck, ".exe")
-					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
+					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd", ".py");
 		}
 
 		/// <summary>
@@ -206,5 +206,16 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(filePathToCheck, ".cer", ".crt", ".der", ".pfx");
 		}
+
+		/// <summary>
+		/// Check if the file extension is a Python file.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a python file; otherwise, <c>false</c>.</returns>
+		public static bool IsPythonFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".py");
+		}
+
 	}
 }
