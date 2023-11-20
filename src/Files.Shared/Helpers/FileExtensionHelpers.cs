@@ -34,7 +34,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
 		}
-
+		
 		/// <summary>
 		/// Check if the file extension is an audio file.
 		/// </summary>
@@ -44,7 +44,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
-
+		
 		/// <summary>
 		/// Check if the file extension is a video file.
 		/// </summary>
@@ -144,13 +144,13 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
 		/// <returns><c>true</c> if the filePathToCheck is an executable file; otherwise, <c>false</c>.</returns>
-		/// /// <remarks>Executable file types are; exe, bat, cmd, py</remarks>
+		/// /// <remarks>Executable file types are; exe, bat, cmd</remarks>
 		public static bool IsExecutableFile(string? filePathToCheck, bool exeOnly = false)
 		{
 			return
 				exeOnly
 					? HasExtension(filePathToCheck, ".exe")
-					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd", ".py");
+					: HasExtension(filePathToCheck, ".exe", ".bat", ".cmd");
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 		}
-
+		
 		/// <summary>
 		/// Check if the file extension is a screen saver file.
 		/// </summary>
@@ -205,16 +205,6 @@ namespace Files.Shared.Helpers
 		public static bool IsCertificateFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".cer", ".crt", ".der", ".pfx");
-		}
-
-		/// <summary>
-		/// Check if the file extension is a python file.
-		/// </summary>
-		/// <param name="filePathToCheck"></param>
-		/// <returns><c>true</c> if the filePathToCheck is a python file; otherwise, <c>false</c>.</returns>
-		public static bool IsPythonFile(string? filePathToCheck)
-		{
-			return HasExtension(filePathToCheck, ".py");
 		}
 	}
 }

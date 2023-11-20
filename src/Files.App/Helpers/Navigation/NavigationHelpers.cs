@@ -407,11 +407,8 @@ namespace Files.App.Helpers
 								// Now launch file with options.
 								var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
 
-								if (!FileExtensionHelpers.IsPythonFile(storageItem.Path))
-								{
-									if (storageItem is not null)
-										launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
-								}
+								if (storageItem is not null)
+									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
 							}
 
 							if (!launchSuccess)
