@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>从回收站还原项目失败</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>设置背景壁纸失败</value>
+  </data>
 </root>
