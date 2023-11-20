@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -80,7 +79,15 @@ namespace Files.App.Views
 			=> IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
-			=> MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;
+		{
+			get
+			{
+				if (App.AppModel.IsMainWindowClosed)
+					return false;
+				else
+					return MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;
+			}
+		}
 
 		private NavigationParams _NavParamsLeft;
 		public NavigationParams NavParamsLeft
