@@ -3606,6 +3606,9 @@
     <value>A opção de abrir a aplicação ao iniciar o sistema não está disponível devido às definições do sistema ou à política de grupo. Para ativar esta opção, abra o separador Arranque no Gestor de tarefas.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Falha ao restaurar os itens da Reciclagem</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Falha ao definir como imagem de fundo</value>
   </data>
 </root>
