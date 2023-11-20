@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -613,8 +611,8 @@ namespace Files.App.Views.Shells
 					var columnCanNavigateForward = false;
 					if (SlimContentPage is ColumnViewBrowser browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance.CanNavigateBackward;
-						columnCanNavigateForward = browser.ParentShellPageInstance.CanNavigateForward;
+						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
 					}
 					ToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;
@@ -731,7 +729,8 @@ namespace Files.App.Views.Shells
 		private void HandleBackForwardRequest(PageStackEntry pageContent)
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
-			incomingPageNavPath.IsLayoutSwitch = false;
+			if (incomingPageNavPath is not null)
+				incomingPageNavPath.IsLayoutSwitch = false;
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))
