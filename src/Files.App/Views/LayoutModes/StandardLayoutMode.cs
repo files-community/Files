@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
 using Files.App.ViewModels.LayoutModes;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -85,7 +84,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
-			ParentShellPageInstance?.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			if (ParentShellPageInstance is null || ParentShellPageInstance.SlimContentPage.SelectedItem is null)
+				return;
+
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
@@ -93,7 +95,10 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			ParentShellPageInstance?.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			if (ParentShellPageInstance is null || ParentShellPageInstance.SlimContentPage.SelectedItems is null)
+				return;
+
+			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
