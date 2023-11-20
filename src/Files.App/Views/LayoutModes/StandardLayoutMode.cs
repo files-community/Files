@@ -95,7 +95,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
-			if (ParentShellPageInstance is null || ParentShellPageInstance.SlimContentPage.SelectedItems is null)
+			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
 				return;
 
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
