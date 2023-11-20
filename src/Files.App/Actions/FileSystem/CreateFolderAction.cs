@@ -33,7 +33,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync()
 		{
 			if (context.ShellPage is not null)
-				UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, context.ShellPage);
+				return UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, context.ShellPage);
 
 			return Task.CompletedTask;
 		}

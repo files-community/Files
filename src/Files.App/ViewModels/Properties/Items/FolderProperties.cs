@@ -108,13 +108,13 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = storageFolder.DateCreated;
 				if (storageFolder.Properties is not null)
-					GetOtherPropertiesAsync(storageFolder.Properties);
+					await GetOtherPropertiesAsync(storageFolder.Properties);
 
 				// Only load the size for items on the device
 				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not 
 					CloudDriveSyncStatus.FolderOnline and not
 					CloudDriveSyncStatus.FolderOfflinePartial)
-					GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
+					await GetFolderSizeAsync(storageFolder.Path, TokenSource.Token);
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
@@ -148,7 +148,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				GetFolderSizeAsync(folderPath, TokenSource.Token);
+				await GetFolderSizeAsync(folderPath, TokenSource.Token);
 			}
 		}
 

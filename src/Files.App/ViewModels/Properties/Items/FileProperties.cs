@@ -144,7 +144,7 @@ namespace Files.App.ViewModels.Properties
 					}
 
 			if (file.Properties is not null)
-				GetOtherPropertiesAsync(file.Properties);
+				await GetOtherPropertiesAsync(file.Properties);
 		}
 
 		public async Task GetSystemFilePropertiesAsync()
