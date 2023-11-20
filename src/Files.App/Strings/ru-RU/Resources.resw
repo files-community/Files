@@ -3153,7 +3153,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Материал Фона</value>
+    <value>Материал фона</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Сплошной</value>
@@ -3606,6 +3606,9 @@
     <value>Возможность открытия Files при запуске Windows недоступна из-за ваших системных настроек или групповой политики. Чтобы снова включить, откройте "Автозагрузка" в Диспетчере задач.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Не удалось восстановить элементы из Корзины</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Не удалось установить обои рабочего стола</value>
   </data>
 </root>
