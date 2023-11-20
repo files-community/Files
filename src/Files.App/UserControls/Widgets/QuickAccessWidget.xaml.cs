@@ -84,7 +84,7 @@ namespace Files.App.UserControls.Widgets
 			}
 			if (thumbnailData is not null && thumbnailData.Length > 0)
 			{
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize));
+				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(Constants.Widgets.WidgetIconSize)) ?? Thumbnail;
 			}
 		}
 	}
