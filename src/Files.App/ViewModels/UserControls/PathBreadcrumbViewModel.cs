@@ -15,46 +15,57 @@ using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class PathBreadcrumbViewModel
+	public class PathBreadcrumbViewModel : ObservableObject
 	{
-		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+		// Dependency injections
 
-		private DispatcherQueue dispatcherQueue;
-		private DispatcherQueueTimer dragOverTimer;
+		private MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+		// Fields
+
+		private readonly DispatcherQueue _dispatcherQueue;
+		private readonly DispatcherQueueTimer _dragOverTimer;
+
+		private string? _dragOverPath = null;
+
+		private bool _lockFlag = false;
+
+		// Properties
 
 		private AddressToolbar? AddressToolbar
 			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
+		public ObservableCollection<PathBoxItem> PathComponents { get; } = new();
+
+		public bool IsSingleItemOverride { get; set; }
+
+		// Events
+
 		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
-		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 		public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
+		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
+		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
+		public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
+		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
 		private PointerRoutedEventArgs? pointerRoutedEventArgs;
-		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
-		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
-		public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
 		public event ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 
-		private string? dragOverPath = null;
-
-		private bool lockFlag = false;
-
-		public bool IsSingleItemOverride { get; set; } = false;
+		// Constructor
 
 		public PathBreadcrumbViewModel()
 		{
-			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-			dragOverTimer = dispatcherQueue.CreateTimer();
+			_dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+			_dragOverTimer = _dispatcherQueue.CreateTimer();
 		}
+
+		// Methods
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
-			var pathSeparatorIcon = sender as FontIcon;
-			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
+			if (sender is not FontIcon pathSeparatorIcon || pathSeparatorIcon.DataContext is null)
 				return;
 
 			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
@@ -173,19 +184,19 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			// Reset dragged over pathbox item
-			if (pathBoxItem.Path == dragOverPath)
-				dragOverPath = null;
+			if (pathBoxItem.Path == _dragOverPath)
+				_dragOverPath = null;
 		}
 
 		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
-			if (lockFlag)
+			if (_lockFlag)
 				return;
 
-			lockFlag = true;
+			_lockFlag = true;
 
 			// Reset dragged over pathbox item
-			dragOverPath = null;
+			_dragOverPath = null;
 
 			if (((StackPanel)sender).DataContext is not PathBoxItem pathBoxItem ||
 				pathBoxItem.Path == "Home")
@@ -210,7 +221,7 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 			await Task.Yield();
 
-			lockFlag = false;
+			_lockFlag = false;
 		}
 
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
@@ -222,23 +233,23 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			if (dragOverPath != pathBoxItem.Path)
+			if (_dragOverPath != pathBoxItem.Path)
 			{
-				dragOverPath = pathBoxItem.Path;
-				dragOverTimer.Stop();
+				_dragOverPath = pathBoxItem.Path;
+				_dragOverTimer.Stop();
 
-				if (dragOverPath != PathComponents.LastOrDefault()?.Path)
+				if (_dragOverPath != PathComponents.LastOrDefault()?.Path)
 				{
-					dragOverTimer.Debounce(() =>
+					_dragOverTimer.Debounce(() =>
 					{
-						if (dragOverPath is not null)
+						if (_dragOverPath is not null)
 						{
-							dragOverTimer.Stop();
+							_dragOverTimer.Stop();
 							ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
 							{
-								ItemPath = dragOverPath
+								ItemPath = _dragOverPath
 							});
-							dragOverPath = null;
+							_dragOverPath = null;
 						}
 					},
 					TimeSpan.FromMilliseconds(1000), false);
