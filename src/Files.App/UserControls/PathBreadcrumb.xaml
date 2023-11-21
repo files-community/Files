@@ -108,6 +108,7 @@
 						<!--  Chevron  -->
 						<FontIcon
 							x:Name="ExpandMenuFontIcon"
+							AutomationProperties.AccessibilityView="Raw"
 							FontSize="12"
 							Glyph="&#xE76C;" />
 					</Button>
