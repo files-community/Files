@@ -83,25 +83,15 @@
 						</i:Interaction.Behaviors>
 					</TextBlock>
 
-					<!--  Chevron  -->
-					<FontIcon
-						x:Name="PathSeaparatorIcon"
-						DataContextChanged="PathItemSeparator_DataContextChanged"
-						FontSize="12"
-						Glyph="&#xE76C;"
-						Loaded="PathItemSeparator_Loaded">
-						<i:Interaction.Behaviors>
-							<core:EventTriggerBehavior EventName="PointerEntered">
-								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
-							</core:EventTriggerBehavior>
-							<core:EventTriggerBehavior EventName="PointerExited">
-								<core:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
-							</core:EventTriggerBehavior>
-						</i:Interaction.Behaviors>
-
-						<!--  Child Items  -->
-						<FontIcon.ContextFlyout>
+					<Button
+						Padding="4,6,4,6"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						CornerRadius="0,4,4,0"
+						DataContextChanged="PathItemSeparator_DataContextChanged">
+						<Button.Flyout>
 							<MenuFlyout
+								x:Name="ExpandMenuFlyout"
 								Opened="PathBoxItemFlyout_Opened"
 								Placement="BottomEdgeAlignedLeft"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -112,9 +102,14 @@
 									</Style>
 								</MenuFlyout.MenuFlyoutPresenterStyle>
 							</MenuFlyout>
-						</FontIcon.ContextFlyout>
+						</Button.Flyout>
 
-					</FontIcon>
+						<!--  Chevron  -->
+						<FontIcon
+							x:Name="ExpandMenuFontIcon"
+							FontSize="12"
+							Glyph="&#xE76C;" />
+					</Button>
 
 				</StackPanel>
 			</DataTemplate>
