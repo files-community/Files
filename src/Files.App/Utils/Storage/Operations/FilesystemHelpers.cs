@@ -231,7 +231,8 @@ namespace Files.App.Utils.Storage
 			string destination,
 			bool showDialog,
 			bool registerHistory,
-			bool isTargetExecutable = false)
+			bool isTargetExecutable = false,
+			bool isTargetPythonFile = false)
 		{
 			try
 			{
@@ -258,6 +259,11 @@ namespace Files.App.Utils.Storage
 					{
 						var items = await GetDraggedStorageItems(packageView);
 						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
+						return ReturnResult.Success;
+					}else if(isTargetPythonFile)
+					{
+						var items = await GetDraggedStorageItems(packageView);
+						NavigationHelpers.OpenItemsWithPythonAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else

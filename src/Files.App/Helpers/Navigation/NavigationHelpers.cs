@@ -104,6 +104,21 @@ namespace Files.App.Helpers
 			}
 		}
 
+		public static async Task OpenItemsWithPythonAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string pythonScriptPath)
+		{
+			// Don't open files and folders inside  recycle bin
+			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
+								associatedInstance.SlimContentPage is null)
+			{
+				return;
+			}
+
+			foreach (var item in items)
+			{
+				await Win32Helpers.InvokeWin32ComponentAsync(pythonScriptPath, associatedInstance, arguments: $"\"{item.Path}\"");
+			}
+		}
+
 		/// <summary>
 		/// Navigates to a directory or opens file
 		/// </summary>

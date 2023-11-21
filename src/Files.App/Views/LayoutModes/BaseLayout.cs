@@ -1032,7 +1032,7 @@ namespace Files.App.Views.LayoutModes
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 
-						if (item.IsExecutable)
+						if (item.IsExecutable || item.IsPythonFile)
 						{
 							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -1110,7 +1110,7 @@ namespace Files.App.Views.LayoutModes
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable);
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsPythonFile);
 
 			deferral.Complete();
 		}
@@ -1256,7 +1256,7 @@ namespace Files.App.Views.LayoutModes
 				return;
 
 			UninitializeDrag(container);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable)
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath)) || item.IsExecutable || item.IsPythonFile)
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);
