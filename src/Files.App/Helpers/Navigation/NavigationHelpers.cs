@@ -83,7 +83,7 @@ namespace Files.App.Helpers
 
 		public static async Task OpenItemsWithExecutableAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string executable)
 		{
-			// Don't open files and folders inside  recycle bin
+			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 				associatedInstance.SlimContentPage is null)
 			{
@@ -106,7 +106,7 @@ namespace Files.App.Helpers
 
 		public static async Task OpenItemsWithPythonAsync(IShellPage associatedInstance, IEnumerable<IStorageItemWithPath> items, string pythonScriptPath)
 		{
-			// Don't open files and folders inside  recycle bin
+			// Don't open files and folders inside recycle bin
 			if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal) ||
 								associatedInstance.SlimContentPage is null)
 			{
@@ -422,11 +422,8 @@ namespace Files.App.Helpers
 								// Now launch file with options.
 								var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
 
-								if (!FileExtensionHelpers.IsPythonFile(storageItem.Path))
-								{
-									if (storageItem is not null)
-										launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
-								}
+								if (storageItem is not null)
+									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
 							}
 
 							if (!launchSuccess)

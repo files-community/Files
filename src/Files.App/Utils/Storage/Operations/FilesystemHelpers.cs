@@ -260,7 +260,8 @@ namespace Files.App.Utils.Storage
 						var items = await GetDraggedStorageItems(packageView);
 						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
-					}else if(isTargetPythonFile)
+					}
+					else if (isTargetPythonFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
 						NavigationHelpers.OpenItemsWithPythonAsync(associatedInstance, items, destination);
