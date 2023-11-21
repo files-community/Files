@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) 2023 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -13,9 +13,9 @@
     <ItemGroup>
         <!--  NOTE: Do Not Update LiteDB To Version 5  -->
         <PackageReference Include="LiteDB" Version="4.1.4" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-        <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
-        <PackageReference Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
+        <PackageReference Include="System.Threading.Tasks.Dataflow" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

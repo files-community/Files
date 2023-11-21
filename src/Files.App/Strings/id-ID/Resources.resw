@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Alihkan panel pratinjau</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail\preview panes</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pratinjau tidak tersedia</value>
   </data>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Pulihkan ke bawaan</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Buka jendela baru saat membuka direktori dari jumplist taskbar</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Pengaturan pengaktifan</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Kesalahan terjadi pada saat perhitungan</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritma</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Pilih untuk menunjukkan ekstensi berkas</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alihkan apakah akan menampilkan panel pratinjau</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Pilih untuk menujukkan sidebar</value>
@@ -3207,7 +3222,7 @@
     <value>Initialize repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Inisialisasi Repositori Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Remote Repository Name</value>
@@ -3216,7 +3231,7 @@
     <value>Cabang Saat ini</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>Kolom Lokasi</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
     <value>Urutkan item berdasarkan jalur</value>
@@ -3231,41 +3246,41 @@
     <value>Buka tautan di jendela baru</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Buka semua</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
-    <value>Open all tagged items</value>
+    <value>Buka semua item yang ditandai</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Drive({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>Perintah salah</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>{0} tidak dikenal sebagai perintah.</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>Perintah tidak bisa dilaksanakan</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>Perintah {0} belum siap dilaksanakan.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Daftar Perintah</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Buka panel perintah</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Mulai di:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>Turn on BitLocker</value>
+    <value>Hidupkan BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>Manage BitLocker</value>
+    <value>Atur BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>The following items are too large to be copied to this drive</value>
@@ -3589,5 +3604,11 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>

@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Abilita anteprima</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Mostra o nascondi il riquadro dettagli</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Commuta il riquadro dettagli per visualizzare le proprietà di base dei file</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Commuta il riquadro informazioni</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Commuta il riquadro informazioni per visualizzare i riquadri dettaglio\anteprima</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>
@@ -1591,7 +1603,7 @@
     <value>Entra in modalità Compact Overlay</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Esci dalla modalità Compact Overlay</value>
+    <value>Esci dalla modalità Overlay Compatta</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Descrizione</value>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Ripristina predefiniti</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Apri una nuova instanza quando si apre una cartella dalla barra delle applicazioni</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Apri la scheda nell'istanza esistente quando apri Files da un'altra app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Impostazioni di Avvio</value>
@@ -2011,7 +2023,7 @@
     <value>Seleziona automaticamente il layout migliore</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adattivo (Ctrl+Maiusc+7)</value>
+    <value>Layout Adattivo (Ctrl+Maiusc+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maiusc+7</value>
@@ -2041,7 +2053,7 @@
     <value>Data modifica</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Data creazione</value>
+    <value>Data di creazione</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Dimensione</value>
@@ -2167,7 +2179,7 @@
     <value>Formato</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
-    <value>Stato sincronizzazione</value>
+    <value>Stato di sincronizzazione</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
     <value>Raggruppa per</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Si è verificato un errore durante il calcolo</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Gli hash non sono disponibili per i file online</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmo</value>
   </data>
@@ -2374,7 +2389,7 @@
     <value>Modalità a schermo intero</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Entra in modalità Compact Overlay</value>
+    <value>Entra in modalità Overlay Compatto</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Esci dalla modalità Compact Overlay</value>
@@ -2392,7 +2407,7 @@
     <value>Attiva o disattiva la visualizzazione delle estensioni dei file</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Attiva o disattiva la visualizzazione del riquadro di anteprima</value>
+    <value>Commuta il riquadro di anteprima per visualizzare le anteprime dei file</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione della barra laterale</value>
@@ -3589,5 +3604,11 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>L'opzione per aprire Files all'avvio di Windows non è disponibile a causa delle impostazioni di sistema o dei criteri di gruppo. Per riattivare, apri la pagina App di avvio in Gestione attività.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Recupero degli oggetti dal Cestino non riuscito</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Impossibile impostare lo sfondo</value>
   </data>
 </root>

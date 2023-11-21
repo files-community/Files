@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using SevenZip;
@@ -18,7 +17,7 @@ namespace Files.App.ViewModels.Settings
 	public class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand SetAsDefaultExplorerCommand { get; }
@@ -46,12 +45,12 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task OpenSettingsJsonAsync()
 		{
-			var settingsJsonPath = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
-
-			if (!await Launcher.LaunchFileAsync(settingsJsonPath))
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				await ContextMenu.InvokeVerb("open", settingsJsonPath.Path);
-			}
+				var settingsJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
+				if (!await Launcher.LaunchFileAsync(settingsJsonFile))
+					await ContextMenu.InvokeVerb("open", settingsJsonFile.Path);
+			});
 		}
 
 		private async Task SetAsDefaultExplorerAsync()
@@ -93,7 +92,8 @@ namespace Files.App.ViewModels.Settings
 			try
 			{
 				using var regProcess = Process.Start(new ProcessStartInfo("regedit.exe", @$"/s ""{Path.Combine(destFolder, IsSetAsDefaultFileManager ? "SetFilesAsDefault.reg" : "UnsetFilesAsDefault.reg")}""") { UseShellExecute = true, Verb = "runas" });
-				await regProcess.WaitForExitAsync();
+				if (regProcess is not null)
+					await regProcess.WaitForExitAsync();
 			}
 			catch
 			{

@@ -103,7 +103,7 @@ namespace Files.App.Views.LayoutModes
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings.ColumnsViewModel is not null)
+			if (FolderSettings?.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
 				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
@@ -135,7 +135,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -332,7 +332,7 @@ namespace Files.App.Views.LayoutModes
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
@@ -403,7 +403,7 @@ namespace Files.App.Views.LayoutModes
 		protected override bool CanGetItemFromElement(object element)
 			=> element is ListViewItem;
 
-		private void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
+		private async void FolderSettings_GridViewSizeChangeRequested(object? sender, EventArgs e)
 		{
 			var requestedIconSize = FolderSettings.GetIconSize(); // Get new icon size
 
@@ -411,7 +411,7 @@ namespace Files.App.Views.LayoutModes
 			if (requestedIconSize != currentIconSize)
 			{
 				currentIconSize = requestedIconSize; // Update icon size before refreshing
-				ReloadItemIconsAsync();
+				await ReloadItemIconsAsync();
 			}
 		}
 
@@ -440,7 +440,8 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 				return;
@@ -462,7 +463,7 @@ namespace Files.App.Views.LayoutModes
 			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
 				ResetRenameDoubleClick();
-				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else
 			{
@@ -476,23 +477,24 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 			}
 		}
 
-		private void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
 			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
 				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 			{
-				_ = NavigationHelpers.OpenSelectedItemsAsync(ParentShellPageInstance, false);
+				await Commands.OpenItem.ExecuteAsync();
 			}
 			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 			{
-				ParentShellPageInstance?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 			}
 			ResetRenameDoubleClick();
 		}
@@ -841,9 +843,12 @@ namespace Files.App.Views.LayoutModes
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
-			item.FileTags = item.FileTags
-				.Except(new string[] { tagId })
-				.ToArray();
+			if (tagId is not null)
+			{
+				item.FileTags = item.FileTags
+					.Except(new string[] { tagId })
+					.ToArray();
+			}
 
 			e.Handled = true;
 		}
@@ -900,6 +905,12 @@ namespace Files.App.Views.LayoutModes
 			// Fixes an issue where clicking an empty space would scroll to the top of the file list
 			if (args.NewFocusedElement == FileList)
 				args.TryCancel();
+		}
+
+		private void FileListHeader_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Fixes an issue where double clicking the column header would navigate back as if clicking on empty space
+			e.Handled = true;
 		}
 
 		private static GitProperties GetEnabledGitProperties(ColumnsViewModel columnsViewModel)

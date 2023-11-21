@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>開啟/關閉預覽畫面（Ctrl + P）</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail\preview panes</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
   </data>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>重設回預設圖示</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>從工作列右鍵選單開啟資料夾時，開在新的視窗中</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>啟動設定</value>
@@ -2239,7 +2251,7 @@
     <value>輸入您連線至: {0} 的憑證</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>輸入網路憑證</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>記住我的憑證</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>在計算時發生錯誤</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>無法檢視線上檔案的雜湊值</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>演算法</value>
   </data>
@@ -2335,7 +2350,7 @@
     <value>哈希值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>選擇要顯示的哈希值</value>
+    <value>選擇要顯示的雜湊值</value>
   </data>
   <data name="Calculating" xml:space="preserve">
     <value>計算中…</value>
@@ -2392,7 +2407,7 @@
     <value>切換是否顯示檔案副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>遷換是否顯示預覽畫面</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>切換是否顯示側邊攔</value>
@@ -2497,10 +2512,10 @@
     <value>安裝選取的憑證</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>以系統管理員身分執行</value>
+    <value>以系統管理員身分執行選擇的應用程式</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>以其他使用者身分執行</value>
+    <value>以不同的使用者身分執行選擇的應用程式</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>執行PowerShell腳本</value>
@@ -3277,10 +3292,10 @@
     <value>Don't show again</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
-    <value>Files is running as administrator</value>
+    <value>正以系統管理員身分執行 Files</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to platform limitations, drag and drop isn't available when running Files as administrator.</value>
+    <value>基於系統限制，以系統管理員身分執行 Files 時無法使用拖放功能</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>關閉視窗後在背景繼續執行</value>
@@ -3589,5 +3604,11 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>

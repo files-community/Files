@@ -142,7 +142,7 @@
     <value>Grootte op schijf:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Ongecomprimeerde grootte:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Deze actie kan niet worden uitgevoerd</value>
@@ -175,7 +175,7 @@
     <value>Alle items wissen</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Voer een pad in om naar te navigeren of type "&gt;" om het opdrachtpalet te openen</value>
+    <value>Voer een pad in om naar te navigeren of type "&gt;" om het commandopaneel te openen</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Zoeken</value>
@@ -289,7 +289,7 @@
     <value>Voer een itemnaam in</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>Set naam</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Licht</value>
@@ -343,7 +343,7 @@
     <value>Plaats het benodigde station om toegang te krijgen tot dit item.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Schijf ontkoppeld</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Het bestand dat u probeert te openen, is mogelijk verplaatst of verwijderd.</value>
@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Voorbeeld paneel in-/uitschakelen</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Schakel het detailvenster in of uit</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail\preview panes</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
   </data>
@@ -1687,7 +1699,7 @@
     <value>Onderdeel van set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open drive</value>
+    <value>Open schijf</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Plaats een schijf in station {0}</value>
@@ -1699,7 +1711,7 @@
     <value>Oké</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential required</value>
+    <value>Inloggegevens vereist</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Anoniem</value>
@@ -1711,10 +1723,10 @@
     <value>Gebruikersnaam</value>
   </data>
   <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Drives widget</value>
+    <value>Schijf widget</value>
   </data>
   <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Recent Files widget</value>
+    <value>Recente Bestanden widget</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Geen items gevonden</value>
@@ -1771,7 +1783,7 @@
     <value>Gebruik Files als Open Bestand Dialoog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>Bestandslabel</value>
+    <value>Label</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
     <value>Open items met één klik</value>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Standaardwaarden herstellen</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Nieuwe instantie openen bij het openen van mappen vanuit de jumplist in de taakbalk </value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Tabblad openen in bestaande instantie wanneer Files vanuit een andere app wordt geopend</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Opstart instellingen</value>
@@ -2071,7 +2083,7 @@
     <value>Selecteer bestanden en mappen wanneer je over hen beweegt</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>Weet u zeker dat u deze bestanden uit de prullenbak wilt herstellen?</value>
+    <value>Weet je zeker dat je alle items uit de prullenbak wilt terugplaatsen?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>Alle items herstellen</value>
@@ -2239,7 +2251,7 @@
     <value>Voer uw inloggegevens in om verbinding te maken met: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>Voer netwerk inloggegevens in</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Mijn referenties onthouden</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Er is een fout opgetreden tijdens het berekenen</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes zijn niet beschikbaar voor online bestanden</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritme</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Schakel of bestandsextensies getoond worden</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Zet voorvertoningspaneel aan/uit</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Zet zijbalk aan/uit</value>
@@ -2461,7 +2476,7 @@
     <value>Selectie item leegmaken</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Selectie item in-/uitschakelen</value>
+    <value>Items selecteren in-/uitschakelen</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Deel geselecteerde bestand(en) met anderen</value>
@@ -2491,7 +2506,7 @@
     <value>Geselecteerde lettertype(s) installeren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Installeer de driver(s) met behulp van geselecteerde inf bestanden</value>
+    <value>Installeer de driver(s) met behulp van geselecteerde inf bestand(en)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
     <value>Geselecteerde certificaat(en) installeren</value>
@@ -3117,7 +3132,7 @@
     <value>Auteur</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Commit datum</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
     <value>Commitbericht</value>
@@ -3150,7 +3165,7 @@
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>Run git push</value>
+    <value>Voer git push uit</value>
   </data>
   <data name="GitSync" xml:space="preserve">
     <value>Synchroniseren</value>
@@ -3165,7 +3180,7 @@
     <value>Verbind met GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
+    <value>Voer de volgende code in op de link hieronder om te beginnen met het werken met GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files kan nu geen toegang krijgen tot GitHub.</value>
@@ -3195,7 +3210,7 @@
     <value>Gewijzigd</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Niet gevolgd</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
     <value>Kan huidige eigenaar niet weergeven.</value>
@@ -3253,10 +3268,10 @@
     <value>Het '{0}' commando is niet klaar om uitgevoerd te worden.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Commandopaneel</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Commandopaneel openen</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
@@ -3326,7 +3341,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Mod Rood</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
@@ -3342,11 +3357,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Licht Roze</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Zeeschuim</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -3354,18 +3369,18 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Licht roodpaars</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Goudgeel</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Voltooide taken wissen</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Naam:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} van {1} verwerkt</value>
@@ -3375,182 +3390,182 @@
     <value>items</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
-    <value>Files can't initialize this directory as a Git repository.</value>
+    <value>Files kan deze map niet initialiseren als een Git repository.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Contributing Artist</value>
+    <value>Bijdragende kunstenaar</value>
   </data>
   <data name="AddPage" xml:space="preserve">
     <value>Pagina toevoegen</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>Processing items...</value>
+    <value>Items verwerken...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Snelheid:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing {0} items to "{1}"</value>
+    <value>Comprimeren van {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0} item(s) to "{1}"</value>
+    <value>{0} item(s) naar "{1}" gecomprimeerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <value>{0} item(s) van "{1}" naar "{2}" gecomprimeerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0} item(s) to "{1}"</value>
+    <value>Fout bij het comprimeren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <value>Comprimeren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0} item(s) to "{1}"</value>
+    <value>{0} item(s) naar "{1}" comprimeren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <value>{0} item(s) van "{1}" naar "{2}" comprimeren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <value>Kopiëren {0} item(s) naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>Kopiëren {0} item(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0} item(s) to "{1}"</value>
+    <value>{0} item(s) naar "{1}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <value>{0} item(s) van "{1}" naar "{2}" gekopieerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0} item(s) to "{1}"</value>
+    <value>Fout bij het kopiëren van {0} item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <value>Kopiëren van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0} item(s) to "{1}"</value>
+    <value>{0} item(s) naar "{1}" aan het kopiëren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>{0} item(s) van "{1}" naar "{2}" aan het kopiëren</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled extracting "{0}" to "{1}"</value>
+    <value>Uitpakken "{0}" naar "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <value>Uitpakken "{0}" van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>"{0}" naar "{1}" uitgepakt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <value>"{0}" van "{1}" naar "{2}" uitgepakt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Error extracting "{0}" to "{1}"</value>
+    <value>Fout tijdens uitpakken "{0}" naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <value>Uitpakken "{0}" van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>"{0}" naar "{1}" aan het uitpakken</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <value>"{0}" van "{1}" naar "{2}" aan het uitpakken</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled permanently deleting {0} item(s) from "{1}"</value>
+    <value>Geannuleerd permanent verwijderen van {0} item(s) van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Permanently deleted {0} item(s) from "{1}"</value>
+    <value>{0} item(s) permanent verwijderd van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error permanently deleting {0} item(s) from "{1}"</value>
+    <value>Fout bij permanent verwijderen van {0} item(s) van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to permanently delete {0} item(s) from "{1}"</value>
+    <value>Permanent verwijderen van {0} item(s) van "{1}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Permanently deleting {0} item(s) from "{1}"</value>
+    <value>{0} item(s) worden permanent verwijderd uit "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <value>Verwijderen van {0} item(s) van "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
+    <value>{0} item(s) verwijderd van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleFailed_Header" xml:space="preserve">
-    <value>Error deleting {0} item(s) from "{1}"</value>
+    <value>Fout bij verwijderen van {0} item(s) van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_RecycleInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>{0} item(s) verwijderen van "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <value>Verplaatsen {0} items(s) uit "{1}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>Verplaatsen {0} items(s) van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>{0} item(s) verplaatst naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <value>{0} item(s) van "{1}" naar "{2}" verplaatst</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0} item(s) to "{1}"</value>
+    <value>{0} item(s) verplaatsen naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>"{0}" item(s) van "{1}" naar "{2}" verplaatsen</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0} item(s) to "{1}"</value>
+    <value>Fout tijdens verplaatsen van "{0}" item(s) naar "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0} item(s) from "{1}" to "{2}"</value>
+    <value>Verplaatsen van {0} item(s) van "{1}" naar "{2}" mislukt</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3582,12 +3597,18 @@
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>Gedownload bestand deblokkeren</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>Geen lopende bestandsbewerkingen</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>De optie om Files te openen tijdens het opstarten van Windows is niet beschikbaar door systeeminstellingen of het groepsbeleid. Om dit opnieuw in te stellen, open het Opstarten tabblad in Taakbeheer.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Items terugplaatsen vanuit prullenbak mislukt</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Instellen van achtergrondafbeelding mislukt</value>
   </data>
 </root>

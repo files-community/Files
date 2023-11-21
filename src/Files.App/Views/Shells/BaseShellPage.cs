@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -331,7 +329,7 @@ namespace Files.App.Views.Shells
 			{
 				// Ctrl + Space, toggle media playback
 				case (true, false, false, true, VirtualKey.Space):
-					if (Ioc.Default.GetRequiredService<PreviewPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
+					if (Ioc.Default.GetRequiredService<InfoPaneViewModel>().PreviewPaneContent is UserControls.FilePreviews.MediaPreview mediaPreviewContent)
 					{
 						mediaPreviewContent.ViewModel.TogglePlayback();
 						args.Handled = true;
@@ -371,9 +369,9 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected void ShellPage_RefreshRequested(object sender, EventArgs e)
+		protected async void ShellPage_RefreshRequested(object sender, EventArgs e)
 		{
-			Refresh_ClickAsync();
+			await Refresh_Click();
 		}
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
@@ -408,9 +406,9 @@ namespace Files.App.Views.Shells
 			e.SignalEvent?.Set();
 		}
 
-		protected void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
+		protected async void ShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
 		{
-			ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
+			await ToolbarViewModel.SetAddressBarSuggestionsAsync(e.AddressBarTextField, this);
 		}
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
@@ -420,7 +418,10 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			var pathBoxItem = ((Button)e.OpenedFlyout.Target).DataContext as PathBoxItem;
+
+			if (pathBoxItem is not null)
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, pathBoxItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -437,10 +438,10 @@ namespace Files.App.Views.Shells
 				: FilesystemViewModel.WorkingDirectory;
 		}
 
-		protected void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "ShowUserConsentOnInit")
-				DisplayFilesystemConsentDialogAsync();
+				await DisplayFilesystemConsentDialogAsync();
 		}
 
 		// Ensure that the path bar gets updated for user interaction
@@ -518,10 +519,10 @@ namespace Files.App.Views.Shells
 		public async Task RefreshIfNoWatcherExistsAsync()
 		{
 			if (FilesystemViewModel.HasNoWatcher)
-				await Refresh_ClickAsync();
+				await Refresh_Click();
 		}
 
-		public async Task Refresh_ClickAsync()
+		public async Task Refresh_Click()
 		{
 			if (InstanceViewModel.IsPageTypeSearchResults)
 			{
@@ -620,8 +621,8 @@ namespace Files.App.Views.Shells
 					var columnCanNavigateForward = false;
 					if (SlimContentPage is ColumnViewBrowser browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance.CanNavigateBackward;
-						columnCanNavigateForward = browser.ParentShellPageInstance.CanNavigateForward;
+						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
 					}
 					ToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;
@@ -738,7 +739,8 @@ namespace Files.App.Views.Shells
 		private void HandleBackForwardRequest(PageStackEntry pageContent)
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
-			incomingPageNavPath.IsLayoutSwitch = false;
+			if (incomingPageNavPath is not null)
+				incomingPageNavPath.IsLayoutSwitch = false;
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))

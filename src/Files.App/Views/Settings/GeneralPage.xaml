@@ -190,10 +190,10 @@
 							</ListView>
 						</Grid>
 
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenNewInstance}" HorizontalAlignment="Stretch">
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=OpenTabInExistingInstance}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=OpenNewInstance}"
-								IsOn="{x:Bind ViewModel.AlwaysOpenANewInstance, Mode=TwoWay}"
+								AutomationProperties.Name="{helpers:ResourceString Name=OpenTabInExistingInstance}"
+								IsOn="{x:Bind ViewModel.OpenTabInExistingInstance, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 					</StackPanel>

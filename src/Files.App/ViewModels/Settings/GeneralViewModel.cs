@@ -222,17 +222,17 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref addFlyoutItemsSource, value);
 		}
 
-		public bool AlwaysOpenANewInstance
+		public bool OpenTabInExistingInstance
 		{
-			get => UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance;
+			get => UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance;
 			set
 			{
-				if (value != UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance)
+				if (value != UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance)
 				{
-					UserSettingsService.GeneralSettingsService.AlwaysOpenNewInstance = value;
+					UserSettingsService.GeneralSettingsService.OpenTabInExistingInstance = value;
 
 					// Needed in Program.cs
-					ApplicationData.Current.LocalSettings.Values["AlwaysOpenANewInstance"] = value;
+					ApplicationData.Current.LocalSettings.Values["OpenTabInExistingInstance"] = value;
 
 					OnPropertyChanged();
 				}

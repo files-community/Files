@@ -3,6 +3,7 @@
 
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
@@ -20,12 +21,18 @@ namespace Files.App.Actions
 
 		public override async Task ExecuteAsync()
 		{
+			if (context.ShellPage is null)
+				return;
+
 			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
 
 			var dialog = new CreateArchiveDialog
 			{
 				FileName = fileName,
 			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			var result = await dialog.TryShowAsync();
 

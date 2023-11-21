@@ -34,6 +34,26 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".gif", ".tiff", ".tif");
 		}
+		
+		/// <summary>
+		/// Check if the file extension is an audio file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is an audio file; otherwise, <c>false</c>.</returns>
+		public static bool IsAudioFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
+		}
+		
+		/// <summary>
+		/// Check if the file extension is a video file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a video file; otherwise, <c>false</c>.</returns>
+		public static bool IsVideoFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
+		}
 
 		/// <summary>
 		/// Check if the file extension is a PowerShell script.
@@ -65,7 +85,7 @@ namespace Files.Shared.Helpers
 			}
 
 			// Only extensions we want to browse
-			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".gz", ".lzh" }
+			ext = new[] { ".zip", ".7z", ".rar", ".tar", ".gz", ".lzh", ".jar" }
 				.FirstOrDefault(x => filePath.Contains(x, StringComparison.OrdinalIgnoreCase));
 
 			return ext is not null;

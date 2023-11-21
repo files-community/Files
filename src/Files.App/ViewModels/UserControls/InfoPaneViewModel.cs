@@ -6,14 +6,13 @@ using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Windows.Input;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public class PreviewPaneViewModel : ObservableObject, IDisposable
+	public class InfoPaneViewModel : ObservableObject, IDisposable
 	{
-		private readonly IPreviewPaneSettingsService previewSettingsService;
+		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 
 		private readonly IContentPageContext contentPageContextService;
 
@@ -25,7 +24,7 @@ namespace Files.App.ViewModels.UserControls
 			get => isEnabled;
 			set
 			{
-				previewSettingsService.IsEnabled = value;
+				infoPaneSettingsService.IsEnabled = value;
 
 				SetProperty(ref isEnabled, value);
 			}
@@ -58,6 +57,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public InfoPaneTabs SelectedTab
+		{
+			get => infoPaneSettingsService.SelectedTab;
+			set
+			{
+				if (value != infoPaneSettingsService.SelectedTab)
+				{
+					infoPaneSettingsService.SelectedTab = value;
+				}
+			}
+		}
+
 		private PreviewPaneStates previewPaneState;
 		public PreviewPaneStates PreviewPaneState
 		{
@@ -84,21 +95,17 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public bool LoadTagsList
-			=> SelectedItem?.HasTags ?? false && 
+			=> SelectedItem?.HasTags ?? false &&
 			PreviewPaneState is PreviewPaneStates.NoPreviewAvailable ||
 			PreviewPaneState is PreviewPaneStates.PreviewAndDetailsAvailable;
 
 		public ObservableCollection<TagsListItem> Items { get; } = new();
 
-		public PreviewPaneViewModel(IPreviewPaneSettingsService previewSettings, IContentPageContext contentPageContextService = null)
+		public InfoPaneViewModel(IContentPageContext contentPageContextService = null)
 		{
-			previewSettingsService = previewSettings;
+			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 
-			ShowPreviewOnlyInvoked = new RelayCommand(async () => await UpdateSelectedItemPreviewAsync());
-
-			IsEnabled = previewSettingsService.IsEnabled;
-
-			previewSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
+			IsEnabled = infoPaneSettingsService.IsEnabled;
 
 			this.contentPageContextService = contentPageContextService ?? Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -198,7 +205,8 @@ namespace Files.App.ViewModels.UserControls
 
 			var ext = item.FileExtension.ToLowerInvariant();
 
-			if (MediaPreviewViewModel.ContainsExtension(ext))
+			if (!item.IsFtpItem &&
+				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
 				await model.LoadAsync();
@@ -289,8 +297,18 @@ namespace Files.App.ViewModels.UserControls
 				try
 				{
 					PreviewPaneState = PreviewPaneStates.LoadingPreview;
-					loadCancellationTokenSource = new CancellationTokenSource();
-					await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+
+					if (SelectedTab == InfoPaneTabs.Preview ||
+						SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
+					{
+						loadCancellationTokenSource = new CancellationTokenSource();
+						await LoadPreviewControlAsync(loadCancellationTokenSource.Token, downloadItem);
+					}
+					else
+					{
+						await LoadBasicPreviewAsync();
+						return;
+					}
 				}
 				catch (Exception e)
 				{
@@ -347,24 +365,25 @@ namespace Files.App.ViewModels.UserControls
 
 		public void UpdateDateDisplay()
 		{
-			SelectedItem?.FileDetails?.ForEach(property => {
+			SelectedItem?.FileDetails?.ForEach(property =>
+			{
 				if (property.Value is DateTimeOffset)
 					property.UpdateValueText();
 			});
 		}
 
-		public ICommand ShowPreviewOnlyInvoked { get; }
-
-		private async void PreviewSettingsService_OnPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+		private async void PreviewSettingsService_OnPropertyChangedEvent(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IPreviewPaneSettingsService.ShowPreviewOnly))
+			if (e.PropertyName is nameof(infoPaneSettingsService.SelectedTab))
 			{
+				OnPropertyChanged(nameof(SelectedTab));
+
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(IPreviewPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(infoPaneSettingsService.IsEnabled))
 			{
-				var newEnablingStatus = previewSettingsService.IsEnabled;
+				var newEnablingStatus = infoPaneSettingsService.IsEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
@@ -408,7 +427,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void Dispose()
 		{
-			previewSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
+
 		}
 	}
 }

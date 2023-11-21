@@ -135,30 +135,33 @@ namespace Files.App.ViewModels
 
 		public async Task UpdateInstancePropertiesAsync(object navigationArg)
 		{
-			string windowTitle = string.Empty;
-			if (navigationArg is PaneNavigationArguments paneArgs)
+			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+				string windowTitle = string.Empty;
+				if (navigationArg is PaneNavigationArguments paneArgs)
 				{
-					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-					windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+					if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
+					{
+						var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+						var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
+						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
+					}
+					else
+					{
+						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					}
 				}
-				else
+				else if (navigationArg is string pathArgs)
 				{
-					(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
+					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
 				}
-			}
-			else if (navigationArg is string pathArgs)
-			{
-				(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
-			}
 
-			if (AppInstances.Count > 1)
-				windowTitle = $"{windowTitle} ({AppInstances.Count})";
+				if (AppInstances.Count > 1)
+					windowTitle = $"{windowTitle} ({AppInstances.Count})";
 
-			if (navigationArg == SelectedTabItem?.NavigationParameter?.NavigationParameter)
-				MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+				if (navigationArg == SelectedTabItem?.NavigationParameter?.NavigationParameter)
+					MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
+			});
 		}
 
 		public async Task UpdateTabInfoAsync(Files.App.UserControls.TabBar.TabBarItem tabItem, object navigationArg)
@@ -187,7 +190,9 @@ namespace Files.App.ViewModels
 			}
 
 			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null && navigationArg == tabItem.NavigationParameter.NavigationParameter)
+			if (result.Item1 is not null && 
+				(navigationArg is PaneNavigationArguments && navigationArg as PaneNavigationArguments == tabItem.NavigationParameter.NavigationParameter as PaneNavigationArguments
+				|| navigationArg is string && navigationArg as string == tabItem.NavigationParameter.NavigationParameter as string))
 				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
 		}
 
@@ -233,7 +238,7 @@ namespace Files.App.ViewModels
 				// If localized string is empty use the library name.
 				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
 			}
-			else if (App.WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
+			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
 				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
@@ -241,7 +246,7 @@ namespace Files.App.ViewModels
 			else
 			{
 				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = App.CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
 					iconSource.ImageSource = matchingCloudDrive.Icon;

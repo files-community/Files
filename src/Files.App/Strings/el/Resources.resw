@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Εναλλαγή του παραθύρου προεπισκόπησης</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail\preview panes</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Δεν υπάρχει διαθέσιμη προεπισκόπηση</value>
   </data>
@@ -1390,7 +1402,7 @@
     <value>τον Κάδο Ανακύκλωσης</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>Canceling</value>
+    <value>Ακύρωση</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Εκκαθάριση</value>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Επαναφορά προεπιλογών</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Άνοιγμα νέου παραθύρου κατά το άνοιγμα καταλόγων από τη λίστα συντομεύσεων της γραμμής εργασιών</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Ρυθμίσεις εκκίνησης</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Παρουσιάστηκε σφάλμα κατά τον υπολογισμό</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Αλγόριθμος</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Εναλλαγή εμφάνισης επεκτάσεων αρχείων</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Εναλλαγή εμφάνισης παραθύρου προεπισκόπησης</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Εναλλαγή εμφάνισης πλευρικής μπάρας</value>
@@ -2867,11 +2882,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
-    <value>PrevTrack</value>
+    <value>Προηγ. κομμάτι</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
-    <value>NextTrack</value>
+    <value>ΕπόμενοΚομμάτι</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
@@ -3589,5 +3604,11 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>

@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(opacityStyle: "ColorIconNew");
 
+		public HotKey HotKey
+			=> new(Keys.I, KeyModifiers.CtrlShift);
+
 		public bool IsExecutable
 			=> context.CanCreateItem;
 
@@ -46,6 +49,8 @@ namespace Files.App.Actions
 					viewModel.ResultType.ItemInfo,
 					context.ShellPage!);
 			}
+
+			viewModel.ResultType.ItemType = AddItemDialogItemType.Cancel;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

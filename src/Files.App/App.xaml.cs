@@ -3,12 +3,10 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
-using Files.App.Helpers;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
 using Files.App.Storage.FtpStorage;
 using Files.App.Storage.NativeStorage;
-using Files.App.UserControls.TabBar;
 using Files.App.ViewModels.Settings;
 using Files.Core.Services.SizeProvider;
 using Files.Core.Storage;
@@ -22,8 +20,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.AppLifecycle;
 using System.IO;
 using System.Text;
@@ -49,13 +45,10 @@ namespace Files.App
 		public static AppModel AppModel { get; private set; }
 		public static RecentItems RecentItemsManager { get; private set; }
 		public static QuickAccessManager QuickAccessManager { get; private set; }
-		public static CloudDrivesManager CloudDrivesManager { get; private set; }
-		public static WSLDistroManager WSLDistroManager { get; private set; }
 		public static LibraryManager LibraryManager { get; private set; }
 		public static FileTagsManager FileTagsManager { get; private set; }
 
 		public static ILogger Logger { get; private set; }
-		public static SecondaryTileHelper SecondaryTileHelper { get; private set; } = new();
 
 		/// <summary>
 		/// Initializes the singleton application object. This is the first line of authored code
@@ -101,7 +94,7 @@ namespace Files.App
 					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IPreviewPaneSettingsService, PreviewPaneSettingsService>(sp => new PreviewPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
@@ -142,8 +135,9 @@ namespace Files.App
 					.AddSingleton<IJumpListService, JumpListService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<MainPageViewModel>()
-					.AddSingleton<PreviewPaneViewModel>()
+					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
 					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
@@ -160,31 +154,30 @@ namespace Files.App
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 
 			// Start off a list of tasks we need to run before we can continue startup
-			await Task.Run(async () =>
-			{
-				await Task.WhenAll(
-					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-					LibraryManager.UpdateLibrariesAsync(),
-					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					QuickAccessManager.InitializeAsync()
-				);
+			await Task.WhenAll(
+				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				LibraryManager.UpdateLibrariesAsync(),
+				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				QuickAccessManager.InitializeAsync()
+			);
 
-				await Task.WhenAll(
-					JumpListHelper.InitializeUpdatesAsync(),
-					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync()
-				);
+			await Task.WhenAll(
+				JumpListHelper.InitializeUpdatesAsync(),
+				addItemService.InitializeAsync(),
+				ContextMenu.WarmUpQueryContextMenuAsync()
+			);
 
-				FileTagsHelper.UpdateTagsDb();
-			});
+			FileTagsHelper.UpdateTagsDb();
 
 			await CheckForRequiredUpdatesAsync();
 
-			static async Task OptionalTaskAsync(Task task, bool condition)
+			static Task OptionalTaskAsync(Task task, bool condition)
 			{
 				if (condition)
-					await task;
+					return task;
+
+				return Task.CompletedTask;
 			}
 		}
 
@@ -230,6 +223,10 @@ namespace Files.App
 
 				EnsureSettingsAndConfigurationAreBootstrapped();
 
+				// Hook events for the window
+				MainWindow.Instance.Closed += Window_Closed;
+				MainWindow.Instance.Activated += Window_Activated;
+
 				// TODO: Remove App.Logger instance and replace with DI
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
@@ -238,8 +235,7 @@ namespace Files.App
 				await SplashScreenLoadingTCS!.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(500));
 				SplashScreenLoadingTCS = null;
 
-				_ = InitializeAppComponentsAsync().ContinueWith(t => Logger.LogWarning(t.Exception, "Error during InitializeAppComponentsAsync()"), TaskContinuationOptions.OnlyOnFaulted);
-
+				_ = InitializeAppComponentsAsync();
 				_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 			}
 		}
@@ -251,8 +247,6 @@ namespace Files.App
 			RecentItemsManager ??= new RecentItems();
 			AppModel ??= new AppModel();
 			LibraryManager ??= new LibraryManager();
-			CloudDrivesManager ??= new CloudDrivesManager();
-			WSLDistroManager ??= new WSLDistroManager();
 			FileTagsManager ??= new FileTagsManager();
 			QuickAccessManager ??= new QuickAccessManager();
 		}
@@ -261,10 +255,6 @@ namespace Files.App
 		{
 			// Get the MainWindow instance
 			var window = MainWindow.Instance;
-
-			// Hook events for the window
-			window.Activated += Window_Activated;
-			window.Closed += Window_Closed;
 
 			// Attempt to activate it
 			window.Activate();
@@ -297,6 +287,8 @@ namespace Files.App
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
 			// Save application state and stop any background activity
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			StatusCenterViewModel satusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			// A Workaround for the crash (#10110)
 			if (LastOpenedFlyout?.IsOpen ?? false)
@@ -307,15 +299,15 @@ namespace Files.App
 				return;
 			}
 
-			if (Ioc.Default.GetRequiredService<IUserSettingsService>().GeneralSettingsService.LeaveAppRunning &&
+			if (userSettingsService.GeneralSettingsService.LeaveAppRunning &&
 				!AppModel.ForceProcessTermination &&
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Process.GetCurrentProcess().Id))
 			{
 				// Close open content dialogs
 				UIHelpers.CloseAllDialogs();
-				
+
 				// Close all notification banners except in progress
-				Ioc.Default.GetRequiredService<StatusCenterViewModel>().RemoveAllCompletedItems();
+				satusCenterViewModel.RemoveAllCompletedItems();
 
 				// Cache the window instead of closing it
 				MainWindow.Instance.AppWindow.Hide();
@@ -393,8 +385,7 @@ namespace Files.App
 		/// </summary>
 		public static void SaveSessionTabs()
 		{
-			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
+			var userSettingsService = Ioc.Default.GetService<IUserSettingsService>() ?? new UserSettingsService();
 			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
 			{
 				if (tab is not null && tab.NavigationParameter is not null)
@@ -475,7 +466,7 @@ namespace Files.App
 			Debugger.Break();
 
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex.Message);
+			Logger.LogError(ex, ex?.Message ?? "An error occured");
 
 			if (!ShowErrorNotification || !shouldShowNotification)
 				return;

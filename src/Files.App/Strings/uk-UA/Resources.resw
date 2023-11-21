@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Відобразити панель попереднього перегляду</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Зобразити панель подробиць</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Перемкнути панель деталей для перегляду основних властивостей файлу</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Перемкнути інформаційну панель</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Перемкнути інформаційну панель для перегляду деталей та попереднього перегляду</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
   </data>
@@ -1585,7 +1597,7 @@
     <value>Замінити всіх записів дозволів дочірніх об'єктів на успадковувані записи дозволів з цього об'єкта</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Закрити область</value>
+    <value>Закрити панель</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Компактний режим</value>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Відновити значення за замовчуванням</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>Відкриття нового екземпляра під час відкриття каталогів зі списку переходів на панелі завдань</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Відкрити вкладку в наявному вікні, коли відкривається Files з іншої програми</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Налаштування запуску</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Під час обрахунку сталась помилка</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Хеші не доступні для файлів онлайн</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Алгоритм</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Перемкнути для показу розширень файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Відобразити панель попереднього перегляду</value>
+    <value>Перемкнути панель попереднього перегляду файлів</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Перемкнути для показу бічної панелі</value>
@@ -3378,7 +3393,7 @@
     <value>Files не можуть ініціалізувати Git-репозиторій в цьому каталозі.</value>
   </data>
   <data name="ContributingArtist" xml:space="preserve">
-    <value>Подякувати розробникам</value>
+    <value>Художник-учасник</value>
   </data>
   <data name="AddPage" xml:space="preserve">
     <value>Додати сторінку</value>
@@ -3588,6 +3603,12 @@
     <value>Немає поточних операцій з файлами</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну, відкрийте сторінку автозапуску в диспетчері задач.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Не вдалося відновити об'єкти з кошика</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Не вдалося встановити шпалери</value>
   </data>
 </root>

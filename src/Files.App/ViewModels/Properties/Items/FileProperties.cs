@@ -97,8 +97,11 @@ namespace Files.App.ViewModels.Properties
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
-			ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
-				string.Empty;
+
+			// Only load the size for items on the device
+			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+				ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+				   string.Empty;
 
 			var fileIconData = await FileThumbnailHelper.LoadIconFromPathAsync(Item.ItemPath, 80, Windows.Storage.FileProperties.ThumbnailMode.DocumentsView, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail, false);
 			if (fileIconData is not null)
@@ -131,15 +134,14 @@ namespace Files.App.ViewModels.Properties
 			if (Item.IsShortcut)
 				return;
 
-			if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
-			{
-				if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
-				{
-					var uncompressedSize = await zipFolder.GetUncompressedSize();
-					ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
-					ViewModel.UncompressedItemSizeBytes = uncompressedSize;
-				}
-			}
+			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
+				if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+					if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+					{
+						var uncompressedSize = await zipFolder.GetUncompressedSize();
+						ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+						ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+					}
 
 			if (file.Properties is not null)
 				GetOtherPropertiesAsync(file.Properties);
@@ -166,7 +168,7 @@ namespace Files.App.ViewModels.Properties
 			if (encodingBitrate?.Value is not null)
 			{
 				var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
-				var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
+				var order = Math.Min((int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024)), 3);
 				var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
 				encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
 			}

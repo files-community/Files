@@ -1053,6 +1053,18 @@
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Előnézet elrejtése/megjelenítése</value>
   </data>
+  <data name="ToggleDetailsPane" xml:space="preserve">
+    <value>Toggle the details pane</value>
+  </data>
+  <data name="ToggleDetailsPaneDescription" xml:space="preserve">
+    <value>Toggle the details pane to view basic file properties</value>
+  </data>
+  <data name="ToggleInfoPane" xml:space="preserve">
+    <value>Toggle the info pane</value>
+  </data>
+  <data name="ToggleInfoPaneDescription" xml:space="preserve">
+    <value>Toggle the info pane to view the detail\preview panes</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
   </data>
@@ -1806,8 +1818,8 @@
   <data name="RestoreDefault" xml:space="preserve">
     <value>Visszaállítás</value>
   </data>
-  <data name="OpenNewInstance" xml:space="preserve">
-    <value>A mappák tálcáról megnyitásakor új folyamat indítása</value>
+  <data name="OpenTabInExistingInstance" xml:space="preserve">
+    <value>Open tab in existing instance when opening Files from another app</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Indítás</value>
@@ -2328,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Hiba történt a számolás során</value>
   </data>
+  <data name="CalculationOnlineFileHashError" xml:space="preserve">
+    <value>Hashes aren't available for online files</value>
+  </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritmus</value>
   </data>
@@ -2392,7 +2407,7 @@
     <value>Fájlkiterjesztések megjelenítésének ki-/bekapcsolása</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Előnézeti ablak megjelenítésének ki-/bekapcsolása</value>
+    <value>Toggle the preview pane to view file previews</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Oldalsáv megjelenítésének ki-/bekapcsolása</value>
@@ -2419,7 +2434,7 @@
     <value>Új mappa létrehozása</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Új parancsikon(ok) létrehozása a kiválasztott elem(ek)-hez</value>
+    <value>Új parancsikon(ok) létrehozása a kiválasztott elem(ek)hez</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Új parancsikon létrehozása</value>
@@ -2440,7 +2455,7 @@
     <value>Elem(ek) megnyitása</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Elem(ek) megnyitása a kiválasztott applikációval</value>
+    <value>Elem(ek) megnyitása a kiválasztott alkalmazással</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>A keresett elem forrás mappájának megnyitása</value>
@@ -2467,10 +2482,10 @@
     <value>Kiválasztott fájl(ok) megosztása másokkal</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Kiválasztott elem(ek) kitűzése a Start Menu-be</value>
+    <value>Kiválasztott elem(ek) kitűzése a Start menübe</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Elem(ek) levétele a Start Menu-ből</value>
+    <value>Elem(ek) levétele a Start menüből</value>
   </data>
   <data name="PinItemToFavoritesDescription" xml:space="preserve">
     <value>Mappá(k) kitűzése a kedvencekbe</value>
@@ -3129,7 +3144,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Akril</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -3138,7 +3153,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Háttér típus</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Szolid</value>
@@ -3589,5 +3604,11 @@
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+  </data>
+  <data name="FailedToRestore" xml:space="preserve">
+    <value>Nem sikerült visszaállítani az elemeket a lomtárból</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Nem sikerült beállítani a háttérképet</value>
   </data>
 </root>

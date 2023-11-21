@@ -88,13 +88,14 @@ namespace Files.App.Views.LayoutModes
 			base.OnNavigatedTo(eventArgs);
 
 			var path = navigationArguments.NavPathParam;
+			var pathRoot = GetPathRoot(path);
 			var pathStack = new Stack<string>();
 
-			if (path is not null)
+			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.FavoriteItems.Select(NormalizePath)
-					.Concat(App.CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
-				rootPathList.Add(NormalizePath(GetPathRoot(path)));
+					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList();
+				rootPathList.Add(NormalizePath(pathRoot));
 
 				while (!rootPathList.Contains(NormalizePath(path)))
 				{
@@ -115,7 +116,7 @@ namespace Files.App.Views.LayoutModes
 				SearchUnindexedItems = navigationArguments.SearchUnindexedItems,
 				SearchPathParam = navigationArguments.SearchPathParam,
 				NavPathParam = path,
-				SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+				SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 			});
 
 			var index = 0;
@@ -127,7 +128,7 @@ namespace Files.App.Views.LayoutModes
 				{
 					Column = ++index,
 					NavPathParam = path,
-					SelectItems = path == navigationArguments.NavPathParam? navigationArguments.SelectItems : null
+					SelectItems = path == navigationArguments.NavPathParam ? navigationArguments.SelectItems : null
 				});
 			}
 		}
@@ -283,12 +284,12 @@ namespace Files.App.Views.LayoutModes
 			(ParentShellPageInstance as ModernShellPage)?.Forward_Click();
 		}
 
-		public void NavigateUp()
+		public async void NavigateUp()
 		{
 			if (ColumnHost.ActiveBlades?.Count > 1)
 				DismissOtherBlades(ColumnHost.ActiveBlades[ColumnHost.ActiveBlades.Count - 2]);
 			else
-				(ParentShellPageInstance as ModernShellPage)?.Up_Click();
+				await Commands.NavigateUp.ExecuteAsync();
 		}
 
 		public void MoveFocusToPreviousBlade(int currentBladeIndex)
@@ -398,23 +399,21 @@ namespace Files.App.Views.LayoutModes
 				foreach (var item in ColumnHost.ActiveBlades)
 				{
 					if ((item.Content as Frame)?.Content is ColumnShellPage s &&
-						PathNormalization.NormalizePath(s.FilesystemViewModel.WorkingDirectory) ==
-						PathNormalization.NormalizePath(e.ItemPath))
+						NormalizePath(s.FilesystemViewModel?.WorkingDirectory) == NormalizePath(e.ItemPath))
 					{
 						DismissOtherBlades(item);
 						return;
 					}
 				}
 			}
-			if (PathNormalization.NormalizePath(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory) !=
-				PathNormalization.NormalizePath(e.ItemPath))
-			{
+
+			if (ParentShellPageInstance is null)
+				return;
+
+			if (NormalizePath(ParentShellPageInstance.FilesystemViewModel?.WorkingDirectory) != NormalizePath(e.ItemPath))
 				ParentShellPageInstance.NavigateToPath(e.ItemPath);
-			}
 			else
-			{
 				DismissOtherBlades(0);
-			}
 		}
 
 		public IShellPage ActiveColumnShellPage
