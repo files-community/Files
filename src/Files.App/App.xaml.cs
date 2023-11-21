@@ -17,18 +17,18 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		public static string? OutputPath { get; set; }
-		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
+		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
+		public static string? OutputPath { get; set; }
 
 		// TODO: Replace with DI
+		public static QuickAccessManager QuickAccessManager { get; } = new();
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
-		public static AppModel AppModel { get; private set; } = new();
-		public static RecentItems RecentItemsManager { get; private set; } = new();
-		public static QuickAccessManager QuickAccessManager { get; private set; } = new();
-		public static LibraryManager LibraryManager { get; private set; } = new();
-		public static FileTagsManager FileTagsManager { get; private set; } = new();
+		public static FileTagsManager FileTagsManager { get; } = new();
+		public static RecentItems RecentItemsManager { get; } = new();
+		public static LibraryManager LibraryManager { get; } = new();
 		public static ILogger Logger { get; private set; } = null!;
+		public static AppModel AppModel { get; } = new();
 
 		/// <summary>
 		/// Initializes an instance of <see cref="App"/>.
@@ -43,6 +43,7 @@ namespace Files.App
 			TaskScheduler.UnobservedTaskException += AppLifecycleHelper.TaskScheduler_UnobservedTaskException;
 
 #if STORE || STABLE || PREVIEW
+			// Configure AppCenter
 			AppLifecycleHelper.ConfigureAppCenter();
 #endif
 		}
@@ -73,7 +74,7 @@ namespace Files.App
 				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
 					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
-				// Configure Host and IoC
+				// Configure the DI (dependency injection) container
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 

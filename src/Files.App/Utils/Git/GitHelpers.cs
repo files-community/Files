@@ -21,7 +21,7 @@ namespace Files.App.Utils.Git
 
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
 
-		private const string CLIENT_ID_SECRET = "githubclientid.secret";
+		private const string CLIENT_ID_SECRET = Constants.AutomatedWorkflowInjectionKeys.GitHubClientId;
 
 		private const int END_OF_ORIGIN_PREFIX = 7;
 

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Notifications;
 using Files.App.Services.DateTimeFormatter;
 using Files.App.Services.Settings;
@@ -87,7 +86,7 @@ namespace Files.App.Helpers
 				if (!Microsoft.AppCenter.AppCenter.Configured)
 				{
 					Microsoft.AppCenter.AppCenter.Start(
-						"appcenter.secret",
+						Constants.AutomatedWorkflowInjectionKeys.AppCenterSecret,
 						typeof(Microsoft.AppCenter.Analytics.Analytics),
 						typeof(Microsoft.AppCenter.Crashes.Crashes));
 				}
@@ -109,21 +108,24 @@ namespace Files.App.Helpers
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
+					// Settings services
 					.AddSingleton<IUserSettingsService, UserSettingsService>()
-					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
-					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					// Contexts
 					.AddSingleton<IPageContext, PageContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					// Services
 					.AddSingleton<IDialogService, DialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
@@ -152,6 +154,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
+					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
@@ -160,6 +163,13 @@ namespace Files.App.Helpers
 					.AddSingleton<NetworkDrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					// Utilities
+					.AddSingleton<QuickAccessManager>()
+					.AddSingleton<StorageHistoryWrapper>()
+					.AddSingleton<FileTagsManager>()
+					.AddSingleton<RecentItems>()
+					.AddSingleton<LibraryManager>()
+					.AddSingleton<AppModel>()
 				).Build();
 		}
 
