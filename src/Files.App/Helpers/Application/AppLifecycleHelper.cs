@@ -1,0 +1,340 @@
+﻿// Copyright (c) 2023 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Notifications;
+using Files.App.Services.DateTimeFormatter;
+using Files.App.Services.Settings;
+using Files.App.Storage.FtpStorage;
+using Files.App.Storage.NativeStorage;
+using Files.App.ViewModels.Settings;
+using Files.Core.Services.SizeProvider;
+using Files.Core.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.IO;
+using System.Text;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Notifications;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+
+namespace Files.App.Helpers
+{
+	/// <summary>
+	/// Provides static helper to manage app lifecycle.
+	/// </summary>
+	public static class AppLifecycleHelper
+	{
+		/// <summary>
+		/// Initializes the app components.
+		/// </summary>
+		public static async Task InitializeAppComponentsAsync()
+		{
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			var generalSettingsService = userSettingsService.GeneralSettingsService;
+
+			// Start off a list of tasks we need to run before we can continue startup
+			await Task.WhenAll(
+				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+				App.LibraryManager.UpdateLibrariesAsync(),
+				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+				App.QuickAccessManager.InitializeAsync()
+			);
+
+			await Task.WhenAll(
+				JumpListHelper.InitializeUpdatesAsync(),
+				addItemService.InitializeAsync(),
+				ContextMenu.WarmUpQueryContextMenuAsync()
+			);
+
+			FileTagsHelper.UpdateTagsDb();
+
+			await CheckAppUpdate();
+
+			static Task OptionalTaskAsync(Task task, bool condition)
+			{
+				if (condition)
+					return task;
+
+				return Task.CompletedTask;
+			}
+		}
+
+		/// <summary>
+		/// Checks application updates and download if available.
+		/// </summary>
+		public static async Task CheckAppUpdate()
+		{
+			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+
+			await updateService.CheckForUpdatesAsync();
+			await updateService.DownloadMandatoryUpdatesAsync();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
+			await updateService.CheckLatestReleaseNotesAsync();
+		}
+
+		/// <summary>
+		/// Configures AppCenter service, such as Analytics and Crash Report.
+		/// </summary>
+		public static void ConfigureAppCenter()
+		{
+			try
+			{
+				if (!Microsoft.AppCenter.AppCenter.Configured)
+				{
+					Microsoft.AppCenter.AppCenter.Start(
+						"appcenter.secret",
+						typeof(Microsoft.AppCenter.Analytics.Analytics),
+						typeof(Microsoft.AppCenter.Crashes.Crashes));
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to start AppCenter service.");
+			}
+		}
+
+		/// <summary>
+		/// Configures DI (dependency injection) container.
+		/// </summary>
+		public static IHost ConfigureHost()
+		{
+			return Host.CreateDefaultBuilder()
+				.UseEnvironment(ApplicationService.AppEnvironment.ToString())
+				.ConfigureLogging(builder => builder
+					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.SetMinimumLevel(LogLevel.Information))
+				.ConfigureServices(services => services
+					.AddSingleton<IUserSettingsService, UserSettingsService>()
+					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService((sp.GetService<IUserSettingsService>() as UserSettingsService).GetSharingContext()))
+					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
+					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IContentPageContext, ContentPageContext>()
+					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
+					.AddSingleton<IWindowContext, WindowContext>()
+					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
+					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<IImageService, ImagingService>()
+					.AddSingleton<IThreadingService, ThreadingService>()
+					.AddSingleton<ILocalizationService, LocalizationService>()
+					.AddSingleton<ICloudDetector, CloudDetector>()
+					.AddSingleton<IFileTagsService, FileTagsService>()
+					.AddSingleton<ICommandManager, CommandManager>()
+					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
+					.AddSingleton<IApplicationService, ApplicationService>()
+					.AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IFtpStorageService, FtpStorageService>()
+					.AddSingleton<IAddItemService, AddItemService>()
+#if STABLE || PREVIEW
+					.AddSingleton<IUpdateService, SideloadUpdateService>()
+#else
+					.AddSingleton<IUpdateService, UpdateService>()
+#endif
+					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
+					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
+					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
+					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
+					.AddSingleton<ISizeProvider, UserSizeProvider>()
+					.AddSingleton<IQuickAccessService, QuickAccessService>()
+					.AddSingleton<IResourcesService, ResourcesService>()
+					.AddSingleton<IJumpListService, JumpListService>()
+					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
+					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<MainPageViewModel>()
+					.AddSingleton<InfoPaneViewModel>()
+					.AddSingleton<SidebarViewModel>()
+					.AddSingleton<SettingsViewModel>()
+					.AddSingleton<DrivesViewModel>()
+					.AddSingleton<NetworkDrivesViewModel>()
+					.AddSingleton<StatusCenterViewModel>()
+					.AddSingleton<AppearanceViewModel>()
+				).Build();
+		}
+
+		/// <summary>
+		/// Saves saves all opened tabs to the app cache.
+		/// </summary>
+		public static void SaveSessionTabs()
+		{
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+			userSettingsService.GeneralSettingsService.LastSessionTabList = MainPageViewModel.AppInstances.DefaultIfEmpty().Select(tab =>
+			{
+				if (tab is not null && tab.NavigationParameter is not null)
+				{
+					return tab.NavigationParameter.Serialize();
+				}
+				else
+				{
+					var defaultArg = new CustomTabViewItemParameter()
+					{
+						InitialPageType = typeof(PaneHolderPage),
+						NavigationParameter = "Home"
+					};
+
+					return defaultArg.Serialize();
+				}
+			})
+			.ToList();
+		}
+
+		/// <summary>
+		/// Invoked when an exception is not handled on the UI thread.
+		/// </summary>
+		public static void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+		{
+			AppUnhandledException(e.Exception, true);
+		}
+
+		/// <summary>
+		/// Invoked when an exception is not handled on the current thread.
+		/// </summary>
+		public static void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+		{
+			AppUnhandledException(e.ExceptionObject as Exception, false);
+		}
+
+		/// <summary>
+		/// Invoked when an exception is not handled on a background thread.
+		/// </summary>
+		/// <remarks>
+		/// This exception is sometimes occurred by forgotten <c>Task.Run(() => {...})</c>.
+		/// </remarks>
+		public static void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+		{
+			AppUnhandledException(e.Exception, false);
+		}
+
+		/// <summary>
+		/// Shows exception on the Debug Output and sends Toast Notification to the Windows Notification Center.
+		/// </summary>
+		private static void AppUnhandledException(Exception? ex, bool showToastNotification)
+		{
+			StringBuilder formattedException = new()
+			{
+				Capacity = 200
+			};
+
+			formattedException.Append("--------- UNHANDLED EXCEPTION ---------");
+
+			if (ex is not null)
+			{
+				formattedException.Append($"\n>>>> HRESULT: {ex.HResult}\n");
+				if (ex.Message is not null)
+				{
+					formattedException.Append("\n--- MESSAGE ---");
+					formattedException.Append(ex.Message);
+				}
+				if (ex.StackTrace is not null)
+				{
+					formattedException.Append("\n--- STACKTRACE ---");
+					formattedException.Append(ex.StackTrace);
+				}
+				if (ex.Source is not null)
+				{
+					formattedException.Append("\n--- SOURCE ---");
+					formattedException.Append(ex.Source);
+				}
+				if (ex.InnerException is not null)
+				{
+					formattedException.Append("\n--- INNER ---");
+					formattedException.Append(ex.InnerException);
+				}
+			}
+			else
+			{
+				formattedException.Append("\nException is not available.\n");
+			}
+
+			formattedException.Append("---------------------------------------");
+
+			Debug.WriteLine(formattedException.ToString());
+
+			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			Debugger.Break();
+
+			SaveSessionTabs();
+			App.Logger.LogError(ex, ex?.Message ?? "An error occurred");
+
+			if (!showToastNotification)
+				return;
+
+			var toastContent = new ToastContent()
+			{
+				Visual = new()
+				{
+					BindingGeneric = new ToastBindingGeneric()
+					{
+						Children =
+						{
+							new AdaptiveText()
+							{
+								Text = "ExceptionNotificationHeader".GetLocalizedResource()
+							},
+							new AdaptiveText()
+							{
+								Text = "ExceptionNotificationBody".GetLocalizedResource()
+							}
+						},
+						AppLogoOverride = new()
+						{
+							Source = "ms-appx:///Assets/error.png"
+						}
+					}
+				},
+				Actions = new ToastActionsCustom()
+				{
+					Buttons =
+					{
+						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.GitHub.BugReportUrl)
+						{
+							ActivationType = ToastActivationType.Protocol
+						}
+					}
+				},
+				ActivationType = ToastActivationType.Protocol
+			};
+
+			// Create the toast notification
+			var toastNotification = new ToastNotification(toastContent.GetXml());
+
+			// And send the notification
+			ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+
+			// Restart the app
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
+
+			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+			{
+				// Avoid infinite restart loop
+				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+			}
+			else
+			{
+				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
+
+				// Try to re-launch and start over
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				})
+				.Wait(1000);
+			}
+			Process.GetCurrentProcess().Kill();
+		}
+	}
+}
