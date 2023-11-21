@@ -411,7 +411,10 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			var pathBoxItem = ((Button)e.OpenedFlyout.Target).DataContext as PathBoxItem;
+
+			if (pathBoxItem is not null)
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, pathBoxItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
