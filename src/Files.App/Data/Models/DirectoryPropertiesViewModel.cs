@@ -18,6 +18,8 @@ namespace Files.App.Data.Models
 
 		private readonly ObservableCollection<string> _remoteBranches = new();
 
+		public bool IsBranchesFlyoutExpaned { get; set; } = false;
+
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
 		{
@@ -101,7 +103,10 @@ namespace Files.App.Data.Models
 				: null;
 
 			_gitRepositoryPath = repositoryPath;
-			ShowLocals = true;
+			
+			// Change ShowLocals value only if branches flyout is closed
+			if (!IsBranchesFlyoutExpaned)
+				ShowLocals = true;
 
 			var behind = branches.Any() ? branches[0].BehindBy ?? 0 : 0;
 			var ahead = branches.Any() ? branches[0].AheadBy ?? 0 : 0;
@@ -122,7 +127,7 @@ namespace Files.App.Data.Models
 						_localBranches.Add(branch.Name);
 				}
 
-				SelectedBranchIndex = ACTIVE_BRANCH_INDEX;
+				SelectedBranchIndex = ShowLocals ? ACTIVE_BRANCH_INDEX : -1;
 			}
 		}
 	}

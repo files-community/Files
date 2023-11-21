@@ -45,11 +45,12 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void BranchesFlyout_Opening(object sender, object e)
+		private void BranchesFlyout_Opening(object _, object e)
 		{
 			if (DirectoryPropertiesViewModel is null)
 				return;
 
+			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = true;
 			DirectoryPropertiesViewModel.ShowLocals = true;
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
@@ -57,6 +58,14 @@ namespace Files.App.UserControls
 		private void BranchesList_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			BranchesFlyout.Hide();
+		}
+
+		private void BranchesFlyout_Closing(object _, object e)
+		{
+			if (DirectoryPropertiesViewModel is null)
+				return;
+
+			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = false;
 		}
 	}
 }
