@@ -2341,7 +2341,7 @@
     <value>An error occurred during the calculation</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>An error occurred during the calculation, please close the file and try again.</value>
+    <value>Failed to calculate the hash, please close the file and try again.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
