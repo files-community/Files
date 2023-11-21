@@ -85,7 +85,7 @@
 
 					<Button
 						Padding="4,6,4,6"
-						AutomationProperties.AutomationId="BreadcrumbMenuButton"
+						AutomationProperties.AccessibilityView="Raw"
 						Background="Transparent"
 						BorderBrush="Transparent"
 						CornerRadius="0,4,4,0"
