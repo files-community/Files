@@ -835,6 +835,23 @@ namespace Files.App.Utils.Shell
 			return RunPowershellCommandAsync($"-command \"Copy-Item '{fontFilePath}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(fontFilePath)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPath}'\"", forAllUsers);
 		}
 
+		public static Task InstallFonts(string[] fontFilePaths, bool forAllUsers)
+		{
+			string fontDirectory = forAllUsers
+				? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts")
+				: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows", "Fonts");
+
+			string registryKey = forAllUsers
+				? "HKLM:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+				: "HKCU:\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+
+			string filePaths = string.Join(",", fontFilePaths.Select(x => string.Format("'{0}'", x)));
+			string[] destinationFilePaths = fontFilePaths.Select(item => Path.Combine(fontDirectory, Path.GetFileName(item))).ToArray();
+			string destinationPaths = string.Join(",", destinationFilePaths.Select(x => string.Format("'{0}'", x)));
+
+			return RunPowershellCommandAsync($"-command \"Copy-Item '{filePaths}' '{fontDirectory}'; New-ItemProperty -Name '{Path.GetFileNameWithoutExtension(filePaths)}' -Path '{registryKey}' -PropertyType string -Value '{destinationPaths}'\"", forAllUsers);
+		}
+
 		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
 		{
 			Process process = new();
