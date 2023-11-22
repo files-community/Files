@@ -22,13 +22,13 @@ namespace Files.App
 		public static string? OutputPath { get; set; }
 
 		// TODO: Replace with DI
-		public static QuickAccessManager QuickAccessManager { get; } = new();
-		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
-		public static FileTagsManager FileTagsManager { get; } = new();
-		public static RecentItems RecentItemsManager { get; } = new();
-		public static LibraryManager LibraryManager { get; } = new();
+		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
+		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = null!;
+		public static FileTagsManager FileTagsManager { get; private set; } = null!;
+		public static RecentItems RecentItemsManager { get; private set; } = null!;
+		public static LibraryManager LibraryManager { get; private set; } = null!;
+		public static AppModel AppModel { get; private set; } = null!;
 		public static ILogger Logger { get; private set; } = null!;
-		public static AppModel AppModel { get; } = new();
 
 		/// <summary>
 		/// Initializes an instance of <see cref="App"/>.
@@ -41,11 +41,6 @@ namespace Files.App
 			UnhandledException += AppLifecycleHelper.App_UnhandledException;
 			AppDomain.CurrentDomain.UnhandledException += AppLifecycleHelper.CurrentDomain_UnhandledException;
 			TaskScheduler.UnobservedTaskException += AppLifecycleHelper.TaskScheduler_UnobservedTaskException;
-
-#if STORE || STABLE || PREVIEW
-			// Configure AppCenter
-			AppLifecycleHelper.ConfigureAppCenter();
-#endif
 		}
 
 		/// <summary>
@@ -78,12 +73,24 @@ namespace Files.App
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 
+#if STORE || STABLE || PREVIEW
+				// Configure AppCenter
+				AppLifecycleHelper.ConfigureAppCenter();
+#endif
+
+				// TODO: Replace with DI
+				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
+				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
+				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
+				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
+				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
+				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+				AppModel = Ioc.Default.GetRequiredService<AppModel>();
+
 				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;
 
-				// TODO: Remove App.Logger instance and replace with DI
-				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				Logger.LogInformation($"App launched. Launch args type: {appActivationArguments.Data.GetType().Name}");
 
 				// Wait for the UI to update
