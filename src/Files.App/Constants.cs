@@ -18,7 +18,7 @@ namespace Files.App
 			public const float ExtraSmallThreshold = 15.0f;
 		}
 
-		// Following constants will be replaced with actual values by thw Files CI workflow
+		// The following constants will be replaced with actual values by the Files CI workflow
 		public static class AutomatedWorkflowInjectionKeys
 		{
 			public const string AppCenterSecret = "appcenter.secret";
