@@ -206,6 +206,7 @@ namespace Files.App.ViewModels.UserControls
 			var ext = item.FileExtension.ToLowerInvariant();
 
 			if (!item.IsFtpItem &&
+				contentPageContextService.PageType != ContentPageTypes.ZipFolder &&
 				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
