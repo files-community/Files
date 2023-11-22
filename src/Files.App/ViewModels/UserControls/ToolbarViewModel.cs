@@ -569,7 +569,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					var page = Ioc.Default.GetRequiredService<IContentPageContext>().ShellPage?.SlimContentPage;
 
-					if (page is StandardViewBase svb && svb.IsLoaded)
+					if (page is BaseGroupableLayoutPage svb && svb.IsLoaded)
 						page.ItemManipulationModel.FocusFileList();
 					else
 						AddressToolbar?.Focus(FocusState.Programmatic);
