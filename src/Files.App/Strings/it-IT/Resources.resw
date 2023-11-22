@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Si è verificato un errore durante il calcolo</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Impossibile calcolare l'hash, chiudi il file e riprova.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Gli hash non sono disponibili per i file online</value>
   </data>

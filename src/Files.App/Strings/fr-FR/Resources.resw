@@ -1057,13 +1057,13 @@
     <value>Afficher le volet des détails</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Afficher le volet des infos</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Activer le volet des infos pour afficher les volets des détails et d’aperçu</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Une erreur s'est produite lors du calcul</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Échec du calcul du hachage, veuillez fermer le fichier et réessayer.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Les hachages ne sont pas disponibles pour les fichiers en ligne</value>
   </data>
@@ -2407,7 +2410,7 @@
     <value>Afficher/Masquer les extensions de fichier</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Activer le volet d’aperçu pour afficher les aperçus des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -3606,9 +3609,9 @@
     <value>L'option d'ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le Gestionnaire des tâches.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Échec de la restauration des éléments de la corbeille</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>Échec de la définition du fond d'écran</value>
   </data>
 </root>
