@@ -44,7 +44,7 @@ namespace Files.App.Utils.Cloud
 			CloudDriveSyncStatus.FileOffline
 				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FileOfflinePinned
-				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
+				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudKeepOffline"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FileSync
 				=> new CloudDriveSyncStatusUI("\uE895", (Style)Application.Current.Resources["ColorIconCloudSyncing"], syncStatus, "CloudDriveSyncStatus_Sync"),
 
@@ -54,7 +54,7 @@ namespace Files.App.Utils.Cloud
 			CloudDriveSyncStatus.FolderOfflineFull or CloudDriveSyncStatus.FolderEmpty
 				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FolderOfflinePinned
-				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudSynced"], syncStatus, "CloudDriveSyncStatus_Offline"),
+				=> new CloudDriveSyncStatusUI("\uE73E", (Style)Application.Current.Resources["ColorIconCloudKeepOffline"], syncStatus, "CloudDriveSyncStatus_Offline"),
 			CloudDriveSyncStatus.FolderExcluded
 				=> new CloudDriveSyncStatusUI("\uF140", (Style)Application.Current.Resources["ColorIconCloudUnavailable"], syncStatus, "CloudDriveSyncStatus_Excluded"),
 
