@@ -976,7 +976,7 @@
     <value>Resultados de la búsqueda en {1} para {0}</value>
   </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles" xml:space="preserve">
-    <value>Listar y ordenar los directorios junto con los archivos</value>
+    <value>Listar y ordenar directorios junto con archivos</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detalles</value>
@@ -2590,7 +2590,7 @@
     <value>Ordenar elementos por fecha de modificación</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Ordenar artículos por fecha de creación</value>
+    <value>Ordenar elementos por fecha de creación</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>Ordenar elementos por tamaño</value>
@@ -2611,16 +2611,16 @@
     <value>Ordenar elementos por fecha de eliminación</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Ordenar elementos de manera ascendente</value>
+    <value>Ordenar elementos en modo ascendente</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Ordenar elementos de manera descendente</value>
+    <value>Ordenar elementos en modo descendente</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
     <value>Cambiar sentido de ordenación de elementos</value>
   </data>
   <data name="ToggleSortDirectoriesAlongsideFilesDescription" xml:space="preserve">
-    <value>Listar y ordenar los directorios junto con los archivos</value>
+    <value>Lista y ordena directorios junto con archivos</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Listar elementos sin agrupar</value>
@@ -2656,7 +2656,7 @@
     <value>Agrupar elementos por ruta de carpeta</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>Ordenar grupos de manera ascendente</value>
+    <value>Ordenar grupos en modo ascendente</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
     <value>Ordenar grupos de manera descendente</value>
@@ -3607,5 +3607,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>No se pudo restaurar los elementos desde la papelera de reciclaje</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>No se pudo establecer como fondo de escritorio</value>
   </data>
 </root>

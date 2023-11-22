@@ -4,7 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,24 +26,52 @@ using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 using VanaraWindowsShell = Vanara.Windows.Shell;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the base class which every layout page must derive from
 	/// </summary>
-	public abstract class BaseLayout : Page, IBaseLayout, INotifyPropertyChanged
+	public abstract class BaseLayoutPage : Page, IBaseLayoutPage, INotifyPropertyChanged
 	{
-		private readonly DispatcherQueueTimer jumpTimer;
-
-		private readonly DragEventHandler Item_DragOverEventHandler;
-
-		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		// Dependency injections
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
+		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		// ViewModels
 
 		public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		public ItemManipulationModel ItemManipulationModel { get; private set; }
+		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+
+		// Fields
+
+		private readonly DispatcherQueueTimer jumpTimer;
+		private readonly DispatcherQueueTimer dragOverTimer;
+		private readonly DispatcherQueueTimer tapDebounceTimer;
+		private readonly DispatcherQueueTimer hoverTimer;
+
+		private readonly DragEventHandler Item_DragOverEventHandler;
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		protected NavigationArguments? navigationArguments;
+
+		private CancellationTokenSource? shellContextMenuItemCancellationToken;
+		private CancellationTokenSource? groupingCancellationToken;
+
+		private bool shiftPressed;
+
+		private ListedItem? dragOverItem = null;
+		private ListedItem? hoveredItem = null;
+		private ListedItem? preRenamingItem = null;
+
+		// Properties
+
+		protected AddressToolbar? NavToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		public FolderSettingsViewModel? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -51,12 +79,13 @@ namespace Files.App.Views.LayoutModes
 		public CurrentInstanceViewModel? InstanceViewModel
 			=> ParentShellPageInstance?.InstanceViewModel;
 
-		public InfoPaneViewModel InfoPaneViewModel { get; private set; }
-
-		public AppModel AppModel
+		public static AppModel AppModel
 			=> App.AppModel;
 
-		public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+		// NOTE: Dragging makes the app crash when run as admin. (#12390)
+		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		public bool AllowItemDrag
+			=> !ElevationHelpers.IsAppRunAsAdmin();
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -72,15 +101,18 @@ namespace Files.App.Views.LayoutModes
 			Placement = FlyoutPlacementMode.Right,
 		};
 
-		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
+		protected abstract uint IconSize { get; }
+		protected abstract ItemsControl ItemsControl { get; }
 
-		public IShellPage? ParentShellPageInstance { get; private set; } = null;
+		public IShellPage? ParentShellPageInstance { get; private set; }
 
-		public bool IsRenamingItem { get; set; } = false;
+		public bool IsRenamingItem { get; set; }
+		public bool LockPreviewPaneContent { get; set; }
 
-		public ListedItem? RenamingItem { get; set; } = null;
+		public ListedItem? RenamingItem { get; set; }
+		public ListedItem? SelectedItem { get; private set; }
 
-		public string? OldItemName { get; set; } = null;
+		public string? OldItemName { get; set; }
 
 		private bool isMiddleClickToScrollEnabled = true;
 		public bool IsMiddleClickToScrollEnabled
@@ -96,9 +128,6 @@ namespace Files.App.Views.LayoutModes
 				}
 			}
 		}
-
-		protected AddressToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
 
 		private CollectionViewSource collectionViewSource = new()
 		{
@@ -123,8 +152,6 @@ namespace Files.App.Views.LayoutModes
 					collectionViewSource.View.VectorChanged += View_VectorChanged;
 			}
 		}
-
-		protected NavigationArguments? navigationArguments;
 
 		private bool isItemSelected = false;
 		public bool IsItemSelected
@@ -190,9 +217,7 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public bool LockPreviewPaneContent { get; set; }
-
-		private List<ListedItem>? selectedItems = new List<ListedItem>();
+		private List<ListedItem>? selectedItems = new();
 		public List<ListedItem>? SelectedItems
 		{
 			get => selectedItems;
@@ -247,21 +272,10 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public ListedItem? SelectedItem { get; private set; }
+		// Constructor
 
-		private readonly DispatcherQueueTimer dragOverTimer, tapDebounceTimer, hoverTimer;
-
-		protected abstract uint IconSize { get; }
-
-		protected abstract ItemsControl ItemsControl { get; }
-
-		// See issue #12390 on Github. Dragging makes the app crash when run as admin.
-		// Further reading: https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
-		public bool AllowItemDrag => !ElevationHelpers.IsAppRunAsAdmin();
-
-		public BaseLayout()
+		public BaseLayoutPage()
 		{
-			InfoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 			ItemManipulationModel = new ItemManipulationModel();
 
 			HookBaseEvents();
@@ -281,9 +295,14 @@ namespace Files.App.Views.LayoutModes
 			hoverTimer = DispatcherQueue.CreateTimer();
 		}
 
-		protected abstract void HookEvents();
+		// Abstract methods
 
+		protected abstract void HookEvents();
 		protected abstract void UnhookEvents();
+		protected abstract void InitializeCommandsViewModel();
+		protected abstract bool CanGetItemFromElement(object element);
+
+		// Methods
 
 		private void HookBaseEvents()
 		{
@@ -295,15 +314,11 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsOpacityInvoked -= ItemManipulationModel_RefreshItemsOpacityInvoked;
 		}
 
-		public ItemManipulationModel ItemManipulationModel { get; private set; }
-
 		private void JumpTimer_Tick(object sender, object e)
 		{
 			jumpString = string.Empty;
 			jumpTimer.Stop();
 		}
-
-		protected abstract void InitializeCommandsViewModel();
 
 		protected IEnumerable<ListedItem>? GetAllItems()
 		{
@@ -335,8 +350,6 @@ namespace Files.App.Views.LayoutModes
 			return (item.DataContext as ListedItem) ?? (item.Content as ListedItem) ?? (ItemsControl.ItemFromContainer(item) as ListedItem);
 		}
 
-		protected abstract bool CanGetItemFromElement(object element);
-
 		protected virtual void BaseFolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (ParentShellPageInstance?.SlimContentPage is not null)
@@ -365,23 +378,19 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		protected override async void OnNavigatedTo(NavigationEventArgs eventArgs) => OnNavigatedToAsync(eventArgs);
-
-		private async Task OnNavigatedToAsync(NavigationEventArgs eventArgs)
+		protected override async void OnNavigatedTo(NavigationEventArgs e)
 		{
-			base.OnNavigatedTo(eventArgs);
+			base.OnNavigatedTo(e);
 
 			// Add item jumping handler
 			CharacterReceived += Page_CharacterReceived;
 
-			navigationArguments = (NavigationArguments)eventArgs.Parameter;
+			navigationArguments = (NavigationArguments)e.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
 
 			InitializeCommandsViewModel();
@@ -508,8 +517,6 @@ namespace Files.App.Views.LayoutModes
 			catch (Exception) { }
 		}
 
-		private CancellationTokenSource? groupingCancellationToken;
-
 		private async void FolderSettings_GroupOptionPreferenceUpdated(object? sender, GroupOption e)
 		{
 			await GroupPreferenceUpdatedAsync();
@@ -556,9 +563,6 @@ namespace Files.App.Views.LayoutModes
 			if (parameter is not null && !parameter.IsLayoutSwitch)
 				ParentShellPageInstance!.FilesystemViewModel.CancelLoadAndClearFiles();
 		}
-
-		private CancellationTokenSource? shellContextMenuItemCancellationToken;
-		private bool shiftPressed;
 
 		private async void ItemContextFlyout_Opening(object? sender, object e)
 		{
@@ -991,8 +995,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? dragOverItem = null;
-
 		private void Item_DragLeave(object sender, DragEventArgs e)
 		{
 			var item = GetItemFromElement(sender);
@@ -1186,8 +1188,6 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private ListedItem? hoveredItem = null;
-
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
@@ -1250,6 +1250,7 @@ namespace Files.App.Views.LayoutModes
 			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)
 				ItemManipulationModel.SetSelectedItem(rightClickedItem);
 		}
+
 		protected void InitializeDrag(UIElement container, ListedItem item)
 		{
 			if (item is null)
@@ -1272,11 +1273,6 @@ namespace Files.App.Views.LayoutModes
 			element.DragLeave -= Item_DragLeave;
 			element.Drop -= Item_Drop;
 		}
-
-		// VirtualKey doesn't support or accept plus and minus by default.
-		public readonly VirtualKey PlusKey = (VirtualKey)187;
-
-		public readonly VirtualKey MinusKey = (VirtualKey)189;
 
 		public virtual void Dispose()
 		{
@@ -1373,8 +1369,6 @@ namespace Files.App.Views.LayoutModes
 		virtual public void StartRenameItem()
 		{
 		}
-
-		private ListedItem? preRenamingItem = null;
 
 		public void CheckRenameDoubleClick(object clickedItem)
 		{

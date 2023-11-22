@@ -25,7 +25,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand OpenPrivacyPolicyCommand { get; }
 		public ICommand OpenCrowdinCommand { get; }
 
-		private string _ThirdPartyNotices;
+		private string _ThirdPartyNotices = string.Empty;
 		public string ThirdPartyNotices
 		{
 			get => _ThirdPartyNotices;

@@ -156,7 +156,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "test" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "preview" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
         azPSVersion: "latest"
 
     # Azure logout

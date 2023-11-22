@@ -1,7 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -80,7 +79,15 @@ namespace Files.App.Views
 			=> IsRightPaneVisible;
 
 		public bool IsMultiPaneEnabled
-			=> MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;
+		{
+			get
+			{
+				if (App.AppModel.IsMainWindowClosed)
+					return false;
+				else
+					return MainWindow.Instance.Bounds.Width > DualPaneWidthThreshold;
+			}
+		}
 
 		private NavigationParams _NavParamsLeft;
 		public NavigationParams NavParamsLeft
@@ -143,7 +150,7 @@ namespace Files.App.Views
 			get
 			{
 				if (ActivePane is not null && ActivePane.IsColumnView)
-					return (ActivePane.SlimContentPage as ColumnViewBrowser).ActiveColumnShellPage;
+					return (ActivePane.SlimContentPage as ColumnsLayoutPage).ActiveColumnShellPage;
 
 				return ActivePane ?? PaneLeft;
 			}
@@ -348,7 +355,7 @@ namespace Files.App.Views
 			{
 				ActivePane = activePane;
 
-				if (ActivePane?.SlimContentPage is IBaseLayout page && !page.IsItemSelected)
+				if (ActivePane?.SlimContentPage is IBaseLayoutPage page && !page.IsItemSelected)
 				{
 					page.InfoPaneViewModel.IsItemSelected = false;
 					await page.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
@@ -358,7 +365,7 @@ namespace Files.App.Views
 
 		private void Pane_RightTapped(object sender, RoutedEventArgs e)
 		{
-			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnViewBrowser)
+			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
 				((UIElement)sender).Focus(FocusState.Programmatic);
 		}
 

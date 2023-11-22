@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>Không thể khôi phục khoản mục từ thùng rác</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Không thể đặt làm hình nền</value>
+  </data>
 </root>

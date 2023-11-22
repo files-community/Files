@@ -2476,7 +2476,7 @@
     <value>Selectie item leegmaken</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Selectie item in-/uitschakelen</value>
+    <value>Items selecteren in-/uitschakelen</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Deel geselecteerde bestand(en) met anderen</value>
@@ -3606,6 +3606,9 @@
     <value>De optie om Files te openen tijdens het opstarten van Windows is niet beschikbaar door systeeminstellingen of het groepsbeleid. Om dit opnieuw in te stellen, open het Opstarten tabblad in Taakbeheer.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Items terugplaatsen vanuit prullenbak mislukt</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Instellen van achtergrondafbeelding mislukt</value>
   </data>
 </root>

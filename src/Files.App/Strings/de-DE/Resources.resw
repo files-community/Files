@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Fehler beim Festlegen des Hintergrundes</value>
+  </data>
 </root>

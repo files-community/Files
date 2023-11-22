@@ -10,10 +10,10 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 
-namespace Files.App.ViewModels.LayoutModes
+namespace Files.App.ViewModels.Layouts
 {
 	/// <summary>
-	/// Represents ViewModel for <see cref="BaseLayout"/>.
+	/// Represents ViewModel for <see cref="BaseLayoutPage"/>.
 	/// </summary>
 	public class BaseLayoutViewModel : IDisposable
 	{
@@ -164,17 +164,13 @@ namespace Files.App.ViewModels.LayoutModes
 
 		public async Task DropAsync(DragEventArgs e)
 		{
-			var deferral = e.GetDeferral();
+			e.Handled = true;
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
-				e.Handled = true;
-
 				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
-
-			deferral.Complete();
 		}
 
 		public void Dispose()

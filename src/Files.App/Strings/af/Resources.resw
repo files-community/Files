@@ -3609,4 +3609,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
+  </data>
 </root>

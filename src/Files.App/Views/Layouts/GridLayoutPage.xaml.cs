@@ -14,36 +14,47 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Grid View
 	/// </summary>
-	public sealed partial class GridViewBrowser : StandardViewBase
+	public sealed partial class GridLayoutPage : BaseGroupableLayoutPage
 	{
+		// Fields
+
 		private uint currentIconSize;
 
+		// Properties
+
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		/// <summary>
 		/// The minimum item width for items. Used in the StretchedGridViewItems behavior.
 		/// </summary>
-		public int GridViewItemMinWidth => FolderSettings.LayoutMode == FolderLayoutModes.TilesView ? Constants.Browser.GridViewBrowser.TilesView : FolderSettings.GridViewSize;
+		public int GridViewItemMinWidth =>
+			FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				? Constants.Browser.GridViewBrowser.TilesView
+				: FolderSettings.GridViewSize;
 
 		public bool IsPointerOver
 		{
-			get { return (bool)GetValue(IsPointerOverProperty); }
-			set { SetValue(IsPointerOverProperty, value); }
+			get => (bool)GetValue(IsPointerOverProperty);
+			set => SetValue(IsPointerOverProperty, value);
 		}
 
 		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register("IsPointerOver", typeof(bool), typeof(GridViewBrowser), new PropertyMetadata(false));
+			DependencyProperty.Register(
+				nameof(IsPointerOver),
+				typeof(bool),
+				typeof(GridLayoutPage),
+				new PropertyMetadata(false));
 
-		public GridViewBrowser() : base()
+		// Constructor
+
+		public GridLayoutPage() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
@@ -51,6 +62,8 @@ namespace Files.App.Views.LayoutModes
 			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -271,7 +284,7 @@ namespace Files.App.Views.LayoutModes
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+			var focusedElement = FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as FrameworkElement;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
 			if (ctrlPressed && e.Key is VirtualKey.A)

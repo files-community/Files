@@ -103,6 +103,11 @@ namespace Files.App.ViewModels.Properties
 					{
 						// not an error
 					}
+					catch (IOException)
+					{
+						// File is currently open
+						hashInfoItem.HashValue = "CalculationErrorFileIsOpen".GetLocalizedResource();
+					}
 					catch (Exception)
 					{
 						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();

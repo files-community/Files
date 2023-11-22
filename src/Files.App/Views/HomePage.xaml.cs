@@ -1,12 +1,12 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Dialogs;
 using Files.App.UserControls.Widgets;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Files.App.Views
@@ -211,7 +211,11 @@ namespace Files.App.Views
 			}
 			catch (UnauthorizedAccessException)
 			{
-				DynamicDialog dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+				var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
 				await dialog.TryShowAsync();
 			}
 			catch (COMException) { }
