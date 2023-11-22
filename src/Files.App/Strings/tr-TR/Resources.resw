@@ -289,7 +289,7 @@
     <value>Bir öge adı yazın</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Set name</value>
+    <value>İsim ayarla</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Açık</value>
@@ -343,7 +343,7 @@
     <value>Lütfen bu ögeye erişmek için gerekli sürücüyü takın.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Sürücü Çıkarıldı</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Erişmeye çalıştığınız dosya taşınmış ya da silinmiş olabilir.</value>
@@ -613,7 +613,7 @@
     <value>İptal</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Yeni öğe oluştur</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Aşağıdan yeni ögenin türünü seçin</value>
@@ -970,7 +970,7 @@
     <value>Dosya işlemlerinin durumunu buradan denetleyin</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Durum Merkezi</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>{0} için {1} içindeki arama sonuçları</value>
@@ -1054,13 +1054,13 @@
     <value>Önizleme bölmesini aç/kapat</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Önizleme bölmesini aç/kapat</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Bilgi bölmesini aç/kapat</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Toggle the info pane to view the detail\preview panes</value>
@@ -1699,7 +1699,7 @@
     <value>Setin parçası</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Open drive</value>
+    <value>Disk'i aç</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Lütfen {0} sürücüsüne bir disk yerleştirin</value>
@@ -1711,7 +1711,7 @@
     <value>Tamam</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>Credential required</value>
+    <value>Bilgiler Gerekli</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
     <value>Anonim</value>
@@ -1741,13 +1741,13 @@
     <value>Sütunlar</value>
   </data>
   <data name="LargeIcons" xml:space="preserve">
-    <value>Large icons</value>
+    <value>Büyük simgeler</value>
   </data>
   <data name="MediumIcons" xml:space="preserve">
-    <value>Medium icons</value>
+    <value>Orta Boy Simgeler</value>
   </data>
   <data name="SmallIcons" xml:space="preserve">
-    <value>Small icons</value>
+    <value>Küçük simgeler</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Sıralar</value>
@@ -1756,7 +1756,7 @@
     <value>Dizinleri yeni sekmede aç</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Durum Merkezi</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Sütun oluşturulma tarihi</value>
@@ -1792,10 +1792,10 @@
     <value>Klasör yolu</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Ayarları Dışa Aktar</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Ayarları içe aktar</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Ayarları içe aktarılamadı. Ayarlar dosyası bozuk.</value>
@@ -1909,7 +1909,7 @@
     <value>Son Dosyalar</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>Windows başlatıldığında Files'ı aç</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Öznitelikler</value>
@@ -2017,7 +2017,7 @@
     <value>Masaüstü slayt gösterisi olarak ayarla</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>Tüm Sütunları Sığacak Şekilde Boyutlandır</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>Uyarlanır düzen</value>
@@ -2209,7 +2209,7 @@
     <value>Son kullanılan dosyalar şu an için Windows Dosya Gezgininde devre dışıdır.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Ayar Dosyasını Düzenle</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>Yenilikler</value>
@@ -2251,7 +2251,7 @@
     <value>Bağlanmak için kimlik bilgilerinizi girin: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>Enter network credentials</value>
+    <value>Ağ Bilgilerini Girin</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
     <value>Kimlik bilgilerimi hatırla</value>
@@ -2320,10 +2320,10 @@
     <value>Bu eylemi tüm çakışan öğelere uygula</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>Windows Terminalde aç</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>Windows Terminalde yönetici olarak aç</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
@@ -2909,7 +2909,7 @@
     <value>Değiştir</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>Seçimi Değiştir</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Dosya uzantılarını değiştirirken uyarı göster</value>
@@ -3056,7 +3056,7 @@
     <value>Bu dalda kaydedilmemiş değişiklikleriniz var. Onlarla ne yapmak istersin?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>Branch değiştir</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>Branch'lar</value>
@@ -3186,16 +3186,16 @@
     <value>Files, GitHub'a şu anda erişemiyor.</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+    <value>Klasörü VS Code da aç</value>
   </data>
   <data name="OpenInVSCodeDescription" xml:space="preserve">
     <value>Mevcut dizini Visual Studio Code'da aç</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>Repoyu VS Code da aç</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>Git reposunun ana dizinini Visual Studio Code da aç</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Kodu kopyala</value>
@@ -3286,7 +3286,7 @@
     <value>Aşağıdaki öğeler bu sürücüye kopyalanamayacak kadar büyük</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
-    <value>Format drive</value>
+    <value>Disk'i formatla</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
     <value>Bir daha gösterme</value>
@@ -3377,10 +3377,10 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Temizleme tamamlandı</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>İsim:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
@@ -3396,7 +3396,7 @@
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Sayfa Ekle</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
@@ -3573,11 +3573,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>Geri dönüşüm kutusu boşaltıldı</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>Geri dönüşüm kutusu boşaltılıyor</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
@@ -3585,7 +3585,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
-    <value>Failed to empty Recycle Bin</value>
+    <value>Geri dönüşüm kutusu boşaltılamadı</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
@@ -3607,5 +3607,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Failed to set the background wallpaper</value>
   </data>
 </root>

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Actions;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -16,29 +15,36 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
-	public sealed partial class DetailsLayoutBrowser : StandardViewBase
+	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Constants
+
 		private const int TAG_TEXT_BLOCK = 1;
+
+		// Fields
 
 		private uint currentIconSize;
 
 		private ListedItem? _nextItemToSelect;
 
+		// Properties
+
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		private double maxWidthForRenameTextbox;
+		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
+		public ScrollViewer? ContentScroller { get; private set; }
+
+		private double maxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;
@@ -52,17 +58,17 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
+		// Constructor
 
-		public ScrollViewer? ContentScroller { get; private set; }
-
-		public DetailsLayoutBrowser() : base()
+		public DetailsLayoutPage() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{
@@ -104,7 +110,7 @@ namespace Files.App.Views.LayoutModes
 
 			base.OnNavigatedTo(eventArgs);
 
-			if (FolderSettings.ColumnsViewModel is not null)
+			if (FolderSettings?.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
 				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
@@ -136,7 +142,7 @@ namespace Files.App.Views.LayoutModes
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -333,7 +339,7 @@ namespace Files.App.Views.LayoutModes
 
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			var shiftPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
 
@@ -441,7 +447,8 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 				return;
@@ -477,7 +484,8 @@ namespace Files.App.Views.LayoutModes
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
-						await CommitRenameAsync(textBox);
+						if (textBox is not null)
+							await CommitRenameAsync(textBox);
 					}
 				}
 			}
@@ -842,9 +850,12 @@ namespace Files.App.Views.LayoutModes
 
 			var tagId = FileTagsSettingsService.GetTagsByName(tagName).FirstOrDefault()?.Uid;
 
-			item.FileTags = item.FileTags
-				.Except(new string[] { tagId })
-				.ToArray();
+			if (tagId is not null)
+			{
+				item.FileTags = item.FileTags
+					.Except(new string[] { tagId })
+					.ToArray();
+			}
 
 			e.Handled = true;
 		}

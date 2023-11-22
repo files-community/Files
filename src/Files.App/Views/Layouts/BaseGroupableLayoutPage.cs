@@ -2,36 +2,53 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Data.Commands;
-using Files.App.ViewModels.LayoutModes;
+using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
-using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
-	public abstract class StandardViewBase : BaseLayout
+	/// <summary>
+	/// Represents layout page that can be grouped by.
+	/// </summary>
+	public abstract class BaseGroupableLayoutPage : BaseLayoutPage
 	{
+		// Constants
+
 		private const int KEY_DOWN_MASK = 0x8000;
+
+		// Fields
 
 		protected int NextRenameIndex = 0;
 
+		// Properties
+
 		protected abstract ListViewBase ListViewBase { get; }
+		protected abstract SemanticZoom RootZoom { get; }
 
 		protected override ItemsControl ItemsControl => ListViewBase;
 
-		protected abstract SemanticZoom RootZoom { get; }
+		// Constructor
 
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-
-		public StandardViewBase() : base()
+		public BaseGroupableLayoutPage() : base()
 		{
 		}
+
+		// Abstract methods
+
+		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
+		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
+		protected abstract void EndRename(TextBox textBox);
+
+		// Overridden methods
 
 		protected override void InitializeCommandsViewModel()
 		{
@@ -73,6 +90,28 @@ namespace Files.App.Views.LayoutModes
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
+		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		{
+			if (ParentShellPageInstance is null ||
+				ParentShellPageInstance.CurrentPageType != this.GetType() ||
+				IsRenamingItem)
+				return;
+
+			// Don't block the various uses of enter key (key 13)
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
+			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
+				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
+				focusedElement is TextBox ||
+				focusedElement is PasswordBox ||
+				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
+				return;
+
+			base.Page_CharacterReceived(sender, args);
+		}
+
+		// Virtual methods
+
 		protected virtual async void ItemManipulationModel_RefreshItemsThumbnail(object? sender, EventArgs e)
 		{
 			await ReloadSelectedItemsIconAsync();
@@ -85,6 +124,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemIconAsync()
 		{
+			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
+				return;
+
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
@@ -93,6 +135,9 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
 		{
+			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
+				return;
+
 			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
@@ -104,7 +149,7 @@ namespace Files.App.Views.LayoutModes
 
 		protected virtual void ItemManipulationModel_FocusFileListInvoked(object? sender, EventArgs e)
 		{
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
+			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isFileListFocused = DependencyObjectHelpers.FindParent<ListViewBase>(focusedElement) == ItemsControl;
 			if (!isFileListFocused)
 				ListViewBase.Focus(FocusState.Programmatic);
@@ -143,14 +188,6 @@ namespace Files.App.Views.LayoutModes
 			StartRenameItem();
 		}
 
-		protected abstract void ItemManipulationModel_AddSelectedItemInvoked(object? sender, ListedItem e);
-
-		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
-
-		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
-
-		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
-
 		protected virtual void ZoomIn(object? sender, GroupOption option)
 		{
 			if (option == GroupOption.None)
@@ -161,8 +198,6 @@ namespace Files.App.Views.LayoutModes
 		{
 			SelectedItems = ListViewBase.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 		}
-
-		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
 
 		protected virtual void SelectionRectangle_SelectionEnded(object? sender, EventArgs e)
 		{
@@ -211,8 +246,6 @@ namespace Files.App.Views.LayoutModes
 			IsRenamingItem = true;
 		}
 
-		protected abstract void EndRename(TextBox textBox);
-
 		protected virtual async Task CommitRenameAsync(TextBox textBox)
 		{
 			EndRename(textBox);
@@ -224,12 +257,14 @@ namespace Files.App.Views.LayoutModes
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(XamlRoot) is AppBarButton or Popup))
+			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
 			{
 				TextBox textBox = (TextBox)e.OriginalSource;
 				await CommitRenameAsync(textBox);
 			}
 		}
+
+		// Methods
 
 		protected async void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
@@ -264,7 +299,7 @@ namespace Files.App.Views.LayoutModes
 				case VirtualKey.Tab:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
 
-					var isShiftPressed = (GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
+					var isShiftPressed = (InteropHelpers.GetKeyState((int)VirtualKey.Shift) & KEY_DOWN_MASK) != 0;
 					NextRenameIndex = isShiftPressed ? -1 : 1;
 
 					if (textBox.Text != OldItemName)
@@ -307,30 +342,12 @@ namespace Files.App.Views.LayoutModes
 			return false;
 		}
 
-		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-		{
-			if (ParentShellPageInstance is null ||
-				ParentShellPageInstance.CurrentPageType != this.GetType() ||
-				IsRenamingItem)
-				return;
-
-			// Don't block the various uses of enter key (key 13)
-			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(XamlRoot);
-			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
-			if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Enter) == CoreVirtualKeyStates.Down ||
-				(focusedElement is Button && !isHeaderFocused) || // Allow jumpstring when header is focused
-				focusedElement is TextBox ||
-				focusedElement is PasswordBox ||
-				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
-				return;
-
-			base.Page_CharacterReceived(sender, args);
-		}
-
 		protected void SelectionCheckbox_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			e.Handled = true;
 		}
+
+		// Disposer
 
 		public override void Dispose()
 		{
@@ -338,8 +355,5 @@ namespace Files.App.Views.LayoutModes
 			UnhookEvents();
 			CommandsViewModel?.Dispose();
 		}
-
-		[DllImport("User32.dll")]
-		private extern static short GetKeyState(int n);
 	}
 }
