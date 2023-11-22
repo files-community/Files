@@ -7,7 +7,7 @@ namespace Files.App.Data.Contexts
 	{
 		private SidebarViewModel SideBarViewModel { get; } = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
-		public bool IsAnyItemRightClicked
+		public bool IsItemRightClicked
 			=> _RightClickedItem is not null;
 
 		private ILocatableSideBarItem? _RightClickedItem;
@@ -17,7 +17,7 @@ namespace Files.App.Data.Contexts
 			set
 			{
 				if (SetProperty(ref _RightClickedItem, value))
-					OnPropertyChanged(nameof(IsAnyItemRightClicked));
+					OnPropertyChanged(nameof(IsItemRightClicked));
 			}
 		}
 

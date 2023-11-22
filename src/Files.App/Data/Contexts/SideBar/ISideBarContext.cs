@@ -13,6 +13,6 @@ namespace Files.App.Data.Contexts
 		/// <summary>
 		/// Tells whether any item has been right clicked
 		/// </summary>
-		bool IsAnyItemRightClicked { get; }
+		bool IsItemRightClicked { get; }
 	}
 }
