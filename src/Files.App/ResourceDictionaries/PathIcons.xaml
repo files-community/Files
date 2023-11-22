@@ -2628,6 +2628,35 @@
 				</Setter>
 			</Style>
 
+			<Style x:Key="ColorIconCloudKeepOffline" TargetType="local:OpacityIcon">
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate>
+							<Viewbox Stretch="Fill">
+								<Grid Width="16" Height="16">
+									<Path
+										x:Name="Path1"
+										Data="M2.66782 6.1263C2.87421 5.94284 3.19025 5.96143 3.37371 6.16782L6.02141 9.27148L13.1465 2.14645C13.3417 1.95118 13.6583 1.95118 13.8536 2.14645C14.0488 2.34171 14.0488 2.65829 13.8536 2.85355L6.35356 10.3536C6.15013 10.557 5.81743 10.5472 5.6263 10.3322L2.6263 6.83218C2.44284 6.62579 2.46143 6.30975 2.66782 6.1263Z"
+										Fill="{ThemeResource SystemFillColorSuccessBrush}" />
+									<Path
+										x:Name="Path2"
+										Data="M2.5 11C2.22386 11 2 11.2239 2 11.5V13.5C2 13.7761 2.22386 14 2.5 14H13.5C13.7761 14 14 13.7761 14 13.5V11.5C14 11.2239 13.7761 11 13.5 11C13.2239 11 13 11.2239 13 11.5V13H3V11.5C3 11.2239 2.77614 11 2.5 11Z"
+										Fill="{ThemeResource SystemFillColorSuccessBrush}" />
+								</Grid>
+
+								<VisualStateManager.VisualStateGroups>
+									<VisualStateGroup>
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+										<VisualState x:Name="Selected" />
+									</VisualStateGroup>
+								</VisualStateManager.VisualStateGroups>
+							</Viewbox>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
 			<Style x:Key="ColorIconGitAdded" TargetType="local:OpacityIcon">
 				<Setter Property="Template">
 					<Setter.Value>
