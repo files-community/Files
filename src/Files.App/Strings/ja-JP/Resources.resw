@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>計算中にエラーが発生しました</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>ハッシュ値を計算できませんでした。ファイルを閉じて、もう一度やり直してください。</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>ハッシュ値はオンライン ファイルでは利用できません</value>
   </data>
