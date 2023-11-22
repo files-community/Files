@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>ごみ箱から項目を復元できませんでした</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>背景の設定ができませんでした</value>
+  </data>
 </root>

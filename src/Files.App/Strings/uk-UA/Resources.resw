@@ -1057,13 +1057,13 @@
     <value>Зобразити панель подробиць</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Перемкнути панель деталей для перегляду основних властивостей файлу</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Перемкнути інформаційну панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail\preview panes</value>
+    <value>Перемкнути інформаційну панель для перегляду деталей та попереднього перегляду</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1597,7 +1597,7 @@
     <value>Замінити всіх записів дозволів дочірніх об'єктів на успадковувані записи дозволів з цього об'єкта</value>
   </data>
   <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Закрити область</value>
+    <value>Закрити панель</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Компактний режим</value>
@@ -2407,7 +2407,7 @@
     <value>Перемкнути для показу розширень файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Перемкнути панель попереднього перегляду файлів</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Перемкнути для показу бічної панелі</value>
@@ -3606,6 +3606,9 @@
     <value>Опція для автозапуску Files не доступна через налаштування системи або групову політику. Щоб ввімкнути вручну, відкрийте сторінку автозапуску в диспетчері задач.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>Не вдалося відновити об'єкти з кошика</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Не вдалося встановити шпалери</value>
   </data>
 </root>

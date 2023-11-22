@@ -1,8 +1,6 @@
 // Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.Core.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -413,7 +412,10 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem, this);
+			var pathBoxItem = ((Button)e.OpenedFlyout.Target).DataContext as PathBoxItem;
+
+			if (pathBoxItem is not null)
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, pathBoxItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -613,8 +615,8 @@ namespace Files.App.Views.Shells
 					var columnCanNavigateForward = false;
 					if (SlimContentPage is ColumnsLayoutPage browser)
 					{
-						columnCanNavigateBackward = browser.ParentShellPageInstance.CanNavigateBackward;
-						columnCanNavigateForward = browser.ParentShellPageInstance.CanNavigateForward;
+						columnCanNavigateBackward = browser.ParentShellPageInstance?.CanNavigateBackward ?? false;
+						columnCanNavigateForward = browser.ParentShellPageInstance?.CanNavigateForward ?? false;
 					}
 					ToolbarViewModel.CanGoBack = ItemDisplay.CanGoBack || columnCanNavigateBackward;
 					ToolbarViewModel.CanGoForward = ItemDisplay.CanGoForward || columnCanNavigateForward;
@@ -701,7 +703,11 @@ namespace Files.App.Views.Shells
 				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
-					await SetContentDialogRoot(dialog).ShowAsync(ContentDialogPlacement.Popup);
+
+					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+					await dialog.ShowAsync();
 				});
 			}
 		}
@@ -731,7 +737,8 @@ namespace Files.App.Views.Shells
 		private void HandleBackForwardRequest(PageStackEntry pageContent)
 		{
 			var incomingPageNavPath = pageContent.Parameter as NavigationArguments;
-			incomingPageNavPath.IsLayoutSwitch = false;
+			if (incomingPageNavPath is not null)
+				incomingPageNavPath.IsLayoutSwitch = false;
 
 			// Update layout type
 			if (pageContent.SourcePageType != typeof(HomePage))

@@ -3608,4 +3608,7 @@
   <data name="FailedToRestore" xml:space="preserve">
     <value>Falha ao restaurar itens da Lixeira</value>
   </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>Falha ao definir o plano de fundo</value>
+  </data>
 </root>

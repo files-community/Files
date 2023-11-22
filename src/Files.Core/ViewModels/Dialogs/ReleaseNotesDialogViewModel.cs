@@ -5,7 +5,7 @@ namespace Files.Core.ViewModels.Dialogs
 {
 	public sealed class ReleaseNotesDialogViewModel : ObservableObject
 	{
-		private string _ReleaseNotesMadrkdown;
+		private string _ReleaseNotesMadrkdown = string.Empty;
 		public string ReleaseNotesMadrkdown
 		{
 			get => _ReleaseNotesMadrkdown;
