@@ -161,10 +161,10 @@ namespace Files.App.Views.Layouts
 
 			FilesystemViewModel_PageTypeUpdated(null, new PageTypeUpdatedEventArgs()
 			{
-				IsTypeCloudDrive = InstanceViewModel.IsPageTypeCloudDrive,
-				IsTypeRecycleBin = InstanceViewModel.IsPageTypeRecycleBin,
-				IsTypeGitRepository = InstanceViewModel.IsGitRepository,
-				IsTypeSearchResults = InstanceViewModel.IsPageTypeSearchResults
+				IsTypeCloudDrive = InstanceViewModel?.IsPageTypeCloudDrive ?? false,
+				IsTypeRecycleBin = InstanceViewModel?.IsPageTypeRecycleBin ?? false,
+				IsTypeGitRepository = InstanceViewModel?.IsGitRepository ?? false,
+				IsTypeSearchResults = InstanceViewModel?.IsPageTypeSearchResults ?? false
 			});
 
 			RootGrid_SizeChanged(null, null);
@@ -359,15 +359,17 @@ namespace Files.App.Views.Layouts
 				if (ctrlPressed && !shiftPressed)
 				{
 					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					foreach (ListedItem? folder in folders)
+					if (folders is not null)
 					{
-						if (folder is not null)
+						foreach (ListedItem folder in folders)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
 					}
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, SelectedItems.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder));
+					var selectedFolder = SelectedItems?.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
+					if (selectedFolder is not null)
+						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
@@ -441,9 +443,9 @@ namespace Files.App.Views.Layouts
 			var item = clickedItem?.DataContext as ListedItem;
 			if (item is null)
 			{
-				if (IsRenamingItem)
+				if (IsRenamingItem && RenamingItem is not null)
 				{
-					ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;
@@ -476,11 +478,11 @@ namespace Files.App.Views.Layouts
 			{
 				if (clickedItem is TextBlock && ((TextBlock)clickedItem).Name == "ItemName")
 				{
-					CheckRenameDoubleClick(clickedItem?.DataContext);
+					CheckRenameDoubleClick(clickedItem.DataContext);
 				}
-				else if (IsRenamingItem)
+				else if (IsRenamingItem && RenamingItem is not null)
 				{
-					ListViewItem listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
+					ListViewItem? listViewItem = FileList.ContainerFromItem(RenamingItem) as ListViewItem;
 					if (listViewItem is not null)
 					{
 						var textBox = listViewItem.FindDescendant("ItemNameTextBox") as TextBox;

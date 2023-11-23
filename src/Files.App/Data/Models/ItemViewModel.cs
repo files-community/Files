@@ -77,7 +77,8 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
 				{
-					filesAndFolders.ToList().ForEach(async item => {
+					filesAndFolders.ToList().ForEach(async item =>
+					{
 						if (item is GitItem gitItem &&
 							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
 							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
@@ -1439,7 +1440,7 @@ namespace Files.App.Data.Models
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
 						IsTypeGitRepository = IsValidGitDirectory
 					});
-          
+
 					if (!HasNoWatcher)
 						WatchForDirectoryChanges(path, syncStatus);
 					if (IsValidGitDirectory)
