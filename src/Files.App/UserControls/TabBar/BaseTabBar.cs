@@ -11,8 +11,6 @@ namespace Files.App.UserControls.TabBar
 	/// </summary>
 	public abstract class BaseTabBar : UserControl, ITabBar
 	{
-		protected readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 		protected ITabBarItemContent CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
@@ -124,7 +122,7 @@ namespace Files.App.UserControls.TabBar
 				IsRestoringClosedTab = true;
 				var lastTab = RecentlyClosedTabs.Pop();
 				foreach (var item in lastTab)
-					await mainPageViewModel.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
+					await NavigationHelpers.AddNewTabByParamAsync(item.InitialPageType, item.NavigationParameter);
 
 				IsRestoringClosedTab = false;
 			}
