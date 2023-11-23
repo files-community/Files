@@ -33,8 +33,12 @@ namespace Files.App.Actions
 			{
 				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 				{
-					var folder = await StorageService.GetFolderAsync(listedItem.ItemPath);
-					await StartMenuService.UnpinAsync(folder);
+					IStorable storable = listedItem.IsFolder switch
+					{
+						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
+						_ => await StorageService.GetFileAsync(listedItem.ItemPath)
+					};
+					await StartMenuService.UnpinAsync(storable);
 				}
 			}
 			else
