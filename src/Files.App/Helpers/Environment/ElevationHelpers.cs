@@ -22,7 +22,12 @@ namespace Files.App.Helpers
 		public static bool IsAppRunAsAdmin()
 		{
 			using WindowsIdentity identity = WindowsIdentity.GetCurrent();
-			return new WindowsPrincipal(identity).IsInRole(new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null));
+
+			var disableDragDrop = new WindowsPrincipal(identity).IsInRole(new SecurityIdentifier("S-1-5")) ||
+				new WindowsPrincipal(identity).IsInRole(new SecurityIdentifier("S-1-5-32")) ||
+				new WindowsPrincipal(identity).IsInRole(new SecurityIdentifier("S-1-5-32-544"));
+
+			return disableDragDrop;
 		}
 	}
 }
