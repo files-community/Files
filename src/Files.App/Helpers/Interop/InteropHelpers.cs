@@ -70,6 +70,9 @@ namespace Files.App.Helpers
 			else
 				return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
+
+		[DllImport("User32.dll")]
+		public extern static short GetKeyState(int n);
 	}
 
 	[ComImport]

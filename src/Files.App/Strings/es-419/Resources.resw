@@ -1054,13 +1054,13 @@
     <value>Alternar el panel de vista previa</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Cambiar el panel de detalles</value>
+    <value>Mostrar panel de detalles</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>Activar el panel de detalles para ver las propiedades básicas del archivo</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Activar/Desactivar panel de información</value>
+    <value>Mostrar panel de información</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Activar el panel de información para ver los paneles de detalle y vista previa</value>
@@ -2340,6 +2340,9 @@
   <data name="CalculationError" xml:space="preserve">
     <value>Se ha producido un error en el cálculo</value>
   </data>
+  <data name="CalculationErrorFileIsOpen" xml:space="preserve">
+    <value>Failed to calculate the hash, please close the file and try again.</value>
+  </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Los hash no están disponibles para los archivos en línea</value>
   </data>
@@ -3607,5 +3610,8 @@
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Error al restaurar elementos de la papelera de reciclaje</value>
+  </data>
+  <data name="FailedToSetBackground" xml:space="preserve">
+    <value>No se pudo establecer el fondo de pantalla</value>
   </data>
 </root>

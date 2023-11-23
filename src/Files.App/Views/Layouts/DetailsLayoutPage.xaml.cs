@@ -15,29 +15,36 @@ using Windows.System;
 using Windows.UI.Core;
 using SortDirection = Files.Core.Data.Enums.SortDirection;
 
-namespace Files.App.Views.LayoutModes
+namespace Files.App.Views.Layouts
 {
 	/// <summary>
 	/// Represents the browser page of Details View
 	/// </summary>
-	public sealed partial class DetailsLayoutBrowser : StandardViewBase
+	public sealed partial class DetailsLayoutPage : BaseGroupableLayoutPage
 	{
+		// Constants
+
 		private const int TAG_TEXT_BLOCK = 1;
+
+		// Fields
 
 		private uint currentIconSize;
 
 		private ListedItem? _nextItemToSelect;
 
+		// Properties
+
 		protected override uint IconSize => currentIconSize;
-
 		protected override ListViewBase ListViewBase => FileList;
-
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
-		private double maxWidthForRenameTextbox;
+		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
 
+		public ScrollViewer? ContentScroller { get; private set; }
+
+		private double maxWidthForRenameTextbox;
 		public double MaxWidthForRenameTextbox
 		{
 			get => maxWidthForRenameTextbox;
@@ -51,17 +58,17 @@ namespace Files.App.Views.LayoutModes
 			}
 		}
 
-		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
+		// Constructor
 
-		public ScrollViewer? ContentScroller { get; private set; }
-
-		public DetailsLayoutBrowser() : base()
+		public DetailsLayoutPage() : base()
 		{
 			InitializeComponent();
 			DataContext = this;
 			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
 			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
+
+		// Methods
 
 		protected override void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e)
 		{

@@ -405,7 +405,7 @@ namespace Files.App.Utils
 		private bool CheckElevationRights()
 		{
 			// Avoid downloading file to check elevation
-			if (SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
+			if (SyncStatusUI.LoadSyncStatus)
 				return false;
 
 			return IsShortcut
