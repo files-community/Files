@@ -152,31 +152,30 @@ namespace Files.App.Utils.Git
 			return returnValue;
 		}
 
-		public static async Task<string> GetRepositoryHeadName(string? path)
+		public static async Task<BranchItem?> GetRepositoryHead(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
-				return string.Empty;
+				return null;
 
-			var (result, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, string)>(() =>
+			var (_, returnValue) = await PostMethodToThreadWithMessageQueueAsync<(GitOperationResult, BranchItem?)>(() =>
 			{
-				string branchName = string.Empty;
+				BranchItem? head = null;
 				try
 				{
 					using var repository = new Repository(path);
-					branchName = GetValidBranches(repository.Branches)
-						.FirstOrDefault(b => b.IsCurrentRepositoryHead)?.FriendlyName ?? string.Empty;
+					var branch = GetValidBranches(repository.Branches).FirstOrDefault(b => b.IsCurrentRepositoryHead);
+					if (branch is not null)
+						head = new BranchItem(branch.FriendlyName, branch.IsRemote, TryGetTrackingDetails(branch)?.AheadBy ?? 0, TryGetTrackingDetails(branch)?.BehindBy ?? 0);
 				}
 				catch
 				{
-					return (GitOperationResult.GenericError, string.Empty);
+					return (GitOperationResult.GenericError, head);
 				}
 
-				return (GitOperationResult.Success, branchName);
+				return (GitOperationResult.Success, head);
 			});
 
-			return result is GitOperationResult.Success
-				? returnValue!
-				: string.Empty;
+			return returnValue;
 		}
 
 		public static async Task<bool> Checkout(string? repositoryPath, string? branch)

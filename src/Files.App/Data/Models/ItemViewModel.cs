@@ -163,7 +163,7 @@ namespace Files.App.Data.Models
 			}
 
 			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
-			IsValidGitDirectory = !string.IsNullOrEmpty(await GitHelpers.GetRepositoryHeadName(GitDirectory));
+			IsValidGitDirectory = !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(GitDirectory))?.Name);
 
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}

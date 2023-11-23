@@ -245,8 +245,13 @@ namespace Files.App.Views.Shells
 			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
 			{
 				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
-				InstanceViewModel.GitBranchName = InstanceViewModel.IsGitRepository
-					? await GitHelpers.GetRepositoryHeadName(InstanceViewModel.GitRepositoryPath)
+
+				BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
+					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+					: null;
+
+				InstanceViewModel.GitBranchName = headBranch is not null
+					? headBranch.Name
 					: string.Empty;
 
 				if (!_gitFetch.IsCompleted)
@@ -261,14 +266,14 @@ namespace Files.App.Views.Shells
 						() => GitHelpers.FetchOrigin(InstanceViewModel.GitRepositoryPath),
 						_gitFetchToken.Token);
 				}
-			}
 
-			if (!GitHelpers.IsExecutingGitAction)
-			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
-					InstanceViewModel.IsGitRepository,
-					InstanceViewModel.GitRepositoryPath,
-					await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+				if (!GitHelpers.IsExecutingGitAction)
+				{
+					ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+						InstanceViewModel.IsGitRepository,
+						InstanceViewModel.GitRepositoryPath,
+						headBranch);
+				}
 			}
 
 			ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
@@ -280,14 +285,18 @@ namespace Files.App.Views.Shells
 			if (GitHelpers.IsExecutingGitAction)
 				return;
 
-			InstanceViewModel.GitBranchName = InstanceViewModel.IsGitRepository
-				? await GitHelpers.GetRepositoryHeadName(InstanceViewModel.GitRepositoryPath)
+			var head = InstanceViewModel.IsGitRepository
+				? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
+				: null;
+
+			InstanceViewModel.GitBranchName = head is not null
+				? head.Name
 				: string.Empty;
 
 			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
-				await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+				head);
 		}
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
@@ -302,7 +311,7 @@ namespace Files.App.Views.Shells
 				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
-					await GitHelpers.GetBranchesNames(InstanceViewModel.GitRepositoryPath));
+					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
 			}
 		}
 

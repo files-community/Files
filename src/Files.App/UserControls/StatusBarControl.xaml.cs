@@ -45,13 +45,14 @@ namespace Files.App.UserControls
 			InitializeComponent();
 		}
 
-		private void BranchesFlyout_Opening(object _, object e)
+		private async void BranchesFlyout_Opening(object _, object e)
 		{
 			if (DirectoryPropertiesViewModel is null)
 				return;
 
 			DirectoryPropertiesViewModel.IsBranchesFlyoutExpaned = true;
 			DirectoryPropertiesViewModel.ShowLocals = true;
+			await DirectoryPropertiesViewModel.LoadBranches();
 			DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
 		}
 
