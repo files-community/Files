@@ -24,9 +24,7 @@ namespace Files.App.Helpers
 			using WindowsIdentity identity = WindowsIdentity.GetCurrent();
 			WindowsPrincipal principal = new WindowsPrincipal(identity);
 
-			var isMember = principal.IsInRole(new SecurityIdentifier("S-1-5")) ||
-				principal.IsInRole(new SecurityIdentifier("S-1-5-32")) ||
-				principal.IsInRole(new SecurityIdentifier("S-1-5-32-544"));
+			var isMember = principal.IsInRole(new SecurityIdentifier("S-1-5"));
 
 			return isMember;
 		}
