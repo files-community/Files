@@ -39,7 +39,7 @@ namespace Files.App
 		private static bool ShowErrorNotification = false;
 		public static string OutputPath { get; set; }
 		public static CommandBarFlyout? LastOpenedFlyout { get; set; }
-		public static TaskCompletionSorce? SplashScreenLoadingTCS { get; private set; }
+		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 
 		public static StorageHistoryWrapper HistoryWrapper { get; } = new();
 		public static AppModel AppModel { get; private set; }
