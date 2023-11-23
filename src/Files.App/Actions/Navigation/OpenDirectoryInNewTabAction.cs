@@ -9,6 +9,8 @@ namespace Files.App.Actions
 
 		private readonly IUserSettingsService userSettingsService;
 
+		private readonly MainPageViewModel _mainPageViewModel;
+
 		public string Label
 			=> "OpenInNewTab".GetLocalizedResource();
 
@@ -29,6 +31,7 @@ namespace Files.App.Actions
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			_mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -42,7 +45,7 @@ namespace Files.App.Actions
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(
+					await _mainPageViewModel.AddNewTabByPathAsync(
 						typeof(PaneHolderPage),
 						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
 				},

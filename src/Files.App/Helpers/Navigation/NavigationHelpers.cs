@@ -3,8 +3,6 @@
 
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
@@ -13,249 +11,16 @@ namespace Files.App.Helpers
 {
 	public static class NavigationHelpers
 	{
-		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
-		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private static NetworkDrivesViewModel NetworkDrivesViewModel { get; } = Ioc.Default.GetRequiredService<NetworkDrivesViewModel>();
-
+		private static readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private static readonly MainPageViewModel mainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		public static Task OpenPathInNewTab(string? path)
-		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), path);
-		}
-
-		public static Task AddNewTabAsync()
-		{
-			return AddNewTabByPathAsync(typeof(PaneHolderPage), "Home");
-		}
-
-		public static async Task AddNewTabByPathAsync(Type type, string? path, int atIndex = -1)
-		{
-			if (string.IsNullOrEmpty(path))
-			{
-				path = "Home";
-			}
-			// Support drives launched through jump list by stripping away the question mark at the end.
-			else if (path.EndsWith("\\?"))
-			{
-				path = path.Remove(path.Length - 1);
-			}
-
-			var tabItem = new TabBarItem()
-			{
-				Header = null,
-				IconSource = null,
-				Description = null,
-				ToolTipText = null,
-				NavigationParameter = new CustomTabViewItemParameter()
-				{
-					InitialPageType = type,
-					NavigationParameter = path
-				}
-			};
-
-			tabItem.ContentChanged += Control_ContentChanged;
-
-			await UpdateTabInfoAsync(tabItem, path);
-
-			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
-
-			MainPageViewModel.AppInstances.Insert(index, tabItem);
-
-			App.AppModel.TabStripSelectedIndex = index;
-		}
-
-		public static async Task AddNewTabByParamAsync(Type type, object tabViewItemArgs, int atIndex = -1)
-		{
-			var tabItem = new Files.App.UserControls.TabBar.TabBarItem()
-			{
-				Header = null,
-				IconSource = null,
-				Description = null,
-				ToolTipText = null
-			};
-
-			tabItem.NavigationParameter = new CustomTabViewItemParameter()
-			{
-				InitialPageType = type,
-				NavigationParameter = tabViewItemArgs
-			};
-
-			tabItem.ContentChanged += Control_ContentChanged;
-
-			await UpdateTabInfoAsync(tabItem, tabViewItemArgs);
-
-			var index = atIndex == -1 ? MainPageViewModel.AppInstances.Count : atIndex;
-			MainPageViewModel.AppInstances.Insert(index, tabItem);
-			App.AppModel.TabStripSelectedIndex = index;
-		}
-
-		private static async Task UpdateTabInfoAsync(TabBarItem tabItem, object navigationArg)
-		{
-			tabItem.AllowStorageItemDrop = true;
-
-			(string, IconSource, string) result = (null, null, null);
-			if (navigationArg is PaneNavigationArguments paneArgs)
-			{
-				if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
-				{
-					var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-					var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-					result = ($"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}",
-						leftTabInfo.tabIcon,
-						$"{leftTabInfo.toolTipText} | {rightTabInfo.toolTipText}");
-				}
-				else
-				{
-					result = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-				}
-			}
-			else if (navigationArg is string pathArgs)
-			{
-				result = await GetSelectedTabInfoAsync(pathArgs);
-			}
-
-			// Don't update tabItem if the contents of the tab have already changed
-			if (result.Item1 is not null &&
-				(navigationArg is PaneNavigationArguments && navigationArg as PaneNavigationArguments == tabItem.NavigationParameter.NavigationParameter as PaneNavigationArguments
-				|| navigationArg is string && navigationArg as string == tabItem.NavigationParameter.NavigationParameter as string))
-				(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
-		}
-
-		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
-		{
-			string? tabLocationHeader;
-			var iconSource = new ImageIconSource();
-			string toolTipText = currentPath;
-
-			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
-			{
-				tabLocationHeader = "Home".GetLocalizedResource();
-				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
-			}
-			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "Desktop".GetLocalizedResource();
-			}
-			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "Downloads".GetLocalizedResource();
-			}
-			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "RecycleBin".GetLocalizedResource();
-
-				// Use 48 for higher resolution, the other items look fine with 16.
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 48u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
-				if (iconData is not null)
-					iconSource.ImageSource = await iconData.ToBitmapAsync();
-			}
-			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "ThisPC".GetLocalizedResource();
-			}
-			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-			{
-				tabLocationHeader = "SidebarNetworkDrives".GetLocalizedResource();
-			}
-			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
-			{
-				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
-				// If localized string is empty use the library name.
-				tabLocationHeader = string.IsNullOrEmpty(libName) ? library.Text : libName;
-			}
-			else if (WSLDistroManager.TryGetDistro(currentPath, out LocatableWSLItem? wslDistro) && currentPath.Equals(wslDistro.Path))
-			{
-				tabLocationHeader = wslDistro.Text;
-				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
-			}
-			else
-			{
-				var normalizedCurrentPath = PathNormalization.NormalizePath(currentPath);
-				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
-				if (matchingCloudDrive is not null)
-				{
-					iconSource.ImageSource = matchingCloudDrive.Icon;
-					tabLocationHeader = matchingCloudDrive.Text;
-				}
-				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
-				{
-					var matchingDrive = NetworkDrivesViewModel.Drives.Cast<LocatableDriveItem>().FirstOrDefault(netDrive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(netDrive.Path), StringComparison.OrdinalIgnoreCase));
-					matchingDrive ??= DrivesViewModel.Drives.Cast<LocatableDriveItem>().FirstOrDefault(drive => normalizedCurrentPath.Contains(PathNormalization.NormalizePath(drive.Path), StringComparison.OrdinalIgnoreCase));
-					tabLocationHeader = matchingDrive is not null ? matchingDrive.Text : normalizedCurrentPath;
-				}
-				else
-				{
-					tabLocationHeader = currentPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
-
-					FilesystemResult<StorageFolderWithPath> rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentPath));
-					if (rootItem)
-					{
-						BaseStorageFolder currentFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(currentPath, rootItem));
-						if (currentFolder is not null && !string.IsNullOrEmpty(currentFolder.DisplayName))
-							tabLocationHeader = currentFolder.DisplayName;
-					}
-				}
-			}
-
-			if (iconSource.ImageSource is null)
-			{
-				var iconData = await FileThumbnailHelper.LoadIconFromPathAsync(currentPath, 16u, Windows.Storage.FileProperties.ThumbnailMode.ListView, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale, true);
-				if (iconData is not null)
-					iconSource.ImageSource = await iconData.ToBitmapAsync();
-			}
-
-			return (tabLocationHeader, iconSource, toolTipText);
-		}
-
-		public static async Task UpdateInstancePropertiesAsync(object navigationArg)
-		{
-			await SafetyExtensions.IgnoreExceptions(async () =>
-			{
-				string windowTitle = string.Empty;
-				if (navigationArg is PaneNavigationArguments paneArgs)
-				{
-					if (!string.IsNullOrEmpty(paneArgs.LeftPaneNavPathParam) && !string.IsNullOrEmpty(paneArgs.RightPaneNavPathParam))
-					{
-						var leftTabInfo = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-						var rightTabInfo = await GetSelectedTabInfoAsync(paneArgs.RightPaneNavPathParam);
-						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
-					}
-					else
-					{
-						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-					}
-				}
-				else if (navigationArg is string pathArgs)
-				{
-					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
-				}
-
-				if (MainPageViewModel.AppInstances.Count > 1)
-					windowTitle = $"{windowTitle} ({MainPageViewModel.AppInstances.Count})";
-
-				if (navigationArg == MainPageViewModel.SelectedTabItem?.NavigationParameter?.NavigationParameter)
-					MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";
-			});
-		}
-
-		public static async void Control_ContentChanged(object? sender, CustomTabViewItemParameter e)
-		{
-			if (sender is null)
-				return;
-
-			var matchingTabItem = MainPageViewModel.AppInstances.SingleOrDefault(x => x == (TabBarItem)sender);
-			if (matchingTabItem is null)
-				return;
-
-			await UpdateTabInfoAsync(matchingTabItem, e.NavigationParameter);
-		}
+			=> mainPageViewModel.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
 
 		public static Task<bool> OpenPathInNewWindowAsync(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return Task.FromResult(false);
-
 			var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
-
 			return Launcher.LaunchUriAsync(folderUri).AsTask();
 		}
 
@@ -456,27 +221,27 @@ namespace Files.App.Helpers
 
 		private static async Task<FilesystemResult> OpenLibrary(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, bool forceOpenInNewTab)
 		{
-			IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
 			if (isHiddenItem)
 			{
-				await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
+				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
 			else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 			{
 				opened = (FilesystemResult)await library.CheckDefaultSaveFolderAccess();
 				if (opened)
-					await OpenPathAsync(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
+					await OpenPathAsync(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, library.Text, associatedInstance, selectItems);
 			}
 			return opened;
 		}
 
 		private static async Task<FilesystemResult> OpenDirectory(string path, IShellPage associatedInstance, IEnumerable<string>? selectItems, ShellLinkItem shortcutInfo, bool forceOpenInNewTab)
 		{
-			IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 			var opened = (FilesystemResult)false;
 			bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
@@ -491,13 +256,13 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, shortcutInfo.TargetPath, associatedInstance, selectItems);
+					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, shortcutInfo.TargetPath, associatedInstance, selectItems);
 					opened = (FilesystemResult)true;
 				}
 			}
 			else if (isHiddenItem)
 			{
-				await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
+				await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance);
 				opened = (FilesystemResult)true;
 			}
 			else
@@ -513,7 +278,7 @@ namespace Files.App.Helpers
 					opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(path);
 
 				if (opened)
-					await OpenPath(forceOpenInNewTab, UserSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
+					await OpenPath(forceOpenInNewTab, userSettingsService.FoldersSettingsService.OpenFoldersInNewTab, path, associatedInstance, selectItems);
 				else
 					await Win32Helpers.InvokeWin32ComponentAsync(path, associatedInstance);
 			}

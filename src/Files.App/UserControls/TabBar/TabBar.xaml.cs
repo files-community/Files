@@ -197,7 +197,7 @@ namespace Files.App.UserControls.TabBar
 				return;
 
 			if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) ||
-				tabViewItemPathObj is not string tabViewItemString)
+				!(tabViewItemPathObj is string tabViewItemString))
 				return;
 
 			var index = -1;
@@ -215,7 +215,7 @@ namespace Files.App.UserControls.TabBar
 
 			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-			await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
+			await mainPageViewModel.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
 
 		private void TabView_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
