@@ -131,6 +131,12 @@ namespace Files.App.Views.Layouts
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
 			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem, IconSize);
+
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None &&
+				ParentShellPageInstance.SlimContentPage.SelectedItem is GitItem gitItem)
+			{
+				await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+			}
 		}
 
 		protected virtual async Task ReloadSelectedItemsIconAsync()
@@ -144,6 +150,17 @@ namespace Files.App.Views.Layouts
 			{
 				selectedItem.ItemPropertiesInitialized = false;
 				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem, IconSize);
+			}
+
+			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			{
+				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
+				{
+					if (item is GitItem gitItem)
+						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+
+					return Task.CompletedTask;
+				}));
 			}
 		}
 

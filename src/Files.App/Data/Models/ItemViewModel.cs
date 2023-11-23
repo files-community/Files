@@ -77,19 +77,13 @@ namespace Files.App.Data.Models
 			{
 				if (SetProperty(ref _EnabledGitProperties, value) && value is not GitProperties.None)
 				{
-					filesAndFolders.ToList().ForEach(async item => {
+					filesAndFolders.ToList().ForEach(async item =>
+					{
 						if (item is GitItem gitItem &&
 							(!gitItem.StatusPropertiesInitialized && value is GitProperties.All or GitProperties.Status
 							|| !gitItem.CommitPropertiesInitialized && value is GitProperties.All or GitProperties.Commit))
 						{
-							try
-							{
-								await Task.Run(async () => await LoadGitPropertiesAsync(gitItem, loadPropsCTS));
-							}
-							catch (OperationCanceledException)
-							{
-								// Ignored
-							}
+								await LoadGitPropertiesAsync(gitItem);
 						}
 					});
 				}
@@ -169,7 +163,7 @@ namespace Files.App.Data.Models
 			}
 
 			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
-			IsValidGitDirectory = !string.IsNullOrEmpty(GitHelpers.GetRepositoryHeadName(GitDirectory));
+			IsValidGitDirectory = !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(GitDirectory))?.Name);
 
 			OnPropertyChanged(nameof(WorkingDirectory));
 		}
@@ -1229,9 +1223,6 @@ namespace Files.App.Data.Models
 									gp.InitializeExtendedGroupHeaderInfoAsync();
 								}));
 						}
-
-						if (EnabledGitProperties != GitProperties.None && item is GitItem gitItem)
-							await LoadGitPropertiesAsync(gitItem, cts);
 					}
 				}, cts.Token);
 			}
@@ -1245,57 +1236,70 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private async Task LoadGitPropertiesAsync(GitItem gitItem, CancellationTokenSource cts)
+		public async Task LoadGitPropertiesAsync(GitItem gitItem)
 		{
 			var getStatus = EnabledGitProperties is GitProperties.All or GitProperties.Status && !gitItem.StatusPropertiesInitialized;
 			var getCommit = EnabledGitProperties is GitProperties.All or GitProperties.Commit && !gitItem.CommitPropertiesInitialized;
-
+			
 			if (!getStatus && !getCommit)
 				return;
 
-			if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
-				!string.IsNullOrEmpty(repoPath))
+			var cts = loadPropsCTS;
+
+			try
 			{
-				cts.Token.ThrowIfCancellationRequested();
-
-				if (getStatus)
-					gitItem.StatusPropertiesInitialized = true;
-
-				if (getCommit)
-					gitItem.CommitPropertiesInitialized = true;
-
-				await SafetyExtensions.IgnoreExceptions(() =>
+				await Task.Run(async () =>
 				{
-					return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+
+					if (GitHelpers.IsRepositoryEx(gitItem.ItemPath, out var repoPath) &&
+						!string.IsNullOrEmpty(repoPath))
 					{
-						var repo = new Repository(repoPath);
-						GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
+						cts.Token.ThrowIfCancellationRequested();
 
 						if (getStatus)
-						{
-							gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
-							{
-								ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
-								ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
-								ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
-								ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
-								_ => null,
-							};
-							gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
-						}
-						if (getCommit)
-						{
-							gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
-							gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
-							gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
-							gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
-							gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
-						}
+							gitItem.StatusPropertiesInitialized = true;
 
-						repo.Dispose();
-					},
-					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-				});
+						if (getCommit)
+							gitItem.CommitPropertiesInitialized = true;
+
+						await SafetyExtensions.IgnoreExceptions(() =>
+						{
+							return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+							{
+								var repo = new Repository(repoPath);
+								GitItemModel gitItemModel = GitHelpers.GetGitInformationForItem(repo, gitItem.ItemPath, getStatus, getCommit);
+
+								if (getStatus)
+								{
+									gitItem.UnmergedGitStatusIcon = gitItemModel.Status switch
+									{
+										ChangeKind.Added => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitAdded"],
+										ChangeKind.Deleted => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitDeleted"],
+										ChangeKind.Modified => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitModified"],
+										ChangeKind.Untracked => (Microsoft.UI.Xaml.Style)Microsoft.UI.Xaml.Application.Current.Resources["ColorIconGitUntracked"],
+										_ => null,
+									};
+									gitItem.UnmergedGitStatusName = gitItemModel.StatusHumanized;
+								}
+								if (getCommit)
+								{
+									gitItem.GitLastCommitDate = gitItemModel.LastCommit?.Author.When;
+									gitItem.GitLastCommitMessage = gitItemModel.LastCommit?.MessageShort;
+									gitItem.GitLastCommitAuthor = gitItemModel.LastCommit?.Author.Name;
+									gitItem.GitLastCommitSha = gitItemModel.LastCommit?.Sha.Substring(0, 7);
+									gitItem.GitLastCommitFullSha = gitItemModel.LastCommit?.Sha;
+								}
+
+								repo.Dispose();
+							},
+							Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+						});
+					}
+				}, cts.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				// Ignored
 			}
 		}
 
@@ -1439,7 +1443,7 @@ namespace Files.App.Data.Models
 						IsTypeCloudDrive = syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown,
 						IsTypeGitRepository = IsValidGitDirectory
 					});
-          
+
 					if (!HasNoWatcher)
 						WatchForDirectoryChanges(path, syncStatus);
 					if (IsValidGitDirectory)
